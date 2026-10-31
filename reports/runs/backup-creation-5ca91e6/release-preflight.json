@@ -1,0 +1,7 @@
+{
+  "tested_commit": "5ca91e680871da8e55614d2c5b510cbfb87f8bcc",
+  "command": "python3 scripts/validate-delivery-profile.py --release",
+  "exit_code": 1,
+  "observed": "ERROR: Commit the tested implementation and evidence before release verification\n",
+  "interpretation": "Not released. INSTALL-01 remains not_started; all active criteria unchanged."
+}

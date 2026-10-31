@@ -1,0 +1,28 @@
+{
+  "kind": "coherent_encrypted_backup_creation",
+  "status": "passed",
+  "tested_commit": "5ca91e680871da8e55614d2c5b510cbfb87f8bcc",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T16:22:52.336057+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/bootstrap-5102eb09515e",
+    "age": "1.3.2 pinned Mac ARM64",
+    "database": "Pinned PostgreSQL17 Compose; synthetic example"
+  },
+  "checks": [
+    "actual_pg17_dump_streamed_into_age",
+    "referenced_evidence_and_keys_in_authenticated_manifest",
+    "coherent_heads_and_journal_count",
+    "recovery_secret_not_stored_in_installation",
+    "prior_service_state_restored",
+    "ciphertext_hash_matches",
+    "unavailable_destination_never_written_as_empty_mountpoint"
+  ],
+  "encrypted_bytes": 124555,
+  "limitations": [
+    "Actual backup creation and authenticated archive validation only; database restore not yet proved",
+    "Fresh isolated synthetic installation; no live customer/provider data",
+    "No scheduler/retention/key-rotation/full operations or independent review approval"
+  ]
+}
