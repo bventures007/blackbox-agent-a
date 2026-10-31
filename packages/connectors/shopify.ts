@@ -5,9 +5,10 @@ import type { Observation } from "../contracts/index.js";
 import { ingest } from "../application/ingest.js";
 import { scoped } from "../database/index.js";
 import { log } from "../diagnostics/index.js";
+import { providerRequest } from "./transport.js";
 export const API_VERSION = "2026-10";
 // Explicit provider-shaped selections; no address/name/email enters canonical data.
-export const orderQuery = `query BlackboxOrders($after:String,$query:String!){orders(first:50,after:$after,query:$query,sortKey:UPDATED_AT){nodes{id updatedAt createdAt test currencyCode currentTotalPriceSet{shopMoney{amount currencyCode}} lineItems(first:100){nodes{id quantity} pageInfo{hasNextPage endCursor}} transactions(first:100){id kind status processedAt test amountSet{shopMoney{amount currencyCode}} parentTransaction{id}}}pageInfo{hasNextPage endCursor}}}`;
+export const orderQuery = `query BlackboxOrders($after:String,$query:String!){orders(first:1,after:$after,query:$query,sortKey:UPDATED_AT){nodes{id updatedAt createdAt test currencyCode currentTotalPriceSet{shopMoney{amount currencyCode}} lineItems(first:100){nodes{id quantity} pageInfo{hasNextPage endCursor}} transactions(first:100){id kind status processedAt test amountSet{shopMoney{amount currencyCode}} parentTransaction{id}}}pageInfo{hasNextPage endCursor}}}`;
 const amount = z.object({
   amount: z.string().regex(/^\d+(\.\d+)?$/),
   currencyCode: z.string().regex(/^[A-Z]{3}$/),
@@ -164,31 +165,21 @@ export async function importShopify(args: {
       ).rows[0]?.cursor ?? null,
   );
   for (let page = 0; page < 10000; page++) {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      redirect: "error",
-      headers: {
-        "content-type": "application/json",
-        "X-Shopify-Access-Token": args.token,
+    const body = await providerRequest(
+      endpoint,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "X-Shopify-Access-Token": args.token,
+        },
+        body: JSON.stringify({
+          query: orderQuery,
+          variables: { after, query: `updated_at:>=${args.from}` },
+        }),
       },
-      body: JSON.stringify({
-        query: orderQuery,
-        variables: { after, query: `updated_at:>=${args.from}` },
-      }),
-      signal: AbortSignal.timeout(15000),
-    });
-    if (!response.ok)
-      throw new Error(
-        response.status === 429
-          ? "provider_rate_limited"
-          : response.status === 401
-            ? "provider_authorization_expired"
-            : "provider_unavailable",
-      );
-    const bodyText = await response.text();
-    if (bodyText.length > 2 * 1024 * 1024)
-      throw new Error("provider_page_too_large");
-    const body = JSON.parse(bodyText);
+      AbortSignal.timeout(15000),
+    );
     if (body.errors?.length || !body.data?.orders)
       throw new Error("provider_query_incomplete");
     const data = body.data.orders;

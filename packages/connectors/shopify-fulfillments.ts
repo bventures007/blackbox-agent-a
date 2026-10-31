@@ -37,9 +37,9 @@ const shipment = z.object({
   fulfillmentLineItems: linesPage,
 });
 const lineFields = "id quantity lineItem{id}";
-const fields = `id createdAt updatedAt status inTransitAt deliveredAt location{id} fulfillmentLineItems(first:100){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}`;
-export const fulfillmentsQuery = `query BlackboxFulfillments($after:String,$query:String!){orders(first:10,after:$after,query:$query,sortKey:UPDATED_AT){nodes{id createdAt updatedAt test currencyCode fulfillmentsCount{count precision} fulfillments{${fields}}}pageInfo{hasNextPage endCursor}}}`;
-const moreLines = `query BlackboxFulfillmentLines($id:ID!,$after:String){fulfillment(id:$id){updatedAt fulfillmentLineItems(first:100,after:$after){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}}}`;
+const fields = `id createdAt updatedAt status inTransitAt deliveredAt location{id} fulfillmentLineItems(first:20){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}`;
+export const fulfillmentsQuery = `query BlackboxFulfillments($after:String,$query:String!){orders(first:5,after:$after,query:$query,sortKey:UPDATED_AT){nodes{id createdAt updatedAt test currencyCode fulfillmentsCount{count precision} fulfillments{${fields}}}pageInfo{hasNextPage endCursor}}}`;
+const moreLines = `query BlackboxFulfillmentLines($id:ID!,$after:String){fulfillment(id:$id){updatedAt fulfillmentLineItems(first:20,after:$after){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}}}`;
 
 export async function fetchFulfillmentPage(
   credentials: ShopifyCredentials,
@@ -56,7 +56,7 @@ export async function fetchFulfillmentPage(
     signal,
   );
   const page = z
-    .object({ nodes: z.array(z.unknown()).max(10), pageInfo })
+    .object({ nodes: z.array(z.unknown()).max(5), pageInfo })
     .parse(data.orders);
   if (
     page.pageInfo.hasNextPage &&

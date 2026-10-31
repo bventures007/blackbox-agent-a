@@ -1,11 +1,11 @@
 {
   "row_id": "shopify.fulfillments",
-  "source_revision": "Shopify Admin GraphQL 2026-10; fulfillment-v1; records-v3; questions-v9",
+  "source_revision": "Shopify Admin GraphQL 2026-10; fulfillment-v1; records-v3; questions-v9; query-cost-v1",
   "input_resources": [
-    "orders(first:10,after,query:updated_at ranges)",
+    "orders(first:5,after,query:updated_at ranges)",
     "Order.fulfillments (full array without first truncation)",
     "Order.fulfillmentsCount(count,precision)",
-    "Fulfillment.fulfillmentLineItems(first:100,after)",
+    "Fulfillment.fulfillmentLineItems(first:20,after)",
     "fulfillment(id)",
     "shop.id and currentAppInstallation.accessScopes"
   ],
@@ -119,7 +119,7 @@
   ],
   "synchronization": {
     "initial_import": "Immutable date range plus explicitly selected accessible older open/related context. Full fulfillment array count check and nested line pagination before each order is processed.",
-    "cursor": "Fenced durable outer order cursor and fixed cutoff. Nested pages must finish with stable updatedAt; repeated cursors, oversized populations and imprecise counts reject the page.",
+    "cursor": "Fenced durable outer order cursor and fixed cutoff. Nested pages must finish with stable updatedAt; repeated cursors, oversized populations and imprecise counts reject the page. Explicit requested-cost rejection reduces only connection pages without changing the fixed cursor; at most eight attempts under the original deadline.",
     "reconciliation": "Periodic bounded full selected order enumeration; observed provider revisions append. No physical return or stock increase inferred from cancellation/disappearance.",
     "deduplication": "Connection/economic fulfillment/provider updatedAt observation ID; fixed replay idempotent; different content at same revision is a conflict. Rust selects each economic record once.",
     "freshness": "Per-page identity/grants check; successful check, new record, reconciliation, processing and unresolved review remain distinct.",
@@ -131,7 +131,7 @@
           "import"
         ],
         "schedule": "Default incremental 120 seconds plus 0\u201310% jitter; reconciliation every six hours.",
-        "history_limit": "Accessible updated order snapshots and selected older open context; max 100000 orders, 1000 fulfillments/order, 500 lines/fulfillment, 10000 lines/outer page, 2 MiB response. No exhaustive event history.",
+        "history_limit": "Accessible updated order snapshots and selected older open context; max 50000 orders, 1000 fulfillments/order, 500 lines/fulfillment, 10000 lines/outer page, 2 MiB response. No exhaustive event history.",
         "authentication": "Encrypted existing app token or permitted client credentials; verified immutable shop, read_orders/write_orders and applicable read_all_orders; no public callback.",
         "recovery": "Durable outer cursor, provider revision idempotence, bounded retries, original-input review retry, journal reconstruction after process restart.",
         "limitations": "Missing carrier/tracking and parcel allocation; only supplied physical milestones; non-atomic provider reads; no live proof.",

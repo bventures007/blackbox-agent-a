@@ -69,12 +69,12 @@ const header = "id createdAt updatedAt test currencyCode";
 const lineFields =
   "id quantity currentQuantity variant{inventoryItem{id}} originalTotalSet{shopMoney{amount currencyCode}} discountAllocations{allocatedAmountSet{shopMoney{amount currencyCode}}} taxLines{priceSet{shopMoney{amount currencyCode}}}";
 export const sourceOrderQuery = (capability: string) =>
-  `query BlackboxSourceOrders($after:String,$query:String!){orders(first:10,after:$after,query:$query,sortKey:UPDATED_AT){nodes{${header} ${
+  `query BlackboxSourceOrders($after:String,$query:String!){orders(first:5,after:$after,query:$query,sortKey:UPDATED_AT){nodes{${header} ${
     capability === "orders"
-      ? `closed cancelledAt taxesIncluded totalPriceSet{shopMoney{amount currencyCode}} lineItems(first:100){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}`
+      ? `closed cancelledAt taxesIncluded totalPriceSet{shopMoney{amount currencyCode}} lineItems(first:20){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}`
       : "transactionsCount{count precision} transactions{id kind status processedAt test amountSet{shopMoney{amount currencyCode}}parentTransaction{id}}"
   } }pageInfo{hasNextPage endCursor}}}`;
-const sourceLinesQuery = `query BlackboxSourceLines($id:ID!,$after:String){order(id:$id){updatedAt lineItems(first:100,after:$after){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}}}`;
+const sourceLinesQuery = `query BlackboxSourceLines($id:ID!,$after:String){order(id:$id){updatedAt lineItems(first:20,after:$after){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}}}`;
 export function selectionQuery(
   checkpoint: Checkpoint,
   parameters: ImportParameters,
@@ -420,7 +420,7 @@ export async function fetchOrderPage(
       signal,
     ),
     data = z
-      .object({ nodes: z.array(z.unknown()).max(10), pageInfo })
+      .object({ nodes: z.array(z.unknown()).max(5), pageInfo })
       .parse(result.orders);
   if (
     data.pageInfo.hasNextPage &&

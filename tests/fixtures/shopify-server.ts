@@ -63,6 +63,27 @@ app.post("/admin/api/2026-10/graphql.json", async (req) => {
         },
       },
     };
+  if (
+    sourceScenario.cost_rejections > 0 &&
+    body.query.includes(sourceScenario.cost_operation ?? "BlackboxAllocations")
+  ) {
+    sourceScenario.cost_rejections--;
+    sourceRequests.push({
+      query: "cost_rejected",
+      variables: body.variables,
+      requested_sizes: [...body.query.matchAll(/first:\s*(\d+)/g)].map((m) =>
+        Number(m[1]),
+      ),
+    });
+    return {
+      errors: [
+        {
+          extensions: { code: "MAX_COST_EXCEEDED", cost: 2003, maxCost: 1000 },
+        },
+      ],
+      data: null,
+    };
+  }
   if (body.query.includes("BlackboxStock")) {
     const vars = body.variables as any;
     const items = sourceScenario.stock_items ?? [];

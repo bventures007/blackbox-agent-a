@@ -1,10 +1,10 @@
 {
   "row_id": "shopify.allocations",
-  "source_revision": "Shopify Admin GraphQL 2026-10; assignments-v1; records-v3; questions-v9",
+  "source_revision": "Shopify Admin GraphQL 2026-10; assignments-v1; records-v3; questions-v9; query-cost-v1",
   "input_resources": [
-    "Order.fulfillmentOrders(first:100,after)",
+    "Order.fulfillmentOrders(first:5,after)",
     "order(id).updatedAt",
-    "FulfillmentOrder.lineItems(first:100,after)",
+    "FulfillmentOrder.lineItems(first:20,after)",
     "fulfillmentOrder(id).updatedAt",
     "shop.id and currentAppInstallation.accessScopes"
   ],
@@ -105,7 +105,7 @@
   ],
   "synchronization": {
     "initial_import": "Immutable date selection and selected older open/related context; nested groups and line pages complete before committing an order cohort.",
-    "cursor": "Fenced durable outer order cursor; stable updatedAt across nested reads; repeated cursors and bounds fail explicitly.",
+    "cursor": "Fenced durable outer order cursor; stable updatedAt across nested reads; repeated cursors and bounds fail explicitly. Explicit requested-cost rejection reduces only connection pages without changing the fixed cursor; at most eight attempts under the original deadline.",
     "reconciliation": "Six-hour bounded re-enumeration of selected accessible orders. Omitted assignments leave current answers through cohort membership; no inferred physical release.",
     "deduplication": "Connection-scoped line identity plus group updatedAt; unchanged revision is idempotent, changed content conflicts.",
     "freshness": "Every page rechecks shop and grant categories; loss of any originally used fulfillment scope category requires reauthorization.",
@@ -117,7 +117,7 @@
           "import"
         ],
         "schedule": "Default incremental 120 seconds plus 0\u201310% jitter; reconciliation every six hours.",
-        "history_limit": "At most 100000 orders, 200 groups/order, 500 lines/group, 10000 lines/page, 248 shipping assignments/order, 2 MiB response; incomplete accessible snapshot only.",
+        "history_limit": "At most 50000 orders, 200 groups/order, 500 lines/group, 10000 lines/page, 248 shipping assignments/order, 2 MiB response; incomplete accessible snapshot only.",
         "authentication": "Existing encrypted Shopify token or permitted client credentials; order and fulfillment-order grants required. Marketplace-only fulfillment grants unsupported.",
         "recovery": "Durable outer cursor, provider revision idempotence, bounded retries, original-input review retry, journal reconstruction after process restart.",
         "limitations": "No actual reservations, allocation policy or complete provider scope; non-atomic reads; nested updates may await reconciliation; no live proof.",

@@ -226,6 +226,10 @@ const de: Record<keyof typeof en, string> = {
     "Dieser Ablauf importiert Aufträge, Zahlungen und Erstattungen sowie optional Bestandsaufnahmen, Auslieferungen und Standortzuordnungen. Weitere ausgewählte Shopify-Datenbereiche werden noch implementiert.",
 };
 const reasons: Record<string, [string, string]> = {
+  provider_query_cost_exceeded: [
+    "Shopify rejected even the smallest bounded query. Collection is stopped for this run; inspect the source limitations before retrying.",
+    "Shopify hat auch die kleinste begrenzte Abfrage abgelehnt. Dieser Lauf wurde gestoppt; prüfe die Einschränkungen der Quelle vor einem erneuten Versuch.",
+  ],
   allocation_assignments_not_reservations: [
     "Assignments show which location should fulfill an order. They do not prove reserved stock or a priority policy.",
     "Zuordnungen zeigen, welcher Standort einen Auftrag ausliefern soll. Sie belegen keinen reservierten Bestand und keine Prioritätsregel.",
@@ -255,8 +259,8 @@ const reasons: Record<string, [string, string]> = {
     "Standorte werden nacheinander gelesen. Das Ergebnis ist keine gleichzeitige Bestandszählung; unbekannte oder ungültige Mengen bleiben ungeklärt.",
   ],
   inventory_scan_bounded: [
-    "Inventory scans are bounded to 100,000 items and 248 locations per item. Exceeding a limit leaves an explicit gap.",
-    "Bestandsabfragen sind auf 100.000 Artikel und 248 Standorte je Artikel begrenzt. Beim Überschreiten bleibt eine sichtbare Lücke.",
+    "Inventory scans are bounded to 50,000 items and 248 locations per item. Exceeding a limit leaves an explicit gap.",
+    "Bestandsabfragen sind auf 50.000 Artikel und 248 Standorte je Artikel begrenzt. Beim Überschreiten bleibt eine sichtbare Lücke.",
   ],
   provider_read_inventory_required: [
     "The installed app needs inventory read access for this selection.",

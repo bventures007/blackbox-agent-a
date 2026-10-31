@@ -23,10 +23,10 @@ const quantityNames = [
   "incoming",
 ] as const;
 const levelFields = `id createdAt updatedAt isActive location{id} quantities(names:${JSON.stringify(quantityNames)}){name quantity updatedAt}`;
-const levels = `inventoryLevels(first:100,includeInactive:true){nodes{${levelFields}}pageInfo{hasNextPage endCursor}}`;
+const levels = `inventoryLevels(first:20,includeInactive:true){nodes{${levelFields}}pageInfo{hasNextPage endCursor}}`;
 // A full bounded scan is intentional: InventoryItem.updatedAt is not a quantity-change cursor.
-export const stockQuery = `query BlackboxStock($after:String){inventoryItems(first:10,after:$after){nodes{id createdAt updatedAt tracked ${levels}}pageInfo{hasNextPage endCursor}}}`;
-export const levelsQuery = `query BlackboxStockLevels($id:ID!,$after:String){inventoryItem(id:$id){id updatedAt tracked inventoryLevels(first:100,after:$after,includeInactive:true){nodes{${levelFields}}pageInfo{hasNextPage endCursor}}}}`;
+export const stockQuery = `query BlackboxStock($after:String){inventoryItems(first:5,after:$after){nodes{id createdAt updatedAt tracked ${levels}}pageInfo{hasNextPage endCursor}}}`;
+export const levelsQuery = `query BlackboxStockLevels($id:ID!,$after:String){inventoryItem(id:$id){id updatedAt tracked inventoryLevels(first:20,after:$after,includeInactive:true){nodes{${levelFields}}pageInfo{hasNextPage endCursor}}}}`;
 const connectionPage = z.object({
   nodes: z.array(z.unknown()).max(100),
   pageInfo,
@@ -82,7 +82,7 @@ export async function fetchStockPage(
   );
   const page = connectionPage.parse(result.inventoryItems);
   if (
-    page.nodes.length > 10 ||
+    page.nodes.length > 5 ||
     (page.pageInfo.hasNextPage &&
       (!page.pageInfo.endCursor ||
         page.pageInfo.endCursor === checkpoint.after))

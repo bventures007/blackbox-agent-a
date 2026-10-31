@@ -47,10 +47,10 @@ const group = z.object({
 const groups = z.object({ nodes: z.array(group).max(200), pageInfo });
 const lineFields =
   "id inventoryItemId lineItem{id} totalQuantity remainingQuantity requiresShipping";
-const fields = `id createdAt updatedAt status assignedLocation{location{id}} lineItems(first:100){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}`;
-export const allocationsQuery = `query BlackboxAllocations($after:String,$query:String!){orders(first:10,after:$after,query:$query,sortKey:UPDATED_AT){nodes{id createdAt updatedAt test currencyCode fulfillmentOrders(first:100){nodes{${fields}}pageInfo{hasNextPage endCursor}}}pageInfo{hasNextPage endCursor}}}`;
-const moreGroups = `query BlackboxAllocationGroups($id:ID!,$after:String){order(id:$id){updatedAt fulfillmentOrders(first:100,after:$after){nodes{${fields}}pageInfo{hasNextPage endCursor}}}}`;
-const moreLines = `query BlackboxAllocationLines($id:ID!,$after:String){fulfillmentOrder(id:$id){updatedAt lineItems(first:100,after:$after){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}}}`;
+const fields = `id createdAt updatedAt status assignedLocation{location{id}} lineItems(first:20){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}`;
+export const allocationsQuery = `query BlackboxAllocations($after:String,$query:String!){orders(first:5,after:$after,query:$query,sortKey:UPDATED_AT){nodes{id createdAt updatedAt test currencyCode fulfillmentOrders(first:5){nodes{${fields}}pageInfo{hasNextPage endCursor}}}pageInfo{hasNextPage endCursor}}}`;
+const moreGroups = `query BlackboxAllocationGroups($id:ID!,$after:String){order(id:$id){updatedAt fulfillmentOrders(first:5,after:$after){nodes{${fields}}pageInfo{hasNextPage endCursor}}}}`;
+const moreLines = `query BlackboxAllocationLines($id:ID!,$after:String){fulfillmentOrder(id:$id){updatedAt lineItems(first:20,after:$after){nodes{${lineFields}}pageInfo{hasNextPage endCursor}}}}`;
 export async function fetchAllocationPage(
   c: ShopifyCredentials,
   checkpoint: Checkpoint,
@@ -66,7 +66,7 @@ export async function fetchAllocationPage(
     signal,
   );
   const page = z
-    .object({ nodes: z.array(z.unknown()).max(10), pageInfo })
+    .object({ nodes: z.array(z.unknown()).max(5), pageInfo })
     .parse(result.orders);
   if (
     page.pageInfo.hasNextPage &&

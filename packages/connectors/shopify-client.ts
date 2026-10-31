@@ -74,18 +74,45 @@ export async function shopifyGraphql(
   variables: Record<string, unknown> = {},
   signal?: AbortSignal,
 ) {
-  const result = await providerRequest(
-    base(c) + `/admin/api/${revision}/graphql.json`,
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "X-Shopify-Access-Token": c.access_token!,
+  // Static, read-only adapter queries use first only for paginated connections.
+  // A rejected requested-cost query has not advanced the provider cursor.
+  let result: any;
+  for (let attempt = 0; attempt < 8; attempt++) {
+    result = await providerRequest(
+      base(c) + `/admin/api/${revision}/graphql.json`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "X-Shopify-Access-Token": c.access_token!,
+        },
+        body: JSON.stringify({ query, variables }),
       },
-      body: JSON.stringify({ query, variables }),
-    },
-    signal,
-  );
+      signal,
+    );
+    if (
+      result.errors?.some((e: any) =>
+        ["THROTTLED", "ACCESS_DENIED"].includes(e.extensions?.code),
+      )
+    )
+      break;
+    if (
+      !result.errors?.some(
+        (e: any) => e.extensions?.code === "MAX_COST_EXCEEDED",
+      )
+    )
+      break;
+    const smaller = /^query\s/.test(query)
+      ? query.replace(
+          /\b(orders|lineItems|fulfillmentOrders|fulfillmentLineItems|inventoryItems|inventoryLevels)\(first:\s*(\d+)/g,
+          (_all, field, count) =>
+            field + "(first:" + Math.max(1, Math.floor(Number(count) / 2)),
+        )
+      : query;
+    if (smaller === query || attempt === 7)
+      throw new ProviderError("provider_query_cost_exceeded", 0, false, true);
+    query = smaller;
+  }
   if (result.errors?.some((e: any) => e.extensions?.code === "THROTTLED")) {
     const cost = result.extensions?.cost;
     const available = Number(cost?.throttleStatus?.currentlyAvailable),

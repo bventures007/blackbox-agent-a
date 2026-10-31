@@ -1,9 +1,9 @@
 {
   "row_id": "shopify.stock",
-  "source_revision": "Shopify Admin GraphQL 2026-10; stock-cohort-v1; questions-v6",
+  "source_revision": "Shopify Admin GraphQL 2026-10; stock-cohort-v1; questions-v9; query-cost-v1",
   "input_resources": [
-    "inventoryItems(first:10,after)",
-    "InventoryItem.inventoryLevels(first:100,after,includeInactive:true)",
+    "inventoryItems(first:5,after)",
+    "InventoryItem.inventoryLevels(first:20,after,includeInactive:true)",
     "InventoryLevel.quantities(names:[available,on_hand,committed,reserved,damaged,safety_stock,quality_control,incoming])",
     "shop.id and currentAppInstallation.accessScopes"
   ],
@@ -115,7 +115,7 @@
   ],
   "synchronization": {
     "initial_import": "All accessible items and all nested levels within explicit bounds; no updatedAt item cursor assumption. Retain original selected time/context choice and fixed cutoff.",
-    "cursor": "Opaque outer item endCursor in fenced durable checkpoint; nested level pages complete before atomic item commit. Reject missing/repeated nested cursor, changed header, oversized populations.",
+    "cursor": "Opaque outer item endCursor in fenced durable checkpoint; nested level pages complete before atomic item commit. Reject missing/repeated nested cursor, changed header, oversized populations. Explicit requested-cost rejection reduces only connection pages without changing the fixed cursor; at most eight attempts under the original deadline.",
     "reconciliation": "Full current enumeration; item cohort filters out locations omitted in a later successful item listing. Old journal facts remain immutable. No global absence inference for deleted items.",
     "deduplication": "Stable connection/level/cutoff observation; replay the same fixed cohort without duplicate effects. Changed content at the same revision/cutoff is reviewed, not overwritten.",
     "freshness": "Success, last new observation, reconciliation and current failure are separate. Permission loss stops jobs. Failed or quarantined scans never prove coverage.",
@@ -127,7 +127,7 @@
           "import"
         ],
         "schedule": "One full item scan per incremental poll, default 120 seconds plus 0\u201310% jitter; reconciliation every six hours; independent background worker.",
-        "history_limit": "Current item/location snapshots only; no historical opening or intermediate quantity events; exact point scope and up to 100000 items/248 locations per item.",
+        "history_limit": "Current item/location snapshots only; no historical opening or intermediate quantity events; exact point scope and up to 50000 items/248 locations per item.",
         "authentication": "Encrypted app token or permitted client credentials; strict myshopify.com outbound host; immutable shop identity; read_orders and read_inventory (or respective write grants); grants checked each page.",
         "recovery": "Durable per-page cursor and atomic item cohort; same fixed scan is idempotent; lease/reconnect fencing; bounded retry; original retained-input retry; journal reconstruction after restart.",
         "limitations": "No atomic cross-location read, source adjustment cause, global complete population, untracked-item availability or live-provider proof. Negative quantities remain unresolved.",

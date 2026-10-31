@@ -32,13 +32,18 @@ const scopes = [
   "read_assigned_fulfillment_orders",
   "read_merchant_managed_fulfillment_orders",
 ];
-async function scenario(orders: any[], grants = scopes) {
+async function scenario(orders: any[], grants = scopes, costRejections = 0) {
   const r = await fetch(
     "http://" + process.env.FIXTURE_HOST + "/source-scenario",
     {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ orders, scopes: grants }),
+      body: JSON.stringify({
+        orders,
+        scopes: grants,
+        cost_rejections: costRejections,
+        cost_operation: "BlackboxAllocations",
+      }),
     },
   );
   assert.equal(r.status, 200);
@@ -237,7 +242,7 @@ try {
       assignmentOrder(92002, at),
     ];
     for (const n of nodes) n.cancelledAt = at;
-    await scenario(nodes);
+    await scenario(nodes, scopes, 2);
     const connection = (
       await api(a, "/v1/sources/shopify", {
         name: "Synthetic assignments",
@@ -307,6 +312,17 @@ try {
         await fetch("http://" + process.env.FIXTURE_HOST + "/source-requests")
       ).json()
     ).requests;
+    const rejected = requests.filter((r: any) => r.query === "cost_rejected");
+    assert.equal(rejected.length, 2);
+    assert.deepEqual(rejected[0].variables, rejected[1].variables);
+    assert.ok(
+      rejected[1].requested_sizes.every(
+        (n: number, i: number) => n <= rejected[0].requested_sizes[i],
+      ),
+    );
+    checks.push(
+      "provider_requested_cost_rejection_reduces_connection_pages_without_changing_cursor_or_cutoff",
+    );
     for (const kind of ["allocation_groups", "allocation_lines"])
       assert.ok(requests.some((r: any) => r.query === kind));
     assert.ok(
