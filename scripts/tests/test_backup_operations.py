@@ -1,0 +1,35 @@
+import json,os,pathlib,sys,tempfile,unittest
+sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]))
+from backup_operations import atomic_json,atomic_json_at,operation_lock,target,fence
+from host_runtime import RuntimeConfigError
+class BackupOperationTests(unittest.TestCase):
+ def setUp(self):
+  self.tmp=tempfile.TemporaryDirectory();self.root=pathlib.Path(self.tmp.name);self.runtime=self.root/'.runtime';self.runtime.mkdir(mode=0o700)
+ def tearDown(self):self.tmp.cleanup()
+ def test_unmounted_or_replaced_destination_never_falls_back(self):
+  base=self.root/'destination';base.mkdir();managed=base/'managed';managed.mkdir(mode=0o700);b,m=base.stat(),managed.stat()
+  config={'destination':str(base),'directory':'managed','destination_device':b.st_dev,'destination_inode':b.st_ino,'managed_device':m.st_dev,'managed_inode':m.st_ino}
+  self.assertEqual(target(config),managed)
+  base.rename(self.root/'unmounted');base.mkdir();(base/'managed').mkdir(mode=0o700)
+  with self.assertRaises(RuntimeConfigError):target(config)
+  self.assertEqual(list((base/'managed').iterdir()),[])
+ def test_maintenance_lock_and_pending_native_fail_closed(self):
+  with operation_lock(self.runtime):
+   with self.assertRaises(RuntimeConfigError):
+    with operation_lock(self.runtime):pass
+  (self.runtime/'native-pids.json').write_text('{}')
+  with self.assertRaisesRegex(RuntimeConfigError,'native developer'):
+   with fence(self.root,'backup'):pass
+  self.assertFalse((self.runtime/'maintenance.json').exists())
+ def test_status_write_is_private_and_directory_fd_bound(self):
+  path=self.runtime/'status.json';atomic_json(path,{'state':'running'});self.assertEqual(path.stat().st_mode&0o777,0o600)
+  path.unlink();(self.root/'foreign').write_text('preserved');path.symlink_to(self.root/'foreign')
+  with self.assertRaises(RuntimeConfigError):atomic_json(path,{'state':'bad'})
+  self.assertEqual((self.root/'foreign').read_text(),'preserved')
+  directory=self.root/'destination';directory.mkdir(mode=0o700);fd=os.open(directory,os.O_RDONLY|os.O_DIRECTORY)
+  try:
+   directory.rename(self.root/'held');directory.mkdir()
+   atomic_json_at(fd,'complete.json',{'state':'completed'})
+   self.assertFalse((directory/'complete.json').exists());self.assertEqual(json.loads((self.root/'held/complete.json').read_text())['state'],'completed')
+  finally:os.close(fd)
+if __name__=='__main__':unittest.main()

@@ -23,6 +23,21 @@ except (OSError,RuntimeConfigError):print('setup_log_unavailable: log persistenc
 
 if command=='logs':sys.exit(run(['python3',str(root/'scripts/diagnostics.py'),*sys.argv[2:]]))
 if command=='diagnostics' and len(sys.argv)>2 and sys.argv[2]=='export':sys.exit(run(['python3',str(root/'scripts/diagnostics.py'),*sys.argv[3:]]))
+if command=='backup':
+ from backup_operations import enroll,generation
+ from backup_codec import BackupFormatError
+ try:
+  if len(sys.argv)==4 and sys.argv[2]=='configure':
+   if not sys.stdout.isatty():raise RuntimeConfigError('Protected interactive terminal required for recovery-key issuance.')
+   secret=enroll(root,pathlib.Path(sys.argv[3]))
+   print('Save this separate backup recovery key in your password manager. It is shown once; keep it apart from this installation and backups.')
+   print('Speichere diesen separaten Wiederherstellungsschlüssel im Passwortmanager. Er wird einmal angezeigt; getrennt von Installation und Sicherungen aufbewahren.')
+   print(secret.decode(),end='')
+  elif len(sys.argv)==2:
+   result=generation(root);print('Encrypted backup completed: '+result['generation'])
+  else:raise RuntimeConfigError('Usage: ./blackbox backup [configure DESTINATION]')
+ except (RuntimeConfigError,BackupFormatError,OSError) as error:raise SystemExit(str(error))
+ sys.exit(0)
 if command=='doctor':
  print('Blackbox local pilot developer runtime; Apple Silicon; loopback port 18741. Container runtime required.')
  sys.exit(run(['docker','version','--format','{{.Client.Version}} {{if .Server}}{{.Server.Version}}{{end}}']))
@@ -36,6 +51,14 @@ if command in ['build','up','down','status','test','setup','reset-access']:
  try:c=config(create=command in ['build','setup'],port=port,require_keys=command not in ['down','status'])
  except RuntimeConfigError as error:raise SystemExit(str(error))
  args={'build':['build'],'up':['up','-d','postgres','engine','api','worker'],'down':['stop'],'status':['ps'],'test':['--profile','test','up','-d','fixture'],'setup':['run','--rm','tooling','pnpm','exec','tsx','scripts/setup.ts'],'reset-access':['run','--rm','tooling','pnpm','exec','tsx','scripts/setup.ts','reset']}[command] if command!='build' else ['build','api','engine']
+ if command in ['up','down','setup','reset-access']:
+  from backup_operations import operation_lock
+  try:
+   with operation_lock(runtime):
+    if (runtime/'maintenance.json').exists():raise RuntimeConfigError('Unfinished host maintenance. Recover it before changing service state.')
+    result=run(c+args+extra)
+  except RuntimeConfigError as error:raise SystemExit(str(error))
+  sys.exit(result)
  sys.exit(run(c+args+extra))
-print('Usage: ./blackbox doctor|build|setup|up|down|status|test|reset-access')
-print('Development slice: backup/restore/upgrade and release package are not yet implemented.')
+print('Usage: ./blackbox doctor|build|setup|up|down|status|test|reset-access|backup')
+print('Development preview: encrypted backup creation is implemented; restore/upgrade, scheduling and the release package remain in progress.')
