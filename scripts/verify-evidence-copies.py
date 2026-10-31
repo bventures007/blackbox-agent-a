@@ -42,7 +42,15 @@ try:
  held=vault.with_name(vault.name+'-disconnected');vault.rename(held);vault.mkdir(mode=0o700)
  try:
   cache=json.loads((runtime/'evidence-copy-inventory.json').read_text());cache['observed_at']=iso(time.time()-120);atomic_json(runtime/'evidence-copy-inventory.json',cache);publish_status(stage)
-  unavailable=api.call('/v1/evidence-policy')[1]['maintenance']['copies'];assert unavailable['state']=='unavailable'and not unavailable['generations']and unavailable['total']is None
+  # Host atomic replacement is observed through a Docker Desktop bind mount.
+  # A safe transient unavailable status is valid; require the specific inventory
+  # outcome within a bounded visibility deadline, matching the UI's polling.
+  deadline=time.monotonic()+30;last_status=None
+  while time.monotonic()<deadline:
+   last_status=api.call('/v1/evidence-policy')[1].get('maintenance',{});unavailable=last_status.get('copies',{})
+   if unavailable.get('state')=='unavailable'and not unavailable.get('generations')and unavailable.get('total')is None:break
+   time.sleep(.5)
+  else:raise RuntimeError('Specific lost-destination inventory did not become visible: '+json.dumps(last_status))
   assert not list(vault.iterdir())
  finally:vault.rmdir();held.rename(vault)
  assert hashlib.sha256(archive.read_bytes()).hexdigest()==before

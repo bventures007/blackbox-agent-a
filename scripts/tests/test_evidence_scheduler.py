@@ -28,4 +28,10 @@ class EvidenceSchedulerTests(unittest.TestCase):
   state=json.loads((self.runtime/'evidence-sweep.json').read_text());self.assertFalse(due(state,self.now+299));self.assertTrue(due(state,self.now+300));self.assertEqual(publish(self.root,self.now)['state'],'failed')
   self.assertFalse(due(state,self.now-3600));value=publish(self.root,self.now-3600);self.assertEqual(value['state'],'clock_anomaly');self.assertIsNone(value['next_check_at'])
   self.assertNotIn(str(self.root),json.dumps(value))
+ def test_enrollment_invalidates_inventory_cache_before_first_generation(self):
+  empty=publish(self.root,self.now);self.assertEqual(empty['copies']['state'],'not_configured')
+  atomic_json(self.runtime/'backup.json',{'synthetic':'configured'})
+  with patch('evidence_copies.inventory',return_value={'observed_at':iso(self.now+1),'state':'available','generations':[],'total':0,'truncated':False})as inspect:
+   value=publish(self.root,self.now+1);inspect.assert_called_once()
+  self.assertEqual(value['copies']['state'],'available');self.assertNotIn('configured',value['copies']);self.assertNotIn('last_generation',value['copies'])
 if __name__=='__main__':unittest.main()

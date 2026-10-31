@@ -44,6 +44,24 @@ test("evidence cleanup status is private, bounded and bound to the installation 
     assert.equal(good.state, "scheduled");
     assert.equal(good.scheduler_alive, true);
     assert.ok(!JSON.stringify(good).includes(tenant));
+    await save({
+      ...value,
+      copies: {
+        ...value.copies,
+        state: "unavailable",
+        generations: [],
+        total: null,
+      },
+    });
+    const missing = await evidenceMaintenanceStatus(tenant, directory);
+    assert.equal(missing.state, "scheduled");
+    assert.deepEqual("copies" in missing ? missing.copies : null, {
+      ...value.copies,
+      state: "unavailable",
+      generations: [],
+      total: null,
+    });
+    await save(value);
     const other = await evidenceMaintenanceStatus(randomUUID(), directory);
     assert.deepEqual(other, {
       state: "unavailable",

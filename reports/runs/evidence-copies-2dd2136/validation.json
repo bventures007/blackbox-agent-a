@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "tested_commit": "2dd2136894ddaa79a920776e0df0de6431c2ce71",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T19:08:29.772152+00:00",
+  "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "checks": [
+    {
+      "command": [
+        "pnpm",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "observed": "$ tsc\n"
+    },
+    {
+      "command": [
+        "pnpm",
+        "test"
+      ],
+      "exit_code": 0,
+      "observed": "$ node --import tsx --test tests/*.test.ts\n\u2714 host backup status never exposes unvalidated paths or keys (233.22075ms)\n\u2714 concurrent owner backup requests produce one bounded action without a path or command (126.039167ms)\n\u2714 an interrupted temporary request is never acknowledged as durably queued (22.188666ms)\n\u2714 money syntax preserves exact units, does not round or mix unknown currencies (2.917834ms)\n\u2714 canonical observations reject caller tenant and personal-content fields (20.352584ms)\n\u2714 emitted diagnostic lines are valid JSON and strip secret/PII canaries before storage (927.505125ms)\n\u2714 evidence cleanup status is private, bounded and bound to the installation owner (233.38675ms)\n\u2714 30-day import is 720 hours across daylight saving, with a fixed cutoff (182.085667ms)\n\u2714 calendar year and 12 months preserve local semantics and clamp leap days (17.510541ms)\n\u2714 custom dates resolve at local midnight and reject future or skipped local dates (40.172042ms)\n\u2714 from-now never silently widens into opening or related history (1.341917ms)\n\u2714 versioned material preserves legacy decryption and identity, rejects tamper, then retires only the old data key (1350.040333ms)\n\u2714 container MCP permits only the exact internal API origin (3.706584ms)\n\u2714 local HTTP transport retains explicit loopback authority and bounds errors/redirects (185.445959ms)\n\u2714 runtime preflight rejects changed, future, partial or fenced installations (11.44875ms)\n\u2714 runtime comparison ignores key order but preserves values and protocol arrays (0.39325ms)\n\u2714 actual MCP rejects missing or unknown API contracts with an explicit safe error (3316.213958ms)\n\u2714 Shopify assignments retain incomplete reservation basis, exact quantities and strict context consent (851.459875ms)\n\u2714 Shopify requested-cost reduction is bounded, keeps cursor/cutoff and does not immediately retry throttling (395.966166ms)\n\u2714 fulfillment preparation is not handover and cancellation cannot erase physical evidence (257.250958ms)\n\u2714 bounded provider transport rejects oversized JSON and never accepts arbitrary token destinations (138.197708ms)\n\u2714 Shopify normalization preserves refund links, unknown transitions and strict context consent (192.712125ms)\n\u2714 inventory preserves supplied available state and rejects missing, negative, future and declined opening quantities (194.469875ms)\n\u2139 tests 23\n\u2139 suites 0\n\u2139 pass 23\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 6497.220709\n"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests"
+      ],
+      "exit_code": 0,
+      "observed": "............................................................................................................\n----------------------------------------------------------------------\nRan 108 tests in 12.960s\n\nOK\n"
+    }
+  ]
+}
