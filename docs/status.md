@@ -37,6 +37,7 @@ Baseline-v14 / brief 2.3: P0–P4 local pilot, then handover and stop. Implement
 - The SPA fallback answered any unknown path with the app shell (200), including POSTs. Fixed.
 - Under the contract load (20 closed-loop clients plus 40 arrivals/s on one workspace) the per-principal/per-workspace concurrency caps rejected about a third of requests with 429. Admission now queues up to 2 s (FIFO) before rejecting; the caps are unchanged and queue time counts toward reported latency.
 - The landing page served by the API container lacked the prototype stylesheet and `release.json`: the Docker build of `apps/landing` failed (the prototype stylesheet was not in the build context) behind `|| true`, and the SPA fallback answered both missing files with the HTML shell (200), so the page rendered unstyled with an oversized logo and the download state reported no release. Found by a tester after the handover; the browser journey had passed on the broken page. Fixed: the stylesheet is copied into the build, build failures now fail the image, asset paths under the fallback are real 404s, and the landing journey asserts the stylesheet and manifest are served.
+- The Compose health probe of the API container used `fetch()` with a custom Host header, which Node drops; the exact-Host check answered 421 and the container reported unhealthy from its first check. Fixed with `http.get`; a fresh installation from the rebuilt archive reports the container healthy.
 - Docker VM disk exhaustion from repeated full image builds crashed PostgreSQL mid-run (recovered; reproduced by the `No space left on device` panic in its log). Operational note added to docs/operations.md.
 
 ## Evidence summary (fresh installation, commit 0faf361, run `pilot-20261031T191734Z-0faf361`)
@@ -45,7 +46,7 @@ Baseline-v14 / brief 2.3: P0–P4 local pilot, then handover and stop. Implement
 - Acceptance: 62 passed, 16 implemented_unverified, 3 blocked_external, 1 failed (PILOT-09), 1 not_applicable of 83 active cases (`reports/acceptance.json`).
 - Browser journeys: 10/10 passed, desktop and mobile, EN and DE (`tests/evidence/current/playwright.json`, 40 screenshots).
 - Backup, tamper rejection and isolated restore: passed, restore 30 s machine time (`tests/evidence/current/ops-backup-restore.txt`).
-- Release archive 281,837,818 bytes with verified manifest/checksum/landing links; fresh-folder installation from the archive answered the first question with evidence (`tests/evidence/current/dist-*.json`).
+- Release archive 281,854,930 bytes with verified manifest/checksum/landing links; fresh-folder installation from the archive answered the first question with evidence (`tests/evidence/current/dist-*.json`).
 - Integration register: 68 pilot rows with claim, implementation and four passed test kinds each; 40 live tests blocked (no provider access); 0 independent approvals (`INTEGRATIONS.md`).
 - Question coverage: 24/24 positive paths, 24/24 explicit missing-data paths, API/MCP parity for 5 intents (`reports/question-coverage.json`).
 - Performance smoke profile: 15 of 18 measured targets hold; hot-path p99 (API/MCP) and the MCP success fraction miss under the per-workspace concurrency cap — recorded as failed in `reports/performance.json`, not waived.
