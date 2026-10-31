@@ -10,3 +10,7 @@ svg.icon{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;str
 .release-line{font-family:var(--mono);font-size:10px}
 @media (max-width:760px){.nav-links{display:none}.hero h1{font-size:36px}.guide h1{font-size:30px}}
 .download-card .hero-buttons{flex-wrap:wrap;gap:10px}.download-card .btn{max-width:100%;white-space:normal;text-align:left}
+.closing-section{padding:0 0 70px}.closing-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}.closing-copy h2{font-size:39px;line-height:1.22;letter-spacing:-1.8px;margin:17px 0 18px}.closing-copy>p{font-size:13px;color:#75816e;max-width:400px}.closing-buttons{justify-content:flex-start;margin:22px 0 14px}.closing-copy .hint{max-width:400px}
+.release-card .download-state{margin:0 0 14px}.release-card .download-state .btn{padding:13px 20px}.release-card .release-meta{margin:0 0 14px;padding-bottom:14px;border-bottom:1px solid var(--line)}.release-card .answer-warning{margin:0}.download-state .installed{color:#3b5a66;background:#eef3f5;border-color:#cfdde3}.demo-badge{font-size:9px;margin-left:8px}
+@media (max-width:900px){.closing-layout{grid-template-columns:1fr;gap:30px}}
+.release-card .answer-preview-head{flex-wrap:wrap;gap:8px 14px}.release-card .answer-preview-head>span:first-child{display:inline-flex;gap:6px;align-items:center}

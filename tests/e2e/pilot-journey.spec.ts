@@ -19,13 +19,14 @@ async function signIn(page: Page, lang: 'en' | 'de') {
 for (const lang of ['en', 'de'] as const) {
   test(`landing renders without backend session and links the guide (${lang})`, async ({ page }) => {
     await page.goto('/landing/'); await page.getByRole('button', { name: lang.toUpperCase(), exact: true }).click();
-    await expect(page.locator('#download-state')).toContainText(lang === 'de' ? /herunterladen|noch nicht verfügbar/i : /download/i);
-    // the supplied stylesheet and the release manifest must really be served (a shell served in their place once passed unnoticed)
+    // the supplied stylesheet must really be served (a shell served in its place once passed unnoticed)
     await expect.poll(async () => page.evaluate(() => document.querySelector('.brand-mark svg')?.getBoundingClientRect().width ?? 0)).toBeLessThanOrEqual(32);
-    const manifest = JSON.parse(readFileSync(resolve(ROOT, 'release/manifest.json'), 'utf8')) as { version: string; artifacts: Array<{ platform: string; status: string }> };
-    const served = await page.evaluate(async () => { const r = await fetch('/landing/release.json', { cache: 'no-store' }); return r.ok && (r.headers.get('content-type') ?? '').includes('json') ? r.json() : null; });
-    expect(served, 'release.json must be served from the landing origin').not.toBeNull(); expect((served as { version: string }).version).toBe(manifest.version);
-    if (manifest.artifacts.some((a) => a.platform === 'macos-arm64' && a.status !== 'planned')) await expect(page.locator('#download-state a.btn')).toHaveAttribute('download', /\.tar\.gz$/);
+    // served from an installation there is no release manifest (it would describe the previous release): the page reports the installed version
+    const meta = await page.evaluate(async () => (await fetch('/api/meta')).json()) as { version: string };
+    const rel = await page.evaluate(async () => (await fetch('/landing/release.json', { cache: 'no-store' })).status); expect(rel).toBe(404);
+    await expect(page.locator('#download-state')).toContainText(`v${meta.version}`); await expect(page.locator('#download-state')).toContainText(lang === 'de' ? /Pilot-Version/ : /local pilot/);
+    for (const b of await page.locator('[data-download]').all()) await expect(b).toHaveAttribute('aria-disabled', 'true');
+    await expect(page.locator('#release-line')).toContainText(`v${meta.version}`);
     await expect(page.getByRole('link', { name: lang === 'de' ? 'Installationsanleitung' : 'Installation guide' }).first()).toBeVisible();
     await shot(page, `landing-${lang}`);
     await page.getByRole('link', { name: lang === 'de' ? 'Installationsanleitung' : 'Installation guide' }).first().click();

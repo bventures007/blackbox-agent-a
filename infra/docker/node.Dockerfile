@@ -13,7 +13,7 @@ COPY apps/web ./apps/web
 COPY apps/landing ./apps/landing
 # the landing page copies the supplied prototype stylesheet at build time; a missing file must fail the build, not be masked
 COPY reference/prototype/styles.css ./reference/prototype/styles.css
-COPY release/manifest.json ./release/manifest.json
+# release/manifest.json is deliberately not copied: it is written after the archive is packaged and would always describe the previous release
 COPY tests/package.json ./tests/package.json
 RUN pnpm install --frozen-lockfile
 RUN pnpm -r --filter './packages/**' run build && pnpm --filter @blackbox/api --filter @blackbox/worker --filter @blackbox/mcp-bridge run build \

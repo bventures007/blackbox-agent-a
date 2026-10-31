@@ -57,17 +57,6 @@
     </div>
     <div class="source-band"><span class="label" data-i18n="band.label">Your tools. One shared memory.</span><strong><i style="color:#8aa264">S</i> Shopify</strong><strong><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg> <span data-i18n="band.email">E-mail</span></strong><strong>Shopware 6</strong><strong>DHL · DPD · UPS</strong><strong data-i18n="band.invoices">Invoices &amp; accounting</strong><strong>Payments</strong><span class="plus-more" data-i18n="band.more">+ any API</span></div>
   </section>
-  <section class="band" id="download">
-    <div class="card download-card">
-      <div class="eyebrow"><span data-i18n="download.eyebrow">Local pilot release</span></div>
-      <h2 data-i18n="download.title">Download the installation package</h2>
-      <div id="download-state" class="download-state"></div>
-      <dl class="release-meta" id="release-meta"></dl>
-      <p class="hint" data-i18n="download.note">This is a versioned archive with the wrapper, pinned Compose configuration and bundled container images. It requires Docker Desktop on Apple Silicon; it is not a signed native app and it installs nothing globally. The SHA-256 detects corruption; it is not a signature.</p>
-      <p class="hint" id="private-note" data-i18n="download.private">Pilot access is private: the download is provided to invited testers. It is not an anonymous public release.</p>
-      <div class="hero-buttons" style="justify-content:flex-start"><a class="btn secondary" href="guide.html" data-i18n="cta.guide">Installation guide</a><a class="btn ghost" href="http://127.0.0.1:19080/" data-i18n="download.demo">Open the synthetic example (after installation)</a></div>
-    </div>
-  </section>
   <section class="principle-section" id="principle">
     <div class="section-intro"><div><div class="eyebrow" data-i18n="principle.eyebrow">SEARCH LESS. KNOW MORE.</div><h2 data-i18n-html="principle.title">One business.<br>Finally one context.</h2></div><p data-i18n="principle.copy">Your shop knows the order. Your ERP the stock. Your inbox the new delivery promise. blackbox connects the story.</p></div>
     <div class="step-grid">
@@ -112,6 +101,23 @@
   <section class="agents-banner" id="agents">
     <div><div class="eyebrow" data-i18n="agents.eyebrow">YOUR AGENT. YOUR CONTEXT.</div><h2 data-i18n-html="agents.title">One truth.<br>For every one of your agents.</h2><p data-i18n="agents.copy">Through MCP your agent gets the same traceable business context. Whether Claude, ChatGPT or your own agent.</p><a class="btn lime" href="guide.html"><span data-i18n="agents.cta">Connect your agent</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
     <div class="agent-network"><div class="network-core"><svg class="icon" aria-hidden="true"><use href="#i-wave"/></svg></div><div class="network-line"></div><div class="network-agents"><span class="network-agent"><svg class="icon" aria-hidden="true"><use href="#i-spark"/></svg>Claude</span><span class="network-agent"><svg class="icon" aria-hidden="true"><use href="#i-message"/></svg>ChatGPT</span><span class="network-agent"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg><span data-i18n="agents.yours">Your agent</span></span></div></div>
+  </section>
+  <section class="closing-section" id="download">
+    <div class="closing-layout">
+      <div class="closing-copy">
+        <div class="eyebrow" data-i18n="download.eyebrow">LOCAL PILOT RELEASE</div>
+        <h2 data-i18n-html="closing.title">Ready to record?</h2>
+        <p data-i18n="closing.copy">Download, run the bundled doctor and setup, save your key, open the browser, connect a source or run the synthetic example.</p>
+        <div class="hero-buttons closing-buttons"><a class="btn primary" data-download href="#download"><span data-i18n="cta.download">Download for Mac</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="btn secondary" href="guide.html" data-i18n="cta.guide">Installation guide</a></div>
+        <p class="hint" id="private-note" data-i18n="download.private">Pilot access is private: the download is provided to invited testers. It is not an anonymous public release.</p>
+      </div>
+      <div class="answer-preview release-card">
+        <div class="answer-preview-head"><span><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg> <span data-i18n="download.title">Installation package · macOS Apple Silicon</span></span><span class="mono" id="release-card-version"></span></div>
+        <div id="download-state" class="download-state"></div>
+        <dl class="release-meta" id="release-meta"></dl>
+        <p class="answer-warning" data-i18n="download.note">This is a versioned archive with the wrapper, pinned Compose configuration and bundled container images. It requires Docker Desktop on Apple Silicon; it is not a signed native app and it installs nothing globally. The SHA-256 detects corruption; it is not a signature.</p>
+      </div>
+    </div>
   </section>
   <footer class="site-footer">
     <a href="#"><span class="brand"><span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-wave"/></svg></span>blackbox<span class="brand-dot">.</span></span></a>
