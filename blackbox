@@ -61,7 +61,7 @@ if command=='evidence':
  parser=argparse.ArgumentParser(prog='./blackbox evidence');sub=parser.add_subparsers(dest='action',required=True)
  sub.add_parser('purge');sub.add_parser('resume')
  export=sub.add_parser('export-ledger');export.add_argument('destination',type=pathlib.Path)
- reconcile=sub.add_parser('reconcile');reconcile.add_argument('--ledger',type=pathlib.Path);reconcile.add_argument('--acknowledge-cutoff',required=True)
+ reconcile=sub.add_parser('reconcile',description='Apply known protected restriction ledgers and explicitly reconcile this backup cutoff. Supply the latest available original ledger; an authenticated export does not prove that no newer history exists elsewhere.');reconcile.add_argument('--ledger',type=pathlib.Path);reconcile.add_argument('--acknowledge-cutoff',required=True)
  options=parser.parse_args(sys.argv[2:])
  try:
   if options.action=='export-ledger':result=export_ledger(root,options.destination.expanduser().absolute())

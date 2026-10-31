@@ -1,7 +1,7 @@
 import datetime,hashlib,hmac,json,os,pathlib,sys,tempfile,unittest,uuid
 from unittest.mock import patch
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]))
-from evidence_policy import canonical,verified_ledger,remove_owned_file,merge_ledger,purge_fenced,ZERO
+from evidence_policy import canonical,verified_ledger,remove_owned_file,merge_ledger,purge_fenced,combine_ledgers,known_ledgers,assert_known_ledgers_applied,ZERO
 from host_runtime import RuntimeConfigError
 
 class EvidencePolicyTests(unittest.TestCase):
@@ -32,6 +32,22 @@ class EvidencePolicyTests(unittest.TestCase):
  def test_changed_existing_policy_cannot_be_overwritten_by_import(self):
   with patch('evidence_policy.sql',return_value=b'1')as sql,self.assertRaisesRegex(RuntimeConfigError,'conflict'):merge_ledger(self.root,self.payload)
   self.assertEqual(sql.call_count,1)
+ def test_known_local_ledger_cannot_be_ignored_or_published_before_fenced_application(self):
+  runtime=self.root/'.runtime';runtime.mkdir(mode=0o700)
+  row={'tenant_id':str(uuid.uuid4()),'evidence_id':str(uuid.uuid4()),'restriction_id':str(uuid.uuid4()),'principal_id':ZERO,'reason':'owner_restriction','restricted_at':self.payload['exported_at']}
+  value={**self.payload,'restrictions':[row]};file=runtime/'reconciliation-ledger.json';file.write_bytes(self.envelope(value));file.chmod(0o600)
+  with patch('evidence_policy.identity',return_value=self.key):
+   self.assertEqual(known_ledgers(self.root),[value])
+   with patch('evidence_policy.sql',return_value=b't'),self.assertRaisesRegex(RuntimeConfigError,'not applied'):assert_known_ledgers_applied(self.root)
+   with patch('evidence_policy.sql',return_value=b'f'):assert_known_ledgers_applied(self.root)
+   file.write_bytes(b'{}')
+   with self.assertRaises(RuntimeConfigError):known_ledgers(self.root)
+ def test_combined_ledgers_preserve_all_denials_and_reject_changed_policy_identity(self):
+  tenant=str(uuid.uuid4());row={'tenant_id':tenant,'evidence_id':str(uuid.uuid4()),'restriction_id':str(uuid.uuid4()),'principal_id':ZERO,'reason':'owner_restriction','restricted_at':self.payload['exported_at']}
+  a={**self.payload,'restrictions':[row]};other={**row,'evidence_id':str(uuid.uuid4()),'restriction_id':str(uuid.uuid4())};b={**self.payload,'restrictions':[other,{**row,'reason':'expired'}]}
+  result=combine_ledgers([a,b]);self.assertEqual({r['evidence_id']for r in result['restrictions']},{row['evidence_id'],other['evidence_id']})
+  policy={'tenant_id':tenant,'policy_id':str(uuid.uuid4()),'connection_id':None,'evidence_class':None,'days':7,'principal_id':ZERO,'reason':'minimize_content','created_at':self.payload['exported_at']}
+  with self.assertRaisesRegex(RuntimeConfigError,'record conflict'):combine_ledgers([{**self.payload,'policies':[policy]},{**self.payload,'policies':[{**policy,'days':90}]}])
  def test_purge_commits_intent_before_unlink_and_resumes_absent_file(self):
   tenant=str(uuid.uuid4());evidence=str(uuid.uuid4());directory=self.root/'.runtime/evidence'/tenant;directory.mkdir(parents=True,mode=0o700);directory.parent.chmod(0o700);file=directory/evidence;file.write_bytes(b'encrypted');file.chmod(0o600)
   events=[]

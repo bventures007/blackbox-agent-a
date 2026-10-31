@@ -18,7 +18,56 @@ def canonical(value):return json.dumps(value,sort_keys=True,separators=(',',':')
 def identity(root):
  runtime=root/'.runtime';ring=read_keyring(runtime)
  return protected_read(runtime/'secrets'/('identity'if ring else 'data'),32)
+
+def known_ledgers(root):
+ # These are protected host checkpoints, not arbitrary filesystem discovery.
+ # A broken/corrupt candidate must not turn a known restriction into absence.
+ values=[]
+ for name in ['evidence-ledger-current.json','reconciliation-ledger.json']:
+  path=root/'.runtime'/name
+  if path.exists()or path.is_symlink():values.append(verified_ledger(root,protected_read(path,MAX_LEDGER)))
+ return values
+
+def combine_ledgers(payloads):
+ if not payloads:return None
+ first=payloads[0];value={k:first[k]for k in ['version','identity_sha256','exported_at']}
+ for name in TABLES:
+  rows={}
+  for payload in payloads:
+   if payload['identity_sha256']!=value['identity_sha256']:raise RuntimeConfigError('Policy ledger identity conflict.')
+   for row in payload[name]:
+    key=(row['tenant_id'],row['evidence_id']if name=='restrictions'else row['policy_id']if name=='policies'else row['limit_id'])
+    if key in rows and rows[key]!=row:
+     if name!='restrictions':raise RuntimeConfigError('Policy ledger record conflict; known history was preserved.')
+     # Both intents deny the same object. Preserve a deterministic earliest
+     # reason without dropping the denial when independent copies differ.
+     rows[key]=min([rows[key],row],key=lambda r:(datetime.datetime.fromisoformat(r['restricted_at'].replace('Z','+00:00')),canonical(r)))
+    else:rows[key]=row
+   if len(rows)>50000:raise RuntimeConfigError('Combined policy ledger budget exceeded.')
+  value[name]=[rows[k]for k in sorted(rows)]
+ value['exported_at']=max((p['exported_at']for p in payloads),key=lambda s:datetime.datetime.fromisoformat(s.replace('Z','+00:00')))
+ if len(canonical(value))>MAX_LEDGER-256:raise RuntimeConfigError('Combined policy ledger budget exceeded.')
+ return value
+
+def envelope(root,payload):
+ return {'payload':payload,'mac':hmac.new(identity(root),b'blackbox-evidence-ledger-v1\0'+canonical(payload),hashlib.sha256).hexdigest()}
+
+def assert_known_ledgers_applied(root):
+ # Backup/export cannot publish old policy state over known later restrictions.
+ # Applying them is a separate fenced operation, never a read-side mutation.
+ for payload in known_ledgers(root):
+  for name,table in TABLES.items():
+   if not payload[name]:continue
+   literal=json.dumps(payload[name]).replace("'","''");key='evidence_id'if name=='restrictions'else 'policy_id'if name=='policies'else 'limit_id'
+   available='EXISTS(SELECT 1 FROM bb.workspaces w WHERE w.tenant_id=x.tenant_id)'
+   if name!='restrictions':available+=' AND (x.connection_id IS NULL OR EXISTS(SELECT 1 FROM bb.connections c WHERE c.tenant_id=x.tenant_id AND c.connection_id=x.connection_id))'
+   matches='t.tenant_id=x.tenant_id AND t.'+key+'=x.'+key
+   if name!='restrictions':matches+=' AND to_jsonb(t)=to_jsonb(x)'
+   missing=sql(root,'SELECT EXISTS(SELECT 1 FROM jsonb_populate_recordset(NULL::bb.'+table+",'"+literal+"'::jsonb) x WHERE "+available+' AND NOT EXISTS(SELECT 1 FROM bb.'+table+' t WHERE '+matches+'));')
+   if missing.strip()==b't':raise RuntimeConfigError('Known policy ledger is not applied. Run ./blackbox evidence purge before backup or ledger export.')
+
 def signed_ledger(root):
+ assert_known_ledgers_applied(root)
  payload={'version':1,'identity_sha256':hashlib.sha256(identity(root)).hexdigest(),'exported_at':stamp()}
  # One PostgreSQL statement provides one snapshot across all policy tables.
  parts=[]
@@ -26,9 +75,10 @@ def signed_ledger(root):
   columns=','.join(sorted(SHAPES[name]));parts.extend(["'"+name+"'","(SELECT coalesce(json_agg(x ORDER BY tenant_id),'[]'::json) FROM (SELECT "+columns+' FROM bb.'+table+' LIMIT 50001)x)'])
  payload.update(json.loads(sql(root,'SELECT json_build_object('+','.join(parts)+');')))
  if any(len(payload[name])>50000 for name in TABLES):raise RuntimeConfigError('Policy ledger export budget exceeded.')
- envelope={'payload':payload,'mac':hmac.new(identity(root),b'blackbox-evidence-ledger-v1\0'+canonical(payload),hashlib.sha256).hexdigest()}
- if len(canonical(envelope))>MAX_LEDGER:raise RuntimeConfigError('Policy ledger export budget exceeded.')
- return envelope
+ # Preserve authenticated records for newer scopes absent from an older restore.
+ value=envelope(root,combine_ledgers([payload,*known_ledgers(root)]))
+ if len(canonical(value))>MAX_LEDGER:raise RuntimeConfigError('Policy ledger export budget exceeded.')
+ return value
 def verified_ledger(root,raw,key=None):
  from backup_codec import decode_json
  if len(raw)>MAX_LEDGER:raise RuntimeConfigError('Policy ledger is oversized.')
@@ -93,6 +143,7 @@ def remove_owned_file(directory,name):
  finally:os.close(fd)
 
 def record_expiry_intents(root):
+ assert_known_ledgers_applied(root)
  sql(root,"WITH added AS (INSERT INTO bb.evidence_restrictions(tenant_id,evidence_id,restriction_id,principal_id,reason) SELECT tenant_id,evidence_id,gen_random_uuid(),'"+ZERO+"','expired' FROM bb.evidence_retention WHERE NOT retained ON CONFLICT(tenant_id,evidence_id) DO NOTHING RETURNING *) INSERT INTO bb.security_audit(tenant_id,audit_id,principal_id,action) SELECT tenant_id,restriction_id,principal_id,'evidence.expiry_intent' FROM added;")
 
 def purge_fenced(root):
@@ -156,12 +207,14 @@ def maintain(root,resume=False,ledger=None,acknowledge_cutoff=None):
   else:
    if path.exists():raise RuntimeConfigError('Unfinished host maintenance. Resume its matching operation.')
    # All owner decisions/ledger authentication finish before stopping services or mutations.
-   payload=verified_ledger(root,protected_read(ledger,MAX_LEDGER))if ledger else None
+   supplied=verified_ledger(root,protected_read(ledger,MAX_LEDGER))if ledger else None
    restore=json.loads(protected_read(runtime/'restore-state.json',16384))if acknowledge_cutoff is not None else None
    if restore is not None and(restore.get('state')!='restored_restricted'or acknowledge_cutoff!=restore.get('recoverable_cutoff')):raise RuntimeConfigError('A restored restricted installation and its exact displayed recoverable cutoff are required.')
    if ledger and restore is None:raise RuntimeConfigError('Ledger reconciliation requires explicit acknowledgement of the restored backup cutoff.')
-   if payload and datetime.datetime.fromisoformat(payload['exported_at'].replace('Z','+00:00'))<datetime.datetime.fromisoformat(acknowledge_cutoff.replace('Z','+00:00')):raise RuntimeConfigError('Ledger predates the restored backup cutoff. Supply a current ledger or explicitly reconcile without one.')
-   if payload:atomic_json(runtime/'reconciliation-ledger.json',{'payload':payload,'mac':hmac.new(identity(root),b'blackbox-evidence-ledger-v1\0'+canonical(payload),hashlib.sha256).hexdigest()})
+   if supplied and datetime.datetime.fromisoformat(supplied['exported_at'].replace('Z','+00:00'))<datetime.datetime.fromisoformat(acknowledge_cutoff.replace('Z','+00:00')):raise RuntimeConfigError('Ledger predates the restored backup cutoff. Supply a current ledger or explicitly reconcile without one.')
+   known=known_ledgers(root);payload=combine_ledgers([*known,*([supplied]if supplied else[])])
+   if payload and not supplied and not any(payload[name]for name in TABLES):payload=None
+   if payload:atomic_json(runtime/'reconciliation-ledger.json',envelope(root,payload))
    marker={'schema_version':1,'operation':'evidence_policy','operation_id':str(uuid.uuid4()),'phase':'preparing','started_at':stamp(),'prior_running':services(root),'reconcile':restore is not None,'cutoff':acknowledge_cutoff,'ledger':payload is not None}
    atomic_json(path,marker)
   run(root,'stop','api','worker','engine')
@@ -176,9 +229,9 @@ def maintain(root,resume=False,ledger=None,acknowledge_cutoff=None):
   run(root,'run','--rm','--no-deps','tooling','node','--import','tsx','scripts/verify-evidence.ts',timeout=330)
   if cutoffs(root)!=marker['cutoffs']:raise RuntimeConfigError('Journal changed during evidence verification.')
   if marker['reconcile']:
-   action='evidence.restore_current_ledger'if marker['ledger']else 'evidence.restore_owner_cutoff_reconciled'
+   action='evidence.restore_known_ledger'if marker['ledger']else 'evidence.restore_owner_cutoff_reconciled'
    sql(root,"BEGIN;INSERT INTO bb.security_audit(tenant_id,audit_id,principal_id,action) SELECT tenant_id,'"+marker['operation_id']+"','"+ZERO+"','"+action+"' FROM bb.recovery_guards ON CONFLICT(tenant_id,audit_id)DO NOTHING;UPDATE bb.recovery_guards SET evidence_blocked=false,policy_reconciled_at=clock_timestamp();COMMIT;")
-   restore=json.loads(protected_read(runtime/'restore-state.json',16384));restore.update({'evidence_blocked':False,'policy_reconciled_at':stamp(),'policy_reconciliation':'current_authenticated_ledger'if marker['ledger']else 'explicit_owner_cutoff'});atomic_json(runtime/'restore-state.json',restore)
+   restore=json.loads(protected_read(runtime/'restore-state.json',16384));restore.update({'evidence_blocked':False,'policy_reconciled_at':stamp(),'policy_reconciliation':'available_authenticated_ledger'if marker['ledger']else 'explicit_owner_cutoff'});atomic_json(runtime/'restore-state.json',restore)
   atomic_json(runtime/'evidence-ledger-current.json',signed_ledger(root))
   marker['phase']='resuming';atomic_json(path,marker)
   if marker['prior_running']:run(root,'up','-d',*marker['prior_running'])

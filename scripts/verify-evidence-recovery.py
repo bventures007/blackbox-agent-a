@@ -9,7 +9,7 @@ from host_runtime import create_file,protected_directory,RuntimeConfigError
 from host_test_support import command,owner_from,API,mcp,commands
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--port',type=int,default=18781);p.add_argument('--node-image-commit',required=True);p.add_argument('--engine-image-commit',required=True);a=p.parse_args()
-token=uuid.uuid4().hex[:12];source=ROOT/'work'/('policy-source-'+token);reconciled=ROOT/'work'/('policy-restored-'+token);manual=ROOT/'work'/('policy-no-ledger-'+token);vault=ROOT/'work'/('policy-vault-'+token)
+token=uuid.uuid4().hex[:12];source=ROOT/'work'/('policy-source-'+token);reconciled=ROOT/'work'/('policy-restored-'+token);manual=ROOT/'work'/('policy-no-ledger-'+token);known=ROOT/'work'/('policy-known-ledger-'+token);vault=ROOT/'work'/('policy-vault-'+token)
 checks=[];status='failed';started=time.monotonic();snapshot=None;generation_result=None
 def mark(s):checks.append(s);print(s,flush=True)
 def open_restored(directory,port):
@@ -68,11 +68,31 @@ try:
  assert sql(manual,"SELECT count(*) FROM bb.security_audit WHERE action='evidence.restore_owner_cutoff_reconciled';").strip()==b'1'
  assert sql(manual,'SELECT count(*) FROM bb.recovery_guards WHERE evidence_blocked OR NOT sources_blocked;').strip()==b'0'
  mark('no_newer_ledger_keeps_raw_blocked_until_explicit_exact_owner_cutoff_reconciliation_sources_stay_blocked')
+ restore(ROOT,backup,known,secret,a.port+6);known_api=open_restored(known,a.port+6)
+ # Persist exactly the authenticated checkpoint that can survive an interruption
+ # after validation/save but before maintenance.json is written. This fixture
+ # simulates that narrow crash window; it is not an actual SIGKILL claim.
+ candidate=known/'.runtime/reconciliation-ledger.json';create_file(candidate,bad.read_bytes())
+ try:maintain(known,acknowledge_cutoff=cutoff);raise AssertionError('Corrupt known checkpoint was ignored')
+ except RuntimeConfigError as error:assert 'authentication'in str(error)
+ assert not(known/'.runtime/maintenance.json').exists()and raw(known_api)==(200,{'status':'unavailable'})
+ candidate.write_bytes(ledger.read_bytes())
+ try:export_ledger(known,vault/'incorrectly-republished.json');raise AssertionError('Known unapplied restriction was omitted from export')
+ except RuntimeConfigError as error:assert 'not applied'in str(error)
+ assert not(vault/'incorrectly-republished.json').exists()
+ result=maintain(known,acknowledge_cutoff=cutoff);known_api.ready()
+ assert result['removed']==1 and not(known/'.runtime/evidence'/tenant/evidence).exists()
+ assert raw(known_api)==(200,{'status':'unavailable'})and known_api.state(arguments)['result']==answer['result']
+ assert sql(known,"SELECT count(*) FROM bb.security_audit WHERE action='evidence.restore_known_ledger';").strip()==b'1'
+ assert sql(known,'SELECT count(*) FROM bb.recovery_guards WHERE evidence_blocked OR NOT sources_blocked;').strip()==b'0'
+ exported=vault/'preserved-known-ledger.json';export_ledger(known,exported)
+ assert any(v['evidence_id']==evidence for v in json.loads(exported.read_text())['payload']['restrictions'])
+ mark('no_argument_reconciliation_uses_known_authenticated_checkpoint_corruption_and_unapplied_export_fail_closed')
  status='passed'
 finally:
- for directory in [source,reconciled,manual]:
+ for directory in [source,reconciled,manual,known]:
   if(directory/'.runtime/compose.env').exists():
    try:stop_supervisor(directory);run(directory,'down','--remove-orphans')
    except Exception:checks.append('cleanup_failed_inspect_only_this_test_project')
- report={'kind':'fenced_evidence_disposal_and_older_backup_policy','status':status,'tested_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),'executed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'environment':{'host':platform.platform(),'stages':[str(x.relative_to(ROOT))for x in [source,reconciled,manual]],'ports':[a.port,a.port+2,a.port+4],'node_image_source_commit':a.node_image_commit,'engine_image_source_commit':a.engine_image_commit,'node_image':subprocess.check_output(['docker','image','inspect','blackbox-a-node:0.1.0-dev','--format','{{.Id}}'],text=True).strip(),'engine_image':subprocess.check_output(['docker','image','inspect','blackbox-a-engine:0.1.0-dev','--format','{{.Id}}'],text=True).strip()},'checks':checks,'commands':commands,'snapshot':snapshot,'elapsed_seconds':round(time.monotonic()-started,3),'limitations':['Synthetic small corpus, not the performance smoke or real-provider retention certification','Same Mac with fresh isolated volumes; no distribution archive or second machine claim','No external-copy erasure guarantee; explicit no-ledger reconciliation cannot recover unknown later restrictions','Periodic automatic purge, full field inventory/provider mapping audit and independent acceptance remain separate work']}
+ report={'kind':'fenced_evidence_disposal_and_older_backup_policy','status':status,'tested_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),'executed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'environment':{'host':platform.platform(),'stages':[str(x.relative_to(ROOT))for x in [source,reconciled,manual,known]],'ports':[a.port,a.port+2,a.port+4,a.port+6],'node_image_source_commit':a.node_image_commit,'engine_image_source_commit':a.engine_image_commit,'node_image':subprocess.check_output(['docker','image','inspect','blackbox-a-node:0.1.0-dev','--format','{{.Id}}'],text=True).strip(),'engine_image':subprocess.check_output(['docker','image','inspect','blackbox-a-engine:0.1.0-dev','--format','{{.Id}}'],text=True).strip()},'checks':checks,'commands':commands,'snapshot':snapshot,'elapsed_seconds':round(time.monotonic()-started,3),'limitations':['Synthetic small corpus, not the performance smoke or real-provider retention certification','Same Mac with fresh isolated volumes; no distribution archive or second machine claim','No external-copy erasure guarantee; explicit no-ledger reconciliation cannot recover unknown later restrictions','Known saved-ledger crash window is explicitly seeded, not an actual SIGKILL in that window','Full field inventory/provider mapping audit and independent acceptance remain separate work']}
  output=ROOT/a.output;output.parent.mkdir(parents=True,exist_ok=True);output.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items()if k!='commands'}),flush=True)
