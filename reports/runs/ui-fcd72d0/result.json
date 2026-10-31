@@ -1,0 +1,53 @@
+{
+  "kind": "react_persisted_ui_increment",
+  "status": "passed",
+  "tested_commit": "fcd72d055ab9211369decc96c2c7cbb0e04e915a",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T13:45:39.878978+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Isolated native developer PostgreSQL 18.4 / Node 25.9 / Rust 1.90, installed Chrome 156"
+  },
+  "commands": [
+    {
+      "command": "pnpm typecheck",
+      "exit_code": 0,
+      "observed": "$ tsc\n"
+    },
+    {
+      "command": "pnpm build:web",
+      "exit_code": 0,
+      "observed": "$ vite build --config apps/web/vite.config.ts\nvite v8.3.5 building client environment for production...\ntransforming...\n\u2713 121 modules transformed.\nrendering chunks...\ncomputing gzip size...\napps/web/dist/index.html                                                0.46 kB \u2502 gzip:   0.30 kB\napps/web/dist/assets/manrope-cyrillic-ext-wght-normal-C8S-KRRz.woff2    2.55 kB\napps/web/dist/assets/manrope-vietnamese-wght-normal-usUDDRr7.woff2      8.52 kB\napps/web/dist/assets/manrope-greek-wght-normal-DL7QRZyv.woff2           9.44 kB\napps/web/dist/assets/manrope-cyrillic-wght-normal-Dvxsihut.woff2       14.50 kB\napps/web/dist/assets/manrope-latin-ext-wght-normal-Ch3YOpNY.woff2      15.12 kB\napps/web/dist/assets/dm-sans-latin-ext-wght-normal-BOFOeGcA.woff2      18.22 kB\napps/web/dist/assets/manrope-latin-wght-normal-DHIcAJRg.woff2          24.83 kB\napps/web/dist/assets/dm-sans-latin-wght-normal-Xz1IZZA0.woff2          36.93 kB\napps/web/dist/assets/index-Cg3avnmU.css                                20.43 kB \u2502 gzip:   5.49 kB\napps/web/dist/assets/index-BE61v_o_.js                                374.69 kB \u2502 gzip: 115.55 kB\n\n\u2713 built in 99ms\n"
+    },
+    {
+      "command": "pnpm test",
+      "exit_code": 0,
+      "observed": "$ node --import tsx --test tests/*.test.ts\n\u2714 money syntax preserves exact units, does not round or mix unknown currencies (0.806959ms)\n\u2714 canonical observations reject caller tenant and personal-content fields (2.104375ms)\n\u2714 emitted diagnostic lines are valid JSON and strip secret/PII canaries before storage (135.754792ms)\n\u2139 tests 3\n\u2139 suites 0\n\u2139 pass 3\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 481.858459\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/owner-boundaries.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"owner_UI_boundaries\",\"result\":\"passed\",\"checks\":[\"cross_workspace_log_rows_filters_and_counts\",\"read_time_defensive_secret_sanitization\",\"agent_and_anonymous_owner_endpoint_denial\",\"export_CSRF\",\"same_workspace_different_principal_journal_cursor_denial\",\"journal_cursor_filter_and_signature_binding\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/ui.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"React_UI_persisted_integration\",\"result\":\"passed\",\"browser\":\"156.0.8078.74\",\"checks\":[\"24_templates_render_persisted_Rust_results_and_evidence_in_EN_DE\",\"all_24_UI_fixed_cutoff_answers_match_verified_API_results\",\"no_credentials_in_localStorage\",\"bundled_example_actual_ingestion\",\"evidence_drawer_original_content\",\"owner_agent_create_revoke\",\"agent_diagnostics_denial\",\"explicit_sanitized_export\",\"German_mobile_navigation_diagnostics_logout_no_overflow\",\"no_external_browser_network_requests_including_fonts\",\"no_browser_exceptions\"],\"limitations\":[\"Not complete UI-01/DIAG/PILOT-10 certification; source onboarding, repairs, backup and full diagnostics controls remain in progress\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/browser-smoke.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"minimal_persisted_slice_browser\",\"browser\":\"156.0.8078.74\",\"result\":\"passed\",\"checks\":[\"owner_login\",\"actual_payment_answer\",\"HttpOnly_SameSite_cookie\",\"no_secret_localStorage\",\"German_locale_persistence\",\"mobile_no_overflow\",\"durable_logout\"],\"limitations\":[\"Minimal P1 UI; not full UI-01/LOCAL-06 acceptance\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/client-compatibility.ts",
+      "exit_code": 0,
+      "observed": "{\"client\":\"Official MCP Inspector CLI\",\"version\":\"2.13.0\",\"transport\":\"stdio\",\"result\":\"passed\",\"checks\":[\"strict_tool_schema_discovery\",\"authenticated_persisted_state_call\"],\"limitations\":[\"No LLM dialogue tested\",\"No cloud reachability claimed\"]}\n"
+    }
+  ],
+  "limitations": [
+    "Synthetic data, no live provider coverage",
+    "Not full UI/DIAG/PILOT release acceptance",
+    "Source onboarding, full diagnostics controls, repairs, backup, packaging and performance still in progress"
+  ]
+}

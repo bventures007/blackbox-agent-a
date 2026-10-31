@@ -19,3 +19,7 @@ At `2e8094402f642e534e432fb386e966912023b69c`, all Golden checkpoints and a vari
 ## All 24 structured questions
 
 At `3ced26bb56543703e1d05e8719e35f2d537f2b45`, all 24 positive and missing-data cases and all 24 changed USD/fractional-quantity variants passed through signed ingestion, PostgreSQL, Rust, API and MCP. Late corrections, out-of-order snapshots, duplicate delivery, fixed-cutoff pagination, full restart and corrupted/deleted projection recovery passed; all 24 cross-tenant evidence denials, warmed credential revocation and principal-bound cursors passed. Golden and first-slice persisted regressions passed at the same clean revision. See reports/runs/questions-3ced26b. No live provider, performance or independent review is implied. React/Vite EN/DE interface implementation is next.
+
+## React browser increment
+
+At `fcd72d055ab9211369decc96c2c7cbb0e04e915a`, the reference-styled React/Vite interface passed all 24 template/API-result comparisons in English and German, persisted evidence access, bundled example ingestion, agent creation/revocation, owner endpoint/CSRF/tenant/cursor denials, explicit sanitized diagnostic export, no browser exceptions or external network requests, German mobile navigation and logout. Existing P1 browser checks and the actual official MCP Inspector client passed. See reports/runs/ui-fcd72d0/result.json and screenshots. Source lifecycle/onboarding, repairs, complete diagnostics, backup/restore/upgrade, release packaging and performance remain open. No full UI/DIAG/PILOT acceptance has been marked passed.
