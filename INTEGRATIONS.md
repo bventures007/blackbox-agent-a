@@ -58,11 +58,11 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [shopify.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | BLOCKED: Live verification lacks authorized development-store credentials and confirmed grants. Synthetic contract and persisted pipeline work continues. | Codex root agent / 2026-10-31T13:02:30.622625Z |
+| [shopify.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | BLOCKED: Live verification lacks authorized development-store credentials and confirmed grants. Synthetic contract and persisted pipeline work continues. | Codex primary implementation agent / 2026-10-31T13:15:57.215770Z |
 | [shopify.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 | [shopify.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 | [shopify.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
-| [shopify.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | BLOCKED: Live verification lacks authorized development-store credentials and confirmed grants. Synthetic contract and persisted pipeline work continues. | Codex root agent / 2026-10-31T13:02:30.622635Z |
+| [shopify.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | BLOCKED: Live verification lacks authorized development-store credentials and confirmed grants. Synthetic contract and persisted pipeline work continues. | Codex primary implementation agent / 2026-10-31T13:15:57.215770Z |
 | [shopify.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 | [shopify.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 | [shopify.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
@@ -129,6 +129,8 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T13:02:30.622625Z / Codex root agent | shopify.orders / blocked |   Live verification lacks authorized development-store credentials and confirmed grants. Synthetic contract and persisted pipeline work continues. | —;  |
 | 2026-10-31T13:02:30.622631Z / Codex root agent | shopify.payments / claim |   Implementing the baseline-v14 persisted P1 slice in the assigned repository. No acceptance or independent approval claimed. | —;  |
 | 2026-10-31T13:02:30.622635Z / Codex root agent | shopify.payments / blocked |   Live verification lacks authorized development-store credentials and confirmed grants. Synthetic contract and persisted pipeline work continues. | —;  |
+| 2026-10-31T13:15:57.215770Z / Codex primary implementation agent | shopify.orders / progress |   Narrow synthetic SLICE-01 executed at dd0998ec74cc8ed9488dfc5acbb01b57dfaf4127; reports/runs/p1-dd0998e. Shared pipeline code exists and checks pass, but six full capability steps, mapping completeness and independent review are not claimed. External provider access remains blocked where applicable. | —;  |
+| 2026-10-31T13:15:57.215770Z / Codex primary implementation agent | shopify.payments / progress |   Narrow synthetic SLICE-01 executed at dd0998ec74cc8ed9488dfc5acbb01b57dfaf4127; reports/runs/p1-dd0998e. Shared pipeline code exists and checks pass, but six full capability steps, mapping completeness and independent review are not claimed. External provider access remains blocked where applicable. | —;  |
 
 </details>
 
@@ -1531,8 +1533,8 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [runtime.coverage](#data-coverage) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex root agent / 2026-10-31T13:02:30.622643Z |
-| [runtime.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex root agent / 2026-10-31T13:02:30.622639Z |
+| [runtime.coverage](#data-coverage) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:15:57.215770Z |
+| [runtime.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:15:57.215770Z |
 
 #### Synchronization by capability
 
@@ -1564,6 +1566,8 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | runtime.identity / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
 | 2026-10-31T13:02:30.622639Z / Codex root agent | runtime.identity / claim |   Implementing the baseline-v14 persisted P1 slice in the assigned repository. No acceptance or independent approval claimed. | —;  |
 | 2026-10-31T13:02:30.622643Z / Codex root agent | runtime.coverage / claim |   Implementing the baseline-v14 persisted P1 slice in the assigned repository. No acceptance or independent approval claimed. | —;  |
+| 2026-10-31T13:15:57.215770Z / Codex primary implementation agent | runtime.identity / progress |   Narrow synthetic SLICE-01 executed at dd0998ec74cc8ed9488dfc5acbb01b57dfaf4127; reports/runs/p1-dd0998e. Shared pipeline code exists and checks pass, but six full capability steps, mapping completeness and independent review are not claimed. External provider access remains blocked where applicable. | —;  |
+| 2026-10-31T13:15:57.215770Z / Codex primary implementation agent | runtime.coverage / progress |   Narrow synthetic SLICE-01 executed at dd0998ec74cc8ed9488dfc5acbb01b57dfaf4127; reports/runs/p1-dd0998e. Shared pipeline code exists and checks pass, but six full capability steps, mapping completeness and independent review are not claimed. External provider access remains blocked where applicable. | —;  |
 
 </details>
 

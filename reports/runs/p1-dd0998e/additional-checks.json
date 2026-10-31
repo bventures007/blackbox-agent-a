@@ -1,0 +1,29 @@
+{
+  "tested_commit": "dd0998ec74cc8ed9488dfc5acbb01b57dfaf4127",
+  "executed_at": "2026-10-31T13:15:57.214846+00:00",
+  "checks": [
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/client-compatibility.ts",
+      "client": "Official MCP Inspector CLI 2.13.0",
+      "result": "passed",
+      "observed": "Strict tool discovery and authenticated persisted amount response passed; no LLM dialogue claimed."
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/browser-smoke.ts",
+      "browser": "Chrome 156.0.8078.74",
+      "result": "passed",
+      "observed": "Owner login, actual payment answer, HttpOnly/SameSite cookie, no localStorage secrets, German persistence, 390px no horizontal overflow, durable logout."
+    },
+    {
+      "command": "python3 scripts/native-dev.py down; ./blackbox logs --component worker --since 1h --format json; ./blackbox diagnostics export --since 1h --output .runtime/p1-diagnostics-export.json; python3 scripts/native-dev.py up",
+      "result": "passed",
+      "observed": "18 valid retained worker records readable with API/engine/worker/database stopped; sanitized export created locally."
+    }
+  ],
+  "limitations": [
+    "Native developer runtime, not Compose/DIST proof.",
+    "Mobile screenshot has a repeated rendering band near its bottom; functional viewport assertions pass, full visual acceptance remains unverified.",
+    "Earlier pino serialization bug and startup readiness race were fixed before this tested commit. Earlier failed executions are not passing evidence.",
+    "No independent review, live merchant access or complete diagnostics/performance claim."
+  ]
+}

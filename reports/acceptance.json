@@ -1302,12 +1302,21 @@
     {
       "id": "SLICE-01",
       "stage": "core",
-      "status": "implemented_unverified",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
+      "status": "passed",
+      "tested_commit": "dd0998ec74cc8ed9488dfc5acbb01b57dfaf4127",
+      "command": "python3 scripts/verify-slice.py --native --output .runtime/p1-slice-complete.json; python3 scripts/native-dev.py exec node --import tsx tests/client-compatibility.ts; python3 scripts/native-dev.py exec node --import tsx tests/browser-smoke.ts",
+      "environment": {
+        "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+        "runtime": "native Postgres.app 18.4, Node 25.9.0, Rust 1.90.0"
+      },
+      "observed_result": "Synthetic HTTP pagination -> real adapter -> PostgreSQL journal/outbox -> Rust -> API/UI/SDK MCP/Inspector. Varied money, refund, absent payment, duplicate/conflict, late correction, fixed-cutoff restart/corrupt/remove recovery, RLS and revoked access passed. Retained sanitized logs readable during full outage. Narrow P1 gate only.",
+      "evidence_paths": [
+        "reports/runs/p1-dd0998e/persisted-slice.json",
+        "reports/runs/p1-dd0998e/additional-checks.json",
+        "reports/runs/p1-dd0998e/slice-ui-en.png",
+        "reports/runs/p1-dd0998e/slice-ui-de-mobile.png",
+        "reports/runs/p1-dd0998e/p1-diagnostics-export.json"
+      ],
       "blocker": null,
       "delivery_scope": "local_pilot"
     },
