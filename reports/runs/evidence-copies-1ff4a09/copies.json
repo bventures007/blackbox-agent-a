@@ -1,0 +1,55 @@
+{
+  "kind": "affected_backup_generation_disclosure",
+  "status": "passed",
+  "tested_commit": "1ff4a09638c49866e5376f72c1b8e19a5b480428",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T19:13:45.320399+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/evidence-copies-bd3237e3ecd7",
+    "port": 18791,
+    "node_image_source_commit": "2dd2136894ddaa79a920776e0df0de6431c2ce71",
+    "engine_image_source_commit": "48505311142a5db99bd81ce1a49a4bf9b8df4e5f",
+    "node_image": "sha256:cc24f6209d521ab1592065b670240740f98386a771d8f8825a25615c37e51cad"
+  },
+  "checks": [
+    "authenticated_older_archive_contains_original_owner_EN_DE_warning_matches_cutoff_no_implicit_backup_deletion_or_secret_path",
+    "replaced_mount_reports_unknown_inventory_and_writes_nothing_to_empty_destination"
+  ],
+  "snapshot": {
+    "postgres_major": 17,
+    "heads": [
+      {
+        "tenant_id": "ce957330-3dae-477a-ad22-64f47e60686a",
+        "committed": 55,
+        "applied": 55,
+        "record_count": 0
+      }
+    ],
+    "journal_count": 55
+  },
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18791",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-bc6ec3cc5848-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-bc6ec3cc5848-postgres-1  Running\n Container blackbox-a-bc6ec3cc5848-worker-1  Creating\n Container blackbox-a-bc6ec3cc5848-engine-1  Creating\n Container blackbox-a-bc6ec3cc5848-api-1  Creating\n Container blackbox-a-bc6ec3cc5848-engine-1  Created\n Container blackbox-a-bc6ec3cc5848-api-1  Created\n Container blackbox-a-bc6ec3cc5848-worker-1  Created\n Container blackbox-a-bc6ec3cc5848-postgres-1  Waiting\n Container blackbox-a-bc6ec3cc5848-postgres-1  Waiting\n Container blackbox-a-bc6ec3cc5848-postgres-1  Waiting\n Container blackbox-a-bc6ec3cc5848-postgres-1  Healthy\n Container blackbox-a-bc6ec3cc5848-api-1  Starting\n Container blackbox-a-bc6ec3cc5848-postgres-1  Healthy\n Container blackbox-a-bc6ec3cc5848-worker-1  Starting\n Container blackbox-a-bc6ec3cc5848-postgres-1  Healthy\n Container blackbox-a-bc6ec3cc5848-engine-1  Starting\n Container blackbox-a-bc6ec3cc5848-worker-1  Started\n Container blackbox-a-bc6ec3cc5848-api-1  Started\n Container blackbox-a-bc6ec3cc5848-engine-1  Started\n"
+    },
+    {
+      "command": "node --import tsx tests/evidence-policy-browser.ts [protected test environment]",
+      "exit_code": 0,
+      "observed": "actual_EN_DE_owner_policy_save_mobile_no_overflow_no_JS_errors_or_external_requests\n"
+    }
+  ],
+  "elapsed_seconds": 83.983,
+  "limitations": [
+    "Small synthetic metadata/ciphertext/UI proof; not performance, distribution or independent review",
+    "Host status inventory reads bounded metadata/file sizes, not archive decryption; authenticated archive validation is an explicit test step",
+    "External/exported copies remain unknown; no universal erasure or provider-retention certification",
+    "Inventory cache timestamp explicitly aged for the mount-loss refresh, not an actual passage-of-time test"
+  ]
+}
