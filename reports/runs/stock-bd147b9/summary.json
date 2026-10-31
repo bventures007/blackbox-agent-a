@@ -1,0 +1,26 @@
+{
+  "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+  "status": "passed_for_named_synthetic_suites",
+  "executed_at": "2026-10-31T15:16:34.410740+00:00",
+  "checks": {
+    "pnpm typecheck": "passed",
+    "pnpm test": "10 passed",
+    "cargo test --locked --offline": "5 passed",
+    "pnpm build:web": "passed",
+    "stock mapping validator": "passed; exact required field/event/mode/readiness shape",
+    "visual_inspection": "EN and DE stock scope and owner-history spacing inspected; mobile controls visible and scrollable"
+  },
+  "evidence": [
+    "stock-evidence.json",
+    "sources-stock-regression.json",
+    "reviews-stock-regression.json",
+    "questions-v6-evidence.json",
+    "golden-stock-regression.json",
+    "slice-stock-regression.json"
+  ],
+  "limitations": [
+    "Synthetic provider; no authorized live Shopify/Payments account or independent review",
+    "Point inventory observations with non-atomic scan limitation; no historical opening or adjustment cause/global completeness",
+    "Remaining Shopify logistics and Shopify Payments capabilities, package, recovery, operational and performance gates remain work"
+  ]
+}

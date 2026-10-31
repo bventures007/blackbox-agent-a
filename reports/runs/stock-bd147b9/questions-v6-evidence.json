@@ -1,0 +1,113 @@
+{
+  "kind": "synthetic_all_24_questions",
+  "status": "passed",
+  "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T15:14:44.530251+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Isolated native Postgres.app 18.4 / Node 25.9.0 / Rust 1.90.0"
+  },
+  "commands": [
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts seed",
+      "exit_code": 0,
+      "observed": "{\"intent\":\"inventory.available_to_sell\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"inventory.available_to_sell\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.fulfillable\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":2}\n{\"intent\":\"orders.fulfillable\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.reservation_variance\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"orders.reservation_variance\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.inbound_delay_impact\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"orders.inbound_delay_impact\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"shipments.attention\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"shipments.attention\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"shipments.promise_risk\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"shipments.promise_risk\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.partial_delivery_gaps\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"orders.partial_delivery_gaps\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"customer.delivery_reply\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"customer.delivery_reply\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"invoices.outstanding\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"invoices.outstanding\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.missing_invoice\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"orders.missing_invoice\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"invoices.order_amount_variance\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"invoices.order_amount_variance\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"invoices.dispatch_evidence\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":2}\n{\"intent\":\"invoices.dispatch_evidence\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.payment_state\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"orders.payment_state\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"payments.recovered_attempts\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"payments.recovered_attempts\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"invoices.payment_variance\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"invoices.payment_variance\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"receivables.review_queue\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"receivables.review_queue\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"providers.money_positions\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"providers.money_positions\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"payouts.gross_to_net\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"payouts.gross_to_net\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"payouts.missing_bank_confirmation\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"payouts.missing_bank_confirmation\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"providers.holds_and_releases\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"providers.holds_and_releases\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"returns.lifecycle\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"returns.lifecycle\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"credits.refund_gaps\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"credits.refund_gaps\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"cancellations.outstanding_steps\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"cancellations.outstanding_steps\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"refunds.chargeback_overlap\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"refunds.chargeback_overlap\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"suite\":\"all_24_structured_questions\",\"phase\":\"seed\",\"result\":\"passed\",\"positive\":24,\"changed_money_fractional_quantity_late_correction\":24,\"missing\":24,\"checks\":[\"signed_HTTP_typed_records\",\"PostgreSQL_journal_outbox\",\"Rust_record_projection_and_intent_calculation\",\"API_SDK_MCP_parity\",\"declared_coverage_never_presented_as_independent_verification\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/adversarial.ts seed",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"settlement_scope_adversaries\",\"phase\":\"seed\",\"result\":\"passed\",\"cases\":5,\"checks\":[\"shared_capture_refund_subtracted_once\",\"unrelated_receipt_cannot_close_cancellation\",\"zero_quantity_reservation_not_active_stock\",\"unknown_refund_coverage_not_false\",\"impossible_reversal_and_release_conflict\",\"persisted_API_MCP_parity\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"all_24_structured_questions\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"72_fixed_cutoffs_values_coverage_evidence_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/adversarial.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"settlement_scope_adversaries\",\"phase\":\"verify\",\"result\":\"passed\",\"cases\":5,\"checks\":[\"shared_capture_refund_subtracted_once\",\"unrelated_receipt_cannot_close_cancellation\",\"zero_quantity_reservation_not_active_stock\",\"unknown_refund_coverage_not_false\",\"impossible_reversal_and_release_conflict\",\"persisted_API_MCP_parity\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts corrupt",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"corrupt\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/adversarial.ts corrupt",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"settlement_scope_adversaries\",\"phase\":\"corrupt\",\"result\":\"injected\",\"cases\":5,\"checks\":[\"shared_capture_refund_subtracted_once\",\"unrelated_receipt_cannot_close_cancellation\",\"zero_quantity_reservation_not_active_stock\",\"unknown_refund_coverage_not_false\",\"impossible_reversal_and_release_conflict\",\"persisted_API_MCP_parity\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"all_24_structured_questions\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"72_fixed_cutoffs_values_coverage_evidence_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/adversarial.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"settlement_scope_adversaries\",\"phase\":\"verify\",\"result\":\"passed\",\"cases\":5,\"checks\":[\"shared_capture_refund_subtracted_once\",\"unrelated_receipt_cannot_close_cancellation\",\"zero_quantity_reservation_not_active_stock\",\"unknown_refund_coverage_not_false\",\"impossible_reversal_and_release_conflict\",\"persisted_API_MCP_parity\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts remove",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"remove\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/adversarial.ts remove",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"settlement_scope_adversaries\",\"phase\":\"remove\",\"result\":\"injected\",\"cases\":5,\"checks\":[\"shared_capture_refund_subtracted_once\",\"unrelated_receipt_cannot_close_cancellation\",\"zero_quantity_reservation_not_active_stock\",\"unknown_refund_coverage_not_false\",\"impossible_reversal_and_release_conflict\",\"persisted_API_MCP_parity\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"all_24_structured_questions\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"72_fixed_cutoffs_values_coverage_evidence_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/adversarial.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"settlement_scope_adversaries\",\"phase\":\"verify\",\"result\":\"passed\",\"cases\":5,\"checks\":[\"shared_capture_refund_subtracted_once\",\"unrelated_receipt_cannot_close_cancellation\",\"zero_quantity_reservation_not_active_stock\",\"unknown_refund_coverage_not_false\",\"impossible_reversal_and_release_conflict\",\"persisted_API_MCP_parity\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts security",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"all_24_structured_questions\",\"phase\":\"security\",\"result\":\"passed\",\"checks\":[\"all_24_cross_tenant_evidence_denial\",\"caller_tenant_rejected\",\"warmed_then_revoked_API_MCP_denial\",\"principal_workspace_bound_cursor\"]}\n"
+    }
+  ],
+  "limitations": [
+    "Synthetic declared supplemental source scope, not merchant/provider coverage",
+    "No independent review or performance certification",
+    "UI and complete source lifecycle remain separate gates"
+  ]
+}

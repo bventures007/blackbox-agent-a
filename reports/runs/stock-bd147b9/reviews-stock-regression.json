@@ -1,0 +1,84 @@
+{
+  "kind": "synthetic_owner_review",
+  "status": "passed",
+  "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T15:12:31.427991+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Isolated native Postgres.app 18.4 / Node 25.9.0 / Rust 1.90.0 / Chrome 156"
+  },
+  "commands": [
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/review-operations.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"owner-review-operations-v1\",\"result\":\"passed\",\"checks\":[\"confirmed_link_reallocates_existing_capture_without_new_cash\",\"competing_distinct_decisions_at_same_revision_apply_once\",\"rejected_link_excluded_from_allocation\",\"cross_workspace_link_target_rejected\",\"protected_original_source_retry_persisted_and_resolved_after_Rust_checks\",\"poison_input_three_attempt_bound_and_no_false_completion\",\"expired_original_input_cannot_reprocess\",\"actual_API_role_decision_immutability_and_tenant_RLS\",\"revoked_owner_session_cannot_decide\"],\"limitations\":[\"Prior parser failure injected as an accepted encrypted quarantine; not a live provider incident\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/reviews.ts seed",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"owner-review-v1\",\"phase\":\"seed\",\"result\":\"passed\",\"checks\":[\"stable_conflicting_claim_identity_and_both_evidence_refs\",\"owner_csrf_agent_tenant_and_evidence_boundaries\",\"concurrent_idempotent_decision_and_stale_revision_denials\",\"journal_outbox_atomic_correction_original_payload_unchanged\",\"not_resolved_while_Rust_is_behind\",\"affected_query_checks_before_resolution\",\"current_API_actual_SDK_MCP_human_provenance_and_old_cutoff_parity\",\"resolved_exact_claim_replay_deduplicated_new_claim_reopens\",\"actual_EN_browser_decision_to_Rust_to_MCP\",\"DE_mobile_no_overflow_no_JS_errors_no_external_browser_requests\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/reviews.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"owner-review-v1\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"restart_and_indexed_cold_original_and_corrected_cutoffs_with_human_provenance\",\"actual_SDK_MCP_parity\",\"durable_resolved_decision\",\"acknowledged_unapplied_decision_survives_restart_and_resolves_through_actual_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/reviews.ts remove",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"owner-review-v1\",\"phase\":\"remove\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/reviews.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"owner-review-v1\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"restart_and_indexed_cold_original_and_corrected_cutoffs_with_human_provenance\",\"actual_SDK_MCP_parity\",\"durable_resolved_decision\",\"acknowledged_unapplied_decision_survives_restart_and_resolves_through_actual_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py resume-worker",
+      "exit_code": 0,
+      "observed": "resume-worker\n"
+    }
+  ],
+  "limitations": [
+    "Synthetic evidence, not live merchant incidents",
+    "Prior parser failure injected as retained encrypted quarantine to test current reprocessing",
+    "Lifecycle/failed-derivation review and remaining operational requirements are separate unfinished work",
+    "No independent review, installation or performance certification"
+  ]
+}
