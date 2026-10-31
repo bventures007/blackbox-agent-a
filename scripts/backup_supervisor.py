@@ -151,6 +151,9 @@ def recover_backup(root):
   from release_compatibility import check_database
   check_database(root)
   if prior:run(root,'up','-d',*prior)
+  if 'api'in prior:
+   from release_compatibility import wait_for_traffic
+   wait_for_traffic(root)
   if 'postgres'not in prior:run(root,'stop','postgres')
   last=load_json(runtime/'backup-status.json');atomic_json(runtime/'backup-status.json',{**last,'state':'failed','error':'interrupted_backup_recovered'})
   (runtime/'maintenance.json').unlink();publish_status(root)

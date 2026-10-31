@@ -15,7 +15,7 @@ class RotationTests(unittest.TestCase):
   return b''
  def contexts(self,side_effect=None):
   from contextlib import ExitStack
-  stack=ExitStack();stack.enter_context(patch('database_identity.prepare'));stack.enter_context(patch('release_compatibility.check_database'));stack.enter_context(patch('key_rotation.stop_interrupted_tool'));stack.enter_context(patch('key_rotation.services',return_value=['postgres','api','worker','engine']));stack.enter_context(patch('key_rotation.cutoffs',return_value={'journal_count':55}));stack.enter_context(patch('key_rotation.sql',return_value=b'1'));stack.enter_context(patch('key_rotation.run',side_effect=side_effect or self.fake_run));return stack
+  stack=ExitStack();stack.enter_context(patch('database_identity.prepare'));stack.enter_context(patch('release_compatibility.check_database'));stack.enter_context(patch('release_compatibility.wait_for_traffic'));stack.enter_context(patch('key_rotation.stop_interrupted_tool'));stack.enter_context(patch('key_rotation.services',return_value=['postgres','api','worker','engine']));stack.enter_context(patch('key_rotation.cutoffs',return_value={'journal_count':55}));stack.enter_context(patch('key_rotation.sql',return_value=b'1'));stack.enter_context(patch('key_rotation.run',side_effect=side_effect or self.fake_run));return stack
  def test_failed_transform_preserves_both_keys_and_fence_then_resume_retires_old_only(self):
   def failing(root,*args,**kw):
    if args[-2:-1]==('transform',):raise RuntimeConfigError('injected maintenance failure')
@@ -39,6 +39,10 @@ class RotationTests(unittest.TestCase):
   with self.contexts(fail_restart),self.assertRaises(RuntimeConfigError):rotate(self.root)
   self.assertEqual(read_marker(self.runtime)['phase'],'resuming');self.assertFalse((self.runtime/'secrets/data').exists())
   with self.contexts(),patch('key_rotation.cutoffs',return_value={'journal_count':60}):self.assertEqual(rotate(self.root,True)['state'],'completed')
+ def test_unready_API_keeps_rotation_checkpoint_after_safe_key_retirement(self):
+  with self.contexts(),patch('release_compatibility.wait_for_traffic',side_effect=RuntimeConfigError('injected readiness failure')),self.assertRaisesRegex(RuntimeConfigError,'readiness'):rotate(self.root)
+  self.assertEqual(read_marker(self.runtime)['phase'],'resuming');self.assertFalse((self.runtime/'secrets/data').exists());validate_keys(self.runtime)
+  with self.contexts():self.assertEqual(rotate(self.root,True)['state'],'completed')
  def test_interrupted_container_cleanup_requires_exact_project_service_and_operation(self):
   config=compose_config(self.runtime);name=config['BB_PROJECT']+'-key-rotation';operation='00000000-0000-4000-8000-000000000001'
   container={'Name':'/'+name,'Id':'a'*64,'Config':{'Labels':{'com.docker.compose.project':config['BB_PROJECT'],'com.docker.compose.service':'tooling','com.blackbox.rotation':operation}}}

@@ -13,7 +13,7 @@ class EvidencePolicyTests(unittest.TestCase):
   p=p or self.payload;return canonical({'payload':p,'mac':hmac.new(self.key,b'blackbox-evidence-ledger-v1\0'+canonical(p),hashlib.sha256).hexdigest()})
  def test_ledger_authentication_binds_identity_content_and_format(self):
   self.assertEqual(verified_ledger(self.root,self.envelope(),self.key),self.payload)
-  for raw,key in [(self.envelope(),b'x'*32),(self.envelope().replace(b'"version":1',b'"version":2'),self.key),(self.envelope({**self.payload,'unexpected':'content'}),self.key),(self.envelope({**self.payload,'exported_at':'2099-01-01T00:00:00Z'}),self.key)]:
+  for raw,key in [(self.envelope(),b'x'*32),(self.envelope().replace(b'"version":1',b'"version":2'),self.key),(self.envelope({**self.payload,'unexpected':'content'}),self.key),(self.envelope({**self.payload,'version':True}),self.key),(self.envelope({**self.payload,'exported_at':'2099-01-01T00:00:00Z'}),self.key)]:
    with self.assertRaises(RuntimeConfigError):verified_ledger(self.root,raw,key)
  def test_authenticated_malformed_or_personal_records_are_still_rejected(self):
   row={'tenant_id':str(uuid.uuid4()),'evidence_id':str(uuid.uuid4()),'restriction_id':str(uuid.uuid4()),'principal_id':ZERO,'reason':'owner_restriction','restricted_at':self.payload['exported_at']}

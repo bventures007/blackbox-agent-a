@@ -139,6 +139,9 @@ def fence(root,operation):
    marker['phase']='resuming';atomic_json(path,marker)
    try:
     if prior:run(root,'up','-d',*prior)
+    if 'api'in prior:
+     from release_compatibility import wait_for_traffic
+     wait_for_traffic(root)
     if 'postgres'not in prior:run(root,'stop','postgres')
     resumed=True
    finally:

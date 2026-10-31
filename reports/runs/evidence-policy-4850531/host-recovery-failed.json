@@ -1,0 +1,56 @@
+{
+  "kind": "fenced_evidence_disposal_and_older_backup_policy",
+  "status": "failed",
+  "tested_commit": "48505311142a5db99bd81ce1a49a4bf9b8df4e5f",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T18:43:46.195664+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stages": [
+      "work/policy-source-896a69f5bea7",
+      "work/policy-restored-896a69f5bea7",
+      "work/policy-no-ledger-896a69f5bea7"
+    ],
+    "ports": [
+      18781,
+      18783,
+      18785
+    ],
+    "node_image_source_commit": "4850531",
+    "engine_image_source_commit": "4850531",
+    "node_image": "sha256:2d8acb446f79d907e04a6b3360c14bb921cbd175792d1cd964b1f1e4ef91a91d",
+    "engine_image": "sha256:78f628a59d38db420d932b915f41db8b72f52ae2b0c64334f49ef7c66ce8fb6f"
+  },
+  "checks": [],
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18781",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-c61456b45e80-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-c61456b45e80-postgres-1  Running\n Container blackbox-a-c61456b45e80-api-1  Creating\n Container blackbox-a-c61456b45e80-engine-1  Creating\n Container blackbox-a-c61456b45e80-worker-1  Creating\n Container blackbox-a-c61456b45e80-engine-1  Created\n Container blackbox-a-c61456b45e80-api-1  Created\n Container blackbox-a-c61456b45e80-worker-1  Created\n Container blackbox-a-c61456b45e80-postgres-1  Waiting\n Container blackbox-a-c61456b45e80-postgres-1  Waiting\n Container blackbox-a-c61456b45e80-postgres-1  Waiting\n Container blackbox-a-c61456b45e80-postgres-1  Healthy\n Container blackbox-a-c61456b45e80-api-1  Starting\n Container blackbox-a-c61456b45e80-postgres-1  Healthy\n Container blackbox-a-c61456b45e80-engine-1  Starting\n Container blackbox-a-c61456b45e80-postgres-1  Healthy\n Container blackbox-a-c61456b45e80-worker-1  Starting\n Container blackbox-a-c61456b45e80-worker-1  Started\n Container blackbox-a-c61456b45e80-engine-1  Started\n Container blackbox-a-c61456b45e80-api-1  Started\n"
+    }
+  ],
+  "snapshot": {
+    "postgres_major": 17,
+    "heads": [
+      {
+        "tenant_id": "edb5ec22-ae35-41bf-9e2d-e6f83967d4d0",
+        "committed": 55,
+        "applied": 55,
+        "record_count": 0
+      }
+    ],
+    "journal_count": 55
+  },
+  "elapsed_seconds": 117.728,
+  "limitations": [
+    "Synthetic small corpus, not the performance smoke or real-provider retention certification",
+    "Same Mac with fresh isolated volumes; no distribution archive or second machine claim",
+    "No external-copy erasure guarantee; explicit no-ledger reconciliation cannot recover unknown later restrictions",
+    "Periodic automatic purge, full field inventory/provider mapping audit and independent acceptance remain separate work"
+  ]
+}

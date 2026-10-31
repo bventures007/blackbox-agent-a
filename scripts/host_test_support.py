@@ -71,4 +71,3 @@ const client=new Client({name:"isolated-recovery-proof",version:"1"});await clie
  result=subprocess.run(['node','--import','tsx','--input-type=module','-e',script],cwd=ROOT,env={**os.environ,'BLACKBOX_API_URL':f'http://127.0.0.1:{port}','PUBLIC_PORT':str(port),'BLACKBOX_AGENT_KEY':key,'TEST_ARGUMENTS':json.dumps(arguments),'TEST_TOOL':tool},stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,timeout=20)
  if result.returncode:raise RuntimeError('Actual SDK MCP recovery request failed')
  return json.loads(result.stdout)
-

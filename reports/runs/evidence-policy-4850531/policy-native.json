@@ -1,0 +1,44 @@
+{
+  "kind": "evidence_policy_API_MCP_RLS_restart_browser",
+  "status": "passed",
+  "tested_commit": "48505311142a5db99bd81ce1a49a4bf9b8df4e5f",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T18:38:25.822782+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Isolated native PostgreSQL18 development / Node / Rust / Chrome"
+  },
+  "commands": [
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/evidence-policy.ts seed",
+      "exit_code": 0,
+      "observed": "historical_typed_ingest_uses_local_receipt_90_days_and_protected_canaries_with_cross_tenant_denial\nowner_CSRF_tenant_and_longer_policy_boundaries_and_permanent_shortening_pass\nstricter_provider_ceiling_expiry_and_restriction_deny_API_and_actual_MCP_while_fixed_business_answer_survives\nreal_API_worker_engine_roles_cannot_delete_policy_ledger_or_cross_tenant_boundaries\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/evidence-policy.ts verify",
+      "exit_code": 0,
+      "observed": "restart_preserves_expiry_restriction_and_fixed_cutoff_Rust_MCP_answer\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/evidence-policy-browser.ts",
+      "exit_code": 0,
+      "observed": "actual_EN_DE_owner_policy_save_mobile_no_overflow_no_JS_errors_or_external_requests\n"
+    }
+  ],
+  "limitations": [
+    "Synthetic provider ceiling is host seeded, not live provider certification",
+    "Expiry uses an explicitly aged synthetic receipt; real time is not accelerated",
+    "Physical deletion, authenticated older-backup reconciliation and distribution use separate proof",
+    "No independent acceptance or full field inventory audit"
+  ]
+}

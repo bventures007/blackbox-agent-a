@@ -97,6 +97,9 @@ def rotate(root,resume=False):
   sql(root,"INSERT INTO bb.security_audit(tenant_id,audit_id,principal_id,action) SELECT tenant_id,'"+operation+"'::uuid,'"+operation+"'::uuid,'data_key.rotation_verified' FROM bb.workspaces ON CONFLICT(tenant_id,audit_id) DO NOTHING;")
   marker['phase']='resuming';atomic_json(marker_path,marker)
   if marker['prior_running']:run(root,'up','-d',*marker['prior_running'])
+  if 'api'in marker['prior_running']:
+   from release_compatibility import wait_for_traffic
+   wait_for_traffic(root)
   if 'postgres'not in marker['prior_running']:run(root,'stop','postgres')
   result={'schema_version':1,'state':'completed','operation_id':operation,'started_at':marker['started_at'],'completed_at':stamp(),'active_key_id':new,'verification':verified,'old_live_key_removed':True,'old_backup_generations_unchanged':True,'identity_key_changed':False}
   atomic_json(runtime/'key-rotation-status.json',result);marker_path.unlink();sync_directory(runtime)

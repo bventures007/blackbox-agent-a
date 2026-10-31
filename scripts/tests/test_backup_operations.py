@@ -32,6 +32,10 @@ class BackupOperationTests(unittest.TestCase):
   with self.assertRaisesRegex(RuntimeConfigError,'native developer'):
    with fence(self.root,'backup'):pass
   self.assertFalse((self.runtime/'maintenance.json').exists())
+ def test_resume_requires_actual_compatible_API_before_releasing_backup_fence(self):
+  with patch('backup_operations.services',return_value=['postgres','engine','api','worker']),patch('backup_operations.run'),patch('database_identity.prepare'),patch('release_compatibility.check_database'),patch('release_compatibility.wait_for_traffic',side_effect=RuntimeConfigError('injected readiness failure'))as ready,self.assertRaisesRegex(RuntimeConfigError,'readiness'):
+   with fence(self.root,'backup'):pass
+  ready.assert_called_once_with(self.root);self.assertEqual(json.loads((self.runtime/'maintenance.json').read_text())['phase'],'resuming')
  def test_status_write_is_private_and_directory_fd_bound(self):
   path=self.runtime/'status.json';atomic_json(path,{'state':'running'});self.assertEqual(path.stat().st_mode&0o777,0o600)
   path.unlink();(self.root/'foreign').write_text('preserved');path.symlink_to(self.root/'foreign')

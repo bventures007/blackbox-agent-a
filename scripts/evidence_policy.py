@@ -35,7 +35,7 @@ def verified_ledger(root,raw,key=None):
  value=decode_json(raw)
  if not isinstance(value,dict)or set(value)!={'payload','mac'}or not isinstance(value['mac'],str)or not re.fullmatch('[a-f0-9]{64}',value['mac']):raise RuntimeConfigError('Invalid policy ledger envelope.')
  p=value['payload']
- if not isinstance(p,dict)or set(p)!={'version','identity_sha256','exported_at',*SHAPES}or p['version']!=1:raise RuntimeConfigError('Unknown policy ledger format.')
+ if not isinstance(p,dict)or set(p)!={'version','identity_sha256','exported_at',*SHAPES}or type(p['version'])is not int or p['version']!=1:raise RuntimeConfigError('Unknown policy ledger format.')
  key=identity(root)if key is None else key
  if p['identity_sha256']!=hashlib.sha256(key).hexdigest()or not hmac.compare_digest(value['mac'],hmac.new(key,b'blackbox-evidence-ledger-v1\0'+canonical(p),hashlib.sha256).hexdigest()):raise RuntimeConfigError('Policy ledger authentication failed; raw content remains blocked.')
  def timestamp(v):
@@ -176,6 +176,9 @@ def maintain(root,resume=False,ledger=None,acknowledge_cutoff=None):
   atomic_json(runtime/'evidence-ledger-current.json',signed_ledger(root))
   marker['phase']='resuming';atomic_json(path,marker)
   if marker['prior_running']:run(root,'up','-d',*marker['prior_running'])
+  if 'api'in marker['prior_running']:
+   from release_compatibility import wait_for_traffic
+   wait_for_traffic(root)
   if 'postgres'not in marker['prior_running']:run(root,'stop','postgres')
   result.update({'completed_at':stamp(),'journal_unchanged':True,'reconciled':marker['reconcile'],'old_backup_copies_unchanged':True});atomic_json(runtime/'evidence-policy-status.json',result)
   path.unlink();sync_directory(runtime);return result
