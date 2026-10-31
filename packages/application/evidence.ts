@@ -8,7 +8,7 @@ export async function readEvidence(tenant: string, id: string) {
     async (c) =>
       (
         await c.query(
-          "SELECT sha256 FROM bb.evidence WHERE evidence_id=$1 AND expires_at>now()",
+          "SELECT sha256 FROM bb.evidence WHERE evidence_id=$1 AND expires_at>now() AND NOT EXISTS(SELECT 1 FROM bb.recovery_guards WHERE evidence_blocked)",
           [id],
         )
       ).rows[0],

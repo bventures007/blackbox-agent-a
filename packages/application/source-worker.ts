@@ -57,6 +57,7 @@ export async function assertLease(c: PoolClient, j: Job) {
     JOIN bb.source_secrets s USING(tenant_id,connection_id)
     WHERE j.job_id=$1 AND j.fence=$2 AND j.lease_owner=$3 AND j.state='running'
     AND j.leased_until>clock_timestamp() AND c.state NOT IN ('paused','disconnected','reauthorization_required')
+    AND NOT EXISTS(SELECT 1 FROM bb.recovery_guards g WHERE g.tenant_id=j.tenant_id AND g.sources_blocked)
     AND s.revision=$4 FOR UPDATE OF j,c,s`,
     [j.job_id, j.fence, j.lease_owner, j.secret_revision],
   );
@@ -68,6 +69,7 @@ export async function claimSourceJob(tenant: string): Promise<Job | null> {
       await c.query(`SELECT j.job_id FROM bb.source_jobs j JOIN bb.connections c USING(tenant_id,connection_id)
       WHERE j.state IN ('queued','running') AND j.next_at<=now() AND (j.leased_until IS NULL OR j.leased_until<now())
       AND c.state NOT IN ('paused','disconnected','reauthorization_required')
+      AND NOT EXISTS(SELECT 1 FROM bb.recovery_guards g WHERE g.tenant_id=j.tenant_id AND g.sources_blocked)
       AND NOT EXISTS(SELECT 1 FROM bb.source_jobs other WHERE other.tenant_id=j.tenant_id AND other.connection_id=j.connection_id
         AND other.capability=j.capability AND other.job_id<>j.job_id AND other.state='running')
       ORDER BY j.next_at,CASE j.kind WHEN 'incremental' THEN 0 ELSE 1 END,j.created_at LIMIT 1 FOR UPDATE OF j,c SKIP LOCKED`)
