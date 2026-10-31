@@ -55,6 +55,21 @@ fn sum<'a>(mut values: impl Iterator<Item = &'a Input>) -> Result<i64, String> {
     })
 }
 pub fn reduce(inputs: &[Input]) -> Result<State, String> {
+    reduce_version(inputs, RULE_VERSION)
+}
+
+/// Retained historical interpretation and the explicitly staged replacement.
+/// The default remains v2 until atomic projection publication is implemented.
+pub fn reduce_version(inputs: &[Input], version: &str) -> Result<State, String> {
+    if !["lifecycle-v2", "lifecycle-v3"].contains(&version) {
+        return Err("unsupported_lifecycle_interpretation".into());
+    }
+    if version == "lifecycle-v3" {
+        for input in inputs {
+            chrono::DateTime::parse_from_rfc3339(&input.observation.occurred_at)
+                .map_err(|_| "invalid_timestamp")?;
+        }
+    }
     let mut conflicts = vec![];
     let superseded: BTreeSet<_> = inputs
         .iter()
@@ -71,9 +86,7 @@ pub fn reduce(inputs: &[Input]) -> Result<State, String> {
         }
         let key = (e.kind.as_str(), e.economic_id.as_str());
         if let Some(old) = latest.get(&key) {
-            if (old.observation.occurred_at.as_str(), old.sequence)
-                > (e.occurred_at.as_str(), input.sequence)
-            {
+            if occurrence_cmp(old, input, version).is_gt() {
                 continue;
             }
         }
@@ -95,7 +108,7 @@ pub fn reduce(inputs: &[Input]) -> Result<State, String> {
                 "order.accepted" | "order.revised"
             )
         })
-        .max_by_key(|x| (&x.observation.occurred_at, x.sequence));
+        .max_by(|a, b| occurrence_cmp(a, b, version));
     let agreed_minor = order.map(|x| x.observation.amount_minor);
     let authorized_minor = sum(latest
         .values()
@@ -151,10 +164,29 @@ pub fn reduce(inputs: &[Input]) -> Result<State, String> {
         input_entries: inputs.iter().map(|x| x.entry_id.clone()).collect(),
         conflicts,
         test_data: inputs.iter().any(|x| x.observation.test),
-        rule_version: RULE_VERSION.into(),
+        rule_version: version.into(),
     };
     state.lifecycle = lifecycle::reduce(&latest.values().copied().collect::<Vec<_>>(), &state)?;
+    if version == "lifecycle-v3" {
+        lifecycle::verify_delivery_order(
+            &latest.values().copied().collect::<Vec<_>>(),
+            &mut state,
+        )?;
+    }
     Ok(state)
+}
+
+pub(crate) fn occurrence_cmp(a: &Input, b: &Input, version: &str) -> std::cmp::Ordering {
+    if version == "lifecycle-v3" {
+        // reduce_version validates all timestamps before any comparison.
+        let a_time = chrono::DateTime::parse_from_rfc3339(&a.observation.occurred_at)
+            .expect("validated occurrence");
+        let b_time = chrono::DateTime::parse_from_rfc3339(&b.observation.occurred_at)
+            .expect("validated occurrence");
+        (a_time, a.sequence).cmp(&(b_time, b.sequence))
+    } else {
+        (&a.observation.occurred_at, a.sequence).cmp(&(&b.observation.occurred_at, b.sequence))
+    }
 }
 pub fn derived_tracks(kind: &str) -> &'static [&'static str] {
     match kind {
@@ -207,6 +239,62 @@ mod tests {
         .unwrap();
         assert_eq!(s.captured_minor, 0);
         assert_eq!(s.outstanding_minor, Some(4321));
+    }
+
+    #[test]
+    fn versioned_delivery_rule_keeps_prior_interpretation_and_rejects_premature_proof() {
+        let mut dispatch = entry(1, "shipment.dispatched", 0);
+        dispatch.observation.occurred_at = "2026-10-31T09:00:00.100Z".into();
+        let mut delivery = entry(2, "shipment.delivered", 0);
+        delivery.observation.occurred_at = "2026-10-31T09:00:00Z".into();
+        delivery.observation.details = Some(lifecycle::Details {
+            related_id: Some(dispatch.observation.economic_id.clone()),
+            ..Default::default()
+        });
+        let inputs = vec![dispatch.clone(), delivery.clone()];
+        let prior = reduce_version(&inputs, "lifecycle-v2").unwrap();
+        assert_eq!(prior.lifecycle.shipment_status, "delivered");
+        let next = reduce_version(&inputs, "lifecycle-v3").unwrap();
+        assert_eq!(next.lifecycle.shipment_status, "dispatched");
+        assert_eq!(next.conflicts, vec!["delivery_precedes_dispatch"]);
+        assert_eq!(prior.captured_minor, next.captured_minor);
+        assert_eq!(prior.refunded_minor, next.refunded_minor);
+        assert_eq!(prior.input_entries, next.input_entries);
+        assert_eq!(prior.evidence, next.evidence);
+        assert_eq!(reduce(&inputs).unwrap(), prior);
+        delivery.observation.occurred_at = "2026-10-31T09:00:00.101Z".into();
+        let valid = reduce_version(&[dispatch, delivery], "lifecycle-v3").unwrap();
+        assert_eq!(valid.lifecycle.shipment_status, "delivered");
+        assert!(valid.conflicts.is_empty());
+        assert!(reduce_version(&inputs, "invented-rule").is_err());
+    }
+
+    #[test]
+    fn versioned_event_order_uses_instants_instead_of_fractional_string_order() {
+        let mut newer = entry(1, "payment.captured", 1000);
+        newer.observation.occurred_at = "2026-10-31T09:00:00.100Z".into();
+        let mut late_older = entry(2, "payment.captured", 2000);
+        late_older.observation.occurred_at = "2026-10-31T09:00:00Z".into();
+        late_older.observation.economic_id = newer.observation.economic_id.clone();
+        let inputs = vec![newer, late_older];
+        assert_eq!(
+            reduce_version(&inputs, "lifecycle-v2")
+                .unwrap()
+                .captured_minor,
+            2000
+        );
+        assert_eq!(
+            reduce_version(&inputs, "lifecycle-v3")
+                .unwrap()
+                .captured_minor,
+            1000
+        );
+        let mut invalid = inputs.clone();
+        invalid[0].observation.occurred_at = "not-an-instant".into();
+        assert_eq!(
+            reduce_version(&invalid, "lifecycle-v3").unwrap_err(),
+            "invalid_timestamp"
+        );
     }
     #[test]
     fn generalized_partial_refund() {

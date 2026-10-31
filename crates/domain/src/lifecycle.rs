@@ -107,10 +107,11 @@ fn detail(x: &Input) -> Result<&Details, String> {
         .as_ref()
         .ok_or("details_missing".into())
 }
-fn order_key(x: &Input) -> (&str, i64) {
-    (&x.observation.occurred_at, x.sequence)
-}
-fn family_latest<'a>(inputs: &[&'a Input], prefix: &str) -> BTreeMap<&'a str, &'a Input> {
+fn family_latest<'a>(
+    inputs: &[&'a Input],
+    prefix: &str,
+    version: &str,
+) -> BTreeMap<&'a str, &'a Input> {
     let mut m = BTreeMap::new();
     for x in inputs
         .iter()
@@ -118,14 +119,15 @@ fn family_latest<'a>(inputs: &[&'a Input], prefix: &str) -> BTreeMap<&'a str, &'
     {
         let id = x.observation.economic_id.as_str();
         if m.get(id)
-            .is_none_or(|old: &&Input| order_key(old) <= order_key(x))
+            .is_none_or(|old: &&Input| !crate::occurrence_cmp(old, x, version).is_gt())
         {
             m.insert(id, *x);
         }
     }
     m
 }
-pub fn reduce(inputs: &[&Input], payment: &State) -> Result<Lifecycle, String> {
+pub(crate) fn reduce(inputs: &[&Input], payment: &State) -> Result<Lifecycle, String> {
+    let version = payment.rule_version.as_str();
     let mut out = Lifecycle {
         observed_only: true,
         shipment_status: "unknown".into(),
@@ -145,7 +147,7 @@ pub fn reduce(inputs: &[&Input], payment: &State) -> Result<Lifecycle, String> {
             .ok_or("invoice_link_missing")?;
         if reported
             .get(invoice)
-            .is_none_or(|old| order_key(old) <= order_key(x))
+            .is_none_or(|old| !crate::occurrence_cmp(old, x, version).is_gt())
         {
             reported.insert(invoice, x);
         }
@@ -170,12 +172,12 @@ pub fn reduce(inputs: &[&Input], payment: &State) -> Result<Lifecycle, String> {
         );
     }
     out.fees_minor = amount(inputs, "payment.fee_booked")?;
-    let refunds = family_latest(inputs, "refund.");
+    let refunds = family_latest(inputs, "refund.", version);
     out.provider_held_minor = refunds
         .values()
         .filter(|x| x.observation.kind == "refund.pending")
         .try_fold(0, |n, x| add(n, x.observation.amount_minor))?;
-    let payouts = family_latest(inputs, "payout.");
+    let payouts = family_latest(inputs, "payout.", version);
     let mut sent = 0;
     for x in payouts.values() {
         match x.observation.kind.as_str() {
@@ -256,7 +258,7 @@ pub fn reduce(inputs: &[&Input], payment: &State) -> Result<Lifecycle, String> {
         let Some(snapshot) = events
             .iter()
             .filter(|x| x.observation.kind == "inventory.snapshot")
-            .max_by_key(|x| order_key(x))
+            .max_by(|a, b| crate::occurrence_cmp(a, b, version))
         else {
             continue;
         };
@@ -270,7 +272,7 @@ pub fn reduce(inputs: &[&Input], payment: &State) -> Result<Lifecycle, String> {
         };
         let following: Vec<_> = events
             .iter()
-            .filter(|x| order_key(x) > order_key(snapshot))
+            .filter(|x| crate::occurrence_cmp(x, snapshot, version).is_gt())
             .collect();
         if result.basis == "provider_available" {
             // An already-net provider snapshot must never have its reservations subtracted twice.
@@ -311,6 +313,47 @@ pub fn reduce(inputs: &[&Input], payment: &State) -> Result<Lifecycle, String> {
         out.inventory.push(result);
     }
     Ok(out)
+}
+
+/// A delivery observation cannot establish delivery before physical dispatch.
+/// Parse instants rather than comparing strings with different fractional precision.
+pub(crate) fn verify_delivery_order(inputs: &[&Input], state: &mut State) -> Result<(), String> {
+    let dispatched: Vec<_> = inputs
+        .iter()
+        .filter(|x| x.observation.kind == "shipment.dispatched")
+        .collect();
+    if dispatched.is_empty() {
+        return Ok(());
+    }
+    let mut complete = true;
+    let mut invalid = false;
+    for shipment in dispatched {
+        let sent = chrono::DateTime::parse_from_rfc3339(&shipment.observation.occurred_at)
+            .map_err(|_| "invalid_timestamp")?;
+        let mut delivered = false;
+        for confirmation in inputs.iter().filter(|x| {
+            x.observation.kind == "shipment.delivered"
+                && x.observation
+                    .details
+                    .as_ref()
+                    .and_then(|d| d.related_id.as_ref())
+                    == Some(&shipment.observation.economic_id)
+        }) {
+            let at = chrono::DateTime::parse_from_rfc3339(&confirmation.observation.occurred_at)
+                .map_err(|_| "invalid_timestamp")?;
+            if at < sent {
+                invalid = true;
+            } else {
+                delivered = true;
+            }
+        }
+        complete &= delivered;
+    }
+    state.lifecycle.shipment_status = if complete { "delivered" } else { "dispatched" }.into();
+    if invalid {
+        state.conflicts.push("delivery_precedes_dispatch".into());
+    }
+    Ok(())
 }
 #[cfg(test)]
 mod tests {
