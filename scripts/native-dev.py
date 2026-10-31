@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Development-only fallback using already-installed Postgres.app. Not DIST evidence."""
-import os,pathlib,subprocess,json,secrets,sys,time,signal,urllib.parse
+import os,pathlib,subprocess,json,secrets,sys,time,signal,urllib.parse,urllib.request,urllib.error
 root=pathlib.Path(__file__).resolve().parents[1];runtime=root/'.runtime';pg=pathlib.Path('/Applications/Postgres.app/Contents/Versions/18/bin')
 runtime.mkdir(exist_ok=True,mode=0o700)
 config=runtime/'native.json'
@@ -38,7 +38,18 @@ def start():
   log=runtime/'logs'/f'native-{name}.stderr';fd=os.open(log,os.O_WRONLY|os.O_CREAT|os.O_APPEND,0o600)
   try:p=subprocess.Popen(command,env=service,cwd=root,stdout=subprocess.DEVNULL,stderr=fd,start_new_session=True);pids[name]=p.pid
   finally:os.close(fd)
- (runtime/'native-pids.json').write_text(json.dumps(pids));print('Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.')
+ (runtime/'native-pids.json').write_text(json.dumps(pids))
+ deadline=time.monotonic()+20
+ for address in ['http://127.0.0.1:19741/v1/status','http://127.0.0.1:19742/health','http://127.0.0.1:19743/']:
+  while True:
+   try:urllib.request.urlopen(address,timeout=1);break
+   except urllib.error.HTTPError as e:
+    if e.code in [401,404]:break
+    raise
+   except urllib.error.URLError:
+    if time.monotonic()>deadline:raise SystemExit('Native service readiness deadline exceeded; inspect local diagnostics.')
+    time.sleep(.1)
+ print('Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.')
 def stop():
  p=runtime/'native-pids.json'
  if p.exists():
