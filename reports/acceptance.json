@@ -1362,13 +1362,16 @@
     {
       "id": "PILOT-02",
       "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
+      "status": "implemented_unverified",
+      "tested_commit": "3900f660ec1ed662262b4521187ac95a38e1d589",
+      "command": "python3 scripts/verify-backup-recovery.py --source-port 18765 --restore-port 18769 --output .runtime/database-recovery-3900f66.json --node-image-commit 2991344 --engine-image-commit b1f8392",
+      "environment": "Apple Silicon macOS27.2; fresh isolated PostgreSQL17 Compose; exact prebuilt image IDs in the report; synthetic fixtures only",
+      "observed_result": "Clean 3900f660ec1ed662262b4521187ac95a38e1d589 passed actual fresh setup, altered cluster/database marker rejection, lost-marker setup refusal and recovery with the original marker. After verified backup, removal of its own synthetic PostgreSQL volume made up/setup/reset-access fail without creating a replacement. A fresh restore received a different cluster identity, decrypted retained content before access, revoked old credentials and reproduced the fixed API/actual SDK MCP answer with raw/provider guards intact. The 55-entry, one-object fixture took 38.688 seconds from loss to authorized queries; this is not the 250-MiB smoke RTO. Packaged MCP with only Python/Docker on the bridge PATH also passed. Evidence: reports/runs/database-identity-3900f66; exact node image source2991344 and engine sourceb1f8392 are recorded. All 85 preparation/host tests passed. Release validation still fails INSTALL-01; compatibility upgrades and remaining P4 work continue without independent approval.",
+      "evidence_paths": [
+        "reports/runs/database-identity-3900f66/recovery.json",
+        "reports/runs/key-rotation-2991344/rotation.json"
+      ],
+      "blocker": "Required smoke corpus with 250 MiB evidence, complete policy reconciliation/account revalidation, current release artifact and independent operational review remain unverified.",
       "delivery_scope": "local_pilot"
     },
     {

@@ -1,0 +1,17 @@
+[
+  {
+    "kind": "fresh",
+    "sha256": "1574d430d1faf57c417e8f901243d1b82dcb51f9c9e5f521b47e8b08b4a509b8",
+    "bytes": 55337
+  },
+  {
+    "kind": "restored",
+    "sha256": "1574d430d1faf57c417e8f901243d1b82dcb51f9c9e5f521b47e8b08b4a509b8",
+    "bytes": 55337
+  },
+  {
+    "kind": "legacy",
+    "sha256": "1574d430d1faf57c417e8f901243d1b82dcb51f9c9e5f521b47e8b08b4a509b8",
+    "bytes": 55337
+  }
+]
