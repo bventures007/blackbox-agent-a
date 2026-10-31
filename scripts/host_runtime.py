@@ -136,7 +136,7 @@ def native_config(runtime: Path, create: bool = False) -> dict:
         if not valid:
             raise RuntimeConfigError('Invalid native database configuration. Restore native.json; no replacement credentials generated.')
         validate_keys(runtime)
-        for name in ['evidence', 'logs']:
+        for name in ['evidence', 'logs', 'control', 'control/status', 'control/requests']:
             protected_directory(runtime / name, True)
         return value
 
@@ -192,6 +192,6 @@ def compose_config(runtime: Path, create: bool = False, port: int | None = None,
             raise RuntimeConfigError('Existing installation uses a different port. Startup never rewrites configuration.')
         if require_keys:
             validate_keys(runtime)
-        for name in ['evidence', 'logs']:
+        for name in ['evidence', 'logs', 'control', 'control/status', 'control/requests']:
             protected_directory(runtime / name, True)
         return values

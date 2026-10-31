@@ -10,12 +10,38 @@ import { readLogs } from "../../packages/diagnostics/reader.js";
 import { diagnostics } from "../../packages/diagnostics/index.js";
 import { replayObservation } from "../../packages/connectors/replay.js";
 import { ingest } from "../../packages/application/ingest.js";
+import {
+  backupStatus,
+  requestBackup,
+} from "../../packages/application/backup-control.js";
 
 export async function registerOwnerRoutes(
   app: FastifyInstance,
   owner: (p?: Principal) => Principal,
   internal: string,
 ) {
+  app.get("/v1/backups", async (req) => {
+    const p = owner(req.principal);
+    return backupStatus(undefined, p.tenant_id);
+  });
+  app.post("/v1/backups/request", async (req, reply) => {
+    const p = owner(req.principal);
+    z.object({}).strict().parse(req.body);
+    const state = await backupStatus(undefined, p.tenant_id);
+    if (!state.configured)
+      return reply.code(409).send({ error: "backup_not_configured" });
+    if (!state.scheduler_alive)
+      return reply.code(409).send({ error: "backup_scheduler_unavailable" });
+    if (state.state === "maintenance_required")
+      return reply.code(409).send({ error: "backup_maintenance_required" });
+    await scoped(p.tenant_id, async (c) => {
+      await c.query(
+        "INSERT INTO bb.security_audit(tenant_id,audit_id,principal_id,action) VALUES($1,$2,$3,'backup.requested')",
+        [p.tenant_id, randomUUID(), p.principal_id],
+      );
+    });
+    return requestBackup(p);
+  });
   app.get("/v1/overview", async (req) => {
     const p = owner(req.principal);
     return scoped(p.tenant_id, async (c) => ({
@@ -192,7 +218,7 @@ export async function registerOwnerRoutes(
         dropped: diagnostics.dropped,
       },
       mcp: { state: "unknown", reason: "actual_client_activity_unmeasured" },
-      backup: { state: "not_configured" },
+      backup: await backupStatus(undefined, p.tenant_id),
     };
   });
   app.post("/v1/diagnostics/logs", async (req, reply) => {

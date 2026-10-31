@@ -4,7 +4,7 @@ import argparse,datetime,hashlib,http.cookiejar,json,os,pathlib,platform,pty,re,
 p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--port',type=int,default=18751);p.add_argument('--node-image-commit',default='unrecorded');p.add_argument('--engine-image-commit',default='unrecorded');a=p.parse_args()
 root=pathlib.Path(__file__).resolve().parents[1]
 stage=root/'work'/('bootstrap-'+uuid.uuid4().hex[:12]);stage.mkdir(parents=True)
-for name in ['blackbox','scripts/host_runtime.py','scripts/backup_operations.py','scripts/backup_codec.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh']:
+for name in ['blackbox','scripts/host_runtime.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_codec.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh']:
  target=stage/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(root/name,target)
 shutil.copytree(root/'packages/database/migrations',stage/'packages/database/migrations')
 base=f'http://127.0.0.1:{a.port}';checks=[];commands=[];status='failed';started=time.monotonic()

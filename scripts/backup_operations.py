@@ -103,6 +103,8 @@ def enroll(root,destination):
   config={'schema_version':1,'installation_id':identity,'destination':str(base),'directory':managed.name,'destination_device':b.st_dev,'destination_inode':b.st_ino,'managed_device':m.st_dev,'managed_inode':m.st_ino,'recipient':recipient,'configured_at':stamp(),'interval_seconds':84600,'maximum_age_seconds':86400,'daily_retention':7,'weekly_retention':4,'same_device':b.st_dev==runtime.stat().st_dev}
   create_file(runtime/'backup.json',json.dumps(config).encode())
   atomic_json(runtime/'backup-status.json',{'state':'configured','protected':False,'last_completed':None,'next_due_at':stamp(),'same_device':config['same_device']})
+  from backup_supervisor import publish_status
+  publish_status(root)
   return secret
 
 
@@ -150,6 +152,7 @@ def cutoffs(root):
 
 
 def generation(root):
+ from backup_supervisor import publish_status,prune
  runtime=root/'.runtime';compose_config(runtime)
  with operation_lock(runtime):
   config=json.loads(protected_read(runtime/'backup.json',16384));started=stamp()
@@ -159,6 +162,7 @@ def generation(root):
   except (OSError,RuntimeConfigError):
    previous=json.loads(protected_read(runtime/'backup-status.json',16384)) if (runtime/'backup-status.json').exists() else {}
    atomic_json(runtime/'backup-status.json',{**previous,'state':'failed','last_attempt':started,'error':'backup_destination_unavailable'})
+   publish_status(root)
    raise
   partial=uuid.uuid4().hex+'.partial';final=partial.removesuffix('.partial')+'.bb.age';fd=None
   metadata=None;success=None
@@ -169,6 +173,7 @@ def generation(root):
    if usage.f_bavail*usage.f_frsize<max(1024**3,int(usage.f_blocks*usage.f_frsize*.02)):raise RuntimeConfigError('Backup destination has critical free space.')
    prior_status=json.loads(protected_read(runtime/'backup-status.json',16384)) if (runtime/'backup-status.json').exists() else {}
    atomic_json(runtime/'backup-status.json',{**prior_status,'state':'running','last_attempt':started})
+   publish_status(root)
    with fence(root,'backup'):
     snapshot=cutoffs(root)
     if snapshot['postgres_major']!=17:raise RuntimeConfigError('Unsupported PostgreSQL backup major version.')
@@ -214,14 +219,17 @@ def generation(root):
      output.flush();os.fsync(fd);output.seek(0);digest=hashlib.sha256();size=0
      while data:=output.read(1024*1024):digest.update(data);size+=len(data)
     os.rename(partial,final,src_dir_fd=directory_fd,dst_dir_fd=directory_fd);os.fsync(directory_fd)
-    success={'state':'completed','last_attempt':started,'last_completed':stamp(),'recoverable_cutoff':cutoff,'generation':final,'ciphertext_sha256':digest.hexdigest(),'bytes':size,'protected':True,'same_device':config['same_device'],'last_restore_test':None}
+    success={'state':'completed','installation_id':config['installation_id'],'last_attempt':started,'last_completed':stamp(),'recoverable_cutoff':cutoff,'generation':final,'ciphertext_sha256':digest.hexdigest(),'bytes':size,'protected':True,'same_device':config['same_device'],'last_restore_test':prior_status.get('last_restore_test')}
     # Finalized ciphertext only. Unattended encryption is not a decryption/restore test.
     atomic_json_at(directory_fd,final+'.json',success)
-   atomic_json(runtime/'backup-status.json',success)
+   try:success['retention']=prune(root,config,final)
+   except Exception:success['retention_error']=True
+   atomic_json(runtime/'backup-status.json',success);publish_status(root)
    return success
   except Exception:
    previous=json.loads(protected_read(runtime/'backup-status.json',16384)) if (runtime/'backup-status.json').exists() else {}
    atomic_json(runtime/'backup-status.json',{**previous,'state':'failed','last_attempt':started,'error':'backup_failed','incomplete_generation':partial if success is None else None})
+   publish_status(root)
    raise
   finally:
    if fd is not None:os.close(fd)

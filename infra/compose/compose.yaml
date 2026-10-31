@@ -49,6 +49,16 @@ services:
       retries: 30
   api:
     <<: *node
+    environment:
+      <<: *environment
+      HOST_CONTROL_STATUS_DIR: /run/blackbox-status
+      HOST_CONTROL_REQUEST_DIR: /run/blackbox-requests
+    volumes:
+      - ../../.runtime/secrets:/run/blackbox:ro
+      - ../../.runtime/evidence:/var/lib/blackbox/evidence
+      - ../../.runtime/logs:/var/log/blackbox
+      - ../../.runtime/control/status:/run/blackbox-status:ro
+      - ../../.runtime/control/requests:/run/blackbox-requests
     ports:
       - "127.0.0.1:${BB_PORT:-18741}:8080"
   worker:

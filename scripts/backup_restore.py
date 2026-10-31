@@ -49,7 +49,7 @@ def verified_backup(root,path,secret):
 
 
 def copy_runtime_bundle(root,destination):
- files=['blackbox','scripts/host_runtime.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
+ files=['blackbox','scripts/host_runtime.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
  for name in files:
   target=destination/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(root/name,target)
  shutil.copytree(root/'packages/database/migrations',destination/'packages/database/migrations')
@@ -153,6 +153,8 @@ def finish_restore(root):
    print('Restore validated. Save the newly issued owner key; old owner, agent and browser access has been revoked.',flush=True)
    print('Wiederherstellung geprüft. Speichere den neuen Eigentümerschlüssel; alte Eigentümer-, Agenten- und Browserzugriffe sind widerrufen.',flush=True)
    if subprocess.call(compose(root,'run','--rm','tooling','node','--import','tsx','scripts/setup.ts','reset')):raise RuntimeConfigError('Restored owner issuance failed; services remain fenced.')
+   from backup_supervisor import bind_owner_workspace,publish_status
+   bind_owner_workspace(root);publish_status(root)
    marker['phase']='starting_restricted_runtime';atomic_json(runtime/'maintenance.json',marker)
    run(root,'up','-d','engine','api','worker')
    deadline=time.monotonic()+60;address='http://127.0.0.1:'+config.get('BB_PORT','18741')

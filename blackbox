@@ -41,6 +41,7 @@ if command=='restore':
  sys.exit(0)
 if command=='backup':
  from backup_operations import enroll,generation
+ from backup_supervisor import set_policy,recover_backup,publish_status
  from backup_codec import BackupFormatError
  try:
   if len(sys.argv)==4 and sys.argv[2]=='configure':
@@ -49,9 +50,19 @@ if command=='backup':
    print('Save this separate backup recovery key in your password manager. It is shown once; keep it apart from this installation and backups.')
    print('Speichere diesen separaten Wiederherstellungsschlüssel im Passwortmanager. Er wird einmal angezeigt; getrennt von Installation und Sicherungen aufbewahren.')
    print(secret.decode(),end='')
+  elif len(sys.argv)==3 and sys.argv[2]=='recover':
+   recover_backup(root);print('Interrupted backup fence released. The unfinished generation is not a usable backup.')
+  elif len(sys.argv)==3 and sys.argv[2]=='status':
+   print(json.dumps(publish_status(root),indent=2))
+  elif len(sys.argv)>2 and sys.argv[2]=='policy':
+   import argparse
+   parser=argparse.ArgumentParser(prog='./blackbox backup policy');parser.add_argument('--interval-hours',type=float,default=23.5);parser.add_argument('--daily',type=int,default=7);parser.add_argument('--weekly',type=int,default=4);policy=parser.parse_args(sys.argv[3:])
+   set_policy(root,int(policy.interval_hours*3600),policy.daily,policy.weekly)
+   print('Backup policy updated. Intervals above 23.5 hours reduce the 24-hour recovery-age margin; intervals above 24 hours cannot meet that objective.')
+   print('Sicherungsplan aktualisiert. Intervalle über 23,5 Stunden verringern den Puffer für das 24-Stunden-Ziel; über 24 Stunden wird dieses Ziel verfehlt.')
   elif len(sys.argv)==2:
    result=generation(root);print('Encrypted backup completed: '+result['generation'])
-  else:raise RuntimeConfigError('Usage: ./blackbox backup [configure DESTINATION]')
+  else:raise RuntimeConfigError('Usage: ./blackbox backup [configure DESTINATION|status|policy|recover]')
  except (RuntimeConfigError,BackupFormatError,OSError) as error:raise SystemExit(str(error))
  sys.exit(0)
 if command=='doctor':
@@ -72,9 +83,15 @@ if command in ['build','up','down','status','test','setup','reset-access']:
   try:
    with operation_lock(runtime):
     if (runtime/'maintenance.json').exists():raise RuntimeConfigError('Unfinished host maintenance. Recover it before changing service state.')
+    from backup_supervisor import start as start_supervisor,stop as stop_supervisor,publish_status,bind_owner_workspace
+    if command=='down':stop_supervisor(root)
     result=run(c+args+extra)
+    if result==0 and command=='up':start_supervisor(root)
+    elif result==0:
+     if command in ['setup','reset-access']:bind_owner_workspace(root)
+     publish_status(root)
   except RuntimeConfigError as error:raise SystemExit(str(error))
   sys.exit(result)
  sys.exit(run(c+args+extra))
 print('Usage: ./blackbox doctor|build|setup|up|down|status|test|reset-access|backup|restore')
-print('Development preview: encrypted backup and fenced restore are implemented; policy reconciliation, upgrade, scheduling and the release package remain in progress.')
+print('Development preview: encrypted backup, scheduling, retention and fenced restore are implemented; policy reconciliation, upgrade and the release package remain in progress.')

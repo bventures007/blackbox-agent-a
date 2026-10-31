@@ -9,6 +9,7 @@ from backup_operations import enroll,generation,target,services,compose,sql,run,
 from backup_restore import restore,verified_backup
 from backup_codec import new_recovery,BackupFormatError
 from host_runtime import RuntimeConfigError,compose_config,protected_directory,create_file
+from backup_supervisor import stop as stop_supervisor
 
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--source-port',type=int,default=18759);p.add_argument('--restore-port',type=int,default=18757);p.add_argument('--node-image-commit',required=True);p.add_argument('--engine-image-commit',required=True);a=p.parse_args()
@@ -101,6 +102,13 @@ try:
  evidence_id=answer['result']['evidence'][0]
  code,evidence=api.call('/v1/tools/get_evidence',{'evidence_id':evidence_id});assert code==200 and evidence.get('status')!='unavailable'
  mark('saved_fixed_cutoff_API_and_actual_SDK_MCP_match_before_backup')
+ # This proof drives generations directly; the scheduler has its own actual workflow suite.
+ stop_supervisor(source);deadline=time.monotonic()+30
+ while time.monotonic()<deadline:
+  supervisor=source/'.runtime/supervisor.json'
+  if supervisor.exists()and json.loads(supervisor.read_text()).get('observed_at')is None:break
+  time.sleep(.2)
+ else:raise RuntimeError('Test supervisor did not stop')
  backup_base=ROOT/'work'/('recovery-backups-'+token);backup_base.mkdir(mode=0o700)
  secret=enroll(source,backup_base);vault=ROOT/'work/recovery-test-vault';protected_directory(vault,True);keyfile=vault/('recovery-'+token+'.key');create_file(keyfile,secret)
  managed=target(json.loads((source/'.runtime/backup.json').read_text()))
@@ -119,7 +127,7 @@ try:
   finally:keypath.write_bytes(correct_key);blob.write_bytes(original_blob)
   mark(kind+'_prevents_backup_publication')
  del correct_key,original_blob
- command(source,['./blackbox','up']);api.ready();prior=services(source)
+ run(source,'up','-d','postgres','engine','api','worker');api.ready();prior=services(source)
  generation_result=generation(source);cipher=managed/generation_result['generation'];assert services(source)==prior
  with verified_backup(ROOT,cipher,secret)as(_,manifest,_,digest):
   assert manifest['metadata']['snapshot']==snapshot and manifest['metadata']['compatibility']['schema']==6
@@ -179,7 +187,7 @@ try:
 finally:
  for directory in [destination,source]:
   if directory and (directory/'.runtime/compose.env').exists():
-   try:run(directory,'stop','api','worker','engine','postgres')
+   try:stop_supervisor(directory);run(directory,'stop','api','worker','engine','postgres')
    except Exception:checks.append('cleanup_stop_failed_inspect_this_isolated_project')
  report={'kind':'isolated_backup_recovery_after_original_removal','status':status,'tested_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),'executed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'environment':{'host':platform.platform(),'source_port':a.source_port,'restore_port':a.restore_port,'source_stage':str(source.relative_to(ROOT))if source else None,'restore_stage':str(destination.relative_to(ROOT)),'node_image_source_commit':a.node_image_commit,'engine_image_source_commit':a.engine_image_commit,'node_image':subprocess.check_output(['docker','image','inspect','blackbox-a-node:0.1.0-dev','--format','{{.Id}}'],text=True).strip(),'database':'PostgreSQL17 Compose; one synthetic replay workspace'},'original_removed':removed,'checks':checks,'commands':commands,'corpus':{'journal_entries':snapshot['journal_count']if answer else None,'retained_evidence_objects':evidence_count,'encrypted_bytes':generation_result['bytes']if generation_result else None},'timing':{'total_test_seconds':round(time.monotonic()-started,3),'bootstrap_seconds':bootstrap_elapsed,'loss_to_authorized_API_and_MCP_seconds':round(recovery_elapsed,3)if recovery_elapsed else None,'operator_wait_seconds':round(operator_wait,6),'automated_operator':True},'restore_state':json.loads((destination/'.runtime/restore-state.json').read_text())if(destination/'.runtime/restore-state.json').exists()else None,'limitations':['Small synthetic corpus; not the required 250-MiB smoke corpus or recovery-time acceptance','Same physical Apple Silicon Mac with new isolated Compose resources; not a second machine','Copied host runtime and prebuilt development images; not the browser-downloaded distribution artifact','Current policy reconciliation, source revalidation, scheduler/retention, key rotation, upgrade and independent review remain outside this proof']}
  output=ROOT/a.output;output.parent.mkdir(parents=True,exist_ok=True);output.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items()if k not in ['commands']}),flush=True)

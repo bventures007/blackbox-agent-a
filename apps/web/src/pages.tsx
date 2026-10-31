@@ -1,5 +1,6 @@
 import { useState, Fragment } from "react";
 import { Reviews } from "./reviews.js";
+import { Backups } from "./backups.js";
 import { ShopifySetup, SourceProgress } from "./source-import.js";
 import { useLocale, questionTitles, eventTitle } from "./locale.js";
 import { api, download } from "./api.js";
@@ -778,11 +779,7 @@ export function Settings({ onRotated }: { onRotated: (key: string) => void }) {
           <pre>./blackbox up</pre>
           <p className="notice">{t.lostKey}</p>
         </Panel>
-        <Panel title={t.backup}>
-          <Badge state="not_configured" />
-          <p>{t.noBackup}</p>
-          <p className="muted">{t.backupText}</p>
-        </Panel>
+        <Backups />
       </div>
       <Panel title={t.retention}>
         <p>{t.retentionText}</p>

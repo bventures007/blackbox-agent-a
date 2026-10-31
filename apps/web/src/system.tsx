@@ -113,7 +113,29 @@ export function System({
               </p>
             )}
             {x === "mcp" && <p>{t.mcpUnknown}</p>}
-            {x === "backup" && <p>{t.noBackup}</p>}
+            {x === "backup" && (
+              <>
+                <p>
+                  {health.data?.backup.configured ? t.backupCutoff : t.noBackup}
+                </p>
+                {health.data?.backup.configured && (
+                  <>
+                    <DateText value={health.data.backup.recoverable_cutoff} />
+                    {health.data.backup.overdue && (
+                      <p className="notice danger">{t.backupOverdue}</p>
+                    )}
+                    {!health.data.backup.scheduler_alive && (
+                      <p className="notice danger">
+                        {t.backupSchedulerStopped}
+                      </p>
+                    )}
+                    {health.data.backup.same_device && (
+                      <p>{t.backupSameDevice}</p>
+                    )}
+                  </>
+                )}
+              </>
+            )}
             <small>
               {t.observedAt}: <DateText value={health.data?.observed_at} />
             </small>

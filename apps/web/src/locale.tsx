@@ -192,6 +192,54 @@ export const en = {
   backup: "Backups & recovery",
   not_configured: "Not configured",
   noBackup: "No backup protection is configured.",
+  scheduled: "Scheduled",
+  completed: "Completed",
+  failed: "Failed",
+  overdue: "Overdue",
+  maintenance_required: "Host recovery required",
+  backupPostpone:
+    "You can continue without enrolling a destination. Your data remains unprotected by backups.",
+  backupOverdue:
+    "No successful backup within the 24-hour recovery-age objective. Check the destination and host status.",
+  backupSchedulerStopped:
+    "The host backup scheduler is not reporting. Start the backend through the wrapper:",
+  backupDestinationMissing:
+    "The enrolled destination is unavailable. Reconnect the original volume; no fallback directory is used.",
+  backupSameDevice:
+    "This destination is on the same device. It does not protect against device loss.",
+  backupClock:
+    "The backup cutoff is in the future. Check the Mac clock before scheduling continues.",
+  backupMaintenance:
+    "An interrupted maintenance operation needs host recovery. For a backup fence only:",
+  backupRetentionError:
+    "The new generation was kept, but retention cleanup needs host attention. Older files were not treated as safely removable.",
+  backupLastAttempt: "Last attempt",
+  backupLastCompleted: "Last successful generation",
+  backupCutoff: "Recoverable data cutoff",
+  backupAge: "Recoverable data age",
+  backupHours: "hours",
+  backupNextDue: "Next scheduled start",
+  backupSize: "Encrypted size",
+  backupRestoreTest: "Last recorded restore test",
+  backupSchedule: "Schedule and retained generations",
+  backupDaily: "daily",
+  backupWeekly: "weekly",
+  backupScheduleHelp:
+    "The default starts every 23.5 hours, leaving 30 minutes before the 24-hour objective. Sleep, shutdown and failures still count toward actual recoverable age. Change the policy through the host; longer intervals reduce protection.",
+  backupNow: "Create backup now",
+  backupQueued: "Backup requested",
+  backupPause:
+    "Backup briefly pauses the application to capture a coherent database and evidence set. This page reconnects when it finishes.",
+  backupRecoveryHelp:
+    "Restore requires the separate recovery key saved in your password manager. Use a new destination. Old owner, agent and browser credentials are revoked; raw content and provider work await policy/account reconciliation.",
+  backup_not_configured:
+    "Enroll a backup destination through the protected host wrapper first.",
+  backup_scheduler_unavailable:
+    "The host scheduler is unavailable. Start it with ./blackbox up.",
+  backup_maintenance_required:
+    "Complete the interrupted host maintenance before requesting a backup.",
+  backup_request_unavailable:
+    "The host backup request could not be saved. Inspect host status.",
   observedAt: "Observed at",
   retained: "Retained logs",
   levels: "Levels",
@@ -450,6 +498,54 @@ export const de: Record<keyof typeof en, string> = {
   backup: "Sicherung & Wiederherstellung",
   not_configured: "Nicht eingerichtet",
   noBackup: "Es ist kein Sicherungsschutz eingerichtet.",
+  scheduled: "Geplant",
+  completed: "Abgeschlossen",
+  failed: "Fehlgeschlagen",
+  overdue: "Überfällig",
+  maintenance_required: "Wiederherstellung am Host erforderlich",
+  backupPostpone:
+    "Du kannst ohne Sicherungsziel fortfahren. Deine Daten bleiben dann ohne Sicherungsschutz.",
+  backupOverdue:
+    "Keine erfolgreiche Sicherung innerhalb des 24-Stunden-Ziels. Prüfe das Ziel und den Host-Status.",
+  backupSchedulerStopped:
+    "Der Sicherungsplaner am Host meldet sich nicht. Starte das Backend über das Host-Werkzeug:",
+  backupDestinationMissing:
+    "Das eingerichtete Ziel ist nicht verfügbar. Verbinde das ursprüngliche Volume erneut; es wird kein Ersatzverzeichnis verwendet.",
+  backupSameDevice:
+    "Dieses Ziel liegt auf demselben Gerät. Es schützt nicht vor dem Verlust des Geräts.",
+  backupClock:
+    "Der Sicherungsstand liegt in der Zukunft. Prüfe die Uhr des Macs, bevor der Zeitplan fortgesetzt wird.",
+  backupMaintenance:
+    "Eine unterbrochene Wartung muss am Host wieder aufgenommen werden. Nur für eine unterbrochene Sicherung:",
+  backupRetentionError:
+    "Die neue Sicherung wurde behalten, aber die Aufbewahrungsbereinigung benötigt eine Prüfung am Host. Ältere Dateien wurden nicht als sicher löschbar behandelt.",
+  backupLastAttempt: "Letzter Versuch",
+  backupLastCompleted: "Letzte erfolgreiche Sicherung",
+  backupCutoff: "Wiederherstellbarer Datenstand",
+  backupAge: "Alter des wiederherstellbaren Datenstands",
+  backupHours: "Stunden",
+  backupNextDue: "Nächster geplanter Start",
+  backupSize: "Verschlüsselte Größe",
+  backupRestoreTest: "Letzter protokollierter Wiederherstellungstest",
+  backupSchedule: "Zeitplan und aufbewahrte Sicherungen",
+  backupDaily: "täglich",
+  backupWeekly: "wöchentlich",
+  backupScheduleHelp:
+    "Standardmäßig startet alle 23,5 Stunden eine Sicherung, mit 30 Minuten Puffer bis zum 24-Stunden-Ziel. Ruhezustand, Ausschalten und Fehler zählen zum tatsächlichen Alter des Datenstands. Ändere die Regeln am Host; längere Intervalle verringern den Schutz.",
+  backupNow: "Jetzt sichern",
+  backupQueued: "Sicherung angefordert",
+  backupPause:
+    "Die Anwendung pausiert kurz, um Datenbank und Belege konsistent zu sichern. Diese Seite verbindet sich danach erneut.",
+  backupRecoveryHelp:
+    "Zur Wiederherstellung brauchst du den separaten Schlüssel aus deinem Passwortmanager. Verwende ein neues Ziel. Alte Eigentümer-, Agenten- und Browserzugriffe werden widerrufen; Originalinhalte und Anbieterabrufe warten auf die Richtlinien- und Kontenprüfung.",
+  backup_not_configured:
+    "Richte zuerst ein Sicherungsziel über das geschützte Host-Werkzeug ein.",
+  backup_scheduler_unavailable:
+    "Der Sicherungsplaner am Host ist nicht verfügbar. Starte ihn mit ./blackbox up.",
+  backup_maintenance_required:
+    "Schließe die unterbrochene Host-Wartung ab, bevor du eine Sicherung anforderst.",
+  backup_request_unavailable:
+    "Die Sicherungsanforderung konnte am Host nicht gespeichert werden. Prüfe den Host-Status.",
   observedAt: "Beobachtet am",
   retained: "Aufbewahrte Logs",
   levels: "Schweregrade",
