@@ -1,10 +1,10 @@
 BLACKBOX — INDEPENDENT IMPLEMENTATION BRIEF
-Version 1.1 · 2026-10-31 · Product owner: the person providing this package
+Version 1.2 · 2026-10-31 · Product owner: the person providing this package
 
 GO. Build the product described here. This is an implementation assignment, not a request for another mockup or a plan-only response. Work in the assigned repository. Use the supplied local prototype as the visual and interaction reference. Continue through implementation, verification and reproducible packaging. Do not claim external validation that you could not perform.
 
 0. READ FIRST AND WORK AUTONOMOUSLY
-Read this brief, ACCEPTANCE.json, GOLDEN-ORDER-TO-CASH.json, ARCHITECTURE-EN.txt and reference/prototype/. Inspect the reference in a browser when possible. The hosted URL is https://blackbox-business-flugschreiber.bene007.chatgpt.site/#app/agents, but it may require the owner's account; the local reference is authoritative for appearance.
+Read this brief, specs/JOURNAL-AND-MCP.md, ACCEPTANCE.json, GOLDEN-ORDER-TO-CASH.json, ARCHITECTURE-EN.txt and reference/prototype/. Inspect the reference in a browser when possible. The hosted URL is https://blackbox-business-flugschreiber.bene007.chatgpt.site/#app/agents, but it may require the owner's account; the local reference is authoritative for appearance.
 
 Create AGENTS.md, docs/product.md, docs/architecture.md, docs/decisions/, specs/, docs/status.md and a machine-readable acceptance report. The templates are starting points, not implemented application code. Preserve this package as an input reference.
 
@@ -75,13 +75,15 @@ tests/                    integration, security, E2E, compatibility, performance
 Routes and components must not implement accounting or quantity calculations. Domain code must not import HTTP frameworks, provider SDKs or UI code. Establish enforceable import boundaries. Experiments must not run against production tenants by default or silently alter the canonical ledger.
 
 4. EVIDENCE AND EVENT MODEL — THE CORE OF THE PRODUCT
+The binding data-structure, append-only enforcement and MCP read-coverage contract is specs/JOURNAL-AND-MCP.md. Implement it as part of M1–M3; the journal is not merely an optional audit log.
+
 Keep the five visible tracks: Sources, Facts, Commitments, Movements, Reservations. They are linked views of a shared evidence graph, not five unrelated databases and not five numbers added together.
 
 Persist source observations and raw evidence separately from normalized events and rebuildable read models. Every business event needs at least: internal ID, tenant ID, connection ID, provider/account namespace, provider event identity or documented dedup key, entity references, schema version, event type, occurred_at, recorded_at, provenance/evidence references, and correlation/causation IDs where applicable. Facts record derivation rule/version and their input evidence. Time values are UTC internally with source-time information retained where meaningful.
 
 Use explicit entity links for customers, orders, lines, invoices, shipments, transactions, refunds and payouts. Email addresses and coincidentally identical order numbers are not globally unique join keys. Record ambiguous links and conflicts instead of silently merging them. Two tenants can have identical external IDs.
 
-Normal business corrections append superseding observations; they do not silently rewrite history. Projections may be updated and rebuilt. Privacy deletion/redaction is a separate, authorized, audited retention workflow; append-only business history is not a promise to retain personal content forever. Raw payloads should be access-controlled, size-limited and encrypted where appropriate. Never log access tokens or complete private email bodies.
+The canonical journal is append-only: runtime roles cannot UPDATE, DELETE or TRUNCATE committed entries or their immutable payload/link records. Corrections, reversals and releases append linked entries, preserving original assertions. Enforce this at the database boundary and test the actual roles. Mutable projections and operational state are separate and may be updated or rebuilt. Minimize personal content in the journal; authorized retention/redaction applies to separately stored sensitive evidence with an appended audit entry and explicit unavailability. Any requirement to purge personal content mistakenly embedded in the journal needs an explicit design decision; do not silently relax append-only protection. Privileged database/host operators are a separate trust boundary, not a claimed tamper-proof guarantee. Raw payloads should be access-controlled, size-limited and encrypted where appropriate. Never log access tokens or complete private email bodies.
 
 Store integer minor currency units with currency, and explicit decimal quantity/unit types. Do not use floating-point money. Do not sum currencies without an explicit dated conversion rule. Separate snapshots from deltas, and authorizations from captures, credit notes from cash refunds, provider payouts from bank credits, physical stock from reservations, and promised deliveries from received goods.
 
@@ -116,7 +118,7 @@ Build deterministic query services for the six Order-to-Cash areas and all 24 su
 
 Acceptance must include changed amounts, quantities, IDs and timestamps beyond the included examples. Evidence links must resolve within the caller's tenant and permissions. The UI and MCP must call the same services.
 
-Implement search_events, get_business_state, get_evidence and a constrained answer/query tool over supported question intents. Define input/output schemas, pagination, limits and stable errors. Do not expose arbitrary SQL, unrestricted file access or a write/payment action in the initial MCP surface.
+Implement search_events, get_business_state, get_evidence and the schema-discovery, complete journal/history traversal and bounded structured-query capabilities defined in specs/JOURNAL-AND-MCP.md. The 24 question intents are a required minimum, not an access boundary: agents must be able to inspect all authorized business records across all five tracks and compose additional supported queries. Define input/output schemas, stable snapshot-based pagination, limits and stable errors. Do not expose arbitrary SQL, unrestricted file access or a write/payment action in the initial MCP surface.
 
 For remote MCP, implement the current supported HTTP transport and OAuth resource-server requirements, discovery, issuer/audience validation, expiry, scopes, tenant binding and revocation using maintained libraries. Pin the tested protocol/SDK versions. Test at least one real compatible client plus a protocol-level client when access is available. For local stdio, share services and keep credentials out of source control. If a named client cannot be tested, document that limitation instead of claiming universal compatibility.
 
@@ -126,7 +128,7 @@ An external agent may summarize returned facts or draft a response. Core balance
 M0 — Contract: map prototype behavior, record ADRs/threat model, define schema and acceptance mapping. Then implement; do not wait for approval of routine choices.
 M1 — Foundation: real authentication, two tenants, authorization, database/migrations, durable ingestion, jobs, source setup, recorder and evidence UI.
 M2 — Golden path: the entire synthetic Order-to-Cash cycle, restart/replay, late/duplicate events, conflicting evidence and correct query results. English-default UI and landing page with complete German localization.
-M3 — Agent access: real scoped MCP, shared query services, 24 question contracts, evidence and missing-data behavior.
+M3 — Agent access: real scoped MCP, complete authorized journal/history/schema read access, bounded structured queries, shared query services, all 24 question contracts, evidence and missing-data behavior.
 M4 — Real sources: Shopify/Shopify Payments, easybill and DHL adapter work and tests, with explicit external-verification status per capability.
 M5 — Install and operate: release images, self-host/local/hosted profiles, backup/restore, upgrade rehearsal, observability, isolation/security and performance evidence.
 

@@ -1,5 +1,5 @@
 {
-  "version": "1.1",
+  "version": "1.2",
   "date": "2026-10-31",
   "note": "Specification for tests to be implemented; not an already executable or executed suite. A reviewer must add independent variations.",
   "status_enum": [
@@ -359,6 +359,38 @@
       "category": "verification",
       "check": "Run aggregate verification from a clean checkout and generated release image.",
       "expected": "Actual tests/build/migrations pass with immutable inputs; each acceptance ID maps to evidence or explicit non-pass status; no skipped check reported as success.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "JOURNAL-01",
+      "category": "journal",
+      "check": "Attempt UPDATE, DELETE and TRUNCATE on canonical journal entries and immutable payload/link records using actual API, worker and ingestion runtime roles. Exercise cascading deletes and cleanup paths. Verify authorized append operations still work.",
+      "expected": "Database-enforced append-only behavior; historical bytes/links/timestamps unchanged; runtime roles cannot bypass protection or escalate privileges; mutable operational/projection data remains separate.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "JOURNAL-02",
+      "category": "journal",
+      "check": "Append a commitment correction and reversal, retry deliveries, ingest the same provider identity with different content, and rebuild projections. Query current and historical cutoffs.",
+      "expected": "Original entries remain unchanged and readable; new entries reference prior versions; current and historical state are correct; no duplicate effects or silent content replacement; conflicts are explicit and replay reproduces state.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "MCP-04",
+      "category": "agents",
+      "check": "Use a protocol client to discover exposed schema and traverse all five tracks, entity histories, correction/derivation links and evidence. Include new synthetic business records outside the 24 named question examples; attempt cross-tenant reads and unavailable/redacted evidence access.",
+      "expected": "All authorized business records are retrievable through bounded composable read tools, with results matching domain services. The 24 intents do not restrict data coverage. Unauthorized data remains inaccessible; missing/redacted evidence and incomplete coverage are explicit.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "MCP-05",
+      "category": "agents",
+      "check": "Read multiple journal/history pages at a fixed snapshot while writes commit concurrently, including lower sequence allocation with later commit, rollbacks and late business timestamps. Resume later and try a cursor in a different tenant.",
+      "expected": "Stable snapshot pagination has no omissions or duplicates, does not skip late commits, and clearly exposes continuation for newer records. Cutoffs are consistent across related reads; cross-tenant cursors are denied without leaking data.",
       "stage": "core",
       "release_gate": true
     }

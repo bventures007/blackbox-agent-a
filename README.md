@@ -21,8 +21,9 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 | [AGENTS.md](AGENTS.md) | Working rules, reading order and boundaries |
 | [START-HERE.md](START-HERE.md) | Launch instructions, scope and handover |
 | [BUILD-PROMPT-EN.txt](BUILD-PROMPT-EN.txt) | Full implementation contract |
+| [specs/JOURNAL-AND-MCP.md](specs/JOURNAL-AND-MCP.md) | Append-only data structure and full authorized MCP read contract |
 | [ARCHITECTURE-EN.txt](ARCHITECTURE-EN.txt) | Architecture and delivery approach |
-| [ACCEPTANCE.json](ACCEPTANCE.json) | 43 acceptance cases with release gates |
+| [ACCEPTANCE.json](ACCEPTANCE.json) | 47 acceptance cases with release gates |
 | [GOLDEN-ORDER-TO-CASH.json](GOLDEN-ORDER-TO-CASH.json) | Synthetic business cycle: 19 events, 11 checkpoints |
 | [reference/questions.json](reference/questions.json) | 24 questions in six Order-to-Cash groups |
 | [reference/prototype/](reference/prototype/) | Original visual and interaction reference |
@@ -38,7 +39,7 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 - One TypeScript modular monolith, with web/API/worker entrypoints, PostgreSQL and a shared domain model.
 - Hosted multi-tenant SaaS, self-hosted Linux and local Mac through the same Docker Compose-based release.
 - All engineering material in English; application UI and landing page in English by default, with complete German localization.
-- Order-to-Cash first, evidence-linked answers, actual tenant isolation and read-only MCP.
+- Order-to-Cash first, a database-enforced append-only journal, evidence-linked answers, actual tenant isolation and read-only MCP over all authorized business records and histories.
 - An offline synthetic workflow first; Shopify/Shopify Payments, easybill and DHL as the initial real connector scope, subject to actual provider access.
 - Founder-friendly extension points for connectors, questions and isolated experiments.
 
@@ -62,4 +63,4 @@ Open `http://127.0.0.1:4173/` or `http://127.0.0.1:4173/#app/agents`. This serve
 
 ## Independent comparison
 
-Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v2`; `baseline-v1` preserves the original preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).
+Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v3`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).

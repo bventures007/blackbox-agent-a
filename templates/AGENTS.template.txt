@@ -4,7 +4,7 @@ Read docs/product.md, docs/architecture.md, the relevant spec and this module's 
 The prototype is a design reference. Production results come from persisted evidence and deterministic services.
 Follow dependency direction: domain <- application <- adapters/entrypoints. Do not put business rules in components or routes.
 A tenant-owned operation requires validated scope. Tests must use the real application database roles.
-Business corrections preserve provenance. Unknown is an allowed result; unsupported certainty is a defect.
+Enforce the append-only journal and complete authorized MCP business read coverage in specs/JOURNAL-AND-MCP.md. Business corrections preserve provenance. Unknown is an allowed result; unsupported certainty is a defect.
 Never count authorizations as captures, payouts as revenue, invoice payment marks as additional cash, or credit notes as completed refunds.
 Provider events and queue handlers can repeat. Idempotency and replay must be demonstrable.
 Use English for all requirements, documentation, architecture decisions, feature briefs, agent instructions, code identifiers, comments, tests, logs, API/MCP contracts and handover reports. Only the application UI and landing page require both English (default) and complete German localization. Keep machine-readable identifiers stable in English; localize product-facing text through locale resources. Update both UI and landing-page locales in the same change.

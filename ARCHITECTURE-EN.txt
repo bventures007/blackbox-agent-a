@@ -25,7 +25,7 @@ Reservations: holds that affect availability.
 
 The tracks are views over a connected data model. One piece of evidence can contribute to several views without counting its money more than once. An invoice payment marker is not another customer payment; a payout is not new revenue; a credit note is not a completed refund.
 
-Original observations are not overwritten during ordinary business processing. Corrections extend the history and current views are recalculated. Privacy/retention processes need a separate controlled deletion or redaction path. This is a product requirement, not a claim of legal compliance.
+The canonical journal is append-only, enforced against UPDATE, DELETE and TRUNCATE by runtime roles. Corrections extend the history and current views are recalculated. Mutable projections and job/authentication state remain separate. Sensitive raw evidence is stored outside the journal and may follow an authorized retention/redaction workflow with an appended audit entry. The journal must not be silently pruned. See specs/JOURNAL-AND-MCP.md for the data structure, enforcement, operator trust boundary and retention distinction. This is a product requirement, not a claim of legal compliance.
 
 AI may phrase answers or extract candidates. Amounts, availability, entity links and answers must be supported by traceable rules and evidence. Expose missing, stale or contradictory data. The product can give defensible answers from available evidence; it cannot guarantee absolute truth.
 
@@ -57,7 +57,7 @@ The founder describes an idea using the feature template, and the agent turns it
 M0: product contract, fixed boundaries, architecture decisions and acceptance matrix.
 M1: login, two tenants, real persistence, job processing, source health and recorder.
 M2: complete synthetic Order-to-Cash cycle, evidence, recovery, replay and English/German UI and landing page.
-M3: real read-only MCP; all 24 questions have a defined data contract and return either evidence-backed results or explicit missing-data explanations.
+M3: real read-only MCP with full authorized journal/history access and bounded structured queries; all 24 questions have a defined data contract and return either evidence-backed results or explicit missing-data explanations.
 M4: real sources for the initial Shopify pilot: Shopify and Shopify Payments, one invoice provider (proposed: easybill), and one carrier (proposed: DHL). Verify API access, merchant agreements, permissions and test accounts.
 M5: installation packages, Linux/Mac verification, backups and restore, upgrade rehearsal, load test and independent acceptance.
 
