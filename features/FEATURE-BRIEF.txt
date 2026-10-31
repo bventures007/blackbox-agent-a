@@ -1,0 +1,16 @@
+FEATURE BRIEF — fill in plain language; the implementation agent turns this into a specification.
+
+Name:
+Who needs it:
+What problem should it solve:
+Example question or user action:
+Expected result, including an example:
+Which sources/evidence must be available:
+What should happen if data is missing or contradictory:
+What belongs in this change:
+What explicitly does not belong:
+How we will know it works (Given / When / Then):
+Which tenant/roles may use it:
+Demo/experiment workspace and rollout flag:
+
+Agent output: scoped specification, relevant domain/query/connector changes, migration if needed, executable acceptance tests, screenshots where relevant, documentation and honest verification report. Preserve the existing source-of-truth model and tenant boundaries. Do not add framework dependencies without a concrete need.

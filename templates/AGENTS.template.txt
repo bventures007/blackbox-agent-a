@@ -1,0 +1,17 @@
+Create AGENTS.md in the implementation repository and adapt this template to actual paths/commands.
+
+Read docs/product.md, docs/architecture.md, the relevant spec and this module's public contract before editing.
+The prototype is a design reference. Production results come from persisted evidence and deterministic services.
+Follow dependency direction: domain <- application <- adapters/entrypoints. Do not put business rules in components or routes.
+A tenant-owned operation requires validated scope. Tests must use the real application database roles.
+Business corrections preserve provenance. Unknown is an allowed result; unsupported certainty is a defect.
+Never count authorizations as captures, payouts as revenue, invoice payment marks as additional cash, or credit notes as completed refunds.
+Provider events and queue handlers can repeat. Idempotency and replay must be demonstrable.
+English is the default UI language. Update German in the same change.
+New sources use connector manifests, adapters, schemas and contract fixtures. New questions use shared query services, not UI keyword shortcuts.
+Keep experiments off by default and isolated from production customer data.
+Every implementation claim needs a status: implemented, contract-tested, sandbox-verified, platform-tested, not run or blocked.
+Run the relevant checks and repository verification commands. Never disable checks or weaken acceptance criteria to finish.
+Keep progress and remaining external prerequisites in docs/status.md. Continue independent work when one credential is unavailable.
+Keep credentials out of Git, prompts, fixtures, screenshots and logs. Do not copy this reference's placeholder token into production configuration.
+At handover include exact commands and evidence, not just a completion claim.

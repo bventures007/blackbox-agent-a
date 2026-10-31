@@ -1,0 +1,36 @@
+# Local secrets/configuration
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+.secrets/
+
+# Dependencies and generated build output
+node_modules/
+.pnpm-store/
+dist/
+build/
+coverage/
+.cache/
+.vite/
+*.tsbuildinfo
+
+# Local runtime state and unsanitized artifacts
+/.local/
+/data/
+/backups/
+/artifacts/runtime/
+playwright-report/
+test-results/
+*.log
+
+# Editor/OS
+.DS_Store
+.idea/
+.vscode/
+__pycache__/
+*.pyc

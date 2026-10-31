@@ -1,0 +1,12 @@
+# Independent comparison protocol
+
+Both repositories receive the same initial commit. Preserve that baseline and build independently. Repository A/B are labels, not different feature scopes or architectures. Do not inspect the competing implementation during the build.
+
+1. Record each agent/model/version and execution environment in build-environment.md. Give both comparable budgets, hardware, permissions and provider access; disclose differences.
+2. Use independent working directories, database/volume names and secrets. If both run locally, configure separate ports and Compose project names. A repository name alone does not isolate Docker volumes or ports.
+3. Preserve the M0–M3 plus local-installer checkpoint as a tested commit. Record it in reports/checkpoint.md and the tested commit for every acceptance result. Keep later work so the same checkpoint remains reviewable.
+4. Review each from a fresh checkout. Use REVIEW-PROMPT-EN.txt, ACCEPTANCE.json and independently varied data. Do not trust screenshots or the builder's pass claim alone.
+5. Apply SCORECARD.json only at the same scope. Report pending external/operations checks separately. A disqualifier overrides a high weighted score.
+6. Select one primary foundation. Adopt specific reviewed improvements from the other later; do not automatically merge the two systems or their databases.
+
+Required comparison output: tested commits; install results; correctness and tenant-isolation findings; design fidelity; effort to add a source/question; restore/upgrade evidence when in scope; weighted score and release blockers. The owner chooses after this review.

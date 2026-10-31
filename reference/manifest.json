@@ -1,0 +1,16 @@
+{
+  "captured_date": "2026-10-31",
+  "prototype_url": "https://blackbox-business-flugschreiber.bene007.chatgpt.site",
+  "source_commit": "5d0e15ede4c02d711fd751ec55e7ab18bd53d211",
+  "nature": "Visual/interaction prototype; simulated data, no production auth/persistence/connectors/MCP.",
+  "included": "Only static UI assets, current relevant screenshots and exported question definitions. No Git metadata, hosting manifest or credentials.",
+  "files": {
+    "app.js": "aae5821e1fb3bbb9781b3449e53b48a661b749fe3cf3d2cec4e29f899b5c0b6c",
+    "billing.js": "baadb2d65afa06a7fa4856fb77157a7b6596c3100b8e249b5eed5ec4257819b6",
+    "index.html": "72f574a4404e055ef20bc5d25c848c0d1e8aa6e0484d59e8e444151968b927b6",
+    "otc-examples.js": "20301ffb8308282f35273fdc042c627b1756090c35c7d7654df2a056d2342e6f",
+    "payments.js": "4066f3b3d2a6ecaa39a4ef6c627160af509bb68bc002b9d9798824a3aa28828e",
+    "styles.css": "fbcb3ca135bf55a9a673f56e8445a1f1a4bfc17d0461dd4b19968fe3208b7a2d",
+    "tracking.js": "b73d5839e69bacedee070c393e8b9dcbc526140649a54982417b58ad0066e264"
+  }
+}

@@ -1,0 +1,366 @@
+{
+  "version": "1.0",
+  "date": "2026-10-31",
+  "note": "Specification for tests to be implemented; not an already executable or executed suite. A reviewer must add independent variations.",
+  "status_enum": [
+    "not_started",
+    "implemented_unverified",
+    "passed",
+    "failed",
+    "blocked_external",
+    "not_applicable"
+  ],
+  "rules": [
+    "Passed requires a reproducible command, exact commit, environment and observed result.",
+    "A missing provider account or platform makes the relevant gate blocked/unverified, not passed.",
+    "Core comparison can finish before external/operations gates, but customer launch cannot be declared ready with applicable release gates open.",
+    "Conditional extraction check is not applicable only if that optional feature is absent.",
+    "Never modify expected business values merely to match an implementation."
+  ],
+  "cases": [
+    {
+      "id": "INSTALL-01",
+      "category": "installation",
+      "check": "Install from a fresh checkout with no commercial cloud account or LLM key.",
+      "expected": "Doctor checks prerequisites. Setup creates secure configuration. Up starts a persistent application. First admin and demo workspace can be created in the browser.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "INSTALL-02",
+      "category": "installation",
+      "check": "Restart API, worker and database after ingesting the Golden Scenario.",
+      "expected": "Identical business state and resolvable evidence after restart; no reseeding over user data; volumes preserved.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "TENANT-01",
+      "category": "isolation",
+      "check": "Create tenants A/B with the same external order number and different amounts. Query list/detail/search/export endpoints and every MCP tool as A.",
+      "expected": "No B content, counts, IDs, existence signals or evidence links leak. Unscoped operations fail closed.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "TENANT-02",
+      "category": "isolation",
+      "check": "Exercise real PostgreSQL application/worker roles without tenant context and with attempted cross-tenant writes.",
+      "expected": "No cross-tenant reads or writes; policies also cover inserts/updates. Roles are not table owners, superusers or BYPASSRLS. Migration role is separate.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "TENANT-03",
+      "category": "isolation",
+      "check": "Reuse pooled DB connections after success, transaction failure and cancellation across A and B; mix concurrent worker retries.",
+      "expected": "No leaked session tenant context; each transaction/job has validated scope.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "TENANT-04",
+      "category": "isolation",
+      "check": "Attempt cross-tenant foreign references, file access, cache hits, exported downloads and revoked MCP credentials.",
+      "expected": "All denied without sensitive response content. Composite references and cache/object namespaces enforce the boundary.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "AUTH-01",
+      "category": "authorization",
+      "check": "Use owner, admin, member and read-only roles; remove membership and revoke sessions/tokens.",
+      "expected": "Role matrix enforced server-side; revoked access stops according to documented bounded behavior; workspace selector is not authorization.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "AUTH-02",
+      "category": "authorization",
+      "check": "Attempt setup takeover, default passwords, CSRF/session misuse and repeated login attempts.",
+      "expected": "No default public admin, one-time protected bootstrap, safe cookie/session behavior, throttling and tested recovery.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "INGEST-01",
+      "category": "durability",
+      "check": "Verify a valid signed webhook, then corrupt its signature/body and replay it for another connection.",
+      "expected": "Only valid connection-bound input is accepted; payload tenant_id cannot redirect ingestion.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "INGEST-02",
+      "category": "durability",
+      "check": "Deliver one provider event repeatedly and concurrently, including duplicated deliveries from multiple subscriptions.",
+      "expected": "Delivery history may grow but canonical business effect occurs once; provider/account-scoped event identity is documented.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "INGEST-03",
+      "category": "durability",
+      "check": "Kill the API after durable receipt and kill a worker before/after committing a projection. Restart and retry.",
+      "expected": "Every acknowledged input is processed or visibly queued/dead-lettered; no lost work or double financial/quantity effects.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "INGEST-04",
+      "category": "durability",
+      "check": "Deliver updates out of order and an old snapshot after a newer one.",
+      "expected": "Latest business state follows documented version/effective-time rules, not arrival order; older evidence remains visible.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "INGEST-05",
+      "category": "durability",
+      "check": "Simulate pagination, interrupted backfill, HTTP 429, token expiry, unavailable provider and poison payload.",
+      "expected": "Checkpoint resume, bounded retries/backoff, visible health, dead-letter repair and per-tenant fairness; no silent success.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "INGEST-06",
+      "category": "durability",
+      "check": "Omit a webhook then run provider reconciliation.",
+      "expected": "Missing state is recovered with provenance; evidence is not duplicated as new business activity.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "DOMAIN-01",
+      "category": "correctness",
+      "check": "Run GOLDEN-ORDER-TO-CASH.json, including intermediate checkpoints.",
+      "expected": "Every specified expected value matches; evidence IDs resolve; conservation equations hold.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "DOMAIN-02",
+      "category": "correctness",
+      "check": "Replay all Golden Scenario observations into empty projections twice, then vary quantities and amounts.",
+      "expected": "Same semantic state with no double counting; generalized calculations, not hardcoded example values.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "DOMAIN-03",
+      "category": "correctness",
+      "check": "Mix a payment authorization, capture, invoice paid marker, credit note, pending refund, completed refund, payout and bank credit.",
+      "expected": "Only documented movements affect the corresponding balance; invoice mark is not a second capture; credit note is not cash; payout is not revenue.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "DOMAIN-04",
+      "category": "correctness",
+      "check": "Use stock reservations, shipment, return receipt, quarantine and restock with separate quantities/units.",
+      "expected": "Physical, reserved, quarantined and available quantities remain distinguishable; promises do not increase physical stock.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "DOMAIN-05",
+      "category": "correctness",
+      "check": "Mix currencies, decimal quantities, partial payments and rounding cases.",
+      "expected": "Integer money with currency, explicit decimal quantity rules, no silent cross-currency sum or floating-point drift.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "DOMAIN-06",
+      "category": "evidence",
+      "check": "Create contradictory observations and ambiguous entity matches.",
+      "expected": "Conflicts/uncertain links visible; no silent merge by email or bare order number; provenance remains attached.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "DOMAIN-07",
+      "category": "evidence",
+      "check": "Query an effective-time cutoff and a recorded-time cutoff before/after a late correction.",
+      "expected": "Documented bitemporal semantics produce stable historical answers; correction does not erase the prior known state.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "QUERY-01",
+      "category": "queries",
+      "check": "Evaluate all 24 supplied question intents with sufficient and insufficient data.",
+      "expected": "Shared query services return result/calculation/evidence/freshness or explicit missing inputs; no keyword-only canned answers.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "QUERY-02",
+      "category": "queries",
+      "check": "Ask for bank receipt with only a provider payout event; ask whether an invoice is missing with incomplete invoice sync.",
+      "expected": "Unknown/unconfirmed rather than false certainty. Coverage and last sync are visible.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "MCP-01",
+      "category": "agents",
+      "check": "Connect a protocol test client to real read-only MCP tools and compare results with the UI.",
+      "expected": "Same scoped domain state and evidence; validated schemas, pagination, bounded results and typed failures.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "MCP-02",
+      "category": "agents",
+      "check": "Test wrong issuer/audience, expired/revoked token, insufficient scope, wrong tenant, missing discovery and attempted write tools.",
+      "expected": "Unauthorized access denied; current supported OAuth/resource metadata works; no arbitrary SQL or financial action exposed.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "MCP-03",
+      "category": "agents",
+      "check": "Complete one real compatible client connection when access is provided.",
+      "expected": "Record client/protocol/SDK versions, authorized scope and evidence. Mark pending if the client/account cannot be exercised.",
+      "stage": "external",
+      "release_gate": true
+    },
+    {
+      "id": "UI-01",
+      "category": "experience",
+      "check": "Exercise landing, sign-in, workspace setup, sources, recorder, evidence, questions and Agent/MCP views on desktop and mobile.",
+      "expected": "Reference design preserved; accessible keyboard/focus behavior; shipping remains ordinary sources; Xentral absent; no clipped critical controls.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "UI-02",
+      "category": "experience",
+      "check": "Switch English/German, refresh, change workspace and exercise errors and empty states.",
+      "expected": "English defaults; German complete; preference retained; locale-safe money/date/time formatting.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "SOURCE-01",
+      "category": "connectors",
+      "check": "Test Shopify/Shopify Payments against documented fixtures and authorized provider accounts.",
+      "expected": "Backfill, incrementals and reconciliation are correctly mapped; actual grants/coverage documented; duplicate financial representation prevented.",
+      "stage": "external",
+      "release_gate": true
+    },
+    {
+      "id": "SOURCE-02",
+      "category": "connectors",
+      "check": "Test easybill adapter with fixture/server contract tests and authorized account access.",
+      "expected": "Invoice/credit/status mapping with explicit IDs and scope; unsupported fields not fabricated; live verification status recorded.",
+      "stage": "external",
+      "release_gate": true
+    },
+    {
+      "id": "SOURCE-03",
+      "category": "connectors",
+      "check": "Test DHL adapter and order/shipment matching with fixture/server tests and authorized account access.",
+      "expected": "Status/scan timestamps, source coverage and ambiguity correct; labels/announcements do not imply physical delivery.",
+      "stage": "external",
+      "release_gate": true
+    },
+    {
+      "id": "SOURCE-04",
+      "category": "connectors",
+      "check": "Import a bank CSV twice, including malformed dates, currency, missing references and ambiguous candidate payouts.",
+      "expected": "Validation preview, tenant scope, audit and deduplication; ambiguous matches require review; file content is treated as untrusted data.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "OPS-01",
+      "category": "operations",
+      "check": "Back up database, evidence objects and required secret configuration; restore into a clean isolated instance.",
+      "expected": "State, evidence and connector configuration are recoverable; actual recovery duration and backup cutoff recorded.",
+      "stage": "operations",
+      "release_gate": true
+    },
+    {
+      "id": "OPS-02",
+      "category": "operations",
+      "check": "Upgrade populated previous-schema data and exercise the documented recovery path.",
+      "expected": "No silent data loss; compatible rollback or forward recovery rehearsed; migrations serialized and versioned.",
+      "stage": "operations",
+      "release_gate": true
+    },
+    {
+      "id": "OPS-03",
+      "category": "operations",
+      "check": "Run local profile and public-server profile; stop a dependency and overload one tenant.",
+      "expected": "Local loopback default, HTTPS public profile, readiness/health/logs/queue metrics, bounded resources and honest degraded status.",
+      "stage": "operations",
+      "release_gate": true
+    },
+    {
+      "id": "OPS-04",
+      "category": "platforms",
+      "check": "Build both linux/amd64 and linux/arm64 release images; install on Linux and a real Apple Silicon Mac.",
+      "expected": "Record build versus actual platform execution separately. Unavailable platforms are unverified, not passed.",
+      "stage": "operations",
+      "release_gate": true
+    },
+    {
+      "id": "OPS-05",
+      "category": "performance",
+      "check": "Run the documented 50-tenant/250k-event baseline with concurrent ingestion and reads.",
+      "expected": "Report hardware, commands, distributions, p95 latency/lag and invariant checks. Target failures remain visible; no capacity claim without measurement.",
+      "stage": "operations",
+      "release_gate": true
+    },
+    {
+      "id": "SEC-01",
+      "category": "security",
+      "check": "Scan dependencies/secrets and inspect runtime logs, fixtures, object URLs and recovery material.",
+      "expected": "No committed or logged secrets, source payload access controlled, encryption keys recoverable separately; material findings triaged and resolved before release.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "SEC-02",
+      "category": "retention",
+      "check": "Execute authorized tenant export and a configured redaction/deletion flow.",
+      "expected": "Tenant boundaries retained; affected evidence/projections/backups handled according to documented retention policy; changes audited.",
+      "stage": "operations",
+      "release_gate": true
+    },
+    {
+      "id": "SEC-03",
+      "category": "extraction",
+      "check": "If AI/email extraction is implemented, supply malicious instructions and ambiguous monetary promises in source text.",
+      "expected": "Source content cannot change authorization/tool policy; uncertain candidates do not become confirmed financial facts. Mark not applicable if feature absent.",
+      "stage": "conditional",
+      "release_gate": true
+    },
+    {
+      "id": "EXTEND-01",
+      "category": "maintainability",
+      "check": "Add a small fixture connector and a new supported question following the extension guide.",
+      "expected": "Manifest/adapter/contracts/tests and query registration suffice; no edits to unrelated financial rules or ingestion core; boundaries checked.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "SAAS-01",
+      "category": "product",
+      "check": "Onboard a second workspace, invite a user, revoke access and apply a per-tenant ingestion limit.",
+      "expected": "Roles, audit and usage limits work on the same artifact as local mode. Operator-managed commercial plans are acceptable for initial release.",
+      "stage": "core",
+      "release_gate": true
+    },
+    {
+      "id": "CI-01",
+      "category": "verification",
+      "check": "Run aggregate verification from a clean checkout and generated release image.",
+      "expected": "Actual tests/build/migrations pass with immutable inputs; each acceptance ID maps to evidence or explicit non-pass status; no skipped check reported as success.",
+      "stage": "core",
+      "release_gate": true
+    }
+  ]
+}
