@@ -6,7 +6,7 @@ P0 is implemented: environment, SQL/auth/RPC decisions and genuine Shopify autho
 
 Verified: actual HTTP adapter pagination, durable PostgreSQL source/outbox and derived tracks, Rust payment state, API/UI/MCP, full restart, missing/corrupt projection cold recovery, fixed cutoffs, late revisions, duplicates/content conflicts, refunds/missing payments, tenant isolation, agent revocation and basic offline diagnostics. Evidence lives in reports/runs/p1-dd0998e. No live Shopify or full product acceptance is implied.
 
-Next implementation: Golden Scenario and generalized typed inputs/reducers, then all 24 structured questions, source/readiness operations and the reference EN/DE interface. P3/P4 package, backup/restore/upgrade, performance and independent review remain open. The supplied baseline contracts and reference assets are unchanged.
+Current work: selected source/readiness operations and review/repair, followed by package, backup/restore/upgrade and operational validation. Golden, all 24 typed questions and the initial EN/DE React interface have executed checkpoints below. P3/P4 package, backup/restore/upgrade, performance and independent review remain open. The supplied baseline contracts and reference assets are unchanged.
 
 External blockers: no authorized Shopify/Payments credentials; Compose containers remain created on this Mac despite successful image builds. The native developer runtime is isolated and real, but is not DIST proof. Independent reviewer approval has not been obtained or self-issued.
 
@@ -27,3 +27,7 @@ At `fcd72d055ab9211369decc96c2c7cbb0e04e915a`, the reference-styled React/Vite i
 ## Settlement scope correction
 
 At `4e9edcffbfd6716d568cd618e69feea8f7beea5f`, questions-v2 passed the full 24 positive/missing/varied suite plus five new persisted scope adversaries, including restart and corrupted/deleted projections. Shared-capture refunds are subtracted once; unrelated receipts cannot close a cancellation; unknown refund populations remain unknown; impossible reversals/releases produce conflicts. Golden and first-slice regressions passed. See reports/runs/questions-4e9edcf. The 45 preparation regression tests and ordinary profile/catalogue/register validators also pass; none substitute for remaining release gates.
+
+## Durable source operations increment
+
+Implemented fixed import plans, protected Shopify credentials, account-bound reconnect, fenced/resumable initial/delta/reconciliation jobs and EN/DE source onboarding for orders/payments/refunds. Synthetic pre-commit checks exercised PostgreSQL/Rust/API, actual SDK MCP and a real process restart, plus desktop/mobile browser scope controls. Visual QA exposed and fixed a late-readiness form overwrite; a regression assertion now preserves the selected preset. Clean committed reproduction is the next evidence step. See docs/contracts/source-operations.md. Other selected Shopify/Payments adapters, complete shared answer health, review/repair and P4 operational/delivery/performance gates remain active work. No additional product acceptance or independent review is approved.

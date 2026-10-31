@@ -264,6 +264,10 @@ impl<'a> Context<'a> {
             r.data["backfill_complete"] == true
                 && s(&r.data, "failure_state") == "none"
                 && seconds(s(&r.data, "complete_through")).is_ok_and(|t| t >= now)
+                && (s(&r.data, "history_kind") != "snapshot_only"
+                    || (from.is_none()
+                        && chrono::DateTime::parse_from_rfc3339(s(&r.data, "complete_through")).ok()
+                            == chrono::DateTime::parse_from_rfc3339(&self.request.as_of).ok()))
                 && from.is_none_or(|f| seconds(s(&r.data, "history_start")).is_ok_and(|t| t <= f))
         });
         for r in covers {
@@ -389,6 +393,6 @@ pub fn execute(records: &[Record], request: &Question) -> Result<Value, String> 
         .take(request.limit)
         .collect();
     Ok(
-        json!({"status":status,"intent":request.intent,"result":if status=="insufficient_data"{Value::Null}else{json!({"rows":page,"count_in_scope":total})},"missing_inputs":ctx.missing,"conflicts":ctx.conflicts,"evidence":ctx.evidence,"input_entries":ctx.inputs,"coverage":{"basis":"declared_source_intervals","independently_verified":false},"rule_version":"questions-v2","as_of":request.as_of,"next_offset":if request.offset+request.limit<total{Some(request.offset+request.limit)}else{None},"truncated":false}),
+        json!({"status":status,"intent":request.intent,"result":if status=="insufficient_data"{Value::Null}else{json!({"rows":page,"count_in_scope":total})},"missing_inputs":ctx.missing,"conflicts":ctx.conflicts,"evidence":ctx.evidence,"input_entries":ctx.inputs,"coverage":{"basis":"declared_source_intervals","independently_verified":false},"rule_version":"questions-v3","as_of":request.as_of,"next_offset":if request.offset+request.limit<total{Some(request.offset+request.limit)}else{None},"truncated":false}),
     )
 }

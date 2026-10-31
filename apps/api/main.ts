@@ -20,6 +20,7 @@ import { validSignature } from "../../packages/auth/producer.js";
 import { businessQuery, observation } from "../../packages/contracts/index.js";
 import { journal, InvalidCursor } from "../../packages/application/journal.js";
 import { registerOwnerRoutes } from "./owner.js";
+import { registerSourceRoutes } from "./sources.js";
 import { registerStatic } from "./static.js";
 import { log } from "../../packages/diagnostics/index.js";
 const port = Number(process.env.PORT ?? 8080),
@@ -103,6 +104,7 @@ const owner = (p?: Principal) => {
   if (p?.purpose !== "session") throw new Forbidden("owner_required");
   return p;
 };
+await registerSourceRoutes(app, owner);
 app.post("/v1/login", async (req, reply) => {
   const attempt = attempts.get(req.ip);
   if (attempt && attempt.until > Date.now() && attempt.count >= 5)

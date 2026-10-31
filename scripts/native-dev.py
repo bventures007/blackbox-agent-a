@@ -66,7 +66,9 @@ def stop():
  p=runtime/'native-pids.json'
  if p.exists():
   for name,pid in json.load(p.open()).items():
-   try:os.killpg(pid,signal.SIGTERM)
+   try:
+    os.killpg(pid,signal.SIGCONT)
+    os.killpg(pid,signal.SIGTERM)
    except ProcessLookupError:pass
   p.unlink();time.sleep(.5)
  if (runtime/'pg/postmaster.pid').exists():run([pg/'pg_ctl','-D',runtime/'pg','stop','-m','fast'],stdout=subprocess.DEVNULL)

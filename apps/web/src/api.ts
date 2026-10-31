@@ -10,13 +10,17 @@ export class ApiError extends Error {
     super(code);
   }
 }
-export async function api<T = any>(path: string, body?: unknown): Promise<T> {
+export async function api<T = any>(
+  path: string,
+  body?: unknown,
+  timeout = 8000,
+): Promise<T> {
   const response = await fetch(path, {
     method: body === undefined ? "GET" : "POST",
     credentials: "same-origin",
     headers: { "content-type": "application/json", "x-blackbox-csrf": csrf },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-    signal: AbortSignal.timeout(8000),
+    signal: AbortSignal.timeout(timeout),
   });
   const data = await response.json();
   if (!response.ok)

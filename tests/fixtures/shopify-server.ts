@@ -1,6 +1,8 @@
 import Fastify from "fastify";
 const app = Fastify({ logger: false });
 let revision = 0;
+let sourceScenario: Record<string, any> = {};
+let sourceRequests: Record<string, unknown>[] = [];
 export function fixtureOrder(n: number, amount: string) {
   return {
     id: `gid://shopify/Order/${n}`,
@@ -47,6 +49,80 @@ app.post("/admin/api/2026-10/graphql.json", async (req) => {
     variables: { after: string | null };
     query: string;
   };
+  if (body.query.includes("BlackboxIdentity"))
+    return {
+      data: {
+        shop: {
+          id: sourceScenario.account_id ?? "gid://shopify/Shop/7001",
+          ianaTimezone: "Europe/Berlin",
+        },
+        currentAppInstallation: {
+          accessScopes: (
+            sourceScenario.scopes ?? ["read_orders", "read_all_orders"]
+          ).map((handle: string) => ({ handle })),
+        },
+      },
+    };
+  if (body.query.includes("BlackboxSource")) {
+    sourceRequests.push({
+      query: body.query.includes("BlackboxSourceLines") ? "lines" : "orders",
+      variables: body.variables,
+    });
+    if (sourceScenario.rate_limit) {
+      sourceScenario.rate_limit--;
+      return {
+        errors: [{ extensions: { code: "THROTTLED" } }],
+        extensions: {
+          cost: {
+            requestedQueryCost: 50,
+            throttleStatus: { currentlyAvailable: 0, restoreRate: 10 },
+          },
+        },
+      };
+    }
+    const orders = sourceScenario.orders ?? [];
+    if (body.query.includes("BlackboxSourceLines")) {
+      const vars = body.variables as any,
+        node = orders.find((o: any) => o.id === vars.id);
+      return {
+        data: {
+          order: {
+            updatedAt: node.updatedAt,
+            lineItems: {
+              nodes: node.extraLines ?? [],
+              pageInfo: { hasNextPage: false, endCursor: null },
+            },
+          },
+        },
+      };
+    }
+    const vars = body.variables as any,
+      after = vars.after ? Number(vars.after) : 0,
+      query = vars.query as string,
+      bounds = [...query.matchAll(/updated_at:(>=|<)'([^']+)'/g)],
+      selected = orders.filter(
+        (o: any) =>
+          bounds.every((m) =>
+            m[1] === ">="
+              ? Date.parse(o.updatedAt) >= Date.parse(m[2])
+              : Date.parse(o.updatedAt) < Date.parse(m[2]),
+          ) &&
+          (!query.includes("status:open") || !o.closed || o.unsettled),
+      );
+    const node = selected[after],
+      hasNext = after + 1 < selected.length;
+    return {
+      data: {
+        orders: {
+          nodes: node ? [node] : [],
+          pageInfo: {
+            hasNextPage: hasNext,
+            endCursor: node ? String(after + 1) : null,
+          },
+        },
+      },
+    };
+  }
   if (!body.query.includes("transactions"))
     return { errors: [{ message: "Missing selection" }] };
   const second = body.variables.after === "page-1";
@@ -87,6 +163,15 @@ app.post("/admin/api/2026-10/graphql.json", async (req) => {
     },
   };
 });
+app.post("/source-scenario", async (req) => {
+  sourceScenario = req.body as any;
+  sourceRequests = [];
+  return { ok: true };
+});
+app.get("/source-requests", async () => ({ requests: sourceRequests }));
+app.post("/admin/oauth/access_token", async (_req, reply) =>
+  reply.code(400).send({ error: "synthetic_access_token_fixture_only" }),
+);
 app.post("/revision", async (req) => {
   revision = (req.body as { revision: number }).revision;
   return { ok: true };

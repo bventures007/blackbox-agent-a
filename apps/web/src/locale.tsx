@@ -93,7 +93,7 @@ export const en = {
     "Create a separate key for a signed supplemental feed. Save it now; it will not be shown again.",
   noLive: "Live provider coverage has not been verified for this installation.",
   shopifySetup:
-    "Shopify requires an authorized shop, an app token and approved read scopes. Configure the connection using the protected host setup workflow.",
+    "Shopify requires an authorized shop, an app token and approved read scopes. Check credentials, choose a history range and review the available scope before importing.",
   supplemental: "Supplemental sources",
   plannedNote: "Later live providers are outside this local pilot.",
   shipping: "Shipping & communication",
@@ -340,7 +340,7 @@ export const de: Record<keyof typeof en, string> = {
   noLive:
     "Die Live-Anbieterabdeckung wurde für diese Installation noch nicht geprüft.",
   shopifySetup:
-    "Shopify benötigt einen autorisierten Shop, ein App-Token und freigegebene Leserechte. Richte die Verbindung über den geschützten Einrichtungsablauf auf diesem Mac ein.",
+    "Shopify benötigt einen autorisierten Shop, ein App-Token und freigegebene Leserechte. Prüfe die Zugangsdaten, wähle einen Zeitraum und kontrolliere den verfügbaren Umfang vor dem Import.",
   supplemental: "Ergänzende Quellen",
   plannedNote: "Spätere Live-Anbieter sind nicht Teil dieses lokalen Piloten.",
   shipping: "Versand & Kommunikation",

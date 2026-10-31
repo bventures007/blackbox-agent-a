@@ -50,7 +50,7 @@ export async function registerOwnerRoutes(
       ).rows,
       runs: (
         await c.query(
-          "SELECT run_id,connection_id,state,fetched,committed,last_success_at,last_new_at,updated_at FROM bb.import_runs ORDER BY updated_at DESC LIMIT 100",
+          "SELECT run_id,connection_id,plan_id,state,fetched,committed,last_success_at,last_new_at,updated_at FROM bb.import_runs ORDER BY updated_at DESC LIMIT 100",
         )
       ).rows,
     }));

@@ -59,8 +59,8 @@ const line = z
   })
   .strict();
 const shippedLine = z.object({ line_id: id, quantity, unit }).strict();
-const record = <T extends z.ZodRawShape>(
-  dataset: (typeof datasets)[number],
+const record = <D extends (typeof datasets)[number], T extends z.ZodRawShape>(
+  dataset: D,
   fields: T,
 ) => z.object({ dataset: z.literal(dataset), ...fields }).strict();
 export const datasetRecord = z.discriminatedUnion("dataset", [
@@ -322,6 +322,9 @@ export const datasetRecord = z.discriminatedUnion("dataset", [
       .max(100),
     failure_state: z.enum(["none", "incomplete", "revoked", "error"]),
     basis: z.literal("declared"),
+    history_kind: z
+      .enum(["event_history", "snapshot_only", "mixed"])
+      .optional(),
   }),
   record("identity", {
     entity_id: id,

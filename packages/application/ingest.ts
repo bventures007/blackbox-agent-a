@@ -2,13 +2,26 @@ import { createHash, randomUUID, createCipheriv } from "node:crypto";
 import { mkdir, writeFile, rename, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { scoped } from "../database/index.js";
+import type { PoolClient } from "pg";
 import { observation, type IngestObservation } from "../contracts/index.js";
 export const hash = (v: string) => createHash("sha256").update(v).digest("hex");
+export type IngestResult = {
+  committed_cursor: number;
+  added: number;
+  duplicates: number;
+  conflicts: number;
+  evidence_id: string;
+};
+export type IngestTransaction = {
+  before?: (c: PoolClient) => Promise<void>;
+  committed?: (c: PoolClient, result: IngestResult) => Promise<void>;
+};
 export async function ingest(
   tenant: string,
   connection: string,
   inputs: IngestObservation[],
   raw: unknown,
+  transaction: IngestTransaction = {},
 ) {
   if (inputs.length > 250) throw new Error("batch_too_large");
   const parsed = inputs.map((x) => observation.parse(x));
@@ -34,6 +47,7 @@ export async function ingest(
   });
   await rename(join(dir, `${evidence}.tmp`), join(dir, evidence));
   return scoped(tenant, async (c) => {
+    await transaction.before?.(c);
     const conn = await c.query(
       "SELECT 1 FROM bb.connections WHERE connection_id=$1",
       [connection],
@@ -134,12 +148,14 @@ export async function ingest(
       tenant,
       cursor,
     ]);
-    return {
+    const result = {
       committed_cursor: cursor,
       added,
       duplicates,
       conflicts,
       evidence_id: evidence,
     };
+    await transaction.committed?.(c, result);
+    return result;
   });
 }

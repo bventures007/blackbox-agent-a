@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
+import { ShopifySetup, SourceProgress } from "./source-import.js";
 import { useLocale, questionTitles, eventTitle } from "./locale.js";
 import { api, download } from "./api.js";
 import {
@@ -522,103 +523,117 @@ export function Sources({ onLogs }: { onLogs: (id: string) => void }) {
       <Panel title={t.connected}>
         {r.data?.connections.length ? (
           r.data.connections.map((s: any) => (
-            <article className="source-row" key={s.connection_id}>
-              <div>
-                <h3>{s.name ?? s.provider}</h3>
-                <p className="muted mono">
-                  {s.provider} · {s.connection_id}
-                </p>
-                <Badge state={s.state} />
-                <dl className="details">
-                  <div>
-                    <dt>{t.observations}</dt>
-                    <dd>{s.observations}</dd>
-                  </div>
-                  <div>
-                    <dt>{t.lastNew}</dt>
-                    <dd>
-                      <DateText value={s.last_new_at} />
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>{t.lastCheck}</dt>
-                    <dd>
-                      <DateText
-                        value={
-                          r.data.runs.find(
-                            (x: any) => x.connection_id === s.connection_id,
-                          )?.last_success_at
-                        }
-                      />
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-              <div className="actions">
-                <button
-                  className="btn small"
-                  onClick={() => onLogs(s.connection_id)}
-                >
-                  {t.logs}
-                </button>
-                <button
-                  className="btn small"
-                  disabled={a.busy}
-                  onClick={() =>
-                    void a.run(async () => {
-                      await api(
-                        "/v1/connections/" + s.connection_id + "/state",
-                        {
-                          state: s.state === "paused" ? "configured" : "paused",
-                        },
-                      );
-                      r.refresh();
-                    })
-                  }
-                >
-                  {s.state === "paused" ? t.resume : t.disconnect}
-                </button>
-              </div>
-            </article>
+            <Fragment key={s.connection_id}>
+              <article className="source-row">
+                <div>
+                  <h3>{s.name ?? s.provider}</h3>
+                  <p className="muted mono">
+                    {s.provider} · {s.connection_id}
+                  </p>
+                  <Badge state={s.state} />
+                  <dl className="details">
+                    <div>
+                      <dt>{t.observations}</dt>
+                      <dd>{s.observations}</dd>
+                    </div>
+                    <div>
+                      <dt>{t.lastNew}</dt>
+                      <dd>
+                        <DateText value={s.last_new_at} />
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>{t.lastCheck}</dt>
+                      <dd>
+                        <DateText
+                          value={
+                            r.data.runs.find(
+                              (x: any) => x.connection_id === s.connection_id,
+                            )?.last_success_at
+                          }
+                        />
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+                <div className="actions">
+                  <button
+                    className="btn small"
+                    onClick={() => onLogs(s.connection_id)}
+                  >
+                    {t.logs}
+                  </button>
+                  <button
+                    className="btn small"
+                    disabled={a.busy}
+                    onClick={() =>
+                      void a.run(async () => {
+                        await api(
+                          "/v1/connections/" + s.connection_id + "/state",
+                          {
+                            state:
+                              s.state === "paused" ? "configured" : "paused",
+                          },
+                        );
+                        r.refresh();
+                      })
+                    }
+                  >
+                    {s.state === "paused" ? t.resume : t.disconnect}
+                  </button>
+                </div>
+              </article>
+              {s.provider === "shopify" && (
+                <SourceProgress
+                  connection={s.connection_id}
+                  onLogs={onLogs}
+                  onChanged={r.refresh}
+                />
+              )}
+            </Fragment>
           ))
         ) : (
           <Empty />
         )}
       </Panel>
-      <Panel title={t.imports}>
-        {r.data?.runs.length ? (
-          <div className="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>{t.identity}</th>
-                  <th>{t.state}</th>
-                  <th>{t.fetched}</th>
-                  <th>{t.committed}</th>
-                  <th>{t.lastCheck}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {r.data.runs.map((x: any) => (
-                  <tr key={x.run_id}>
-                    <td className="mono">{x.run_id}</td>
-                    <td>
-                      <Badge state={x.state} />
-                    </td>
-                    <td>{x.fetched}</td>
-                    <td>{x.committed}</td>
-                    <td>
-                      <DateText value={x.last_success_at} />
-                    </td>
+      {r.data?.runs.some((run: any) => !run.plan_id) && (
+        <Panel title={t.imports}>
+          {r.data?.runs.length ? (
+            <div className="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>{t.identity}</th>
+                    <th>{t.state}</th>
+                    <th>{t.fetched}</th>
+                    <th>{t.committed}</th>
+                    <th>{t.lastCheck}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <Empty>{t.noRuns}</Empty>
-        )}
-      </Panel>
+                </thead>
+                <tbody>
+                  {r.data.runs
+                    .filter((x: any) => !x.plan_id)
+                    .map((x: any) => (
+                      <tr key={x.run_id}>
+                        <td className="mono">{x.run_id}</td>
+                        <td>
+                          <Badge state={x.state} />
+                        </td>
+                        <td>{x.fetched}</td>
+                        <td>{x.committed}</td>
+                        <td>
+                          <DateText value={x.last_success_at} />
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <Empty>{t.noRuns}</Empty>
+          )}
+        </Panel>
+      )}
       <Panel title={t.review}>
         <p>{t.reviewIntro}</p>
         {review.data?.cases.length ? (
@@ -654,10 +669,10 @@ export function Sources({ onLogs }: { onLogs: (id: string) => void }) {
         </Dialog>
       )}
       {showShopify && (
-        <Dialog title="Shopify" onClose={() => setShowShopify(false)}>
-          <p>{t.shopifySetup}</p>
-          <p className="notice">{t.noLive}</p>
-        </Dialog>
+        <ShopifySetup
+          onClose={() => setShowShopify(false)}
+          onSaved={r.refresh}
+        />
       )}
     </>
   );

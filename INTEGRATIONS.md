@@ -58,14 +58,14 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [shopify.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | BLOCKED: Live verification lacks authorized development-store credentials and confirmed grants. Synthetic contract and persisted pipeline work continues. | Codex primary implementation agent / 2026-10-31T13:15:57.215770Z |
+| [shopify.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | BLOCKED: Live verification lacks authorized development-store credentials and confirmed grants. Synthetic contract and persisted pipeline work continues. | Codex primary implementation agent / 2026-10-31T14:10:52.291794Z |
 | [shopify.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 | [shopify.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 | [shopify.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
-| [shopify.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | BLOCKED: Live verification lacks authorized development-store credentials and confirmed grants. Synthetic contract and persisted pipeline work continues. | Codex primary implementation agent / 2026-10-31T13:15:57.215770Z |
+| [shopify.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | BLOCKED: Live verification lacks authorized development-store credentials and confirmed grants. Synthetic contract and persisted pipeline work continues. | Codex primary implementation agent / 2026-10-31T14:10:52.291900Z |
 | [shopify.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 | [shopify.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
-| [shopify.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | Codex primary implementation agent / 2026-10-31T14:10:52.291906Z |
 
 #### Synchronization by capability
 
@@ -131,6 +131,9 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T13:02:30.622635Z / Codex root agent | shopify.payments / blocked |   Live verification lacks authorized development-store credentials and confirmed grants. Synthetic contract and persisted pipeline work continues. | —;  |
 | 2026-10-31T13:15:57.215770Z / Codex primary implementation agent | shopify.orders / progress |   Narrow synthetic SLICE-01 executed at dd0998ec74cc8ed9488dfc5acbb01b57dfaf4127; reports/runs/p1-dd0998e. Shared pipeline code exists and checks pass, but six full capability steps, mapping completeness and independent review are not claimed. External provider access remains blocked where applicable. | —;  |
 | 2026-10-31T13:15:57.215770Z / Codex primary implementation agent | shopify.payments / progress |   Narrow synthetic SLICE-01 executed at dd0998ec74cc8ed9488dfc5acbb01b57dfaf4127; reports/runs/p1-dd0998e. Shared pipeline code exists and checks pass, but six full capability steps, mapping completeness and independent review are not claimed. External provider access remains blocked where applicable. | —;  |
+| 2026-10-31T14:10:52.291794Z / Codex primary implementation agent | shopify.orders / progress |   Fixed source import plans, protected account-bound credentials, fenced polling jobs and EN/DE onboarding are implemented for orders/payments/refunds. Synthetic pre-commit PostgreSQL/Rust/API/MCP/restart and browser checks have run; clean committed reproduction, exact per-capability mappings, other selected provider adapters and independent review remain pending. Live access is still externally blocked. See docs/contracts/source-operations.md. | —;  |
+| 2026-10-31T14:10:52.291900Z / Codex primary implementation agent | shopify.payments / progress |   Fixed source import plans, protected account-bound credentials, fenced polling jobs and EN/DE onboarding are implemented for orders/payments/refunds. Synthetic pre-commit PostgreSQL/Rust/API/MCP/restart and browser checks have run; clean committed reproduction, exact per-capability mappings, other selected provider adapters and independent review remain pending. Live access is still externally blocked. See docs/contracts/source-operations.md. | —;  |
+| 2026-10-31T14:10:52.291906Z / Codex primary implementation agent | shopify.refunds / progress |   Fixed source import plans, protected account-bound credentials, fenced polling jobs and EN/DE onboarding are implemented for orders/payments/refunds. Synthetic pre-commit PostgreSQL/Rust/API/MCP/restart and browser checks have run; clean committed reproduction, exact per-capability mappings, other selected provider adapters and independent review remain pending. Live access is still externally blocked. See docs/contracts/source-operations.md. | —;  |
 
 </details>
 
@@ -1595,8 +1598,8 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [runtime.coverage](#data-coverage) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:43:54.124428Z |
-| [runtime.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:43:54.124428Z |
+| [runtime.coverage](#data-coverage) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T14:10:52.291910Z |
+| [runtime.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T14:10:52.291913Z |
 
 #### Synchronization by capability
 
@@ -1632,6 +1635,8 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T13:15:57.215770Z / Codex primary implementation agent | runtime.coverage / progress |   Narrow synthetic SLICE-01 executed at dd0998ec74cc8ed9488dfc5acbb01b57dfaf4127; reports/runs/p1-dd0998e. Shared pipeline code exists and checks pass, but six full capability steps, mapping completeness and independent review are not claimed. External provider access remains blocked where applicable. | —;  |
 | 2026-10-31T13:43:54.124428Z / Codex primary implementation agent | runtime.coverage / progress |   Typed supplemental inputs and generalized 24-question query paths have committed persisted evidence at 3ced26bb56543703e1d05e8719e35f2d537f2b45 (reports/runs/questions-3ced26b/questions-evidence.json). Full exact per-capability mapping, lifecycle operations and independent confirmation remain incomplete; this is not a source coverage approval. | —;  |
 | 2026-10-31T13:43:54.124428Z / Codex primary implementation agent | runtime.identity / progress |   Typed supplemental inputs and generalized 24-question query paths have committed persisted evidence at 3ced26bb56543703e1d05e8719e35f2d537f2b45 (reports/runs/questions-3ced26b/questions-evidence.json). Full exact per-capability mapping, lifecycle operations and independent confirmation remain incomplete; this is not a source coverage approval. | —;  |
+| 2026-10-31T14:10:52.291910Z / Codex primary implementation agent | runtime.coverage / progress |   Fixed source import plans, protected account-bound credentials, fenced polling jobs and EN/DE onboarding are implemented for orders/payments/refunds. Synthetic pre-commit PostgreSQL/Rust/API/MCP/restart and browser checks have run; clean committed reproduction, exact per-capability mappings, other selected provider adapters and independent review remain pending. Live access is still externally blocked. See docs/contracts/source-operations.md. | —;  |
+| 2026-10-31T14:10:52.291913Z / Codex primary implementation agent | runtime.identity / progress |   Fixed source import plans, protected account-bound credentials, fenced polling jobs and EN/DE onboarding are implemented for orders/payments/refunds. Synthetic pre-commit PostgreSQL/Rust/API/MCP/restart and browser checks have run; clean committed reproduction, exact per-capability mappings, other selected provider adapters and independent review remain pending. Live access is still externally blocked. See docs/contracts/source-operations.md. | —;  |
 
 </details>
 
