@@ -1,0 +1,1171 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-10-31T11:30:02Z",
+  "prepared_by": {
+    "id": "codex-seed-preparation",
+    "name": "Codex assistant (repository preparation)",
+    "kind": "agent"
+  },
+  "contract": "specs/question-data-contracts.json",
+  "history": "integrations/history.jsonl",
+  "human_view": "INTEGRATIONS.md",
+  "steps": [
+    "mapping",
+    "transport",
+    "postgres",
+    "rust",
+    "query_mcp",
+    "operations"
+  ],
+  "test_kinds": [
+    "contract",
+    "pipeline",
+    "recovery",
+    "tenant_isolation"
+  ],
+  "rows": [
+    {
+      "id": "shopify.orders",
+      "provider": "shopify",
+      "dataset": "orders",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify.stock",
+      "provider": "shopify",
+      "dataset": "stock",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify.allocations",
+      "provider": "shopify",
+      "dataset": "allocations",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify.fulfillments",
+      "provider": "shopify",
+      "dataset": "fulfillments",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify.payments",
+      "provider": "shopify",
+      "dataset": "payments",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify.returns",
+      "provider": "shopify",
+      "dataset": "returns",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify.receipts",
+      "provider": "shopify",
+      "dataset": "receipts",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify.refunds",
+      "provider": "shopify",
+      "dataset": "refunds",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify_payments.provider_ledger",
+      "provider": "shopify_payments",
+      "dataset": "provider_ledger",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify_payments.positions",
+      "provider": "shopify_payments",
+      "dataset": "positions",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify_payments.payouts",
+      "provider": "shopify_payments",
+      "dataset": "payouts",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify_payments.holds",
+      "provider": "shopify_payments",
+      "dataset": "holds",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify_payments.refunds",
+      "provider": "shopify_payments",
+      "dataset": "refunds",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopify_payments.disputes",
+      "provider": "shopify_payments",
+      "dataset": "disputes",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "easybill.invoices",
+      "provider": "easybill",
+      "dataset": "invoices",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "easybill.invoice_dispatch",
+      "provider": "easybill",
+      "dataset": "invoice_dispatch",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "easybill.payment_allocations",
+      "provider": "easybill",
+      "dataset": "payment_allocations",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "dhl.tracking",
+      "provider": "dhl",
+      "dataset": "tracking",
+      "scope": "first_release",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "bank_csv.bank",
+      "provider": "bank_csv",
+      "dataset": "bank",
+      "scope": "first_release",
+      "live_evidence_mode": "real_file",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.orders",
+      "provider": "generic",
+      "dataset": "orders",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.stock",
+      "provider": "generic",
+      "dataset": "stock",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.allocations",
+      "provider": "generic",
+      "dataset": "allocations",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.supply",
+      "provider": "generic",
+      "dataset": "supply",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.promises",
+      "provider": "generic",
+      "dataset": "promises",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.fulfillments",
+      "provider": "generic",
+      "dataset": "fulfillments",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.tracking",
+      "provider": "generic",
+      "dataset": "tracking",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.communications",
+      "provider": "generic",
+      "dataset": "communications",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.invoices",
+      "provider": "generic",
+      "dataset": "invoices",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.invoice_dispatch",
+      "provider": "generic",
+      "dataset": "invoice_dispatch",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.payments",
+      "provider": "generic",
+      "dataset": "payments",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.payment_allocations",
+      "provider": "generic",
+      "dataset": "payment_allocations",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.policy",
+      "provider": "generic",
+      "dataset": "policy",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.cases",
+      "provider": "generic",
+      "dataset": "cases",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.provider_ledger",
+      "provider": "generic",
+      "dataset": "provider_ledger",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.positions",
+      "provider": "generic",
+      "dataset": "positions",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.payouts",
+      "provider": "generic",
+      "dataset": "payouts",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.bank",
+      "provider": "generic",
+      "dataset": "bank",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.holds",
+      "provider": "generic",
+      "dataset": "holds",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.returns",
+      "provider": "generic",
+      "dataset": "returns",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.receipts",
+      "provider": "generic",
+      "dataset": "receipts",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.entitlements",
+      "provider": "generic",
+      "dataset": "entitlements",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.refunds",
+      "provider": "generic",
+      "dataset": "refunds",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.disputes",
+      "provider": "generic",
+      "dataset": "disputes",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "generic.identity",
+      "provider": "generic",
+      "dataset": "identity",
+      "scope": "first_release",
+      "live_evidence_mode": "authorized_producer",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.orders",
+      "provider": "replay",
+      "dataset": "orders",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.stock",
+      "provider": "replay",
+      "dataset": "stock",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.allocations",
+      "provider": "replay",
+      "dataset": "allocations",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.supply",
+      "provider": "replay",
+      "dataset": "supply",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.promises",
+      "provider": "replay",
+      "dataset": "promises",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.fulfillments",
+      "provider": "replay",
+      "dataset": "fulfillments",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.tracking",
+      "provider": "replay",
+      "dataset": "tracking",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.communications",
+      "provider": "replay",
+      "dataset": "communications",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.invoices",
+      "provider": "replay",
+      "dataset": "invoices",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.invoice_dispatch",
+      "provider": "replay",
+      "dataset": "invoice_dispatch",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.payments",
+      "provider": "replay",
+      "dataset": "payments",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.payment_allocations",
+      "provider": "replay",
+      "dataset": "payment_allocations",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.policy",
+      "provider": "replay",
+      "dataset": "policy",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.cases",
+      "provider": "replay",
+      "dataset": "cases",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.provider_ledger",
+      "provider": "replay",
+      "dataset": "provider_ledger",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.positions",
+      "provider": "replay",
+      "dataset": "positions",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.payouts",
+      "provider": "replay",
+      "dataset": "payouts",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.bank",
+      "provider": "replay",
+      "dataset": "bank",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.holds",
+      "provider": "replay",
+      "dataset": "holds",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.returns",
+      "provider": "replay",
+      "dataset": "returns",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.receipts",
+      "provider": "replay",
+      "dataset": "receipts",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.entitlements",
+      "provider": "replay",
+      "dataset": "entitlements",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.refunds",
+      "provider": "replay",
+      "dataset": "refunds",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.disputes",
+      "provider": "replay",
+      "dataset": "disputes",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "replay.identity",
+      "provider": "replay",
+      "dataset": "identity",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "policy.policy",
+      "provider": "policy",
+      "dataset": "policy",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "shopware.orders",
+      "provider": "shopware",
+      "dataset": "orders",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "shopware.stock",
+      "provider": "shopware",
+      "dataset": "stock",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "shopware.allocations",
+      "provider": "shopware",
+      "dataset": "allocations",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "shopware.fulfillments",
+      "provider": "shopware",
+      "dataset": "fulfillments",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "shopware.payments",
+      "provider": "shopware",
+      "dataset": "payments",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "shopware.returns",
+      "provider": "shopware",
+      "dataset": "returns",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "shopware.receipts",
+      "provider": "shopware",
+      "dataset": "receipts",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "shopware.refunds",
+      "provider": "shopware",
+      "dataset": "refunds",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "woocommerce.orders",
+      "provider": "woocommerce",
+      "dataset": "orders",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "woocommerce.stock",
+      "provider": "woocommerce",
+      "dataset": "stock",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "woocommerce.fulfillments",
+      "provider": "woocommerce",
+      "dataset": "fulfillments",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "woocommerce.payments",
+      "provider": "woocommerce",
+      "dataset": "payments",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "woocommerce.returns",
+      "provider": "woocommerce",
+      "dataset": "returns",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "woocommerce.refunds",
+      "provider": "woocommerce",
+      "dataset": "refunds",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "email.promises",
+      "provider": "email",
+      "dataset": "promises",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "email.communications",
+      "provider": "email",
+      "dataset": "communications",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "email.cases",
+      "provider": "email",
+      "dataset": "cases",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "lexware.invoices",
+      "provider": "lexware",
+      "dataset": "invoices",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "lexware.invoice_dispatch",
+      "provider": "lexware",
+      "dataset": "invoice_dispatch",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "lexware.payment_allocations",
+      "provider": "lexware",
+      "dataset": "payment_allocations",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "sevdesk.invoices",
+      "provider": "sevdesk",
+      "dataset": "invoices",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "sevdesk.invoice_dispatch",
+      "provider": "sevdesk",
+      "dataset": "invoice_dispatch",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "sevdesk.payment_allocations",
+      "provider": "sevdesk",
+      "dataset": "payment_allocations",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "billbee.orders",
+      "provider": "billbee",
+      "dataset": "orders",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "billbee.fulfillments",
+      "provider": "billbee",
+      "dataset": "fulfillments",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "billbee.invoices",
+      "provider": "billbee",
+      "dataset": "invoices",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "billbee.invoice_dispatch",
+      "provider": "billbee",
+      "dataset": "invoice_dispatch",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "billbee.payment_allocations",
+      "provider": "billbee",
+      "dataset": "payment_allocations",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "sufio.invoices",
+      "provider": "sufio",
+      "dataset": "invoices",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "sufio.invoice_dispatch",
+      "provider": "sufio",
+      "dataset": "invoice_dispatch",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "sufio.payment_allocations",
+      "provider": "sufio",
+      "dataset": "payment_allocations",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "stripe.payments",
+      "provider": "stripe",
+      "dataset": "payments",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "stripe.provider_ledger",
+      "provider": "stripe",
+      "dataset": "provider_ledger",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "stripe.positions",
+      "provider": "stripe",
+      "dataset": "positions",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "stripe.payouts",
+      "provider": "stripe",
+      "dataset": "payouts",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "stripe.holds",
+      "provider": "stripe",
+      "dataset": "holds",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "stripe.refunds",
+      "provider": "stripe",
+      "dataset": "refunds",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "stripe.disputes",
+      "provider": "stripe",
+      "dataset": "disputes",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "paypal.payments",
+      "provider": "paypal",
+      "dataset": "payments",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "paypal.provider_ledger",
+      "provider": "paypal",
+      "dataset": "provider_ledger",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "paypal.positions",
+      "provider": "paypal",
+      "dataset": "positions",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "paypal.payouts",
+      "provider": "paypal",
+      "dataset": "payouts",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "paypal.holds",
+      "provider": "paypal",
+      "dataset": "holds",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "paypal.refunds",
+      "provider": "paypal",
+      "dataset": "refunds",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "paypal.disputes",
+      "provider": "paypal",
+      "dataset": "disputes",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "mollie.payments",
+      "provider": "mollie",
+      "dataset": "payments",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "mollie.provider_ledger",
+      "provider": "mollie",
+      "dataset": "provider_ledger",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "mollie.positions",
+      "provider": "mollie",
+      "dataset": "positions",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "mollie.payouts",
+      "provider": "mollie",
+      "dataset": "payouts",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "mollie.holds",
+      "provider": "mollie",
+      "dataset": "holds",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "mollie.refunds",
+      "provider": "mollie",
+      "dataset": "refunds",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "mollie.disputes",
+      "provider": "mollie",
+      "dataset": "disputes",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "dpd.tracking",
+      "provider": "dpd",
+      "dataset": "tracking",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "ups.tracking",
+      "provider": "ups",
+      "dataset": "tracking",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "klaviyo.communications",
+      "provider": "klaviyo",
+      "dataset": "communications",
+      "scope": "roadmap",
+      "live_evidence_mode": "provider_account",
+      "mapping_basis": "planned_unreviewed",
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+    },
+    {
+      "id": "runtime.coverage",
+      "provider": "runtime",
+      "dataset": "coverage",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    },
+    {
+      "id": "runtime.identity",
+      "provider": "runtime",
+      "dataset": "identity",
+      "scope": "first_release",
+      "live_evidence_mode": "internal",
+      "mapping_basis": "candidate_contract",
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+    }
+  ]
+}

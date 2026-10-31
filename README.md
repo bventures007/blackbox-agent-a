@@ -4,12 +4,14 @@ An independent implementation workspace for a commerce business flight recorder:
 
 **Status: prepared build assignment. Production application development has not started.** The included static prototype is the visual reference, with simulated data. Acceptance specifications are supplied; executable product tests still need to be built.
 
+**For source-by-source progress, open [the central integration register](INTEGRATIONS.md): required data, five journal tracks, implementation, tests, live verification and who confirmed the work.**
+
 ## Start here
 
 Open this repository in your coding agent, then give it this prompt:
 
 ```text
-GO. Read AGENTS.md and START-HERE.md. Implement Blackbox according to BUILD-PROMPT-EN.txt, preserving the supplied design. Work through M0–M5, record the comparison checkpoint after M0–M3 plus local installation, and verify against ACCEPTANCE.json. Keep docs/status.md and reports/acceptance.json current. Deliver running software and reproducible evidence; do not stop at a plan. Complete independent work when external access is missing and report those blockers honestly.
+GO. Read AGENTS.md and START-HERE.md. Implement Blackbox according to BUILD-PROMPT-EN.txt, preserving the supplied design. Work through M0–M5, record the comparison checkpoint after M0–M3 plus local installation, and verify against ACCEPTANCE.json. Keep docs/status.md, reports/acceptance.json and the central INTEGRATIONS.md register current with actual evidence. Deliver running software and reproducible evidence; do not stop at a plan. Complete independent work when external access is missing and report those blockers honestly.
 ```
 
 For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow and an optional checkpoint-only scope are explained in [START-HERE.md](START-HERE.md).
@@ -18,6 +20,8 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 
 | File | Purpose |
 | --- | --- |
+| [INTEGRATIONS.md](INTEGRATIONS.md) | Central human-readable work list: 22 sources/internal producers, 127 capability rows, ownership and evidence |
+| [integrations/README.md](integrations/README.md) | Update workflow, six implementation steps, evidence requirements and enforced checks |
 | [AGENTS.md](AGENTS.md) | Working rules, reading order and boundaries |
 | [START-HERE.md](START-HERE.md) | Launch instructions, scope and handover |
 | [BUILD-PROMPT-EN.txt](BUILD-PROMPT-EN.txt) | Full implementation contract |
@@ -29,7 +33,7 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 | [reports/question-coverage.json](reports/question-coverage.json) | Per-question implementation and verification register; all runtime proof pending |
 | [benchmarks/performance-contract.json](benchmarks/performance-contract.json) | Measurable 250k / 10m / 100m workload profiles |
 | [ARCHITECTURE-EN.txt](ARCHITECTURE-EN.txt) | Architecture and delivery approach |
-| [ACCEPTANCE.json](ACCEPTANCE.json) | 52 acceptance cases with release gates |
+| [ACCEPTANCE.json](ACCEPTANCE.json) | 53 acceptance cases with release gates |
 | [GOLDEN-ORDER-TO-CASH.json](GOLDEN-ORDER-TO-CASH.json) | Synthetic business cycle: 19 events, 11 checkpoints |
 | [reference/questions.json](reference/questions.json) | 24 questions in six Order-to-Cash groups |
 | [reference/prototype/](reference/prototype/) | Original visual and interaction reference |
@@ -71,4 +75,4 @@ Start with the [visual reference catalogue](reference/screenshots/README.md): al
 
 ## Independent comparison
 
-Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v6`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).
+Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v7`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).

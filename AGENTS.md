@@ -6,6 +6,7 @@
 2. BUILD-PROMPT-EN.txt — authoritative product and engineering assignment.
 3. specs/JOURNAL-AND-MCP.md, specs/PERFORMANCE-ARCHITECTURE.md, benchmarks/performance-contract.json, ACCEPTANCE.json, GOLDEN-ORDER-TO-CASH.json, reference/questions.json — mandatory journal/MCP contract, behavior and evidence requirements.
    Then specs/QUESTION-DATA-COVERAGE.md, specs/CONNECTOR-CAPABILITIES.md and specs/question-data-contracts.json — trace every question from required source fields through the journal and RAM projection to its query and test cases. Resolve or explicitly expose the listed data gaps; provider cards do not prove coverage.
+   Then INTEGRATIONS.md and integrations/README.md — the mandatory central source/capability work register, evidence history and independent confirmation rules.
 4. ARCHITECTURE-EN.txt and reference/manifest.json — rationale and provenance.
 5. reference/screenshots/README.md and reference/prototype/ — follow the illustrated user journey, inspect the complete page/state catalogue and mobile views, then explore the prototype in a browser. Read the coverage boundaries; the missing product views still follow the build brief.
 6. docs/status.md and reports/acceptance.json — actual progress, then the relevant specs and module contracts as they are created.
@@ -26,6 +27,7 @@ These instructions support the owner's current request. Direct owner instruction
 - Never count authorizations as captures, payouts as revenue, invoice payment markers as additional cash, or credit notes as completed refunds. Use integer minor units and explicit quantities.
 - Assume provider deliveries and jobs repeat. Demonstrate durable receipt, idempotency, recovery and replay.
 - Use English for all requirements, documentation, architecture decisions, feature briefs, agent instructions, code identifiers, comments, tests, logs, API/MCP contracts and handover reports. Only the application UI and landing page require both English (default) and complete German localization. Keep machine-readable identifiers stable in English; localize product-facing text through locale resources. Update both UI/landing-page locales in the same change. Preserve the supplied design and the five linked recorder tracks. Original German UI text in the reference prototype/screenshots is an allowed reference asset, not a documentation-language precedent.
+- Maintain integrations/register.json and append actual progress/evidence to integrations/history.jsonl for every affected source capability; regenerate INTEGRATIONS.md in the same change. Read integrations/README.md and run scripts/integration-register.py check plus its regression tests. Each capability needs a complete per-field/event mapping, six implementation steps, exact committed code, four test suites and separately scoped live evidence where applicable. Independent approval must cite the current tests and come from a different actual reviewer; never self-approve or invent evidence. Preserve prior history and evidence; invalidate affected revisions after code changes. The full release must pass the register --release check in addition to all product gates.
 - New sources use manifests, adapters, schemas and contract fixtures. New questions use shared query services, never canned UI keyword shortcuts.
 - All 24 question intents require positive and missing-data evidence through the real ingestion/PostgreSQL/Rust/API/MCP path. Use specs/question-data-contracts.json and maintain reports/question-coverage.json; unknown answers for every intent cannot satisfy QUERY-01. Validate provider field semantics, actual account coverage and required supplementary inputs before claiming a complete live answer. Resolve the documented DHL retention/use boundary before enabling perpetual carrier-data ingestion.
 - Keep experiments disabled by default and isolated from customer data.
@@ -36,7 +38,7 @@ These instructions support the owner's current request. Direct owner instruction
 ## Durable progress and handover
 
 - Keep docs/status.md updated with milestone, last passing command, failures, next action and exact external blockers.
-- Maintain reports/acceptance.json for all 52 acceptance IDs. A pass needs the tested commit, actual command, environment, result and evidence path. Missing provider access or an untested platform is not a pass.
+- Maintain reports/acceptance.json for all 53 acceptance IDs. A pass needs the tested commit, actual command, environment, result and evidence path. Missing provider access or an untested platform is not a pass.
 - Record model/agent, relevant version, platform and resource conditions in docs/build-environment.md without secrets. Do not assume unlimited execution budget or invent one for the owner.
 - At M0–M3 plus local installation, write reports/checkpoint.md and preserve the tested commit so both implementations can be compared at the same point. Continue M4–M5 unless the owner explicitly requests a checkpoint stop.
 - End with exact start/test commands, fresh-checkout verification, screenshots, remaining release blockers and independent-review instructions. Distinguish local tests, real Mac/Linux tests, provider verification, blocked and not-run checks.
@@ -44,4 +46,4 @@ These instructions support the owner's current request. Direct owner instruction
 
 ## Commands available at the initial commit
 
-Only the static reference preview documented in README.md is available. There is no production app, dependency lockfile, Docker installer or product test runner yet. Implement them; do not report the seed as a passing application.
+The static reference preview, question-catalogue validator and integration-register tooling documented in README.md and integrations/README.md are available. There is no production app, dependency lockfile, Docker installer or product test runner yet. Implement them; do not report the seed as a passing application.

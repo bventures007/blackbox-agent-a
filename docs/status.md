@@ -18,7 +18,7 @@ Repository preparation is complete. Product implementation has not started. The 
 
 Seed preparation only: JSON parsing, reference checksums, requirement counts and matching repository baseline. This is not evidence of a working product. All cases in ../reports/acceptance.json start as not_started.
 
-The visual reference now includes 67 captures (58 desktop, nine mobile), with an English index and reproducible routes/interactions in reference/screenshots/. The capture run completed without page-script errors; all images were inspected in contact sheets and selected full-size views. Both reference fonts loaded in every capture and no document-level horizontal overflow was observed at the two capture sizes. The journal/recorder can still scroll horizontally within their own regions on mobile. Static prototype assets and the 52 product acceptance cases remain unchanged; no product acceptance case has run.
+The visual reference now includes 67 captures (58 desktop, nine mobile), with an English index and reproducible routes/interactions in reference/screenshots/. The capture run completed without page-script errors; all images were inspected in contact sheets and selected full-size views. Both reference fonts loaded in every capture and no document-level horizontal overflow was observed at the two capture sizes. The journal/recorder can still scroll horizontally within their own regions on mobile. Static prototype assets remain unchanged; no product acceptance case has run.
 
 ## Language clarification
 
@@ -30,13 +30,19 @@ The binding contract is specs/JOURNAL-AND-MCP.md. Runtime roles must be unable t
 
 ## Performance clarification
 
-Implement the Rust business/query engine with bounded hot state and durable journal/checkpoint recovery as specified in specs/PERFORMANCE-ARCHITECTURE.md. The benchmark contract defines 250k, 10m and 100m profiles with explicit scopes. No performance or memory target has been measured. Maintain reports/performance.json. The full acceptance register now contains 52 cases.
+Implement the Rust business/query engine with bounded hot state and durable journal/checkpoint recovery as specified in specs/PERFORMANCE-ARCHITECTURE.md. The benchmark contract defines 250k, 10m and 100m profiles with explicit scopes. No performance or memory target has been measured. Maintain reports/performance.json. The full acceptance register now contains 53 cases.
 
 ## Question-data audit
 
 The initial question catalogue and common architecture are now joined by specs/QUESTION-DATA-COVERAGE.md and specs/question-data-contracts.json: 24 intents, 26 required input datasets, 11 logical Rust projections, source-field candidates, 24 positive plus 24 missing-data examples, and extra edge cases. Public Shopify, easybill and DHL documentation was reviewed; no merchant credentials or live business API calls were used. Nine questions have documented launch-provider candidate paths, eleven need supplementary business context, three retain provider-detail gaps and one specifically requires bank import (bank evidence also contributes to the full money overview). These are data-dependency categories, not measured readiness. Actual SQL, adapters, reducers, indexes and executable fixtures remain unimplemented; reports/question-coverage.json tracks the open proof. DHL retention/use conditions must be resolved before perpetual live tracking ingestion.
 
 Catalogue consistency check: `python3 scripts/validate-question-catalogue.py` passed for all 24 original questions, 48 minimum case descriptions, 26 datasets, 11 tenant-scoped projections and 22 source/internal-producer entries. This checks specification references, not product behavior.
+
+## Central integration register
+
+INTEGRATIONS.md now provides the central source/capability work list: 22 sources/internal producers and 127 rows, including 72 first-release/internal work rows and 55 unreviewed roadmap rows. It maps each row to the five applicable tracks and canonical inputs, PostgreSQL events, Rust projections and question contracts. All rows are unassigned and not started; no connector, provider account or product acceptance test has run.
+
+The register uses append-only actor/timestamp/evidence history, a generated overview, exact code/artifact hashes and independent confirmation. The supplied GitHub Actions workflow checks consistency, history and the validator regression tests. Local register/crosswalk checks and 19 synthetic control tests passed; these are tooling tests only. REGISTRY-01 is the new full-release acceptance gate and remains not_started. Repository branch protection has not been changed.
 
 ## Next action
 

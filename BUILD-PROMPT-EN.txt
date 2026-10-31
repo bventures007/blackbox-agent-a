@@ -1,5 +1,5 @@
 BLACKBOX — INDEPENDENT IMPLEMENTATION BRIEF
-Version 1.5 · 2026-10-31 · Product owner: the person providing this package
+Version 1.6 · 2026-10-31 · Product owner: the person providing this package
 
 GO. Build the product described here. This is an implementation assignment, not a request for another mockup or a plan-only response. Work in the assigned repository. Use the supplied local prototype as the visual and interaction reference. Continue through implementation, verification and reproducible packaging. Do not claim external validation that you could not perform.
 
@@ -112,6 +112,8 @@ Pass tenant scope through API, worker, MCP, search, exports, files, caches, retr
 Use maintained session/password/auth components, secure cookies, CSRF protection where applicable, login throttling and tested account recovery. SaaS self-registration/invitations and local first-admin bootstrap must not create default passwords or unauthenticated administration. Specify session revocation and permission-change behavior.
 
 6. INGESTION AND CONNECTORS
+INTEGRATIONS.md is the mandatory central human-readable implementation register. Follow integrations/README.md and keep integrations/register.json plus the append-only integrations/history.jsonl authoritative. Track every capability independently: exact source-field/event-to-track mappings, six implementation steps, implementer/contributors, timestamps, tested Git revision, commands, environments, case IDs, immutable artifacts and independent reviewer confirmation. Separate contract/pipeline/recovery/tenant tests from provider/live proof. Record missing fields and blockers; partial capability approval does not establish complete answer coverage. Update the register for every affected connector/shared-code change, preserve history, invalidate stale evidence and regenerate the overview. Enforce its validator in ordinary CI and its --release gate in the actual release pipeline alongside all other acceptance cases. Roadmap entries stay outside first-release delivery requirements.
+
 Implement a connector contract covering configuration schema, supported capabilities, credential test, initial backfill, incremental cursor/checkpoint, webhook verification, normalization, reconciliation, rate limits, retries, health and disconnect/revocation. Declare actual data coverage and provider API revisions.
 
 Receive and durably record verified deliveries before acknowledging them. Use transactions/outbox so a crash cannot acknowledge an event and lose its processing job. Assume jobs and deliveries may execute more than once. Enforce deduplication and side-effect idempotency in persistent storage; no blanket end-to-end exactly-once claim. Support retries with backoff, dead-letter inspection, safe retry, pagination, resumable backfill and catch-up after downtime. Reconciliation is mandatory; webhooks alone are insufficient.

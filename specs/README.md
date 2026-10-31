@@ -1,5 +1,7 @@
 # Implementation specifications
 
+The central implementation and evidence work list is [INTEGRATIONS.md](../INTEGRATIONS.md). Follow [its update and verification rules](../integrations/README.md); this specification supplies requirements, while the register owns source-capability progress and confirmation.
+
 Read [JOURNAL-AND-MCP.md](JOURNAL-AND-MCP.md) first: it is the binding journal data-structure and complete authorized MCP read-access specification.
 
 Read [PERFORMANCE-ARCHITECTURE.md](PERFORMANCE-ARCHITECTURE.md) and [the benchmark contract](../benchmarks/performance-contract.json) for the Rust engine, memory/consistency rules and measurable targets.

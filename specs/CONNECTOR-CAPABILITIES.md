@@ -1,5 +1,7 @@
 # Connector capability audit for the question catalogue
 
+The central implementation and evidence work list is [INTEGRATIONS.md](../INTEGRATIONS.md). Follow [its update and verification rules](../integrations/README.md); this specification supplies requirements, while the register owns source-capability progress and confirmation.
+
 Reviewed on 2026-10-31 against the public sources linked below. The implementation repository still contains specifications and a static prototype. **No merchant API credentials were used, no live business API calls were made and no connector is implemented by this audit.** Public schema inspection is not account, integration or end-to-end verification.
 
 The [JSON contract](question-data-contracts.json) contains the exact candidate source-field mappings and normalized required fields. The [question matrix](QUESTION-DATA-COVERAGE.md) links them to journal tracks, RAM projections and query tests. Exact adapter selection sets, payload schemas and per-field account coverage remain implementation proof obligations.

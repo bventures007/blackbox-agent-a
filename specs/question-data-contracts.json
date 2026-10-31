@@ -177,10 +177,7 @@
         "shopify_disposition_types",
         "shopify_webhooks"
       ],
-      "documentation_status": "reviewed",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "reviewed"
     },
     {
       "id": "shopify_payments",
@@ -248,10 +245,7 @@
         "shopify_payout",
         "shopify_dispute"
       ],
-      "documentation_status": "reviewed",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "reviewed"
     },
     {
       "id": "easybill",
@@ -307,10 +301,7 @@
       "documentation_refs": [
         "easybill"
       ],
-      "documentation_status": "reviewed",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "reviewed"
     },
     {
       "id": "dhl",
@@ -337,10 +328,7 @@
         "dhl",
         "dhl_push"
       ],
-      "documentation_status": "reviewed",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "reviewed"
     },
     {
       "id": "bank_csv",
@@ -365,10 +353,7 @@
         }
       ],
       "documentation_refs": [],
-      "documentation_status": "internal_contract_required",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "internal_contract_required"
     },
     {
       "id": "generic",
@@ -394,10 +379,7 @@
         }
       ],
       "documentation_refs": [],
-      "documentation_status": "internal_contract_required",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "internal_contract_required"
     },
     {
       "id": "replay",
@@ -407,10 +389,7 @@
       "external_prerequisites": "Clearly synthetic isolated workspace; no provider access claimed.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "internal_contract_required",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "internal_contract_required"
     },
     {
       "id": "policy",
@@ -420,10 +399,7 @@
       "external_prerequisites": "Owner-supplied allocation, invoicing, delivery-risk and reminder policy; no undocumented defaults that decide business obligations.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "internal_contract_required",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "internal_contract_required"
     },
     {
       "id": "shopware",
@@ -433,10 +409,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "woocommerce",
@@ -446,10 +419,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "email",
@@ -459,10 +429,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "lexware",
@@ -472,10 +439,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "sevdesk",
@@ -485,10 +449,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "billbee",
@@ -498,10 +459,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "sufio",
@@ -511,10 +469,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "stripe",
@@ -524,10 +479,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "paypal",
@@ -537,10 +489,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "mollie",
@@ -550,10 +499,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "dpd",
@@ -563,10 +509,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "ups",
@@ -576,10 +519,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "klaviyo",
@@ -589,10 +529,7 @@
       "external_prerequisites": "Not verified and not included as a full live first-release connector.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "not_audited",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_verified"
+      "documentation_status": "not_audited"
     },
     {
       "id": "runtime",
@@ -602,10 +539,7 @@
       "external_prerequisites": "Record actual granted scopes, finished pagination/reconciliation and evidenced import intervals. A producer claim of completeness is separately labeled, not trusted as runtime verification.",
       "field_mappings": [],
       "documentation_refs": [],
-      "documentation_status": "internal_contract_required",
-      "implementation_status": "not_started",
-      "contract_test_status": "not_started",
-      "live_verification_status": "not_applicable_internal"
+      "documentation_status": "internal_contract_required"
     }
   ],
   "datasets": [
@@ -647,7 +581,6 @@
         "shopify_order",
         "shopify_line"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -689,7 +622,6 @@
         "shopify_inventory",
         "shopify_inventory_states"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact"
@@ -729,7 +661,6 @@
         "shopify_fulfillment_order",
         "shopify_fulfillment_line"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -764,7 +695,6 @@
       "normalization_rule": "A promise never increases physical stock; corrections append and supersede.",
       "open_dependency": "No supplier/PO connector is included at launch. Feed reviewed structured commitments through the generic API.",
       "documentation_refs": [],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -797,7 +727,6 @@
       "normalization_rule": "Customer promise, fulfill-by date and carrier estimate are different assertions.",
       "open_dependency": "Must capture the actual communicated promise from a verified custom field/feed/reviewed communication; do not infer from shipping method.",
       "documentation_refs": [],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -839,7 +768,6 @@
       "documentation_refs": [
         "shopify_fulfillment"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -877,7 +805,6 @@
         "dhl",
         "dhl_push"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact"
@@ -910,7 +837,6 @@
       "normalization_rule": "Keep original content in controlled evidence storage; reviewed assertions reference exact source versions.",
       "open_dependency": "Mailbox is roadmap. Generic reviewed input is the launch bridge; absence of imported communications is not proof of no prior promise.",
       "documentation_refs": [],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact"
@@ -952,7 +878,6 @@
       "documentation_refs": [
         "easybill"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -985,7 +910,6 @@
       "documentation_refs": [
         "easybill"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact"
@@ -1025,7 +949,6 @@
       "documentation_refs": [
         "shopify_transaction"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -1063,7 +986,6 @@
       "documentation_refs": [
         "easybill"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact"
@@ -1099,7 +1021,6 @@
       "normalization_rule": "Evaluate using the policy effective at the requested cutoff; unsupported/missing business rules are missing inputs.",
       "open_dependency": "No invented invoice timing, debt reminder or allocation priority.",
       "documentation_refs": [],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact"
@@ -1130,7 +1051,6 @@
       "normalization_rule": "A dispute, deadline extension or investigation changes review context without erasing the receivable.",
       "open_dependency": "Need an internal authorized case feed or later CRM/helpdesk connector.",
       "documentation_refs": [],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact"
@@ -1169,7 +1089,6 @@
       "documentation_refs": [
         "shopify_ledger"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -1204,7 +1123,6 @@
       "documentation_refs": [
         "shopify_account"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact"
@@ -1244,7 +1162,6 @@
         "shopify_payout",
         "shopify_ledger"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -1284,7 +1201,6 @@
       "normalization_rule": "Use booked independent bank records with unique evidenced matches; ambiguity remains unresolved.",
       "open_dependency": "Merchant must supply a real statement; demo bank rows are not bank verification.",
       "documentation_refs": [],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -1324,7 +1240,6 @@
         "shopify_account",
         "shopify_dispute"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -1361,7 +1276,6 @@
       "documentation_refs": [
         "shopify_return"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact"
@@ -1401,7 +1315,6 @@
         "shopify_disposition",
         "shopify_disposition_types"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -1437,7 +1350,6 @@
       "normalization_rule": "Separate refund owed to a paid customer from a credit cancelling an unpaid receivable or agreed store credit.",
       "open_dependency": "Need explicit approved policy/allocation evidence; not every credit creates a cash refund obligation.",
       "documentation_refs": [],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -1480,7 +1392,6 @@
         "shopify_transaction",
         "shopify_ledger"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -1523,7 +1434,6 @@
         "shopify_dispute",
         "shopify_ledger"
       ],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact",
@@ -1564,7 +1474,6 @@
       "normalization_rule": "Every answer reports bounded population/time/source coverage and projection lag; empty does not mean complete. Only the authorized runtime derives verified coverage from completed pagination/import/reconciliation and actual grants. A signed producer may declare its source interval, but that declaration is labeled declared, not independently verified; it cannot mark unrelated sources complete.",
       "open_dependency": "Operational sync state may be mutable; retain immutable observations used to support historical completeness assertions.",
       "documentation_refs": [],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact"
@@ -1600,7 +1509,6 @@
       "normalization_rule": "Namespace every ID; ambiguous joins remain separate. Correct links append and trigger incremental recomputation.",
       "open_dependency": "SKU/email/order number alone never establishes cross-source identity.",
       "documentation_refs": [],
-      "implementation_status": "not_started",
       "journal_tracks": [
         "source",
         "fact"
@@ -3741,5 +3649,10 @@
       "live_verification_status": "not_verified"
     }
   ],
-  "coverage_rule": "All 24 must have positive and insufficient-data executable acceptance evidence through committed PostgreSQL ingestion and the Rust query service over API/MCP. A system returning unknown for every question cannot pass. Missing external credentials may block live verification but do not excuse missing synthetic positive paths."
+  "coverage_rule": "All 24 must have positive and insufficient-data executable acceptance evidence through committed PostgreSQL ingestion and the Rust query service over API/MCP. A system returning unknown for every question cannot pass. Missing external credentials may block live verification but do not excuse missing synthetic positive paths.",
+  "implementation_status_authority": {
+    "sources": "integrations/register.json + integrations/history.jsonl; human view INTEGRATIONS.md",
+    "questions": "reports/question-coverage.json",
+    "note": "This catalogue describes required data and candidate API mappings, not runtime verification. Current source-capability status has one authority in the integration register."
+  }
 }

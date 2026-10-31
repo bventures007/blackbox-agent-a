@@ -574,6 +574,17 @@
       "observed_result": null,
       "evidence_paths": [],
       "blocker": null
+    },
+    {
+      "id": "REGISTRY-01",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
     }
   ]
 }

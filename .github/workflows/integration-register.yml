@@ -1,0 +1,24 @@
+name: Integration register
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Check catalogue and register
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          python3 scripts/validate-question-catalogue.py
+          python3 scripts/integration-register.py check
+          if [ -n "$BASE_SHA" ] && git cat-file -e "$BASE_SHA:integrations/history.jsonl" 2>/dev/null; then
+            python3 scripts/integration-register.py check --base "$BASE_SHA"
+          fi
+      - name: Exercise enforcement failures and valid approvals
+        run: python3 -m unittest discover -s scripts/tests -p 'test_*.py' -v

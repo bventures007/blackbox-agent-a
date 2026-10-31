@@ -30,5 +30,12 @@
     "provider_audit": "specs/CONNECTOR-CAPABILITIES.md",
     "execution_register": "reports/question-coverage.json",
     "note": "Public documentation and logical mapping reviewed; implementation, provider contracts, actual merchant coverage and runtime proof remain pending."
+  },
+  "integration_work_register": {
+    "human_view": "INTEGRATIONS.md",
+    "plan": "integrations/register.json",
+    "history": "integrations/history.jsonl",
+    "instructions": "integrations/README.md",
+    "nature": "Implementation/evidence work register; not a running connector."
   }
 }

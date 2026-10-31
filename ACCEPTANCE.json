@@ -1,5 +1,5 @@
 {
-  "version": "1.5",
+  "version": "1.6",
   "date": "2026-10-31",
   "note": "Specification for tests to be implemented; not an already executable or executed suite. A reviewer must add independent variations.",
   "status_enum": [
@@ -15,7 +15,8 @@
     "A missing provider account or platform makes the relevant gate blocked/unverified, not passed.",
     "Core comparison can finish before external/operations gates, but customer launch cannot be declared ready with applicable release gates open.",
     "Conditional extraction check is not applicable only if that optional feature is absent.",
-    "Never modify expected business values merely to match an implementation."
+    "Never modify expected business values merely to match an implementation.",
+    "Source-capability completion must be backed by the central integration register, current immutable test evidence and independent confirmation; register validation alone is not provider or product proof."
   ],
   "cases": [
     {
@@ -434,6 +435,14 @@
       "capacity_claim_gate": "100-million-entry operation",
       "check": "Provide a runnable scale_100m experiment and run it when reference resources are available. Separately report complete durable records with a bounded hot set and any optional narrow compact-RAM experiment.",
       "expected": "A 100-million-entry claim requires observed scale-profile correctness, latency, memory and recovery evidence with exact resident/excluded fields and index/raw-evidence costs. If unexecuted, report not run/blocked and make no such capacity claim; a smaller validated release remains distinguishable."
+    },
+    {
+      "id": "REGISTRY-01",
+      "category": "verification",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "Validate the central integration register, its generated human view and append-only history; inspect actual implementation/test evidence and run its --release gate for the full release.",
+      "expected": "Every source/data capability has its exact field/event-to-track mapping, six implementation steps, actual contributor/time/commit records, contract/pipeline/recovery/tenant test artifacts and separate authorized live evidence where applicable. Independent reviewer confirmation cites current tests and acknowledges unavailable fields/events. Stale code, missing evidence, self-approval and edits to prior history fail checks. Roadmap entries remain honest and non-gating; partial capabilities do not waive complete question-answer gates."
     }
   ]
 }

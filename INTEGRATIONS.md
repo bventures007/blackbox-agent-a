@@ -1,0 +1,783 @@
+# Integration implementation register
+
+> Generated from integrations/register.json, integrations/history.jsonl and the data contracts. Do not edit this view by hand.
+
+**22 sources/internal producers · 127 capability rows · 0 independently approved.**
+
+Prepared on 2026-10-31T11:30:02Z by Codex assistant (repository preparation). Progress is derived from the recorded work history.
+
+This is the central work list. Planned support is not a working connection. An approval applies only to the explicit field subset, source revision and test environment recorded below. Partial coverage never becomes a complete business answer.
+
+[How to use and update this register](integrations/README.md) · [Append-only work history](integrations/history.jsonl) · [Machine-readable plan](integrations/register.json)
+
+The five tracks are Source, Fact, Commitment, Movement and Reservation. They are logical journal tracks; physical SQL tables follow the journal contract. Each event uses only the applicable tracks.
+
+## Source overview
+
+| Source | Scope | Capabilities | Implemented | Test suites passed | Independently approved |
+| --- | --- | ---: | ---: | ---: | ---: |
+| [Shopify](#source-shopify) | first_release | 8 | 0 | 0 | 0 |
+| [Shopify Payments](#source-shopify_payments) | first_release | 6 | 0 | 0 | 0 |
+| [easybill](#source-easybill) | first_release | 3 | 0 | 0 | 0 |
+| [DHL Unified Tracking](#source-dhl) | first_release | 1 | 0 | 0 | 0 |
+| [Validated bank statement CSV](#source-bank_csv) | first_release | 1 | 0 | 0 | 0 |
+| [Signed typed business-event API](#source-generic) | first_release | 25 | 0 | 0 | 0 |
+| [Deterministic synthetic replay](#source-replay) | first_release | 25 | 0 | 0 | 0 |
+| [Versioned workspace rules](#source-policy) | first_release | 1 | 0 | 0 | 0 |
+| [Shopware 6](#source-shopware) | roadmap | 8 | 0 | 0 | 0 |
+| [WooCommerce](#source-woocommerce) | roadmap | 6 | 0 | 0 | 0 |
+| [Mailbox](#source-email) | roadmap | 3 | 0 | 0 | 0 |
+| [Lexware Office](#source-lexware) | roadmap | 3 | 0 | 0 | 0 |
+| [sevdesk](#source-sevdesk) | roadmap | 3 | 0 | 0 | 0 |
+| [Billbee](#source-billbee) | roadmap | 5 | 0 | 0 | 0 |
+| [Sufio](#source-sufio) | roadmap | 3 | 0 | 0 | 0 |
+| [Stripe standalone account](#source-stripe) | roadmap | 7 | 0 | 0 | 0 |
+| [PayPal](#source-paypal) | roadmap | 7 | 0 | 0 | 0 |
+| [Mollie](#source-mollie) | roadmap | 7 | 0 | 0 | 0 |
+| [DPD](#source-dpd) | roadmap | 1 | 0 | 0 | 0 |
+| [UPS](#source-ups) | roadmap | 1 | 0 | 0 | 0 |
+| [Klaviyo](#source-klaviyo) | roadmap | 1 | 0 | 0 | 0 |
+| [Internal ingestion and identity services](#source-runtime) | first_release | 2 | 0 | 0 | 0 |
+
+## Per-source work list
+
+Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement · **R** Reservation. “—” means no event in this data contract requires that track. Step counts are work claims, not test passes. Tests show the four required suites. Live evidence is separate.
+
+<a id="source-shopify"></a>
+### Shopify
+
+**Scope:** first_release. **Documentation:** reviewed.
+
+**Input:** GraphQL Admin API: paginated backfill and reconciliation; verified HTTPS webhooks trigger durable receipt and re-fetch. Pin an API version and fixture schema; consume all nested pages.
+
+**Prerequisites:** read_orders; older order access needs read_all_orders approval. read_inventory and appropriate fulfillment-order scopes; read_returns for return objects. Prove actual grants and protected customer-data access. Record history start and every missing scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [shopify.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-shopify_payments"></a>
+### Shopify Payments
+
+**Scope:** first_release. **Documentation:** reviewed.
+
+**Input:** Query ShopifyPaymentsAccount balanceTransactions, payouts and disputes with pagination; reconcile provider balances independently of order ingestion.
+
+**Prerequisites:** An eligible Shopify Payments account and actual finance/dispute grants. Account docs list read_shopify_payments or read_shopify_payments_accounts; payout objects require view_payouts permission and disputes require read_shopify_payments_disputes. Validate all field-level access in the pinned schema/account.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [shopify_payments.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify_payments.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify_payments.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify_payments.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify_payments.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify_payments.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-easybill"></a>
+### easybill
+
+**Scope:** first_release. **Documentation:** reviewed.
+
+**Input:** GET /documents and /documents/{id}; /document-payments; /post-boxes; document versions where available. Reconcile edited_at with overlap and stable page handling. Webhook notifications can trigger authenticated re-fetch; verify the documented signature scheme before trusting payloads.
+
+**Prerequisites:** Authorized account/API credential and actual plan limits. Schema reviewed: REST v1, info.version 1.103.1, SHA256 6d532f96a7fe82fcbd556178f8bd2a11f364061690f67ccb932d3722ac2b1e86. Verify signs, correction linkage, historical version completeness and account-specific field population in fixtures and an authorized account.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [easybill.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [easybill.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [easybill.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-dhl"></a>
+### DHL Unified Tracking
+
+**Scope:** first_release. **Documentation:** reviewed.
+
+**Input:** GET https://api-eu.dhl.com/track/shipments?trackingNumber=... for known shop shipment references; optional authorized push subscriptions with reconciliation. Back off and stop/slow polling terminal shipments according to the actual contract.
+
+**Prerequisites:** Eligible tracking numbers, API subscription key, product coverage and quotas. Published Unified Tracking terms include deletion 30 days after delivery unless otherwise agreed. Resolve retention and permitted downstream use before live append-only ingestion; raw-data separation alone does not establish rights to retain derived tracking facts indefinitely.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [dhl.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-bank_csv"></a>
+### Validated bank statement CSV
+
+**Scope:** first_release. **Documentation:** internal_contract_required.
+
+**Input:** Authorized upload -> versioned mapping/validation -> durable import records -> same journal/outbox/engine path.
+
+**Prerequisites:** A statement supplied by the merchant, explicit account/currency/date/sign mapping and declared coverage interval. No live bank API is included.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [bank_csv.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-generic"></a>
+### Signed typed business-event API
+
+**Scope:** first_release. **Documentation:** internal_contract_required.
+
+**Input:** Versioned authenticated event envelope with idempotency key, tenant-bound connection, source identity, occurred_at and typed payload.
+
+**Prerequisites:** Must be implemented and actually supplied by an authorized merchant system/operator. A defined schema does not collect data by itself.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [generic.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-replay"></a>
+### Deterministic synthetic replay
+
+**Scope:** first_release. **Documentation:** internal_contract_required.
+
+**Input:** Replay typed observations through the same tenant-scoped ingestion path.
+
+**Prerequisites:** Clearly synthetic isolated workspace; no provider access claimed.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [replay.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+
+<a id="source-policy"></a>
+### Versioned workspace rules
+
+**Scope:** first_release. **Documentation:** internal_contract_required.
+
+**Input:** Authorized settings/import appends rule-change evidence; runtime query reads the version effective at its cutoff.
+
+**Prerequisites:** Owner-supplied allocation, invoicing, delivery-risk and reminder policy; no undocumented defaults that decide business obligations.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [policy.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+
+<a id="source-shopware"></a>
+### Shopware 6
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [shopware.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopware.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopware.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopware.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopware.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopware.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopware.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopware.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-woocommerce"></a>
+### WooCommerce
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [woocommerce.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [woocommerce.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [woocommerce.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [woocommerce.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [woocommerce.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [woocommerce.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-email"></a>
+### Mailbox
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [email.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [email.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [email.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-lexware"></a>
+### Lexware Office
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [lexware.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [lexware.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [lexware.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-sevdesk"></a>
+### sevdesk
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [sevdesk.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [sevdesk.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [sevdesk.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-billbee"></a>
+### Billbee
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [billbee.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [billbee.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [billbee.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [billbee.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [billbee.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-sufio"></a>
+### Sufio
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [sufio.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [sufio.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [sufio.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-stripe"></a>
+### Stripe standalone account
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [stripe.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [stripe.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [stripe.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [stripe.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [stripe.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [stripe.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [stripe.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-paypal"></a>
+### PayPal
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [paypal.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [paypal.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [paypal.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [paypal.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [paypal.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [paypal.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [paypal.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-mollie"></a>
+### Mollie
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [mollie.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [mollie.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [mollie.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [mollie.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [mollie.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [mollie.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [mollie.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-dpd"></a>
+### DPD
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [dpd.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-ups"></a>
+### UPS
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [ups.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-klaviyo"></a>
+### Klaviyo
+
+**Scope:** roadmap. **Documentation:** not_audited.
+
+**Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
+
+**Prerequisites:** Not verified and not included as a full live first-release connector.
+
+All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [klaviyo.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+
+<a id="source-runtime"></a>
+### Internal ingestion and identity services
+
+**Scope:** first_release. **Documentation:** internal_contract_required.
+
+**Input:** Server-owned ingestion, reconciliation, import and identity-review checkpoints. Not a merchant connector or public capability to declare arbitrary completeness.
+
+**Prerequisites:** Record actual granted scopes, finished pagination/reconciliation and evidenced import intervals. A producer claim of completeness is separately labeled, not trusted as runtime verification.
+
+| Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [runtime.coverage](#data-coverage) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [runtime.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+
+## What must enter each data contract
+
+Every capability above links here. These are required canonical inputs, not a claim that every provider supplies every field. Provider candidate paths are in [the source audit](specs/CONNECTOR-CAPABILITIES.md) and [the JSON crosswalk](specs/question-data-contracts.json). Each implemented row must add its own complete, verified field mapping.
+
+**Shared route:** authorized receipt → immutable PostgreSQL journal and transactional outbox → committed cursor → deterministic Rust reducer → bounded RAM indexes and durable checkpoints → the same API/MCP query service. RAM is never updated ahead of the durable commit. Historical evidence stays addressable; cold data has an indexed fallback.
+
+<a id="data-orders"></a>
+### orders
+
+- Required fields: `order_id`, `line_id`, `customer_id`, `item_id`, `variant_id`, `quantity`, `unit`, `currency`, `line_net_minor`, `line_tax_minor`, `line_gross_minor`, `discount_minor`, `shipping_minor`, `agreed_version`, `cancellation_state`, `updated_at`.
+- Journal events: `order.accepted`, `order.revised`, `order.cancelled`.
+- Applicable tracks: source, fact, commitment.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_ORDER; see the projection definitions in the JSON crosswalk.
+- Normalization: Preserve agreed and current versions; line removal/returns are not interchangeable. Use provider IDs scoped to account, never email/order number alone.
+- Open proof: Line-price and partial-document matching needs explicit equivalence rules.
+- Question coverage: order-02, order-03, order-04, delivery-02, delivery-03, delivery-04, invoice-02, invoice-03, collection-01, collection-02, reversal-03.
+
+<a id="data-stock"></a>
+### stock
+
+- Required fields: `item_id`, `location_id`, `unit`, `observed_at`, `basis`, `physical`, `available`, `committed`, `reserved`, `damaged`, `safety_stock`, `quality_control`, `incoming`.
+- Journal events: `inventory.snapshot`, `inventory.adjustment_observed`.
+- Applicable tracks: source, fact.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_STOCK; see the projection definitions in the JSON crosswalk.
+- Normalization: One authoritative stock basis per item/location/cutoff. For disjoint states derive free = physical - committed - reserved - damaged - safety_stock - quality_control; compare to provider available. Never subtract the same commitment twice.
+- Open proof: Snapshot differences alone do not prove the cause of a goods movement; incompatible snapshots produce a conflict.
+- Question coverage: order-01, order-02.
+
+<a id="data-allocations"></a>
+### allocations
+
+- Required fields: `allocation_id`, `order_id`, `line_id`, `item_id`, `location_id`, `quantity`, `unit`, `status`, `policy_version`, `evidence_id`.
+- Journal events: `inventory.reserved`, `inventory.reservation_released`, `allocation.revised`.
+- Applicable tracks: source, fact, reservation.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_ORDER, P_STOCK; see the projection definitions in the JSON crosswalk.
+- Normalization: An observed reservation and a derived allocation are distinct. Preserve provenance and releases; reconcile aggregates without double subtracting.
+- Open proof: Fulfillment location assignment is not automatically a reservation. Implement explicit generic events or a declared allocation derivation.
+- Question coverage: order-02, order-03, order-04, reversal-03.
+
+<a id="data-supply"></a>
+### supply
+
+- Required fields: `promise_id`, `supplier_id`, `item_id`, `location_id`, `quantity`, `unit`, `promised_at`, `timezone`, `revision`, `allocation_links`.
+- Journal events: `supply.commitment_recorded`, `supply.commitment_revised`.
+- Applicable tracks: source, fact, commitment.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_PROMISE; see the projection definitions in the JSON crosswalk.
+- Normalization: A promise never increases physical stock; corrections append and supersede.
+- Open proof: No supplier/PO connector is included at launch. Feed reviewed structured commitments through the generic API.
+- Question coverage: order-01, order-04.
+
+<a id="data-promises"></a>
+### promises
+
+- Required fields: `promise_id`, `order_id`, `line_id`, `promised_at`, `timezone`, `promise_kind`, `revision`, `evidence_id`.
+- Journal events: `customer.commitment_recorded`, `customer.commitment_revised`.
+- Applicable tracks: source, fact, commitment.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_PROMISE; see the projection definitions in the JSON crosswalk.
+- Normalization: Customer promise, fulfill-by date and carrier estimate are different assertions.
+- Open proof: Must capture the actual communicated promise from a verified custom field/feed/reviewed communication; do not infer from shipping method.
+- Question coverage: order-04, delivery-02, delivery-04.
+
+<a id="data-fulfillments"></a>
+### fulfillments
+
+- Required fields: `shipment_id`, `order_id`, `line_id`, `quantity`, `unit`, `location_id`, `carrier`, `tracking_number`, `handover_at`, `delivered_at`, `state`.
+- Journal events: `shipment.observed`, `shipment.dispatched`, `shipment.delivered`, `shipment.cancelled`.
+- Applicable tracks: source, fact, movement, reservation.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_SHIPMENT, P_ORDER; see the projection definitions in the JSON crosswalk.
+- Normalization: Link actual line quantities to shipment milestones. Labels do not count as handover. Do not book stock movement twice from shop and carrier.
+- Open proof: Multi-package line assignment may require packing/WMS data; unknown mapping limits line-level claims.
+- Question coverage: order-03, delivery-01, delivery-02, delivery-03, delivery-04, invoice-02.
+
+<a id="data-tracking"></a>
+### tracking
+
+- Required fields: `carrier_service`, `tracking_number`, `scan_identity`, `status_code`, `effective_time`, `timezone`, `forecast`, `observed_at`.
+- Journal events: `carrier.scan_observed`, `carrier.forecast_observed`.
+- Applicable tracks: source, fact.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_SHIPMENT; see the projection definitions in the JSON crosswalk.
+- Normalization: Normalize codes with a versioned mapping and retain original scan evidence; preserve late observations without regressing current status.
+- Open proof: Service coverage, licensed retention and tracking-to-order linkage must be validated.
+- Question coverage: delivery-01, delivery-02, delivery-03, delivery-04, reversal-01.
+
+<a id="data-communications"></a>
+### communications
+
+- Required fields: `message_id`, `customer_id`, `order_id`, `sent_at`, `actor`, `evidence_ref`, `reviewed_commitments`, `visibility_scope`.
+- Journal events: `communication.observed`, `communication.extraction_reviewed`.
+- Applicable tracks: source, fact.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_CONTEXT; see the projection definitions in the JSON crosswalk.
+- Normalization: Keep original content in controlled evidence storage; reviewed assertions reference exact source versions.
+- Open proof: Mailbox is roadmap. Generic reviewed input is the launch bridge; absence of imported communications is not proof of no prior promise.
+- Question coverage: delivery-04.
+
+<a id="data-invoices"></a>
+### invoices
+
+- Required fields: `document_id`, `kind`, `invoice_id`, `order_id`, `line_links`, `currency`, `original_gross_minor`, `correction_minor`, `due_date`, `reported_paid_minor`, `revision`, `draft_state`.
+- Journal events: `invoice.issued`, `invoice.revised`, `invoice.credit_issued`, `invoice.cancelled`, `invoice.payment_marked`.
+- Applicable tracks: source, fact, commitment.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_INVOICE; see the projection definitions in the JSON crosswalk.
+- Normalization: Traverse document correction chains; reconcile signed effects and payment markers without treating markers/credits as cash.
+- Open proof: Candidate order_number/external_id and line references require validated tenant/account-scoped association.
+- Question coverage: invoice-01, invoice-02, invoice-03, invoice-04, collection-03, collection-04, reversal-01, reversal-02, reversal-03.
+
+<a id="data-invoice_dispatch"></a>
+### invoice_dispatch
+
+- Required fields: `dispatch_id`, `document_id`, `channel`, `status`, `processed_at`, `source_scope`.
+- Journal events: `invoice.dispatch_observed`.
+- Applicable tracks: source, fact.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_INVOICE; see the projection definitions in the JSON crosswalk.
+- Normalization: Report sent evidence at provider-reported scope; no claim of customer receipt/read.
+- Open proof: Missing/external send history must remain unknown.
+- Question coverage: invoice-04.
+
+<a id="data-payments"></a>
+### payments
+
+- Required fields: `transaction_id`, `original_transaction_id`, `order_id`, `account_id`, `gateway`, `kind`, `status`, `amount_minor`, `currency`, `occurred_at`, `economic_effect_id`.
+- Journal events: `payment.authorized`, `payment.captured`, `payment.failed`, `payment.voided`.
+- Applicable tracks: source, fact, movement.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_PAYMENT; see the projection definitions in the JSON crosswalk.
+- Normalization: Only successful sale/capture contributes collected cash; unify overlapping observations with proven identity.
+- Open proof: Historical attempt coverage and original-transaction joins need verification.
+- Question coverage: collection-01, collection-02, collection-03, collection-04, reversal-02, reversal-03, reversal-04.
+
+<a id="data-payment_allocations"></a>
+### payment_allocations
+
+- Required fields: `allocation_id`, `invoice_id`, `transaction_id`, `amount_minor`, `currency`, `confidence`, `evidence_id`, `revision`.
+- Journal events: `payment.allocation_recorded`, `payment.allocation_revised`, `invoice.payment_marked`.
+- Applicable tracks: source, fact.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_PAYMENT, P_INVOICE; see the projection definitions in the JSON crosswalk.
+- Normalization: Only unambiguous allocations reconcile invoices; reported paid markers remain separate.
+- Open proof: A payment covering several invoices or several attempts needs explicit allocation; fees are not customer debt.
+- Question coverage: collection-03, collection-04.
+
+<a id="data-policy"></a>
+### policy
+
+- Required fields: `rule_id`, `rule_kind`, `version`, `effective_from`, `scope`, `priority_method`, `invoicing_trigger`, `tolerance`, `currency`, `timezone`, `reminder_policy`.
+- Journal events: `business.rule_recorded`, `business.rule_revised`.
+- Applicable tracks: source, fact.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_CONTEXT; see the projection definitions in the JSON crosswalk.
+- Normalization: Evaluate using the policy effective at the requested cutoff; unsupported/missing business rules are missing inputs.
+- Open proof: No invented invoice timing, debt reminder or allocation priority.
+- Question coverage: order-02, delivery-01, delivery-02, invoice-02, collection-04.
+
+<a id="data-cases"></a>
+### cases
+
+- Required fields: `case_id`, `customer_id`, `invoice_id`, `transaction_id`, `status`, `agreed_extension_until`, `evidence_id`.
+- Journal events: `business.case_recorded`, `business.case_revised`.
+- Applicable tracks: source, fact.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_CONTEXT; see the projection definitions in the JSON crosswalk.
+- Normalization: A dispute, deadline extension or investigation changes review context without erasing the receivable.
+- Open proof: Need an internal authorized case feed or later CRM/helpdesk connector.
+- Question coverage: collection-04.
+
+<a id="data-provider_ledger"></a>
+### provider_ledger
+
+- Required fields: `ledger_entry_id`, `account_id`, `source_transaction_id`, `order_link`, `payout_id`, `posting_type`, `gross_minor`, `fee_minor`, `net_minor`, `currency`, `effective_time`.
+- Journal events: `provider.ledger_posted`, `payment.fee_booked`.
+- Applicable tracks: source, fact, movement.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_PROVIDER, P_PAYMENT; see the projection definitions in the JSON crosswalk.
+- Normalization: Version provider sign/type mapping, deduplicate economic effects and preserve unsettled residuals.
+- Open proof: Do not force optional source links or assume every adjustment belongs to one order.
+- Question coverage: settlement-01, settlement-02.
+
+<a id="data-positions"></a>
+### positions
+
+- Required fields: `account_id`, `currency`, `observed_at`, `total_minor`, `processing_minor`, `available_minor`, `held_minor`, `coverage`.
+- Journal events: `provider.balance_observed`.
+- Applicable tracks: source, fact.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_PROVIDER; see the projection definitions in the JSON crosswalk.
+- Normalization: Snapshots supersede; never sum historical balances. Distinguish observed totals, derived totals and unknown subcategories.
+- Open proof: Detailed balance breakdown is not established by a single total balance field.
+- Question coverage: settlement-01, settlement-04.
+
+<a id="data-payouts"></a>
+### payouts
+
+- Required fields: `payout_id`, `account_id`, `status`, `direction`, `amount_minor`, `currency`, `issued_at`, `trace_reference`, `ledger_membership`, `reversal_id`.
+- Journal events: `payout.announced`, `payout.sent`, `payout.failed`, `payout.reversed`.
+- Applicable tracks: source, fact, commitment, movement.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_PROVIDER; see the projection definitions in the JSON crosswalk.
+- Normalization: Payouts transfer assets and are not new sales; pending/sent/reversed are distinct.
+- Open proof: Require complete payout membership to explain gross-to-net differences.
+- Question coverage: settlement-01, settlement-02, settlement-03.
+
+<a id="data-bank"></a>
+### bank
+
+- Required fields: `entry_id`, `statement_id`, `account_id`, `booking_status`, `booked_at`, `value_at`, `amount_minor`, `currency`, `reference`, `payout_match`, `coverage_interval`.
+- Journal events: `bank.credit_booked`, `bank.debit_booked`, `bank.match_recorded`, `bank.match_revised`.
+- Applicable tracks: source, fact, movement.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_BANK; see the projection definitions in the JSON crosswalk.
+- Normalization: Use booked independent bank records with unique evidenced matches; ambiguity remains unresolved.
+- Open proof: Merchant must supply a real statement; demo bank rows are not bank verification.
+- Question coverage: settlement-01, settlement-03.
+
+<a id="data-holds"></a>
+### holds
+
+- Required fields: `hold_id`, `account_id`, `transaction_id`, `currency`, `amount_minor`, `reason`, `state`, `release_promised_at`, `released_at`, `evidence_id`.
+- Journal events: `provider.hold_recorded`, `provider.hold_released`, `provider.release_promised`.
+- Applicable tracks: source, fact, reservation, commitment.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_PROVIDER; see the projection definitions in the JSON crosswalk.
+- Normalization: A hold affects availability, not ownership or collected sales; a release promise is not a release.
+- Open proof: Hold reasons/release dates and complete partition of balances remain unverified for the default provider.
+- Question coverage: settlement-01, settlement-04.
+
+<a id="data-returns"></a>
+### returns
+
+- Required fields: `return_id`, `order_id`, `line_id`, `quantity`, `unit`, `state`, `reverse_shipment_id`.
+- Journal events: `return.approved`, `return.revised`, `return.cancelled`.
+- Applicable tracks: source, fact.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_REVERSAL; see the projection definitions in the JSON crosswalk.
+- Normalization: Return intent and physical receipt are separate; cancelled/closed workflow states need interpretation.
+- Open proof: Reverse logistics field population varies with merchant workflow.
+- Question coverage: reversal-01.
+
+<a id="data-receipts"></a>
+### receipts
+
+- Required fields: `receipt_id`, `return_id`, `line_id`, `location_id`, `quantity`, `unit`, `disposition`, `physical_delta`, `quarantine_delta`, `occurred_at`.
+- Journal events: `return.received`, `return.restocked`, `return.disposition_observed`.
+- Applicable tracks: source, fact, movement, reservation.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_REVERSAL, P_STOCK; see the projection definitions in the JSON crosswalk.
+- Normalization: Receiving into quarantine increases physical and quarantine; subsequent restock releases quarantine without a second physical receipt.
+- Open proof: Use verified disposition/warehouse evidence; a return request or carrier delivery does not prove checked SKU-level receipt.
+- Question coverage: reversal-01, reversal-03.
+
+<a id="data-entitlements"></a>
+### entitlements
+
+- Required fields: `entitlement_id`, `order_id`, `invoice_id`, `credit_id`, `original_transaction_id`, `amount_minor`, `currency`, `destination`, `approved_at`, `state`.
+- Journal events: `refund.entitlement_recorded`, `refund.entitlement_revised`.
+- Applicable tracks: source, fact, commitment.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_REVERSAL; see the projection definitions in the JSON crosswalk.
+- Normalization: Separate refund owed to a paid customer from a credit cancelling an unpaid receivable or agreed store credit.
+- Open proof: Need explicit approved policy/allocation evidence; not every credit creates a cash refund obligation.
+- Question coverage: reversal-02, reversal-03.
+
+<a id="data-refunds"></a>
+### refunds
+
+- Required fields: `refund_id`, `original_transaction_id`, `order_id`, `amount_minor`, `currency`, `status`, `destination`, `economic_effect_id`.
+- Journal events: `refund.pending`, `refund.completed`, `refund.failed`, `refund.reversed`.
+- Applicable tracks: source, fact, movement, reservation.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_PAYMENT, P_REVERSAL, P_PROVIDER; see the projection definitions in the JSON crosswalk.
+- Normalization: Only confirmed cash refunds affect cash; store credit, pending and failed outcomes are separate.
+- Open proof: Shop/provider duplicate observations require identity reconciliation, not two debits.
+- Question coverage: reversal-01, reversal-02, reversal-03, reversal-04.
+
+<a id="data-disputes"></a>
+### disputes
+
+- Required fields: `dispute_id`, `original_transaction_id`, `order_id`, `amount_minor`, `currency`, `state`, `debit_posting_id`, `debit_minor`, `reversal_minor`, `evidence_id`.
+- Journal events: `dispute.opened`, `dispute.resolved`, `chargeback.debit_posted`, `chargeback.reversed`.
+- Applicable tracks: source, fact, movement, reservation.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_REVERSAL, P_PROVIDER; see the projection definitions in the JSON crosswalk.
+- Normalization: Open dispute is a risk flag; booked debit and reversal are distinct money effects. Match exact original transaction and case lifecycle.
+- Open proof: Order link is insufficient where multiple captures exist. Booked chargeback mapping remains a provider-specific proof obligation.
+- Question coverage: reversal-04.
+
+<a id="data-coverage"></a>
+### coverage
+
+- Required fields: `connection_id`, `capability`, `entity_scope`, `history_start`, `backfill_complete`, `complete_through`, `cursor`, `fetched_at`, `committed_cursor`, `applied_cursor`, `missing_fields`, `failure_state`, `retention_state`, `coverage_basis`, `verification_evidence`.
+- Journal events: `coverage.observed`, `coverage.gap_recorded`.
+- Applicable tracks: source, fact.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_COVERAGE; see the projection definitions in the JSON crosswalk.
+- Normalization: Every answer reports bounded population/time/source coverage and projection lag; empty does not mean complete. Only the authorized runtime derives verified coverage from completed pagination/import/reconciliation and actual grants. A signed producer may declare its source interval, but that declaration is labeled declared, not independently verified; it cannot mark unrelated sources complete.
+- Open proof: Operational sync state may be mutable; retain immutable observations used to support historical completeness assertions.
+- Question coverage: order-01, order-02, order-03, order-04, delivery-01, delivery-02, delivery-03, delivery-04, invoice-01, invoice-02, invoice-03, invoice-04, collection-01, collection-02, collection-03, collection-04, settlement-01, settlement-02, settlement-03, settlement-04, reversal-01, reversal-02, reversal-03, reversal-04.
+
+<a id="data-identity"></a>
+### identity
+
+- Required fields: `entity_type`, `entity_id`, `connection_id`, `account_namespace`, `external_id`, `relationship_type`, `target_id`, `evidence_id`, `confidence`, `revision`.
+- Journal events: `entity.link_recorded`, `entity.link_revised`, `entity.link_conflict`.
+- Applicable tracks: source, fact.
+- PostgreSQL: Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly.
+- Rust / RAM: P_COVERAGE; see the projection definitions in the JSON crosswalk.
+- Normalization: Namespace every ID; ambiguous joins remain separate. Correct links append and trigger incremental recomputation.
+- Open proof: SKU/email/order number alone never establishes cross-source identity.
+- Question coverage: order-01, order-02, order-03, order-04, delivery-01, delivery-02, delivery-03, delivery-04, invoice-01, invoice-02, invoice-03, invoice-04, collection-01, collection-02, collection-03, collection-04, settlement-01, settlement-02, settlement-03, settlement-04, reversal-01, reversal-02, reversal-03, reversal-04.
+
+## Verification boundary
+
+Register checks prove structural consistency, immutable evidence references and recorded approval requirements. They do not prove that a person really ran a test or that an external account exposes every field. Inspect evidence and reproduce tests. Git branch protection / required checks must be configured separately by a repository administrator; this file alone cannot prevent an administrator from bypassing the workflow.

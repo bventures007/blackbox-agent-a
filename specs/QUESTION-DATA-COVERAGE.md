@@ -1,5 +1,7 @@
 # Question-to-data coverage contract
 
+The central implementation and evidence work list is [INTEGRATIONS.md](../INTEGRATIONS.md). Follow [its update and verification rules](../integrations/README.md); this specification supplies requirements, while the register owns source-capability progress and confirmation.
+
 Status: **specification and public API documentation checked; software and real integrations not implemented or tested**. This supplements the existing build brief, journal/MCP and performance contracts. The original 24 question texts remain unchanged.
 
 The earlier question catalogue described needs, methods and results, while architecture described the common pipeline. It did not yet join every question to provider fields, journal families, RAM projections and specific acceptance examples. This catalogue supplies that crosswalk. It does not turn documented APIs into verified integrations.
