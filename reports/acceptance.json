@@ -1433,12 +1433,15 @@
       "tested_commit": "29913449e2711acef84baba2bf8c8043ddbede06",
       "command": "python3 scripts/verify-backup-recovery.py --rotate-data-key --source-port 18765 --restore-port 18769 --output .runtime/key-rotation-2991344.json --node-image-commit 2991344 --engine-image-commit b1f8392",
       "environment": "macOS27.2 Apple Silicon; isolated PostgreSQL17 Compose, Node24 image 4ad8d4e18f9874202eed1d56fe62f38b5be9e7ca2f568c92528b1cc40c23cd5f; synthetic credentials/evidence only",
-      "observed_result": "Clean 29913449e2711acef84baba2bf8c8043ddbede06 passed actual partial-ciphertext SIGKILL/resume, safe orphan-container recovery, both tenants' credential/identity preservation, unchanged journal/evidence metadata, old live key retirement and old encrypted generation recovery. An existing agent retained the complete fixed-cutoff SDK MCP answer after rotation. Same-length key corruption and loss of both identity metadata files fail closed. Wrong live keys, tampered evidence and tampered provider envelopes prevent publication and record failed attempts while preserving the prior generation. The original synthetic installation, volume and keys were then removed; a new guarded restore reproduced API/MCP answers and revoked stale credentials. Corpus: 55 journal entries, 257 retained objects, 34006747 encrypted bytes; loss to authorized API/MCP 36.881 seconds, not the required 250-MiB smoke profile. Independent pre-keyring backup recovery and native source/restart/corrupt/deleted-projection regressions also passed. Evidence: reports/runs/key-rotation-2991344. Evidence-policy reconciliation, source revalidation, compatible upgrades, remaining diagnostics/storage/lifecycle, distribution/performance, live access and independent review remain open.",
+      "observed_result": "Clean 4da9fc90d4b7fc9d1856ca3d6e71261981546fc4 passed encrypted source cursor/API/SDK MCP/restart/browser regression, unclassified-provenance denial including future receipt clocks and EN/DE owner warnings, and all 24 question paths/adversaries through corrupt/deleted projections. An actual schema8 archive restored forward to schema10, discarded old plaintext cursor copies with audit, removed an unclassified original before evidence guard release, and preserved fixed API/MCP answers. Actual SIGKILL after four ciphertext rewrites left 253 on the old key; resume preserved both tenants' cursors/credentials/identities and retired the old live key. Cursor/evidence/credential tampering prevented new backup publication. Old-generation recovery and removal of the original synthetic installation/volume/keys followed by guarded recovery passed. Corpus: 55 journal entries, 257 evidence objects, 34047723 encrypted bytes; loss to authorized API/MCP 39.289 seconds, not the required 250-MiB smoke profile. Typecheck, 25 Node,114 Python and six Rust tests passed. The stale-native-assets browser failure and unavailable-prior-image fixture failure are preserved alongside successful rebuilt runs at reports/runs/provenance-4da9fc9. Earlier images were rebuilt from exact own-repository source commits, without claiming old binary identity. Release validation still fails INSTALL-01; complete field/provider inventory, populated in-place upgrade, remaining sources/distribution/performance/operations and independent review remain open.",
       "evidence_paths": [
         "reports/runs/key-rotation-2991344/rotation.json",
         "reports/runs/key-rotation-2991344/legacy-recovery.json",
         "reports/runs/key-rotation-2991344/bootstrap.json",
-        "reports/runs/key-rotation-a63fde1/sources.json"
+        "reports/runs/key-rotation-a63fde1/sources.json",
+        "reports/runs/provenance-4da9fc9/rotation.json",
+        "reports/runs/provenance-4da9fc9/validation.json",
+        "reports/runs/provenance-4da9fc9/bootstrap.json"
       ],
       "blocker": "Full active acceptance and independent security/provider review remain unverified; authorized live Shopify/Payments credentials unavailable. This status is not a pass.",
       "delivery_scope": "local_pilot"
@@ -1450,7 +1453,7 @@
       "tested_commit": "74463df6de343f832cc2a02a127d47b8c56edfdc",
       "command": "python3 scripts/verify-evidence-recovery.py --output .runtime/evidence-recovery-readiness.json --node-image-commit 4850531 --engine-image-commit 4850531",
       "environment": "macOS27.2 Apple Silicon; isolated PostgreSQL17 Compose and exact4850531 Node/Rust images; actual SDK MCP. Earlier clean4850531 native/API/ENDE Chrome proof is separately recorded.",
-      "observed_result": "Clean bd123cf5f3a3311164549320098d3edd46334060 passed eight correctly signed producer canaries rejected before journal/evidence/file writes, actual evidence policy API/SDK MCP/RLS/restart and EN/DE browser checks. Screenshots were visually inspected. All 24 positive/missing/changed question fixtures, five settlement and eleven shipping-time adversaries passed persisted API/SDK MCP, restart, corrupt/deleted projections and security checks. Typecheck, 24 Node tests and 112 Python tests passed on the clean commit. Evidence: reports/runs/coverage-privacy-bd123cf. This closes arbitrary-text coverage diagnostic input; complete field/provider inventory, legacy association policy, encrypted provider checkpoint handling and remaining P4 work continue. No live-provider, performance or independent approval claim.",
+      "observed_result": "Clean 4da9fc90d4b7fc9d1856ca3d6e71261981546fc4 passed encrypted source cursor/API/SDK MCP/restart/browser regression, unclassified-provenance denial including future receipt clocks and EN/DE owner warnings, and all 24 question paths/adversaries through corrupt/deleted projections. An actual schema8 archive restored forward to schema10, discarded old plaintext cursor copies with audit, removed an unclassified original before evidence guard release, and preserved fixed API/MCP answers. Actual SIGKILL after four ciphertext rewrites left 253 on the old key; resume preserved both tenants' cursors/credentials/identities and retired the old live key. Cursor/evidence/credential tampering prevented new backup publication. Old-generation recovery and removal of the original synthetic installation/volume/keys followed by guarded recovery passed. Corpus: 55 journal entries, 257 evidence objects, 34047723 encrypted bytes; loss to authorized API/MCP 39.289 seconds, not the required 250-MiB smoke profile. Typecheck, 25 Node,114 Python and six Rust tests passed. The stale-native-assets browser failure and unavailable-prior-image fixture failure are preserved alongside successful rebuilt runs at reports/runs/provenance-4da9fc9. Earlier images were rebuilt from exact own-repository source commits, without claiming old binary identity. Release validation still fails INSTALL-01; complete field/provider inventory, populated in-place upgrade, remaining sources/distribution/performance/operations and independent review remain open.",
       "evidence_paths": [
         "reports/runs/evidence-policy-74463df/host-recovery.json",
         "reports/runs/evidence-policy-74463df/schema7-forward-restore.json",
@@ -1465,7 +1468,12 @@
         "reports/runs/evidence-known-ledger-c3315f3/validation.json",
         "reports/runs/coverage-privacy-bd123cf/privacy.json",
         "reports/runs/coverage-privacy-bd123cf/questions.json",
-        "reports/runs/coverage-privacy-bd123cf/validation.json"
+        "reports/runs/coverage-privacy-bd123cf/validation.json",
+        "reports/runs/provenance-4da9fc9/policy.json",
+        "reports/runs/provenance-4da9fc9/schema8-forward.json",
+        "reports/runs/provenance-4da9fc9/rotation.json",
+        "reports/runs/provenance-4da9fc9/questions.json",
+        "reports/runs/provenance-4da9fc9/validation.json"
       ],
       "blocker": "Full field/provider inventory including legacy association gaps and independent review remain open. Live provider retention authorization is unavailable.",
       "delivery_scope": "local_pilot"

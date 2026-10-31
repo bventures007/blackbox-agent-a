@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "tested_commit": "4da9fc90d4b7fc9d1856ca3d6e71261981546fc4",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T19:36:41.056514+00:00",
+  "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "commands": [
+    {
+      "command": "npm run typecheck",
+      "exit_code": 0,
+      "observed": "\n> blackbox-local-pilot@0.1.0 typecheck\n> tsc\n\n"
+    },
+    {
+      "command": "npm test",
+      "exit_code": 0,
+      "observed": "\n> blackbox-local-pilot@0.1.0 test\n> node --import tsx --test tests/*.test.ts\n\n\u2714 host backup status never exposes unvalidated paths or keys (27.966084ms)\n\u2714 concurrent owner backup requests produce one bounded action without a path or command (37.823667ms)\n\u2714 an interrupted temporary request is never acknowledged as durably queued (6.662583ms)\n\u2714 money syntax preserves exact units, does not round or mix unknown currencies (4.513209ms)\n\u2714 canonical observations reject caller tenant and personal-content fields (5.815625ms)\n\u2714 coverage diagnostics reject free-text canaries while preserving every question fixture (193.562708ms)\n\u2714 emitted diagnostic lines are valid JSON and strip secret/PII canaries before storage (235.896875ms)\n\u2714 evidence cleanup status is private, bounded and bound to the installation owner (36.160833ms)\n\u2714 30-day import is 720 hours across daylight saving, with a fixed cutoff (7.265083ms)\n\u2714 calendar year and 12 months preserve local semantics and clamp leap days (1.688459ms)\n\u2714 custom dates resolve at local midnight and reject future or skipped local dates (1.458625ms)\n\u2714 from-now never silently widens into opening or related history (0.429458ms)\n\u2714 versioned material preserves legacy decryption and identity, rejects tamper, then retires only the old data key (88.562125ms)\n\u2714 container MCP permits only the exact internal API origin (1.1615ms)\n\u2714 local HTTP transport retains explicit loopback authority and bounds errors/redirects (30.535375ms)\n\u2714 runtime preflight rejects changed, future, partial or fenced installations (2.670125ms)\n\u2714 runtime comparison ignores key order but preserves values and protocol arrays (0.242125ms)\n\u2714 actual MCP rejects missing or unknown API contracts with an explicit safe error (761.470125ms)\n\u2714 Shopify assignments retain incomplete reservation basis, exact quantities and strict context consent (70.108333ms)\n\u2714 Shopify requested-cost reduction is bounded, keeps cursor/cutoff and does not immediately retry throttling (59.035459ms)\n\u2714 fulfillment preparation is not handover and cancellation cannot erase physical evidence (30.776041ms)\n\u2714 bounded provider transport rejects oversized JSON and never accepts arbitrary token destinations (26.892375ms)\n\u2714 Shopify normalization preserves refund links, unknown transitions and strict context consent (14.892542ms)\n\u2714 inventory preserves supplied available state and rejects missing, negative, future and declined opening quantities (17.703792ms)\n\u2714 opaque provider cursor is encrypted and tenant/connection/job bound, with strict control metadata (30.858792ms)\n\u2139 tests 25\n\u2139 suites 0\n\u2139 pass 25\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 1197.808583\n"
+    },
+    {
+      "command": "python3 -m unittest discover -s scripts/tests",
+      "exit_code": 0,
+      "observed": "..................................................................................................................\n----------------------------------------------------------------------\nRan 114 tests in 4.207s\n\nOK\n"
+    },
+    {
+      "command": "CARGO_HOME=\"$PWD/.runtime/cargo\" cargo test --locked --offline",
+      "exit_code": 0,
+      "observed": "   Compiling blackbox-engine v0.1.0 (/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/apps/engine)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.98s\n     Running unittests src/lib.rs (target/debug/deps/blackbox_domain-5501916e8323f05c)\n\nrunning 6 tests\ntest record_track_tests::fulfillment_preparation_has_no_physical_tracks ... ok\ntest lifecycle::tests::exact_quantities ... ok\ntest tests::currencies_are_never_added ... ok\ntest tests::authorization_is_not_cash ... ok\ntest tests::correction_and_duplicate ... ok\ntest tests::generalized_partial_refund ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running unittests src/main.rs (target/debug/deps/blackbox_engine-01f656db493bd64c)\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n   Doc-tests blackbox_domain\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n"
+    }
+  ]
+}

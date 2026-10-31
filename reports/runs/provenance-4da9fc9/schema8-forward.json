@@ -1,0 +1,99 @@
+{
+  "kind": "schema8_to10_privacy_isolated_restore",
+  "status": "passed",
+  "tested_commit": "4da9fc90d4b7fc9d1856ca3d6e71261981546fc4",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T19:40:38.392784+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "ports": [
+      18803,
+      18805
+    ],
+    "stages": [
+      "work/privacy-prior-caefe5625c9d",
+      "work/privacy-forward-caefe5625c9d"
+    ],
+    "prior_fixture": {
+      "purpose": "Internal prior-release upgrade fixture, not a distribution deliverable",
+      "host_source_commit": "c3315f36c4c7a7bc0f87194c20bfa8099fcd6e9c",
+      "node_source_commit": "2dd2136894ddaa79a920776e0df0de6431c2ce71",
+      "engine_source_commit": "48505311142a5db99bd81ce1a49a4bf9b8df4e5f",
+      "files": {
+        "blackbox": "0abe12a7851adac60ec75d16bfdb0c4e53e7a0204c87951230d2987171a44f61",
+        "bin/LICENSE": "afbdb4e07a359499db587ae632815809b1fc1670a92d5449af112ce9a67833a2",
+        "bin/age-keygen": "c16e229245123d0ad27442317461d63915416cad0294395cd19ca93feb3211ea",
+        "bin/age": "4012dfc2725883beafb710894af4f599b7a94f8c8e0f51f02cc96ab8df33915e",
+        "release/compatibility.json": "68baf1c6d980a0ffd8772cddcbb1354c36caaaf6f5dad3040bdf96965385ce87",
+        "scripts/diagnostics.py": "6ff47058094fee22b1517d60a47a8b21ea926f5029d8095fcfa1ed76bb16a4ba",
+        "scripts/backup_codec.py": "6a1c009633d5b8b92a517f0da6ce9d38cf6517f0d5a16d8dc8cb5889d2a6daf4",
+        "scripts/backup_operations.py": "3a4dc51f6b54375b6b7ceec0ec705152d7ab447b7c6cb09f6e21c1116c6ade00",
+        "scripts/host_runtime.py": "01fe2e682ac3ee4586a856407f251069ca3318148d758c059e1634e01a7945b1",
+        "scripts/key_rotation.py": "0c192f5637a555b6cc20c20b93e57c7c7c0fc38e649b7148ebe87783e1d23df7",
+        "scripts/evidence_policy.py": "8e4bb0e681c5052bf9090300b2714ce5e8ce60f5a8a0316a4cd0be9f43dac412",
+        "scripts/backup_restore.py": "4c598b1236bd6aa23150ab853fa5a2ee4feeb45ea0b79a8539274c20c7f94f55",
+        "scripts/evidence_scheduler.py": "1d5a4c87825540710189c7d7ef54b5a7223b58c92c63e2b0bed2c202a0a0e285",
+        "scripts/release_compatibility.py": "47812bbbd7eeebc09ce32bb453f423728189bd15f187be5c8aa23486610e9528",
+        "scripts/backup_supervisor.py": "a72bc4cb5846ecc81934705430a4420753a05eed6410ec46235a6ba0d88cb15b",
+        "scripts/evidence_copies.py": "7fde7bbd481ccd804eb7582c0c7d57b12a9b13b46f1c013dfd9d1b8ba1c6d451",
+        "scripts/database_identity.py": "74ce1b5855e0bd14bb1da85b9691c1eec9b0862a093a20cf50f87d45a4ac6102",
+        "vendor/age.lock.json": "eb713ececb9fe1a041d4f6274245b47d94531d741b1bfde2e35e1985ee0c482c",
+        "packages/database/migrations/008-evidence-policy.sql": "487df1bfd46c18a2ba4367583e4f44ff1d84516fd613765238cd99dac124f5e7",
+        "packages/database/migrations/006-recovery-guards.sql": "fcb52319962ae63c77f9574904129fb80a2d4df05687e332dedff4ed4c96ec90",
+        "packages/database/migrations/001-foundation.sql": "9afdee5051ea6dfb1e9b39bc0837018c5f63b347a41cd8c90d606a348cd4f58f",
+        "packages/database/migrations/003-record-projections.sql": "b5bec5701cb15215ede9101242825d17724df3825b0d4d287b8853b50a776475",
+        "packages/database/migrations/007-runtime-contract.sql": "d4b60d4bd005dffa660c361adda1a58e1a7f2394b17a6340b8c73c9df430423e",
+        "packages/database/migrations/002-producer-receipts.sql": "63f4ff07f8b37f28be54e206d119a88d875cdc62cb50665a82ec6965956c40fd",
+        "packages/database/migrations/005-owner-review.sql": "328d6adaecc01967ed9eea5a93f37c8b74317e6df0de5cd11376051d84091f19",
+        "packages/database/migrations/004-source-operations.sql": "9b86e8b806bb87c6b1bf84ba511a8ef89be7451f54b925ebef3a65c952684eee",
+        "infra/compose/init.sh": "275d3b3d85971ca1fc32bcc689b7d3ede9ba15abae3f0c7d28b7cb5779b480de",
+        "infra/compose/compose.yaml": "71f37ecace9d034f07bc1caca4243cab38b343f87bf9c48f1218bae5f5d42baa"
+      },
+      "image_rebuild_note": "Earlier local image IDs unavailable after retagging; rebuilt exact own repository source commits into persistent distinct local tags. No prior binary-identity claim.",
+      "images": {
+        "blackbox-a-prior-node:2dd2136": "sha256:fedaa63110ed3ad87a1bd1e77f43c47a043792f059b4da4a727aae0a28e46d29",
+        "blackbox-a-prior-engine:4850531": "sha256:f0928e40a028799989e8328f0a8516f7b20f221ef26fbb64648bff8bcf098996"
+      }
+    },
+    "node_image_source_commit": "4da9fc90d4b7fc9d1856ca3d6e71261981546fc4",
+    "engine_image_source_commit": "4da9fc90d4b7fc9d1856ca3d6e71261981546fc4"
+  },
+  "checks": [
+    "exact_schema8_archive_forward_migration_discards_plaintext_cursors_preserves_fixed_scope_and_audits",
+    "unclassified_older_original_removed_with_durable_intent_before_guard_release_business_API_MCP_unchanged",
+    "database_rejects_plaintext_operational_cursor_writes"
+  ],
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18803",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-7ee751899696-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-7ee751899696-postgres-1  Running\n Container blackbox-a-7ee751899696-api-1  Creating\n Container blackbox-a-7ee751899696-worker-1  Creating\n Container blackbox-a-7ee751899696-engine-1  Creating\n Container blackbox-a-7ee751899696-engine-1  Created\n Container blackbox-a-7ee751899696-api-1  Created\n Container blackbox-a-7ee751899696-worker-1  Created\n Container blackbox-a-7ee751899696-postgres-1  Waiting\n Container blackbox-a-7ee751899696-postgres-1  Waiting\n Container blackbox-a-7ee751899696-postgres-1  Waiting\n Container blackbox-a-7ee751899696-postgres-1  Healthy\n Container blackbox-a-7ee751899696-worker-1  Starting\n Container blackbox-a-7ee751899696-postgres-1  Healthy\n Container blackbox-a-7ee751899696-api-1  Starting\n Container blackbox-a-7ee751899696-postgres-1  Healthy\n Container blackbox-a-7ee751899696-engine-1  Starting\n Container blackbox-a-7ee751899696-engine-1  Started\n Container blackbox-a-7ee751899696-api-1  Started\n Container blackbox-a-7ee751899696-worker-1  Started\n"
+    },
+    {
+      "command": "python3 -c import sys,pathlib;sys.path.insert(0,'scripts');from backup_supervisor import stop;stop(pathlib.Path.cwd())",
+      "exit_code": 0,
+      "observed": ""
+    },
+    {
+      "command": "python3 -c import sys,pathlib,json;sys.path.insert(0,'scripts');from backup_operations import enroll,generation,target;from host_runtime import create_file,RuntimeConfigError;r=pathlib.Path.cwd();v=pathlib.Path(sys.argv[1]);key=enroll(r,v);create_file(v/'recovery.key',key);g=generation(r);c=json.loads((r/'.runtime/backup.json').read_text());create_file(v/'generation.json',json.dumps({'backup':str(target(c)/g['generation'])}).encode()) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/privacy-vault-caefe5625c9d",
+      "exit_code": 0,
+      "observed": ""
+    },
+    {
+      "command": "/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/blackbox restore resume --to /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/privacy-forward-caefe5625c9d",
+      "exit_code": 0,
+      "observed": "Restore validated. Save the newly issued owner key; old owner, agent and browser access has been revoked.\r\nWiederherstellung gepr\u00fcft. Speichere den neuen Eigent\u00fcmerschl\u00fcssel; alte Eigent\u00fcmer-, Agenten- und Browserzugriffe sind widerrufen.\r\n\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-5a03bca1aa99-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nRestored local application: http://127.0.0.1:18805\r\nRaw evidence and provider collection remain blocked until host policy/account reconciliation.\r\nOriginalbelege und Anbieterabrufe bleiben bis zur Richtlinien- und Kontenpr\u00fcfung am Host gesperrt.\r\n"
+    }
+  ],
+  "elapsed_seconds": 134.638,
+  "limitations": [
+    "Small synthetic PostgreSQL17 corpus, not smoke RTO or full field/provider inventory",
+    "Isolated backup restore, not populated in-place upgrade or distribution",
+    "No live provider or independent review claim"
+  ]
+}
