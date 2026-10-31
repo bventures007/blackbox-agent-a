@@ -1,3 +1,4 @@
+import { runtimeFingerprint } from "../packages/runtime/compatibility.js";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -74,6 +75,7 @@ async function apply(tenant: string) {
     method: "POST",
     headers: {
       "content-type": "application/json",
+      "x-blackbox-contract": runtimeFingerprint,
       "x-blackbox-internal": internal,
     },
     body: JSON.stringify({ tenant_id: tenant }),

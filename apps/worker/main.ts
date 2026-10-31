@@ -1,7 +1,14 @@
+import {
+  verifyDatabaseContract,
+  verifyEngineContract,
+  runtimeFingerprint,
+} from "../../packages/runtime/compatibility.js";
 import { readFile, writeFile, rename } from "node:fs/promises";
 import { pool, scoped } from "../../packages/database/index.js";
 import { sourceTick } from "../../packages/application/source-worker.js";
 import { log } from "../../packages/diagnostics/index.js";
+await verifyDatabaseContract(pool);
+await verifyEngineContract(process.env.ENGINE_URL);
 const key = await readFile(process.env.INTERNAL_KEY_FILE!, "utf8");
 log("service.started");
 let stopping = false,
@@ -38,6 +45,7 @@ while (!stopping) {
           method: "POST",
           headers: {
             "content-type": "application/json",
+            "x-blackbox-contract": runtimeFingerprint,
             "x-blackbox-internal": key,
           },
           body: JSON.stringify({ tenant_id: r.tenant_id }),

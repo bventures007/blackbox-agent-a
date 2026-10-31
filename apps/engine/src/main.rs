@@ -72,6 +72,11 @@ fn internal(h: &HeaderMap, a: &App) -> Result<(), Error> {
             Json(json!({"error":"unauthorized"})),
         ));
     }
+    if h.get("x-blackbox-contract").and_then(|v| v.to_str().ok())
+        != Some("63f6ffba3371cfc080f8702987120964ea6aea0979fc4949eccdf3d908e7fb11")
+    {
+        return Err(error("runtime_contract_incompatible"));
+    }
     Ok(())
 }
 async fn transaction(db: &PgPool, tenant: Uuid) -> Result<Transaction<'_, Postgres>, Error> {
@@ -303,13 +308,55 @@ async fn query(
         json!({"status":if state.agreed_minor.is_some(){"partial"}else{"insufficient_data"},"result":state,"effective_at":q.effective_at,"recorded_cutoff":cutoff,"required_cursor":cutoff,"applied_cursor":applied,"rule_version":RULE_VERSION,"read_path":path,"coverage":{"basis":"observed_records_only","provider_completeness":"unverified"},"missing_inputs":["verified_payment_population_coverage"]}),
     ))
 }
+fn release_manifest() -> Value {
+    let manifest: Value = serde_json::from_str(include_str!("../../../release/compatibility.json"))
+        .expect("invalid compiled release manifest");
+    assert_eq!(
+        format!(
+            "{:x}",
+            Sha256::digest(serde_json::to_vec(&manifest["runtime"]).unwrap())
+        ),
+        "63f6ffba3371cfc080f8702987120964ea6aea0979fc4949eccdf3d908e7fb11",
+        "unsupported compiled runtime contract"
+    );
+    manifest
+}
+async fn verify_database_contract(db: &PgPool) -> Result<(), String> {
+    let manifest = release_manifest();
+    let metadata: Vec<Value> = sqlx::query_scalar(
+        "SELECT jsonb_build_object('contract',contract,'state',state) FROM bb.runtime_contract",
+    )
+    .fetch_all(db)
+    .await
+    .map_err(|_| "database_contract_missing")?;
+    let migrations: Value = sqlx::query_scalar("SELECT coalesce(jsonb_agg(jsonb_build_object('file',version,'sha256',sha256) ORDER BY version),'[]'::jsonb) FROM bb.schema_migrations")
+        .fetch_one(db).await.map_err(|_| "migration_history_missing")?;
+    let major: i32 =
+        sqlx::query_scalar("SELECT current_setting('server_version_num')::integer/10000")
+            .fetch_one(db)
+            .await
+            .map_err(|_| "database_version_unavailable")?;
+    if metadata != vec![json!({"contract":manifest["runtime"],"state":"active"})]
+        || migrations != manifest["migrations"]
+        || !manifest["runtime"]["postgres_read"]
+            .as_array()
+            .is_some_and(|versions| versions.contains(&json!(major)))
+    {
+        return Err("database_contract_incompatible_or_fenced: use the matching host upgrade or isolated restore".into());
+    }
+    Ok(())
+}
 #[tokio::main]
 async fn main() {
     let db = PgPoolOptions::new()
         .max_connections(12)
+        .acquire_timeout(std::time::Duration::from_secs(5))
         .connect(&std::env::var("DATABASE_URL").expect("DATABASE_URL required"))
         .await
         .expect("database connection unavailable");
+    verify_database_contract(&db)
+        .await
+        .expect("runtime preflight refused");
     let token = std::fs::read_to_string(
         std::env::var("INTERNAL_KEY_FILE").expect("internal key file required"),
     )
@@ -327,7 +374,7 @@ async fn main() {
     let app = Router::new()
         .route(
             "/health",
-            get(|| async { Json(json!({"service":"engine","rpc_version":1})) }),
+            get(|| async { Json(json!({"service":"engine","rpc_version":1,"runtime_contract":release_manifest()["runtime"]})) }),
         )
         .route("/v1/apply", post(apply))
         .route("/v1/state", post(query))

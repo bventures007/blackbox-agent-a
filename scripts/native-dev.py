@@ -15,6 +15,8 @@ def url(role,key):return f'postgres://{role}:{key}@localhost/blackbox?host='+url
 env={**os.environ,'DATABASE_URL':url('bb_api',x['api']),'WORKER_DATABASE_URL':url('bb_worker',x['worker']),'ENGINE_DATABASE_URL':url('bb_engine',x['engine']),'ADMIN_DATABASE_URL':url('blackbox_migrate',x['admin']),'INTERNAL_KEY_FILE':str(runtime/'secrets/internal'),'DATA_KEY_FILE':str(runtime/'secrets/data'),'DATA_KEY_LAYOUT':x.get('key_layout','legacy-v1'),'EVIDENCE_DIR':str(runtime/'evidence'),'LOG_DIR':str(runtime/'logs'),'ENGINE_URL':'http://127.0.0.1:19742','ENGINE_BIND':'127.0.0.1:19742','PORT':'19741','PUBLIC_PORT':'19741','FIXTURE_HOST':'127.0.0.1:19743','FIXTURE_PORT':'19743','ALLOW_SYNTHETIC_FIXTURE':'1','BLACKBOX_API_URL':'http://127.0.0.1:19741','TEST_RUNTIME_DIR':str(runtime),'PGPASSWORD':x['admin']} if x else dict(os.environ)
 def run(args,**kw):return subprocess.run([str(a)for a in args],env=env,cwd=root,check=True,**kw)
 def database():
+ from release_compatibility import read_manifest,require_prefix
+ manifest=read_manifest(root)
  if not (runtime/'pg/PG_VERSION').exists():
   pw=runtime/'secrets/pg-init';pw.write_text(x['admin']);pw.chmod(0o600)
   run([pg/'initdb','-D',runtime/'pg','-U','blackbox_migrate','--auth=scram-sha-256','--pwfile',pw],stdout=subprocess.DEVNULL);pw.unlink()
@@ -28,6 +30,8 @@ def database():
   run([pg/'psql','-h',sock,'-U','blackbox_migrate','-d','blackbox','-v','ON_ERROR_STOP=1'],input=(variables+(root/'packages/database/migrations/001-foundation.sql').read_text()).encode(),stdout=subprocess.DEVNULL)
  # Incremental migrations have checksums and one transaction each. Runtime identities cannot migrate.
  run([pg/'psql','-h',sock,'-U','blackbox_migrate','-d','blackbox','-v','ON_ERROR_STOP=1'],input=b"CREATE TABLE IF NOT EXISTS bb.schema_migrations(version text PRIMARY KEY, sha256 text NOT NULL, applied_at timestamptz NOT NULL DEFAULT now());",stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+ rows=json.loads(run([pg/'psql','-h',sock,'-U','blackbox_migrate','-d','blackbox','-Atc',"SELECT coalesce(json_agg(json_build_object('file',version,'sha256',sha256) ORDER BY version),'[]'::json) FROM bb.schema_migrations"],capture_output=True).stdout)
+ if rows:require_prefix(rows,manifest)
  import hashlib
  for migration in sorted((root/'packages/database/migrations').glob('*.sql')):
   digest=hashlib.sha256(migration.read_bytes()).hexdigest()

@@ -66,6 +66,8 @@ def rotate(root,resume=False):
   run(root,'stop','api','worker','engine')
   from database_identity import prepare
   prepare(root)
+  from release_compatibility import check_database
+  check_database(root)
   if marker['phase']=='resuming':
    # Services may have accepted work after the verified switch but before fence unlink.
    # Re-fence and verify their new-key writes; do not require the old business cutoff.

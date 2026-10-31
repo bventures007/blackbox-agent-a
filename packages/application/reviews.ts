@@ -1,3 +1,4 @@
+import { runtimeFingerprint } from "../runtime/compatibility.js";
 import { randomUUID, createHmac } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { z } from "zod";
@@ -598,6 +599,7 @@ export async function checkReview(
       method: "POST",
       headers: {
         "content-type": "application/json",
+        "x-blackbox-contract": runtimeFingerprint,
         "x-blackbox-internal": internal,
       },
       body: JSON.stringify({

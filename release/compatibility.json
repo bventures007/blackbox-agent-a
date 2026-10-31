@@ -1,0 +1,99 @@
+{
+  "manifest_version": 1,
+  "release": "0.1.0-pilot.1",
+  "install": {
+    "postgres_major": 17,
+    "schema": 7,
+    "upgrade_from_schema": [
+      6
+    ],
+    "rollback": "No populated binary downgrade. Use a compatible forward fix or isolated verified pre-upgrade restore with its recorded cutoff."
+  },
+  "runtime": {
+    "application": 1,
+    "api": 1,
+    "worker": 1,
+    "engine_rpc": 1,
+    "mcp_bridge": 1,
+    "journal": 1,
+    "events": {
+      "lifecycle": 1,
+      "typed_records": 1
+    },
+    "reducers": {
+      "lifecycle": "lifecycle-v2",
+      "typed_records": "records-v3",
+      "questions": "questions-v9"
+    },
+    "projections": {
+      "lifecycle": "lifecycle-v2",
+      "typed_records": "records-v3"
+    },
+    "snapshot": null,
+    "backup": 1,
+    "encryption": {
+      "evidence_read": [
+        1,
+        2
+      ],
+      "evidence_write": 2,
+      "provider_read": [
+        1,
+        2
+      ],
+      "provider_write": 2,
+      "keyring": 2
+    },
+    "postgres_read": [
+      17,
+      18
+    ]
+  },
+  "migrations": [
+    {
+      "file": "001-foundation.sql",
+      "sha256": "9afdee5051ea6dfb1e9b39bc0837018c5f63b347a41cd8c90d606a348cd4f58f"
+    },
+    {
+      "file": "002-producer-receipts.sql",
+      "sha256": "63f4ff07f8b37f28be54e206d119a88d875cdc62cb50665a82ec6965956c40fd"
+    },
+    {
+      "file": "003-record-projections.sql",
+      "sha256": "b5bec5701cb15215ede9101242825d17724df3825b0d4d287b8853b50a776475"
+    },
+    {
+      "file": "004-source-operations.sql",
+      "sha256": "9b86e8b806bb87c6b1bf84ba511a8ef89be7451f54b925ebef3a65c952684eee"
+    },
+    {
+      "file": "005-owner-review.sql",
+      "sha256": "328d6adaecc01967ed9eea5a93f37c8b74317e6df0de5cd11376051d84091f19"
+    },
+    {
+      "file": "006-recovery-guards.sql",
+      "sha256": "fcb52319962ae63c77f9574904129fb80a2d4df05687e332dedff4ed4c96ec90"
+    },
+    {
+      "file": "007-runtime-contract.sql",
+      "sha256": "d4b60d4bd005dffa660c361adda1a58e1a7f2394b17a6340b8c73c9df430423e"
+    }
+  ],
+  "legacy_schema": {
+    "6": {
+      "sha256": "1574d430d1faf57c417e8f901243d1b82dcb51f9c9e5f521b47e8b08b4a509b8",
+      "bytes": 55337,
+      "normalization": "pg17-dump-restrict-and-version-lines-v1"
+    },
+    "5": {
+      "sha256": "f88dfcafbc6de03849c7fd514d7dff809bbaa6721251a328c36ce510fb3a2187",
+      "bytes": 53844,
+      "normalization": "pg17-dump-restrict-and-version-lines-v1"
+    }
+  },
+  "notes": [
+    "PostgreSQL18 is allowed only for the existing native development harness; the installation and recovery contract pins PostgreSQL17.",
+    "No separate filesystem snapshot format is implemented; projections are disposable version-checked PostgreSQL acceleration.",
+    "Runtime protocol compatibility does not authorize installing arbitrary images. Distribution artifact digests and the fenced upgrade procedure remain required."
+  ]
+}

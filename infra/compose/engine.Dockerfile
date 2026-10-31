@@ -3,6 +3,7 @@ WORKDIR /src
 COPY Cargo.toml Cargo.lock ./
 COPY crates crates
 COPY apps/engine apps/engine
+COPY release/compatibility.json release/compatibility.json
 RUN cargo build --release --locked -p blackbox-engine
 FROM node:24-bookworm-slim@sha256:c86ecead9e55a5210ac1727de38a4ca840bf03dcaf34dc9749addbf383b1920c
 COPY --from=build /src/target/release/blackbox-engine /usr/local/bin/blackbox-engine

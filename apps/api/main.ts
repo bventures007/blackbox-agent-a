@@ -1,3 +1,8 @@
+import {
+  verifyDatabaseContract,
+  verifyEngineContract,
+  runtimeFingerprint,
+} from "../../packages/runtime/compatibility.js";
 import Fastify from "fastify";
 import cookie from "@fastify/cookie";
 import { readFile } from "node:fs/promises";
@@ -25,6 +30,8 @@ import { registerOwnerRoutes } from "./owner.js";
 import { registerSourceRoutes } from "./sources.js";
 import { registerStatic } from "./static.js";
 import { log } from "../../packages/diagnostics/index.js";
+await verifyDatabaseContract(pool);
+await verifyEngineContract(process.env.ENGINE_URL);
 const port = Number(process.env.PORT ?? 8080),
   publicPort = Number(process.env.PUBLIC_PORT ?? 18741);
 const origin = `http://127.0.0.1:${publicPort}`,
@@ -45,12 +52,18 @@ declare module "fastify" {
 const attempts = new Map<string, { count: number; until: number }>();
 app.addHook("onRequest", async (req, reply) => {
   reply
+    .header("x-blackbox-contract", runtimeFingerprint)
     .header("cache-control", "no-store")
     .header("x-content-type-options", "nosniff")
     .header(
       "content-security-policy",
       "default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'",
     );
+  if (
+    req.headers["x-blackbox-contract"] !== undefined &&
+    req.headers["x-blackbox-contract"] !== runtimeFingerprint
+  )
+    return reply.code(503).send({ error: "runtime_contract_incompatible" });
   if (
     !hosts.has(req.headers.host ?? "") ||
     (req.headers.origin && req.headers.origin !== origin)
@@ -377,6 +390,7 @@ app.post("/v1/tools/:tool", async (req, reply) => {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        "x-blackbox-contract": runtimeFingerprint,
         "x-blackbox-internal": internal,
       },
       body: JSON.stringify({
@@ -430,6 +444,7 @@ app.post("/v1/tools/:tool", async (req, reply) => {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        "x-blackbox-contract": runtimeFingerprint,
         "x-blackbox-internal": internal,
       },
       body: JSON.stringify({

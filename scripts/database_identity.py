@@ -84,6 +84,8 @@ def ready(root):
 def prepare(root,initialize=False):
  """Start only the verified PostgreSQL cluster; never start application traffic."""
  from backup_operations import run,sql
+ from release_compatibility import read_manifest
+ read_manifest(root)
  runtime=root/'.runtime';expected=marker(root)
  if expected:
   assert_existing(root)

@@ -1,3 +1,4 @@
+import { runtimeFingerprint } from "../packages/runtime/compatibility.js";
 import assert from "node:assert/strict";
 import { readFile, writeFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
@@ -122,6 +123,7 @@ try {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        "x-blackbox-contract": runtimeFingerprint,
         "x-blackbox-internal": await readFile(
           process.env.INTERNAL_KEY_FILE!,
           "utf8",

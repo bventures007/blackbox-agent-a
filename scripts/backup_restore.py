@@ -35,7 +35,7 @@ def verified_backup(root,path,secret):
   metadata=manifest['metadata']
   expected={'application':'0.1.0','postgres_major':17,'engine_rpc':1,'lifecycle':'lifecycle-v2','typed_records':'records-v3','questions':'questions-v9','backup_format':1}
   compatibility=metadata.get('compatibility',{})
-  if {k:compatibility.get(k)for k in expected}!=expected or compatibility.get('schema')not in [5,6]or set(compatibility)!=set(expected)|{'schema'}:raise BackupFormatError('incompatible_backup_contract')
+  if {k:compatibility.get(k)for k in expected}!=expected or compatibility.get('schema')not in [5,6,7]or set(compatibility)!=set(expected)|{'schema'}:raise BackupFormatError('incompatible_backup_contract')
   required={'installation.json','policy/redactions.json','secrets/internal'}
   if not required<=small.keys()or not re.fullmatch(rb'[a-f0-9]{64}',small['secrets/internal']):raise BackupFormatError('backup_installation_material_invalid')
   ring=None
@@ -64,7 +64,7 @@ def verified_backup(root,path,secret):
 
 
 def copy_runtime_bundle(root,destination):
- files=['blackbox','scripts/host_runtime.py','scripts/database_identity.py','scripts/key_rotation.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
+ files=['blackbox','scripts/host_runtime.py','scripts/database_identity.py','scripts/release_compatibility.py','release/compatibility.json','scripts/key_rotation.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
  for name in files:
   target=destination/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(root/name,target)
  shutil.copytree(root/'packages/database/migrations',destination/'packages/database/migrations')
@@ -129,9 +129,8 @@ def restore(root,backup,destination,secret,port=18755):
     finally:os.close(directory_fd)
     validate_keys(runtime,layout)
     if cutoffs(destination)!=manifest['metadata']['snapshot']:raise BackupFormatError('restored_database_cutoff_mismatch')
-    # This known additive migration supplies guards to the pre-guard development format.
-    has_guard=sql(destination,"SELECT coalesce(to_regclass('bb.recovery_guards')::text,'');").strip()
-    if not has_guard:sql(destination,'BEGIN;'+(root/'packages/database/migrations/006-recovery-guards.sql').read_text()+'COMMIT;')
+    from release_compatibility import upgrade_restored_schema
+    upgrade_restored_schema(destination,manifest['metadata']['compatibility']['schema'])
     sql(destination,"""BEGIN;
       UPDATE bb.credentials SET revoked_at=now();
       UPDATE bb.connections SET state='paused';
@@ -171,6 +170,8 @@ def finish_restore(root):
    run(root,'stop','api','worker','engine')
    from database_identity import prepare
    prepare(root)
+   from release_compatibility import check_database
+   check_database(root)
    if int(sql(root,"SELECT count(*) FROM bb.workspaces w LEFT JOIN bb.recovery_guards g USING(tenant_id) WHERE g.tenant_id IS NULL OR NOT g.evidence_blocked OR NOT g.sources_blocked;")):raise RuntimeConfigError('Restore policy guards are incomplete.')
    sql(root,'UPDATE bb.credentials SET revoked_at=now();')
    marker['phase']='issuing_owner_key';atomic_json(runtime/'maintenance.json',marker)

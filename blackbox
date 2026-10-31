@@ -38,7 +38,8 @@ if command=='mcp':
   c=config(require_keys=False)
   if(runtime/'maintenance.json').exists():raise RuntimeConfigError('Host maintenance is active. Retry the MCP connection after recovery completes.')
   from database_identity import assert_existing
-  assert_existing(root)
+  from release_compatibility import read_manifest
+  read_manifest(root);assert_existing(root)
   environment={**compose_environment(runtime),'BLACKBOX_AGENT_KEY':key}
   # Only this service receives the token. No key bytes in command arguments.
   os.chdir(root)
@@ -120,8 +121,15 @@ if command in ['build','up','down','status','test','setup','reset-access']:
     else:
      from database_identity import prepare
      prepare(root,initialize=command=='setup')
+     from release_compatibility import check_database
+     check_database(root)
     result=run(c+args+extra)
-    if result==0 and command=='up':start_supervisor(root)
+    if result==0 and command=='up':
+     from release_compatibility import wait_for_traffic
+     try:wait_for_traffic(root)
+     except RuntimeConfigError:
+      run(c+['stop','api','worker','engine']);raise
+     start_supervisor(root)
     elif result==0:
      if command in ['setup','reset-access']:bind_owner_workspace(root)
      publish_status(root)

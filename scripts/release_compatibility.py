@@ -1,0 +1,103 @@
+"""Exact installation contracts; never infer historical migration execution."""
+import hashlib,json,re
+from host_runtime import RuntimeConfigError
+SUPPORTED_RUNTIME_SHA256="63f6ffba3371cfc080f8702987120964ea6aea0979fc4949eccdf3d908e7fb11"
+
+
+def read_manifest(root):
+ path=root/'release/compatibility.json'
+ if path.is_symlink()or not path.is_file()or path.stat().st_size>65536:raise RuntimeConfigError('Release compatibility manifest is missing or unsafe. Restore the exact release bundle.')
+ def unique(pairs):
+  value={}
+  for key,item in pairs:
+   if key in value:raise RuntimeConfigError('Ambiguous release compatibility manifest.')
+   value[key]=item
+  return value
+ try:value=json.loads(path.read_text(),object_pairs_hook=unique)
+ except (ValueError,UnicodeError):raise RuntimeConfigError('Invalid release compatibility manifest.')from None
+ if not isinstance(value,dict)or value.get('manifest_version')!=1 or value.get('install',{}).get('postgres_major')!=17 or value.get('install',{}).get('schema')!=7 or not isinstance(value.get('runtime'),dict):raise RuntimeConfigError('Unsupported release installation contract. Use its matching host wrapper.')
+ if hashlib.sha256(json.dumps(value['runtime'],sort_keys=True,separators=(',',':')).encode()).hexdigest()!=SUPPORTED_RUNTIME_SHA256:raise RuntimeConfigError('Unknown runtime formats for this host release. No migration or traffic is allowed.')
+ migrations=value.get('migrations',[])
+ if not isinstance(migrations,list)or len(migrations)!=7:raise RuntimeConfigError('Incomplete release migration manifest.')
+ files=sorted((root/'packages/database/migrations').glob('*.sql'))
+ if [p.name for p in files]!=[m.get('file')for m in migrations]:raise RuntimeConfigError('Release migrations are missing, newer or unexpected. Use the exact release bundle.')
+ for index,(path,entry)in enumerate(zip(files,migrations),1):
+  if set(entry)!={'file','sha256'}or not re.fullmatch(f'{index:03d}-[a-z0-9-]+[.]sql',path.name)or path.is_symlink()or path.stat().st_size>2*1024*1024 or hashlib.sha256(path.read_bytes()).hexdigest()!=entry['sha256']:raise RuntimeConfigError('Release migration checksum mismatch. No migration or traffic is allowed.')
+ return value
+
+
+def migration_rows(root):
+ from backup_operations import sql
+ if not sql(root,"SELECT coalesce(to_regclass('bb.schema_migrations')::text,'');").strip():return None
+ return json.loads(sql(root,"SELECT coalesce(json_agg(json_build_object('file',version,'sha256',sha256) ORDER BY version),'[]'::json) FROM bb.schema_migrations;"))
+
+
+def require_prefix(rows,manifest,complete=False):
+ expected=manifest['migrations']
+ if not isinstance(rows,list)or not rows or rows!=expected[:len(rows)]or (complete and len(rows)!=len(expected)):
+  raise RuntimeConfigError('Database migration history is missing, changed, incomplete or newer than this release. Use the explicit fenced upgrade or isolated restore; never downgrade populated data.')
+
+
+def check_database(root):
+ from backup_operations import sql
+ manifest=read_manifest(root);require_prefix(migration_rows(root),manifest,complete=True)
+ if int(sql(root,"SELECT current_setting('server_version_num')::integer/10000;"))!=manifest['install']['postgres_major']:raise RuntimeConfigError('Unsupported installation PostgreSQL major version.')
+ rows=json.loads(sql(root,"SELECT coalesce(json_agg(json_build_object('contract',contract,'state',state)),'[]'::json) FROM bb.runtime_contract;"))
+ if rows!=[{'contract':manifest['runtime'],'state':'active'}]:raise RuntimeConfigError('Runtime contracts are incompatible or maintenance is fenced. Resume the matching host operation before starting traffic.')
+ return manifest
+
+
+def normalized_legacy_schema(raw):
+ # Preserve every SQL byte, ACL, RLS policy, trigger and function definition.
+ raw=re.sub(rb'^\\(?:un)?restrict [A-Za-z0-9]+\n',b'',raw,flags=re.M)
+ return re.sub(rb'^-- Dumped (?:from database|by pg_dump) version [^\n]+\n',b'',raw,flags=re.M)
+
+
+def upgrade_restored_schema(root,source_schema):
+ """Only a new fenced restore may attest known legacy schema and migrate forward."""
+ from backup_operations import sql,run
+ manifest=read_manifest(root);rows=migration_rows(root)
+ if source_schema not in [5,6,7]:raise RuntimeConfigError('Unsupported backup schema; destination remains fenced.')
+ if source_schema==7:
+  require_prefix(rows,manifest,complete=True);check_database(root);return
+ if rows is not None:require_prefix(rows,manifest)
+ if rows is not None and len(rows)!=source_schema:raise RuntimeConfigError('Backup schema declaration disagrees with its migration history.')
+ def verify_shape(version):
+  raw=run(root,'exec','-T','postgres','pg_dump','-U','blackbox_migrate','-d','blackbox','--schema-only','--schema=bb','--exclude-table=bb.schema_migrations','--no-owner')
+  canonical=normalized_legacy_schema(raw);known=manifest['legacy_schema'][str(version)]
+  if len(canonical)!=known['bytes']or hashlib.sha256(canonical).hexdigest()!=known['sha256']:raise RuntimeConfigError('Restored legacy schema does not match the supported complete schema fingerprint. Destination remains fenced.')
+ # Check the original complete schema before any forward migration.
+ verify_shape(source_schema)
+ if source_schema==5:
+  source=(root/'packages/database/migrations/006-recovery-guards.sql').read_text()
+  if rows is not None:
+   migration=manifest['migrations'][5];source+="INSERT INTO bb.schema_migrations(version,sha256) VALUES('"+migration['file']+"','"+migration['sha256']+"');"
+  sql(root,'BEGIN;SELECT pg_advisory_xact_lock(18741002);'+source+'COMMIT;')
+ if source_schema==5:verify_shape(6)
+ if rows is None:
+  source="CREATE TABLE bb.schema_migrations(version text PRIMARY KEY,sha256 text NOT NULL,applied_at timestamptz NOT NULL DEFAULT now(),provenance text NOT NULL DEFAULT 'applied');"
+  for migration in manifest['migrations'][:6]:
+   source+="INSERT INTO bb.schema_migrations(version,sha256,provenance) VALUES('"+migration['file']+"','"+migration['sha256']+"','observed_legacy_schema');"
+  sql(root,'BEGIN;SELECT pg_advisory_xact_lock(18741002);'+source+'COMMIT;')
+ migration=manifest['migrations'][6]
+ sql(root,'BEGIN;SELECT pg_advisory_xact_lock(18741002);'+(root/'packages/database/migrations'/migration['file']).read_text()+"INSERT INTO bb.schema_migrations(version,sha256) VALUES('"+migration['file']+"','"+migration['sha256']+"');COMMIT;")
+ check_database(root)
+
+
+def wait_for_traffic(root):
+ """Health acknowledgement before a successful start; no owner key is needed."""
+ import time,urllib.request,urllib.error,http.client
+ from host_runtime import read_compose
+ config=read_compose(root/'.runtime');read_manifest(root)
+ address='http://127.0.0.1:'+config.get('BB_PORT','18741')+'/v1/status';deadline=time.monotonic()+45
+ while True:
+  try:
+   try:response=urllib.request.urlopen(address,timeout=2)
+   except urllib.error.HTTPError as error:response=error
+   with response:
+    if response.status in [200,401]:
+     if response.headers.get('x-blackbox-contract')!=SUPPORTED_RUNTIME_SHA256:raise RuntimeConfigError('Running API does not match this release contract. Use the matching images and explicit upgrade.')
+     return
+  except (urllib.error.URLError,TimeoutError,ConnectionError,http.client.RemoteDisconnected):pass
+  if time.monotonic()>deadline:raise RuntimeConfigError('Compatible application did not become ready. Check the exact release images, engine contract and local diagnostics; no traffic was accepted as ready.')
+  time.sleep(.2)

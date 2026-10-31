@@ -1,3 +1,4 @@
+import { runtimeFingerprint } from "../runtime/compatibility.js";
 import { localApiRequest, localApiBase } from "../transport/local-api.js";
 import { intents } from "../contracts/questions.js";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -131,6 +132,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
     const r = await localApiRequest(api, `/v1/tools/${req.params.name}`, {
       method: "POST",
       headers: {
+        "x-blackbox-contract": runtimeFingerprint,
         "content-type": "application/json",
         authorization: `Bearer ${key.trim()}`,
         host: `127.0.0.1:${process.env.PUBLIC_PORT ?? 18741}`,
@@ -138,6 +140,8 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       body: JSON.stringify(req.params.arguments ?? {}),
       signal: AbortSignal.timeout(5000),
     });
+    if (r.headers.get("x-blackbox-contract") !== runtimeFingerprint)
+      throw Error("runtime_contract_incompatible");
     return {
       isError: !r.ok,
       content: [{ type: "text", text: JSON.stringify(await r.json()) }],

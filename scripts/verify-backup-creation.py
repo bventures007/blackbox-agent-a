@@ -8,7 +8,7 @@ root=pathlib.Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser();p.add_argument('--stage',required=True,type=pathlib.Path);p.add_argument('--output',required=True);a=p.parse_args()
 stage=(root/a.stage).resolve()
 if not stage.is_relative_to(root/'work')or not (stage/'.runtime/compose.env').is_file():raise SystemExit('Use an existing isolated synthetic installation under this repository work directory.')
-for name in ['blackbox','scripts/host_runtime.py','scripts/database_identity.py','scripts/key_rotation.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_codec.py','vendor/age.lock.json']:
+for name in ['blackbox','scripts/host_runtime.py','scripts/database_identity.py','scripts/release_compatibility.py','release/compatibility.json','scripts/key_rotation.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_codec.py','vendor/age.lock.json']:
  destination=stage/name;destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(root/name,destination)
 shutil.copytree(root/'.tools/age',stage/'bin',dirs_exist_ok=True)
 status='failed';checks=[];result=None

@@ -127,7 +127,9 @@ def fence(root,operation):
  try:
   run(root,'stop','api','worker','engine')
   from database_identity import prepare
-  prepare(root);verified_database=True
+  prepare(root)
+  from release_compatibility import check_database
+  check_database(root);verified_database=True
   marker['phase']='fenced';atomic_json(path,marker)
   yield marker
  finally:
@@ -210,9 +212,8 @@ def generation(root):
        protected_directory(runtime/'evidence'/tenant)
        archive.add(f'evidence/{tenant}/{evidence}',protected_read(runtime/'evidence'/tenant/evidence,8*1024*1024))
       archive.add('policy/redactions.json',json.dumps({'schema_version':1,'expired_evidence':expired,'current_external_ledger_required':True}).encode())
-      # Development formats 5/6 differ by the additive recovery guard. This is
-      # format identification, not a substitute for the upgrade checksum gate.
-      schema=6 if sql(root,"SELECT coalesce(to_regclass('bb.recovery_guards')::text,'');").strip() else 5
+      from release_compatibility import check_database
+      schema=check_database(root)['install']['schema']
       compatibility={'application':'0.1.0','postgres_major':17,'schema':schema,'engine_rpc':1,'lifecycle':'lifecycle-v2','typed_records':'records-v3','questions':'questions-v9','backup_format':1}
       archive.add('installation.json',json.dumps({'installation_id':config['installation_id'],'compatibility':compatibility}).encode())
       if cutoffs(root)!=snapshot:raise RuntimeConfigError('Backup cutoff changed under maintenance fence.')

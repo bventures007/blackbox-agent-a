@@ -1,6 +1,8 @@
+import { verifyDatabaseContract } from "../packages/runtime/compatibility.js";
 import pg from "pg";
 import { randomUUID, randomBytes, createHash } from "node:crypto";
 const pool = new pg.Pool({ connectionString: process.env.ADMIN_DATABASE_URL });
+await verifyDatabaseContract(pool);
 const c = await pool.connect();
 try {
   await c.query("BEGIN");

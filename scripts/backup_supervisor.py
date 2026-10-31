@@ -148,6 +148,8 @@ def recover_backup(root):
   run(root,'stop','api','worker','engine')
   from database_identity import prepare
   prepare(root)
+  from release_compatibility import check_database
+  check_database(root)
   if prior:run(root,'up','-d',*prior)
   if 'postgres'not in prior:run(root,'stop','postgres')
   last=load_json(runtime/'backup-status.json');atomic_json(runtime/'backup-status.json',{**last,'state':'failed','error':'interrupted_backup_recovered'})

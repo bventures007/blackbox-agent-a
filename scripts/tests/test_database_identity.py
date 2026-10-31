@@ -9,6 +9,7 @@ from database_identity import names,marker,volume,control_identity,prepare,docke
 
 class DatabaseIdentityTests(unittest.TestCase):
  def setUp(self):
+  guard=patch('release_compatibility.read_manifest');guard.start();self.addCleanup(guard.stop)
   self.temp=tempfile.TemporaryDirectory();self.root=pathlib.Path(self.temp.name);self.runtime=self.root/'.runtime';compose_config(self.runtime,True)
   self.identity={'system_identifier':'1234567890123456789','database_oid':16384,'postgres_major':17}
   project,name=names(self.root)

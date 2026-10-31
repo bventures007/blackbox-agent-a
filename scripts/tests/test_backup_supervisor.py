@@ -41,7 +41,7 @@ class BackupSupervisorTests(unittest.TestCase):
   atomic_json(self.runtime/'maintenance.json',{'operation':'backup','phase':'fenced','prior_running':[]})
   self.assertTrue(status_value(self.root)['maintenance_required'])
   with operation_lock(self.runtime):self.assertFalse(status_value(self.root)['maintenance_required'])
-  with patch('backup_supervisor.run')as call,patch('database_identity.prepare'):recover_backup(self.root)
+  with patch('backup_supervisor.run')as call,patch('database_identity.prepare'),patch('release_compatibility.check_database'):recover_backup(self.root)
   self.assertFalse((self.runtime/'maintenance.json').exists());self.assertEqual(json.loads((self.runtime/'backup-status.json').read_text())['state'],'failed')
  def test_narrow_request_expiry_and_bounded_policy(self):
   now=1800000000;path=self.runtime/'control/requests/backup.json';request={'schema_version':1,'request_id':str(uuid.uuid4()),'principal_id':str(uuid.uuid4()),'tenant_id':str(uuid.uuid4()),'requested_at':datetime.datetime.fromtimestamp(now,datetime.timezone.utc).isoformat()};atomic_json(path,request)
