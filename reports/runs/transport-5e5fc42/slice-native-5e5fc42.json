@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "kind": "synthetic_first_persisted_slice",
+  "status": "passed",
+  "tested_commit": "5e5fc422880c56e31b7b8bccc7e6acc9e85df647",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T16:09:19.839537+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "native Postgres.app 18.4, Node 25.9.0, Rust 1.90.0"
+  },
+  "limitations": [
+    "Synthetic HTTP source; no authorized Shopify store",
+    "P1 payment subset; not full Golden/24-question coverage",
+    "No independent review or release claim"
+  ],
+  "commands": [
+    {
+      "command": "node --import tsx --test tests/contracts.test.ts",
+      "exit_code": 0,
+      "observed": "\u2714 money syntax preserves exact units, does not round or mix unknown currencies (2.327708ms)\n\u2714 canonical observations reject caller tenant and personal-content fields (7.191792ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 1693.806834\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py test seed",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"seed\",\"result\":\"passed\",\"checks\":[\"provider_HTTP_two_pages\",\"exact_varied_money\",\"refund_and_missing_payment_HTTP_API_MCP\",\"authorization_not_extra_cash\",\"duplicate_idempotency\",\"conflicting_identity_preserved_and_reviewed\",\"SDK_MCP_API_parity\",\"two_tenant_collision\",\"cross_tenant_evidence_denial\",\"owner_key_substitution_denial\",\"host_denial\",\"snapshot_cursor_scope\",\"actual_three_role_RLS_and_immutability\",\"pool_scope_reset\"],\"source_entries\":6,\"cutoff\":16}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py test verify",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"fixed_cutoff_API_MCP_persisted_values_and_evidence\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py test corrupt",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"corrupt\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py test verify",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"fixed_cutoff_API_MCP_persisted_values_and_evidence\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py test remove",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"remove\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py test verify",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"fixed_cutoff_API_MCP_persisted_values_and_evidence\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py test lag",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"lag\",\"result\":\"passed\",\"checks\":[\"committed_but_unapplied_is_never_current\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py resume-worker",
+      "exit_code": 0,
+      "observed": "resume-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py test correction",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"correction\",\"result\":\"passed\",\"checks\":[\"late_revision_current_and_historical\",\"durable_revocation\",\"unrelated_agent_still_active\"]}\n"
+    }
+  ]
+}

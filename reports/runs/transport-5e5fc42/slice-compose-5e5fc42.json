@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "kind": "synthetic_first_persisted_slice",
+  "status": "passed",
+  "tested_commit": "5e5fc422880c56e31b7b8bccc7e6acc9e85df647",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T16:08:26.002907+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Docker Compose pinned PostgreSQL 17, Node 24, Rust 1.90.0"
+  },
+  "limitations": [
+    "Synthetic HTTP source; no authorized Shopify store",
+    "P1 payment subset; not full Golden/24-question coverage",
+    "No independent review or release claim"
+  ],
+  "commands": [
+    {
+      "command": "node --import tsx --test tests/contracts.test.ts",
+      "exit_code": 0,
+      "observed": "\u2714 money syntax preserves exact units, does not round or mix unknown currencies (1.798375ms)\n\u2714 canonical observations reject caller tenant and personal-content fields (3.077083ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 1158.443292\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml run --rm tooling node --import tsx tests/slice.ts seed",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-postgres-1  Running\n{\"phase\":\"seed\",\"result\":\"passed\",\"checks\":[\"provider_HTTP_two_pages\",\"exact_varied_money\",\"refund_and_missing_payment_HTTP_API_MCP\",\"authorization_not_extra_cash\",\"duplicate_idempotency\",\"conflicting_identity_preserved_and_reviewed\",\"SDK_MCP_API_parity\",\"two_tenant_collision\",\"cross_tenant_evidence_denial\",\"owner_key_substitution_denial\",\"host_denial\",\"snapshot_cursor_scope\",\"actual_three_role_RLS_and_immutability\",\"pool_scope_reset\"],\"source_entries\":6,\"cutoff\":16}\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml restart postgres engine api worker",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-worker-1  Restarting\n Container blackbox-a-postgres-1  Restarting\n Container blackbox-a-api-1  Restarting\n Container blackbox-a-engine-1  Restarting\n Container blackbox-a-worker-1  Started\n Container blackbox-a-postgres-1  Started\n Container blackbox-a-api-1  Started\n Container blackbox-a-engine-1  Started\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml run --rm tooling node --import tsx tests/slice.ts verify",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-postgres-1  Running\n{\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"fixed_cutoff_API_MCP_persisted_values_and_evidence\"]}\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml run --rm tooling node --import tsx tests/slice.ts corrupt",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-postgres-1  Running\n{\"phase\":\"corrupt\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml restart postgres engine api worker",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-postgres-1  Restarting\n Container blackbox-a-api-1  Restarting\n Container blackbox-a-worker-1  Restarting\n Container blackbox-a-engine-1  Restarting\n Container blackbox-a-worker-1  Started\n Container blackbox-a-api-1  Started\n Container blackbox-a-postgres-1  Started\n Container blackbox-a-engine-1  Started\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml run --rm tooling node --import tsx tests/slice.ts verify",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-postgres-1  Running\n{\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"fixed_cutoff_API_MCP_persisted_values_and_evidence\"]}\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml run --rm tooling node --import tsx tests/slice.ts remove",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-postgres-1  Running\n{\"phase\":\"remove\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml restart postgres engine api worker",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-postgres-1  Restarting\n Container blackbox-a-worker-1  Restarting\n Container blackbox-a-api-1  Restarting\n Container blackbox-a-engine-1  Restarting\n Container blackbox-a-postgres-1  Started\n Container blackbox-a-api-1  Started\n Container blackbox-a-worker-1  Started\n Container blackbox-a-engine-1  Started\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml run --rm tooling node --import tsx tests/slice.ts verify",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-postgres-1  Running\n{\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"fixed_cutoff_API_MCP_persisted_values_and_evidence\"]}\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml pause worker",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-worker-1  Paused\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml run --rm tooling node --import tsx tests/slice.ts lag",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-postgres-1  Running\n{\"phase\":\"lag\",\"result\":\"passed\",\"checks\":[\"committed_but_unapplied_is_never_current\"]}\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml unpause worker",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-worker-1  Unpaused\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml run --rm tooling node --import tsx tests/slice.ts correction",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-postgres-1  Running\n{\"phase\":\"correction\",\"result\":\"passed\",\"checks\":[\"late_revision_current_and_historical\",\"durable_revocation\",\"unrelated_agent_still_active\"]}\n"
+    }
+  ]
+}

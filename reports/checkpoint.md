@@ -8,7 +8,7 @@ Start/test commands and isolated ports are in [development instructions](../docs
 
 P2–P4 remain in progress. Golden and all 24 question paths have the executed checkpoints below. Source lifecycle, full UI acceptance, package, backup/restore/upgrade and stronger performance/diagnostic gates remain incomplete. No independent capability review exists.
 
-External blockers: authorized Shopify test-store/token/grants and eligible Shopify Payments account are unavailable. SLICE-02 remains blocked_external. Docker images build and isolated containers now start; the first actual Compose slice failed at the API Host guard. Browser-download installation is still unverified. No global Docker reset or competing runtime was touched.
+External blockers: authorized Shopify test-store/token/grants and eligible Shopify Payments account are unavailable. SLICE-02 remains blocked_external. Docker images build and isolated containers now start; the corrected persisted Compose slice has passed. Browser-download installation is still unverified. No global Docker reset or competing runtime was touched.
 
 This is a progress checkpoint, not a release or pilot-complete claim. Continue independent implementation through P4 and preserve all acceptance requirements.
 
@@ -57,3 +57,5 @@ Shopify queries now start with smaller bounded connection pages and handle expli
 Clean b1f8392 passed all five affected native persisted suites and 13 Node tests, typecheck and web build. Docker now starts the isolated services and builds current images, clearing the earlier container-created blocker. The actual Compose slice failed: Node24 fetch does not preserve the explicit Host override, so strict API Host validation returned403 despite persisted reducer progress. Evidence: reports/runs/query-cost-b1f8392. A bounded explicit HTTP transport correction follows; no Compose/install/distribution/P4 pass is claimed.
 
 The Compose slice exposed Node24 fetch Host-header behavior. MCP and the persisted slice now use an explicit loopback-only Node HTTP transport with the same strict API authority, five-second deadline, 2-MiB request/4-MiB response limits and no redirects. Fixture host defaults are explicit. Typecheck and transport/unit verification precede the clean Compose rerun. No origin/Host acceptance was widened.
+
+Clean 5e5fc42 passed the actual Compose and native persisted first-slice suites, including HTTP source, PostgreSQL/Rust/API/SDK MCP, full restart, corrupt/deleted projection recovery, unapplied-cursor lag, historical corrections and durable revocation. Fourteen Node tests and typecheck passed; the transport adversaries also passed on pinned Node24. Evidence: reports/runs/transport-5e5fc42. The Compose Host issue is resolved without widening server authority. Installation/download/package/remaining operations/performance and independent review are still open.

@@ -1,6 +1,6 @@
 # Current developer checkpoint
 
-This is an incomplete P1 implementation based on baseline-v14. It is not an
+This is an in-progress local pilot implementation based on baseline-v14. It is not an
 installation package or a P4 handover. The full specification and acceptance gates
 remain unchanged. Do not use customer data in this development runtime.
 
@@ -21,9 +21,10 @@ Setup requires an interactive host terminal to display the personal key once.
 The browser origin is http://127.0.0.1:18741. `./blackbox down` stops services and
 preserves volumes. Never run `docker compose down -v` on business data.
 
-Observed limitation on this Mac: images built, but ordinary Docker containers
-remained in `created`. Therefore Compose startup/install is unverified. No Docker
-reset, global security change or competing-resource operation was performed.
+The actual Compose persisted slice passed at 5e5fc42 on this Apple Silicon Mac,
+including PostgreSQL/Rust/API/MCP and restart/corrupt/deleted projection recovery.
+Fresh browser-download installation and the release package remain unverified.
+No Docker reset, global security change or competing-resource operation was performed.
 
 ## Isolated native developer tests
 

@@ -1,0 +1,20 @@
+{
+  "tested_commit": "5e5fc422880c56e31b7b8bccc7e6acc9e85df647",
+  "executed_at": "2026-10-31T16:09:47.894986+00:00",
+  "status": "passed_for_named_suites",
+  "checks": {
+    "native_unit_tests": "14 passed",
+    "typecheck": "passed",
+    "node24_container_transport_unit": "1 passed; actual loopback Host, limits, abort and redirect rejection",
+    "compose_slice": "passed; actual PG17/Rust/API/SDK MCP, restart/corrupt/remove/lag/late/revocation",
+    "native_slice": "passed; PG18.4/Node25 regression"
+  },
+  "evidence": [
+    "slice-compose-5e5fc42.json",
+    "slice-native-5e5fc42.json"
+  ],
+  "limitations": [
+    "Synthetic source; live Shopify/Payments unavailable",
+    "No full install/download/package/operations/performance acceptance or independent review"
+  ]
+}
