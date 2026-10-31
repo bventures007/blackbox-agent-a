@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "note": "No product case has run. delivery_scope distinguishes active pilot proof from deferred platform references; deferred work is not a pass. Update only from actual evidence.",
+  "note": "Implementation in progress. Only executed evidence may mark a pass. Baseline criteria unchanged.",
   "specification": "ACCEPTANCE.json",
   "cases": [
     {
@@ -1302,7 +1302,7 @@
     {
       "id": "SLICE-01",
       "stage": "core",
-      "status": "not_started",
+      "status": "implemented_unverified",
       "tested_commit": null,
       "command": null,
       "environment": null,
@@ -1314,13 +1314,13 @@
     {
       "id": "SLICE-02",
       "stage": "core",
-      "status": "not_started",
+      "status": "blocked_external",
       "tested_commit": null,
       "command": null,
       "environment": null,
-      "observed_result": null,
+      "observed_result": "No live provider request made. Synthetic pipeline work continues.",
       "evidence_paths": [],
-      "blocker": null,
+      "blocker": "No authorized development-store credentials/account/grants supplied to this task. Read-only documentation feasibility checked; actual persisted live proof pending.",
       "delivery_scope": "local_pilot"
     },
     {

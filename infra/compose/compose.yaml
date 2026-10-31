@@ -1,0 +1,102 @@
+name: ${BB_PROJECT:-blackbox-a}
+x-node: &node
+  image: blackbox-a-node:0.1.0-dev
+  build:
+    context: ../..
+    dockerfile: infra/compose/node.Dockerfile
+  restart: unless-stopped
+  user: "${BB_UID:-501}:${BB_GID:-20}"
+  logging:
+    driver: none
+  volumes:
+    - ../../.runtime/secrets:/run/blackbox:ro
+    - ../../.runtime/evidence:/var/lib/blackbox/evidence
+    - ../../.runtime/logs:/var/log/blackbox
+  environment: &environment
+    DATABASE_URL: postgres://bb_api:${BB_API_PASSWORD}@postgres:5432/blackbox
+    ENGINE_URL: http://engine:8081
+    INTERNAL_KEY_FILE: /run/blackbox/internal
+    DATA_KEY_FILE: /run/blackbox/data
+    EVIDENCE_DIR: /var/lib/blackbox/evidence
+    LOG_DIR: /var/log/blackbox
+    PUBLIC_PORT: ${BB_PORT:-18741}
+    COMPONENT: api
+  depends_on:
+    postgres:
+      condition: service_healthy
+services:
+  postgres:
+    image: postgres:17@sha256:31ba9c94a03ada9988f2bb493a22a75eef3a185884533e5cdbcd498ea835b08f
+    restart: unless-stopped
+    logging:
+      driver: none
+    environment:
+      POSTGRES_DB: blackbox
+      POSTGRES_USER: blackbox_migrate
+      POSTGRES_PASSWORD: ${BB_DB_PASSWORD}
+      BB_API_PASSWORD: ${BB_API_PASSWORD}
+      BB_WORKER_PASSWORD: ${BB_WORKER_PASSWORD}
+      BB_ENGINE_PASSWORD: ${BB_ENGINE_PASSWORD}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+      - ../../packages/database/migrations:/migrations:ro
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U blackbox_migrate -d blackbox']
+      interval: 2s
+      timeout: 2s
+      retries: 30
+  api:
+    <<: *node
+    ports:
+      - '127.0.0.1:${BB_PORT:-18741}:8080'
+  worker:
+    <<: *node
+    command: [pnpm, worker]
+    environment:
+      <<: *environment
+      COMPONENT: worker
+      DATABASE_URL: postgres://bb_worker:${BB_WORKER_PASSWORD}@postgres:5432/blackbox
+  engine:
+    user: "${BB_UID:-501}:${BB_GID:-20}"
+    image: blackbox-a-engine:0.1.0-dev
+    build:
+      context: ../..
+      dockerfile: infra/compose/engine.Dockerfile
+    restart: unless-stopped
+    logging:
+      driver: none
+    environment:
+      DATABASE_URL: postgres://bb_engine:${BB_ENGINE_PASSWORD}@postgres:5432/blackbox
+      INTERNAL_KEY_FILE: /run/blackbox/internal
+    volumes:
+      - ../../.runtime/secrets:/run/blackbox:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+  tooling:
+    <<: *node
+    profiles: [tools]
+    restart: 'no'
+    user: '0:0'
+    command: [pnpm, test]
+    environment:
+      <<: *environment
+      ADMIN_DATABASE_URL: postgres://blackbox_migrate:${BB_DB_PASSWORD}@postgres:5432/blackbox
+      WORKER_DATABASE_URL: postgres://bb_worker:${BB_WORKER_PASSWORD}@postgres:5432/blackbox
+      ENGINE_DATABASE_URL: postgres://bb_engine:${BB_ENGINE_PASSWORD}@postgres:5432/blackbox
+      ALLOW_SYNTHETIC_FIXTURE: '1'
+      BLACKBOX_API_URL: http://api:8080
+    volumes:
+      - ../../.runtime:/runtime
+      - ../../.runtime/secrets:/run/blackbox:ro
+      - ../../.runtime/evidence:/var/lib/blackbox/evidence
+      - ../../.runtime/logs:/var/log/blackbox
+  fixture:
+    <<: *node
+    profiles: [test]
+    command: [pnpm, exec, tsx, tests/fixtures/shopify-server.ts]
+    environment:
+      COMPONENT: fixture
+volumes:
+  postgres:

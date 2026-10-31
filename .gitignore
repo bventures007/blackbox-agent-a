@@ -34,3 +34,6 @@ test-results/
 .vscode/
 __pycache__/
 *.pyc
+/.runtime/
+/target/
+/work/

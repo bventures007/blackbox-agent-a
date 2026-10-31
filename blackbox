@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+"""Host wrapper. No global installation, implicit volume deletion or shared secrets."""
+import os, pathlib, secrets, subprocess, sys
+root=pathlib.Path(__file__).resolve().parent
+runtime=root/'.runtime'
+def config():
+ runtime.mkdir(mode=0o700,exist_ok=True)
+ for name in ['secrets','evidence','logs']:(runtime/name).mkdir(mode=0o700,exist_ok=True)
+ env=runtime/'compose.env'
+ if not env.exists():
+  with env.open('x') as f:
+   os.chmod(env,0o600)
+   f.write(f'BB_UID={os.getuid()}\nBB_GID={os.getgid()}\n')
+   for key in ['BB_DB_PASSWORD','BB_API_PASSWORD','BB_WORKER_PASSWORD','BB_ENGINE_PASSWORD']:f.write(key+'='+secrets.token_hex(32)+'\n')
+  for name,data in [('data',secrets.token_bytes(32)),('internal',secrets.token_hex(32).encode())]:
+   p=runtime/'secrets'/name
+   with p.open('xb') as f:os.chmod(p,0o600);f.write(data)
+ elif not all((runtime/'secrets'/n).exists() for n in ['data','internal']):raise SystemExit('Existing installation key missing. Restore its protected key; no replacement generated.')
+ return ['docker','compose','--env-file',str(env),'-f',str(root/'infra/compose/compose.yaml')]
+def run(args):return subprocess.call(args,cwd=root)
+command=sys.argv[1] if len(sys.argv)>1 else 'help'
+if command=='doctor':
+ print('Blackbox local pilot developer runtime; Apple Silicon; loopback port 18741. Container runtime required.')
+ sys.exit(run(['docker','version','--format','{{.Client.Version}} {{if .Server}}{{.Server.Version}}{{end}}']))
+if command in ['build','up','down','status','test','setup','reset-access']:
+ c=config()
+ args={'build':['build'],'up':['up','-d','postgres','engine','api','worker'],'down':['stop'],'status':['ps'],'test':['--profile','test','up','-d','fixture'],'setup':['run','--rm','tooling','pnpm','exec','tsx','scripts/setup.ts'],'reset-access':['run','--rm','tooling','pnpm','exec','tsx','scripts/setup.ts','reset']}[command] if command!='build' else ['build','api','engine']
+ sys.exit(run(c+args+sys.argv[2:]))
+print('Usage: ./blackbox doctor|build|setup|up|down|status|test|reset-access')
+print('Development slice: backup/restore/upgrade and release package are not yet implemented.')
