@@ -2,12 +2,12 @@ import { createHash, randomUUID, createCipheriv } from "node:crypto";
 import { mkdir, writeFile, rename, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { scoped } from "../database/index.js";
-import { observation, type Observation } from "../contracts/index.js";
+import { observation, type IngestObservation } from "../contracts/index.js";
 export const hash = (v: string) => createHash("sha256").update(v).digest("hex");
 export async function ingest(
   tenant: string,
   connection: string,
-  inputs: Observation[],
+  inputs: IngestObservation[],
   raw: unknown,
 ) {
   if (inputs.length > 250) throw new Error("batch_too_large");
@@ -78,6 +78,30 @@ export async function ingest(
         );
         conflicts++;
         continue;
+      }
+      if (e.supersedes_entry_id) {
+        const original = await c.query(
+          "SELECT record_id,entity_id,record_type FROM bb.journal WHERE entry_id=$1",
+          [e.supersedes_entry_id],
+        );
+        if (
+          original.rows[0]?.record_id !== e.economic_id ||
+          original.rows[0]?.entity_id !== e.entity_id ||
+          original.rows[0]?.record_type !== "source"
+        )
+          throw Error("invalid_supersession_scope");
+      }
+      if ("record" in e) {
+        const prior = await c.query(
+          "SELECT connection_id,payload->'record'->>'dataset' AS dataset FROM bb.journal WHERE record_id=$1 AND record_type='source' AND payload ? 'record' LIMIT 1",
+          [e.economic_id],
+        );
+        if (
+          prior.rows[0] &&
+          (prior.rows[0].connection_id !== connection ||
+            prior.rows[0].dataset !== e.record.dataset)
+        )
+          throw Error("record_identity_conflict");
       }
       cursor++;
       const entry = randomUUID();

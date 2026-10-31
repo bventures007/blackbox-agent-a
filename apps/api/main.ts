@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { z } from "zod";
 import {
   authenticate,
+  equal,
   newKey,
   verifier,
   touch,
@@ -13,6 +14,8 @@ import {
 } from "../../packages/auth/index.js";
 import { pool, scoped } from "../../packages/database/index.js";
 import { ingest } from "../../packages/application/ingest.js";
+import { questionQuery, intents } from "../../packages/contracts/questions.js";
+import { canonical } from "../../packages/auth/producer.js";
 import { validSignature } from "../../packages/auth/producer.js";
 import { businessQuery, observation } from "../../packages/contracts/index.js";
 import { log } from "../../packages/diagnostics/index.js";
@@ -326,6 +329,84 @@ app.post("/v1/tools/:tool", async (req, reply) => {
   if (!["agent", "session"].includes(p.purpose))
     return reply.code(403).send({ error: "business_read_required" });
   const tool = (req.params as { tool: string }).tool;
+  if (tool === "query_business") {
+    const q = questionQuery.parse(req.body),
+      { cursor, ...scope } = q;
+    const fingerprint = canonical(scope);
+    let cutoff = q.recorded_cutoff,
+      offset = 0,
+      asOf = q.as_of ?? q.effective_at ?? new Date().toISOString();
+    if (cursor) {
+      const [data, mac] = cursor.split(".");
+      if (
+        !equal(
+          createHmac("sha256", internal).update(data).digest("hex"),
+          mac ?? "",
+        )
+      )
+        return reply.code(400).send({ error: "invalid_cursor" });
+      const saved = JSON.parse(Buffer.from(data, "base64url").toString());
+      if (
+        saved.tenant !== p.tenant_id ||
+        saved.principal !== p.principal_id ||
+        saved.fingerprint !== fingerprint
+      )
+        return reply.code(400).send({ error: "cursor_scope_mismatch" });
+      cutoff = saved.cutoff;
+      offset = saved.offset;
+      asOf = saved.as_of;
+    }
+    const response = await fetch(`${process.env.ENGINE_URL}/v1/query`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-blackbox-internal": internal,
+      },
+      body: JSON.stringify({
+        tenant_id: p.tenant_id,
+        verifier: verifier(req.accessKey!),
+        recorded_cutoff: cutoff,
+        effective_at: q.effective_at,
+        at_least_cursor: q.at_least_cursor,
+        request: {
+          intent: q.intent,
+          entity_id: q.entity_id,
+          item_id: q.item_id,
+          currency: q.currency,
+          requested_quantity: q.requested_quantity,
+          unit: q.unit,
+          as_of: asOf,
+          from: q.from,
+          limit: q.limit,
+          offset,
+        },
+      }),
+      signal: AbortSignal.timeout(4500),
+    });
+    const result = (await response.json()) as Record<string, unknown>;
+    await authenticate(req.accessKey!, ["agent", "session"]);
+    if (response.ok) {
+      const next = result.next_offset;
+      delete result.next_offset;
+      const data = Buffer.from(
+        JSON.stringify({
+          tenant: p.tenant_id,
+          principal: p.principal_id,
+          fingerprint,
+          cutoff: result.recorded_cutoff,
+          offset: next,
+          as_of: asOf,
+        }),
+      ).toString("base64url");
+      result.next_cursor =
+        next === null
+          ? null
+          : `${data}.${createHmac("sha256", internal).update(data).digest("hex")}`;
+    }
+    log("query.served", { tenant_id: p.tenant_id });
+    reply.code(response.status);
+    return result;
+  }
   if (tool === "get_business_state") {
     const q = businessQuery.parse(req.body);
     const response = await fetch(`${process.env.ENGINE_URL}/v1/state`, {
@@ -349,9 +430,11 @@ app.post("/v1/tools/:tool", async (req, reply) => {
   }
   if (tool === "describe_business_schema")
     return {
-      version: 1,
+      version: 2,
+      intents,
       tracks: ["source", "fact", "commitment", "movement", "reservation"],
       tools: [
+        "query_business",
         "get_business_state",
         "list_journal_entries",
         "get_journal_entry",

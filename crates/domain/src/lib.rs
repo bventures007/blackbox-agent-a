@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 pub mod lifecycle;
+pub mod questions;
 pub const RULE_VERSION: &str = "lifecycle-v2";
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Observation {
@@ -8,7 +9,9 @@ pub struct Observation {
     pub entity_id: String,
     pub kind: String,
     pub occurred_at: String,
+    #[serde(default)]
     pub currency: String,
+    #[serde(default)]
     pub amount_minor: i64,
     pub economic_id: String,
     pub supersedes_entry_id: Option<String>,
@@ -17,6 +20,8 @@ pub struct Observation {
     pub quantity: Option<String>,
     #[serde(default)]
     pub details: Option<lifecycle::Details>,
+    #[serde(default)]
+    pub record: Option<serde_json::Value>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Input {
@@ -56,7 +61,10 @@ pub fn reduce(inputs: &[Input]) -> Result<State, String> {
         .filter_map(|x| x.observation.supersedes_entry_id.as_ref())
         .collect();
     let mut latest: BTreeMap<(&str, &str), &Input> = BTreeMap::new();
-    for input in inputs.iter().filter(|x| !superseded.contains(&x.entry_id)) {
+    for input in inputs
+        .iter()
+        .filter(|x| x.observation.record.is_none() && !superseded.contains(&x.entry_id))
+    {
         let e = &input.observation;
         if e.amount_minor < 0 {
             return Err("negative_money".into());
@@ -186,6 +194,7 @@ mod tests {
                 test: true,
                 quantity: None,
                 details: None,
+                record: None,
             },
         }
     }
@@ -232,5 +241,26 @@ mod tests {
         let mut b = entry(2, "payment.captured", 100);
         b.observation.currency = "USD".into();
         assert_eq!(reduce(&[a, b]).unwrap_err(), "currency_conflict");
+    }
+}
+
+pub fn record_tracks(record: &serde_json::Value) -> &'static [&'static str] {
+    match record["dataset"].as_str().unwrap_or("") {
+        "orders" | "invoices" | "supply" | "promises" | "entitlements" => &["fact", "commitment"],
+        "allocations" | "holds" => &["fact", "reservation"],
+        "payments" if record["status"] == "captured" => &["fact", "movement"],
+        "refunds" if record["status"] == "completed" && record["destination"] == "cash" => {
+            &["fact", "movement"]
+        }
+        "refunds" if record["status"] == "pending" => &["fact", "reservation"],
+        "payouts" if record["status"] == "sent" || record["status"] == "reversed" => {
+            &["fact", "movement"]
+        }
+        "payouts" if record["status"] == "announced" => &["fact", "commitment"],
+        "bank" if record["booking_status"] == "booked" => &["fact", "movement"],
+        "provider_ledger" => &["fact", "movement"],
+        "receipts" if record["disposition"] != "missing" => &["fact", "movement", "reservation"],
+        "fulfillments" if record["state"] == "handed_over" => &["fact", "movement", "reservation"],
+        _ => &["fact"],
     }
 }

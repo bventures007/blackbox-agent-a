@@ -1,7 +1,11 @@
 import { createHmac, randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { z } from "zod";
-import { observation, type Observation } from "../contracts/index.js";
+import {
+  lifecycleObservation,
+  type Observation,
+  type IngestObservation,
+} from "../contracts/index.js";
 import { signature } from "../auth/producer.js";
 const event = z
   .object({
@@ -119,7 +123,7 @@ export async function replayObservation(
     details.booking_status = z.enum(["booked", "pending"]).parse(p.status);
   }
   const economic = keys[e.kind];
-  return observation.parse({
+  return lifecycleObservation.parse({
     id: id(`${e.connection}:${e.provider_event_id}`),
     entity_id: namespace("order", e.entity.order),
     kind: e.kind,
@@ -145,7 +149,7 @@ export async function sendObservations(
   api: string,
   connection: string,
   key: string,
-  observations: Observation[],
+  observations: IngestObservation[],
 ) {
   const url = new URL(api);
   if (!["127.0.0.1", "localhost"].includes(url.hostname))

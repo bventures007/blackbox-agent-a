@@ -1,3 +1,4 @@
+mod questions;
 use axum::{
     Json, Router,
     extract::{DefaultBodyLimit, State},
@@ -19,6 +20,42 @@ struct App {
     token: String,
     cache: Arc<Mutex<lru::LruCache<(Uuid, Uuid, i64), BusinessState>>>,
     queries: Arc<Semaphore>,
+    scoped_queries: Arc<Mutex<std::collections::HashMap<String, std::sync::Weak<Semaphore>>>>,
+}
+async fn admit_scoped(
+    a: &App,
+    tenant: Uuid,
+    principal: Uuid,
+) -> Result<
+    (
+        tokio::sync::OwnedSemaphorePermit,
+        tokio::sync::OwnedSemaphorePermit,
+    ),
+    Error,
+> {
+    let mut map = a.scoped_queries.lock().await;
+    map.retain(|_, value| value.strong_count() > 0);
+    let mut get = |key: String, size: usize| {
+        if let Some(s) = map.get(&key).and_then(|s| s.upgrade()) {
+            s
+        } else {
+            let s = Arc::new(Semaphore::new(size));
+            map.insert(key, Arc::downgrade(&s));
+            s
+        }
+    };
+    let tenant_limit = get(format!("tenant:{tenant}"), 16);
+    let principal = get(format!("principal:{tenant}:{principal}"), 8);
+    let full = || {
+        (
+            StatusCode::TOO_MANY_REQUESTS,
+            Json(json!({"error":"scoped_query_capacity","retry_after_ms":250})),
+        )
+    };
+    Ok((
+        tenant_limit.try_acquire_owned().map_err(|_| full())?,
+        principal.try_acquire_owned().map_err(|_| full())?,
+    ))
 }
 type Error = (StatusCode, Json<Value>);
 fn error(code: &str) -> Error {
@@ -94,10 +131,24 @@ async fn apply(
         let payload: Value = r.get("payload");
         let obs: Observation =
             serde_json::from_value(payload.clone()).map_err(|_| error("unsupported_event"))?;
-        for track in blackbox_domain::derived_tracks(&obs.kind) {
+        for track in obs
+            .record
+            .as_ref()
+            .map(blackbox_domain::record_tracks)
+            .unwrap_or_else(|| blackbox_domain::derived_tracks(&obs.kind))
+        {
             end += 1;
             sqlx::query("INSERT INTO bb.journal(tenant_id,sequence,entry_id,record_type,record_id,event_type,schema_version,connection_id,entity_id,provider_identity,occurred_at,payload,payload_hash,evidence_id,input_entry_id,rule_version,correlation_id) SELECT tenant_id,$1,$2,$3,record_id,event_type,schema_version,connection_id,entity_id,provider_identity,occurred_at,payload,payload_hash,evidence_id,entry_id,$4,correlation_id FROM bb.journal WHERE entry_id=$5")
     .bind(end).bind(Uuid::new_v4()).bind(track).bind(RULE_VERSION).bind(r.get::<Uuid,_>("entry_id")).execute(&mut *tx).await.map_err(|_|error("derivation_failed"))?;
+        }
+        if let Some(record) = &obs.record {
+            let dataset = record["dataset"]
+                .as_str()
+                .ok_or_else(|| error("dataset_missing"))?;
+            sqlx::query("INSERT INTO bb.record_versions(tenant_id,sequence,record_id,dataset,entity_id,connection_id,occurred_at,payload,checksum,supersedes_entry_id,evidence_id,entry_id) SELECT tenant_id,sequence,record_id,$1,entity_id,connection_id,occurred_at,$2,$4,supersedes_entry_id,evidence_id,entry_id FROM bb.journal WHERE entry_id=$3 ON CONFLICT DO NOTHING")
+                .bind(dataset).bind(record).bind(r.get::<Uuid,_>("entry_id")).bind(format!("{:x}", Sha256::digest(serde_json::to_vec(record).unwrap()))).execute(&mut *tx).await.map_err(|_|error("record_projection_failed"))?;
+            sqlx::query("INSERT INTO bb.current_records SELECT * FROM bb.record_versions WHERE sequence=$1 ON CONFLICT(tenant_id,record_id) DO UPDATE SET sequence=EXCLUDED.sequence,dataset=EXCLUDED.dataset,entity_id=EXCLUDED.entity_id,occurred_at=EXCLUDED.occurred_at,payload=EXCLUDED.payload,checksum=EXCLUDED.checksum,supersedes_entry_id=EXCLUDED.supersedes_entry_id,evidence_id=EXCLUDED.evidence_id,entry_id=EXCLUDED.entry_id WHERE EXCLUDED.supersedes_entry_id=bb.current_records.entry_id OR (bb.current_records.occurred_at,bb.current_records.sequence)<(EXCLUDED.occurred_at,EXCLUDED.sequence)")
+                .bind(r.get::<i64,_>("sequence")).execute(&mut *tx).await.map_err(|_|error("record_projection_failed"))?;
         }
         entities.insert(r.get::<Uuid, _>("entity_id"));
         sqlx::query("UPDATE bb.outbox SET state='applied' WHERE sequence=$1")
@@ -126,7 +177,7 @@ async fn apply(
    .bind(req.tenant_id).bind(entity).bind(end).bind(RULE_VERSION).bind(value).bind(checksum).execute(&mut *tx).await.map_err(|_|error("projection_failed"))?;
         publish.push((entity, state));
     }
-    sqlx::query("UPDATE bb.heads SET committed=$2,applied=$3 WHERE tenant_id=$1")
+    sqlx::query("UPDATE bb.heads SET committed=$2,applied=$3,record_count=(SELECT count(*) FROM bb.current_records) WHERE tenant_id=$1")
         .bind(req.tenant_id)
         .bind(end)
         .bind(applied)
@@ -165,12 +216,12 @@ async fn query(
             Json(json!({"error":"query_capacity","retry_after_ms":250})),
         )
     })?;
-    let auth = sqlx::query("SELECT tenant_id,purpose FROM bb.authenticate($1)")
+    let auth = sqlx::query("SELECT tenant_id,purpose,principal_id FROM bb.authenticate($1)")
         .bind(&q.verifier)
         .fetch_optional(&a.db)
         .await
         .map_err(|_| error("authorization_unavailable"))?;
-    if !auth.is_some_and(|r| {
+    if !auth.as_ref().is_some_and(|r| {
         r.get::<Uuid, _>("tenant_id") == q.tenant_id
             && ["session", "agent"].contains(&r.get::<String, _>("purpose").as_str())
     }) {
@@ -179,6 +230,7 @@ async fn query(
             Json(json!({"error":"unauthorized"})),
         ));
     }
+    let _scoped = admit_scoped(&a, q.tenant_id, auth.unwrap().get("principal_id")).await?;
     let mut tx = transaction(&a.db, q.tenant_id).await?;
     let head = sqlx::query("SELECT committed,applied FROM bb.heads WHERE tenant_id=$1")
         .bind(q.tenant_id)
@@ -270,6 +322,7 @@ async fn main() {
             NonZeroUsize::new(2000).unwrap(),
         ))),
         queries: Arc::new(Semaphore::new(32)),
+        scoped_queries: Arc::new(Mutex::new(std::collections::HashMap::new())),
     };
     let app = Router::new()
         .route(
@@ -278,6 +331,7 @@ async fn main() {
         )
         .route("/v1/apply", post(apply))
         .route("/v1/state", post(query))
+        .route("/v1/query", post(questions::handler))
         .layer(DefaultBodyLimit::max(64 * 1024))
         .with_state(a);
     let listener = tokio::net::TcpListener::bind(

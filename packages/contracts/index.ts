@@ -1,8 +1,9 @@
+import { recordObservation } from "./records.js";
 import { z } from "zod";
 import { lifecycleDetails, lifecycleKinds, quantity } from "./lifecycle.js";
 export const uuid = z.uuid();
 export const money = z.number().int().safe().nonnegative();
-export const observation = z
+export const lifecycleObservation = z
   .object({
     id: uuid,
     entity_id: uuid,
@@ -85,7 +86,8 @@ export const observation = z
           });
     }
   });
-export type Observation = z.infer<typeof observation>;
+export type Observation = z.infer<typeof lifecycleObservation>;
+export { recordObservation } from "./records.js";
 export const businessQuery = z
   .object({
     entity_id: uuid,
@@ -94,3 +96,6 @@ export const businessQuery = z
     at_least_cursor: z.number().int().nonnegative().safe().optional(),
   })
   .strict();
+
+export const observation = z.union([lifecycleObservation, recordObservation]);
+export type IngestObservation = z.infer<typeof observation>;

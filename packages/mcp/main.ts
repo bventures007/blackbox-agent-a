@@ -1,3 +1,4 @@
+import { intents } from "../contracts/questions.js";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
@@ -16,6 +17,7 @@ const key =
   process.env.BLACKBOX_AGENT_KEY ??
   (await readFile(process.env.BLACKBOX_AGENT_KEY_FILE!, "utf8"));
 const names = [
+  "query_business",
   "describe_business_schema",
   "get_business_state",
   "list_journal_entries",
@@ -25,6 +27,21 @@ const names = [
   "get_evidence",
 ];
 const properties: Record<string, Record<string, unknown>> = {
+  query_business: {
+    intent: { type: "string", enum: intents },
+    entity_id: { type: "string", format: "uuid" },
+    item_id: { type: "string", format: "uuid" },
+    currency: { type: "string", pattern: "^[A-Z]{3}$" },
+    unit: { type: "string", enum: ["piece", "kg", "litre", "metre"] },
+    requested_quantity: { type: "string", pattern: "^[0-9]+(\\.[0-9]{1,6})?$" },
+    as_of: { type: "string", format: "date-time" },
+    from: { type: "string", format: "date-time" },
+    effective_at: { type: "string", format: "date-time" },
+    recorded_cutoff: { type: "integer", minimum: 0 },
+    at_least_cursor: { type: "integer", minimum: 0 },
+    limit: { type: "integer", minimum: 1, maximum: 500 },
+    cursor: { type: "string" },
+  },
   get_business_state: {
     entity_id: { type: "string", format: "uuid" },
     recorded_cutoff: { type: "integer", minimum: 0 },

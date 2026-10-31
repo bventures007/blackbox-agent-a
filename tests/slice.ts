@@ -46,7 +46,9 @@ async function mcp(key: string, entity: string, cutoff: number) {
   const client = new Client({ name: "blackbox-slice-test", version: "1.0.0" });
   await client.connect(transport);
   try {
-    assert.equal((await client.listTools()).tools.length, 7);
+    assert.ok(
+      (await client.listTools()).tools.some((t) => t.name === "query_business"),
+    );
     const r = await client.callTool({
       name: "get_business_state",
       arguments: { entity_id: entity, recorded_cutoff: cutoff },
