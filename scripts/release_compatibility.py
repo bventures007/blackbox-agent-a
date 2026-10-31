@@ -47,6 +47,21 @@ def check_database(root):
  return manifest
 
 
+def check_upgrade_source(root,source_schema,state='active'):
+ """Exact known populated source, using the target bundle's immutable prefix."""
+ from backup_operations import sql
+ manifest=read_manifest(root);rows=migration_rows(root)
+ if source_schema not in [8,10]or state not in ['active','fenced']:
+  raise RuntimeConfigError('Unsupported populated upgrade source. Use isolated verified recovery for older formats.')
+ require_prefix(rows,manifest)
+ if len(rows)!=source_schema:raise RuntimeConfigError('Upgrade source schema disagrees with the checkpoint.')
+ if int(sql(root,"SELECT current_setting('server_version_num')::integer/10000;"))!=17:raise RuntimeConfigError('Populated upgrades require the pinned PostgreSQL17 installation.')
+ expected=manifest['runtime']if source_schema==10 else {k:v for k,v in manifest['runtime'].items()if k!='source_checkpoint'}
+ found=json.loads(sql(root,"SELECT coalesce(json_agg(json_build_object('contract',contract,'state',state)),'[]'::json) FROM bb.runtime_contract;"))
+ if found!=[{'contract':expected,'state':state}]:raise RuntimeConfigError('Unknown or mixed populated source runtime. No upgrade is allowed.')
+ return manifest
+
+
 def normalized_legacy_schema(raw):
  # Only generated header/footer lines are volatile; SQL bodies are byte-preserved.
  lines=raw.splitlines(keepends=True);last=next((i for i in range(len(lines)-1,-1,-1)if lines[i].strip()),-1)

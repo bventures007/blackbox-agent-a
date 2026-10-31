@@ -348,6 +348,16 @@ async fn verify_database_contract(db: &PgPool) -> Result<(), String> {
 }
 #[tokio::main]
 async fn main() {
+    let arguments: Vec<String> = std::env::args().skip(1).collect();
+    if arguments == ["--print-contract"] {
+        // Pre-migration image verification: no credentials, database or listener.
+        println!("{}", release_manifest());
+        return;
+    }
+    if !arguments.is_empty() {
+        eprintln!("unsupported_engine_argument");
+        std::process::exit(2);
+    }
     let db = PgPoolOptions::new()
         .max_connections(12)
         .acquire_timeout(std::time::Duration::from_secs(5))

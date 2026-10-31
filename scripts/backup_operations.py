@@ -1,5 +1,5 @@
 """Host backup operations. Caller owns protected configuration and maintenance authority."""
-from contextlib import contextmanager
+from contextlib import contextmanager,nullcontext
 import datetime,fcntl,hashlib,json,os,pathlib,re,secrets,stat,subprocess,time,uuid,threading
 from backup_codec import ArchiveWriter,BackupFormatError,encrypt,decrypt,new_recovery,MAX_MEMBERS
 from host_runtime import RuntimeConfigError,compose_config,compose_environment,read_compose,protected_directory,protected_read,create_file,_validate_file,read_keyring,key_filename
@@ -41,13 +41,14 @@ def operation_lock(runtime):
   _validate_file(os.fstat(fd),'.operation.lock')
   try:fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
   except BlockingIOError:raise RuntimeConfigError('Another host maintenance operation is active.')from None
-  yield
+  yield fd
  finally:os.close(fd)
 
 
 def compose(root,*args):
+ from release_images import override
  project=read_compose(root/'.runtime').get('BB_PROJECT','blackbox-a')
- return ['docker','compose','--project-name',project,'--env-file',str(root/'.runtime/compose.env'),'-f',str(root/'infra/compose/compose.yaml'),*args]
+ return ['docker','compose','--project-name',project,'--env-file',str(root/'.runtime/compose.env'),'-f',str(root/'infra/compose/compose.yaml'),*override(root/'.runtime'),*args]
 
 
 def run(root,*args,input=None,timeout=120):
@@ -152,10 +153,15 @@ def cutoffs(root):
  return json.loads(sql(root,"SELECT json_build_object('postgres_major',current_setting('server_version_num')::integer/10000,'heads',(SELECT coalesce(json_agg(h ORDER BY tenant_id),'[]'::json) FROM bb.heads h),'journal_count',(SELECT count(*) FROM bb.journal));"))
 
 
-def generation(root):
+def generation(root,*,upgrade_context=None):
  from backup_supervisor import publish_status,prune
  runtime=root/'.runtime';compose_config(runtime,require_keys=False)
- with operation_lock(runtime):
+ # Only the upgrade implementation uses this internal context while holding the
+ # same exclusive lease. Ordinary CLI/API requests cannot bypass the fence.
+ if upgrade_context is not None:
+  from upgrade_operations import require_backup_context
+  require_backup_context(root,upgrade_context)
+ with operation_lock(runtime)if upgrade_context is None else nullcontext():
   config=json.loads(protected_read(runtime/'backup.json',16384));started=stamp()
   try:compose_config(runtime)
   except RuntimeConfigError:
@@ -180,7 +186,7 @@ def generation(root):
    prior_status=json.loads(protected_read(runtime/'backup-status.json',16384)) if (runtime/'backup-status.json').exists() else {}
    atomic_json(runtime/'backup-status.json',{**prior_status,'state':'running','last_attempt':started})
    publish_status(root)
-   with fence(root,'backup'):
+   with fence(root,'backup')if upgrade_context is None else nullcontext():
     from evidence_policy import record_expiry_intents
     record_expiry_intents(root)
     snapshot=cutoffs(root)
@@ -218,8 +224,11 @@ def generation(root):
        archive.add(f'evidence/{tenant}/{evidence}',protected_read(runtime/'evidence'/tenant/evidence,8*1024*1024))
       from evidence_policy import signed_ledger,canonical
       archive.add('policy/redactions.json',canonical(signed_ledger(root)))
-      from release_compatibility import check_database,backup_compatibility
-      check_database(root);compatibility=backup_compatibility(root)
+      from release_compatibility import check_database,backup_compatibility,check_upgrade_source
+      if upgrade_context is None:
+       check_database(root);compatibility=backup_compatibility(root)
+      else:
+       check_upgrade_source(root,upgrade_context['source_schema']);compatibility=backup_compatibility(root,upgrade_context['source_schema'])
       archive.add('installation.json',json.dumps({'installation_id':config['installation_id'],'compatibility':compatibility}).encode())
       if cutoffs(root)!=snapshot:raise RuntimeConfigError('Backup cutoff changed under maintenance fence.')
       metadata={'installation_id':config['installation_id'],'generation':final,'recoverable_cutoff':cutoff,'snapshot':snapshot,'compatibility':compatibility,'database_sha256':dump_hash.hexdigest(),'database_bytes':dump_bytes,'database_chunks':index,'policy_reconciliation_required':True}

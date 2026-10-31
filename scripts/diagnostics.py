@@ -5,6 +5,7 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 LOGS=ROOT/'.runtime/logs'
 LEVELS={'DEBUG':10,'INFO':20,'WARN':30,'ERROR':40}
 EVENTS={'service.started':'Service started','journal.batch_committed':'Journal batch committed','engine.batch_applied':'Engine batch applied','query.served':'Business query served','worker.failed':'Worker operation failed','access.denied':'Access denied','source.fetched':'Provider page fetched','wrapper.command':'Host command started'}
+EVENTS.update({'wrapper.upgrade.preparing': 'Upgrade preflight started', 'wrapper.upgrade.probing_source': 'Previous-version answers are being verified', 'wrapper.upgrade.backup': 'Pre-upgrade backup is being verified', 'wrapper.upgrade.backup_verified': 'Pre-upgrade backup verified', 'wrapper.upgrade.migrating': 'Serialized upgrade migrations are running', 'wrapper.upgrade.verifying': 'Upgraded journal and answers are being verified', 'wrapper.upgrade.resuming': 'Verified application is resuming', 'wrapper.upgrade.completed': 'Upgrade completed and verified', 'wrapper.upgrade.failed': 'Upgrade is incomplete; explicit recovery required'})
 IDS=['record_id','tenant_id','connection_id','run_id','trace_id','operation_id','instance_id']
 def sanitized(row):
  if row.get('schema_version')!=1 or row.get('event_name')not in EVENTS:return None

@@ -70,11 +70,15 @@ def verified_backup(root,path,secret):
   yield cipher,manifest,small,digest
 
 
+def runtime_bundle_files(root):
+ files=['blackbox','scripts/host_runtime.py','scripts/database_identity.py','scripts/release_compatibility.py','scripts/release_images.py','scripts/upgrade_operations.py','scripts/upgrade-probe.mjs','release/compatibility.json','scripts/evidence_copies.py','scripts/evidence_scheduler.py','scripts/evidence_policy.py','scripts/key_rotation.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
+ return files+[str(p.relative_to(root))for p in sorted((root/'packages/database/migrations').glob('*.sql'))]
+
+
 def copy_runtime_bundle(root,destination):
- files=['blackbox','scripts/host_runtime.py','scripts/database_identity.py','scripts/release_compatibility.py','release/compatibility.json','scripts/evidence_copies.py','scripts/evidence_scheduler.py','scripts/evidence_policy.py','scripts/key_rotation.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
+ files=runtime_bundle_files(root)
  for name in files:
   target=destination/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(root/name,target)
- shutil.copytree(root/'packages/database/migrations',destination/'packages/database/migrations')
  tools=root/'bin' if (root/'bin/age').exists()else root/'.tools/age'
  shutil.copytree(tools,destination/'bin')
 

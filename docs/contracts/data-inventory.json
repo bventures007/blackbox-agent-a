@@ -10607,6 +10607,50 @@
       ]
     },
     {
+      "path": "host.release_image_pins",
+      "purpose": "Protected Compose override containing only immutable Node/engine image IDs; cannot add mounts, commands or environment fields.",
+      "classification": "confidential_operational_metadata",
+      "placement": "protected_host_material",
+      "retention": "installation_operational",
+      "authorized_readers": "host_only",
+      "derivation_dependencies": [
+        "Fenced populated upgrade, representative answer parity and isolated pre-upgrade recovery."
+      ]
+    },
+    {
+      "path": "host.upgrade_bundle",
+      "purpose": "Private exact host-file and migration copy plus integrity manifest for explicit resume; no live runtime, business data or secret copy.",
+      "classification": "confidential_operational_metadata",
+      "placement": "protected_host_material",
+      "retention": "installation_operational",
+      "authorized_readers": "host_only",
+      "derivation_dependencies": [
+        "Fenced populated upgrade, representative answer parity and isolated pre-upgrade recovery."
+      ]
+    },
+    {
+      "path": "host.upgrade_checkpoint",
+      "purpose": "Opaque operation ID, finite phase, source schema, immutable image identities, file digests, journal cutoffs and backup digest/cutoff; no recovery secret is saved.",
+      "classification": "confidential_operational_metadata",
+      "placement": "protected_host_material",
+      "retention": "installation_operational",
+      "authorized_readers": "host_only",
+      "derivation_dependencies": [
+        "Fenced populated upgrade, representative answer parity and isolated pre-upgrade recovery."
+      ]
+    },
+    {
+      "path": "host.upgrade_probe_cases",
+      "purpose": "At most 512 private scoped UUID/query-intent/fixed-cutoff cases and answer integrity hashes; no answer bodies or plaintext login key.",
+      "classification": "confidential_operational_metadata",
+      "placement": "protected_host_material",
+      "retention": "installation_operational",
+      "authorized_readers": "host_only",
+      "derivation_dependencies": [
+        "Fenced populated upgrade, representative answer parity and isolated pre-upgrade recovery."
+      ]
+    },
+    {
       "path": "provider.shopify.allocations.orders.nodes.createdAt",
       "purpose": "Assignment/reservation basis and remaining line fulfillment need.",
       "classification": "potentially_identifying_provider_value",

@@ -15,6 +15,17 @@ export const events: Record<string, string> = {
   "access.denied": "Access denied",
   "source.fetched": "Provider page fetched",
   "wrapper.command": "Host command started",
+  "wrapper.upgrade.preparing": "Upgrade preflight started",
+  "wrapper.upgrade.probing_source":
+    "Previous-version answers are being verified",
+  "wrapper.upgrade.backup": "Pre-upgrade backup is being verified",
+  "wrapper.upgrade.backup_verified": "Pre-upgrade backup verified",
+  "wrapper.upgrade.migrating": "Serialized upgrade migrations are running",
+  "wrapper.upgrade.verifying":
+    "Upgraded journal and answers are being verified",
+  "wrapper.upgrade.resuming": "Verified application is resuming",
+  "wrapper.upgrade.completed": "Upgrade completed and verified",
+  "wrapper.upgrade.failed": "Upgrade is incomplete; explicit recovery required",
 };
 const rowSchema = z.object({
   schema_version: z.literal(1),

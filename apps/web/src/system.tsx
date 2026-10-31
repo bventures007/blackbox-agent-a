@@ -20,6 +20,18 @@ const summaries: Record<string, string> = {
   "access.denied": "Zugriff abgelehnt",
   "source.fetched": "Anbieterseite abgerufen",
   "wrapper.command": "Host-Befehl gestartet",
+  "wrapper.upgrade.preparing": "Prüfung der Aktualisierung gestartet",
+  "wrapper.upgrade.probing_source":
+    "Antworten der bisherigen Version werden geprüft",
+  "wrapper.upgrade.backup": "Sicherung vor der Aktualisierung wird geprüft",
+  "wrapper.upgrade.backup_verified": "Sicherung vor der Aktualisierung geprüft",
+  "wrapper.upgrade.migrating": "Datenmigrationen der Aktualisierung laufen",
+  "wrapper.upgrade.verifying":
+    "Aktualisiertes Journal und Antworten werden geprüft",
+  "wrapper.upgrade.resuming": "Geprüfte Anwendung wird fortgesetzt",
+  "wrapper.upgrade.completed": "Aktualisierung abgeschlossen und geprüft",
+  "wrapper.upgrade.failed":
+    "Aktualisierung unvollständig; Wiederaufnahme erforderlich",
 };
 export function System({
   connection = "",

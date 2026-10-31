@@ -1387,7 +1387,7 @@
         "reports/runs/compatibility-c5d9ba9/legacy-v5.json",
         "reports/runs/compatibility-c5d9ba9/legacy-v6.json"
       ],
-      "blocker": "Populated fenced upgrade with pre-upgrade backup, interruption/resume, changed-rule atomic rebuild, exact distribution artifacts and independent review remain incomplete.",
+      "blocker": "Populated upgrade is implemented with a development interruption/resume proof; clean expanded execution, changed-rule atomic rebuild, exact distribution artifacts and independent review remain incomplete.",
       "delivery_scope": "local_pilot"
     },
     {
