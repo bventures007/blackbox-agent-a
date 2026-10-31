@@ -20,6 +20,8 @@ Use English for all requirements, documentation, architecture decisions, feature
 
 Read the files in AGENTS.md's order, including the binding specs/JOURNAL-AND-MCP.md and specs/PERFORMANCE-ARCHITECTURE.md contracts, inspect the local visual reference, and check the environment. Record versions and available Docker/database/browser capabilities in docs/build-environment.md. Make the milestone/task checklist concrete in docs/status.md, document necessary ADRs, then immediately start implementing the smallest complete persisted path.
 
+Use reference/screenshots/README.md as the visual reading guide. It links all implemented pages, key dialog and lifecycle states, the 24 expanded questions and mobile views, and identifies product areas with no existing screen design. Inspect the original prototype for interactions; screenshots are not executable product acceptance evidence.
+
 The default scope is the full BUILD-PROMPT-EN.txt, milestones M0–M5. Preserve the checkpoint after M0–M3 plus local installation for comparison, then continue independent work on real adapters and operations. If a provider account is missing, build and contract-test what can be verified; document the missing live verification without presenting it as success. A complete release cannot be asserted while applicable release gates remain open.
 
 ## Milestones and visible results

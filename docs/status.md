@@ -18,6 +18,8 @@ Repository preparation is complete. Product implementation has not started. The 
 
 Seed preparation only: JSON parsing, reference checksums, requirement counts and matching repository baseline. This is not evidence of a working product. All cases in ../reports/acceptance.json start as not_started.
 
+The visual reference now includes 67 captures (58 desktop, nine mobile), with an English index and reproducible routes/interactions in reference/screenshots/. The capture run completed without page-script errors; all images were inspected in contact sheets and selected full-size views. Both reference fonts loaded in every capture and no document-level horizontal overflow was observed at the two capture sizes. The journal/recorder can still scroll horizontally within their own regions on mobile. Static prototype assets and the 52 product acceptance cases remain unchanged; no product acceptance case has run.
+
 ## Language clarification
 
 All engineering material is English. The UI and landing page default to English and also support complete German localization. Architecture and question specifications are now English; original German visual references are retained. See README.md for the full policy.

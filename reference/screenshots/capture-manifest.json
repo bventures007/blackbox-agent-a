@@ -1,0 +1,2214 @@
+{
+  "capturedDate": "2026-10-31",
+  "referenceSourceCommit": "5d0e15ede4c02d711fd751ec55e7ab18bd53d211",
+  "browser": "Chromium 151.0.7922.34",
+  "playwrightVersion": "1.62.1",
+  "language": "Original German prototype; production must offer English default and German.",
+  "expectedCaptureCount": 67,
+  "completedCaptureCount": 67,
+  "normalization": [
+    "Fresh browser context for every scenario; original seeded demo data.",
+    "Automatic one-second demo interval disabled; explicit simulation buttons remain functional.",
+    "Reduced motion, disabled screenshot animations, hidden caret and transient toast, instant scrolling.",
+    "No changes to prototype assets, page text, amounts, event records or application layout."
+  ],
+  "limitations": [
+    "Static prototype reference captures, not product acceptance, live-provider, security, MCP or performance tests.",
+    "Desktop and mobile sizes are representative; no claim of exhaustive device/browser coverage.",
+    "Full-page captures include the complete page; viewport captures of scrollable drawers show the named position.",
+    "Google Fonts requires network access when not cached."
+  ],
+  "screenshots": [
+    {
+      "id": "01-landing",
+      "title": "Complete landing page",
+      "group": "Landing and onboarding",
+      "route": "",
+      "steps": [],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/01-landing.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 2877
+      },
+      "sha256": "942212ee8256a714658ce98f43d0099064fb31b9862a4f168051e9765b09174e",
+      "bytes": 378240,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "02-landing-hero",
+      "title": "Landing page first viewport",
+      "group": "Landing and onboarding",
+      "route": "",
+      "steps": [],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/02-landing-hero.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "df8391b788046c96023c63ccb29d592c5503a04a4e1f9961fe2aa9ba91fd5e70",
+      "bytes": 131161,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "03-signup",
+      "title": "Create a demo workspace",
+      "group": "Landing and onboarding",
+      "route": "",
+      "steps": [
+        {
+          "click": "[data-action=\"signup\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/03-signup.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "80e51f28d34561d44d20feefe22fcc69cdbab5e81bd8f5bbb6e441d934e938c4",
+      "bytes": 179583,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "04-demo-information",
+      "title": "Prototype capabilities and limitations",
+      "group": "Landing and onboarding",
+      "route": "",
+      "steps": [
+        {
+          "click": "[data-action=\"about\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/04-demo-information.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "f0093e16b137a3b4f72f6627d67fe27496cfea268603e20b4b78715ed8978461",
+      "bytes": 223945,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "05-onboarding-1",
+      "title": "Choose demo sources",
+      "group": "Landing and onboarding",
+      "route": "",
+      "steps": [
+        {
+          "click": "[data-action=\"signup\"]"
+        },
+        {
+          "submit": "#signup-form"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/05-onboarding-1.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "e92ce79387d138544eec19aad419ce9e6541b2776d13de70a06b084cb66af4ae",
+      "bytes": 166180,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "06-onboarding-2",
+      "title": "Understand the five-track context",
+      "group": "Landing and onboarding",
+      "route": "",
+      "steps": [
+        {
+          "click": "[data-action=\"signup\"]"
+        },
+        {
+          "submit": "#signup-form"
+        },
+        {
+          "click": "[data-action=\"onboard-next\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/06-onboarding-2.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "91dac488ab51089b763d98e10132a47552c822bbcc209de103680fdd426dfa49",
+      "bytes": 171167,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "07-onboarding-3",
+      "title": "Choose an agent and finish onboarding",
+      "group": "Landing and onboarding",
+      "route": "",
+      "steps": [
+        {
+          "click": "[data-action=\"signup\"]"
+        },
+        {
+          "submit": "#signup-form"
+        },
+        {
+          "click": "[data-action=\"onboard-next\"]"
+        },
+        {
+          "click": "[data-action=\"onboard-next\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/07-onboarding-3.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "740719fafbfdf4742c05f3a23f844a95f7876b5b958b57598fa4421de0f3e881",
+      "bytes": 177907,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "08-recorder",
+      "title": "Recorder, five tracks, questions and recent activity",
+      "group": "Recorder",
+      "route": "#app/recorder",
+      "steps": [],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/08-recorder.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1110
+      },
+      "sha256": "54479ff94288b5b9d4233e0a1cdfb8417a34a08fc3fcc5af6b813b8a31268c4a",
+      "bytes": 169320,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "09-recorder-paused",
+      "title": "Recorder with simulation paused",
+      "group": "Recorder",
+      "route": "#app/recorder",
+      "steps": [
+        {
+          "click": "[data-action=\"pause\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/09-recorder-paused.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1110
+      },
+      "sha256": "fe0decfdd2ecc3859be11c22e401ce09a4fc8b395155e8f90cb544da7ae43a0e",
+      "bytes": 169611,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "10-recorder-new-event",
+      "title": "Recorder after adding a simulated event",
+      "group": "Recorder",
+      "route": "#app/recorder",
+      "steps": [
+        {
+          "click": "[data-action=\"simulate\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/10-recorder-new-event.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1110
+      },
+      "sha256": "15f84022e5c28305f5e8bef32924d3c1598fb56bcecc2e2515c80e3e15e8a0c1",
+      "bytes": 168826,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "11-sources",
+      "title": "Complete source catalogue",
+      "group": "Sources",
+      "route": "#app/sources",
+      "steps": [],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/11-sources.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 3182
+      },
+      "sha256": "30ed43a2576e65e7757d4e2138c5700caf00bfe02b61865dade373f50ef2015d",
+      "bytes": 390242,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "12-sources-shops",
+      "title": "Shops and business sources",
+      "group": "Sources",
+      "route": "#app/sources",
+      "steps": [],
+      "device": "desktop",
+      "framing": "element",
+      "selector": "#source-shops",
+      "file": "desktop/12-sources-shops.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1154,
+        "height": 670
+      },
+      "sha256": "1ffd9c3b25b5e795ca73353949e8e660b27c6c3948d21e94ea2b538f4e0526f0",
+      "bytes": 75539,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "13-sources-payment",
+      "title": "Payment and payout sources",
+      "group": "Sources",
+      "route": "#app/sources",
+      "steps": [],
+      "device": "desktop",
+      "framing": "element",
+      "selector": "#source-payment",
+      "file": "desktop/13-sources-payment.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1154,
+        "height": 829
+      },
+      "sha256": "8d33c164fe1998903cd86e865eee1a0e99bdc6d9feb945b84a166b968c1c458d",
+      "bytes": 85492,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "14-sources-billing",
+      "title": "Invoice and accounting sources",
+      "group": "Sources",
+      "route": "#app/sources",
+      "steps": [],
+      "device": "desktop",
+      "framing": "element",
+      "selector": "#source-billing",
+      "file": "desktop/14-sources-billing.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1154,
+        "height": 844
+      },
+      "sha256": "aedb8761772b13be7ee00e9bf457afced19a7cade5c65212f8f392bca62fb310",
+      "bytes": 100217,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "15-sources-tracking",
+      "title": "Shipping sources within the shared catalogue",
+      "group": "Sources",
+      "route": "#app/sources",
+      "steps": [],
+      "device": "desktop",
+      "framing": "element",
+      "selector": "#source-tracking",
+      "file": "desktop/15-sources-tracking.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1154,
+        "height": 360
+      },
+      "sha256": "8a563ef82bdef03cde67784a64640f608029b1f9efb63ab5bc3246c666fdc983",
+      "bytes": 46542,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "16-connect-shopify",
+      "title": "Manage an active Shopify demo source",
+      "group": "Source dialogs",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"shopify\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/16-connect-shopify.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "89c61f70cf1b314564d5286f56815e3713f86e1a273e9e34bc2433caf455b059",
+      "bytes": 220437,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "17-connect-api",
+      "title": "Connect a custom API demo source",
+      "group": "Source dialogs",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"api\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/17-connect-api.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "2cc57fdd24861a1d1d5f7444d35e3a028831b8d55f37dba6d867a58c33349a85",
+      "bytes": 220761,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "18-connect-dhl",
+      "title": "Connect a DHL demo source",
+      "group": "Source dialogs",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"dhl\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/18-connect-dhl.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "a99824c452ca453c049aeac5f7452dbef5a6c8a1d9bf6d7d9294830ef013812e",
+      "bytes": 210828,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "19-connect-easybill",
+      "title": "Connect an easybill demo source",
+      "group": "Source dialogs",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"easybill\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/19-connect-easybill.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "c4150068aa5e753871fac6a3023c3daf1ff4555df6435da8f3e7c659905304a6",
+      "bytes": 227055,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "20-connect-shopify_payments",
+      "title": "Connect a Shopify Payments demo source",
+      "group": "Source dialogs",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"shopify_payments\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/20-connect-shopify_payments.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "1d7b29dbaf655c8a7f47064d68427337818b4efff91bbb4afd8725e2f54fc60d",
+      "bytes": 226297,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "21-answers-empty",
+      "title": "Questions page before asking",
+      "group": "Questions and evidence",
+      "route": "#app/answers",
+      "steps": [],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/21-answers-empty.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "2ae17fdd72e99c529a15791251ae917c5241dc99668943bbcda0cbf05997e3c9",
+      "bytes": 96800,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "22-answer-inventory",
+      "title": "Available stock and reservations",
+      "group": "Questions and evidence",
+      "route": "#app/answers",
+      "steps": [
+        {
+          "click": "[data-action=\"ask\"][data-id=\"inventory\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/22-answer-inventory.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "4de5950039aa27a76712e46e31e8c1f1243e9d4fff73a4e8073e0ad42fc6fe53",
+      "bytes": 132720,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "23-answer-delivery",
+      "title": "Changed supplier delivery commitment",
+      "group": "Questions and evidence",
+      "route": "#app/answers",
+      "steps": [
+        {
+          "click": "[data-action=\"ask\"][data-id=\"delivery\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/23-answer-delivery.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "e0b57892bdd9ac1d757d4078a7fafa31a6508455b9289888e56620da3566d494",
+      "bytes": 135227,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "24-answer-cash",
+      "title": "Cash and committed expenses",
+      "group": "Questions and evidence",
+      "route": "#app/answers",
+      "steps": [
+        {
+          "click": "[data-action=\"ask\"][data-id=\"cash\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/24-answer-cash.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "8796b9eddb3283fa43a2a9c29f1d642a5e20bb2c955fd34ab4a3774ebfbe2a3e",
+      "bytes": 143426,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "25-answer-tracking",
+      "title": "Shipment status and exceptions",
+      "group": "Questions and evidence",
+      "route": "#app/answers",
+      "steps": [
+        {
+          "click": "[data-action=\"ask\"][data-id=\"tracking\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/25-answer-tracking.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "170ebd2871ca5a2b0fcd5e56bdf9970599818ba618078d34e089aa81a061a04d",
+      "bytes": 138988,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "26-answer-billing",
+      "title": "Outstanding invoice amounts",
+      "group": "Questions and evidence",
+      "route": "#app/answers",
+      "steps": [
+        {
+          "click": "[data-action=\"ask\"][data-id=\"billing\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/26-answer-billing.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "1588e138721a62848e6bd7d7acaf19db4e093bf86c5553834e5e30ae4c08ee93",
+      "bytes": 148917,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "27-answer-payments",
+      "title": "Money held by payment providers",
+      "group": "Questions and evidence",
+      "route": "#app/answers",
+      "steps": [
+        {
+          "click": "[data-action=\"ask\"][data-id=\"payments\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/27-answer-payments.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "19a4ece45c4544fc4d4c4e51276e421f0159781cd2691e3da24c355e9dcde8f4",
+      "bytes": 148762,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "28-answer-unknown",
+      "title": "Insufficient data response",
+      "group": "Questions and evidence",
+      "route": "#app/answers",
+      "steps": [
+        {
+          "fill": "#question-input",
+          "value": "How many unicorns visited yesterday?"
+        },
+        {
+          "submit": "#question-form"
+        }
+      ],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/28-answer-unknown.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "eaed3acf6fc802ec4f175eea5a936f0509989e22380558832cb10f0957c12cfa",
+      "bytes": 130201,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "29-event-src-001",
+      "title": "Source event and original evidence",
+      "group": "Event details: all five tracks",
+      "route": "#app/history",
+      "steps": [
+        {
+          "click": "[data-action=\"event\"][data-id=\"SRC-001\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/29-event-src-001.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "cbf64e37741e20dc99f9f019b2b6361c59e432d985536040611124de62bd9857",
+      "bytes": 178016,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "30-event-fac-001",
+      "title": "Extracted fact and linked evidence",
+      "group": "Event details: all five tracks",
+      "route": "#app/history",
+      "steps": [
+        {
+          "click": "[data-action=\"event\"][data-id=\"FAC-001\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/30-event-fac-001.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "9dd64080c7ff07a9b495f8d8e727af7934f0ca8e7de73c3d09a61c3d9be0d78a",
+      "bytes": 174327,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "31-event-com-002",
+      "title": "Current commitment and prior history",
+      "group": "Event details: all five tracks",
+      "route": "#app/history",
+      "steps": [
+        {
+          "click": "[data-action=\"event\"][data-id=\"COM-002\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/31-event-com-002.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "f0958ab376b37f06540bf22216b4303484065948c8a60600dd8f0aab29f115ae",
+      "bytes": 184295,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "32-event-mov-001",
+      "title": "Movement and evidence",
+      "group": "Event details: all five tracks",
+      "route": "#app/history",
+      "steps": [
+        {
+          "click": "[data-action=\"event\"][data-id=\"MOV-001\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/32-event-mov-001.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "60edf04771e41b0604dc0d53afd7fb4c7edefe2406cf5419b9896de1afccdf11",
+      "bytes": 182717,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "33-event-res-001",
+      "title": "Reservation and linked order",
+      "group": "Event details: all five tracks",
+      "route": "#app/history",
+      "steps": [
+        {
+          "click": "[data-action=\"event\"][data-id=\"RES-001\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/33-event-res-001.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "95fcbd9f28f9adcc3654934c943781b8cb55de2f85a73737c3b6c474c60464b4",
+      "bytes": 189405,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "34-event-com-001",
+      "title": "Superseded commitment retained in the journal",
+      "group": "Event details: all five tracks",
+      "route": "#app/history",
+      "steps": [
+        {
+          "click": "[data-action=\"event\"][data-id=\"COM-001\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/34-event-com-001.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "336a389a569970b07d35fd188434341355c9c053101c2c4b26121ec91bd960cd",
+      "bytes": 180680,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "35-invoice-issued",
+      "title": "Original invoice and receivable",
+      "group": "Invoice lifecycle",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"easybill\"]"
+        },
+        {
+          "click": "[data-action=\"billing-activate\"][data-id=\"easybill\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/35-invoice-issued.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "3257b1669c40005bac054f678db46996ffbf3d38d9d62bf0406dc53c284021c5",
+      "bytes": 191588,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "36-invoice-corrected",
+      "title": "Invoice after a partial correction",
+      "group": "Invoice lifecycle",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"easybill\"]"
+        },
+        {
+          "click": "[data-action=\"billing-activate\"][data-id=\"easybill\"]"
+        },
+        {
+          "click": "[data-action=\"billing-next\"][data-id=\"easybill\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/36-invoice-corrected.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "c71c451c80057d6551b7d7a827812f0e07ecf54a5dd5c19c07fdeb39ec708686",
+      "bytes": 193647,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "37-invoice-cancelled",
+      "title": "Remaining receivable cancelled without a cash refund",
+      "group": "Invoice lifecycle",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"easybill\"]"
+        },
+        {
+          "click": "[data-action=\"billing-activate\"][data-id=\"easybill\"]"
+        },
+        {
+          "click": "[data-action=\"billing-next\"][data-id=\"easybill\"]"
+        },
+        {
+          "click": "[data-action=\"billing-next\"][data-id=\"easybill\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/37-invoice-cancelled.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "d8394494b5d95d83d9b7b10ac46f72db2c3dd4e37799faa37a0683811b3fa15a",
+      "bytes": 194942,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "38-invoice-history",
+      "title": "Invoice drawer scrolled to historical evidence",
+      "group": "Invoice lifecycle",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"easybill\"]"
+        },
+        {
+          "click": "[data-action=\"billing-activate\"][data-id=\"easybill\"]"
+        },
+        {
+          "click": "[data-action=\"billing-next\"][data-id=\"easybill\"]"
+        },
+        {
+          "click": "[data-action=\"billing-next\"][data-id=\"easybill\"]"
+        },
+        {
+          "scroll": ".detail-drawer",
+          "position": "bottom"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/38-invoice-history.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "886a1bb7566da681bc9e4a6e76f5d8f35faa09d8929619960f09069d9e4d9fda",
+      "bytes": 201866,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "39-payment-authorized",
+      "title": "Authorization before capture",
+      "group": "Payment lifecycle",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-activate\"][data-id=\"shopify_payments\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/39-payment-authorized.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "e4ee0ddca5463bd1babe6bc8ef000bb5516b75b42e609edfc0a7d7d56f84e774",
+      "bytes": 181273,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "40-payment-in-transit",
+      "title": "Payout sent, bank receipt still unconfirmed",
+      "group": "Payment lifecycle",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-activate\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/40-payment-in-transit.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "e892fa1a1299fc6dc523265a4156688f912d6287d914156cfd533ed49d870814",
+      "bytes": 183121,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "41-payment-bank-matched",
+      "title": "Payout matched to a separate synthetic bank record",
+      "group": "Payment lifecycle",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-activate\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/41-payment-bank-matched.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "5313f331d192a15205a90d9d681caefdfc5056b5a74025da5eadc33c77366d61",
+      "bytes": 183404,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "42-payment-history",
+      "title": "Payment drawer scrolled to earlier evidence",
+      "group": "Payment lifecycle",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-activate\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"shopify_payments\"]"
+        },
+        {
+          "scroll": ".detail-drawer",
+          "position": "bottom"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/42-payment-history.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "ff1b6826fb10413123a2440906e86f377a3c4919171822d4c0efaef07a2da5c5",
+      "bytes": 197822,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "43-payment-disputed",
+      "title": "PayPal dispute and held balance",
+      "group": "Payment lifecycle",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"paypal\"]"
+        },
+        {
+          "click": "[data-action=\"payment-activate\"][data-id=\"paypal\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"paypal\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/43-payment-disputed.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "9ec9df56b6d0b317d043bc08d3136b3d4e6cbdd73830ef19332dd79d395a8374",
+      "bytes": 190843,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "44-refund-pending",
+      "title": "Mollie refund reserved but not completed",
+      "group": "Payment lifecycle",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"mollie\"]"
+        },
+        {
+          "click": "[data-action=\"payment-activate\"][data-id=\"mollie\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"mollie\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"mollie\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"mollie\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/44-refund-pending.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "881e4a6e6454da2a644220fdcfb1c41c95c20eef6fec86c86e217f9fc8d0ca74",
+      "bytes": 192233,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "45-refund-completed",
+      "title": "Mollie refund completed and reservation released",
+      "group": "Payment lifecycle",
+      "route": "#app/sources",
+      "steps": [
+        {
+          "click": "[data-action=\"connect\"][data-id=\"mollie\"]"
+        },
+        {
+          "click": "[data-action=\"payment-activate\"][data-id=\"mollie\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"mollie\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"mollie\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"mollie\"]"
+        },
+        {
+          "click": "[data-action=\"payment-next\"][data-id=\"mollie\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/45-refund-completed.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "a66fb0d8693b3e65d8d152cb8cee99630e3774420d8c2c378230535029506be3",
+      "bytes": 192662,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "46-agents",
+      "title": "MCP concept, tools and all 24 Order-to-Cash questions",
+      "group": "Agents and MCP",
+      "route": "#app/agents",
+      "steps": [],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/46-agents.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 3377
+      },
+      "sha256": "055bc14c93eb59a889d465212c6be2d9e10af911b203af39082323ff38bb77ff",
+      "bytes": 470135,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "47-agent-chatgpt",
+      "title": "ChatGPT connection concept",
+      "group": "Agents and MCP",
+      "route": "#app/agents",
+      "steps": [
+        {
+          "click": "[data-action=\"agent\"][data-id=\"ChatGPT\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/47-agent-chatgpt.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "6a47eb4ec1a15aa3d50ef48648178b4929c1f605332c099fa4c3a2169257f1fd",
+      "bytes": 157237,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "48-agent-custom",
+      "title": "Custom agent connection concept",
+      "group": "Agents and MCP",
+      "route": "#app/agents",
+      "steps": [
+        {
+          "click": "[data-action=\"agent\"][data-id=\"Eigener Agent\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/48-agent-custom.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "42813478c9f9f19a906e88110b6c40477796175051aa9ccaffa92f1161054a74",
+      "bytes": 157095,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "49-agent-simulation",
+      "title": "Simulated agent answer with evidence",
+      "group": "Agents and MCP",
+      "route": "#app/agents",
+      "steps": [
+        {
+          "click": "[data-action=\"test-agent\"]"
+        }
+      ],
+      "device": "desktop",
+      "framing": "viewport",
+      "file": "desktop/49-agent-simulation.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "986c6e67b1116904160ac28a8fdf9af1d5e4c3c34c25f181ec9da561cd305e5a",
+      "bytes": 252020,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "50-otc-order",
+      "title": "All four expanded questions: Order and availability",
+      "group": "Order-to-Cash question groups",
+      "route": "#app/agents",
+      "steps": [
+        {
+          "click": "[data-action=\"otc-filter\"][data-id=\"order\"]"
+        },
+        {
+          "expand": "[data-otc-group=\"order\"] details"
+        }
+      ],
+      "device": "desktop",
+      "framing": "element",
+      "selector": "#otc-examples",
+      "file": "desktop/50-otc-order.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1154,
+        "height": 2052
+      },
+      "sha256": "6d443cb5684eab0e8e584e62390da3fdbf78dc6c7f0bee58fd29ecb71eca84fb",
+      "bytes": 233243,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "51-otc-delivery",
+      "title": "All four expanded questions: Delivery and customer communication",
+      "group": "Order-to-Cash question groups",
+      "route": "#app/agents",
+      "steps": [
+        {
+          "click": "[data-action=\"otc-filter\"][data-id=\"delivery\"]"
+        },
+        {
+          "expand": "[data-otc-group=\"delivery\"] details"
+        }
+      ],
+      "device": "desktop",
+      "framing": "element",
+      "selector": "#otc-examples",
+      "file": "desktop/51-otc-delivery.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1154,
+        "height": 2052
+      },
+      "sha256": "a21a355b3a261ab2e11c52987f4a61f8f8b63c307cad3d6da16bc7a70fa13fa5",
+      "bytes": 231993,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "52-otc-invoice",
+      "title": "All four expanded questions: Invoices and receivables",
+      "group": "Order-to-Cash question groups",
+      "route": "#app/agents",
+      "steps": [
+        {
+          "click": "[data-action=\"otc-filter\"][data-id=\"invoice\"]"
+        },
+        {
+          "expand": "[data-otc-group=\"invoice\"] details"
+        }
+      ],
+      "device": "desktop",
+      "framing": "element",
+      "selector": "#otc-examples",
+      "file": "desktop/52-otc-invoice.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1154,
+        "height": 2052
+      },
+      "sha256": "bc78ff760f01513139c39e926eebc18ab839a655a4d470650d7a77b2d647fb54",
+      "bytes": 232337,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "53-otc-collection",
+      "title": "All four expanded questions: Customer payments and clarification",
+      "group": "Order-to-Cash question groups",
+      "route": "#app/agents",
+      "steps": [
+        {
+          "click": "[data-action=\"otc-filter\"][data-id=\"collection\"]"
+        },
+        {
+          "expand": "[data-otc-group=\"collection\"] details"
+        }
+      ],
+      "device": "desktop",
+      "framing": "element",
+      "selector": "#otc-examples",
+      "file": "desktop/53-otc-collection.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1154,
+        "height": 2063
+      },
+      "sha256": "600e169b37080fc56271fc58a6a3713a6501dc461da3e7db0ca0635d9075ebb6",
+      "bytes": 237501,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "54-otc-settlement",
+      "title": "All four expanded questions: Payouts and bank reconciliation",
+      "group": "Order-to-Cash question groups",
+      "route": "#app/agents",
+      "steps": [
+        {
+          "click": "[data-action=\"otc-filter\"][data-id=\"settlement\"]"
+        },
+        {
+          "expand": "[data-otc-group=\"settlement\"] details"
+        }
+      ],
+      "device": "desktop",
+      "framing": "element",
+      "selector": "#otc-examples",
+      "file": "desktop/54-otc-settlement.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1154,
+        "height": 2062
+      },
+      "sha256": "f213ceec1b576177887c9b802e2c8e66531397dd066dfc2a93c80b709e035c1f",
+      "bytes": 240718,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "55-otc-reversal",
+      "title": "All four expanded questions: Cancellations, returns and refunds",
+      "group": "Order-to-Cash question groups",
+      "route": "#app/agents",
+      "steps": [
+        {
+          "click": "[data-action=\"otc-filter\"][data-id=\"reversal\"]"
+        },
+        {
+          "expand": "[data-otc-group=\"reversal\"] details"
+        }
+      ],
+      "device": "desktop",
+      "framing": "element",
+      "selector": "#otc-examples",
+      "file": "desktop/55-otc-reversal.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1154,
+        "height": 2093
+      },
+      "sha256": "202bc7fae2c359ae6d6c5755b341e91758cf3803da829c619df7f666a5734be2",
+      "bytes": 249645,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "56-journal",
+      "title": "Complete seeded event journal",
+      "group": "Journal",
+      "route": "#app/history",
+      "steps": [],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/56-journal.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 3147
+      },
+      "sha256": "0e3d0e92621f5e75943462935d8001d77f4c95931ce561543592dbefb011146d",
+      "bytes": 407011,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "57-journal-filtered",
+      "title": "Commitment history: current and superseded promise",
+      "group": "Journal",
+      "route": "#app/history",
+      "steps": [
+        {
+          "select": "#history-type",
+          "value": "commitment"
+        },
+        {
+          "fill": "#history-search",
+          "value": "PO-208"
+        }
+      ],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/57-journal-filtered.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "342b5d345fa3be079d4b1445deca5f763ef5b92ff03ce11c19085ce8950485a9",
+      "bytes": 85064,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "58-journal-empty",
+      "title": "Journal with no matching events",
+      "group": "Journal",
+      "route": "#app/history",
+      "steps": [
+        {
+          "fill": "#history-search",
+          "value": "NO-SUCH-ORDER"
+        }
+      ],
+      "device": "desktop",
+      "framing": "full-page",
+      "file": "desktop/58-journal-empty.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "f60b59ecf7228f6935b738808ecb16b7b5608e030296b9b6df454c47fe5f62fe",
+      "bytes": 79528,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "01-landing-page",
+      "title": "Mobile landing page",
+      "group": "Mobile",
+      "route": "",
+      "steps": [],
+      "device": "mobile",
+      "framing": "full-page",
+      "file": "mobile/01-landing-page.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": {
+        "width": 390,
+        "height": 3704
+      },
+      "sha256": "7f792fe2069ff6393a7477eb69d8478cb5ccc58f876db6726c1ff545b475c85c",
+      "bytes": 288909,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "02-recorder",
+      "title": "Mobile recorder",
+      "group": "Mobile",
+      "route": "#app/recorder",
+      "steps": [],
+      "device": "mobile",
+      "framing": "full-page",
+      "file": "mobile/02-recorder.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": {
+        "width": 390,
+        "height": 1606
+      },
+      "sha256": "fdcba3b603804f1c89611e5768ba5a9fe3525df549af465590330dc0baa07b89",
+      "bytes": 115264,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "03-source-catalogue",
+      "title": "Mobile source catalogue",
+      "group": "Mobile",
+      "route": "#app/sources",
+      "steps": [],
+      "device": "mobile",
+      "framing": "full-page",
+      "file": "mobile/03-source-catalogue.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": {
+        "width": 390,
+        "height": 6476
+      },
+      "sha256": "036fcb387df333d2627ed98db43ef86a2dd275b3019aa6253dd6daf2d4f72b87",
+      "bytes": 385074,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "04-answer-with-evidence",
+      "title": "Mobile answer with evidence",
+      "group": "Mobile",
+      "route": "#app/answers",
+      "steps": [
+        {
+          "click": "[data-action=\"ask\"][data-id=\"inventory\"]"
+        }
+      ],
+      "device": "mobile",
+      "framing": "full-page",
+      "file": "mobile/04-answer-with-evidence.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": {
+        "width": 390,
+        "height": 1123
+      },
+      "sha256": "32f1661510ae866a95df2f0dd3e69ef9c49b2a7742741b1d48fcb5802117a671",
+      "bytes": 89207,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "05-agents-and-order-to-cash-examples",
+      "title": "Mobile agents and Order-to-Cash examples",
+      "group": "Mobile",
+      "route": "#app/agents",
+      "steps": [],
+      "device": "mobile",
+      "framing": "full-page",
+      "file": "mobile/05-agents-and-order-to-cash-examples.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": {
+        "width": 390,
+        "height": 6403
+      },
+      "sha256": "1bcadacab17e9b07ced3a4e3cd3ecb5dd500c544bcf94cc4f75a82af6b4fd9cd",
+      "bytes": 469416,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "06-journal-and-horizontal-table-layout",
+      "title": "Mobile journal and horizontal table layout",
+      "group": "Mobile",
+      "route": "#app/history",
+      "steps": [],
+      "device": "mobile",
+      "framing": "viewport",
+      "file": "mobile/06-journal-and-horizontal-table-layout.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "a0e866dc7979091516c28e0545b658c49fbaa0468d370f8bd2b047954fb8094a",
+      "bytes": 52202,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "07-navigation-open",
+      "title": "Mobile navigation open",
+      "group": "Mobile",
+      "route": "#app/recorder",
+      "steps": [
+        {
+          "click": "[data-action=\"menu\"]"
+        }
+      ],
+      "device": "mobile",
+      "framing": "viewport",
+      "file": "mobile/07-navigation-open.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "30a43e325b724376c3077c2f41baa809617bf48eb9f3fd756359cc067684215a",
+      "bytes": 49155,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "08-demo-workspace-dialog",
+      "title": "Mobile demo workspace dialog",
+      "group": "Mobile",
+      "route": "",
+      "steps": [
+        {
+          "click": "[data-action=\"signup\"]"
+        }
+      ],
+      "device": "mobile",
+      "framing": "viewport",
+      "file": "mobile/08-demo-workspace-dialog.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "25f0bc803f179cbf7b2511ded8ebeb13d09437f9be34e1c8fadad2b86e33468d",
+      "bytes": 80752,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    },
+    {
+      "id": "09-source-evidence-drawer",
+      "title": "Mobile source evidence drawer",
+      "group": "Mobile",
+      "route": "#app/history",
+      "steps": [
+        {
+          "click": "[data-action=\"event\"][data-id=\"SRC-001\"]"
+        }
+      ],
+      "device": "mobile",
+      "framing": "viewport",
+      "file": "mobile/09-source-evidence-drawer.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "0c40835ff805ea2284cf788f58d6e810215f69b74f4361c2b8c696c62e403c26",
+      "bytes": 53985,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "fonts": [
+        "DM Sans",
+        "Manrope"
+      ],
+      "pageErrors": []
+    }
+  ]
+}

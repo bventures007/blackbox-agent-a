@@ -3,7 +3,7 @@
   "prototype_url": "https://blackbox-business-flugschreiber.bene007.chatgpt.site",
   "source_commit": "5d0e15ede4c02d711fd751ec55e7ab18bd53d211",
   "nature": "Visual/interaction prototype; simulated data, no production auth/persistence/connectors/MCP.",
-  "included": "Only static UI assets, current relevant screenshots and exported question definitions. No Git metadata, hosting manifest or credentials.",
+  "included": "Unchanged static UI assets, a complete page/state visual catalogue with representative mobile views, original highlight screenshots and exported question definitions. No hosting manifest or credentials.",
   "files": {
     "app.js": "aae5821e1fb3bbb9781b3449e53b48a661b749fe3cf3d2cec4e29f899b5c0b6c",
     "billing.js": "baadb2d65afa06a7fa4856fb77157a7b6596c3100b8e249b5eed5ec4257819b6",
@@ -13,5 +13,15 @@
     "styles.css": "fbcb3ca135bf55a9a673f56e8445a1f1a4bfc17d0461dd4b19968fe3208b7a2d",
     "tracking.js": "b73d5839e69bacedee070c393e8b9dcbc526140649a54982417b58ad0066e264"
   },
-  "language_note": "Original German UI and screenshots are preserved as visual references. The canonical question specification is now English. The production UI and landing page must default to English and provide complete German localization; all engineering material is English."
+  "language_note": "Original German UI and screenshots are preserved as visual references. The canonical question specification is now English. The production UI and landing page must default to English and provide complete German localization; all engineering material is English.",
+  "visual_catalogue": {
+    "index": "reference/screenshots/README.md",
+    "manifest": "reference/screenshots/capture-manifest.json",
+    "capture_script": "reference/capture-screenshots.cjs",
+    "new_desktop_captures": 58,
+    "new_mobile_captures": 9,
+    "earlier_highlights_retained": 2,
+    "coverage": "All six implemented top-level views, onboarding, key dialogs/lifecycle states and all 24 expanded Order-to-Cash questions. Not every possible state combination.",
+    "verification": "Static reference capture only; not product or live-provider acceptance evidence."
+  }
 }

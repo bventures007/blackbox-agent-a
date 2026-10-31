@@ -29,7 +29,7 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 | [GOLDEN-ORDER-TO-CASH.json](GOLDEN-ORDER-TO-CASH.json) | Synthetic business cycle: 19 events, 11 checkpoints |
 | [reference/questions.json](reference/questions.json) | 24 questions in six Order-to-Cash groups |
 | [reference/prototype/](reference/prototype/) | Original visual and interaction reference |
-| [reference/screenshots/](reference/screenshots/) | Reference screenshots |
+| [reference/screenshots/README.md](reference/screenshots/README.md) | Visual catalogue: 67 desktop/mobile captures, interaction states and coverage boundaries |
 | [docs/status.md](docs/status.md) | Durable implementation progress and next action |
 | [reports/acceptance.json](reports/acceptance.json) | Honest per-case execution status, initially not started |
 | [features/](features/) | Plain-language feature ideas for future expansion |
@@ -63,6 +63,8 @@ python3 -m http.server 4173 --bind 127.0.0.1 --directory reference/prototype
 
 Open `http://127.0.0.1:4173/` or `http://127.0.0.1:4173/#app/agents`. This serves the static design reference only. The production `./blackbox` commands described in the brief are not implemented yet.
 
+Start with the [visual reference catalogue](reference/screenshots/README.md): all six existing top-level views, onboarding, evidence drawers, invoice/payment lifecycles, 24 expanded Order-to-Cash questions and representative mobile views. The catalogue distinguishes existing design references from product views that still need to be designed. It includes capture recipes and checksums; these are reference assets, not product-test evidence.
+
 ## Independent comparison
 
-Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v4`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).
+Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v5`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).
