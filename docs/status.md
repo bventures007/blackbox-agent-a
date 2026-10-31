@@ -8,7 +8,7 @@ Repository preparation is complete. Product implementation has not started. The 
 
 - [ ] M0 — product/architecture contract, ADRs, threat model, acceptance mapping
 - [ ] M1 — authentication, tenant isolation, persistence, ingestion, core UI
-- [ ] M2 — Golden Scenario, replay/restart, English/German
+- [ ] M2 — Golden Scenario, replay/restart, English/German UI and landing page
 - [ ] M3 — real MCP and 24 shared query contracts
 - [ ] Comparison checkpoint — M0–M3 plus local installation and report
 - [ ] M4 — first real connector adapters and capability verification
@@ -17,6 +17,10 @@ Repository preparation is complete. Product implementation has not started. The 
 ## Latest verification
 
 Seed preparation only: JSON parsing, reference checksums, requirement counts and matching repository baseline. This is not evidence of a working product. All cases in ../reports/acceptance.json start as not_started.
+
+## Language clarification
+
+All engineering material is English. The UI and landing page default to English and also support complete German localization. Architecture and question specifications are now English; original German visual references are retained. See README.md for the full policy.
 
 ## Next action
 

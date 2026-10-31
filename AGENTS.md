@@ -5,7 +5,7 @@
 1. START-HERE.md — scope, first actions and completion contract.
 2. BUILD-PROMPT-EN.txt — authoritative product and engineering assignment.
 3. ACCEPTANCE.json, GOLDEN-ORDER-TO-CASH.json, reference/questions.json — behavior and evidence requirements.
-4. ARCHITECTURE-DE.txt and reference/manifest.json — rationale and provenance.
+4. ARCHITECTURE-EN.txt and reference/manifest.json — rationale and provenance.
 5. reference/prototype/ and reference/screenshots/ — inspect the visual reference in a browser.
 6. docs/status.md and reports/acceptance.json — actual progress, then the relevant specs and module contracts as they are created.
 
@@ -22,7 +22,7 @@ These instructions support the owner's current request. Direct owner instruction
 - Preserve evidence and derivation provenance. Unknown or conflicting is a valid result; unsupported certainty is a defect.
 - Never count authorizations as captures, payouts as revenue, invoice payment markers as additional cash, or credit notes as completed refunds. Use integer minor units and explicit quantities.
 - Assume provider deliveries and jobs repeat. Demonstrate durable receipt, idempotency, recovery and replay.
-- English is the default UI language; update German in the same change. Preserve the supplied design and the five linked recorder tracks.
+- Use English for all requirements, documentation, architecture decisions, feature briefs, agent instructions, code identifiers, comments, tests, logs, API/MCP contracts and handover reports. Only the application UI and landing page require both English (default) and complete German localization. Keep machine-readable identifiers stable in English; localize product-facing text through locale resources. Update both UI/landing-page locales in the same change. Preserve the supplied design and the five linked recorder tracks. Original German UI text in the reference prototype/screenshots is an allowed reference asset, not a documentation-language precedent.
 - New sources use manifests, adapters, schemas and contract fixtures. New questions use shared query services, never canned UI keyword shortcuts.
 - Keep experiments disabled by default and isolated from customer data.
 - Do not create paid services, publish a public deployment, use real customer data or change account permissions without separate owner authorization. Keep credentials out of Git, prompts, fixtures and logs.

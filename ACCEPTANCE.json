@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "date": "2026-10-31",
   "note": "Specification for tests to be implemented; not an already executable or executed suite. A reviewer must add independent variations.",
   "status_enum": [
@@ -237,8 +237,8 @@
     {
       "id": "UI-02",
       "category": "experience",
-      "check": "Switch English/German, refresh, change workspace and exercise errors and empty states.",
-      "expected": "English defaults; German complete; preference retained; locale-safe money/date/time formatting.",
+      "check": "Switch English/German on the landing page and in the application. Navigate through sign-in and onboarding, refresh, change workspace, and exercise all question views, validation, errors, empty states and accessibility labels. Inspect landing-page metadata in both locales.",
+      "expected": "English is the default for both UI and landing page; German localization is complete; the selected locale persists across the landing page, sign-in and application; money/date/time formatting is locale-safe. Engineering documentation, identifiers and API/MCP contracts remain English.",
       "stage": "core",
       "release_gate": true
     },

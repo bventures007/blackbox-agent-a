@@ -1,0 +1,100 @@
+BLACKBOX — ARCHITECTURE AND DELIVERY APPROACH
+As of 2026-10-31. Proposal and build contract; production software has not been implemented.
+
+1. The central decision
+One product, one data model, one repository per independent implementation, three deployment modes: hosted SaaS, a customer's Linux server, and local use on a Mac. Deployment mode changes configuration and infrastructure, not business rules. Local installations retain tenant isolation.
+
+The existing prototype is the visual and interaction reference. It currently stores workspace/source selections in the browser, simulates events, and has no real MCP server. Its example data does not demonstrate live provider integrations. The new software needs a persistent backend core.
+
+All engineering material is English: requirements, architecture, documentation, feature briefs, agent instructions, code identifiers, comments, tests, logs, API/MCP contracts and handover reports. The application UI and landing page are English by default and also fully available in German. Translate product-facing text through locale resources, not business identifiers or contracts. Existing German prototype screens are visual/copy references only.
+
+2. Technical recommendation
+Use TypeScript throughout. React/Vite provides the UI and landing page. Fastify provides the API and serves the production frontend build. A separate worker processes events. PostgreSQL stores events, relationships, current state and background jobs. Use Drizzle with explicit SQL migrations and pg-boss as the proposed job library. MCP calls the same business services as the UI.
+
+This is a modular monolith: clearly separated business modules within one coherent application. API and worker processes can later run in multiple replicas. Keep the initial operating footprint small. Store objects and evidence through a storage interface: a persistent local volume by default, optionally S3-compatible storage for SaaS. Choose and document an established authentication solution; validate web-login support and MCP OAuth support separately.
+
+Vite output is a production build; the Vite preview server is not a production server. Source: https://vite.dev/guide/static-deploy.html
+pg-boss provides PostgreSQL-backed jobs. Handlers may run repeatedly; business idempotency remains an application responsibility. Source: https://pgboss.io/introduction
+
+3. The five tracks
+Sources: original observations with provenance.
+Facts: deterministically derived or confirmed statements with evidence.
+Commitments: promises and outstanding obligations.
+Movements: recorded changes in quantities or money.
+Reservations: holds that affect availability.
+
+The tracks are views over a connected data model. One piece of evidence can contribute to several views without counting its money more than once. An invoice payment marker is not another customer payment; a payout is not new revenue; a credit note is not a completed refund.
+
+Original observations are not overwritten during ordinary business processing. Corrections extend the history and current views are recalculated. Privacy/retention processes need a separate controlled deletion or redaction path. This is a product requirement, not a claim of legal compliance.
+
+AI may phrase answers or extract candidates. Amounts, availability, entity links and answers must be supported by traceable rules and evidence. Expose missing, stale or contradictory data. The product can give defensible answers from available evidence; it cannot guarantee absolute truth.
+
+4. Multi-tenancy from the start
+A tenant initially corresponds to a workspace/company. Users can hold roles in multiple workspaces. Connections, events, files, jobs, search results, exports and MCP access are restricted to the authorized tenant.
+
+Enforce the boundary in both application services and PostgreSQL. RLS alone is not automatically sufficient: table owners and BYPASSRLS roles can bypass policies. Use separate migration roles, protected application roles, tenant-scoped constraints and tests with the actual production roles. Source: https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+
+Start with a shared database using tenant_id and RLS. A separate database per large customer can become a later deployment option; it is not required for version one. Per-tenant workload limits prevent a large import from blocking other tenants.
+
+5. Easy extension
+apps/ contains entrypoints and the UI.
+packages/domain/ contains pure business rules.
+packages/application/ contains authorized use cases.
+packages/connectors/ contains isolated source adapters.
+packages/contracts/ contains shared versioned data contracts.
+packages/database/ contains tables, migrations and access policies.
+packages/mcp/ contains the agent interface.
+features/ contains plain-English founder ideas and acceptance examples.
+specs/ contains implementable specifications.
+experiments/ contains experiments disabled by default.
+tests/, fixtures/, scripts/, infra/ and docs/ make quality and operations reproducible.
+
+A new source needs configuration, capabilities, an adapter, sample payloads and contract tests. A new business question needs inputs, a domain query, evidence, error/missing-data behavior and tests. Both should be possible without changing central financial rules or growing a single catch-all script.
+
+The founder describes an idea using the feature template, and the agent turns it into a small, testable change. An experiment runs in an isolated demo workspace behind a feature flag. Permanent business rules still require a data contract and tests.
+
+6. Implementation sequence
+M0: product contract, fixed boundaries, architecture decisions and acceptance matrix.
+M1: login, two tenants, real persistence, job processing, source health and recorder.
+M2: complete synthetic Order-to-Cash cycle, evidence, recovery, replay and English/German UI and landing page.
+M3: real read-only MCP; all 24 questions have a defined data contract and return either evidence-backed results or explicit missing-data explanations.
+M4: real sources for the initial Shopify pilot: Shopify and Shopify Payments, one invoice provider (proposed: easybill), and one carrier (proposed: DHL). Verify API access, merchant agreements, permissions and test accounts.
+M5: installation packages, Linux/Mac verification, backups and restore, upgrade rehearsal, load test and independent acceptance.
+
+For two agents, M0–M3 plus local installation is the first fair comparison point. Both can then continue M4–M5. Select and improve one foundation after comparison; do not blindly merge the implementations.
+
+Additional connectors follow later. The prototype may display them as planned sources but must not present simulations as live integrations. Xentral remains removed. Shipping providers remain ordinary sources. Klaviyo is optional.
+
+Shopify documents a lack of event-ordering guarantees and recommends regular reconciliation alongside webhooks. Source: https://shopify.dev/docs/apps/build/webhooks
+Different IDs are relevant for Shopify delivery deduplication and event correlation. Source: https://shopify.dev/docs/apps/build/webhooks/verify-deliveries
+
+7. Hosting and installation
+For development and self-hosting: Docker Compose, persistent volumes, a secure first-admin setup flow and browser access. Docker Compose is available on macOS through Docker Desktop. Its license conditions depend on usage; document installer prerequisites. Source: https://docs.docker.com/compose/install/
+
+The intended experience is: install prerequisites, run ./blackbox setup, then ./blackbox up. The agent must implement these commands; they do not exist in the current prototype. A native Mac app is not required for the first version.
+
+For a pilot: a Linux server supporting containers, an HTTPS reverse proxy, separate backups and monitoring. For paid SaaS, consider a provider in the required data region and managed PostgreSQL if the budget and operating model support it. The same code must also work with self-managed PostgreSQL. Domain, provider, accounts and payment authorization are later concrete decisions; this package does not create hosting accounts.
+
+A single server is not a high-availability solution. Validate database failure handling, restoration, storage, horizontal scaling and operational readiness before promising such availability to customers.
+
+Local execution does not imply continuous reachability or offline provider access. Provider data needs internet access, webhooks need a reachable HTTPS endpoint, and a sleeping Mac cannot accept continuous events. Provide initial import, polling where available, catch-up and visible freshness.
+
+8. Spec Kit and the GO assignment
+Spec Kit is optional. It can structure specifications, planning and implementation with reusable coding-agent workflows. It does not replace architecture decisions, acceptance tests or independent review. Source: https://github.com/github/spec-kit
+
+The supplied package is the binding baseline. If using Spec Kit, import product rules, specifications and tasks from it. Verify the chosen version and integration commands against current official documentation at implementation time. Agents must be able to complete the same assignment without it.
+
+GO is a work instruction, not a universal CLI command. An agent should use it to implement, test and document subtasks independently. It still needs an executable environment, repository access and eventually provider access. Missing external access must never be reported as successful verification.
+
+9. Definition of done
+A demonstrably installable and tested first release with a complete core workflow. It does not imply every imaginable tool is integrated, every possible question is supported, or the system is defect-free.
+
+Acceptance distinguishes:
+- Domain correctness: the same input produces the same traceable state.
+- Data isolation: tenant A cannot see tenant B through exports, MCP or files.
+- Operational resilience: restart, failure, retries, upgrade and restore are tested.
+- Design fidelity: reference implemented for desktop/mobile, with English and German UI and landing page.
+- Honest integration status: implementation, contract tests and actual provider tests are reported separately.
+- Extensibility: an additional adapter and question can be added without redesigning the core.
+
+Before the first customer deployment, an experienced reviewer should independently examine authentication, tenant boundaries, money/quantity logic, key management and recovery. Tests demonstrate specific properties; they do not prove the absence of every defect.

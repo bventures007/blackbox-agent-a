@@ -1,4 +1,4 @@
-FEATURE BRIEF — fill in plain language; the implementation agent turns this into a specification.
+FEATURE BRIEF — fill in plain English; the implementation agent turns this into a specification.
 
 Name:
 Who needs it:

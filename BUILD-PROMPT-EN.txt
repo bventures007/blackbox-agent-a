@@ -1,10 +1,10 @@
 BLACKBOX — INDEPENDENT IMPLEMENTATION BRIEF
-Version 1.0 · 2026-10-31 · Product owner: the person providing this package
+Version 1.1 · 2026-10-31 · Product owner: the person providing this package
 
 GO. Build the product described here. This is an implementation assignment, not a request for another mockup or a plan-only response. Work in the assigned repository. Use the supplied local prototype as the visual and interaction reference. Continue through implementation, verification and reproducible packaging. Do not claim external validation that you could not perform.
 
 0. READ FIRST AND WORK AUTONOMOUSLY
-Read this brief, ACCEPTANCE.json, GOLDEN-ORDER-TO-CASH.json, ARCHITECTURE-DE.txt and reference/prototype/. Inspect the reference in a browser when possible. The hosted URL is https://blackbox-business-flugschreiber.bene007.chatgpt.site/#app/agents, but it may require the owner's account; the local reference is authoritative for appearance.
+Read this brief, ACCEPTANCE.json, GOLDEN-ORDER-TO-CASH.json, ARCHITECTURE-EN.txt and reference/prototype/. Inspect the reference in a browser when possible. The hosted URL is https://blackbox-business-flugschreiber.bene007.chatgpt.site/#app/agents, but it may require the owner's account; the local reference is authoritative for appearance.
 
 Create AGENTS.md, docs/product.md, docs/architecture.md, docs/decisions/, specs/, docs/status.md and a machine-readable acceptance report. The templates are starting points, not implemented application code. Preserve this package as an input reference.
 
@@ -12,12 +12,14 @@ Make routine reversible implementation decisions yourself. Document assumptions 
 
 Use small, reviewable commits where Git is available. Keep a durable task checklist, actual commands, test results, and a next-step checkpoint so another agent can resume. If the session ends, report what remains; do not redefine incomplete work as complete. Do not spend the whole run designing frameworks.
 
+Use English for all requirements, documentation, architecture decisions, feature briefs, agent instructions, code identifiers, comments, tests, logs, API/MCP contracts and handover reports. Only the application UI and landing page require both English (default) and complete German localization. Keep machine-readable identifiers stable in English; localize product-facing text through locale resources. Persist the selected locale across the landing page, sign-in and application. Cover navigation, forms, validation, empty/error states, all 24 question views, accessibility labels and landing-page copy/metadata in both languages. Keep original external evidence in its source language; do not rewrite evidence for localization.
+
 1. PRODUCT AND VISUAL CONTRACT
 Blackbox is a business flight recorder for commerce. It connects source systems, records evidence and changes, derives business state, and exposes consistent, permission-aware answers to the UI and external agents through MCP.
 
 Preserve the reference's green/cream visual language, dark sidebar, typography hierarchy, dense event tracks, evidence drawers, friendly source setup, landing page and Agent & MCP page. Build reusable React components and design tokens. The reference's compressed JavaScript, static answers and browser-only persistence are not the production architecture.
 
-Required areas: landing page; sign-in and first-run setup; workspaces and memberships; recorder; source catalog and connection health; business questions; Agent & MCP settings; searchable/exportable event history; basic administration, retention and audit information. Keep the 24 Order-to-Cash questions and their six groups. English is the default language; German is the first complete translation, with persisted language preference. Dates, currencies, time zones and quantities must be formatted deliberately.
+Required areas: landing page; sign-in and first-run setup; workspaces and memberships; recorder; source catalog and connection health; business questions; Agent & MCP settings; searchable/exportable event history; basic administration, retention and audit information. Keep the 24 Order-to-Cash questions and their six groups. The application UI and landing page default to English and also provide complete German localization, with persisted language preference. Engineering material remains English. Dates, currencies, time zones and quantities must be formatted deliberately.
 
 DHL, DPD and UPS are ordinary sources feeding the common recorder. Do not add a separate shipment-tracking product area. Xentral has been removed and must remain absent. Klaviyo is an optional later connector, not a required launch dependency. Existing connector cards may remain only with honest states: available, configured, syncing, degraded, unsupported or planned. A mock must never be labeled as a live connection.
 
@@ -123,7 +125,7 @@ An external agent may summarize returned facts or draft a response. Core balance
 8. DELIVERY MILESTONES AND DONE GATES
 M0 — Contract: map prototype behavior, record ADRs/threat model, define schema and acceptance mapping. Then implement; do not wait for approval of routine choices.
 M1 — Foundation: real authentication, two tenants, authorization, database/migrations, durable ingestion, jobs, source setup, recorder and evidence UI.
-M2 — Golden path: the entire synthetic Order-to-Cash cycle, restart/replay, late/duplicate events, conflicting evidence and correct query results. Default English plus complete German.
+M2 — Golden path: the entire synthetic Order-to-Cash cycle, restart/replay, late/duplicate events, conflicting evidence and correct query results. English-default UI and landing page with complete German localization.
 M3 — Agent access: real scoped MCP, shared query services, 24 question contracts, evidence and missing-data behavior.
 M4 — Real sources: Shopify/Shopify Payments, easybill and DHL adapter work and tests, with explicit external-verification status per capability.
 M5 — Install and operate: release images, self-host/local/hosted profiles, backup/restore, upgrade rehearsal, observability, isolation/security and performance evidence.

@@ -1,16 +1,15 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "prepared_date": "2026-10-31",
   "purpose": "Identical input contract and reference snapshot for both independent implementations. This is not product-test evidence.",
   "files": {
-    "ACCEPTANCE.json": "0f09d15f48d57b958ff36bf2625eccae25b23afdc1dd9f85a1e269ef41aa1607",
-    "ARCHITECTURE-DE.txt": "a204d2518656b0cb7f045d81eaa721804182e84b74c6eb407b6535d0c89488d0",
-    "BUILD-PROMPT-EN.txt": "53a194649114fe76fc9080d834298d019395639f1d3608d9ebfc651b98dee272",
+    "ACCEPTANCE.json": "6f4b30d8553420ca7c61faf65100aa68884c699a7943ec3537da96e7cd22431a",
+    "ARCHITECTURE-EN.txt": "7ffa83d259a8b1e0f7c25424b29b10416f265dfff3674df334570b31458186a6",
+    "BUILD-PROMPT-EN.txt": "26b0320b11c93dfce08d6174ff06c850287ef8a1344cedd64f1250fb9469a49b",
     "GOLDEN-ORDER-TO-CASH.json": "d5e237974e9d5265e0b1921ca969fafa027dc82cfd6fc017a3139531be969a17",
-    "README-DE.txt": "3352ed82ffab7f019cb07b21d61a07ac3bcd3f1360bee76b0226241921e40dcf",
-    "REVIEW-PROMPT-EN.txt": "e02ccdf54d49b3b0cfe6a2267e65dd7e9b8da04fe7fbc1839b8e6720923a52b9",
+    "REVIEW-PROMPT-EN.txt": "c1d0b63c204d19df7b7ccf1c193a2c1b040005809bc25d2b36d7c4745964dde9",
     "SCORECARD.json": "680b6430e9967445a7871dcc536ee2421743719358fb2bc0c78c404f9bc8625d",
-    "reference/manifest.json": "f5ebd6d0d77f57065c4e0fb8bf19eb6254be1166071275c1ab947e71df45102b",
+    "reference/manifest.json": "cfa01296250f90ca0d9d537aa54b93d7adc82bcd165d09b0a90ad4cb6e92a24d",
     "reference/prototype/app.js": "aae5821e1fb3bbb9781b3449e53b48a661b749fe3cf3d2cec4e29f899b5c0b6c",
     "reference/prototype/billing.js": "baadb2d65afa06a7fa4856fb77157a7b6596c3100b8e249b5eed5ec4257819b6",
     "reference/prototype/index.html": "72f574a4404e055ef20bc5d25c848c0d1e8aa6e0484d59e8e444151968b927b6",
@@ -18,10 +17,12 @@
     "reference/prototype/payments.js": "4066f3b3d2a6ecaa39a4ef6c627160af509bb68bc002b9d9798824a3aa28828e",
     "reference/prototype/styles.css": "fbcb3ca135bf55a9a673f56e8445a1f1a4bfc17d0461dd4b19968fe3208b7a2d",
     "reference/prototype/tracking.js": "b73d5839e69bacedee070c393e8b9dcbc526140649a54982417b58ad0066e264",
-    "reference/questions.json": "b8b98dc5a0dafcf090df29ea7d8dca796d135f6bc9aef6ed8d6c15144413d907",
-    "reference/screenshots/blackbox-order-to-cash-agenten.jpg": "139176ec9c3498188dd61bcdfc1d52d96183751a7116110d6189913a26611d41",
-    "reference/screenshots/blackbox-quellen-ohne-xentral.jpg": "e14ac373837228613075ef80280162667a39fe71de10b271df37574c2b75097e",
-    "templates/AGENTS.template.txt": "de4f1a6f435b1b1cfac9cb4a6cfe743df53e9550cacaa50d4f3e027b110415dc",
-    "templates/FEATURE-BRIEF.txt": "8f5ce7c388852d96cc8a0c5ef89203cb38d1bab089f28a7c959ae56a3d3fdb01"
-  }
+    "reference/questions.json": "e14ac1d8fffda0c55e6f0bd77c16e48c99b736356e1394565a1ca5e6474ba486",
+    "reference/screenshots/blackbox-order-to-cash-agents.jpg": "139176ec9c3498188dd61bcdfc1d52d96183751a7116110d6189913a26611d41",
+    "reference/screenshots/blackbox-sources-without-xentral.jpg": "e14ac373837228613075ef80280162667a39fe71de10b271df37574c2b75097e",
+    "templates/AGENTS.template.txt": "d1e176304564ddcfe11a51bf48f77c68f269a141be0f258875dd517b4fcccdf5",
+    "templates/FEATURE-BRIEF.txt": "20f4dc3a960c18b559964a46799547e90fc61235c5b89ed7848396df9328ad1f"
+  },
+  "previous_baseline_tag": "baseline-v1",
+  "change_note": "Owner-requested English engineering material with English/German UI and landing page. Architecture and question specifications translated without changing business scenarios. Original visual-reference assets retained; UI-02 explicitly covers both product surfaces."
 }

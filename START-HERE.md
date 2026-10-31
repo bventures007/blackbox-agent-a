@@ -12,6 +12,10 @@ This repository contains the full context needed to start. It is an implementati
 
 Nothing starts automatically just because this repository exists. The owner launches each build. No new agent run is started by this seed.
 
+## Language policy
+
+Use English for all requirements, documentation, architecture decisions, feature briefs, agent instructions, code identifiers, comments, tests, logs, API/MCP contracts and handover reports. Only the application UI and landing page require both English (default) and complete German localization. Keep machine-readable identifiers stable in English; localize product-facing text through locale resources. Preserve the original German reference UI and screenshots as design inputs; implement English and German product locales.
+
 ## Agent: first actions
 
 Read the files in AGENTS.md's order, inspect the local visual reference, and check the environment. Record versions and available Docker/database/browser capabilities in docs/build-environment.md. Make the milestone/task checklist concrete in docs/status.md, document necessary ADRs, then immediately start implementing the smallest complete persisted path.
@@ -24,7 +28,7 @@ The default scope is the full BUILD-PROMPT-EN.txt, milestones M0–M5. Preserve 
 | --- | --- |
 | M0 | Written product/architecture contract, ADRs, threat model and acceptance mapping; implementation begins |
 | M1 | Real auth, two isolated tenants, PostgreSQL, durable ingestion, workers and the core UI |
-| M2 | Full Golden Scenario, duplicates/reordering/restarts and English/German UI |
+| M2 | Full Golden Scenario, duplicates/reordering/restarts and English/German UI and landing page |
 | M3 | Real scoped MCP, all 24 query contracts, evidence links and explicit missing-data results |
 | Comparison checkpoint | M0–M3 plus a usable local installer, reproducible tests and a recorded commit |
 | M4 | Shopify/Shopify Payments, easybill and DHL adapter work, tests and honest live-access status |

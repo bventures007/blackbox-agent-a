@@ -7,7 +7,7 @@ A tenant-owned operation requires validated scope. Tests must use the real appli
 Business corrections preserve provenance. Unknown is an allowed result; unsupported certainty is a defect.
 Never count authorizations as captures, payouts as revenue, invoice payment marks as additional cash, or credit notes as completed refunds.
 Provider events and queue handlers can repeat. Idempotency and replay must be demonstrable.
-English is the default UI language. Update German in the same change.
+Use English for all requirements, documentation, architecture decisions, feature briefs, agent instructions, code identifiers, comments, tests, logs, API/MCP contracts and handover reports. Only the application UI and landing page require both English (default) and complete German localization. Keep machine-readable identifiers stable in English; localize product-facing text through locale resources. Update both UI and landing-page locales in the same change.
 New sources use connector manifests, adapters, schemas and contract fixtures. New questions use shared query services, not UI keyword shortcuts.
 Keep experiments off by default and isolated from production customer data.
 Every implementation claim needs a status: implemented, contract-tested, sandbox-verified, platform-tested, not run or blocked.

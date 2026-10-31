@@ -12,5 +12,6 @@
     "payments.js": "4066f3b3d2a6ecaa39a4ef6c627160af509bb68bc002b9d9798824a3aa28828e",
     "styles.css": "fbcb3ca135bf55a9a673f56e8445a1f1a4bfc17d0461dd4b19968fe3208b7a2d",
     "tracking.js": "b73d5839e69bacedee070c393e8b9dcbc526140649a54982417b58ad0066e264"
-  }
+  },
+  "language_note": "Original German UI and screenshots are preserved as visual references. The canonical question specification is now English. The production UI and landing page must default to English and provide complete German localization; all engineering material is English."
 }
