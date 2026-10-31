@@ -10,6 +10,7 @@ import {
   Empty,
 } from "./common.js";
 const en = {
+  needs_review: "Needs review",
   state: "State",
   setup: "Connect Shopify",
   name: "Connection name",
@@ -113,6 +114,7 @@ const en = {
     "Other selected Shopify capabilities are still being implemented; this flow currently imports orders, payments and refunds.",
 };
 const de: Record<keyof typeof en, string> = {
+  needs_review: "Prüfung erforderlich",
   state: "Status",
   setup: "Shopify verbinden",
   name: "Name der Verbindung",
@@ -216,6 +218,10 @@ const de: Record<keyof typeof en, string> = {
     "Weitere ausgewählte Shopify-Datenbereiche werden noch implementiert. Dieser Ablauf importiert derzeit Aufträge, Zahlungen und Erstattungen.",
 };
 const reasons: Record<string, [string, string]> = {
+  source_records_quarantined: [
+    "Some records need review. A successful later check does not repair this gap.",
+    "Einige Datensätze müssen geprüft werden. Eine spätere erfolgreiche Prüfung behebt diese Lücke nicht.",
+  ],
   current_snapshots_cannot_reconstruct_intermediate_changes: [
     "Current snapshots cannot reconstruct every intermediate change.",
     "Aktuelle Momentaufnahmen können nicht jede zwischenzeitliche Änderung rekonstruieren.",

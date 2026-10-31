@@ -24,7 +24,7 @@ Malformed object evidence remains encrypted and linked to a review case. Page-le
 
 ## Snapshot scope and truthful progress
 
-Each fully validated entity snapshot can append declared, entity-specific coverage at the fixed run cutoff. `history_kind=snapshot_only` is accepted by questions-v3 only for that exact instant and without a historical `from` window. The record does not assert a full event history. Historical-as-known queries retain both their recorded cutoff and effective/as-of scope. All provider coverage remains declared, not independently verified; answers remain partial. Changes to query semantics have a new rule version.
+Each fully validated entity snapshot can append declared, entity-specific coverage at the fixed run cutoff. `history_kind=snapshot_only` is accepted by questions-v4 only for that exact instant and without a historical `from` window. The record does not assert a full event history. Historical-as-known queries retain both their recorded cutoff and effective/as-of scope. All provider coverage remains declared, not independently verified; answers remain partial. Changes to query semantics have a new rule version.
 
 Cohorts count orders or transactions, not HTTP calls or internal journal rows. `discovered`, `committed_objects`, `processed_objects`, `duplicates`, `skipped` and `quarantined` come from durable rows. Processed means the required journal cursor was applied; it is not a claim that every question has all dependencies. No exact total or fabricated percentage is shown. Successful empty polls advance the scoped check timestamp but not the last-new timestamp. The Sources screen shows the same durable capability/run state as the owner readiness service, with EN/DE date selection, limitations, pause/resume/retry/cancel and reconnect controls.
 
@@ -44,3 +44,9 @@ python3 scripts/verify-questions.py --output .runtime/questions-v3-evidence.json
 The source runner drives actual local provider HTTP, PostgreSQL, Rust, API, Chrome and SDK MCP. It restarts the local processes and database between seed and recovery; then the real worker completes an import after the browser is closed. Fixtures are synthetic. Native fallback runs do not certify Compose installation, a release archive, performance targets or live Shopify.
 
 Schema sources consulted on 2026-10-31: [Order](https://shopify.dev/docs/api/admin-graphql/2026-10/objects/Order), [LineItem](https://shopify.dev/docs/api/admin-graphql/2026-10/objects/LineItem), [TaxLine](https://shopify.dev/docs/api/admin-graphql/2026-10/objects/TaxLine), [same-organization authentication](https://shopify.dev/docs/apps/build/authentication-authorization/client-credentials-grant). Exact per-capability register mapping artifacts and independent confirmation are still required.
+
+## Provider revision conflicts
+
+Orders use a stable provider revision identity (record plus updated time); transactions add their lifecycle kind. Changed content at the same provider revision is quarantined and retains both encrypted claims. Under the journal head lock, older content-addressed identities are reused, so upgrading and replaying cannot duplicate previously accepted business records. Current entity coverage carries an explicit source conflict; questions-v4 exposes it while keeping fixed-cutoff answers and original source payloads unchanged.
+
+Quarantined runs do not advance successful-check/reconciliation times. Unresolved review objects keep capability health in needs-review even after a later successful empty check. That later check describes only its own scope; it cannot repair the earlier gap. The conflict verification uses real PostgreSQL/API/SDK MCP, including an old-identity compatibility case.

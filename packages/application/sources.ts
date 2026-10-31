@@ -352,6 +352,7 @@ export async function sourceReadiness(tenant: string) {
     capabilities: (
       await c.query(`SELECT h.*,c.provider,c.state connection_state,
       CASE WHEN c.state IN ('paused','disconnected','reauthorization_required') THEN c.state
+           WHEN h.collection_state='needs_review' THEN 'needs_review'
            WHEN h.last_success_at IS NOT NULL AND h.last_success_at < now()-make_interval(secs=>h.poll_seconds*3) THEN 'delayed'
            ELSE h.collection_state END effective_state
       FROM bb.source_health h JOIN bb.connections c USING(tenant_id,connection_id) ORDER BY connection_id,capability`)

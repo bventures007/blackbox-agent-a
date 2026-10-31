@@ -13,6 +13,7 @@ export type IngestResult = {
   evidence_id: string;
 };
 export type IngestTransaction = {
+  providerSnapshot?: boolean;
   before?: (c: PoolClient) => Promise<void>;
   committed?: (c: PoolClient, result: IngestResult) => Promise<void>;
 };
@@ -69,6 +70,27 @@ export async function ingest(
       duplicates = 0,
       conflicts = 0;
     for (const e of parsed) {
+      // Preserve identities written by the earlier content-addressed synthetic adapter.
+      // A provider revision identifies a claim; its content must not change that identity.
+      if (
+        transaction.providerSnapshot &&
+        "record" in e &&
+        e.record.dataset !== "coverage"
+      ) {
+        const prior = (
+          await c.query(
+            "SELECT provider_identity FROM bb.journal WHERE connection_id=$1 AND record_type='source' AND record_id=$2 AND occurred_at=$3 AND ($4='orders' OR event_type=$5) ORDER BY sequence LIMIT 1",
+            [
+              connection,
+              e.economic_id,
+              e.occurred_at,
+              e.record.dataset,
+              e.kind,
+            ],
+          )
+        ).rows[0];
+        if (prior) e.id = prior.provider_identity;
+      }
       const payload = JSON.stringify(e),
         digest = hash(payload);
       const old = await c.query(
@@ -81,13 +103,14 @@ export async function ingest(
           continue;
         }
         await c.query(
-          "INSERT INTO bb.review_cases(tenant_id,case_id,connection_id,entry_id,kind) VALUES($1,$2,$3,$4,$5)",
+          "INSERT INTO bb.review_cases(tenant_id,case_id,connection_id,entry_id,kind,evidence_id) VALUES($1,$2,$3,$4,$5,$6)",
           [
             tenant,
             randomUUID(),
             connection,
             old.rows[0].entry_id,
             "provider_content_conflict",
+            evidence,
           ],
         );
         conflicts++;

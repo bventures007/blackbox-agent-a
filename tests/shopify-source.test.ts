@@ -132,6 +132,24 @@ test("Shopify normalization preserves refund links, unknown transitions and stri
     );
     assert.equal((refunds[0].observations[0].record as any).amount_minor, 1723);
     assert.equal(refunds[0].observations[0].record.dataset, "refunds");
+    const changed = structuredClone(raw);
+    changed.transactions[1].amountSet = money("18.00");
+    const changedRefund = await normalizeSourceOrder(
+      changed,
+      connection,
+      account,
+      "refunds",
+      plan,
+      "recent",
+    );
+    assert.equal(
+      changedRefund[0].observations[0].id,
+      refunds[0].observations[0].id,
+    );
+    assert.notDeepEqual(
+      changedRefund[0].observations[0].record,
+      refunds[0].observations[0].record,
+    );
     const orphan = structuredClone(raw);
     orphan.transactions[1].parentTransaction = null;
     const unresolved = await normalizeSourceOrder(

@@ -152,6 +152,7 @@ async function objectCommitted(
 }
 export async function commitSourceObject(j: Job, o: SourceObject) {
   return ingest(j.tenant_id, j.connection_id, o.observations, o.raw, {
+    providerSnapshot: true,
     before: (c) => assertLease(c, j),
     committed: (c, r) => objectCommitted(c, j, o, r),
   });
@@ -192,7 +193,25 @@ async function finish(j: Job) {
       );
       return;
     }
+    const quarantined = Number(
+      (
+        await c.query(
+          "SELECT count(*) FROM bb.import_objects WHERE run_id=$1 AND state='quarantined'",
+          [j.run_id],
+        )
+      ).rows[0].count,
+    );
+    const unresolved = Number(
+      (
+        await c.query(
+          "SELECT count(DISTINCT r.object_id) FROM bb.review_cases r JOIN bb.source_jobs prior USING(tenant_id,run_id) WHERE r.connection_id=$1 AND prior.capability=$2 AND r.state<>'resolved'",
+          [j.connection_id, j.capability],
+        )
+      ).rows[0].count,
+    );
     const coverage = {
+      quarantined_objects: quarantined,
+      unresolved_review_objects: unresolved,
       requested_from: j.parameters.requested_from,
       checked_from: j.checkpoint.from,
       checked_through: j.checkpoint.through,
@@ -221,12 +240,12 @@ async function finish(j: Job) {
       ],
     );
     await c.query(
-      "UPDATE bb.source_jobs SET state='complete_with_gaps',phase='ready_for_queries',completed_at=now(),updated_at=now(),lease_owner=NULL,leased_until=NULL,attempts=0,error_code=NULL WHERE job_id=$1",
-      [j.job_id],
+      "UPDATE bb.source_jobs SET state='complete_with_gaps',phase=CASE WHEN $2>0 THEN 'needs_review' ELSE 'ready_for_queries' END,completed_at=now(),updated_at=now(),lease_owner=NULL,leased_until=NULL,attempts=0,error_code=CASE WHEN $2>0 THEN 'source_records_quarantined' ELSE NULL END WHERE job_id=$1",
+      [j.job_id, quarantined],
     );
     await c.query(
-      "UPDATE bb.import_runs SET state='complete_with_gaps',phase='ready_for_queries',completed_at=now(),last_success_at=now(),updated_at=now(),error_code=NULL WHERE run_id=$1",
-      [j.run_id],
+      "UPDATE bb.import_runs SET state='complete_with_gaps',phase=CASE WHEN $2>0 THEN 'needs_review' ELSE 'ready_for_queries' END,completed_at=now(),last_success_at=CASE WHEN $2=0 THEN now() ELSE last_success_at END,updated_at=now(),error_code=CASE WHEN $2>0 THEN 'source_records_quarantined' ELSE NULL END WHERE run_id=$1",
+      [j.run_id, quarantined],
     );
     const health = (
       await c.query(
@@ -235,9 +254,16 @@ async function finish(j: Job) {
       )
     ).rows[0];
     await c.query(
-      `UPDATE bb.source_health SET collection_state='ready_with_gaps',observed_at=now(),last_success_at=now(),coverage=$3,error_code=NULL,next_action='inspect_coverage',
-      last_reconciliation_at=CASE WHEN $4='reconciliation' THEN now() ELSE last_reconciliation_at END WHERE connection_id=$1 AND capability=$2`,
-      [j.connection_id, j.capability, coverage, j.kind],
+      `UPDATE bb.source_health SET collection_state=CASE WHEN $6>0 THEN 'needs_review' ELSE 'ready_with_gaps' END,observed_at=now(),last_success_at=CASE WHEN $5=0 THEN now() ELSE last_success_at END,coverage=$3,error_code=CASE WHEN $6>0 THEN 'source_records_quarantined' ELSE NULL END,next_action=CASE WHEN $6>0 THEN 'review_source_records' ELSE 'inspect_coverage' END,
+      last_reconciliation_at=CASE WHEN $4='reconciliation' AND $5=0 THEN now() ELSE last_reconciliation_at END WHERE connection_id=$1 AND capability=$2`,
+      [
+        j.connection_id,
+        j.capability,
+        coverage,
+        j.kind,
+        quarantined,
+        unresolved,
+      ],
     );
     await c.query(
       "UPDATE bb.connections SET state='degraded' WHERE connection_id=$1 AND state NOT IN ('paused','disconnected','reauthorization_required')",
@@ -411,7 +437,13 @@ export async function processSourceJob(j: Job) {
           },
         ];
       }
-      for (const object of objects) await commitSourceObject(j, object);
+      let conflict = false;
+      const sourceEvidence: string[] = [];
+      for (const object of objects) {
+        const result = await commitSourceObject(j, object);
+        conflict ||= result.conflicts > 0;
+        sourceEvidence.push(result.evidence_id);
+      }
       const source = z
         .object({ createdAt: z.iso.datetime({ offset: true }) })
         .safeParse(raw);
@@ -427,6 +459,7 @@ export async function processSourceJob(j: Job) {
           j.connection_id,
           j.capability,
           j.checkpoint.through!,
+          conflict,
         );
         const result = await ingest(
           j.tenant_id,
@@ -436,6 +469,7 @@ export async function processSourceJob(j: Job) {
             snapshot_scope: true,
             capability: j.capability,
             checked_through: j.checkpoint.through,
+            source_evidence_ids: sourceEvidence,
           },
           {
             before: (c) => assertLease(c, j),

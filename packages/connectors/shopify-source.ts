@@ -103,10 +103,16 @@ async function record(
       ? entity
       : await opaqueIdentity(connection, `${value.dataset}:${sourceId}`);
   const kind = recordKind(value);
+  const version =
+    value.dataset === "coverage"
+      ? canonical(value)
+      : value.dataset === "payments" || value.dataset === "refunds"
+        ? kind
+        : "snapshot";
   return recordObservation.parse({
     id: await opaqueIdentity(
       connection,
-      `${economic}:${occurredAt}:${canonical(value)}`,
+      `${economic}:${occurredAt}:${version}`,
     ),
     economic_id: economic,
     entity_id: entity,
@@ -358,6 +364,7 @@ export async function scopedSnapshotCoverage(
   connection: string,
   capability: string,
   through: string,
+  conflict = false,
 ) {
   const base = z.object({ id: z.string(), test: z.boolean() }).parse(raw),
     entity = await opaqueIdentity(connection, base.id);
@@ -370,9 +377,9 @@ export async function scopedSnapshotCoverage(
         entity_scope: entity,
         history_start: through,
         complete_through: through,
-        backfill_complete: true,
-        missing_fields: [],
-        failure_state: "none",
+        backfill_complete: !conflict,
+        missing_fields: conflict ? ["source_conflict"] : [],
+        failure_state: conflict ? "error" : "none",
         basis: "declared",
         history_kind: "snapshot_only",
       }),

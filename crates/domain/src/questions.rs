@@ -274,6 +274,9 @@ impl<'a> Context<'a> {
             for field in array(&r.data, "missing_fields") {
                 if let Some(v) = field.as_str() {
                     self.gap(v);
+                    if v == "source_conflict" {
+                        self.conflicts.insert("provider_content_conflict".into());
+                    }
                 }
             }
         }
@@ -393,6 +396,6 @@ pub fn execute(records: &[Record], request: &Question) -> Result<Value, String> 
         .take(request.limit)
         .collect();
     Ok(
-        json!({"status":status,"intent":request.intent,"result":if status=="insufficient_data"{Value::Null}else{json!({"rows":page,"count_in_scope":total})},"missing_inputs":ctx.missing,"conflicts":ctx.conflicts,"evidence":ctx.evidence,"input_entries":ctx.inputs,"coverage":{"basis":"declared_source_intervals","independently_verified":false},"rule_version":"questions-v3","as_of":request.as_of,"next_offset":if request.offset+request.limit<total{Some(request.offset+request.limit)}else{None},"truncated":false}),
+        json!({"status":status,"intent":request.intent,"result":if status=="insufficient_data"{Value::Null}else{json!({"rows":page,"count_in_scope":total})},"missing_inputs":ctx.missing,"conflicts":ctx.conflicts,"evidence":ctx.evidence,"input_entries":ctx.inputs,"coverage":{"basis":"declared_source_intervals","independently_verified":false},"rule_version":"questions-v4","as_of":request.as_of,"next_offset":if request.offset+request.limit<total{Some(request.offset+request.limit)}else{None},"truncated":false}),
     )
 }
