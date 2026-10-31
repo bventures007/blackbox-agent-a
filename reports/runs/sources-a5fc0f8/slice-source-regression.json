@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "kind": "synthetic_first_persisted_slice",
+  "status": "failed",
+  "tested_commit": "a5fc0f82c15729ff3a30ca7317a72c494790412d",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T14:16:27.733821+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Docker Compose pinned PostgreSQL 17, Node 24, Rust 1.90.0"
+  },
+  "limitations": [
+    "Synthetic HTTP source; no authorized Shopify store",
+    "P1 payment subset; not full Golden/24-question coverage",
+    "No independent review or release claim"
+  ],
+  "commands": [
+    {
+      "command": "node --import tsx --test tests/contracts.test.ts",
+      "exit_code": 0,
+      "observed": "\u2714 money syntax preserves exact units, does not round or mix unknown currencies (1.045958ms)\n\u2714 canonical observations reject caller tenant and personal-content fields (2.713583ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 587.983209\n"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "tested_commit": "a5fc0f82c15729ff3a30ca7317a72c494790412d",
+  "status": "passed_for_named_synthetic_suites",
+  "executed_at": "2026-10-31T14:17:18.699466+00:00",
+  "checks": {
+    "pnpm typecheck": "passed",
+    "pnpm test": "9 passed",
+    "CARGO_HOME=$PWD/.runtime/cargo cargo test --locked --offline": "5 passed",
+    "python3 -m unittest discover -s scripts/tests -p test_*.py": "45 passed",
+    "python3 scripts/validate-delivery-profile.py": "passed; preparation only",
+    "python3 scripts/validate-question-catalogue.py": "passed; catalogue only"
+  },
+  "visual_inspection": [
+    "English desktop source page",
+    "German mobile strict-from-now dialog preserves chosen preset"
+  ],
+  "limitations": [
+    "Same-revision changed provider content needs a further identity/quarantine correction; not covered by source-v1 tests",
+    "Other selected provider adapters and shared per-answer health remain implementation work",
+    "No live account or independent capability approval",
+    "Default Compose slice invocation remained blocked and was canceled; explicit --native rerun passed",
+    "Docker 27.3.1 reports 8 CPU and 8218251264 bytes; own containers remain Created; no release-install/resource-budget claim"
+  ]
+}
