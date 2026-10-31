@@ -28,12 +28,12 @@
       }
     ],
     "evidence_entry_ids": [
-      "4c9f6e29-0997-4510-b351-dfdf26080a22",
-      "056c100a-1afc-44ed-8882-773d29f7e548",
-      "bd3ca1ee-71df-4baf-9696-a01e23931251",
-      "20f66572-7b48-422e-9b9c-d1afbb6bf135",
-      "4ed535d8-b56a-4fd1-8295-31d335535abe",
-      "c4118a2d-9b86-4ec1-8611-273cc9040ce4"
+      "3c987b16-888a-464c-a578-2663c4a847ac",
+      "7ab99fae-6d7e-4c12-8294-b864e1617fad",
+      "04ab1a1a-ebc5-4fa0-aadc-35d2c2212527",
+      "6546d324-7ac1-49a4-bf8b-7af058230d01",
+      "cc3b6091-7bc0-4c10-8fb1-4315832d4d28",
+      "f2d467b7-e0df-4955-9269-fece323836e5"
     ],
     "hydration_rounds": 0,
     "intent": "inventory.available_to_sell",
@@ -76,7 +76,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 13,
+    "timing_ms": 10,
     "effective_at": null,
     "recorded_cutoff": 768,
     "readiness": [
@@ -86,30 +86,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.284Z",
-            "last_new_record_at": "2026-10-31T17:40:14.450Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.748Z",
+            "last_new_record_at": "2026-10-31T17:48:16.939Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -128,7 +128,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -137,7 +137,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -196,60 +196,60 @@
       }
     ],
     "evidence_entry_ids": [
-      "122604a0-7c4e-4518-9b96-4a6834d02cfb",
-      "4c9f6e29-0997-4510-b351-dfdf26080a22",
-      "056c100a-1afc-44ed-8882-773d29f7e548",
-      "bd3ca1ee-71df-4baf-9696-a01e23931251",
-      "20f66572-7b48-422e-9b9c-d1afbb6bf135",
-      "4ed535d8-b56a-4fd1-8295-31d335535abe",
-      "c4118a2d-9b86-4ec1-8611-273cc9040ce4",
-      "c577d8d6-ae3c-4bc3-a1d9-5d80338d3679",
-      "e9f93289-7403-40ca-a8c9-12675262772d",
-      "aec063c1-8a56-41a5-b730-7ee0d71fb90a",
-      "84cc9a53-3c2d-4652-8a44-8d5a0697122c",
-      "d9b8192f-e589-418f-9ddb-6124c9fc48d0",
-      "c8fce98c-b9ad-4d33-90da-485a7a4213f2",
-      "bfa3eaac-7eaa-406f-b208-1dcdb7f77bfe",
-      "ea0c0740-20e1-4551-8761-e3ff8b228942",
-      "318e1ba1-a65a-4ccb-8bdf-a1822ea11610",
-      "28a646ec-7b7e-4323-9e7d-aa12606c80bb",
-      "ad47552a-49de-46a6-a842-b1f02b049be9",
-      "22a8ecc0-6c43-4fdc-8ac1-8a4bef7b322a",
-      "edf4b075-61b3-4f1a-94e8-56207b1eefce",
-      "85b870da-b78a-4f98-8591-14848c724db5",
-      "ef3d5f08-dccd-450e-9fb2-a283795fb942",
-      "e8632bfe-3ef7-47bc-b92d-21065c28747e",
-      "bb2eb61e-10b9-4d2c-8643-4a6d44cbd080",
-      "ec66f7c7-1e36-4355-b8b5-6743c1a001f2",
-      "1f43b49b-6d07-45e4-a6ec-be7fd8b9f04b",
-      "d812fca7-8180-4c96-b6c9-28f0d6af078d",
-      "c00c8f49-cee6-4546-8985-5b47faafc22f",
-      "d3374617-77db-4eb5-a941-474e9fbdcfdb",
-      "c7fb7d16-35dc-46cf-974b-f4191fe260ff",
-      "2c079675-9a38-4814-8848-71f3bddb0f29",
-      "33c5871d-0402-44c0-99d4-30d722d91eca",
-      "f1917911-bd87-41a8-b622-b40db88ed0e4",
-      "44729e73-bc2a-4393-b5b9-e0f440b213b8",
-      "d6b5312c-5f2e-4c1d-96cb-01f777533e2c",
-      "3ffc4b05-0108-4b2b-aa08-6ab670872bba",
-      "3b79dd02-7283-46c9-9164-4ab6c1cdb5ca",
-      "9f90783f-ae9b-472e-8722-d4c7a2db199a",
-      "c81c23b9-986b-4a34-85a7-6cb1d023015e",
-      "f587f118-a0dd-43bb-bfe1-bb65d3002c00",
-      "b570ba10-a206-4cb4-b065-b0bc682bc0b1",
-      "bfd10a19-6f3b-44fc-b3c8-e6cfb23795e9",
-      "fdf0ebcf-6dd3-4adc-900f-d86c022c2b0e",
-      "95f73aa5-d37a-4d7f-995b-edc0fe7032fc",
-      "f7acf26f-64b3-4776-b2ba-e5459fdd3c03",
-      "efbdc2a1-93df-4aff-85ce-d8d04319a4f7",
-      "12d2800e-e8af-40c1-a4f7-436aea74d144",
-      "ffdab1b0-bbbd-4c74-ab15-6a05b4e50090",
-      "0f131e4c-c743-4974-99f8-1ba7bd51454c",
-      "1477b419-662f-44f2-b313-3eb5657c4146",
-      "e1e20045-865e-4720-90fb-4496d59fb816",
-      "a45aa4d3-6569-44be-aa67-cce8f76adc5f",
-      "b51df1f6-29dd-4109-a7d8-e8c02530d520",
-      "39972f96-b0f9-4cd3-a7f7-58665613d5b9"
+      "16a77bfc-6874-43df-ba2c-572f81ffa394",
+      "3c987b16-888a-464c-a578-2663c4a847ac",
+      "7ab99fae-6d7e-4c12-8294-b864e1617fad",
+      "04ab1a1a-ebc5-4fa0-aadc-35d2c2212527",
+      "6546d324-7ac1-49a4-bf8b-7af058230d01",
+      "cc3b6091-7bc0-4c10-8fb1-4315832d4d28",
+      "f2d467b7-e0df-4955-9269-fece323836e5",
+      "5a1fb0c2-1a92-46f4-a394-3c2a06390e1f",
+      "2628c5aa-0d5b-4f90-ae67-67f4cabfca55",
+      "7b170697-b35e-4c88-8f7d-dab03874c915",
+      "9ded5d13-efa0-4554-9e93-38b2dc7128a8",
+      "dbb923ef-6fe0-41c6-b344-bdb9dc780d0f",
+      "36948e47-d0f4-41da-bf8e-2227020c4631",
+      "84430987-d4c7-406b-afbe-05570e7e53d6",
+      "f8e166fd-edf2-4cbe-9233-3aa57eb2bbdd",
+      "4ceeb722-c27a-4de6-a2b6-5eccbd172d05",
+      "5aa1e7c9-2d52-4a8e-9835-c05c1bdc67e6",
+      "c1777e02-7d99-4650-b89c-f58fa401f07e",
+      "ee34ee08-dd06-4acf-91c9-845c91bba32d",
+      "f2e4d377-4af9-4604-acf7-0719e456592f",
+      "8159fe58-ad9e-4c1a-91b6-1c8d5a07ef2e",
+      "d48bb990-ec36-45d2-8307-96eb8aeaa30a",
+      "721bdaf6-d26c-4bdd-9bbf-7713752bff05",
+      "8bdd9273-bf7e-4d06-a975-9803ed5424c8",
+      "f2e42db5-3e68-4a1e-9a9f-dec2508c7d94",
+      "2f0aaa2f-0a70-42c2-af47-a6e49997b76a",
+      "fda7fbeb-1e9b-497b-9a96-cd3ef24570cc",
+      "c1000f19-9e2b-4592-bb31-5698e595d62d",
+      "bf167a8d-d52f-4439-84e1-5fcf0735eb85",
+      "0a3dc586-0f2e-46f9-ade6-2672d6bf1f08",
+      "2666324b-274f-49b9-9196-6779fb6fb411",
+      "579ea94c-fa9c-4a15-a391-624143a01959",
+      "3bad5941-8619-4ff4-b6d7-814eec511ffe",
+      "5d69007e-438c-4f09-8708-24116f46a1b4",
+      "7e92d011-78ec-49f6-b050-9942af74d7a5",
+      "c9b4ae6a-ee01-4576-a5e2-279a0e05f4c7",
+      "a0d79b37-0de1-46ec-95d1-5c2bc7aa3c80",
+      "ffed76fb-564e-4f11-9bbc-634ded5c5372",
+      "8fb8fc66-9e76-4c47-b219-87987c422a10",
+      "491da8d2-f9ee-4ec4-b3c7-0801867a8d9f",
+      "7dfebdfd-9e89-491d-9b4e-57613388762b",
+      "29df2edc-0697-4f8d-8675-c3546cdd0c5c",
+      "89dab1f6-e159-4f07-b300-2333f1e06d26",
+      "ef94f54c-5167-4e86-9f99-d9dde71926d9",
+      "74a53aba-14db-484e-98e1-711dce260990",
+      "b8104309-0dcc-4d54-9230-0d1763db3be6",
+      "622722a6-9119-4a5f-9cc5-8273f36d82bd",
+      "645255f8-b9ef-47b9-8479-f138835f8378",
+      "8e3fc6d2-3954-42ee-998c-8569175c3700",
+      "0cf97a0c-5c1b-459f-844f-88dbfc4555ce",
+      "0175a9ce-979b-40b7-b7f9-6616b958bda4",
+      "e03029c5-65a9-4da1-8b22-32ce8e7daa00",
+      "8023bc58-8d82-4400-942e-b2edd5fde41a",
+      "241e03af-a3d9-4237-8c9c-f009d90f1e56"
     ],
     "hydration_rounds": 0,
     "intent": "orders.fulfillable",
@@ -398,7 +398,7 @@
     },
     "rule_version": "r1",
     "status": "partial",
-    "timing_ms": 13,
+    "timing_ms": 11,
     "effective_at": null,
     "recorded_cutoff": 768,
     "readiness": [
@@ -408,30 +408,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -443,30 +443,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.284Z",
-            "last_new_record_at": "2026-10-31T17:40:14.450Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.748Z",
+            "last_new_record_at": "2026-10-31T17:48:16.939Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -478,30 +478,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -513,7 +513,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -522,7 +522,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -531,12 +531,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bdb8e6eb-2b4c-4506-8b5d-b32881a257a3",
+            "connection_id": "2253a573-a777-438d-8080-e83b47f5f297",
             "provider": "policy",
             "display_name": "policy qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.601Z",
-            "last_new_record_at": "2026-10-31T17:40:38.601Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.646Z",
+            "last_new_record_at": "2026-10-31T17:48:35.646Z",
             "collection_state": "ready"
           }
         ],
@@ -555,7 +555,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -564,7 +564,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -616,41 +616,41 @@
       }
     ],
     "evidence_entry_ids": [
-      "ef3d5f08-dccd-450e-9fb2-a283795fb942",
-      "e8632bfe-3ef7-47bc-b92d-21065c28747e",
-      "44729e73-bc2a-4393-b5b9-e0f440b213b8",
-      "d6b5312c-5f2e-4c1d-96cb-01f777533e2c",
-      "3ffc4b05-0108-4b2b-aa08-6ab670872bba",
-      "3b79dd02-7283-46c9-9164-4ab6c1cdb5ca",
-      "318e1ba1-a65a-4ccb-8bdf-a1822ea11610",
-      "28a646ec-7b7e-4323-9e7d-aa12606c80bb",
-      "9f90783f-ae9b-472e-8722-d4c7a2db199a",
-      "c81c23b9-986b-4a34-85a7-6cb1d023015e",
-      "f587f118-a0dd-43bb-bfe1-bb65d3002c00",
-      "b570ba10-a206-4cb4-b065-b0bc682bc0b1",
-      "bfd10a19-6f3b-44fc-b3c8-e6cfb23795e9",
-      "fdf0ebcf-6dd3-4adc-900f-d86c022c2b0e",
-      "2c079675-9a38-4814-8848-71f3bddb0f29",
-      "33c5871d-0402-44c0-99d4-30d722d91eca",
-      "95f73aa5-d37a-4d7f-995b-edc0fe7032fc",
-      "f7acf26f-64b3-4776-b2ba-e5459fdd3c03",
-      "efbdc2a1-93df-4aff-85ce-d8d04319a4f7",
-      "12d2800e-e8af-40c1-a4f7-436aea74d144",
-      "e9f93289-7403-40ca-a8c9-12675262772d",
-      "aec063c1-8a56-41a5-b730-7ee0d71fb90a",
-      "84cc9a53-3c2d-4652-8a44-8d5a0697122c",
-      "d9b8192f-e589-418f-9ddb-6124c9fc48d0",
-      "056c100a-1afc-44ed-8882-773d29f7e548",
-      "bd3ca1ee-71df-4baf-9696-a01e23931251",
-      "ffdab1b0-bbbd-4c74-ab15-6a05b4e50090",
-      "0f131e4c-c743-4974-99f8-1ba7bd51454c",
-      "20f66572-7b48-422e-9b9c-d1afbb6bf135",
-      "4ed535d8-b56a-4fd1-8295-31d335535abe",
-      "1477b419-662f-44f2-b313-3eb5657c4146",
-      "e1e20045-865e-4720-90fb-4496d59fb816",
-      "a45aa4d3-6569-44be-aa67-cce8f76adc5f",
-      "b51df1f6-29dd-4109-a7d8-e8c02530d520",
-      "39972f96-b0f9-4cd3-a7f7-58665613d5b9"
+      "d48bb990-ec36-45d2-8307-96eb8aeaa30a",
+      "721bdaf6-d26c-4bdd-9bbf-7713752bff05",
+      "5d69007e-438c-4f09-8708-24116f46a1b4",
+      "7e92d011-78ec-49f6-b050-9942af74d7a5",
+      "c9b4ae6a-ee01-4576-a5e2-279a0e05f4c7",
+      "a0d79b37-0de1-46ec-95d1-5c2bc7aa3c80",
+      "4ceeb722-c27a-4de6-a2b6-5eccbd172d05",
+      "5aa1e7c9-2d52-4a8e-9835-c05c1bdc67e6",
+      "ffed76fb-564e-4f11-9bbc-634ded5c5372",
+      "8fb8fc66-9e76-4c47-b219-87987c422a10",
+      "491da8d2-f9ee-4ec4-b3c7-0801867a8d9f",
+      "7dfebdfd-9e89-491d-9b4e-57613388762b",
+      "29df2edc-0697-4f8d-8675-c3546cdd0c5c",
+      "89dab1f6-e159-4f07-b300-2333f1e06d26",
+      "2666324b-274f-49b9-9196-6779fb6fb411",
+      "579ea94c-fa9c-4a15-a391-624143a01959",
+      "ef94f54c-5167-4e86-9f99-d9dde71926d9",
+      "74a53aba-14db-484e-98e1-711dce260990",
+      "b8104309-0dcc-4d54-9230-0d1763db3be6",
+      "622722a6-9119-4a5f-9cc5-8273f36d82bd",
+      "2628c5aa-0d5b-4f90-ae67-67f4cabfca55",
+      "7b170697-b35e-4c88-8f7d-dab03874c915",
+      "9ded5d13-efa0-4554-9e93-38b2dc7128a8",
+      "dbb923ef-6fe0-41c6-b344-bdb9dc780d0f",
+      "7ab99fae-6d7e-4c12-8294-b864e1617fad",
+      "04ab1a1a-ebc5-4fa0-aadc-35d2c2212527",
+      "645255f8-b9ef-47b9-8479-f138835f8378",
+      "8e3fc6d2-3954-42ee-998c-8569175c3700",
+      "6546d324-7ac1-49a4-bf8b-7af058230d01",
+      "cc3b6091-7bc0-4c10-8fb1-4315832d4d28",
+      "0cf97a0c-5c1b-459f-844f-88dbfc4555ce",
+      "0175a9ce-979b-40b7-b7f9-6616b958bda4",
+      "e03029c5-65a9-4da1-8b22-32ce8e7daa00",
+      "8023bc58-8d82-4400-942e-b2edd5fde41a",
+      "241e03af-a3d9-4237-8c9c-f009d90f1e56"
     ],
     "hydration_rounds": 0,
     "intent": "orders.reservation_variance",
@@ -751,7 +751,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 99,
+    "timing_ms": 9,
     "effective_at": null,
     "recorded_cutoff": 768,
     "readiness": [
@@ -761,30 +761,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -796,30 +796,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -831,30 +831,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -873,7 +873,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -882,7 +882,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -940,8 +940,8 @@
       }
     ],
     "evidence_entry_ids": [
-      "c4118a2d-9b86-4ec1-8611-273cc9040ce4",
-      "97d8821e-18b5-45c4-b8ed-0bc946bd6103"
+      "f2d467b7-e0df-4955-9269-fece323836e5",
+      "a75a9b70-9ac1-4cc5-88fe-176f7a395587"
     ],
     "hydration_rounds": 0,
     "intent": "orders.inbound_delay_impact",
@@ -968,7 +968,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 47,
+    "timing_ms": 9,
     "effective_at": null,
     "recorded_cutoff": 768,
     "readiness": [
@@ -978,30 +978,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -1013,7 +1013,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1022,12 +1022,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -1039,30 +1039,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -1074,7 +1074,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1083,12 +1083,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -1107,7 +1107,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1116,7 +1116,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -1168,11 +1168,11 @@
       }
     ],
     "evidence_entry_ids": [
-      "8a4bf10f-1525-4123-8877-9fbf9f22869b",
-      "7db10b81-2b87-4a1c-8ffa-ee56d664ab8b",
-      "1477b419-662f-44f2-b313-3eb5657c4146",
-      "d13fd5c7-2475-49b8-80df-0e215a148988",
-      "7e120f03-69a7-422b-8600-49d892a8f330"
+      "ef71c267-08cf-4bb8-82de-735592630217",
+      "d0165ab8-8da2-496c-9922-95712315dfef",
+      "0cf97a0c-5c1b-459f-844f-88dbfc4555ce",
+      "0d9dab91-eb06-49c9-b951-c19f57777e3a",
+      "98801a2e-ecbf-40fe-b16e-a18a4b63030d"
     ],
     "hydration_rounds": 0,
     "intent": "shipments.attention",
@@ -1224,7 +1224,7 @@
           "forecast": null,
           "forecast_is_estimate": true,
           "latest_scan": "exception",
-          "latest_scan_age_seconds": 31239,
+          "latest_scan_age_seconds": 31715,
           "latest_scan_time": "2026-10-31T09:00:00Z",
           "needs_attention": true,
           "order_id": "#QC",
@@ -1238,7 +1238,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 10,
+    "timing_ms": 6,
     "effective_at": null,
     "recorded_cutoff": 778,
     "readiness": [
@@ -1248,30 +1248,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -1283,7 +1283,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1292,12 +1292,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.601Z",
-            "last_new_record_at": "2026-10-31T17:40:39.601Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.890Z",
+            "last_new_record_at": "2026-10-31T17:48:35.890Z",
             "collection_state": "ready"
           }
         ],
@@ -1309,7 +1309,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1318,7 +1318,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -1327,12 +1327,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bdb8e6eb-2b4c-4506-8b5d-b32881a257a3",
+            "connection_id": "2253a573-a777-438d-8080-e83b47f5f297",
             "provider": "policy",
             "display_name": "policy qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.601Z",
-            "last_new_record_at": "2026-10-31T17:40:38.601Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.646Z",
+            "last_new_record_at": "2026-10-31T17:48:35.646Z",
             "collection_state": "ready"
           }
         ],
@@ -1351,7 +1351,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1360,7 +1360,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -1424,9 +1424,9 @@
       }
     ],
     "evidence_entry_ids": [
-      "a45aa4d3-6569-44be-aa67-cce8f76adc5f",
-      "1477b419-662f-44f2-b313-3eb5657c4146",
-      "d13fd5c7-2475-49b8-80df-0e215a148988"
+      "e03029c5-65a9-4da1-8b22-32ce8e7daa00",
+      "0cf97a0c-5c1b-459f-844f-88dbfc4555ce",
+      "0d9dab91-eb06-49c9-b951-c19f57777e3a"
     ],
     "hydration_rounds": 0,
     "intent": "shipments.promise_risk",
@@ -1454,11 +1454,11 @@
           "timezone": "Europe/Berlin"
         }
       ],
-      "now": "2026-10-31T17:40:39.770+00:00"
+      "now": "2026-10-31T17:48:35.952+00:00"
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 80,
+    "timing_ms": 5,
     "effective_at": null,
     "recorded_cutoff": 778,
     "readiness": [
@@ -1468,30 +1468,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -1503,7 +1503,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1512,12 +1512,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -1529,30 +1529,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -1564,7 +1564,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1573,12 +1573,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.601Z",
-            "last_new_record_at": "2026-10-31T17:40:39.601Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.890Z",
+            "last_new_record_at": "2026-10-31T17:48:35.890Z",
             "collection_state": "ready"
           }
         ],
@@ -1590,7 +1590,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1599,7 +1599,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -1608,12 +1608,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bdb8e6eb-2b4c-4506-8b5d-b32881a257a3",
+            "connection_id": "2253a573-a777-438d-8080-e83b47f5f297",
             "provider": "policy",
             "display_name": "policy qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.601Z",
-            "last_new_record_at": "2026-10-31T17:40:38.601Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.646Z",
+            "last_new_record_at": "2026-10-31T17:48:35.646Z",
             "collection_state": "ready"
           }
         ],
@@ -1632,7 +1632,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1641,7 +1641,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -1693,16 +1693,16 @@
       }
     ],
     "evidence_entry_ids": [
-      "056c100a-1afc-44ed-8882-773d29f7e548",
-      "bd3ca1ee-71df-4baf-9696-a01e23931251",
-      "ffdab1b0-bbbd-4c74-ab15-6a05b4e50090",
-      "0f131e4c-c743-4974-99f8-1ba7bd51454c",
-      "20f66572-7b48-422e-9b9c-d1afbb6bf135",
-      "4ed535d8-b56a-4fd1-8295-31d335535abe",
-      "1477b419-662f-44f2-b313-3eb5657c4146",
-      "e1e20045-865e-4720-90fb-4496d59fb816",
-      "a45aa4d3-6569-44be-aa67-cce8f76adc5f",
-      "eb7e2a38-6234-4fef-bf37-0965741e8b0c"
+      "7ab99fae-6d7e-4c12-8294-b864e1617fad",
+      "04ab1a1a-ebc5-4fa0-aadc-35d2c2212527",
+      "645255f8-b9ef-47b9-8479-f138835f8378",
+      "8e3fc6d2-3954-42ee-998c-8569175c3700",
+      "6546d324-7ac1-49a4-bf8b-7af058230d01",
+      "cc3b6091-7bc0-4c10-8fb1-4315832d4d28",
+      "0cf97a0c-5c1b-459f-844f-88dbfc4555ce",
+      "0175a9ce-979b-40b7-b7f9-6616b958bda4",
+      "e03029c5-65a9-4da1-8b22-32ce8e7daa00",
+      "a42e2497-9cef-4280-84bb-dbcd32405fcd"
     ],
     "hydration_rounds": 0,
     "intent": "orders.partial_delivery_gaps",
@@ -1737,7 +1737,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 29,
+    "timing_ms": 5,
     "effective_at": null,
     "recorded_cutoff": 778,
     "readiness": [
@@ -1747,30 +1747,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -1782,30 +1782,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -1817,7 +1817,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1826,12 +1826,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.601Z",
-            "last_new_record_at": "2026-10-31T17:40:39.601Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.890Z",
+            "last_new_record_at": "2026-10-31T17:48:35.890Z",
             "collection_state": "ready"
           }
         ],
@@ -1850,7 +1850,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -1859,7 +1859,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -1917,17 +1917,17 @@
       }
     ],
     "evidence_entry_ids": [
-      "1477b419-662f-44f2-b313-3eb5657c4146",
-      "d13fd5c7-2475-49b8-80df-0e215a148988",
-      "056c100a-1afc-44ed-8882-773d29f7e548",
-      "bd3ca1ee-71df-4baf-9696-a01e23931251",
-      "ffdab1b0-bbbd-4c74-ab15-6a05b4e50090",
-      "0f131e4c-c743-4974-99f8-1ba7bd51454c",
-      "20f66572-7b48-422e-9b9c-d1afbb6bf135",
-      "4ed535d8-b56a-4fd1-8295-31d335535abe",
-      "e1e20045-865e-4720-90fb-4496d59fb816",
-      "a45aa4d3-6569-44be-aa67-cce8f76adc5f",
-      "eb7e2a38-6234-4fef-bf37-0965741e8b0c"
+      "0cf97a0c-5c1b-459f-844f-88dbfc4555ce",
+      "0d9dab91-eb06-49c9-b951-c19f57777e3a",
+      "7ab99fae-6d7e-4c12-8294-b864e1617fad",
+      "04ab1a1a-ebc5-4fa0-aadc-35d2c2212527",
+      "645255f8-b9ef-47b9-8479-f138835f8378",
+      "8e3fc6d2-3954-42ee-998c-8569175c3700",
+      "6546d324-7ac1-49a4-bf8b-7af058230d01",
+      "cc3b6091-7bc0-4c10-8fb1-4315832d4d28",
+      "0175a9ce-979b-40b7-b7f9-6616b958bda4",
+      "e03029c5-65a9-4da1-8b22-32ce8e7daa00",
+      "a42e2497-9cef-4280-84bb-dbcd32405fcd"
     ],
     "hydration_rounds": 0,
     "intent": "customer.delivery_reply",
@@ -1980,7 +1980,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 14,
+    "timing_ms": 5,
     "effective_at": null,
     "recorded_cutoff": 778,
     "readiness": [
@@ -1990,30 +1990,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -2025,30 +2025,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -2060,7 +2060,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -2069,12 +2069,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.601Z",
-            "last_new_record_at": "2026-10-31T17:40:39.601Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.890Z",
+            "last_new_record_at": "2026-10-31T17:48:35.890Z",
             "collection_state": "ready"
           }
         ],
@@ -2086,7 +2086,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -2095,12 +2095,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.601Z",
-            "last_new_record_at": "2026-10-31T17:40:39.601Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.890Z",
+            "last_new_record_at": "2026-10-31T17:48:35.890Z",
             "collection_state": "ready"
           }
         ],
@@ -2119,7 +2119,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -2128,7 +2128,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -2168,16 +2168,16 @@
       }
     ],
     "evidence_entry_ids": [
-      "5496daa1-0bf9-406e-a0d2-68015e081eca",
-      "d2b59b2f-d22e-4d52-8090-cbbb00f45125",
-      "3cf71dfc-d982-4e20-bd89-04b835385229",
-      "b6ef817f-8cae-443b-8608-9cde6541c7fe",
-      "2c293c38-e85b-4650-b6a5-73fe2e739caa",
-      "d6aeb173-88fb-46e1-a12b-885756b2ebf1",
-      "0bbd418c-b533-4307-8cd1-cc39643e5b66",
-      "9da81cfb-5df4-40aa-9345-b5346edb4a99",
-      "fe1ab805-d13c-4acb-b43b-a82820085a79",
-      "5cec528c-4068-43ae-b4c4-edc88498fb57"
+      "67021cc3-0b0a-47a1-a17a-cabcf4c487ab",
+      "7b5e3414-f4f8-4407-933f-91bf5e4792af",
+      "f39b45b4-180a-4b2d-99ce-875ecfab576d",
+      "9739a64c-9553-4cba-ad80-c707087fac01",
+      "7aa20a01-7639-48f8-b109-0200c6d5d50d",
+      "f85fd94a-aeab-48e4-9a9b-4408441d3e64",
+      "7b7d8dac-352a-4165-8619-80f0228ae4ff",
+      "637bc8d6-5b7b-45f0-8e18-26d469a90b18",
+      "b7232389-e783-4e65-9665-cff306649a31",
+      "046d1082-3fe7-4316-962b-d9a50003d674"
     ],
     "hydration_rounds": 0,
     "intent": "invoices.outstanding",
@@ -2227,7 +2227,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 8,
+    "timing_ms": 6,
     "effective_at": null,
     "recorded_cutoff": 815,
     "readiness": [
@@ -2237,21 +2237,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -2270,7 +2270,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -2279,7 +2279,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -2337,148 +2337,148 @@
       }
     ],
     "evidence_entry_ids": [
-      "d7e9b616-4590-45d2-89fa-a6fe26c3fb9e",
-      "c8fce98c-b9ad-4d33-90da-485a7a4213f2",
-      "bfa3eaac-7eaa-406f-b208-1dcdb7f77bfe",
-      "d7913c7b-5d71-4c22-ba50-d606815ddc10",
-      "2c2c3d1c-7bb7-4d39-a127-b6feefc7a4fc",
-      "b8737e4e-58c6-4f1b-94c9-7b3c0d107e02",
-      "10d4faa2-926b-4da2-9386-935f431f4d56",
-      "ea0c0740-20e1-4551-8761-e3ff8b228942",
-      "a6c1b70b-4770-4cff-acdf-08661c660e95",
-      "9dbe073c-b8f7-4a95-b81a-7b92b2df7892",
-      "d72bed0a-eaeb-48e3-8890-f1a6bfef1961",
-      "3d93f25b-e779-4869-8d78-3df3703d5e46",
-      "818a305d-c4c9-41eb-9ed5-9a3810cb2ed0",
-      "0b91055f-6ad2-40ec-b346-e0c1d98d0ac7",
-      "6b605db7-7358-40c6-8b3d-1a2d3dc2aeda",
-      "e550b35d-8693-44ef-a3e8-62b178178af0",
-      "889dcb9d-b612-4d86-8c53-7f8d2710108d",
-      "afcfa80a-11a0-4384-a8e4-42471de0a4a1",
-      "6479a4c9-367b-405d-8ce4-bf3de510eff3",
-      "295fe846-1043-4c22-88bd-65ba41855369",
-      "f83d2c22-8e93-4864-b4a1-b2de53edeba9",
-      "e8dea461-e1cd-4964-bb8d-af12dfa39ad8",
-      "19b9e452-fac3-4521-bbb5-45fc3cf3471a",
-      "87cc58ce-776b-43d9-82fa-5d9b32f5861e",
-      "4241cfb9-2c3e-419f-94f0-c2bbbf0c00d4",
-      "3f49289b-b7dc-4beb-98c0-e75fe7d12a6b",
-      "698cc937-18e8-4edc-a166-42ec7627ff6a",
-      "999342d7-c4b1-4dcc-99c8-4c52ffb5ac18",
-      "70bcfd78-4c2a-42a9-81de-ce257a090827",
-      "5aab9ab0-7480-484b-9d59-33e453e3da1d",
-      "c4a54643-cce1-4c4f-9362-c16b6da35ba1",
-      "59f481ba-11af-47c5-acfe-673dc689610e",
-      "ac4cc203-e1fc-4298-88ab-f2a015fb3726",
-      "d453ab63-def4-4f24-a7d4-a5b2b805dbed",
-      "9ccd3e62-e31f-4ad0-a941-80cd3b380a40",
-      "9d25902d-bcfc-41f5-bf17-1f3f8c2ecad1",
-      "67319992-52da-4263-af1c-e50cb1117a5d",
-      "149b3d0d-948c-4507-b846-6a6e9ca91c7a",
-      "03dd354a-9301-4459-a9a9-03968a2ab5b3",
-      "b0f4f8d3-2701-4ca1-82e0-029b4f3eb189",
-      "935f954d-e422-473c-92ec-ea946b7c4f48",
-      "a680afa5-7c57-41ec-91b5-27a6e622e016",
-      "a5ff2ee4-0cee-4f3c-8987-63c83dc1eb24",
-      "2f752de6-01fc-40a5-bba6-da5514ec617f",
-      "528a2f39-c008-4f4b-b9f6-51bab107f1a3",
-      "b687fa35-6aef-4350-aeed-aca96284cab2",
-      "9748abf3-2e5e-4279-9436-d2aebb2be7bb",
-      "5cfac193-8c91-4e1f-915f-fe168b304917",
-      "0dcc7329-1bc8-4387-ab50-264ac78e15b7",
-      "88e383ec-2ed6-41b6-88a9-e1cf04b5cb32",
-      "0908d2f0-2e29-4baf-b2e2-07fa8bda9fe8",
-      "f9542912-5bea-487a-9f09-523abe592195",
-      "05760829-7a2f-42ca-94c3-f96a4143e2d9",
-      "90015b2c-77a1-4041-836b-fd99ee06ba0b",
-      "aab45353-a3d9-415b-a550-53d086a73dd0",
-      "592d4ae6-33db-4936-ab67-95761623885e",
-      "d5cf2220-5229-4929-81c2-afed2c796be0",
-      "e90a8c97-ec95-4ea2-b7c5-2f9e6de10fec",
-      "db5c23a6-a169-4bb7-a75b-0bede60129d6",
-      "99e870e5-6164-472b-b99e-b17b5f1fcff5",
-      "1ac228ef-c86b-4d80-99d0-5311e7a6a369",
-      "1455e5e7-26c8-4998-9987-7140616d7f28",
-      "9ee436fd-32c7-4075-a13a-c26beb0176c1",
-      "da1400af-6e63-4c33-a40a-4266898a8c15",
-      "8c6bbdc1-ac38-4dfb-8239-48643a5ad5ac",
-      "6374a718-ebaa-46ee-a543-62e7820a5ca3",
-      "d9a452ca-b66d-49da-b4bc-cab5a24f20eb",
-      "ca36117b-5d99-4e76-a269-970c23ff2d9c",
-      "99053a0d-5a32-4ccf-b9c8-464a3e4ef5c0",
-      "da38b264-6acb-4646-a374-384caff4508a",
-      "0c0803c1-76ac-429c-b31e-642a60dd4b67",
-      "6cc5abe0-5009-4306-82c6-633705cf60f9",
-      "df6cc3f7-80a4-475c-ada3-5a4e6e505504",
-      "abfec4a6-d510-4fe6-94a1-595200febc03",
-      "e04c0711-d91c-4a3a-b757-e87e0f051a87",
-      "5414b0df-7778-417b-9763-2bf8b827bfb8",
-      "d26d4b1a-ca33-45a2-be15-1c3739c58c75",
-      "fdafde3a-4446-49e3-a78c-152804a1101a",
-      "ac7cc38f-5c05-48fa-bc7e-04a4400bcd4b",
-      "749d46ba-809a-4126-9a59-90e6079d01ce",
-      "3c078408-6ee4-42ff-9872-dbbec39d258d",
-      "1ee3336f-5415-4495-bb93-0d43dbd8ef6d",
-      "d38b9012-14ba-4435-b87f-62495de5961d",
-      "f3222d10-0a7f-42b4-9d1f-7f33da4d545a",
-      "70fe14a0-e637-4752-b46c-6817a1fc1f32",
-      "efcd1a5f-37c2-45ed-964b-5d6d92ae23a7",
-      "c8f420a4-8a42-4678-84ec-c139195e3acb",
-      "f78b3125-5392-41b4-a4cc-bfe4563e2fb3",
-      "6fb8f19b-dae0-4f72-82cc-ad5c2122e98d",
-      "8be94bf7-d90a-415d-8516-f66c0fcd31c9",
-      "001aca68-ee1f-4144-91d6-12a0d8f41443",
-      "9ae4644f-79bc-4e35-a243-76c56d4c2ed2",
-      "65bb7c32-5535-4046-ae69-7e8a2b77defa",
-      "d8863ea0-03e1-488a-afb6-b0dc82487212",
-      "d3b61049-8fec-4cbc-8634-bb0202d9a056",
-      "d4e6f053-4a8c-4bf3-b75a-fd6ebaf2e94a",
-      "55e2f48c-73eb-438f-a5ce-9e3a4ae838a2",
-      "e6b340ac-3aae-459a-aec3-7ebb5f2099ec",
-      "85ccd5d5-5b29-4fbf-857e-dbca019d9b74",
-      "aa0d85c6-385c-44a4-9df5-96493e57566a",
-      "cf3ccc41-5eda-41d2-bd36-547e45def8af",
-      "988731fa-1503-46ce-bac9-705afa13dfd6",
-      "944f7923-965c-4542-9bdf-2d6ea4ac2494",
-      "a3d49039-85e2-4aed-b711-5c9c5622f40b",
-      "53750993-6718-468e-a5b5-ddface26b2d0",
-      "1876a9d2-0627-47b5-a0ed-5c99fddf15ce",
-      "e0448a2c-385f-4609-ac99-26b49ac8813c",
-      "ce8dd699-6d0e-40c6-a426-bb33b142d8cb",
-      "f04001a8-3a1d-4a9b-9d32-af2b4ed8fe39",
-      "c00c8f49-cee6-4546-8985-5b47faafc22f",
-      "d3374617-77db-4eb5-a941-474e9fbdcfdb",
-      "aa2348a3-5dd8-4984-9fd1-6ea42388892a",
-      "8a4bf10f-1525-4123-8877-9fbf9f22869b",
-      "c7fb7d16-35dc-46cf-974b-f4191fe260ff",
-      "bb2eb61e-10b9-4d2c-8643-4a6d44cbd080",
-      "ec66f7c7-1e36-4355-b8b5-6743c1a001f2",
-      "8ffe0756-6d8b-4d04-bc19-97fc05aa94c8",
-      "aa77c271-d54b-46e5-920c-336813e96e2f",
-      "f6516e64-74cc-41ba-8846-0b5607fcb3fd",
-      "21861b5d-cdce-4256-a60b-40170ceb4a82",
-      "1f43b49b-6d07-45e4-a6ec-be7fd8b9f04b",
-      "514e7a2c-5d14-45c2-bde6-99359d5693c4",
-      "056c100a-1afc-44ed-8882-773d29f7e548",
-      "bd3ca1ee-71df-4baf-9696-a01e23931251",
-      "ffdab1b0-bbbd-4c74-ab15-6a05b4e50090",
-      "0f131e4c-c743-4974-99f8-1ba7bd51454c",
-      "20f66572-7b48-422e-9b9c-d1afbb6bf135",
-      "4ed535d8-b56a-4fd1-8295-31d335535abe",
-      "1477b419-662f-44f2-b313-3eb5657c4146",
-      "e1e20045-865e-4720-90fb-4496d59fb816",
-      "a45aa4d3-6569-44be-aa67-cce8f76adc5f",
-      "eb7e2a38-6234-4fef-bf37-0965741e8b0c",
-      "5496daa1-0bf9-406e-a0d2-68015e081eca",
-      "d2b59b2f-d22e-4d52-8090-cbbb00f45125",
-      "c91a2b49-c326-4a92-8430-906feffc86b6",
-      "4de6e89e-d209-45a1-a242-f7450000bc23",
-      "87899b04-6420-4df8-b340-b48617f3fb54",
-      "3cf71dfc-d982-4e20-bd89-04b835385229",
-      "b6ef817f-8cae-443b-8608-9cde6541c7fe",
-      "2c293c38-e85b-4650-b6a5-73fe2e739caa",
-      "d6aeb173-88fb-46e1-a12b-885756b2ebf1",
-      "0bbd418c-b533-4307-8cd1-cc39643e5b66"
+      "135f6954-4cc2-4c38-b44c-ec79a9b25d6c",
+      "36948e47-d0f4-41da-bf8e-2227020c4631",
+      "84430987-d4c7-406b-afbe-05570e7e53d6",
+      "86e7b9a7-a403-42ae-a92d-c39596f92c19",
+      "327159f0-0956-432c-9856-9e6b32e6dada",
+      "432923ec-054d-4328-a2b9-57a51f2b1cab",
+      "99d6da8d-ce26-46bf-9624-7c62d25ba16e",
+      "f8e166fd-edf2-4cbe-9233-3aa57eb2bbdd",
+      "91d03993-30b8-48d8-b8fc-562929826a88",
+      "d371498a-40de-4b3c-ba51-95b697e9d253",
+      "6f442b3b-7195-41df-815c-1348e59e6516",
+      "3626f7fd-2095-479d-8170-f5d1065ff000",
+      "4344a19a-496c-46bd-9958-dcede0537a69",
+      "35b29cb4-28da-4b64-9775-2fed937a4607",
+      "571d4c0a-ed73-42e8-8973-098a936be3f4",
+      "f73c8cb0-4317-4755-bd40-65306bed106f",
+      "17da56d5-9aa4-4f89-99ac-293753ce3482",
+      "c2acb8b7-7e1f-4273-8373-e1d62772460b",
+      "16b2c4d3-1160-474f-8f63-a83b2f6cf646",
+      "59374120-9c02-490d-a9be-a33e7c2a1c88",
+      "0dbae695-563f-48df-a6ce-8118fac09d61",
+      "201ad3a9-8052-48cf-a436-59a68cbd3e04",
+      "75810b35-49f8-4309-88fc-91aed7ffcc3a",
+      "9c108c9c-819e-4240-97d5-8dae264316e7",
+      "560190e8-1f9c-4ae1-b8e2-9b130e56d789",
+      "76fad1f1-5a07-4e36-aaa0-8b23f6da7975",
+      "f3b0e77a-1895-44a2-851d-25fce278166f",
+      "03c7eb42-5521-4827-b740-a68a5b103756",
+      "ab1a9c0b-07ae-471d-a7ba-5252d32017f6",
+      "2bbf8abe-f7e7-4010-871c-4fae3a604d36",
+      "1c845021-75e7-4041-804c-f9edda5e3d9c",
+      "67579cbd-e387-422d-adc8-c162bcfb6c0b",
+      "97fe3b64-6eb3-4e7f-9464-3dee0442634f",
+      "4e9a98a3-ac7b-4ca7-8a92-7c2560d91d1d",
+      "0f115678-d85b-44ec-9ca5-5efcc77627c8",
+      "4fd402ea-4d69-4576-b619-7e4dd80e7f03",
+      "5423d28a-78fa-4308-953e-edea2922225a",
+      "a30b6a88-5d79-4335-83c2-982b45da1955",
+      "2aac66af-efa9-4883-96ad-61e1ee8e059c",
+      "9668b119-a1fa-4b9b-a59a-76c79508f898",
+      "ddafde44-dd8f-4f58-bb2f-b865b3cced52",
+      "cf3f3479-c233-4a83-944c-f3768632617b",
+      "fa88a2b1-1cd9-4452-b8cd-ca517a340d7f",
+      "bb0fbae5-2c53-4f73-99f4-f23c35aa4aec",
+      "26d4eba5-da06-4c9e-aa72-7ba71a9a94ef",
+      "562f7469-4708-4509-b609-33189f25fa7b",
+      "c89d01fe-f08a-46f0-8310-5d6e7b06b74a",
+      "1a8db786-f3a0-4f81-95a2-b0dabac77834",
+      "d1c20fd5-97e2-4a13-9016-c8b7ae15a186",
+      "4e555608-b84c-468c-8764-e4c112e316c5",
+      "17f8735c-6114-4378-91a8-dbb7c9193e35",
+      "0308dbdf-c18f-43c8-80f5-1b2edc7328e3",
+      "422e4695-b987-46e8-bc06-2cd9f7660c5c",
+      "125d54c5-d346-4bc9-a126-57351a7771f0",
+      "bf4b6d7a-333e-4da3-b29f-796c7911aa54",
+      "8cd4401c-9d04-47de-928c-f7db3b4e8ef5",
+      "f196b0be-1b80-4d52-b29a-7abd0fba2bee",
+      "43ca71f3-d754-49d2-8a77-43c6b3996fae",
+      "03ab278e-ac56-4352-99a7-77850a237f62",
+      "69d7b320-c1a8-48e8-9860-30d84aced761",
+      "d8a0d18d-38c8-4642-8cef-47b23464fd60",
+      "3806bc33-2541-483f-b554-80fc517561c6",
+      "a2c39871-007d-445d-9ec0-71265cbabb5c",
+      "c776bea3-d599-43d0-96f1-5115273d61a6",
+      "61119aa3-856f-4000-9b24-1dba8b5d6c23",
+      "3ae10b50-463e-4568-91cd-4c45ab4b11da",
+      "1d5c3ba3-6754-4a41-be92-e53bed72636e",
+      "d44fdf4e-9aee-4f40-ac15-c55ec89b4698",
+      "d9ef773f-37b2-4610-ad1e-b48d89f51afe",
+      "111b05b4-7beb-4a7e-bb67-8bce8f164ab8",
+      "b450864a-f235-4de3-b66e-a8ef48fc026b",
+      "d2a2e60f-6741-4e6f-8717-913aa1978c7c",
+      "cd7075c9-1154-4259-b501-c3311f005155",
+      "fc39c367-063d-4a6e-b295-0cb37ad41b03",
+      "8667c667-75e0-4c1f-91a1-6179e85af926",
+      "a8589746-2b8b-486c-87ce-039f05fd84d9",
+      "40475a6f-4a75-488f-86c2-29787c67c5c0",
+      "79e00e42-3ad6-44ba-a4b1-0f698cbdfad5",
+      "1f951293-9731-48fb-a12b-597444403582",
+      "37b17494-64fe-46f2-99d5-dcfb38eb2d66",
+      "886298b6-a805-4054-be38-aaad79e7f1a1",
+      "41aecc4e-42df-4ad9-93a5-c4f742352b24",
+      "a66eefe3-3489-4a02-99b3-be15cc957c8f",
+      "248bf29c-9bfb-4697-8237-ba4105cb859b",
+      "e7948a5b-03a2-474a-a5ce-9ddd84bfddd1",
+      "7ce32e82-bf19-4216-a083-d955ba10baf5",
+      "759379cc-9755-437b-90e1-9801838a9b66",
+      "50eb9c4c-0fc3-4815-8644-1cc56fa4b500",
+      "bb5b2491-066e-48cf-bc83-ae0b37e9f0d3",
+      "c146d196-c7c8-440a-ad59-3a89abcf2415",
+      "3409920c-4c65-4fa7-8903-cfa87c4f8ab6",
+      "b4983146-e221-4c92-a3d2-68070682be9a",
+      "bda764fc-cbfd-41de-b733-8e5ec323d672",
+      "e359e80a-9361-4f0c-ae5c-9b49c1b4ba8e",
+      "e7981eaa-8ccd-4307-8375-d361210cf84b",
+      "050b9b74-8af5-4753-938f-d768d6718ff6",
+      "f3edba86-ee5e-490f-9fa0-efa3ca42f52c",
+      "de89da7d-a806-469d-897d-0b6e3dd1e7a1",
+      "3c359f47-f473-405c-b159-8ce242df4a2d",
+      "32155d90-8fef-48be-a272-4ebdd7a6b678",
+      "af0ab084-dd27-428f-8359-d214f3af4922",
+      "d9638204-ceca-436c-8f36-0ed569d83bc1",
+      "0c8d6569-8f8f-450f-8e07-26317e560ab4",
+      "cb5c1cc5-9e5b-4a7f-a98f-072302cd250f",
+      "46b0ba03-2a51-4fe9-b050-c4baf70bb5ae",
+      "98968075-5f46-4744-aea9-168112ddb324",
+      "dddf5532-2927-47cb-b214-509d2d93cc45",
+      "23f16c10-ac55-4b0d-a033-19ab60d0bc04",
+      "34ebb685-7889-4447-a00f-3ab375846cb9",
+      "c1000f19-9e2b-4592-bb31-5698e595d62d",
+      "bf167a8d-d52f-4439-84e1-5fcf0735eb85",
+      "bd42e0ac-42be-4186-b170-5eec6028ec31",
+      "ef71c267-08cf-4bb8-82de-735592630217",
+      "0a3dc586-0f2e-46f9-ade6-2672d6bf1f08",
+      "8bdd9273-bf7e-4d06-a975-9803ed5424c8",
+      "f2e42db5-3e68-4a1e-9a9f-dec2508c7d94",
+      "1aca7dfd-36ff-401d-95fe-d8c801cb91d8",
+      "08a11a6e-e12d-4b60-9e15-5868bc50c037",
+      "7bd90da5-688d-4dc0-92ee-2f9f52db4f4e",
+      "2fa6637a-375a-4be5-a50c-d06a0cfe37f0",
+      "2f0aaa2f-0a70-42c2-af47-a6e49997b76a",
+      "80fc3d24-d9b7-40c5-8939-d8da5c643c19",
+      "7ab99fae-6d7e-4c12-8294-b864e1617fad",
+      "04ab1a1a-ebc5-4fa0-aadc-35d2c2212527",
+      "645255f8-b9ef-47b9-8479-f138835f8378",
+      "8e3fc6d2-3954-42ee-998c-8569175c3700",
+      "6546d324-7ac1-49a4-bf8b-7af058230d01",
+      "cc3b6091-7bc0-4c10-8fb1-4315832d4d28",
+      "0cf97a0c-5c1b-459f-844f-88dbfc4555ce",
+      "0175a9ce-979b-40b7-b7f9-6616b958bda4",
+      "e03029c5-65a9-4da1-8b22-32ce8e7daa00",
+      "a42e2497-9cef-4280-84bb-dbcd32405fcd",
+      "67021cc3-0b0a-47a1-a17a-cabcf4c487ab",
+      "7b5e3414-f4f8-4407-933f-91bf5e4792af",
+      "03d42ac3-eecc-44e9-bfb7-a2e65b463c11",
+      "38cd98de-f2e9-4a49-bf5c-d0dce5a064b5",
+      "0317c3f5-96f4-4d40-b0c6-14b22a17169a",
+      "f39b45b4-180a-4b2d-99ce-875ecfab576d",
+      "9739a64c-9553-4cba-ad80-c707087fac01",
+      "7aa20a01-7639-48f8-b109-0200c6d5d50d",
+      "f85fd94a-aeab-48e4-9a9b-4408441d3e64",
+      "7b7d8dac-352a-4165-8619-80f0228ae4ff"
     ],
     "hydration_rounds": 0,
     "intent": "orders.missing_invoice",
@@ -2514,7 +2514,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 12,
+    "timing_ms": 5,
     "effective_at": null,
     "recorded_cutoff": 815,
     "readiness": [
@@ -2524,30 +2524,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -2559,30 +2559,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -2594,21 +2594,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -2620,7 +2620,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -2629,7 +2629,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -2638,12 +2638,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bdb8e6eb-2b4c-4506-8b5d-b32881a257a3",
+            "connection_id": "2253a573-a777-438d-8080-e83b47f5f297",
             "provider": "policy",
             "display_name": "policy qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.601Z",
-            "last_new_record_at": "2026-10-31T17:40:38.601Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.646Z",
+            "last_new_record_at": "2026-10-31T17:48:35.646Z",
             "collection_state": "ready"
           }
         ],
@@ -2662,7 +2662,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -2671,7 +2671,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -2717,11 +2717,11 @@
       }
     ],
     "evidence_entry_ids": [
-      "9da81cfb-5df4-40aa-9345-b5346edb4a99",
-      "fe1ab805-d13c-4acb-b43b-a82820085a79",
-      "5cec528c-4068-43ae-b4c4-edc88498fb57",
-      "e9f93289-7403-40ca-a8c9-12675262772d",
-      "aec063c1-8a56-41a5-b730-7ee0d71fb90a"
+      "637bc8d6-5b7b-45f0-8e18-26d469a90b18",
+      "b7232389-e783-4e65-9665-cff306649a31",
+      "046d1082-3fe7-4316-962b-d9a50003d674",
+      "2628c5aa-0d5b-4f90-ae67-67f4cabfca55",
+      "7b170697-b35e-4c88-8f7d-dab03874c915"
     ],
     "hydration_rounds": 0,
     "intent": "invoices.order_amount_variance",
@@ -2748,7 +2748,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 12,
+    "timing_ms": 4,
     "effective_at": null,
     "recorded_cutoff": 815,
     "readiness": [
@@ -2758,30 +2758,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -2793,21 +2793,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -2826,7 +2826,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -2835,7 +2835,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -2881,41 +2881,41 @@
       }
     ],
     "evidence_entry_ids": [
-      "5496daa1-0bf9-406e-a0d2-68015e081eca",
-      "d2b59b2f-d22e-4d52-8090-cbbb00f45125",
-      "3cf71dfc-d982-4e20-bd89-04b835385229",
-      "b6ef817f-8cae-443b-8608-9cde6541c7fe",
-      "2c293c38-e85b-4650-b6a5-73fe2e739caa",
-      "d6aeb173-88fb-46e1-a12b-885756b2ebf1",
-      "0bbd418c-b533-4307-8cd1-cc39643e5b66",
-      "9da81cfb-5df4-40aa-9345-b5346edb4a99",
-      "fe1ab805-d13c-4acb-b43b-a82820085a79",
-      "5cec528c-4068-43ae-b4c4-edc88498fb57",
-      "0b91055f-6ad2-40ec-b346-e0c1d98d0ac7",
-      "6b605db7-7358-40c6-8b3d-1a2d3dc2aeda",
-      "698cc937-18e8-4edc-a166-42ec7627ff6a",
-      "999342d7-c4b1-4dcc-99c8-4c52ffb5ac18",
-      "70bcfd78-4c2a-42a9-81de-ce257a090827",
-      "d453ab63-def4-4f24-a7d4-a5b2b805dbed",
-      "9ccd3e62-e31f-4ad0-a941-80cd3b380a40",
-      "9748abf3-2e5e-4279-9436-d2aebb2be7bb",
-      "5cfac193-8c91-4e1f-915f-fe168b304917",
-      "0dcc7329-1bc8-4387-ab50-264ac78e15b7",
-      "90015b2c-77a1-4041-836b-fd99ee06ba0b",
-      "aab45353-a3d9-415b-a550-53d086a73dd0",
-      "d9a452ca-b66d-49da-b4bc-cab5a24f20eb",
-      "ca36117b-5d99-4e76-a269-970c23ff2d9c",
-      "99053a0d-5a32-4ccf-b9c8-464a3e4ef5c0",
-      "abfec4a6-d510-4fe6-94a1-595200febc03",
-      "e04c0711-d91c-4a3a-b757-e87e0f051a87",
-      "c8f420a4-8a42-4678-84ec-c139195e3acb",
-      "f78b3125-5392-41b4-a4cc-bfe4563e2fb3",
-      "6fb8f19b-dae0-4f72-82cc-ad5c2122e98d",
-      "d8863ea0-03e1-488a-afb6-b0dc82487212",
-      "d3b61049-8fec-4cbc-8634-bb0202d9a056",
-      "e0448a2c-385f-4609-ac99-26b49ac8813c",
-      "ce8dd699-6d0e-40c6-a426-bb33b142d8cb",
-      "f04001a8-3a1d-4a9b-9d32-af2b4ed8fe39"
+      "67021cc3-0b0a-47a1-a17a-cabcf4c487ab",
+      "7b5e3414-f4f8-4407-933f-91bf5e4792af",
+      "f39b45b4-180a-4b2d-99ce-875ecfab576d",
+      "9739a64c-9553-4cba-ad80-c707087fac01",
+      "7aa20a01-7639-48f8-b109-0200c6d5d50d",
+      "f85fd94a-aeab-48e4-9a9b-4408441d3e64",
+      "7b7d8dac-352a-4165-8619-80f0228ae4ff",
+      "637bc8d6-5b7b-45f0-8e18-26d469a90b18",
+      "b7232389-e783-4e65-9665-cff306649a31",
+      "046d1082-3fe7-4316-962b-d9a50003d674",
+      "35b29cb4-28da-4b64-9775-2fed937a4607",
+      "571d4c0a-ed73-42e8-8973-098a936be3f4",
+      "f3b0e77a-1895-44a2-851d-25fce278166f",
+      "03c7eb42-5521-4827-b740-a68a5b103756",
+      "ab1a9c0b-07ae-471d-a7ba-5252d32017f6",
+      "4e9a98a3-ac7b-4ca7-8a92-7c2560d91d1d",
+      "0f115678-d85b-44ec-9ca5-5efcc77627c8",
+      "c89d01fe-f08a-46f0-8310-5d6e7b06b74a",
+      "1a8db786-f3a0-4f81-95a2-b0dabac77834",
+      "d1c20fd5-97e2-4a13-9016-c8b7ae15a186",
+      "125d54c5-d346-4bc9-a126-57351a7771f0",
+      "bf4b6d7a-333e-4da3-b29f-796c7911aa54",
+      "1d5c3ba3-6754-4a41-be92-e53bed72636e",
+      "d44fdf4e-9aee-4f40-ac15-c55ec89b4698",
+      "d9ef773f-37b2-4610-ad1e-b48d89f51afe",
+      "fc39c367-063d-4a6e-b295-0cb37ad41b03",
+      "8667c667-75e0-4c1f-91a1-6179e85af926",
+      "759379cc-9755-437b-90e1-9801838a9b66",
+      "50eb9c4c-0fc3-4815-8644-1cc56fa4b500",
+      "bb5b2491-066e-48cf-bc83-ae0b37e9f0d3",
+      "e359e80a-9361-4f0c-ae5c-9b49c1b4ba8e",
+      "e7981eaa-8ccd-4307-8375-d361210cf84b",
+      "dddf5532-2927-47cb-b214-509d2d93cc45",
+      "23f16c10-ac55-4b0d-a033-19ab60d0bc04",
+      "34ebb685-7889-4447-a00f-3ab375846cb9"
     ],
     "hydration_rounds": 0,
     "intent": "invoices.dispatch_evidence",
@@ -2945,31 +2945,31 @@
         {
           "conclusion": "no_send_evidence_in_covered_scope",
           "errors": 0,
-          "invoice_id": "INV-1001-dupeoy6",
+          "invoice_id": "INV-1001-dup6nty",
           "pending": 0
         },
         {
           "conclusion": "no_send_evidence_in_covered_scope",
           "errors": 0,
-          "invoice_id": "INV-1001-fulleoy6",
+          "invoice_id": "INV-1001-full6nty",
           "pending": 0
         },
         {
           "conclusion": "no_send_evidence_in_covered_scope",
           "errors": 0,
-          "invoice_id": "INV-1001-nobankeoy6",
+          "invoice_id": "INV-1001-nobank6nty",
           "pending": 0
         },
         {
           "conclusion": "no_send_evidence_in_covered_scope",
           "errors": 0,
-          "invoice_id": "INV-1001-stepeoy6",
+          "invoice_id": "INV-1001-step6nty",
           "pending": 0
         },
         {
           "conclusion": "no_send_evidence_in_covered_scope",
           "errors": 0,
-          "invoice_id": "INV-1001-x3eoy6",
+          "invoice_id": "INV-1001-x36nty",
           "pending": 0
         }
       ],
@@ -2977,7 +2977,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 10,
+    "timing_ms": 3,
     "effective_at": null,
     "recorded_cutoff": 815,
     "readiness": [
@@ -2987,21 +2987,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -3013,7 +3013,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -3022,12 +3022,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -3046,7 +3046,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -3055,7 +3055,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -3101,21 +3101,21 @@
       }
     ],
     "evidence_entry_ids": [
-      "056c100a-1afc-44ed-8882-773d29f7e548",
-      "bd3ca1ee-71df-4baf-9696-a01e23931251",
-      "ffdab1b0-bbbd-4c74-ab15-6a05b4e50090",
-      "0f131e4c-c743-4974-99f8-1ba7bd51454c",
-      "20f66572-7b48-422e-9b9c-d1afbb6bf135",
-      "4ed535d8-b56a-4fd1-8295-31d335535abe",
-      "1477b419-662f-44f2-b313-3eb5657c4146",
-      "e1e20045-865e-4720-90fb-4496d59fb816",
-      "a45aa4d3-6569-44be-aa67-cce8f76adc5f",
-      "eb7e2a38-6234-4fef-bf37-0965741e8b0c",
-      "5496daa1-0bf9-406e-a0d2-68015e081eca",
-      "d2b59b2f-d22e-4d52-8090-cbbb00f45125",
-      "c91a2b49-c326-4a92-8430-906feffc86b6",
-      "4de6e89e-d209-45a1-a242-f7450000bc23",
-      "87899b04-6420-4df8-b340-b48617f3fb54"
+      "7ab99fae-6d7e-4c12-8294-b864e1617fad",
+      "04ab1a1a-ebc5-4fa0-aadc-35d2c2212527",
+      "645255f8-b9ef-47b9-8479-f138835f8378",
+      "8e3fc6d2-3954-42ee-998c-8569175c3700",
+      "6546d324-7ac1-49a4-bf8b-7af058230d01",
+      "cc3b6091-7bc0-4c10-8fb1-4315832d4d28",
+      "0cf97a0c-5c1b-459f-844f-88dbfc4555ce",
+      "0175a9ce-979b-40b7-b7f9-6616b958bda4",
+      "e03029c5-65a9-4da1-8b22-32ce8e7daa00",
+      "a42e2497-9cef-4280-84bb-dbcd32405fcd",
+      "67021cc3-0b0a-47a1-a17a-cabcf4c487ab",
+      "7b5e3414-f4f8-4407-933f-91bf5e4792af",
+      "03d42ac3-eecc-44e9-bfb7-a2e65b463c11",
+      "38cd98de-f2e9-4a49-bf5c-d0dce5a064b5",
+      "0317c3f5-96f4-4d40-b0c6-14b22a17169a"
     ],
     "hydration_rounds": 0,
     "intent": "orders.payment_state",
@@ -3148,7 +3148,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 8,
+    "timing_ms": 4,
     "effective_at": null,
     "recorded_cutoff": 815,
     "readiness": [
@@ -3158,30 +3158,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -3193,30 +3193,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -3235,7 +3235,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -3244,7 +3244,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -3290,23 +3290,23 @@
       }
     ],
     "evidence_entry_ids": [
-      "ef3d5f08-dccd-450e-9fb2-a283795fb942",
-      "e8632bfe-3ef7-47bc-b92d-21065c28747e",
-      "44729e73-bc2a-4393-b5b9-e0f440b213b8",
-      "d6b5312c-5f2e-4c1d-96cb-01f777533e2c",
-      "3ffc4b05-0108-4b2b-aa08-6ab670872bba",
-      "3b79dd02-7283-46c9-9164-4ab6c1cdb5ca",
-      "2c079675-9a38-4814-8848-71f3bddb0f29",
-      "33c5871d-0402-44c0-99d4-30d722d91eca",
-      "95f73aa5-d37a-4d7f-995b-edc0fe7032fc",
-      "f7acf26f-64b3-4776-b2ba-e5459fdd3c03",
-      "efbdc2a1-93df-4aff-85ce-d8d04319a4f7",
-      "12d2800e-e8af-40c1-a4f7-436aea74d144",
-      "84cc9a53-3c2d-4652-8a44-8d5a0697122c",
-      "d9b8192f-e589-418f-9ddb-6124c9fc48d0",
-      "2774cae7-0fe2-4e57-8a51-2cb45541539d",
-      "f3086cd7-9d95-43f5-a593-106d2a817729",
-      "f8da03cd-1be6-4c66-ac25-65c3cfefa16b"
+      "d48bb990-ec36-45d2-8307-96eb8aeaa30a",
+      "721bdaf6-d26c-4bdd-9bbf-7713752bff05",
+      "5d69007e-438c-4f09-8708-24116f46a1b4",
+      "7e92d011-78ec-49f6-b050-9942af74d7a5",
+      "c9b4ae6a-ee01-4576-a5e2-279a0e05f4c7",
+      "a0d79b37-0de1-46ec-95d1-5c2bc7aa3c80",
+      "2666324b-274f-49b9-9196-6779fb6fb411",
+      "579ea94c-fa9c-4a15-a391-624143a01959",
+      "ef94f54c-5167-4e86-9f99-d9dde71926d9",
+      "74a53aba-14db-484e-98e1-711dce260990",
+      "b8104309-0dcc-4d54-9230-0d1763db3be6",
+      "622722a6-9119-4a5f-9cc5-8273f36d82bd",
+      "9ded5d13-efa0-4554-9e93-38b2dc7128a8",
+      "dbb923ef-6fe0-41c6-b344-bdb9dc780d0f",
+      "0f715b0b-13e7-4410-9629-f0b9891e2b41",
+      "2cc672b6-9eb2-48cb-a4b7-4101cdfbd69b",
+      "50d12ea5-dd3c-451e-9158-fa104b674098"
     ],
     "hydration_rounds": 0,
     "intent": "payments.recovered_attempts",
@@ -3352,7 +3352,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 13,
+    "timing_ms": 7,
     "effective_at": null,
     "recorded_cutoff": 815,
     "readiness": [
@@ -3362,30 +3362,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.862Z",
-            "last_new_record_at": "2026-10-31T17:40:38.862Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.703Z",
+            "last_new_record_at": "2026-10-31T17:48:35.703Z",
             "collection_state": "ready"
           }
         ],
@@ -3397,30 +3397,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -3439,7 +3439,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -3448,7 +3448,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -3500,13 +3500,13 @@
       }
     ],
     "evidence_entry_ids": [
-      "5496daa1-0bf9-406e-a0d2-68015e081eca",
-      "d2b59b2f-d22e-4d52-8090-cbbb00f45125",
-      "3cf71dfc-d982-4e20-bd89-04b835385229",
-      "b6ef817f-8cae-443b-8608-9cde6541c7fe",
-      "2c293c38-e85b-4650-b6a5-73fe2e739caa",
-      "d6aeb173-88fb-46e1-a12b-885756b2ebf1",
-      "0bbd418c-b533-4307-8cd1-cc39643e5b66"
+      "67021cc3-0b0a-47a1-a17a-cabcf4c487ab",
+      "7b5e3414-f4f8-4407-933f-91bf5e4792af",
+      "f39b45b4-180a-4b2d-99ce-875ecfab576d",
+      "9739a64c-9553-4cba-ad80-c707087fac01",
+      "7aa20a01-7639-48f8-b109-0200c6d5d50d",
+      "f85fd94a-aeab-48e4-9a9b-4408441d3e64",
+      "7b7d8dac-352a-4165-8619-80f0228ae4ff"
     ],
     "hydration_rounds": 0,
     "intent": "invoices.payment_variance",
@@ -3536,7 +3536,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 17,
+    "timing_ms": 4,
     "effective_at": null,
     "recorded_cutoff": 815,
     "readiness": [
@@ -3546,21 +3546,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -3572,30 +3572,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -3607,7 +3607,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -3616,12 +3616,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -3640,7 +3640,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -3649,7 +3649,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -3713,14 +3713,14 @@
       }
     ],
     "evidence_entry_ids": [
-      "02b15ae4-99a7-4019-ae42-6faa91c043a4",
-      "5496daa1-0bf9-406e-a0d2-68015e081eca",
-      "d2b59b2f-d22e-4d52-8090-cbbb00f45125",
-      "3cf71dfc-d982-4e20-bd89-04b835385229",
-      "b6ef817f-8cae-443b-8608-9cde6541c7fe",
-      "2c293c38-e85b-4650-b6a5-73fe2e739caa",
-      "d6aeb173-88fb-46e1-a12b-885756b2ebf1",
-      "0bbd418c-b533-4307-8cd1-cc39643e5b66"
+      "d389750d-877f-41b5-b7cf-02673e573624",
+      "67021cc3-0b0a-47a1-a17a-cabcf4c487ab",
+      "7b5e3414-f4f8-4407-933f-91bf5e4792af",
+      "f39b45b4-180a-4b2d-99ce-875ecfab576d",
+      "9739a64c-9553-4cba-ad80-c707087fac01",
+      "7aa20a01-7639-48f8-b109-0200c6d5d50d",
+      "f85fd94a-aeab-48e4-9a9b-4408441d3e64",
+      "7b7d8dac-352a-4165-8619-80f0228ae4ff"
     ],
     "hydration_rounds": 0,
     "intent": "receivables.review_queue",
@@ -3752,7 +3752,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 15,
+    "timing_ms": 6,
     "effective_at": null,
     "recorded_cutoff": 815,
     "readiness": [
@@ -3762,21 +3762,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -3788,7 +3788,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -3797,12 +3797,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -3814,30 +3814,30 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "4aa364a9-ddd2-48ff-b4f8-90baf63da71b",
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:16.303Z",
-            "last_new_record_at": "2026-10-31T17:40:14.403Z",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -3849,7 +3849,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -3858,7 +3858,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -3867,12 +3867,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bdb8e6eb-2b4c-4506-8b5d-b32881a257a3",
+            "connection_id": "2253a573-a777-438d-8080-e83b47f5f297",
             "provider": "policy",
             "display_name": "policy qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:38.601Z",
-            "last_new_record_at": "2026-10-31T17:40:38.601Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.646Z",
+            "last_new_record_at": "2026-10-31T17:48:35.646Z",
             "collection_state": "ready"
           }
         ],
@@ -3884,7 +3884,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -3893,12 +3893,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:39.925Z",
-            "last_new_record_at": "2026-10-31T17:40:39.925Z",
+            "last_successful_sync_at": "2026-10-31T17:48:35.986Z",
+            "last_new_record_at": "2026-10-31T17:48:35.986Z",
             "collection_state": "ready"
           }
         ],
@@ -3917,7 +3917,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -3926,7 +3926,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -3940,7 +3940,7 @@
     ]
   },
   "bank_import": {
-    "run_id": "4c69548c-66fa-4506-a1ba-5f5583dd4d42",
+    "run_id": "bebc1b6c-60b6-495c-93ef-d77ee4b2db52",
     "imported": 2,
     "duplicates": 0,
     "rejected_rows": 0,
@@ -3998,113 +3998,112 @@
       }
     ],
     "evidence_entry_ids": [
-      "97c58ebd-8cbc-49b6-939b-d018a6d50a64",
-      "702cc7a9-83a5-40eb-b5dd-4ddd248faa95",
-      "f80885c7-9514-4c8b-afe5-937aaaa7ed6b",
-      "ccc3e967-6553-4056-84b4-7caa79d1a365",
-      "53e72f8b-650b-4f13-a33a-345d2ad724dc",
-      "a7e7e28a-df03-48a1-84d6-2c0a3a947c65",
-      "ce0b27f0-21f3-47ac-afc3-325a93867c4e",
-      "d39a7976-5ba2-4cf8-bbaf-23545025042e",
-      "7ab39afe-4e1e-4a61-ba6e-4cc5d50938b6",
-      "e550b35d-8693-44ef-a3e8-62b178178af0",
-      "889dcb9d-b612-4d86-8c53-7f8d2710108d",
-      "afcfa80a-11a0-4384-a8e4-42471de0a4a1",
-      "72790729-3e07-4cc5-917f-f9b7bdf5f48e",
-      "aec3c49b-a3a5-456c-9ef5-6ce793c01f84",
-      "9720324b-b39c-46fb-a539-b64d8ef3f94b",
-      "3f49289b-b7dc-4beb-98c0-e75fe7d12a6b",
-      "ab156a09-a527-44d3-9415-2140f85f24df",
-      "d3d5203d-6007-4fc7-abc8-3c6ce15f8fda",
-      "f627c1dd-4105-4b63-849a-59a91f5a65b3",
-      "baa65d71-236b-44d4-80b3-24cf4bf5d3b1",
-      "bac6c37c-f1f4-4d54-bd92-4651556172fd",
-      "e314b254-e72d-4600-bb69-2caf011f2b5c",
-      "9d25902d-bcfc-41f5-bf17-1f3f8c2ecad1",
-      "67319992-52da-4263-af1c-e50cb1117a5d",
-      "149b3d0d-948c-4507-b846-6a6e9ca91c7a",
-      "d78de03d-9e67-4ebd-8c38-45a52586c501",
-      "fece2c63-fd5c-4616-a3ff-032a1c593902",
-      "db1cf586-55ab-43aa-96eb-50166475a95c",
-      "b687fa35-6aef-4350-aeed-aca96284cab2",
-      "f612698c-f3db-4381-aeab-6252193fd9f9",
-      "72171885-a601-4120-a10b-f9e19121ac52",
-      "e2933027-9383-46be-a0dd-26dff50a674a",
-      "c73397d5-9759-4ab3-a831-864f0220de2a",
-      "4e90230f-d59c-4321-92e4-2a361ff0af63",
-      "0e884efc-3ca7-491a-a239-edf3cd6c8b37",
-      "592d4ae6-33db-4936-ab67-95761623885e",
-      "d5cf2220-5229-4929-81c2-afed2c796be0",
-      "e90a8c97-ec95-4ea2-b7c5-2f9e6de10fec",
-      "67bf81c3-21f2-4a84-9be7-a85dadb8ea4a",
-      "160c813f-a68a-443b-b87c-eaa6e0068b34",
-      "fe76168f-986f-48f5-8d52-6dd7ecb8b181",
-      "6374a718-ebaa-46ee-a543-62e7820a5ca3",
-      "a3d70f35-4991-4663-ad2b-3d5869d84c8a",
-      "220cef3a-1291-4151-8344-254171ee8ce7",
-      "f1c989df-7d97-458f-af3e-844605a65a5f",
-      "ff7624eb-9395-4783-b854-28d1dedef8c7",
-      "6f5a267c-46cf-488c-94c1-bd0e09186001",
-      "5414b0df-7778-417b-9763-2bf8b827bfb8",
-      "d26d4b1a-ca33-45a2-be15-1c3739c58c75",
-      "fdafde3a-4446-49e3-a78c-152804a1101a",
-      "beb15953-f4b2-4eb8-a766-3183753207c0",
-      "211d9ced-73a0-4249-91dd-2e27e3cef537",
-      "b9bde448-af9b-4825-bc10-183092e90106",
-      "efcd1a5f-37c2-45ed-964b-5d6d92ae23a7",
-      "9e14dbe2-2c8d-454f-aa38-718667f2d715",
-      "c529aa73-6981-4c4b-8d6f-6ea1cc02b125",
-      "9dc54783-f436-44e0-a2cc-f7dcb8c4e1ab",
-      "8fdcf9d2-c243-41c4-9ed1-e25b52270a18",
-      "aa897de2-1981-42c3-aa47-2dc079b2acb8",
-      "3c837f44-da56-45ce-9d5c-96aeacc28228",
-      "d4e6f053-4a8c-4bf3-b75a-fd6ebaf2e94a",
-      "55e2f48c-73eb-438f-a5ce-9e3a4ae838a2",
-      "e6b340ac-3aae-459a-aec3-7ebb5f2099ec",
-      "34a04098-8512-4692-82c0-1ae9d2eba997",
-      "3de4d7a0-cc73-4a9f-8737-b0b3161afbc4",
-      "87de1a96-d44b-4dfc-919d-ffdbfbe4b2b9",
-      "1876a9d2-0627-47b5-a0ed-5c99fddf15ce",
-      "253adee3-2f29-4c9f-a4bd-0b2295c97ca4",
-      "1a84b3df-eef9-4ef4-8b62-163983403db9",
-      "82141dfd-e6f3-4725-9897-16d3d789c98d",
-      "2679d0df-9af3-412b-8879-f5f47ce70a2f",
-      "2027e332-cbb0-48b1-8202-4f053c0abf83",
-      "8c231809-2d83-4d6e-ae0a-fb46ec17137f",
-      "44729e73-bc2a-4393-b5b9-e0f440b213b8",
-      "95f73aa5-d37a-4d7f-995b-edc0fe7032fc",
-      "c91a2b49-c326-4a92-8430-906feffc86b6",
-      "4de6e89e-d209-45a1-a242-f7450000bc23",
-      "87899b04-6420-4df8-b340-b48617f3fb54",
-      "2774cae7-0fe2-4e57-8a51-2cb45541539d",
-      "f3086cd7-9d95-43f5-a593-106d2a817729",
-      "f8da03cd-1be6-4c66-ac25-65c3cfefa16b",
-      "b6198f7c-057c-4bea-a2d3-0746fd81c270",
-      "e766aaae-dde5-46c8-a03a-f00d06135f90",
-      "ea5b9b4e-1d10-4f67-98e8-e9290844058c",
-      "d01e48bb-5412-4a20-b675-4a95c4606885",
-      "5b770bee-8616-487f-9416-d51a450fdf2e",
-      "d6b5312c-5f2e-4c1d-96cb-01f777533e2c",
-      "3ffc4b05-0108-4b2b-aa08-6ab670872bba",
-      "3b79dd02-7283-46c9-9164-4ab6c1cdb5ca",
-      "d7913c7b-5d71-4c22-ba50-d606815ddc10",
-      "2c2c3d1c-7bb7-4d39-a127-b6feefc7a4fc",
-      "b8737e4e-58c6-4f1b-94c9-7b3c0d107e02",
-      "aa2348a3-5dd8-4984-9fd1-6ea42388892a",
-      "9f90783f-ae9b-472e-8722-d4c7a2db199a",
-      "c81c23b9-986b-4a34-85a7-6cb1d023015e",
-      "f587f118-a0dd-43bb-bfe1-bb65d3002c00",
-      "bfd10a19-6f3b-44fc-b3c8-e6cfb23795e9",
-      "7f97787c-f5e7-403f-b5ac-8c213caff38c",
-      "8ffe0756-6d8b-4d04-bc19-97fc05aa94c8",
-      "aa77c271-d54b-46e5-920c-336813e96e2f",
-      "f6516e64-74cc-41ba-8846-0b5607fcb3fd",
-      "f7acf26f-64b3-4776-b2ba-e5459fdd3c03",
-      "efbdc2a1-93df-4aff-85ce-d8d04319a4f7",
-      "12d2800e-e8af-40c1-a4f7-436aea74d144",
-      "0cc3dbfb-3c3d-42e0-8da3-428aa96f4a12",
-      "dba66b14-20b3-4059-9a80-b40c8527c6c5",
-      "7fa69be2-502e-4610-b974-79ce5b41971c"
+      "03d42ac3-eecc-44e9-bfb7-a2e65b463c11",
+      "38cd98de-f2e9-4a49-bf5c-d0dce5a064b5",
+      "0317c3f5-96f4-4d40-b0c6-14b22a17169a",
+      "8b98191f-62a6-4a23-b395-08e81e75334f",
+      "108e9c88-3327-4791-9d58-c4e21039d08e",
+      "949f7e61-9032-490c-9edb-364c7e9769b5",
+      "172391c2-693d-48f2-9914-2d0afc037fff",
+      "9e67f0d2-1ac3-40fa-a5a3-102021e86ec7",
+      "8d83ff05-2cd4-4415-abcb-72be810ac937",
+      "1cefc6d8-8c5c-4103-b0dc-3da393996200",
+      "479f52d5-8d8b-42ef-986b-9774811a1d7a",
+      "a7272947-35fa-41e4-b72a-55d8acf3e96e",
+      "88021ecf-1a30-4c9a-ba33-c3ea53a0d668",
+      "f73c8cb0-4317-4755-bd40-65306bed106f",
+      "17da56d5-9aa4-4f89-99ac-293753ce3482",
+      "c2acb8b7-7e1f-4273-8373-e1d62772460b",
+      "74009711-af45-4a34-b711-a443f6267e6a",
+      "42d06051-3fbd-4f7d-a66e-3fcd20fe075e",
+      "39f589f2-1824-4ecf-9904-0dbb7818a1f5",
+      "76fad1f1-5a07-4e36-aaa0-8b23f6da7975",
+      "6d93ea6c-2e8b-4d62-9705-fdbfc892be96",
+      "3d401099-7907-4fbc-989f-338037027ccd",
+      "5942db38-6214-4572-94f5-007cf693ab58",
+      "232cebb8-2f15-46b6-a45e-151e8944ffa6",
+      "7eb257b8-f45f-4f4f-b285-7b206465e535",
+      "4fd402ea-4d69-4576-b619-7e4dd80e7f03",
+      "5423d28a-78fa-4308-953e-edea2922225a",
+      "a30b6a88-5d79-4335-83c2-982b45da1955",
+      "54c5f3cb-a535-4499-a25e-b61a106c3bb6",
+      "6112bd8a-da13-42fb-b74e-3e3c3fc66880",
+      "96a84fd3-5976-4547-8bd8-8285b5223f0d",
+      "562f7469-4708-4509-b609-33189f25fa7b",
+      "c9e41ade-087c-49a0-a62a-af92d6c2ebb8",
+      "da5ad2f0-1b50-4a32-98ed-0580957774b0",
+      "43f2b4c3-162d-4f62-8ff0-83df1683ff2c",
+      "f014f38a-d559-4ac0-a145-5fea3501f322",
+      "15e4beda-70b5-49a3-b7f5-4f066ceaf138",
+      "31470cef-523a-40d8-99ad-b1d754413c99",
+      "8cd4401c-9d04-47de-928c-f7db3b4e8ef5",
+      "f196b0be-1b80-4d52-b29a-7abd0fba2bee",
+      "43ca71f3-d754-49d2-8a77-43c6b3996fae",
+      "dbd5abdc-9e48-4823-b65d-255113025ff4",
+      "36cc4155-2b32-4bd6-8a58-56db6478c31b",
+      "aa814601-481d-4bac-9668-01a8bca9a889",
+      "3ae10b50-463e-4568-91cd-4c45ab4b11da",
+      "2a4b8d4c-63b4-4fd9-9189-78438f8cd387",
+      "27109620-0e74-4218-a4c4-d2e9f0133c3a",
+      "3220fa94-b393-4176-8b8b-bc51fb4ec1fa",
+      "3699aab0-13b3-4939-b554-35caa87d8820",
+      "e7daf95d-5e23-4758-a8bf-4465d8981481",
+      "a8589746-2b8b-486c-87ce-039f05fd84d9",
+      "40475a6f-4a75-488f-86c2-29787c67c5c0",
+      "79e00e42-3ad6-44ba-a4b1-0f698cbdfad5",
+      "2aa31db7-756f-44d7-a8cf-6e57c8f984d9",
+      "77bb05dd-44a1-463c-858f-9b087310a00d",
+      "ec1ff60d-40dd-4ce8-934c-c96545a6d3d3",
+      "7ce32e82-bf19-4216-a083-d955ba10baf5",
+      "505e3f96-6401-4daa-b660-693cb5fcdb66",
+      "0274550d-2db9-43ba-8127-36697586840e",
+      "e745e944-aa0f-43d6-b60e-144a46fbc014",
+      "fe5489a5-ff08-4bc3-bea2-b493aee93512",
+      "f9c77169-675a-4edf-b67b-310def956300",
+      "ed03cba7-e264-4190-be7e-fc4c58e4de85",
+      "050b9b74-8af5-4753-938f-d768d6718ff6",
+      "f3edba86-ee5e-490f-9fa0-efa3ca42f52c",
+      "de89da7d-a806-469d-897d-0b6e3dd1e7a1",
+      "3c98a083-259e-4dbe-8248-b83a6570eae2",
+      "712a1834-16fd-43fb-93d9-434421c70cc9",
+      "c8fbef16-6861-4363-97a1-45b826663c18",
+      "98968075-5f46-4744-aea9-168112ddb324",
+      "52d96298-3ee4-4d11-85e5-b5f36586b6bb",
+      "073f5dfd-7c73-4356-bf03-6a74defc669d",
+      "e0d5da64-0b7d-4d98-95fb-fd2f8eef8fe4",
+      "803b5c90-712a-4143-8777-3f53dfc0632e",
+      "24fd63ae-a4d8-4440-b533-c9305ca118db",
+      "dcc9a251-cdf4-4b3a-a76f-e873b88b7cb1",
+      "5d69007e-438c-4f09-8708-24116f46a1b4",
+      "ef94f54c-5167-4e86-9f99-d9dde71926d9",
+      "0f715b0b-13e7-4410-9629-f0b9891e2b41",
+      "2cc672b6-9eb2-48cb-a4b7-4101cdfbd69b",
+      "50d12ea5-dd3c-451e-9158-fa104b674098",
+      "11f352ea-8467-41d1-8e62-0a0485077f86",
+      "751b095e-3367-402e-afcd-e9b0c5eefe8f",
+      "55bf90d5-1319-4a49-8d7f-9b502aeb9c1b",
+      "202ccdd7-fb70-435d-8c00-49980c402cf6",
+      "7e92d011-78ec-49f6-b050-9942af74d7a5",
+      "c9b4ae6a-ee01-4576-a5e2-279a0e05f4c7",
+      "a0d79b37-0de1-46ec-95d1-5c2bc7aa3c80",
+      "86e7b9a7-a403-42ae-a92d-c39596f92c19",
+      "327159f0-0956-432c-9856-9e6b32e6dada",
+      "432923ec-054d-4328-a2b9-57a51f2b1cab",
+      "bd42e0ac-42be-4186-b170-5eec6028ec31",
+      "ffed76fb-564e-4f11-9bbc-634ded5c5372",
+      "8fb8fc66-9e76-4c47-b219-87987c422a10",
+      "491da8d2-f9ee-4ec4-b3c7-0801867a8d9f",
+      "29df2edc-0697-4f8d-8675-c3546cdd0c5c",
+      "4dc31f7e-ea1e-4e31-9ce3-b93f4e1a1405",
+      "1aca7dfd-36ff-401d-95fe-d8c801cb91d8",
+      "08a11a6e-e12d-4b60-9e15-5868bc50c037",
+      "7bd90da5-688d-4dc0-92ee-2f9f52db4f4e",
+      "74a53aba-14db-484e-98e1-711dce260990",
+      "b8104309-0dcc-4d54-9230-0d1763db3be6",
+      "622722a6-9119-4a5f-9cc5-8273f36d82bd",
+      "c576090a-0980-48b2-91ae-ee6ebdb9abba",
+      "12fcf161-326e-4c6a-bc08-8df0d49fb11a",
+      "a592810a-bbbe-421d-b82f-08f696abc4f3"
     ],
     "hydration_rounds": 0,
     "intent": "providers.money_positions",
@@ -4121,73 +4120,27 @@
           "account_id": "acct-q",
           "adjustments_minor": 0,
           "announced_payouts_minor": 0,
-          "available_minor": -14700,
+          "available_minor": -12080,
           "bank_confirmed_minor": 0,
-          "captured_minor": 0,
+          "captured_minor": 5000,
           "chargebacks_minor": 0,
           "currency": "EUR",
           "fees_minor": 150,
-          "held_minor": 9700,
+          "held_minor": 12080,
           "in_transit_minor": 4850,
-          "net_assets_minor": -150,
+          "net_assets_minor": 4850,
           "partition_complete": false,
           "payout_is_revenue": false,
           "processing_minor": 0,
-          "provider_balance_minor": -5000,
+          "provider_balance_minor": 0,
           "provider_reported_at": "2026-10-31T12:00:00Z",
           "provider_reported_total_minor": 9700,
-          "reconciliation_residual_minor": 14700,
+          "reconciliation_residual_minor": 9700,
           "refunded_minor": 0,
           "unknown_components_are_zero": false
         },
         {
-          "account_id": "default-dupeoy6",
-          "adjustments_minor": 0,
-          "announced_payouts_minor": 0,
-          "available_minor": 0,
-          "bank_confirmed_minor": 9170,
-          "captured_minor": 11900,
-          "chargebacks_minor": 0,
-          "currency": "EUR",
-          "fees_minor": 350,
-          "held_minor": 0,
-          "in_transit_minor": 0,
-          "net_assets_minor": 9170,
-          "partition_complete": false,
-          "payout_is_revenue": false,
-          "processing_minor": 0,
-          "provider_balance_minor": 0,
-          "provider_reported_at": null,
-          "provider_reported_total_minor": null,
-          "reconciliation_residual_minor": null,
-          "refunded_minor": 2380,
-          "unknown_components_are_zero": false
-        },
-        {
-          "account_id": "default-fulleoy6",
-          "adjustments_minor": 0,
-          "announced_payouts_minor": 0,
-          "available_minor": 0,
-          "bank_confirmed_minor": 9170,
-          "captured_minor": 11900,
-          "chargebacks_minor": 0,
-          "currency": "EUR",
-          "fees_minor": 350,
-          "held_minor": 0,
-          "in_transit_minor": 0,
-          "net_assets_minor": 9170,
-          "partition_complete": false,
-          "payout_is_revenue": false,
-          "processing_minor": 0,
-          "provider_balance_minor": 0,
-          "provider_reported_at": null,
-          "provider_reported_total_minor": null,
-          "reconciliation_residual_minor": null,
-          "refunded_minor": 2380,
-          "unknown_components_are_zero": false
-        },
-        {
-          "account_id": "default-nobankeoy6",
+          "account_id": "default-dup6nty",
           "adjustments_minor": 0,
           "announced_payouts_minor": 0,
           "available_minor": 0,
@@ -4210,7 +4163,7 @@
           "unknown_components_are_zero": false
         },
         {
-          "account_id": "default-stepeoy6",
+          "account_id": "default-full6nty",
           "adjustments_minor": 0,
           "announced_payouts_minor": 0,
           "available_minor": 0,
@@ -4233,7 +4186,53 @@
           "unknown_components_are_zero": false
         },
         {
-          "account_id": "default-x3eoy6",
+          "account_id": "default-nobank6nty",
+          "adjustments_minor": 0,
+          "announced_payouts_minor": 0,
+          "available_minor": 0,
+          "bank_confirmed_minor": 0,
+          "captured_minor": 11900,
+          "chargebacks_minor": 0,
+          "currency": "EUR",
+          "fees_minor": 350,
+          "held_minor": 0,
+          "in_transit_minor": 9170,
+          "net_assets_minor": 9170,
+          "partition_complete": false,
+          "payout_is_revenue": false,
+          "processing_minor": 0,
+          "provider_balance_minor": 0,
+          "provider_reported_at": null,
+          "provider_reported_total_minor": null,
+          "reconciliation_residual_minor": null,
+          "refunded_minor": 2380,
+          "unknown_components_are_zero": false
+        },
+        {
+          "account_id": "default-step6nty",
+          "adjustments_minor": 0,
+          "announced_payouts_minor": 0,
+          "available_minor": 0,
+          "bank_confirmed_minor": 9170,
+          "captured_minor": 11900,
+          "chargebacks_minor": 0,
+          "currency": "EUR",
+          "fees_minor": 350,
+          "held_minor": 0,
+          "in_transit_minor": 0,
+          "net_assets_minor": 9170,
+          "partition_complete": false,
+          "payout_is_revenue": false,
+          "processing_minor": 0,
+          "provider_balance_minor": 0,
+          "provider_reported_at": null,
+          "provider_reported_total_minor": null,
+          "reconciliation_residual_minor": null,
+          "refunded_minor": 2380,
+          "unknown_components_are_zero": false
+        },
+        {
+          "account_id": "default-x36nty",
           "adjustments_minor": 0,
           "announced_payouts_minor": 0,
           "available_minor": 0,
@@ -4259,19 +4258,19 @@
           "account_id": "default",
           "adjustments_minor": 0,
           "announced_payouts_minor": 0,
-          "available_minor": 520,
+          "available_minor": -2100,
           "bank_confirmed_minor": 0,
-          "captured_minor": 5600,
+          "captured_minor": 600,
           "chargebacks_minor": 2100,
           "currency": "EUR",
           "fees_minor": 0,
-          "held_minor": 2380,
+          "held_minor": 0,
           "in_transit_minor": 0,
-          "net_assets_minor": 2900,
+          "net_assets_minor": -2100,
           "partition_complete": false,
           "payout_is_revenue": false,
           "processing_minor": 0,
-          "provider_balance_minor": 2900,
+          "provider_balance_minor": -2100,
           "provider_reported_at": null,
           "provider_reported_total_minor": null,
           "reconciliation_residual_minor": null,
@@ -4306,7 +4305,7 @@
     },
     "rule_version": "r1",
     "status": "partial",
-    "timing_ms": 19,
+    "timing_ms": 5,
     "effective_at": null,
     "recorded_cutoff": 884,
     "readiness": [
@@ -4316,21 +4315,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:40.259Z",
-            "last_new_record_at": "2026-10-31T17:40:40.259Z",
+            "last_successful_sync_at": "2026-10-31T17:48:36.152Z",
+            "last_new_record_at": "2026-10-31T17:48:36.152Z",
             "collection_state": "ready"
           }
         ],
@@ -4342,7 +4341,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -4351,12 +4350,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:40.259Z",
-            "last_new_record_at": "2026-10-31T17:40:40.259Z",
+            "last_successful_sync_at": "2026-10-31T17:48:36.152Z",
+            "last_new_record_at": "2026-10-31T17:48:36.152Z",
             "collection_state": "ready"
           }
         ],
@@ -4368,21 +4367,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:40.259Z",
-            "last_new_record_at": "2026-10-31T17:40:40.259Z",
+            "last_successful_sync_at": "2026-10-31T17:48:36.152Z",
+            "last_new_record_at": "2026-10-31T17:48:36.152Z",
             "collection_state": "ready"
           }
         ],
@@ -4394,16 +4393,16 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.507Z",
-            "last_new_record_at": "2026-10-31T17:40:35.507Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.101Z",
+            "last_new_record_at": "2026-10-31T17:48:34.101Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -4412,12 +4411,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "8d58feb4-8d83-4bf4-a22d-9446513b43f3",
+            "connection_id": "46341dd4-8974-4645-a538-7553b7f897f3",
             "provider": "bank_csv",
             "display_name": "bank_csv qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:40.921Z",
-            "last_new_record_at": "2026-10-31T17:40:40.921Z",
+            "last_successful_sync_at": "2026-10-31T17:48:36.271Z",
+            "last_new_record_at": "2026-10-31T17:48:36.271Z",
             "collection_state": "ready"
           }
         ],
@@ -4429,7 +4428,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -4438,12 +4437,12 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:40.259Z",
-            "last_new_record_at": "2026-10-31T17:40:40.259Z",
+            "last_successful_sync_at": "2026-10-31T17:48:36.152Z",
+            "last_new_record_at": "2026-10-31T17:48:36.152Z",
             "collection_state": "ready"
           }
         ],
@@ -4462,7 +4461,7 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -4471,7 +4470,7 @@
             "collection_state": "configured"
           },
           {
-            "connection_id": "bd27b0b3-b869-4d05-b5f3-e03c69dfa1af",
+            "connection_id": "5d21e070-7be4-453d-94d7-a4d37b9f1f60",
             "provider": "generic",
             "display_name": "generic qa",
             "health": "configured",
@@ -4488,5 +4487,154 @@
     "o1": "insufficient_data",
     "s2": "insufficient_data",
     "d4": "insufficient_data"
+  },
+  "missing_all_intents": {
+    "order-01": {
+      "status": "insufficient_data",
+      "missing": [
+        "stock.basis"
+      ]
+    },
+    "order-02": {
+      "status": "insufficient_data",
+      "missing": [
+        "policy.priority_method"
+      ]
+    },
+    "order-03": {
+      "status": "insufficient_data",
+      "missing": [
+        "allocations.order_line_ownership"
+      ]
+    },
+    "order-04": {
+      "status": "insufficient_data",
+      "missing": [
+        "supply"
+      ]
+    },
+    "delivery-01": {
+      "status": "insufficient_data",
+      "missing": [
+        "tracking.coverage"
+      ]
+    },
+    "delivery-02": {
+      "status": "insufficient_data",
+      "missing": [
+        "promises.promised_at"
+      ]
+    },
+    "delivery-03": {
+      "status": "insufficient_data",
+      "missing": [
+        "fulfillments.line_quantity_links"
+      ]
+    },
+    "delivery-04": {
+      "status": "insufficient_data",
+      "missing": [
+        "orders"
+      ]
+    },
+    "invoice-01": {
+      "status": "insufficient_data",
+      "missing": [
+        "invoices.correction_chain_coverage"
+      ]
+    },
+    "invoice-02": {
+      "status": "insufficient_data",
+      "missing": [
+        "invoices.population_complete"
+      ]
+    },
+    "invoice-03": {
+      "status": "insufficient_data",
+      "missing": [
+        "orders.coverage",
+        "invoices.coverage"
+      ]
+    },
+    "invoice-04": {
+      "status": "insufficient_data",
+      "missing": [
+        "invoice_dispatch.coverage"
+      ]
+    },
+    "collection-01": {
+      "status": "insufficient_data",
+      "missing": [
+        "payments.status"
+      ]
+    },
+    "collection-02": {
+      "status": "insufficient_data",
+      "missing": [
+        "payments.attempt_history_coverage"
+      ]
+    },
+    "collection-03": {
+      "status": "insufficient_data",
+      "missing": [
+        "payment_allocations"
+      ]
+    },
+    "collection-04": {
+      "status": "partial",
+      "missing": [
+        "cases.coverage"
+      ]
+    },
+    "settlement-01": {
+      "status": "insufficient_data",
+      "missing": [
+        "payments",
+        "payouts"
+      ]
+    },
+    "settlement-02": {
+      "status": "insufficient_data",
+      "missing": [
+        "payouts"
+      ]
+    },
+    "settlement-03": {
+      "status": "insufficient_data",
+      "missing": [
+        "bank"
+      ]
+    },
+    "settlement-04": {
+      "status": "insufficient_data",
+      "missing": [
+        "holds"
+      ]
+    },
+    "reversal-01": {
+      "status": "partial",
+      "missing": [
+        "receipts"
+      ]
+    },
+    "reversal-02": {
+      "status": "partial",
+      "missing": [
+        "entitlements"
+      ]
+    },
+    "reversal-03": {
+      "status": "partial",
+      "missing": [
+        "allocations"
+      ]
+    },
+    "reversal-04": {
+      "status": "insufficient_data",
+      "missing": [
+        "payments.coverage",
+        "disputes.coverage"
+      ]
+    }
   }
 }

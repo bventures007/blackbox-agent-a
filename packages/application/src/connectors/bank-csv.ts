@@ -33,7 +33,7 @@ export function previewBankCsv(text: string, profile: BankCsvProfile, statementI
   const header = rows[0]!.map((h) => h.trim()); const idx = (name?: string) => (name ? header.indexOf(name) : -1);
   const ci = { booked: idx(profile.columns.booked_at), value: idx(profile.columns.value_at), amount: idx(profile.columns.amount), currency: idx(profile.columns.currency), reference: idx(profile.columns.reference), debit: idx(profile.debit_column) };
   const out: BankRowPreview[] = [];
-  const pattern = profile.payout_reference_pattern ? new RegExp(profile.payout_reference_pattern) : /\b(OUT-[A-Za-z0-9-]+|po_[A-Za-z0-9]+|payout[ _-]?[A-Za-z0-9-]+)\b/i;
+  const pattern = profile.payout_reference_pattern ? new RegExp(profile.payout_reference_pattern) : /\b(OUT-[A-Za-z0-9-]+|po_[A-Za-z0-9]+|PO-[A-Za-z0-9-]+)\b|payout[ _-]?([A-Za-z0-9-]+)/i;
   for (let r = 1; r < rows.length; r++) {
     const row = rows[r]!; const errors: string[] = [];
     if (ci.booked < 0 || ci.amount < 0 || ci.reference < 0) { errors.push('profile columns not found in header'); out.push({ row: r, booked_at: null, amount_minor: null, currency: null, reference: '', direction: null, payout_hint: null, errors }); continue; }
@@ -45,21 +45,24 @@ export function previewBankCsv(text: string, profile: BankCsvProfile, statementI
     const currency = (ci.currency >= 0 ? row[ci.currency]?.trim() : profile.default_currency) ?? null; if (!currency || !/^[A-Z]{3}$/.test(currency)) errors.push('missing or invalid currency');
     const reference = (row[ci.reference] ?? '').trim().slice(0, 300); if (!reference) errors.push('missing reference');
     if (booked && (booked < coverage.from || booked > coverage.to + 'T23:59:59Z')) errors.push('outside declared statement coverage');
-    const hint = pattern.exec(reference)?.[1] ?? null;
+    const m = pattern.exec(reference); const hint = m ? (m[1] ?? m[2] ?? null) : null;
     out.push({ row: r, booked_at: booked, amount_minor: amount, currency, reference, direction, payout_hint: hint, errors });
   }
   return { rows: out, valid: out.filter((x) => x.errors.length === 0).length, invalid: out.filter((x) => x.errors.length > 0).length, coverage, statement_id: statementId };
 }
 
 /** Convert valid preview rows into observations. Row identity = statement id + row content hash (repeat import deduplicates). */
-export function bankObservations(preview: ReturnType<typeof previewBankCsv>, accountId: string): Observation[] {
+/** `knownPayouts`: payout ids already recorded in this workspace. Only an exact token match links a bank credit to a payout
+ *  automatically; a loose hint or an amount-only candidate stays unlinked and goes to review (never auto-matched). */
+export function bankObservations(preview: ReturnType<typeof previewBankCsv>, accountId: string, knownPayouts: Set<string> = new Set()): Observation[] {
   const out: Observation[] = [];
   for (const r of preview.rows) {
+    const tokens = r.reference.split(/[^A-Za-z0-9_-]+/).filter(Boolean); const exact = tokens.find((t) => knownPayouts.has(t)) ?? (r.payout_hint && knownPayouts.has(r.payout_hint) ? r.payout_hint : null);
     if (r.errors.length || !r.booked_at || r.amount_minor === null || !r.currency || !r.direction) continue;
     const id = createHash('sha256').update(`${preview.statement_id}|${r.booked_at}|${r.amount_minor}|${r.currency}|${r.reference}|${r.direction}`).digest('hex').slice(0, 24);
     const entryId = `${preview.statement_id}:${id}`;
     out.push({ event_type: r.direction === 'credit' ? 'bank.credit_booked' : 'bank.debit_booked', provider_event_id: entryId, occurred_at: r.booked_at, record_id: `bank_entry:${entryId}`,
-      payload: { entry_id: entryId, statement_id: preview.statement_id, account_id: accountId, booked_at: r.booked_at, amount_minor: r.amount_minor, currency: r.currency, reference: r.reference, ...(r.direction === 'credit' && r.payout_hint ? { payout_id: r.payout_hint } : {}), booking_status: 'booked' } });
+      payload: { entry_id: entryId, statement_id: preview.statement_id, account_id: accountId, booked_at: r.booked_at, amount_minor: r.amount_minor, currency: r.currency, reference: r.reference, ...(r.direction === 'credit' && exact ? { payout_id: exact } : {}), booking_status: 'booked' } });
   }
   return out;
 }

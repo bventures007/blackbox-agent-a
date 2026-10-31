@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Build the versioned local installation archive: wrapper, pinned Compose, bundled images, EN/DE guide, manifest + SHA-256.
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"; VERSION="${1:-$(cat "$ROOT/release/VERSION")}"; OUT="$ROOT/release/dist"; NAME="blackbox-$VERSION"; STAGE="$OUT/$NAME"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"; REUSE=0; if [ "${1:-}" = "--reuse-images" ]; then REUSE=1; shift; fi; VERSION="${1:-$(cat "$ROOT/release/VERSION")}"; OUT="$ROOT/release/dist"; NAME="blackbox-$VERSION"; STAGE="$OUT/$NAME"
 rm -rf "$STAGE"; mkdir -p "$STAGE/infra/compose" "$STAGE/scripts" "$STAGE/release/images" "$STAGE/docs" "$OUT"
+if [ $REUSE = 1 ] && docker image inspect "blackbox-agent-a/node:$VERSION" "blackbox-agent-a/engine:$VERSION" >/dev/null 2>&1; then echo "▸ reusing locally built images for $VERSION (--reuse-images)"; else
 echo "▸ building images for $VERSION"
 docker build -q -f "$ROOT/infra/docker/node.Dockerfile" -t "blackbox-agent-a/node:$VERSION" --build-arg SERVICE_VERSION="$VERSION" "$ROOT" >/dev/null
 docker build -q -f "$ROOT/infra/docker/engine.Dockerfile" -t "blackbox-agent-a/engine:$VERSION" --build-arg SERVICE_VERSION="$VERSION" "$ROOT" >/dev/null
+fi
 docker pull -q postgres:17 >/dev/null
 PG_DIGEST=$(docker image inspect postgres:17 --format '{{index .RepoDigests 0}}' | sed 's/.*@sha256://')
 echo "▸ saving images"
@@ -40,4 +42,10 @@ m = {"schema_version": 1, "version": version, "status": "preview", "date": datet
 json.dump(m, open(path, 'w'), indent=1); print(json.dumps(m["artifacts"][0]))
 PY
 rm -rf "$STAGE"
+# Publishable landing bundle: static page + the manifest it reads + the immutable artifact it links to (served from the same origin)
+SITE="$ROOT/release/site"; rm -rf "$SITE"; mkdir -p "$SITE/downloads"
+( cd "$ROOT/apps/landing" && node build.mjs >/dev/null )
+cp -R "$ROOT/apps/landing/dist/." "$SITE/"; cp "$ROOT/release/manifest.json" "$SITE/release.json"
+cp "$OUT/$NAME-macos-arm64.tar.gz" "$OUT/$NAME-macos-arm64.tar.gz.sha256" "$SITE/downloads/"
+echo "Landing bundle: $SITE (serve it as one static origin; downloads/ holds the versioned archive and its checksum)"
 echo "Release archive: $OUT/$NAME-macos-arm64.tar.gz ($SIZE bytes, sha256 $SHA)"

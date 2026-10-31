@@ -11,6 +11,7 @@ COPY apps/worker ./apps/worker
 COPY apps/mcp-bridge ./apps/mcp-bridge
 COPY apps/web ./apps/web
 COPY apps/landing ./apps/landing
+COPY release/manifest.json ./release/manifest.json
 COPY tests/package.json ./tests/package.json
 RUN pnpm install --frozen-lockfile
 RUN pnpm -r --filter './packages/**' run build && pnpm --filter @blackbox/api --filter @blackbox/worker --filter @blackbox/mcp-bridge run build \

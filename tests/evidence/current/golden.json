@@ -1,5 +1,5 @@
 {
-  "run_suffix": "eoy6",
+  "run_suffix": "6nty",
   "stepwise": [
     {
       "after": "G05",
@@ -47,7 +47,7 @@
     }
   ],
   "full_replay": {
-    "run_id": "99c3e85d-5e3f-4f80-a044-3a375a6c0d9c",
+    "run_id": "745da985-553f-488a-9264-f441866c0ab9",
     "accepted": 19,
     "duplicates": 0,
     "conflicts": 0,
@@ -77,7 +77,7 @@
     "customer_net_paid_minor": 9520
   },
   "second_replay": {
-    "run_id": "ae3ea736-3600-4fdb-b8cc-393ca2f84edd",
+    "run_id": "25caa933-0c02-4514-a44d-2d4192d69074",
     "accepted": 0,
     "duplicates": 19,
     "conflicts": 0,
@@ -85,7 +85,7 @@
     "synthetic": true
   },
   "dup_replay": {
-    "run_id": "24a77d88-31e7-4e91-836a-72b7da26d7b8",
+    "run_id": "382aa6a9-085f-4701-83eb-39d4e2fa9145",
     "accepted": 19,
     "duplicates": 38,
     "conflicts": 0,
@@ -147,10 +147,10 @@
       }
     ],
     "evidence_entry_ids": [
-      "220cef3a-1291-4151-8344-254171ee8ce7",
-      "f1c989df-7d97-458f-af3e-844605a65a5f",
-      "ff7624eb-9395-4783-b854-28d1dedef8c7",
-      "6f5a267c-46cf-488c-94c1-bd0e09186001"
+      "27109620-0e74-4218-a4c4-d2e9f0133c3a",
+      "3220fa94-b393-4176-8b8b-bc51fb4ec1fa",
+      "3699aab0-13b3-4939-b554-35caa87d8820",
+      "e7daf95d-5e23-4758-a8bf-4465d8981481"
     ],
     "hydration_rounds": 0,
     "intent": "payouts.missing_bank_confirmation",
@@ -171,7 +171,7 @@
           "conclusion": "no_evidence_in_imported_interval",
           "currency": "EUR",
           "issued_at": "2026-10-31T09:18:00+00:00",
-          "payout_id": "OUT-1001-nobankeoy6",
+          "payout_id": "OUT-1001-nobank6nty",
           "state": "sent",
           "trace_reference": null
         }
@@ -185,7 +185,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 12,
+    "timing_ms": 8,
     "effective_at": null,
     "recorded_cutoff": 703,
     "readiness": [
@@ -195,12 +195,12 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.885Z",
-            "last_new_record_at": "2026-10-31T17:40:35.885Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
             "collection_state": "ready"
           }
         ],
@@ -212,12 +212,12 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:40:35.507Z",
-            "last_new_record_at": "2026-10-31T17:40:35.507Z",
+            "last_successful_sync_at": "2026-10-31T17:48:34.101Z",
+            "last_new_record_at": "2026-10-31T17:48:34.101Z",
             "collection_state": "ready"
           }
         ],
@@ -236,7 +236,7 @@
         "readiness": "blocked",
         "sources": [
           {
-            "connection_id": "2776e8a1-67b8-43b4-8a36-c45c769479ed",
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -248,5 +248,277 @@
         "missing_source": false
       }
     ]
+  },
+  "refund_gaps": {
+    "applied_cursor": 703,
+    "calculation": [
+      "Approved cash refund entitlement (explicit, or derived from credits on paid invoice portions when no entitlement feed exists) minus completed refunds on the same original payment; a credit note alone does not create a cash repayment."
+    ],
+    "conflicts": [],
+    "coverage": [
+      {
+        "capability": "invoices",
+        "complete_through": "2026-10-31T09:18:00Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "payments",
+        "complete_through": "2026-10-31T09:18:00Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "entitlements",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "refunds",
+        "complete_through": "2026-10-31T09:18:00Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "coverage",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "identity",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      }
+    ],
+    "evidence_entry_ids": [
+      "35b29cb4-28da-4b64-9775-2fed937a4607",
+      "571d4c0a-ed73-42e8-8973-098a936be3f4",
+      "f3b0e77a-1895-44a2-851d-25fce278166f",
+      "03c7eb42-5521-4827-b740-a68a5b103756",
+      "ab1a9c0b-07ae-471d-a7ba-5252d32017f6",
+      "4e9a98a3-ac7b-4ca7-8a92-7c2560d91d1d",
+      "0f115678-d85b-44ec-9ca5-5efcc77627c8",
+      "c89d01fe-f08a-46f0-8310-5d6e7b06b74a",
+      "1a8db786-f3a0-4f81-95a2-b0dabac77834",
+      "d1c20fd5-97e2-4a13-9016-c8b7ae15a186",
+      "125d54c5-d346-4bc9-a126-57351a7771f0",
+      "bf4b6d7a-333e-4da3-b29f-796c7911aa54",
+      "1d5c3ba3-6754-4a41-be92-e53bed72636e",
+      "d44fdf4e-9aee-4f40-ac15-c55ec89b4698",
+      "d9ef773f-37b2-4610-ad1e-b48d89f51afe",
+      "fc39c367-063d-4a6e-b295-0cb37ad41b03",
+      "8667c667-75e0-4c1f-91a1-6179e85af926",
+      "759379cc-9755-437b-90e1-9801838a9b66",
+      "50eb9c4c-0fc3-4815-8644-1cc56fa4b500",
+      "bb5b2491-066e-48cf-bc83-ae0b37e9f0d3",
+      "e359e80a-9361-4f0c-ae5c-9b49c1b4ba8e",
+      "e7981eaa-8ccd-4307-8375-d361210cf84b",
+      "dddf5532-2927-47cb-b214-509d2d93cc45",
+      "23f16c10-ac55-4b0d-a033-19ab60d0bc04",
+      "34ebb685-7889-4447-a00f-3ab375846cb9"
+    ],
+    "hydration_rounds": 0,
+    "intent": "credits.refund_gaps",
+    "missing_inputs": [
+      "entitlements"
+    ],
+    "pagination": {
+      "next_cursor": null,
+      "snapshot_cursor": 703,
+      "truncated": false
+    },
+    "required_cursor": 703,
+    "result": {
+      "credit_without_cash_refund": [],
+      "refund_gaps": [
+        {
+          "approved_cash_refund_minor": 2380,
+          "basis": "derived_from_paid_invoice_credit",
+          "cash_refund_due_minor": 0,
+          "completed_cash_refund_minor": 2380,
+          "credit_minor": 2380,
+          "currency": "EUR",
+          "invoice_id": "INV-1001-dup6nty",
+          "original_capture_minor": 11900
+        },
+        {
+          "approved_cash_refund_minor": 2380,
+          "basis": "derived_from_paid_invoice_credit",
+          "cash_refund_due_minor": 0,
+          "completed_cash_refund_minor": 2380,
+          "credit_minor": 2380,
+          "currency": "EUR",
+          "invoice_id": "INV-1001-full6nty",
+          "original_capture_minor": 11900
+        },
+        {
+          "approved_cash_refund_minor": 2380,
+          "basis": "derived_from_paid_invoice_credit",
+          "cash_refund_due_minor": 0,
+          "completed_cash_refund_minor": 2380,
+          "credit_minor": 2380,
+          "currency": "EUR",
+          "invoice_id": "INV-1001-nobank6nty",
+          "original_capture_minor": 11900
+        },
+        {
+          "approved_cash_refund_minor": 2380,
+          "basis": "derived_from_paid_invoice_credit",
+          "cash_refund_due_minor": 0,
+          "completed_cash_refund_minor": 2380,
+          "credit_minor": 2380,
+          "currency": "EUR",
+          "invoice_id": "INV-1001-step6nty",
+          "original_capture_minor": 11900
+        },
+        {
+          "approved_cash_refund_minor": 7140,
+          "basis": "derived_from_paid_invoice_credit",
+          "cash_refund_due_minor": 0,
+          "completed_cash_refund_minor": 7140,
+          "credit_minor": 7140,
+          "currency": "EUR",
+          "invoice_id": "INV-1001-x36nty",
+          "original_capture_minor": 35700
+        }
+      ]
+    },
+    "rule_version": "r1",
+    "status": "partial",
+    "timing_ms": 6,
+    "effective_at": null,
+    "recorded_cutoff": 703,
+    "readiness": [
+      {
+        "capability": "invoices",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "payments",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "entitlements",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [
+          {
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "refunds",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
+            "last_new_record_at": "2026-10-31T17:48:16.805Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
+            "last_new_record_at": "2026-10-31T17:48:34.399Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "coverage",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [],
+        "missing_source": true
+      },
+      {
+        "capability": "identity",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [
+          {
+            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      }
+    ]
+  },
+  "bitemporal": {
+    "cutoff": 410,
+    "before": {
+      "allocated_minor": 0,
+      "credits_minor": 0,
+      "net_minor": 11900,
+      "refund_payable_from_credits_minor": 0,
+      "reported_open_minor": 0
+    },
+    "after": {
+      "allocated_minor": 0,
+      "credits_minor": 2380,
+      "net_minor": 9520,
+      "refund_payable_from_credits_minor": 2380,
+      "reported_open_minor": 0
+    }
   }
 }

@@ -65,10 +65,12 @@ impl Store {
         rows.iter().map(row_to_entry).collect()
     }
     /// Derived entries linked to one entity up to and including `max_sequence`, for cold hydration and as-of folds.
+    /// Entity history up to a journal position. Derived facts whose SOURCE lies at or before that position are included even
+    /// when their own sequence is higher (they were appended after their source): resolution reflects causal order, not batching.
     pub async fn entity_history(&self, tenant: Uuid, kind: EntityKind, id: &str, max_sequence: i64, derived_only: bool) -> Result<Vec<JournalEntry>> {
         let c = self.pool.get().await?;
         c.batch_execute("SELECT set_config('app.scope', 'engine', false), set_config('app.tenant_id', '', false)").await?;
-        let sql = format!("SELECT {} FROM journal_entity_links l JOIN journal_entries je ON je.entry_id = l.entry_id WHERE l.tenant_id = $1 AND l.entity_type = $2 AND l.entity_id = $3 AND l.journal_sequence <= $4 {} ORDER BY l.journal_sequence LIMIT 20000",
+        let sql = format!("SELECT {} FROM journal_entity_links l JOIN journal_entries je ON je.entry_id = l.entry_id WHERE l.tenant_id = $1 AND l.entity_type = $2 AND l.entity_id = $3 AND (l.journal_sequence <= $4 OR (je.record_type <> 'source' AND EXISTS (SELECT 1 FROM journal_entries s WHERE s.tenant_id = je.tenant_id AND s.entry_id = ANY(je.input_entry_ids) AND s.journal_sequence <= $4))) {} ORDER BY l.journal_sequence LIMIT 20000",
             ENTRY_COLS.split(", ").map(|c| format!("je.{c}")).collect::<Vec<_>>().join(", "), if derived_only { "AND je.record_type <> 'source'" } else { "" });
         let rows = c.query(&sql, &[&tenant, &kind.as_str(), &id, &max_sequence]).await?;
         rows.iter().map(row_to_entry).collect()

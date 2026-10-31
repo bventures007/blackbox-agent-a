@@ -64,13 +64,13 @@ describe('SLICE-01 provider-shaped persisted path', () => {
     const runsBefore = ((await apiFetch(`/api/sources/${connectionId}/runs`, { cookie })).body.runs as Array<Record<string, unknown>>).filter((x) => x.state === 'complete').length;
     const r = await apiFetch(`/api/sources/${connectionId}/actions`, { method: 'POST', cookie, body: JSON.stringify({ action: 'retry' }) }); expect(r.status).toBe(200);
     // the retry must start a NEW run (a finished singleton job is re-armed, not ignored); the overlap window re-fetches the newest order(s)
-    const actionAt = Date.now() - 2000;
-    await waitFor(async () => { const rr = await apiFetch(`/api/sources/${connectionId}/runs`, { cookie }); const runs = rr.body.runs as Array<Record<string, unknown>>; return runs.some((x) => x.state === 'complete' && new Date(x.started_at as string).getTime() >= actionAt) ? true : null; }, 90_000);
+    const actionAt = Date.now();
+    await waitFor(async () => { const rr = await apiFetch(`/api/sources/${connectionId}/runs`, { cookie }); const runs = rr.body.runs as Array<Record<string, unknown>>; return runs.some((x) => x.state === 'complete' && x.run_kind === 'incremental' && new Date(x.started_at as string).getTime() > actionAt) ? true : null; }, 90_000);
     void runsBefore;
     const counts = await apiFetch('/api/journal/counts', { cookie }); await waitApplied(cookie, Number(counts.body.committed_cursor), 60_000);
     const after = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state' }) });
     expect(normalize((after.body.result as { orders: unknown[] }).orders)).toEqual(normalize((before.body.result as { orders: unknown[] }).orders));
-    const runs = await apiFetch(`/api/sources/${connectionId}/runs`, { cookie }); const last = (runs.body.runs as Array<Record<string, unknown>>).filter((x) => x.state === 'complete' && new Date(x.started_at as string).getTime() >= actionAt).sort((x, y) => String(y.started_at).localeCompare(String(x.started_at)))[0]!;
+    const runs = await apiFetch(`/api/sources/${connectionId}/runs`, { cookie }); const last = (runs.body.runs as Array<Record<string, unknown>>).filter((x) => x.state === 'complete' && x.run_kind === 'incremental' && new Date(x.started_at as string).getTime() > actionAt).sort((x, y) => String(y.started_at).localeCompare(String(x.started_at)))[0]!;
     ev.second_run = last.counters; expect(Number((last.counters as Record<string, number>).duplicates)).toBeGreaterThan(0);
   }, 120_000);
 

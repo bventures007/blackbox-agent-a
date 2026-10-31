@@ -37,7 +37,8 @@ function renderRelease(r) {
   if (foot) foot.textContent = ok ? `v${r.version}` : '';
   if (!ok || !art) {
     for (const b of buttons) { b.setAttribute('aria-disabled', 'true'); b.classList.add('secondary'); b.classList.remove('primary'); b.href = '#download'; }
-    if (state) state.innerHTML = `<span class="unavailable">⏸ ${ok ? t('state.unavailable') : t('state.invalid')}</span><p class="hint">${t('state.unavailable_hint')}</p>`;
+    // no manifest published yet (null) = not available; a present but malformed manifest = invalid (never a download)
+    if (state) state.innerHTML = `<span class="unavailable">⏸ ${ok || r === null ? t('state.unavailable') : t('state.invalid')}</span><p class="hint">${t('state.unavailable_hint')}</p>`;
     if (meta) meta.innerHTML = ok ? `<div><dt>${t('meta.version')}</dt><dd>${r.version}</dd></div><div><dt>${t('meta.status')}</dt><dd>${r.status}</dd></div>` : ''; if (line) line.textContent = ''; return;
   }
   for (const b of buttons) { b.removeAttribute('aria-disabled'); b.href = art.url; b.setAttribute('download', art.filename); b.addEventListener('click', () => { setTimeout(() => { fetch(art.url, { method: 'HEAD' }).then((res) => { if (!res.ok) alert(t('state.failed')); }).catch(() => {}); }, 1500); }, { once: true }); }

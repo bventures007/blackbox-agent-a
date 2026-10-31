@@ -44,13 +44,13 @@ for (const lang of ['en', 'de'] as const) {
     await page.getByRole('button', { name: lang === 'de' ? 'Vorschau' : 'Preview', exact: true }).click(); await expect(page.locator('.pre').last()).toContainText('estimated_size_bytes'); await shot(page, `diagnostics-${lang}`);
     await open(lang === 'de' ? 'Einstellungen' : 'Settings'); await expect(page.getByText(lang === 'de' ? 'Laufzeit-Lebenszyklus' : 'Runtime lifecycle')).toBeVisible(); await shot(page, `settings-${lang}`);
     // keyboard: tab reaches the navigation and the skip link works
-    await page.keyboard.press('Tab'); const focused = await page.evaluate(() => document.activeElement?.className ?? ''); expect(focused.length).toBeGreaterThan(0);
+    await page.keyboard.press('Tab'); const focused = await page.evaluate(() => ({ tag: document.activeElement?.tagName ?? 'BODY', text: (document.activeElement as HTMLElement | null)?.innerText?.slice(0, 40) ?? '' })); expect(focused.tag).not.toBe('BODY'); // keyboard focus lands on an interactive element (skip link / navigation)
     await open(lang === 'de' ? 'Flugschreiber' : 'Recorder'); await expect(page.getByText(lang === 'de' ? 'Business-Flugschreiber' : 'Business recorder')).toBeVisible();
     await page.reload(); await expect(page.getByRole('heading', { level: 1 })).toContainText(lang === 'de' ? 'Dein Business' : 'Your business'); // session survives refresh
   });
 }
 test('wrong key shows an understandable error and no key material leaks', async ({ page }) => {
   await page.goto('/'); await page.getByLabel('Access key').fill('bbx_owner_' + 'a'.repeat(52)); await page.getByRole('button', { name: 'Sign in' }).click();
-  await expect(page.getByRole('alert')).toContainText('not accepted'); const html = await page.content(); expect(html).not.toContain('bbx_owner_a');
+  await expect(page.getByRole('alert')).toContainText('not accepted'); const html = (await page.content()).replace(/<input[^>]*>/g, '<input>'); expect(html).not.toContain('bbx_owner_a'); // the typed key appears nowhere except the field itself
   const storage = await page.evaluate(() => JSON.stringify(Object.keys(localStorage))); expect(storage).not.toMatch(/key|session|token/i);
 });

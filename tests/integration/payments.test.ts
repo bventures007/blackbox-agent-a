@@ -55,7 +55,9 @@ describe('shopify_payments fixture import through worker, PostgreSQL, Rust and A
     expect(Number(acct.in_transit_minor) + Number(acct.bank_confirmed_minor)).toBe((ev.fixture_expected as { net: number }).net); // paid payout is sent, no bank statement yet
     expect(acct.announced_payouts_minor).toBe(12345); // SCHEDULED payout is an announcement, never a transfer
     expect(acct.fees_minor).toBe((ev.fixture_expected as { fees: number }).fees); // provider fees come from the ledger charge postings (no gateway fee events on this path)
-    expect(acct.provider_balance_minor).toBe(0); // captures - fees - payout sent = 0 for a fully paid-out ledger
+    // conservation: the workspace also holds the orders adapter's refunds/chargebacks for the same account, so the identity (not a bare zero) is asserted
+    const expectedBalance = Number(acct.captured_minor) - Number(acct.fees_minor) - Number(acct.refunded_minor) - Number(acct.chargebacks_minor) + Number(acct.adjustments_minor) - Number(acct.in_transit_minor) - Number(acct.bank_confirmed_minor);
+    expect(acct.provider_balance_minor).toBe(expectedBalance); ev.balance_identity = { balance: acct.provider_balance_minor, expected: expectedBalance };
     const cb = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'refunds.chargeback_overlap' }) }); ev.chargeback = cb.body;
     expect(cb.status).toBe(200); const cases = (cb.body.result as { cases: Array<Record<string, unknown>> }).cases; expect(cases.some((c) => String(c.dispute_id) === '5001')).toBe(true);
     const health = await apiFetch('/api/diagnostics/health', { cookie }); const sources = (health.body.cards as Array<{ area: string; detail: Record<string, unknown> }>).find((c) => c.area === 'sources')!; ev.sources_health = sources.detail;

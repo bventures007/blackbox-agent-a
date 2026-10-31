@@ -75,7 +75,8 @@ export async function registerSourceRoutes(app: FastifyInstance, s: Services) {
     if (!body.data.commit) return { preview: { ...preview, rows: preview.rows.slice(0, 200) } };
     const id = (req.params as { id: string }).id;
     const runId = await s.sources.startRun(p.tenantId, id, 'import', { statement_id: body.data.statement_id, coverage: body.data.coverage });
-    const obs = bankObservations(preview, body.data.account_id);
+    const known = new Set<string>((await withTenant(s.ctx.db, p.tenantId, (tx) => tx`SELECT DISTINCT entity_id FROM journal_entity_links WHERE tenant_id = ${p.tenantId} AND entity_type = 'payout'`)).map((r) => r.entity_id as string));
+    const obs = bankObservations(preview, body.data.account_id, known);
     const out = await s.ingest.ingest({ tenantId: p.tenantId, connectionId: id, providerNamespace: `bank_csv:${body.data.account_id}`, runId }, obs);
     const now = new Date();
     await s.sources.updateRun(p.tenantId, runId, { state: preview.invalid ? 'complete_with_gaps' : 'complete', phase: 'ready', outcome: preview.invalid ? `${preview.invalid} rows rejected` : 'all rows imported', counters: { rows_total: preview.rows.length, rows_valid: preview.valid, rows_invalid: preview.invalid, committed: out.accepted.length, duplicates: out.duplicates } });
