@@ -1,12 +1,13 @@
 {
   "manifest_version": 1,
-  "release": "0.1.0-pilot.4",
+  "release": "0.1.0-pilot.5",
   "install": {
     "postgres_major": 17,
-    "schema": 11,
+    "schema": 12,
     "upgrade_from_schema": [
       8,
-      10
+      10,
+      11
     ],
     "rollback": "No populated binary downgrade. Use a compatible forward fix or isolated verified pre-upgrade restore with its recorded cutoff."
   },
@@ -54,7 +55,9 @@
     "lifecycle_readers": [
       "lifecycle-v2",
       "lifecycle-v3"
-    ]
+    ],
+    "input_reader": 2,
+    "outbox_processing": 2
   },
   "migrations": [
     {
@@ -100,6 +103,10 @@
     {
       "file": "011-projection-generations.sql",
       "sha256": "0cdfb4665f13de738b49fda0e6036b9637cc174e3a469d068a2880f6cf98a381"
+    },
+    {
+      "file": "012-bounded-derivation.sql",
+      "sha256": "608cccc246d29949cf6586c943b97f186df5cf1465e0df8b8b05f8b7347187c3"
     }
   ],
   "legacy_schema": {
@@ -118,6 +125,6 @@
     "PostgreSQL18 is allowed only for the existing native development harness; the installation and recovery contract pins PostgreSQL17.",
     "No separate filesystem snapshot format is implemented; projections are disposable version-checked PostgreSQL acceleration.",
     "Runtime protocol compatibility does not authorize installing arbitrary images. Distribution artifact digests and the fenced upgrade procedure remain required.",
-    "Populated upgrades support exact schema8/schema10 to schema11 and same-schema11 image replacement. Existing workspaces retain lifecycle-v2 until a bounded, verified generation is atomically published. Both lifecycle-v2/v3 readers are retained; isolated restore supports older recorded formats."
+    "Populated upgrades support exact schema8/schema10/schema11 to schema12 and same-schema12 image replacement. Prior lifecycle-v2/v3 interpretations are retained; input reader v2 rejects unknown persisted formats and bounded outbox processing leaves quarantined gaps unapplied. Existing v2 workspaces publish a verified v3 generation before traffic; isolated restore retains older recorded formats."
   ]
 }

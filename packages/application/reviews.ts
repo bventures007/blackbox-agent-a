@@ -97,10 +97,12 @@ async function details(c: PoolClient, id: string) {
     await c.query(
       `SELECT r.*,s.provider,s.account_anchor,s.config->>'name' source_name,
     j.entity_id,j.record_id,j.payload original_observation,j.evidence_id original_evidence_id,
+    o.state derivation_state,o.attempts derivation_attempts,o.error_code derivation_error,
     cl.claim proposed_observation,cl.evidence_id claim_evidence_id,
     sj.capability,sj.parameters,sj.checkpoint,sj.plan_id
     FROM bb.review_cases r JOIN bb.connections s USING(tenant_id,connection_id)
     LEFT JOIN bb.journal j ON j.tenant_id=r.tenant_id AND j.entry_id=r.entry_id
+    LEFT JOIN bb.outbox o ON o.tenant_id=j.tenant_id AND o.sequence=j.sequence
     LEFT JOIN bb.review_claims cl ON cl.tenant_id=r.tenant_id AND cl.case_id=r.case_id
     LEFT JOIN (SELECT j.*,p.parameters FROM bb.source_jobs j JOIN bb.import_plans p USING(tenant_id,plan_id)) sj ON sj.tenant_id=r.tenant_id AND sj.run_id=r.run_id
     WHERE r.case_id=$1`,
@@ -119,9 +121,10 @@ async function details(c: PoolClient, id: string) {
   return {
     ...row,
     current,
-    affected_intents: affected(
-      current?.payload?.record?.dataset ?? row.capability ?? "",
-    ),
+    affected_intents: [
+      ...(row.kind === "derivation_failed" ? ["get_business_state"] : []),
+      ...affected(current?.payload?.record?.dataset ?? row.capability ?? ""),
+    ],
     history: (
       await c.query(
         "SELECT decision_id,principal_id,action,reason_code,evidence_id,required_cursor,outcome,created_at FROM bb.review_decisions WHERE case_id=$1 ORDER BY created_at",
@@ -230,7 +233,21 @@ export async function decideReview(
     target = item.current?.payload as RecordObservation | undefined;
   let observations: IngestObservation[] = [],
     retryFailed = false;
-  if (body.action === "retry") {
+  const derivationRetry =
+    item.kind === "derivation_failed" && body.action === "retry";
+  if (
+    item.kind === "derivation_failed" &&
+    !["leave", "retry"].includes(body.action)
+  )
+    throw new ReviewError("review_derivation_retry_only");
+  if (derivationRetry) {
+    if (item.retry_count >= 3) throw new ReviewError("review_retry_limit");
+    if (
+      item.derivation_state !== "quarantined" ||
+      body.expected_entry_id !== item.entry_id
+    )
+      throw new ReviewError("review_stale_entry");
+  } else if (body.action === "retry") {
     if (item.retry_count >= 3) throw new ReviewError("review_retry_limit");
     if (!item.run_id || !item.parameters || !item.object_id)
       throw new ReviewError("review_retry_unavailable");
@@ -402,8 +419,11 @@ export async function decideReview(
       intended,
       raw,
       {
-        origin: body.action === "retry" ? undefined : "owner_decision",
-        providerSnapshot: body.action === "retry",
+        origin:
+          body.action === "retry" && !derivationRetry
+            ? undefined
+            : "owner_decision",
+        providerSnapshot: body.action === "retry" && !derivationRetry,
         before: async (c) => {
           await active(c, p);
           await c.query(
@@ -444,6 +464,15 @@ export async function decideReview(
             throw new ReviewError("review_revision_conflict");
           if (body.action === "retry" && row.retry_count >= 3)
             throw new ReviewError("review_retry_limit");
+          if (derivationRetry) {
+            const reset = await c.query(
+              `UPDATE bb.outbox o SET state='pending',attempts=0,next_at=now(),error_code=NULL,failed_at=NULL
+               FROM bb.journal j WHERE o.tenant_id=j.tenant_id AND o.sequence=j.sequence
+               AND j.entry_id=$1 AND o.state='quarantined' RETURNING o.sequence`,
+              [item.entry_id],
+            );
+            if (!reset.rowCount) throw new ReviewError("review_stale_entry");
+          }
           if (body.action !== "retry" && body.action !== "leave") {
             const latest = await details(c, caseId);
             if (latest.current?.entry_id !== body.expected_entry_id)
@@ -465,6 +494,7 @@ export async function decideReview(
           }
           for (const id of body.evidence_ids)
             if (
+              !(derivationRetry && id === item.original_evidence_id) &&
               !(
                 await c.query(
                   "SELECT 1 FROM bb.evidence_retention WHERE evidence_id=$1 AND accessible",
@@ -479,10 +509,13 @@ export async function decideReview(
             body.action !== "leave" &&
             !retryFailed &&
             !r.conflicts &&
-            intended.length > 0;
-          const checks = affected(
-            target?.record?.dataset ?? item.capability ?? "",
-          );
+            (intended.length > 0 || derivationRetry);
+          const checks = [
+            ...(item.kind === "derivation_failed"
+              ? ["get_business_state"]
+              : []),
+            ...affected(target?.record?.dataset ?? item.capability ?? ""),
+          ];
           await c.query(
             "INSERT INTO bb.review_decisions(tenant_id,decision_id,case_id,principal_id,request_fingerprint,case_revision,action,reason_code,evidence_id,required_cursor,outcome,checks)VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)",
             [
@@ -544,7 +577,7 @@ export async function decideReview(
         body.action !== "leave" &&
         !retryFailed &&
         !result.conflicts &&
-        intended.length
+        (intended.length || derivationRetry)
           ? "recalculating"
           : "unresolved",
       revision: body.revision + 1,
@@ -595,28 +628,36 @@ export async function checkReview(
   if (next) {
     const entity = item.current?.payload?.entity_id ?? item.entity_id;
     if (!entity) throw new ReviewError("review_entity_unavailable");
-    const response = await fetch(process.env.ENGINE_URL + "/v1/query", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-blackbox-contract": runtimeFingerprint,
-        "x-blackbox-internal": internal,
-      },
-      body: JSON.stringify({
-        tenant_id: p.tenant_id,
-        verifier: verifier(key),
-        recorded_cutoff: Number(d.required_cursor),
-        at_least_cursor: Number(d.required_cursor),
-        request: {
-          intent: next,
-          entity_id: entity,
-          as_of: new Date(d.created_at).toISOString(),
-          limit: 100,
-          offset: 0,
+    const lifecycle = next === "get_business_state";
+    const response = await fetch(
+      process.env.ENGINE_URL + (lifecycle ? "/v1/state" : "/v1/query"),
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "x-blackbox-contract": runtimeFingerprint,
+          "x-blackbox-internal": internal,
         },
-      }),
-      signal: AbortSignal.timeout(4500),
-    });
+        body: JSON.stringify({
+          tenant_id: p.tenant_id,
+          verifier: verifier(key),
+          recorded_cutoff: Number(d.required_cursor),
+          at_least_cursor: Number(d.required_cursor),
+          ...(lifecycle
+            ? { entity_id: entity }
+            : {
+                request: {
+                  intent: next,
+                  entity_id: entity,
+                  as_of: new Date(d.created_at).toISOString(),
+                  limit: 100,
+                  offset: 0,
+                },
+              }),
+        }),
+        signal: AbortSignal.timeout(4500),
+      },
+    );
     if (!response.ok)
       throw new ReviewError("review_recalculation_unavailable", 503);
     const answer = await response.json();
@@ -635,7 +676,7 @@ export async function checkReview(
             status: answer.status,
             rule_version: answer.rule_version,
             missing_inputs: answer.missing_inputs,
-            conflicts: answer.conflicts,
+            conflicts: answer.conflicts ?? answer.result?.conflicts,
           },
         ],
       );

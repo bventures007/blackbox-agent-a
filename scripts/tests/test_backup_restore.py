@@ -20,7 +20,7 @@ class BackupRestoreTests(unittest.TestCase):
    import hmac
    from evidence_policy import canonical
    ledger={'payload':payload,'mac':hmac.new((materials or {}).get('identity',b'x'*32),b'blackbox-evidence-ledger-v1\0'+canonical(payload),hashlib.sha256).hexdigest()}
-   archive.add('policy/redactions.json',canonical(ledger)if compatibility.get('schema')in [8,10,11] else b'{}');archive.add('installation.json',json.dumps({'installation_id':identity,'compatibility':compatibility}).encode());archive.finish(metadata)
+   archive.add('policy/redactions.json',canonical(ledger)if compatibility.get('schema')in [8,10,11,12] else b'{}');archive.add('installation.json',json.dumps({'installation_id':identity,'compatibility':compatibility}).encode());archive.finish(metadata)
   return path
  def test_verified_metadata_and_database_chunk_hash(self):
   path=self.backup()

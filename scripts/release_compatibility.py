@@ -1,7 +1,7 @@
 """Exact installation contracts; never infer historical migration execution."""
 import hashlib,json,re
 from host_runtime import RuntimeConfigError
-SUPPORTED_RUNTIME_SHA256="dfa4fd04235e890f3efa3cab151057eb97818ec8e8a2f5098950fe144d985038"
+SUPPORTED_RUNTIME_SHA256="84dd83fae05e005a37a2661fc3713f896fc5af869ceb0a29fdc6791427ca4e90"
 
 
 def read_manifest(root):
@@ -15,10 +15,10 @@ def read_manifest(root):
   return value
  try:value=json.loads(path.read_text(),object_pairs_hook=unique)
  except (ValueError,UnicodeError):raise RuntimeConfigError('Invalid release compatibility manifest.')from None
- if not isinstance(value,dict)or value.get('manifest_version')!=1 or value.get('install',{}).get('postgres_major')!=17 or value.get('install',{}).get('schema')!=11 or not isinstance(value.get('runtime'),dict):raise RuntimeConfigError('Unsupported release installation contract. Use its matching host wrapper.')
+ if not isinstance(value,dict)or value.get('manifest_version')!=1 or value.get('install',{}).get('postgres_major')!=17 or value.get('install',{}).get('schema')!=12 or not isinstance(value.get('runtime'),dict):raise RuntimeConfigError('Unsupported release installation contract. Use its matching host wrapper.')
  if hashlib.sha256(json.dumps(value['runtime'],sort_keys=True,separators=(',',':')).encode()).hexdigest()!=SUPPORTED_RUNTIME_SHA256:raise RuntimeConfigError('Unknown runtime formats for this host release. No migration or traffic is allowed.')
  migrations=value.get('migrations',[])
- if not isinstance(migrations,list)or len(migrations)!=11:raise RuntimeConfigError('Incomplete release migration manifest.')
+ if not isinstance(migrations,list)or len(migrations)!=12:raise RuntimeConfigError('Incomplete release migration manifest.')
  files=sorted((root/'packages/database/migrations').glob('*.sql'))
  if [p.name for p in files]!=[m.get('file')for m in migrations]:raise RuntimeConfigError('Release migrations are missing, newer or unexpected. Use the exact release bundle.')
  for index,(path,entry)in enumerate(zip(files,migrations),1):
@@ -51,7 +51,7 @@ def check_upgrade_source(root,source_schema,state='active'):
  """Exact known populated source, using the target bundle's immutable prefix."""
  from backup_operations import sql
  manifest=read_manifest(root);rows=migration_rows(root)
- if source_schema not in [8,10,11]or state not in ['active','fenced']:
+ if source_schema not in [8,10,11,12]or state not in ['active','fenced']:
   raise RuntimeConfigError('Unsupported populated upgrade source. Use isolated verified recovery for older formats.')
  require_prefix(rows,manifest)
  if len(rows)!=source_schema:raise RuntimeConfigError('Upgrade source schema disagrees with the checkpoint.')
@@ -76,9 +76,13 @@ def normalized_legacy_schema(raw):
 
 
 def runtime_for_schema(manifest,schema):
- if schema==11:return manifest['runtime']
- if schema not in [7,8,9,10]:raise RuntimeConfigError('Unknown historical runtime schema.')
+ if schema==12:return manifest['runtime']
+ if schema not in [7,8,9,10,11]:raise RuntimeConfigError('Unknown historical runtime schema.')
  prior=json.loads(json.dumps(manifest['runtime']))
+ prior.pop('input_reader');prior.pop('outbox_processing')
+ if schema==11:
+  if hashlib.sha256(json.dumps(prior,sort_keys=True,separators=(',',':')).encode()).hexdigest()!='dfa4fd04235e890f3efa3cab151057eb97818ec8e8a2f5098950fe144d985038':raise RuntimeConfigError('Historical runtime reader changed.')
+  return prior
  prior.pop('projection_build');prior.pop('lifecycle_readers')
  prior['reducers']['lifecycle']=prior['projections']['lifecycle']='lifecycle-v2'
  if schema<9:prior.pop('source_checkpoint')
@@ -89,9 +93,9 @@ def runtime_for_schema(manifest,schema):
 
 def backup_compatibility(root, schema=None):
  manifest=read_manifest(root);schema=manifest['install']['schema']if schema is None else schema
- if schema not in [7,8,10,11]:raise RuntimeConfigError('Unsupported backup schema contract.')
+ if schema not in [7,8,10,11,12]:raise RuntimeConfigError('Unsupported backup schema contract.')
  runtime=runtime_for_schema(manifest,schema)
- release='0.1.0-pilot.'+str({7:1,8:2,10:3,11:4}[schema])
+ release='0.1.0-pilot.'+str({7:1,8:2,10:3,11:4,12:5}[schema])
  return {'application':'0.1.0','postgres_major':manifest['install']['postgres_major'],'schema':schema,'engine_rpc':runtime['engine_rpc'],'lifecycle':runtime['reducers']['lifecycle'],'typed_records':runtime['reducers']['typed_records'],'questions':runtime['reducers']['questions'],'backup_format':runtime['backup'],'release':release,'runtime_sha256':hashlib.sha256(json.dumps(runtime,sort_keys=True,separators=(',',':')).encode()).hexdigest(),'migrations_sha256':hashlib.sha256(json.dumps(manifest['migrations'][:schema],sort_keys=True,separators=(',',':')).encode()).hexdigest()}
 
 
@@ -99,10 +103,10 @@ def upgrade_restored_schema(root,source_schema):
  """Only a new fenced restore may attest known legacy schema and migrate forward."""
  from backup_operations import sql,run
  manifest=read_manifest(root);rows=migration_rows(root)
- if source_schema not in [5,6,7,8,10,11]:raise RuntimeConfigError('Unsupported backup schema; destination remains fenced.')
- if source_schema==11:
+ if source_schema not in [5,6,7,8,10,11,12]:raise RuntimeConfigError('Unsupported backup schema; destination remains fenced.')
+ if source_schema==12:
   require_prefix(rows,manifest,complete=True);check_database(root);return
- if source_schema in [7,8,10]:
+ if source_schema in [7,8,10,11]:
   require_prefix(rows,manifest)
   if len(rows)!=source_schema:raise RuntimeConfigError('Backup schema declaration disagrees with its migration history.')
   metadata=json.loads(sql(root,"SELECT coalesce(json_agg(json_build_object('contract',contract,'state',state)),'[]'::json) FROM bb.runtime_contract;"))

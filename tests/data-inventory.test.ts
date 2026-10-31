@@ -24,6 +24,12 @@ test("inventory drift denies missing canonical fields, unknown privacy policies 
       ).normalization = "REVIEW_REQUIRED";
     },
     (x: any) => {
+      x.reviewed_source_sha256["crates/../../secret.rs"] = "0".repeat(64);
+    },
+    (x: any) => {
+      x.reviewed_source_sha256["crates/domain/src/reader.rs"] = "0".repeat(64);
+    },
+    (x: any) => {
       x.provider_query_sha256.orders = "0".repeat(64);
     },
   ]) {

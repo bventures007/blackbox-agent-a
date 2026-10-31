@@ -66,6 +66,7 @@ async fn execute(
     if applied < cutoff || applied < q.at_least_cursor.unwrap_or(0) {
         return Err(error("projection_behind"));
     }
+    require_supported_scope(&mut tx, cutoff, None).await?;
     let required = blackbox_domain::questions::INTENTS
         .iter()
         .find(|(id, _)| *id == q.request.intent)
@@ -82,7 +83,7 @@ async fn execute(
         && q.effective_at.is_none()
         && count == head.get::<i64, _>("record_count")
     {
-        sqlx::query("SELECT record_id,entity_id,connection_id,to_char(occurred_at AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"') AS occurred_at,payload,evidence_id,entry_id,checksum FROM bb.current_records WHERE dataset=ANY($1) ORDER BY record_id LIMIT 20001").bind(&datasets).fetch_all(&mut *tx).await.map_err(|_|error("read_failed"))?
+        sqlx::query("SELECT p.record_id,p.entity_id,p.connection_id,j.schema_version,j.event_type,to_char(p.occurred_at AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"') AS occurred_at,p.payload,p.evidence_id,p.entry_id,p.checksum FROM bb.current_records p JOIN bb.journal j ON j.tenant_id=p.tenant_id AND j.entry_id=p.entry_id WHERE p.dataset=ANY($1) ORDER BY p.record_id LIMIT 20001").bind(&datasets).fetch_all(&mut *tx).await.map_err(|_|error("read_failed"))?
     } else {
         vec![]
     };
@@ -93,10 +94,21 @@ async fn execute(
     });
     if rows.is_empty() || corrupt {
         path = "indexed_cold_record_history";
-        rows=sqlx::query("SELECT DISTINCT ON(j.record_id) j.record_id,j.entity_id,j.connection_id,to_char(j.occurred_at AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"') AS occurred_at,j.payload->'record' AS payload,j.evidence_id,j.entry_id FROM bb.journal j WHERE j.record_type='source' AND j.payload ? 'record' AND j.payload->'record'->>'dataset'=ANY($1) AND j.sequence<=$2 AND ($3::text::timestamptz IS NULL OR j.occurred_at<=$3::text::timestamptz) AND NOT EXISTS(SELECT 1 FROM bb.journal correction WHERE correction.record_type='source' AND correction.supersedes_entry_id=j.entry_id AND correction.sequence<=$2 AND ($3::text::timestamptz IS NULL OR correction.occurred_at<=$3::text::timestamptz)) ORDER BY j.record_id,j.occurred_at DESC,j.sequence DESC LIMIT 20001").bind(&datasets).bind(cutoff).bind(&q.effective_at).fetch_all(&mut *tx).await.map_err(|_|error("read_failed"))?;
+        rows=sqlx::query("SELECT DISTINCT ON(j.record_id) j.record_id,j.entity_id,j.connection_id,j.schema_version,j.event_type,to_char(j.occurred_at AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"') AS occurred_at,j.payload->'record' AS payload,j.evidence_id,j.entry_id FROM bb.journal j WHERE j.record_type='source' AND j.payload ? 'record' AND j.payload->'record'->>'dataset'=ANY($1) AND j.sequence<=$2 AND ($3::text::timestamptz IS NULL OR j.occurred_at<=$3::text::timestamptz) AND NOT EXISTS(SELECT 1 FROM bb.journal correction WHERE correction.record_type='source' AND correction.supersedes_entry_id=j.entry_id AND correction.sequence<=$2 AND ($3::text::timestamptz IS NULL OR correction.occurred_at<=$3::text::timestamptz)) ORDER BY j.record_id,j.occurred_at DESC,j.sequence DESC LIMIT 20001").bind(&datasets).bind(cutoff).bind(&q.effective_at).fetch_all(&mut *tx).await.map_err(|_|error("read_failed"))?;
     }
     if rows.len() > 20000 {
         return Err(error("query_too_large_narrow_scope"));
+    }
+    for row in &rows {
+        if row.get::<i32, _>("schema_version") != 1 {
+            return Err(error("unsupported_event_version"));
+        }
+        let data: Value = row.get("payload");
+        if blackbox_domain::reader::record_kind(&data).map_err(error)?
+            != row.get::<String, _>("event_type")
+        {
+            return Err(error("unsupported_event"));
+        }
     }
     let records: Vec<Record> = rows
         .iter()

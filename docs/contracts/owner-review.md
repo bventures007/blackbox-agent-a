@@ -1,6 +1,6 @@
 # Owner review and append-only correction
 
-The Sources view has an English/German owner review list and evidence-backed decision dialog. This implemented subset handles typed provider-content conflicts, proposed payment/bank/entity links, and retained Shopify order/transaction inputs. It is not a full PILOT-04 or independent capability approval: legacy lifecycle corrections and failed-derivation recovery still need their operational integration.
+The Sources view has an English/German owner review list and evidence-backed decision dialog. This implemented subset handles typed provider-content conflicts, proposed payment/bank/entity links, retained Shopify order/transaction inputs, and quarantined accepted-source derivations. It is not a full PILOT-04 or independent capability approval: legacy lifecycle corrections and compatible forward repair of unsupported event formats remain unfinished.
 
 ## Authority, identity and precedence
 
@@ -33,3 +33,15 @@ python3 scripts/verify-reviews.py --output .runtime/reviews-evidence.json
 ```
 
 The integration runner uses signed producer HTTP, real PostgreSQL roles, Rust, API, actual SDK MCP and Chrome. It exercises current and historical money, distinct concurrent decisions, repeated commands, stale/foreign/CSRF/revoked-session denials, link confirmation/rejection, poison and expired original inputs, English decision entry, German mobile layout, restart between acknowledgment and application, and deleted-projection recovery. A prior parser failure is explicitly injected as an encrypted quarantine to exercise retry; it is not a live provider incident. The runner preserves screenshots and reports actual outcomes. Native developer runs do not certify Compose distribution, performance, live Shopify access or independent review.
+
+## Accepted-source derivation retry
+
+Schema12 bounds transient automatic attempts to eight, honoring each job's next-at time. Unsupported kinds/versions, reducer conflicts and entity-history-budget failures stop immediately. One scoped `derivation_failed` case references the accepted journal entry and original evidence; later failures reopen that same case without resetting its lifetime owner retry count. Quarantined rows remain unapplied. The workspace applied cursor cannot pass any pending or quarantined gap; other workspaces continue independently.
+
+The owner may leave the case unresolved or retry that exact accepted entry after fixing the cause. Origin, CSRF, current session, optimistic revision, immutable command identity and the three-owner-retry budget apply. The decision, security audit, encrypted explanation and outbox reset commit together. No replacement source record, payment, stock effect or mutable journal rewrite is created. Restricted original raw evidence stays restricted: this path reuses canonical accepted values and may retain their original provenance reference without decrypting expired content. Additional supporting evidence must still be accessible in the same workspace.
+
+A saved retry remains recalculating until Rust publishes a complete cursor and the actual authorized lifecycle/affected typed queries succeed. Failed retry reopens the case. Unsupported formats need a compatible reader; retries cannot reinterpret unknown input. The host forward-fix path for a workspace already blocked by an unsupported format still needs separate operational verification; this increment does not claim that a normal upgrade can drain such a gap.
+
+Rust validates explicit event versions, header/payload identity, known lifecycle kinds and typed dataset/status-to-kind admission. This is not a complete replacement for the strict canonical JSON schemas at ingestion. An indexed PostgreSQL admission guard prevents older applied cursors or projections from concealing unknown headers/datasets. Lifecycle projections carry input-reader metadata in their integrity checksum; older projections cold-replay. Typed projection and cold reads check original journal headers. Both query endpoints have a 4.2-second execution deadline, SQL timeouts and final session/agent rechecks.
+
+Run `python3 scripts/verify-derivation.py --output work/derivation-proof.json` against the isolated native harness after building Rust and web assets. The proof exercises actual worker quarantine, API/SDK MCP, scoped owner decisions, bounded real-role failure handling, restart, deleted projection recovery and EN/DE owner UI. Synthetic retry schedules, simulated old projection metadata and runtime measurements are explicitly distinguished from real outages, production data and smoke acceptance.

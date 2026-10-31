@@ -4,7 +4,8 @@ import {
   runtimeFingerprint,
 } from "../../packages/runtime/compatibility.js";
 import { readFile, writeFile, rename } from "node:fs/promises";
-import { pool, scoped } from "../../packages/database/index.js";
+import { pool } from "../../packages/database/index.js";
+import { recordDerivationFailure } from "../../packages/application/derivation.js";
 import { sourceTick } from "../../packages/application/source-worker.js";
 import { log } from "../../packages/diagnostics/index.js";
 await verifyDatabaseContract(pool);
@@ -40,6 +41,7 @@ while (!stopping) {
     }
     const { rows } = await pool.query("SELECT * FROM bb.pending_tenants()");
     for (const r of rows) {
+      let failure: unknown;
       try {
         const response = await fetch(`${process.env.ENGINE_URL}/v1/apply`, {
           method: "POST",
@@ -51,16 +53,26 @@ while (!stopping) {
           body: JSON.stringify({ tenant_id: r.tenant_id }),
           signal: AbortSignal.timeout(10000),
         });
-        if (!response.ok) throw new Error("engine_apply_failed");
+        if (!response.ok) {
+          // Fixed internal response; never retain a provider error or arbitrary body.
+          const reader = response.body?.getReader();
+          try {
+            const part = await reader?.read();
+            if (part?.value && part.value.byteLength <= 4096) {
+              try {
+                failure = JSON.parse(Buffer.from(part.value).toString("utf8"));
+              } catch {}
+            }
+          } finally {
+            await reader?.cancel();
+          }
+          throw new Error("engine_apply_failed");
+        }
         const applied = (await response.json()) as Record<string, unknown>;
         log("engine.batch_applied", { tenant_id: r.tenant_id, ...applied });
       } catch {
-        await scoped(r.tenant_id, (c) =>
-          c.query(
-            "UPDATE bb.outbox SET attempts=attempts+1,next_at=now()+make_interval(secs=>LEAST(3600,power(2,LEAST(attempts+1,12))::integer)) WHERE state='pending'",
-          ),
-        );
-        log("engine.apply_failed", { tenant_id: r.tenant_id });
+        const result = await recordDerivationFailure(r.tenant_id, failure);
+        log("engine.apply_failed", { tenant_id: r.tenant_id, ...result });
       }
     }
   } catch {

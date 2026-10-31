@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 pub mod lifecycle;
 pub mod questions;
+pub mod reader;
 pub const RULE_VERSION: &str = "lifecycle-v3";
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Observation {
@@ -63,6 +64,9 @@ pub fn reduce(inputs: &[Input]) -> Result<State, String> {
 pub fn reduce_version(inputs: &[Input], version: &str) -> Result<State, String> {
     if !["lifecycle-v2", "lifecycle-v3"].contains(&version) {
         return Err("unsupported_lifecycle_interpretation".into());
+    }
+    for input in inputs {
+        reader::validate(&input.observation).map_err(str::to_owned)?;
     }
     if version == "lifecycle-v3" {
         for input in inputs {
@@ -203,7 +207,16 @@ pub fn derived_tracks(kind: &str) -> &'static [&'static str] {
         "refund.pending" | "inventory.reserved" | "inventory.reservation_released" => {
             &["fact", "reservation"]
         }
-        _ => &["fact"],
+        "payment.authorized"
+        | "payment.failed"
+        | "payment.voided"
+        | "inventory.snapshot"
+        | "invoice.payment_marked"
+        | "shipment.delivered"
+        | "return.approved"
+        | "payout.failed" => &["fact"],
+        // The explicit reader rejects unknown kinds before this classifier runs.
+        _ => &[],
     }
 }
 #[cfg(test)]

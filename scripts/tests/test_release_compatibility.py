@@ -49,8 +49,8 @@ class ReleaseCompatibilityTests(unittest.TestCase):
   raw=b'known complete schema fixture';manifest={**self.manifest,'legacy_schema':{'6':{'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}}}
   with patch('release_compatibility.read_manifest',return_value=manifest),patch('release_compatibility.migration_rows',return_value=None),patch('backup_operations.run',return_value=raw),patch('backup_operations.sql')as sql,patch('release_compatibility.check_database'):
    upgrade_restored_schema(self.root,6)
-  first,second,third,fourth,fifth,sixth=[c.args[1]for c in sql.call_args_list]
-  self.assertEqual(first.count("'observed_legacy_schema'"),6);self.assertIn('pg_advisory_xact_lock',first);self.assertIn('007-runtime-contract.sql',second);self.assertTrue(second.endswith('COMMIT;'));self.assertIn('008-evidence-policy.sql',third);self.assertIn('009-evidence-provenance-and-cursors.sql',fourth);self.assertIn('010-unclassified-access-boundary.sql',fifth);self.assertIn('011-projection-generations.sql',sixth)
+  first,second,third,fourth,fifth,sixth,seventh=[c.args[1]for c in sql.call_args_list]
+  self.assertEqual(first.count("'observed_legacy_schema'"),6);self.assertIn('pg_advisory_xact_lock',first);self.assertIn('007-runtime-contract.sql',second);self.assertTrue(second.endswith('COMMIT;'));self.assertIn('008-evidence-policy.sql',third);self.assertIn('009-evidence-provenance-and-cursors.sql',fourth);self.assertIn('010-unclassified-access-boundary.sql',fifth);self.assertIn('011-projection-generations.sql',sixth);self.assertIn('012-bounded-derivation.sql',seventh)
  def test_prior_backup_contracts_keep_exact_prior_runtime_and_prefix(self):
   old='63f6ffba3371cfc080f8702987120964ea6aea0979fc4949eccdf3d908e7fb11'
   for schema in [7,8,10]:
@@ -61,8 +61,11 @@ class ReleaseCompatibilityTests(unittest.TestCase):
    with patch('release_compatibility.migration_rows',return_value=self.manifest['migrations'][:schema]),patch('backup_operations.sql',return_value=json.dumps([{'contract':prior,'state':'active'}]).encode()),patch('release_compatibility.apply_migration')as apply,patch('release_compatibility.check_database'):
     upgrade_restored_schema(self.root,schema)
    self.assertEqual([c.args[1]for c in apply.call_args_list],self.manifest['migrations'][schema:])
+ def test_schema11_contract_remains_exact(self):
+  self.assertEqual(backup_compatibility(self.root,11)['runtime_sha256'],'dfa4fd04235e890f3efa3cab151057eb97818ec8e8a2f5098950fe144d985038')
+  self.assertEqual(backup_compatibility(self.root,11)['lifecycle'],'lifecycle-v3')
  def test_prior_schema_with_new_or_unknown_contract_is_not_guessed(self):
-  for schema in [7,8,10]:
+  for schema in [7,8,10,11]:
    with patch('release_compatibility.migration_rows',return_value=self.manifest['migrations'][:schema]),patch('backup_operations.sql',return_value=json.dumps([{'contract':self.manifest['runtime'],'state':'active'}]).encode()),patch('release_compatibility.apply_migration')as apply,self.assertRaisesRegex(RuntimeConfigError,'unknown'):
     upgrade_restored_schema(self.root,schema)
    apply.assert_not_called()

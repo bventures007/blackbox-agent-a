@@ -27,6 +27,8 @@ pub async fn handler(
         let code = value["error"].as_str().unwrap_or("");
         if [
             "unsupported_event",
+            "unsupported_event_version",
+            "entity_history_too_large",
             "reducer_conflict",
             "candidate_corrupt",
             "candidate_incomplete",
@@ -120,7 +122,7 @@ async fn execute(app: &App, request: &Request) -> Result<Json<Value>, Error> {
                 &rule,
             )
             .map_err(|_| error("reducer_conflict"))?;
-            let value = serde_json::to_value(state).map_err(|_| error("encode_failed"))?;
+            let value = projection_value(&state)?;
             let hash = checksum(&value);
             sqlx::query("INSERT INTO bb.projections(tenant_id,generation_id,entity_id,applied,rule_version,state,checksum)VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(tenant_id,generation_id,entity_id) DO UPDATE SET applied=EXCLUDED.applied,rule_version=EXCLUDED.rule_version,state=EXCLUDED.state,checksum=EXCLUDED.checksum,verified_checksum=NULL,updated_at=now()")
                 .bind(request.tenant_id).bind(request.build_id).bind(entity).bind(cutoff).bind(&rule).bind(value).bind(hash)
@@ -153,14 +155,13 @@ async fn execute(app: &App, request: &Request) -> Result<Json<Value>, Error> {
             for row in &rows {
                 let entity: Uuid = row.get("entity_id");
                 let actual: Value = row.get("state");
-                let expected = serde_json::to_value(
-                    blackbox_domain::reduce_version(
+                let expected = projection_value(
+                    &blackbox_domain::reduce_version(
                         &inputs(&mut tx, entity, cutoff, None).await?,
                         &rule,
                     )
                     .map_err(|_| error("reducer_conflict"))?,
-                )
-                .map_err(|_| error("encode_failed"))?;
+                )?;
                 let hash: String = row.get("checksum");
                 if row.get::<String, _>("rule_version") != rule
                     || row.get::<i64, _>("applied") > cutoff
@@ -208,6 +209,8 @@ async fn execute(app: &App, request: &Request) -> Result<Json<Value>, Error> {
                     let hash: String = row.get("checksum");
                     if row.get::<String, _>("rule_version") != rule
                         || value["rule_version"] != rule
+                        || value["_input_reader_version"]
+                            != blackbox_domain::reader::INPUT_READER_VERSION
                         || row.get::<Option<String>, _>("verified_checksum").as_deref()
                             != Some(hash.as_str())
                         || checksum(&value) != hash

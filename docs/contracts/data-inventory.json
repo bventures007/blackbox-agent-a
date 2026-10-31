@@ -7318,6 +7318,32 @@
       "nullable": false
     },
     {
+      "path": "database.outbox.error_code",
+      "purpose": "Closed unsupported-input, reducer, history-budget or exhausted-retry reason; never source content or raw exception.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Bounded automatic retry and owner-reviewed recalculation; does not acknowledge or modify business inputs."
+      ],
+      "sql_type": "text",
+      "nullable": true
+    },
+    {
+      "path": "database.outbox.failed_at",
+      "purpose": "Timestamp when automatic derivation stopped; owner retry and immutable decisions preserve the incident history.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Bounded automatic retry and owner-reviewed recalculation; does not acknowledge or modify business inputs."
+      ],
+      "sql_type": "timestamp with time zone",
+      "nullable": true
+    },
+    {
       "path": "database.outbox.next_at",
       "purpose": "Durable at-least-once projection work and retry state: next operational timestamp.",
       "classification": "confidential_operational_metadata",
@@ -12551,12 +12577,14 @@
     "packages/connectors/replay.ts": "e827ebbe848c6fd67e84ad33ccfbebc96ed027c2d5540aaab8d1ad3109820cd9",
     "packages/application/source-checkpoint.ts": "bb277f6987700cbf761b90248ff6f3e3c9f1b6aea5da5ab86c752babf2a449ea",
     "packages/application/ingest.ts": "69f2c6ec6f7246e476facceb76a994baa3025f80cb7ba3cd2d5203c402996e32",
-    "packages/application/reviews.ts": "7c4ae66ab34e063597ec6cc5145b52b0af3e227e39e171d6024c2a6cff6bfc2d",
+    "packages/application/reviews.ts": "517ae8214464d28fd5af7fc5d142fc7d4dfda2dda0d62c1fff5cfb7f907eaf7b",
     "packages/application/source-worker.ts": "fd868dd928cf2a89a6aa845703ada11c2c40d8fad055219954db8991043c0df1",
     "packages/application/sources.ts": "a6648fd50795d8049cb52230c424d21bcaffeceeb477c6b7504d0795d27705d6",
     "packages/contracts/import-plan.ts": "22ee03a91046a72c8816cc552136b1a6a76bef051c14aae7899e958bdd94875c",
     "packages/auth/producer.ts": "bc43cc51353455193e4a969b126596185441d3632de9b3a96cab1100182e3b87",
-    "packages/diagnostics/index.ts": "0fa83bdca4bfc5f4a80a8bd56684a1638491bac0bc96346e678656736812781f"
+    "packages/diagnostics/index.ts": "0fa83bdca4bfc5f4a80a8bd56684a1638491bac0bc96346e678656736812781f",
+    "crates/domain/src/reader.rs": "4fcc697d7d742f01064e9b5b777e42d52ccbe153ff262c7a36b1719b3c78ad42",
+    "packages/application/derivation.ts": "6ccfd241febf422e325d10ab8efae75dd8e288ce0916cdbf04ffabf0fd04e11f"
   },
   "reviewed_migrations": [
     {
@@ -12602,6 +12630,10 @@
     {
       "file": "011-projection-generations.sql",
       "sha256": "0cdfb4665f13de738b49fda0e6036b9637cc174e3a469d068a2880f6cf98a381"
+    },
+    {
+      "file": "012-bounded-derivation.sql",
+      "sha256": "608cccc246d29949cf6586c943b97f186df5cf1465e0df8b8b05f8b7347187c3"
     }
   ],
   "provider_query_sha256": {

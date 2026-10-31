@@ -249,7 +249,9 @@ export async function validateInventory(value: any) {
   );
   for (const [path, sha] of Object.entries(value.reviewed_source_sha256)) {
     requireCheck(
-      /^packages\/[a-z0-9/-]+\.ts$/.test(path) && !path.includes(".."),
+      (path === "crates/domain/src/reader.rs" ||
+        /^packages\/[a-z0-9/-]+\.ts$/.test(path)) &&
+        !path.includes(".."),
       "unsafe source reference",
     );
     requireCheck(

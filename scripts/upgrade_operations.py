@@ -1,4 +1,4 @@
-"""Populated schema8/schema10 -> schema11 upgrade. Never downgrades or resets a volume.
+"""Populated schema8/schema10/schema11 -> schema12 upgrade. Never downgrades or resets a volume.
 
 The new versioned host bundle is placed in the existing installation directory
 before invoking this module. Runtime storage is preserved. Images are explicit
@@ -31,7 +31,7 @@ def read_marker(root):
  if value.get('schema_version')!=1 or value.get('operation')!='upgrade'or value.get('phase')not in PHASES:
   raise RuntimeConfigError('No matching resumable upgrade. Use the recorded operation recovery procedure.')
  uuid.UUID(value['operation_id'])
- if value.get('source_schema')not in [8,10,11]or not isinstance(value.get('prior_running'),list)or len(value['prior_running'])!=len(set(value['prior_running']))or not set(value['prior_running'])<={'postgres','api','worker','engine'}:
+ if value.get('source_schema')not in [8,10,11,12]or not isinstance(value.get('prior_running'),list)or len(value['prior_running'])!=len(set(value['prior_running']))or not set(value['prior_running'])<={'postgres','api','worker','engine'}:
   raise RuntimeConfigError('Invalid upgrade checkpoint.')
  validate(value['source_images']);validate(value['target_images'])
  return value

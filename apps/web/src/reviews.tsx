@@ -115,6 +115,19 @@ const copy = {
     "Unverified proposed link",
     "Ungeprüfte vorgeschlagene Zuordnung",
   ],
+  derivation_failed: [
+    "Accepted input could not be calculated",
+    "Angenommene Eingabe konnte nicht berechnet werden",
+  ],
+  derivationHelp: [
+    "Automatic processing has stopped for this input. Its original journal entry is preserved. Retry after the cause has been fixed; an unsupported event format needs a compatible application update. Answers remain unavailable until recalculation succeeds.",
+    "Die automatische Verarbeitung dieser Eingabe wurde gestoppt. Ihr ursprünglicher Journaleintrag bleibt erhalten. Wiederhole die Verarbeitung nach Behebung der Ursache; ein unbekanntes Ereignisformat erfordert eine kompatible Aktualisierung der Anwendung. Antworten bleiben bis zur erfolgreichen Neuberechnung nicht verfügbar.",
+  ],
+  review_derivation_retry_only: [
+    "This case supports an audited retry of the accepted input or leaving it unresolved.",
+    "Dieser Fall erlaubt eine protokollierte Wiederholung der angenommenen Eingabe oder bleibt ungeklärt.",
+  ],
+  get_business_state: ["Business state", "Geschäftsstatus"],
   genericReason: [
     "Input requires evidence review",
     "Eingabe erfordert eine Belegprüfung",
@@ -340,6 +353,9 @@ function ReviewDialog({
         ...(record && action !== "leave" && action !== "retry"
           ? { record, expected_entry_id: data.current.entry_id }
           : {}),
+        ...(data.kind === "derivation_failed" && action === "retry"
+          ? { expected_entry_id: data.entry_id }
+          : {}),
         acknowledged: true,
       });
       setProgress(result);
@@ -412,7 +428,9 @@ function ReviewDialog({
               {data.affected_intents.map((intent: string) => (
                 <li key={intent}>
                   {questionTitles[intents.indexOf(intent as any)]?.[i] ??
-                    intent}
+                    (intent === "get_business_state"
+                      ? t("get_business_state")
+                      : intent)}
                 </li>
               ))}
             </ul>
@@ -477,11 +495,14 @@ function ReviewDialog({
                     }}
                   >
                     <option value="leave">{t("leave")}</option>
-                    {record && <option value="correct">{t("correct")}</option>}
-                    {data.run_id && data.retry_count < 3 && (
-                      <option value="retry">{t("retry")}</option>
+                    {record && data.kind !== "derivation_failed" && (
+                      <option value="correct">{t("correct")}</option>
                     )}
-                    {canLink && (
+                    {(data.run_id || data.kind === "derivation_failed") &&
+                      data.retry_count < 3 && (
+                        <option value="retry">{t("retry")}</option>
+                      )}
+                    {canLink && data.kind !== "derivation_failed" && (
                       <>
                         <option value="confirm_link">
                           {t("confirm_link")}
@@ -494,7 +515,11 @@ function ReviewDialog({
                 {data.retry_count >= 3 && (
                   <p className="notice">{t("retryLimit")}</p>
                 )}
-                {!record && <p className="notice">{t("noTyped")}</p>}
+                {data.kind === "derivation_failed" ? (
+                  <p className="notice">{t("derivationHelp")}</p>
+                ) : (
+                  !record && <p className="notice">{t("noTyped")}</p>
+                )}
                 {editable && (
                   <>
                     <p className="notice">{t("limitations")}</p>

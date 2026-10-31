@@ -74,7 +74,7 @@ fn internal(h: &HeaderMap, a: &App) -> Result<(), Error> {
         ));
     }
     if h.get("x-blackbox-contract").and_then(|v| v.to_str().ok())
-        != Some("dfa4fd04235e890f3efa3cab151057eb97818ec8e8a2f5098950fe144d985038")
+        != Some("84dd83fae05e005a37a2661fc3713f896fc5af869ceb0a29fdc6791427ca4e90")
     {
         return Err(error("runtime_contract_incompatible"));
     }
@@ -92,27 +92,59 @@ async fn transaction(db: &PgPool, tenant: Uuid) -> Result<Transaction<'_, Postgr
         .map_err(|_| error("database_unavailable"))?;
     Ok(tx)
 }
+fn source_input(row: &sqlx::postgres::PgRow) -> Result<Input, Error> {
+    let entry: Uuid = row.get("entry_id");
+    let failure = |code: &str| {
+        (
+            StatusCode::SERVICE_UNAVAILABLE,
+            Json(json!({"error":code,"entry_id":entry})),
+        )
+    };
+    let observation: Observation =
+        serde_json::from_value(row.get("payload")).map_err(|_| failure("unsupported_event"))?;
+    blackbox_domain::reader::source(
+        row.get("schema_version"),
+        &row.get::<String, _>("event_type"),
+        &row.get::<Uuid, _>("entity_id").to_string(),
+        &observation,
+    )
+    .map_err(failure)?;
+    Ok(Input {
+        entry_id: entry.to_string(),
+        sequence: row.get("sequence"),
+        evidence_id: row.get::<Uuid, _>("evidence_id").to_string(),
+        observation,
+    })
+}
+fn projection_value(state: &BusinessState) -> Result<Value, Error> {
+    let mut value = serde_json::to_value(state).map_err(|_| error("encode_failed"))?;
+    value["_input_reader_version"] = json!(blackbox_domain::reader::INPUT_READER_VERSION);
+    Ok(value)
+}
+async fn require_supported_scope(
+    tx: &mut Transaction<'_, Postgres>,
+    cutoff: i64,
+    entity: Option<Uuid>,
+) -> Result<(), Error> {
+    let unsupported: Option<i32> = sqlx::query_scalar("SELECT schema_version FROM bb.journal WHERE record_type='source' AND NOT bb.input_header_supported_v2(schema_version,event_type,entity_id,payload) AND sequence<=$1 AND ($2::uuid IS NULL OR entity_id=$2) LIMIT 1")
+        .bind(cutoff).bind(entity).fetch_optional(&mut **tx).await.map_err(|_|error("read_failed"))?;
+    match unsupported {
+        Some(1) => Err(error("unsupported_event")),
+        Some(_) => Err(error("unsupported_event_version")),
+        None => Ok(()),
+    }
+}
 async fn inputs(
     tx: &mut Transaction<'_, Postgres>,
     entity: Uuid,
     cutoff: i64,
     effective: Option<&str>,
 ) -> Result<Vec<Input>, Error> {
-    let rows=sqlx::query("SELECT entry_id,sequence,evidence_id,payload FROM bb.journal WHERE entity_id=$1 AND sequence<=$2 AND record_type='source' AND ($3::text::timestamptz IS NULL OR occurred_at<=$3::text::timestamptz) ORDER BY sequence LIMIT 5001").bind(entity).bind(cutoff).bind(effective).fetch_all(&mut **tx).await.map_err(|_|error("read_failed"))?;
+    let rows=sqlx::query("SELECT entry_id,sequence,evidence_id,payload,schema_version,event_type,entity_id FROM bb.journal WHERE entity_id=$1 AND sequence<=$2 AND record_type='source' AND ($3::text::timestamptz IS NULL OR occurred_at<=$3::text::timestamptz) ORDER BY sequence LIMIT 5001").bind(entity).bind(cutoff).bind(effective).fetch_all(&mut **tx).await.map_err(|_|error("read_failed"))?;
     if rows.len() > 5000 {
         return Err(error("entity_history_too_large"));
     }
-    rows.iter()
-        .map(|r| {
-            Ok(Input {
-                entry_id: r.get::<Uuid, _>("entry_id").to_string(),
-                sequence: r.get("sequence"),
-                evidence_id: r.get::<Uuid, _>("evidence_id").to_string(),
-                observation: serde_json::from_value(r.get("payload"))
-                    .map_err(|_| error("unsupported_event"))?,
-            })
-        })
-        .collect()
+    rows.iter().map(source_input).collect()
 }
 #[derive(Deserialize)]
 struct Apply {
@@ -124,7 +156,16 @@ async fn apply(
     Json(req): Json<Apply>,
 ) -> Result<Json<Value>, Error> {
     internal(&h, &a)?;
+    tokio::time::timeout(std::time::Duration::from_millis(8500), apply_batch(a, req))
+        .await
+        .unwrap_or_else(|_| Err(error("apply_deadline_exceeded")))
+}
+async fn apply_batch(a: App, req: Apply) -> Result<Json<Value>, Error> {
     let mut tx = transaction(&a.db, req.tenant_id).await?;
+    sqlx::query("SET LOCAL statement_timeout='8000ms'")
+        .execute(&mut *tx)
+        .await
+        .map_err(|_| error("database_unavailable"))?;
     let head = sqlx::query("SELECT committed,applied,projection_generation,projection_rule FROM bb.heads WHERE tenant_id=$1 FOR UPDATE")
         .bind(req.tenant_id)
         .fetch_one(&mut *tx)
@@ -133,12 +174,10 @@ async fn apply(
     let mut end: i64 = head.get("committed");
     let generation: Uuid = head.get("projection_generation");
     let projection_rule: String = head.get("projection_rule");
-    let rows=sqlx::query("SELECT j.* FROM bb.journal j JOIN bb.outbox o USING(tenant_id,sequence) WHERE o.state='pending' ORDER BY j.sequence LIMIT 250").fetch_all(&mut *tx).await.map_err(|_|error("read_failed"))?;
-    let mut entities = std::collections::BTreeSet::new();
+    let rows=sqlx::query("SELECT j.* FROM bb.journal j JOIN bb.outbox o USING(tenant_id,sequence) WHERE o.state='pending' AND o.next_at<=now() ORDER BY j.sequence LIMIT 250").fetch_all(&mut *tx).await.map_err(|_|error("read_failed"))?;
+    let mut entities = std::collections::BTreeMap::new();
     for r in &rows {
-        let payload: Value = r.get("payload");
-        let obs: Observation =
-            serde_json::from_value(payload.clone()).map_err(|_| error("unsupported_event"))?;
+        let obs = source_input(r)?.observation;
         for track in obs
             .record
             .as_ref()
@@ -158,7 +197,7 @@ async fn apply(
             sqlx::query("INSERT INTO bb.current_records SELECT * FROM bb.record_versions WHERE sequence=$1 ON CONFLICT(tenant_id,record_id) DO UPDATE SET sequence=EXCLUDED.sequence,dataset=EXCLUDED.dataset,entity_id=EXCLUDED.entity_id,occurred_at=EXCLUDED.occurred_at,payload=EXCLUDED.payload,checksum=EXCLUDED.checksum,supersedes_entry_id=EXCLUDED.supersedes_entry_id,evidence_id=EXCLUDED.evidence_id,entry_id=EXCLUDED.entry_id WHERE EXCLUDED.supersedes_entry_id=bb.current_records.entry_id OR (bb.current_records.occurred_at,bb.current_records.sequence)<(EXCLUDED.occurred_at,EXCLUDED.sequence)")
                 .bind(r.get::<i64,_>("sequence")).execute(&mut *tx).await.map_err(|_|error("record_projection_failed"))?;
         }
-        entities.insert(r.get::<Uuid, _>("entity_id"));
+        entities.insert(r.get::<Uuid, _>("entity_id"), r.get::<Uuid, _>("entry_id"));
         sqlx::query("UPDATE bb.outbox SET state='applied' WHERE sequence=$1")
             .bind(r.get::<i64, _>("sequence"))
             .execute(&mut *tx)
@@ -166,7 +205,7 @@ async fn apply(
             .map_err(|_| error("checkpoint_failed"))?;
     }
     // Publish a tenant cutoff only after every preceding source has been applied.
-    let pending: i64 = sqlx::query_scalar("SELECT count(*) FROM bb.outbox WHERE state='pending'")
+    let pending: i64 = sqlx::query_scalar("SELECT count(*) FROM bb.outbox WHERE state<>'applied'")
         .fetch_one(&mut *tx)
         .await
         .map_err(|_| error("read_failed"))?;
@@ -176,13 +215,18 @@ async fn apply(
         head.get("applied")
     };
     let mut publish = vec![];
-    for entity in entities {
+    for (entity, pending_entry) in entities {
         let state = blackbox_domain::reduce_version(
             &inputs(&mut tx, entity, end, None).await?,
             &projection_rule,
         )
-        .map_err(|_| error("reducer_conflict"))?;
-        let value = serde_json::to_value(&state).map_err(|_| error("encode_failed"))?;
+        .map_err(|_| {
+            (
+                StatusCode::SERVICE_UNAVAILABLE,
+                Json(json!({"error":"reducer_conflict","entry_id":pending_entry})),
+            )
+        })?;
+        let value = projection_value(&state)?;
         let checksum = format!("{:x}", Sha256::digest(serde_json::to_vec(&value).unwrap()));
         sqlx::query("INSERT INTO bb.projections(tenant_id,entity_id,applied,rule_version,state,checksum,generation_id) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(tenant_id,generation_id,entity_id) DO UPDATE SET applied=EXCLUDED.applied,rule_version=EXCLUDED.rule_version,state=EXCLUDED.state,checksum=EXCLUDED.checksum,verified_checksum=NULL,updated_at=now()")
    .bind(req.tenant_id).bind(entity).bind(end).bind(&projection_rule).bind(value).bind(checksum).bind(generation).execute(&mut *tx).await.map_err(|_|error("projection_failed"))?;
@@ -225,7 +269,15 @@ struct Query {
     at_least_cursor: Option<i64>,
     interpretation_version: Option<String>,
 }
-async fn query(
+async fn query(state: State<App>, h: HeaderMap, q: Json<Query>) -> Result<Json<Value>, Error> {
+    tokio::time::timeout(
+        std::time::Duration::from_millis(4200),
+        execute_query(state, h, q),
+    )
+    .await
+    .unwrap_or_else(|_| Err(error("query_deadline_exceeded")))
+}
+async fn execute_query(
     State(a): State<App>,
     h: HeaderMap,
     Json(q): Json<Query>,
@@ -253,6 +305,10 @@ async fn query(
     }
     let _scoped = admit_scoped(&a, q.tenant_id, auth.unwrap().get("principal_id")).await?;
     let mut tx = transaction(&a.db, q.tenant_id).await?;
+    sqlx::query("SET LOCAL statement_timeout='4000ms'")
+        .execute(&mut *tx)
+        .await
+        .map_err(|_| error("read_failed"))?;
     let head = sqlx::query("SELECT committed,applied,projection_generation,projection_rule FROM bb.heads WHERE tenant_id=$1")
         .bind(q.tenant_id)
         .fetch_one(&mut *tx)
@@ -273,6 +329,7 @@ async fn query(
     if applied < cutoff || applied < q.at_least_cursor.unwrap_or(0) {
         return Err(error("projection_behind"));
     }
+    require_supported_scope(&mut tx, cutoff, Some(q.entity_id)).await?;
     let key = (
         q.tenant_id,
         q.entity_id,
@@ -299,6 +356,7 @@ async fn query(
             let checksum = format!("{:x}", Sha256::digest(serde_json::to_vec(&value).unwrap()));
             let tail:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM bb.journal WHERE entity_id=$1 AND record_type='source' AND sequence>$2 AND sequence<=$3)").bind(q.entity_id).bind(r.get::<i64,_>("applied")).bind(cutoff).fetch_one(&mut *tx).await.map_err(|_|error("read_failed"))?;
             if !tail
+                && value["_input_reader_version"] == blackbox_domain::reader::INPUT_READER_VERSION
                 && r.get::<String, _>("checksum") == checksum
                 && r.get::<String, _>("rule_version") == selected_rule
             {
@@ -323,7 +381,7 @@ async fn query(
     tx.commit().await.map_err(|_| error("read_failed"))?;
     // Recheck after potentially slow hydration so revoked grants cannot authorize delivery.
     let valid: bool =
-        sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM bb.authenticate($1) WHERE tenant_id=$2)")
+        sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM bb.authenticate($1) WHERE tenant_id=$2 AND purpose IN ('agent','session'))")
             .bind(&q.verifier)
             .bind(q.tenant_id)
             .fetch_one(&a.db)
@@ -347,7 +405,7 @@ fn release_manifest() -> Value {
             "{:x}",
             Sha256::digest(serde_json::to_vec(&manifest["runtime"]).unwrap())
         ),
-        "dfa4fd04235e890f3efa3cab151057eb97818ec8e8a2f5098950fe144d985038",
+        "84dd83fae05e005a37a2661fc3713f896fc5af869ceb0a29fdc6791427ca4e90",
         "unsupported compiled runtime contract"
     );
     manifest
