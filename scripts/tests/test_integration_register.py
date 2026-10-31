@@ -24,6 +24,12 @@ class RegisterTests(unittest.TestCase):
             dest = self.root / name
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(SOURCE / name, dest)
+        # The fixture is a fresh git repository: keep only the catalogue/plan records of the real history. Work records
+        # (claim/implementation/test/review/invalidate) cite commits and artifacts of the real repository and are validated
+        # there by `integration-register.py check`; here the tooling is exercised on the seeded baseline.
+        hist = self.root / 'integrations/history.jsonl'
+        kept = [l for l in hist.read_text().splitlines() if json.loads(l)['action'] in ('catalogue_seeded', 'plan_changed')]
+        hist.write_text('\n'.join(kept) + '\n')
         self.counter = 0
         history = (self.root / 'integrations/history.jsonl').read_text().splitlines()
         self.fixture_time = (datetime.fromisoformat(json.loads(history[-1])['at'].replace('Z', '+00:00')) + timedelta(seconds=1)).isoformat().replace('+00:00', 'Z')
