@@ -23,6 +23,10 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 | [BUILD-PROMPT-EN.txt](BUILD-PROMPT-EN.txt) | Full implementation contract |
 | [specs/JOURNAL-AND-MCP.md](specs/JOURNAL-AND-MCP.md) | Append-only data structure and full authorized MCP read contract |
 | [specs/PERFORMANCE-ARCHITECTURE.md](specs/PERFORMANCE-ARCHITECTURE.md) | Rust engine, memory limits, durable consistency and recovery |
+| [specs/QUESTION-DATA-COVERAGE.md](specs/QUESTION-DATA-COVERAGE.md) | All 24 questions mapped to inputs, journal families, RAM projections, queries and test examples |
+| [specs/CONNECTOR-CAPABILITIES.md](specs/CONNECTOR-CAPABILITIES.md) | Reviewed provider candidates, supplemental data and unresolved integration proof |
+| [specs/question-data-contracts.json](specs/question-data-contracts.json) | Machine-readable field/data/query crosswalk and 48 minimum acceptance examples |
+| [reports/question-coverage.json](reports/question-coverage.json) | Per-question implementation and verification register; all runtime proof pending |
 | [benchmarks/performance-contract.json](benchmarks/performance-contract.json) | Measurable 250k / 10m / 100m workload profiles |
 | [ARCHITECTURE-EN.txt](ARCHITECTURE-EN.txt) | Architecture and delivery approach |
 | [ACCEPTANCE.json](ACCEPTANCE.json) | 52 acceptance cases with release gates |
@@ -67,4 +71,4 @@ Start with the [visual reference catalogue](reference/screenshots/README.md): al
 
 ## Independent comparison
 
-Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v5`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).
+Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v6`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).

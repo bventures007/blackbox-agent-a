@@ -23,5 +23,12 @@
     "earlier_highlights_retained": 2,
     "coverage": "All six implemented top-level views, onboarding, key dialogs/lifecycle states and all 24 expanded Order-to-Cash questions. Not every possible state combination.",
     "verification": "Static reference capture only; not product or live-provider acceptance evidence."
+  },
+  "question_data_crosswalk": {
+    "specification": "specs/QUESTION-DATA-COVERAGE.md",
+    "machine_readable": "specs/question-data-contracts.json",
+    "provider_audit": "specs/CONNECTOR-CAPABILITIES.md",
+    "execution_register": "reports/question-coverage.json",
+    "note": "Public documentation and logical mapping reviewed; implementation, provider contracts, actual merchant coverage and runtime proof remain pending."
   }
 }

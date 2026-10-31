@@ -1,5 +1,5 @@
 {
-  "version": "1.3",
+  "version": "1.5",
   "date": "2026-10-31",
   "note": "Specification for tests to be implemented; not an already executable or executed suite. A reviewer must add independent variations.",
   "status_enum": [
@@ -189,16 +189,16 @@
     {
       "id": "QUERY-01",
       "category": "queries",
-      "check": "Evaluate all 24 supplied question intents with sufficient and insufficient data.",
-      "expected": "Shared query services return result/calculation/evidence/freshness or explicit missing inputs; no keyword-only canned answers.",
+      "check": "Evaluate all 24 stable intents in specs/question-data-contracts.json using at least its positive and missing-data cases plus the specified edge cases. Positive paths must ingest through real PostgreSQL and Rust, return through API and MCP, and survive restart/replay and cold hydration.",
+      "expected": "Correct typed result/calculation/evidence/cutoffs/coverage or explicit missing inputs; no keyword-only canned answers. All-positive paths are required: returning unknown for every intent cannot pass. Record per-intent evidence in reports/question-coverage.json; preserve tenant isolation and changed-value cases.",
       "stage": "core",
       "release_gate": true
     },
     {
       "id": "QUERY-02",
       "category": "queries",
-      "check": "Ask for bank receipt with only a provider payout event; ask whether an invoice is missing with incomplete invoice sync.",
-      "expected": "Unknown/unconfirmed rather than false certainty. Coverage and last sync are visible.",
+      "check": "Test missing bank statements, incomplete invoice synchronization, absent customer/supplier promises, missing warehouse receipt, ambiguous allocation/transaction links and unavailable provider hold details from the question-data contract.",
+      "expected": "Unknown/partial/conflict with exact missing capabilities and scoped freshness; no fabricated dates, zero balances or complete absence claims. Available inventory is not reduced twice, return intent is not warehouse receipt, and an open dispute is not completed repayment.",
       "stage": "core",
       "release_gate": true
     },
@@ -262,7 +262,7 @@
       "id": "SOURCE-03",
       "category": "connectors",
       "check": "Test DHL adapter and order/shipment matching with fixture/server tests and authorized account access.",
-      "expected": "Status/scan timestamps, source coverage and ambiguity correct; labels/announcements do not imply physical delivery.",
+      "expected": "Status/scan timestamps, source coverage and ambiguity correct; labels/announcements do not imply physical delivery. Verify the selected DHL product/account retention and permitted-use conditions before enabling perpetual live carrier observations or derived facts; record agreement or blocked capability explicitly.",
       "stage": "external",
       "release_gate": true
     },

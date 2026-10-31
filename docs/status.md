@@ -32,6 +32,12 @@ The binding contract is specs/JOURNAL-AND-MCP.md. Runtime roles must be unable t
 
 Implement the Rust business/query engine with bounded hot state and durable journal/checkpoint recovery as specified in specs/PERFORMANCE-ARCHITECTURE.md. The benchmark contract defines 250k, 10m and 100m profiles with explicit scopes. No performance or memory target has been measured. Maintain reports/performance.json. The full acceptance register now contains 52 cases.
 
+## Question-data audit
+
+The initial question catalogue and common architecture are now joined by specs/QUESTION-DATA-COVERAGE.md and specs/question-data-contracts.json: 24 intents, 26 required input datasets, 11 logical Rust projections, source-field candidates, 24 positive plus 24 missing-data examples, and extra edge cases. Public Shopify, easybill and DHL documentation was reviewed; no merchant credentials or live business API calls were used. Nine questions have documented launch-provider candidate paths, eleven need supplementary business context, three retain provider-detail gaps and one specifically requires bank import (bank evidence also contributes to the full money overview). These are data-dependency categories, not measured readiness. Actual SQL, adapters, reducers, indexes and executable fixtures remain unimplemented; reports/question-coverage.json tracks the open proof. DHL retention/use conditions must be resolved before perpetual live tracking ingestion.
+
+Catalogue consistency check: `python3 scripts/validate-question-catalogue.py` passed for all 24 original questions, 48 minimum case descriptions, 26 datasets, 11 tenant-scoped projections and 22 source/internal-producer entries. This checks specification references, not product behavior.
+
 ## Next action
 
 Read START-HERE.md and the full brief. Inspect the prototype and environment. Record capabilities in build-environment.md, create the product/architecture/ADR documents, and begin M1 after the minimum M0 decisions.

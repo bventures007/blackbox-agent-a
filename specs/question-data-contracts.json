@@ -1,0 +1,3745 @@
+{
+  "schema_version": "1.0",
+  "prepared_date": "2026-10-31",
+  "status": "design_mapping_reviewed_not_implemented",
+  "purpose": "Trace all 24 question intents from provider/internal inputs through append-only journal families and Rust projections to bounded shared API/MCP queries and required tests.",
+  "reference_questions": "reference/questions.json",
+  "scope_note": "Logical required contract, not database migrations, executable tests or live integration evidence. Supplemental inputs must actually be collected; generic API/replay availability does not imply merchant coverage.",
+  "common_input_envelope": [
+    "tenant derived from authorized connection",
+    "provider/account namespace",
+    "event/observation identity and schema version",
+    "occurred_at and recorded_at",
+    "entity links",
+    "immutable evidence reference",
+    "derivation inputs and rule version",
+    "committed cursor"
+  ],
+  "common_result_envelope": [
+    "status: complete|partial|insufficient_data|conflict|unsupported",
+    "typed result with currency/unit",
+    "calculation and rule version",
+    "exact evidence IDs",
+    "effective_at and recorded_cutoff",
+    "required_cursor and applied_cursor",
+    "coverage per required capability/population/interval",
+    "missing_inputs and conflicts",
+    "scope-bound snapshot pagination and truncation"
+  ],
+  "common_test_fixture_context": {
+    "tenant_id": "TENANT-A",
+    "other_tenant": "TENANT-B",
+    "currency": "EUR",
+    "quantity_unit": "piece",
+    "cutoff": "2026-10-31T12:00:00Z",
+    "rule": "Unless a case overrides it, synthesize all required datasets with complete scoped coverage, valid identity/evidence links and the same committed/applied cutoff. Unmentioned balances are zero only within this explicit synthetic fixture. Adapt canonical assertions through the real ingestion pipeline; these snippets are not provider payloads."
+  },
+  "first_release_assessment_definitions": {
+    "documented_provider_path": "Candidate API objects/endpoints are documented. Integration, actual account coverage and end-to-end correctness remain unverified; business rules/links/coverage still apply.",
+    "supplemental_data_required": "At least one indispensable input needs an explicit merchant rule, typed feed, reviewed observation or verified derivation beyond merely connecting the launch providers.",
+    "provider_detail_unverified": "One or more crucial detail/relationship semantics have not been established from the reviewed launch-provider schema; use a verified supplemental source or return partial/unknown.",
+    "bank_import_required": "Independent booked bank records must be imported; no live bank connector or automatic bank confirmation is implied."
+  },
+  "documentation_references": {
+    "shopify_order": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/Order",
+    "shopify_line": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/LineItem",
+    "shopify_inventory": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/InventoryLevel",
+    "shopify_inventory_states": "https://shopify.dev/docs/apps/build/inventory-management-apps/manage-quantities-states",
+    "shopify_fulfillment_order": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/FulfillmentOrder",
+    "shopify_fulfillment_line": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/FulfillmentOrderLineItem",
+    "shopify_fulfillment": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/Fulfillment",
+    "shopify_transaction": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/OrderTransaction",
+    "shopify_refund": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/Refund",
+    "shopify_return": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/Return",
+    "shopify_disposition": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/ReverseFulfillmentOrderDisposition",
+    "shopify_disposition_types": "https://shopify.dev/docs/api/admin-graphql/2026-10/enums/ReverseFulfillmentOrderDispositionType",
+    "shopify_account": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/ShopifyPaymentsAccount",
+    "shopify_ledger": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/ShopifyPaymentsBalanceTransaction",
+    "shopify_payout": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/ShopifyPaymentsPayout",
+    "shopify_dispute": "https://shopify.dev/docs/api/admin-graphql/2026-10/objects/ShopifyPaymentsDispute",
+    "shopify_webhooks": "https://shopify.dev/docs/apps/build/webhooks/verify-deliveries",
+    "easybill": "https://api.easybill.de/rest/v1/swagger.json",
+    "dhl": "https://developer.dhl.com/tracking",
+    "dhl_push": "https://developer.dhl.com/api-reference/shipment-tracking-unified-push"
+  },
+  "providers": [
+    {
+      "id": "shopify",
+      "name": "Shopify",
+      "release_scope": "first_release",
+      "ingestion": "GraphQL Admin API: paginated backfill and reconciliation; verified HTTPS webhooks trigger durable receipt and re-fetch. Pin an API version and fixture schema; consume all nested pages.",
+      "external_prerequisites": "read_orders; older order access needs read_all_orders approval. read_inventory and appropriate fulfillment-order scopes; read_returns for return objects. Prove actual grants and protected customer-data access. Record history start and every missing scope.",
+      "field_mappings": [
+        {
+          "resource": "Order / LineItem",
+          "dataset": "orders",
+          "mapping": {
+            "id": "order_id",
+            "lineItems.nodes.id": "order_line_id",
+            "customer.id": "customer_id",
+            "updatedAt": "source_revision_time",
+            "cancelledAt": "cancellation_time",
+            "currencyCode": "order_currency",
+            "lineItems.nodes.variant.id": "variant_id"
+          },
+          "note": "Version line quantities, prices, discounts, shipping and taxes. Current totals are not the original agreed amount; preserve revisions. Custom/non-product lines need explicit identity, not a fabricated SKU."
+        },
+        {
+          "resource": "LineItem pricing/quantity fields",
+          "dataset": "orders",
+          "mapping": {
+            "quantity": "ordered_including_removed_or_refunded",
+            "currentQuantity": "quantity_excluding_removed_or_refunded",
+            "originalTotalSet": "original_pre_discount_money",
+            "priceAfterAllDiscountsBeforeTaxesSet": "current_discounted_pre_tax_money",
+            "taxLines": "tax_components",
+            "discountAllocations": "discount_components",
+            "unfulfilledQuantity": "provider_unfulfilled_quantity"
+          },
+          "note": "These fields have different quantity/discount bases. Compare compatible versions and currencies; do not approximate line totals by multiplying rounded unit prices. Map shipping and order-level adjustments explicitly in the adapter contract."
+        },
+        {
+          "resource": "InventoryLevel",
+          "dataset": "stock",
+          "mapping": {
+            "item.id": "inventory_item_id",
+            "location.id": "location_id",
+            "quantities[].name + quantity": "named_quantity_states",
+            "updatedAt": "source_revision_time"
+          },
+          "note": "Read named on_hand/available/committed/reserved/damaged/safety_stock/quality_control/incoming states. available is already net of unavailable states. Do not subtract reservations from it again; incoming is not on-hand."
+        },
+        {
+          "resource": "FulfillmentOrder / FulfillmentOrderLineItem",
+          "dataset": "allocations",
+          "mapping": {
+            "id": "fulfillment_order_id",
+            "assignedLocation": "planned_location",
+            "order.id": "order_id",
+            "lineItems.nodes.lineItem.id": "order_line_id",
+            "lineItems.nodes.remainingQuantity": "remaining_to_fulfill"
+          },
+          "note": "Location assignment and outstanding work do not prove a physical stock reservation. Import explicit reservation evidence or publish a versioned derived allocation with a policy and coverage check."
+        },
+        {
+          "resource": "Fulfillment",
+          "dataset": "fulfillments",
+          "mapping": {
+            "id": "shipment_id",
+            "order.id": "order_id",
+            "fulfillmentLineItems": "line_quantity_links",
+            "trackingInfo": "carrier_tracking_links",
+            "events": "shipment_milestones"
+          },
+          "note": "Distinguish created, handed over, delivered and cancelled. A tracking label alone does not establish goods movement."
+        },
+        {
+          "resource": "OrderTransaction",
+          "dataset": "payments",
+          "mapping": {
+            "id": "transaction_id",
+            "order.id": "order_id",
+            "parentTransaction.id": "parent_transaction_id",
+            "kind": "transaction_kind",
+            "status": "transaction_status",
+            "amountSet": "amount_currency_basis",
+            "processedAt": "effective_time",
+            "gateway": "gateway_namespace"
+          },
+          "note": "Successful sale/capture, authorization, failure, void and refund have different effects. Shopify and provider views of the same payment must share one economic identity."
+        },
+        {
+          "resource": "Return / Refund / ReverseFulfillmentOrderDisposition",
+          "dataset": "returns",
+          "mapping": {
+            "Return.id": "return_id",
+            "Return.order.id": "order_id",
+            "Return.returnLineItems": "return_line_links",
+            "Return.status": "return_workflow_state",
+            "Refund.transactions": "refund_transaction_evidence",
+            "Disposition.type + quantity + location": "disposition_observation"
+          },
+          "note": "Requested/closed return is not proof of warehouse receipt. Inspect disposition semantics and merchant practice; MISSING is not received and RESTOCKED is not a second physical receipt. Refund object alone does not establish successful cash movement."
+        }
+      ],
+      "documentation_refs": [
+        "shopify_order",
+        "shopify_line",
+        "shopify_inventory",
+        "shopify_inventory_states",
+        "shopify_fulfillment_order",
+        "shopify_fulfillment_line",
+        "shopify_fulfillment",
+        "shopify_transaction",
+        "shopify_return",
+        "shopify_refund",
+        "shopify_disposition",
+        "shopify_disposition_types",
+        "shopify_webhooks"
+      ],
+      "documentation_status": "reviewed",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "shopify_payments",
+      "name": "Shopify Payments",
+      "release_scope": "first_release",
+      "ingestion": "Query ShopifyPaymentsAccount balanceTransactions, payouts and disputes with pagination; reconcile provider balances independently of order ingestion.",
+      "external_prerequisites": "An eligible Shopify Payments account and actual finance/dispute grants. Account docs list read_shopify_payments or read_shopify_payments_accounts; payout objects require view_payouts permission and disputes require read_shopify_payments_disputes. Validate all field-level access in the pinned schema/account.",
+      "field_mappings": [
+        {
+          "resource": "ShopifyPaymentsBalanceTransaction",
+          "dataset": "provider_ledger",
+          "mapping": {
+            "id": "ledger_entry_id",
+            "amount": "gross_money",
+            "fee": "fee_money",
+            "net": "net_money",
+            "type": "posting_type",
+            "transactionDate": "effective_time",
+            "sourceId": "source_id",
+            "sourceOrderTransactionId": "shop_transaction_link",
+            "associatedOrder": "optional_order_link",
+            "associatedPayout": "payout_link"
+          },
+          "note": "Optional links can be absent. Reconcile each payout membership and sign convention; do not guess allocation from equal amounts."
+        },
+        {
+          "resource": "ShopifyPaymentsPayout",
+          "dataset": "payouts",
+          "mapping": {
+            "id": "payout_id",
+            "net": "amount_currency",
+            "issuedAt": "issued_at",
+            "status": "provider_payout_status",
+            "externalTraceId": "optional_bank_reference",
+            "transactionType": "deposit_or_withdrawal"
+          },
+          "note": "Provider payout state is a provider assertion, not independent bank evidence. Track failed/reversed transfers separately."
+        },
+        {
+          "resource": "ShopifyPaymentsAccount",
+          "dataset": "positions",
+          "mapping": {
+            "id": "account_id",
+            "balance": "balance_by_currency"
+          },
+          "note": "Detailed processing/available/held amounts, hold reasons and release promises are not established by this balance field. Keep unsupported breakdowns unknown until a verified source/report is mapped."
+        },
+        {
+          "resource": "ShopifyPaymentsDispute",
+          "dataset": "disputes",
+          "mapping": {
+            "id": "dispute_id",
+            "order.id": "optional_order_link",
+            "amount": "disputed_money",
+            "status": "dispute_state",
+            "initiatedAt": "opened_at",
+            "finalizedOn": "resolved_at"
+          },
+          "note": "Need separate booked debit/reversal evidence and a proven original-transaction link. An open dispute is not a final repayment; order-level linkage can be ambiguous with multiple captures."
+        }
+      ],
+      "documentation_refs": [
+        "shopify_account",
+        "shopify_ledger",
+        "shopify_payout",
+        "shopify_dispute"
+      ],
+      "documentation_status": "reviewed",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "easybill",
+      "name": "easybill",
+      "release_scope": "first_release",
+      "ingestion": "GET /documents and /documents/{id}; /document-payments; /post-boxes; document versions where available. Reconcile edited_at with overlap and stable page handling. Webhook notifications can trigger authenticated re-fetch; verify the documented signature scheme before trusting payloads.",
+      "external_prerequisites": "Authorized account/API credential and actual plan limits. Schema reviewed: REST v1, info.version 1.103.1, SHA256 6d532f96a7fe82fcbd556178f8bd2a11f364061690f67ccb932d3722ac2b1e86. Verify signs, correction linkage, historical version completeness and account-specific field population in fixtures and an authorized account.",
+      "field_mappings": [
+        {
+          "resource": "GET /documents/{id}",
+          "dataset": "invoices",
+          "mapping": {
+            "id": "document_id",
+            "type": "document_kind",
+            "is_draft": "draft_flag",
+            "amount": "gross_minor",
+            "amount_net": "net_minor",
+            "currency": "currency",
+            "items": "invoice_lines",
+            "due_date": "due_date",
+            "paid_amount": "reported_paid_minor",
+            "edited_at": "revision_time",
+            "cancel_id / ref_id / root_id": "document_relationships",
+            "order_number / external_id": "candidate_order_reference"
+          },
+          "note": "Document.status is not an invoice-paid status. Order references need a connection-specific namespace and validated association. Credit/STORNO signs and chains must be tested."
+        },
+        {
+          "resource": "GET /document-payments",
+          "dataset": "payment_allocations",
+          "mapping": {
+            "id": "payment_marker_id",
+            "document_id": "document_id",
+            "amount": "reported_amount",
+            "payment_at": "reported_date",
+            "provider / reference": "candidate_payment_link"
+          },
+          "note": "A marker is evidence of the invoice tool report, not an additional cash movement; reconcile to actual payments when linked."
+        },
+        {
+          "resource": "GET /post-boxes",
+          "dataset": "invoice_dispatch",
+          "mapping": {
+            "id": "dispatch_id",
+            "document_id": "document_id",
+            "status": "dispatch_status",
+            "processed_at": "processed_at",
+            "send_by_self": "external_send_indicator"
+          },
+          "note": "OK is provider-reported processing/sending evidence, not proof the recipient read or received the message. Missing postbox data is not proof of non-sending."
+        }
+      ],
+      "documentation_refs": [
+        "easybill"
+      ],
+      "documentation_status": "reviewed",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "dhl",
+      "name": "DHL Unified Tracking",
+      "release_scope": "first_release",
+      "ingestion": "GET https://api-eu.dhl.com/track/shipments?trackingNumber=... for known shop shipment references; optional authorized push subscriptions with reconciliation. Back off and stop/slow polling terminal shipments according to the actual contract.",
+      "external_prerequisites": "Eligible tracking numbers, API subscription key, product coverage and quotas. Published Unified Tracking terms include deletion 30 days after delivery unless otherwise agreed. Resolve retention and permitted downstream use before live append-only ingestion; raw-data separation alone does not establish rights to retain derived tracking facts indefinitely.",
+      "field_mappings": [
+        {
+          "resource": "Unified Tracking shipment response",
+          "dataset": "tracking",
+          "mapping": {
+            "shipments[].id": "carrier_shipment_id",
+            "shipments[].service": "carrier_service",
+            "shipments[].status.timestamp": "latest_observed_time",
+            "shipments[].status.statusCode": "normalized_status_input",
+            "shipments[].events": "scan_history_if_returned",
+            "shipments[].estimatedTimeOfDelivery": "optional_forecast"
+          },
+          "note": "Bind to an explicit shop shipment/line mapping; carrier scans do not contain authoritative SKU quantities. Preserve raw codes and timezone; service-specific fields and forecast/history coverage vary."
+        }
+      ],
+      "documentation_refs": [
+        "dhl",
+        "dhl_push"
+      ],
+      "documentation_status": "reviewed",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "bank_csv",
+      "name": "Validated bank statement CSV",
+      "release_scope": "first_release",
+      "ingestion": "Authorized upload -> versioned mapping/validation -> durable import records -> same journal/outbox/engine path.",
+      "external_prerequisites": "A statement supplied by the merchant, explicit account/currency/date/sign mapping and declared coverage interval. No live bank API is included.",
+      "field_mappings": [
+        {
+          "resource": "Versioned bank CSV profile",
+          "dataset": "bank",
+          "mapping": {
+            "account_id": "account_namespace",
+            "statement_id + row_id": "dedup_identity",
+            "booking_date": "booked_at",
+            "value_date": "value_at",
+            "amount_minor + currency": "money",
+            "reference": "matching_reference",
+            "booking_status": "booked_or_pending"
+          },
+          "note": "Require booked status and unique matching evidence; equal amounts alone are ambiguous. Corrections append. Partial statement coverage cannot prove non-arrival."
+        }
+      ],
+      "documentation_refs": [],
+      "documentation_status": "internal_contract_required",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "generic",
+      "name": "Signed typed business-event API",
+      "release_scope": "first_release",
+      "ingestion": "Versioned authenticated event envelope with idempotency key, tenant-bound connection, source identity, occurred_at and typed payload.",
+      "external_prerequisites": "Must be implemented and actually supplied by an authorized merchant system/operator. A defined schema does not collect data by itself.",
+      "field_mappings": [
+        {
+          "resource": "Required supplemental event families",
+          "dataset": "supplemental",
+          "mapping": {
+            "allocation": "explicit order-line/item/location allocation",
+            "supply_commitment": "versioned receipt promise",
+            "customer_commitment": "explicit delivery promise",
+            "communication": "permitted customer conversation evidence",
+            "warehouse_receipt": "received/quarantined/restocked quantities",
+            "refund_entitlement": "approved amount and destination",
+            "hold_observation": "provider-held amounts and release evidence",
+            "case_state": "collection/dispute case context"
+          },
+          "note": "Synthetic replay and production feed must use this same validated persistence path; never silently mix sample events with real tenant answers."
+        }
+      ],
+      "documentation_refs": [],
+      "documentation_status": "internal_contract_required",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "replay",
+      "name": "Deterministic synthetic replay",
+      "release_scope": "first_release",
+      "ingestion": "Replay typed observations through the same tenant-scoped ingestion path.",
+      "external_prerequisites": "Clearly synthetic isolated workspace; no provider access claimed.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "internal_contract_required",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "policy",
+      "name": "Versioned workspace rules",
+      "release_scope": "first_release",
+      "ingestion": "Authorized settings/import appends rule-change evidence; runtime query reads the version effective at its cutoff.",
+      "external_prerequisites": "Owner-supplied allocation, invoicing, delivery-risk and reminder policy; no undocumented defaults that decide business obligations.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "internal_contract_required",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "shopware",
+      "name": "Shopware 6",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "woocommerce",
+      "name": "WooCommerce",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "email",
+      "name": "Mailbox",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "lexware",
+      "name": "Lexware Office",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "sevdesk",
+      "name": "sevdesk",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "billbee",
+      "name": "Billbee",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "sufio",
+      "name": "Sufio",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe standalone account",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "mollie",
+      "name": "Mollie",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "dpd",
+      "name": "DPD",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "ups",
+      "name": "UPS",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "klaviyo",
+      "name": "Klaviyo",
+      "release_scope": "roadmap",
+      "ingestion": "Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.",
+      "external_prerequisites": "Not verified and not included as a full live first-release connector.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "not_audited",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "runtime",
+      "name": "Internal ingestion and identity services",
+      "release_scope": "first_release",
+      "ingestion": "Server-owned ingestion, reconciliation, import and identity-review checkpoints. Not a merchant connector or public capability to declare arbitrary completeness.",
+      "external_prerequisites": "Record actual granted scopes, finished pagination/reconciliation and evidenced import intervals. A producer claim of completeness is separately labeled, not trusted as runtime verification.",
+      "field_mappings": [],
+      "documentation_refs": [],
+      "documentation_status": "internal_contract_required",
+      "implementation_status": "not_started",
+      "contract_test_status": "not_started",
+      "live_verification_status": "not_applicable_internal"
+    }
+  ],
+  "datasets": [
+    {
+      "id": "orders",
+      "required_fields": [
+        "order_id",
+        "line_id",
+        "customer_id",
+        "item_id",
+        "variant_id",
+        "quantity",
+        "unit",
+        "currency",
+        "line_net_minor",
+        "line_tax_minor",
+        "line_gross_minor",
+        "discount_minor",
+        "shipping_minor",
+        "agreed_version",
+        "cancellation_state",
+        "updated_at"
+      ],
+      "provider_candidates": [
+        "shopify",
+        "generic"
+      ],
+      "journal_event_families": [
+        "order.accepted",
+        "order.revised",
+        "order.cancelled"
+      ],
+      "projection_ids": [
+        "P_ORDER"
+      ],
+      "normalization_rule": "Preserve agreed and current versions; line removal/returns are not interchangeable. Use provider IDs scoped to account, never email/order number alone.",
+      "open_dependency": "Line-price and partial-document matching needs explicit equivalence rules.",
+      "documentation_refs": [
+        "shopify_order",
+        "shopify_line"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "commitment"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "stock",
+      "required_fields": [
+        "item_id",
+        "location_id",
+        "unit",
+        "observed_at",
+        "basis",
+        "physical",
+        "available",
+        "committed",
+        "reserved",
+        "damaged",
+        "safety_stock",
+        "quality_control",
+        "incoming"
+      ],
+      "provider_candidates": [
+        "shopify",
+        "generic"
+      ],
+      "journal_event_families": [
+        "inventory.snapshot",
+        "inventory.adjustment_observed"
+      ],
+      "projection_ids": [
+        "P_STOCK"
+      ],
+      "normalization_rule": "One authoritative stock basis per item/location/cutoff. For disjoint states derive free = physical - committed - reserved - damaged - safety_stock - quality_control; compare to provider available. Never subtract the same commitment twice.",
+      "open_dependency": "Snapshot differences alone do not prove the cause of a goods movement; incompatible snapshots produce a conflict.",
+      "documentation_refs": [
+        "shopify_inventory",
+        "shopify_inventory_states"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "allocations",
+      "required_fields": [
+        "allocation_id",
+        "order_id",
+        "line_id",
+        "item_id",
+        "location_id",
+        "quantity",
+        "unit",
+        "status",
+        "policy_version",
+        "evidence_id"
+      ],
+      "provider_candidates": [
+        "generic",
+        "shopify"
+      ],
+      "journal_event_families": [
+        "inventory.reserved",
+        "inventory.reservation_released",
+        "allocation.revised"
+      ],
+      "projection_ids": [
+        "P_ORDER",
+        "P_STOCK"
+      ],
+      "normalization_rule": "An observed reservation and a derived allocation are distinct. Preserve provenance and releases; reconcile aggregates without double subtracting.",
+      "open_dependency": "Fulfillment location assignment is not automatically a reservation. Implement explicit generic events or a declared allocation derivation.",
+      "documentation_refs": [
+        "shopify_fulfillment_order",
+        "shopify_fulfillment_line"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "reservation"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "supply",
+      "required_fields": [
+        "promise_id",
+        "supplier_id",
+        "item_id",
+        "location_id",
+        "quantity",
+        "unit",
+        "promised_at",
+        "timezone",
+        "revision",
+        "allocation_links"
+      ],
+      "provider_candidates": [
+        "generic"
+      ],
+      "journal_event_families": [
+        "supply.commitment_recorded",
+        "supply.commitment_revised"
+      ],
+      "projection_ids": [
+        "P_PROMISE"
+      ],
+      "normalization_rule": "A promise never increases physical stock; corrections append and supersede.",
+      "open_dependency": "No supplier/PO connector is included at launch. Feed reviewed structured commitments through the generic API.",
+      "documentation_refs": [],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "commitment"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "promises",
+      "required_fields": [
+        "promise_id",
+        "order_id",
+        "line_id",
+        "promised_at",
+        "timezone",
+        "promise_kind",
+        "revision",
+        "evidence_id"
+      ],
+      "provider_candidates": [
+        "generic"
+      ],
+      "journal_event_families": [
+        "customer.commitment_recorded",
+        "customer.commitment_revised"
+      ],
+      "projection_ids": [
+        "P_PROMISE"
+      ],
+      "normalization_rule": "Customer promise, fulfill-by date and carrier estimate are different assertions.",
+      "open_dependency": "Must capture the actual communicated promise from a verified custom field/feed/reviewed communication; do not infer from shipping method.",
+      "documentation_refs": [],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "commitment"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "fulfillments",
+      "required_fields": [
+        "shipment_id",
+        "order_id",
+        "line_id",
+        "quantity",
+        "unit",
+        "location_id",
+        "carrier",
+        "tracking_number",
+        "handover_at",
+        "delivered_at",
+        "state"
+      ],
+      "provider_candidates": [
+        "shopify",
+        "generic"
+      ],
+      "journal_event_families": [
+        "shipment.observed",
+        "shipment.dispatched",
+        "shipment.delivered",
+        "shipment.cancelled"
+      ],
+      "projection_ids": [
+        "P_SHIPMENT",
+        "P_ORDER"
+      ],
+      "normalization_rule": "Link actual line quantities to shipment milestones. Labels do not count as handover. Do not book stock movement twice from shop and carrier.",
+      "open_dependency": "Multi-package line assignment may require packing/WMS data; unknown mapping limits line-level claims.",
+      "documentation_refs": [
+        "shopify_fulfillment"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "movement",
+        "reservation"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "tracking",
+      "required_fields": [
+        "carrier_service",
+        "tracking_number",
+        "scan_identity",
+        "status_code",
+        "effective_time",
+        "timezone",
+        "forecast",
+        "observed_at"
+      ],
+      "provider_candidates": [
+        "dhl",
+        "generic"
+      ],
+      "journal_event_families": [
+        "carrier.scan_observed",
+        "carrier.forecast_observed"
+      ],
+      "projection_ids": [
+        "P_SHIPMENT"
+      ],
+      "normalization_rule": "Normalize codes with a versioned mapping and retain original scan evidence; preserve late observations without regressing current status.",
+      "open_dependency": "Service coverage, licensed retention and tracking-to-order linkage must be validated.",
+      "documentation_refs": [
+        "dhl",
+        "dhl_push"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "communications",
+      "required_fields": [
+        "message_id",
+        "customer_id",
+        "order_id",
+        "sent_at",
+        "actor",
+        "evidence_ref",
+        "reviewed_commitments",
+        "visibility_scope"
+      ],
+      "provider_candidates": [
+        "generic",
+        "email"
+      ],
+      "journal_event_families": [
+        "communication.observed",
+        "communication.extraction_reviewed"
+      ],
+      "projection_ids": [
+        "P_CONTEXT"
+      ],
+      "normalization_rule": "Keep original content in controlled evidence storage; reviewed assertions reference exact source versions.",
+      "open_dependency": "Mailbox is roadmap. Generic reviewed input is the launch bridge; absence of imported communications is not proof of no prior promise.",
+      "documentation_refs": [],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "invoices",
+      "required_fields": [
+        "document_id",
+        "kind",
+        "invoice_id",
+        "order_id",
+        "line_links",
+        "currency",
+        "original_gross_minor",
+        "correction_minor",
+        "due_date",
+        "reported_paid_minor",
+        "revision",
+        "draft_state"
+      ],
+      "provider_candidates": [
+        "easybill",
+        "generic"
+      ],
+      "journal_event_families": [
+        "invoice.issued",
+        "invoice.revised",
+        "invoice.credit_issued",
+        "invoice.cancelled",
+        "invoice.payment_marked"
+      ],
+      "projection_ids": [
+        "P_INVOICE"
+      ],
+      "normalization_rule": "Traverse document correction chains; reconcile signed effects and payment markers without treating markers/credits as cash.",
+      "open_dependency": "Candidate order_number/external_id and line references require validated tenant/account-scoped association.",
+      "documentation_refs": [
+        "easybill"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "commitment"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "invoice_dispatch",
+      "required_fields": [
+        "dispatch_id",
+        "document_id",
+        "channel",
+        "status",
+        "processed_at",
+        "source_scope"
+      ],
+      "provider_candidates": [
+        "easybill",
+        "generic"
+      ],
+      "journal_event_families": [
+        "invoice.dispatch_observed"
+      ],
+      "projection_ids": [
+        "P_INVOICE"
+      ],
+      "normalization_rule": "Report sent evidence at provider-reported scope; no claim of customer receipt/read.",
+      "open_dependency": "Missing/external send history must remain unknown.",
+      "documentation_refs": [
+        "easybill"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "payments",
+      "required_fields": [
+        "transaction_id",
+        "original_transaction_id",
+        "order_id",
+        "account_id",
+        "gateway",
+        "kind",
+        "status",
+        "amount_minor",
+        "currency",
+        "occurred_at",
+        "economic_effect_id"
+      ],
+      "provider_candidates": [
+        "shopify",
+        "generic"
+      ],
+      "journal_event_families": [
+        "payment.authorized",
+        "payment.captured",
+        "payment.failed",
+        "payment.voided"
+      ],
+      "projection_ids": [
+        "P_PAYMENT"
+      ],
+      "normalization_rule": "Only successful sale/capture contributes collected cash; unify overlapping observations with proven identity.",
+      "open_dependency": "Historical attempt coverage and original-transaction joins need verification.",
+      "documentation_refs": [
+        "shopify_transaction"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "movement"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "payment_allocations",
+      "required_fields": [
+        "allocation_id",
+        "invoice_id",
+        "transaction_id",
+        "amount_minor",
+        "currency",
+        "confidence",
+        "evidence_id",
+        "revision"
+      ],
+      "provider_candidates": [
+        "generic",
+        "easybill"
+      ],
+      "journal_event_families": [
+        "payment.allocation_recorded",
+        "payment.allocation_revised",
+        "invoice.payment_marked"
+      ],
+      "projection_ids": [
+        "P_PAYMENT",
+        "P_INVOICE"
+      ],
+      "normalization_rule": "Only unambiguous allocations reconcile invoices; reported paid markers remain separate.",
+      "open_dependency": "A payment covering several invoices or several attempts needs explicit allocation; fees are not customer debt.",
+      "documentation_refs": [
+        "easybill"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "policy",
+      "required_fields": [
+        "rule_id",
+        "rule_kind",
+        "version",
+        "effective_from",
+        "scope",
+        "priority_method",
+        "invoicing_trigger",
+        "tolerance",
+        "currency",
+        "timezone",
+        "reminder_policy"
+      ],
+      "provider_candidates": [
+        "policy",
+        "generic"
+      ],
+      "journal_event_families": [
+        "business.rule_recorded",
+        "business.rule_revised"
+      ],
+      "projection_ids": [
+        "P_CONTEXT"
+      ],
+      "normalization_rule": "Evaluate using the policy effective at the requested cutoff; unsupported/missing business rules are missing inputs.",
+      "open_dependency": "No invented invoice timing, debt reminder or allocation priority.",
+      "documentation_refs": [],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "cases",
+      "required_fields": [
+        "case_id",
+        "customer_id",
+        "invoice_id",
+        "transaction_id",
+        "status",
+        "agreed_extension_until",
+        "evidence_id"
+      ],
+      "provider_candidates": [
+        "generic"
+      ],
+      "journal_event_families": [
+        "business.case_recorded",
+        "business.case_revised"
+      ],
+      "projection_ids": [
+        "P_CONTEXT"
+      ],
+      "normalization_rule": "A dispute, deadline extension or investigation changes review context without erasing the receivable.",
+      "open_dependency": "Need an internal authorized case feed or later CRM/helpdesk connector.",
+      "documentation_refs": [],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "provider_ledger",
+      "required_fields": [
+        "ledger_entry_id",
+        "account_id",
+        "source_transaction_id",
+        "order_link",
+        "payout_id",
+        "posting_type",
+        "gross_minor",
+        "fee_minor",
+        "net_minor",
+        "currency",
+        "effective_time"
+      ],
+      "provider_candidates": [
+        "shopify_payments",
+        "generic"
+      ],
+      "journal_event_families": [
+        "provider.ledger_posted",
+        "payment.fee_booked"
+      ],
+      "projection_ids": [
+        "P_PROVIDER",
+        "P_PAYMENT"
+      ],
+      "normalization_rule": "Version provider sign/type mapping, deduplicate economic effects and preserve unsettled residuals.",
+      "open_dependency": "Do not force optional source links or assume every adjustment belongs to one order.",
+      "documentation_refs": [
+        "shopify_ledger"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "movement"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "positions",
+      "required_fields": [
+        "account_id",
+        "currency",
+        "observed_at",
+        "total_minor",
+        "processing_minor",
+        "available_minor",
+        "held_minor",
+        "coverage"
+      ],
+      "provider_candidates": [
+        "shopify_payments",
+        "generic"
+      ],
+      "journal_event_families": [
+        "provider.balance_observed"
+      ],
+      "projection_ids": [
+        "P_PROVIDER"
+      ],
+      "normalization_rule": "Snapshots supersede; never sum historical balances. Distinguish observed totals, derived totals and unknown subcategories.",
+      "open_dependency": "Detailed balance breakdown is not established by a single total balance field.",
+      "documentation_refs": [
+        "shopify_account"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "payouts",
+      "required_fields": [
+        "payout_id",
+        "account_id",
+        "status",
+        "direction",
+        "amount_minor",
+        "currency",
+        "issued_at",
+        "trace_reference",
+        "ledger_membership",
+        "reversal_id"
+      ],
+      "provider_candidates": [
+        "shopify_payments",
+        "generic"
+      ],
+      "journal_event_families": [
+        "payout.announced",
+        "payout.sent",
+        "payout.failed",
+        "payout.reversed"
+      ],
+      "projection_ids": [
+        "P_PROVIDER"
+      ],
+      "normalization_rule": "Payouts transfer assets and are not new sales; pending/sent/reversed are distinct.",
+      "open_dependency": "Require complete payout membership to explain gross-to-net differences.",
+      "documentation_refs": [
+        "shopify_payout",
+        "shopify_ledger"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "commitment",
+        "movement"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "bank",
+      "required_fields": [
+        "entry_id",
+        "statement_id",
+        "account_id",
+        "booking_status",
+        "booked_at",
+        "value_at",
+        "amount_minor",
+        "currency",
+        "reference",
+        "payout_match",
+        "coverage_interval"
+      ],
+      "provider_candidates": [
+        "bank_csv",
+        "generic"
+      ],
+      "journal_event_families": [
+        "bank.credit_booked",
+        "bank.debit_booked",
+        "bank.match_recorded",
+        "bank.match_revised"
+      ],
+      "projection_ids": [
+        "P_BANK"
+      ],
+      "normalization_rule": "Use booked independent bank records with unique evidenced matches; ambiguity remains unresolved.",
+      "open_dependency": "Merchant must supply a real statement; demo bank rows are not bank verification.",
+      "documentation_refs": [],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "movement"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "holds",
+      "required_fields": [
+        "hold_id",
+        "account_id",
+        "transaction_id",
+        "currency",
+        "amount_minor",
+        "reason",
+        "state",
+        "release_promised_at",
+        "released_at",
+        "evidence_id"
+      ],
+      "provider_candidates": [
+        "generic",
+        "shopify_payments"
+      ],
+      "journal_event_families": [
+        "provider.hold_recorded",
+        "provider.hold_released",
+        "provider.release_promised"
+      ],
+      "projection_ids": [
+        "P_PROVIDER"
+      ],
+      "normalization_rule": "A hold affects availability, not ownership or collected sales; a release promise is not a release.",
+      "open_dependency": "Hold reasons/release dates and complete partition of balances remain unverified for the default provider.",
+      "documentation_refs": [
+        "shopify_account",
+        "shopify_dispute"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "reservation",
+        "commitment"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "returns",
+      "required_fields": [
+        "return_id",
+        "order_id",
+        "line_id",
+        "quantity",
+        "unit",
+        "state",
+        "reverse_shipment_id"
+      ],
+      "provider_candidates": [
+        "shopify",
+        "generic"
+      ],
+      "journal_event_families": [
+        "return.approved",
+        "return.revised",
+        "return.cancelled"
+      ],
+      "projection_ids": [
+        "P_REVERSAL"
+      ],
+      "normalization_rule": "Return intent and physical receipt are separate; cancelled/closed workflow states need interpretation.",
+      "open_dependency": "Reverse logistics field population varies with merchant workflow.",
+      "documentation_refs": [
+        "shopify_return"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "receipts",
+      "required_fields": [
+        "receipt_id",
+        "return_id",
+        "line_id",
+        "location_id",
+        "quantity",
+        "unit",
+        "disposition",
+        "physical_delta",
+        "quarantine_delta",
+        "occurred_at"
+      ],
+      "provider_candidates": [
+        "generic",
+        "shopify"
+      ],
+      "journal_event_families": [
+        "return.received",
+        "return.restocked",
+        "return.disposition_observed"
+      ],
+      "projection_ids": [
+        "P_REVERSAL",
+        "P_STOCK"
+      ],
+      "normalization_rule": "Receiving into quarantine increases physical and quarantine; subsequent restock releases quarantine without a second physical receipt.",
+      "open_dependency": "Use verified disposition/warehouse evidence; a return request or carrier delivery does not prove checked SKU-level receipt.",
+      "documentation_refs": [
+        "shopify_disposition",
+        "shopify_disposition_types"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "movement",
+        "reservation"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "entitlements",
+      "required_fields": [
+        "entitlement_id",
+        "order_id",
+        "invoice_id",
+        "credit_id",
+        "original_transaction_id",
+        "amount_minor",
+        "currency",
+        "destination",
+        "approved_at",
+        "state"
+      ],
+      "provider_candidates": [
+        "generic"
+      ],
+      "journal_event_families": [
+        "refund.entitlement_recorded",
+        "refund.entitlement_revised"
+      ],
+      "projection_ids": [
+        "P_REVERSAL"
+      ],
+      "normalization_rule": "Separate refund owed to a paid customer from a credit cancelling an unpaid receivable or agreed store credit.",
+      "open_dependency": "Need explicit approved policy/allocation evidence; not every credit creates a cash refund obligation.",
+      "documentation_refs": [],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "commitment"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "refunds",
+      "required_fields": [
+        "refund_id",
+        "original_transaction_id",
+        "order_id",
+        "amount_minor",
+        "currency",
+        "status",
+        "destination",
+        "economic_effect_id"
+      ],
+      "provider_candidates": [
+        "shopify",
+        "shopify_payments",
+        "generic"
+      ],
+      "journal_event_families": [
+        "refund.pending",
+        "refund.completed",
+        "refund.failed",
+        "refund.reversed"
+      ],
+      "projection_ids": [
+        "P_PAYMENT",
+        "P_REVERSAL",
+        "P_PROVIDER"
+      ],
+      "normalization_rule": "Only confirmed cash refunds affect cash; store credit, pending and failed outcomes are separate.",
+      "open_dependency": "Shop/provider duplicate observations require identity reconciliation, not two debits.",
+      "documentation_refs": [
+        "shopify_refund",
+        "shopify_transaction",
+        "shopify_ledger"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "movement",
+        "reservation"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "disputes",
+      "required_fields": [
+        "dispute_id",
+        "original_transaction_id",
+        "order_id",
+        "amount_minor",
+        "currency",
+        "state",
+        "debit_posting_id",
+        "debit_minor",
+        "reversal_minor",
+        "evidence_id"
+      ],
+      "provider_candidates": [
+        "shopify_payments",
+        "generic"
+      ],
+      "journal_event_families": [
+        "dispute.opened",
+        "dispute.resolved",
+        "chargeback.debit_posted",
+        "chargeback.reversed"
+      ],
+      "projection_ids": [
+        "P_REVERSAL",
+        "P_PROVIDER"
+      ],
+      "normalization_rule": "Open dispute is a risk flag; booked debit and reversal are distinct money effects. Match exact original transaction and case lifecycle.",
+      "open_dependency": "Order link is insufficient where multiple captures exist. Booked chargeback mapping remains a provider-specific proof obligation.",
+      "documentation_refs": [
+        "shopify_dispute",
+        "shopify_ledger"
+      ],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact",
+        "movement",
+        "reservation"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "coverage",
+      "required_fields": [
+        "connection_id",
+        "capability",
+        "entity_scope",
+        "history_start",
+        "backfill_complete",
+        "complete_through",
+        "cursor",
+        "fetched_at",
+        "committed_cursor",
+        "applied_cursor",
+        "missing_fields",
+        "failure_state",
+        "retention_state",
+        "coverage_basis",
+        "verification_evidence"
+      ],
+      "provider_candidates": [
+        "runtime"
+      ],
+      "journal_event_families": [
+        "coverage.observed",
+        "coverage.gap_recorded"
+      ],
+      "projection_ids": [
+        "P_COVERAGE"
+      ],
+      "normalization_rule": "Every answer reports bounded population/time/source coverage and projection lag; empty does not mean complete. Only the authorized runtime derives verified coverage from completed pagination/import/reconciliation and actual grants. A signed producer may declare its source interval, but that declaration is labeled declared, not independently verified; it cannot mark unrelated sources complete.",
+      "open_dependency": "Operational sync state may be mutable; retain immutable observations used to support historical completeness assertions.",
+      "documentation_refs": [],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    },
+    {
+      "id": "identity",
+      "required_fields": [
+        "entity_type",
+        "entity_id",
+        "connection_id",
+        "account_namespace",
+        "external_id",
+        "relationship_type",
+        "target_id",
+        "evidence_id",
+        "confidence",
+        "revision"
+      ],
+      "provider_candidates": [
+        "runtime",
+        "generic"
+      ],
+      "journal_event_families": [
+        "entity.link_recorded",
+        "entity.link_revised",
+        "entity.link_conflict"
+      ],
+      "projection_ids": [
+        "P_COVERAGE"
+      ],
+      "normalization_rule": "Namespace every ID; ambiguous joins remain separate. Correct links append and trigger incremental recomputation.",
+      "open_dependency": "SKU/email/order number alone never establishes cross-source identity.",
+      "documentation_refs": [],
+      "implementation_status": "not_started",
+      "journal_tracks": [
+        "source",
+        "fact"
+      ],
+      "durable_storage": "Immutable typed payload and entity/evidence links in the canonical PostgreSQL journal; mutable current state only in rebuildable projections. Event family determines which listed tracks apply; never emit all tracks blindly."
+    }
+  ],
+  "projections": [
+    {
+      "id": "P_ORDER",
+      "name": "Order and line graph",
+      "keys": [
+        "tenant_id",
+        "order_id",
+        "line_id"
+      ],
+      "contents": [
+        "versioned quantities/prices",
+        "customer/item/location links",
+        "open/cancelled/fulfilled quantities",
+        "invoice/shipment/payment relationships"
+      ],
+      "access_path": "Direct order lookup; active-order index by status/customer/item, then bounded line expansion.",
+      "storage": "Versioned durable projection/checkpoint plus bounded compact Rust RAM state; indexed PostgreSQL hydration/history fallback.",
+      "status": "required_not_implemented"
+    },
+    {
+      "id": "P_STOCK",
+      "name": "Inventory and allocation state",
+      "keys": [
+        "tenant_id",
+        "item_id",
+        "location_id",
+        "unit"
+      ],
+      "contents": [
+        "named disjoint inventory states",
+        "source basis",
+        "active allocation IDs",
+        "reservation ownership",
+        "sellable/available quantities"
+      ],
+      "access_path": "Direct item/location lookup; reverse item-to-open-order index; bounded policy-based allocation simulation.",
+      "storage": "Versioned durable projection/checkpoint plus bounded compact Rust RAM state; indexed PostgreSQL hydration/history fallback.",
+      "status": "required_not_implemented"
+    },
+    {
+      "id": "P_PROMISE",
+      "name": "Current promises and revisions",
+      "keys": [
+        "tenant_id",
+        "promise_id"
+      ],
+      "contents": [
+        "kind: supply/customer",
+        "item/order/line link",
+        "quantity/date/timezone",
+        "superseded evidence",
+        "allocation dependencies"
+      ],
+      "access_path": "Open promises by item/due date/order and incoming-supply-to-order adjacency.",
+      "storage": "Versioned durable projection/checkpoint plus bounded compact Rust RAM state; indexed PostgreSQL hydration/history fallback.",
+      "status": "required_not_implemented"
+    },
+    {
+      "id": "P_SHIPMENT",
+      "name": "Shipment and line progress",
+      "keys": [
+        "tenant_id",
+        "shipment_id"
+      ],
+      "contents": [
+        "carrier namespace/tracking",
+        "line quantities",
+        "handover/delivery state",
+        "latest scan/forecast",
+        "exception flags"
+      ],
+      "access_path": "Order-to-shipments adjacency and status/last-scan/expected-date indexes; bounded scan history pages.",
+      "storage": "Versioned durable projection/checkpoint plus bounded compact Rust RAM state; indexed PostgreSQL hydration/history fallback.",
+      "status": "required_not_implemented"
+    },
+    {
+      "id": "P_INVOICE",
+      "name": "Receivables and document chains",
+      "keys": [
+        "tenant_id",
+        "document_id",
+        "currency"
+      ],
+      "contents": [
+        "original/corrected amounts",
+        "invoice/order-line associations",
+        "reported versus reconciled payments",
+        "due date",
+        "dispatch evidence"
+      ],
+      "access_path": "Open receivables by due/customer/currency; order-to-document adjacency; revision locators.",
+      "storage": "Versioned durable projection/checkpoint plus bounded compact Rust RAM state; indexed PostgreSQL hydration/history fallback.",
+      "status": "required_not_implemented"
+    },
+    {
+      "id": "P_PAYMENT",
+      "name": "Payment attempts and allocations",
+      "keys": [
+        "tenant_id",
+        "account_id",
+        "transaction_id",
+        "currency"
+      ],
+      "contents": [
+        "kind/status/parent links",
+        "captures/refunds",
+        "order/invoice allocations",
+        "economic-effect dedup IDs"
+      ],
+      "access_path": "Order-to-attempts and transaction-to-allocation indexes; unresolved/failed-attempt subsets.",
+      "storage": "Versioned durable projection/checkpoint plus bounded compact Rust RAM state; indexed PostgreSQL hydration/history fallback.",
+      "status": "required_not_implemented"
+    },
+    {
+      "id": "P_PROVIDER",
+      "name": "Provider balances and payouts",
+      "keys": [
+        "tenant_id",
+        "provider_account_id",
+        "currency"
+      ],
+      "contents": [
+        "ledger rollups",
+        "payout membership",
+        "reported/reconciled balances",
+        "held/processing/available states when evidenced",
+        "reconciliation residuals"
+      ],
+      "access_path": "Per-account/currency rollup; payout-ID-to-postings adjacency; pending payout and active-hold indexes.",
+      "storage": "Versioned durable projection/checkpoint plus bounded compact Rust RAM state; indexed PostgreSQL hydration/history fallback.",
+      "status": "required_not_implemented"
+    },
+    {
+      "id": "P_BANK",
+      "name": "Bank matching",
+      "keys": [
+        "tenant_id",
+        "bank_account_id",
+        "entry_id",
+        "currency"
+      ],
+      "contents": [
+        "booked entries",
+        "statement coverage",
+        "payout match/rejection links"
+      ],
+      "access_path": "Indexed payout reference plus currency/amount/date candidate lookup; never an unconditional amount-only join.",
+      "storage": "Versioned durable projection/checkpoint plus bounded compact Rust RAM state; indexed PostgreSQL hydration/history fallback.",
+      "status": "required_not_implemented"
+    },
+    {
+      "id": "P_REVERSAL",
+      "name": "Return, refund and dispute graph",
+      "keys": [
+        "tenant_id",
+        "order_id",
+        "return_id",
+        "original_transaction_id"
+      ],
+      "contents": [
+        "return lines",
+        "receipts/dispositions",
+        "credit/refund entitlement",
+        "completed refunds",
+        "dispute debits/reversals",
+        "unresolved steps"
+      ],
+      "access_path": "Open-return/refund indexes and original-transaction-to-refund/dispute adjacency; bounded per-order checklists.",
+      "storage": "Versioned durable projection/checkpoint plus bounded compact Rust RAM state; indexed PostgreSQL hydration/history fallback.",
+      "status": "required_not_implemented"
+    },
+    {
+      "id": "P_CONTEXT",
+      "name": "Rules and permitted communication context",
+      "keys": [
+        "tenant_id",
+        "rule_id",
+        "customer_id",
+        "case_id"
+      ],
+      "contents": [
+        "effective rule versions",
+        "commitment/communication pointers",
+        "collection case state"
+      ],
+      "access_path": "Direct rule/case lookup and customer-to-evidence locators; raw messages remain outside hot state.",
+      "storage": "Versioned durable projection/checkpoint plus bounded compact Rust RAM state; indexed PostgreSQL hydration/history fallback.",
+      "status": "required_not_implemented"
+    },
+    {
+      "id": "P_COVERAGE",
+      "name": "Coverage, identity and evidence locators",
+      "keys": [
+        "tenant_id",
+        "connection_id",
+        "capability",
+        "entity_type",
+        "entity_id"
+      ],
+      "contents": [
+        "provider identity links/conflicts",
+        "backfill coverage intervals",
+        "sync/apply watermarks",
+        "per-field availability",
+        "evidence locators"
+      ],
+      "access_path": "Check on every query; tenant/entity/sequence index for cold history; scope-bound fixed-snapshot pagination.",
+      "storage": "Versioned durable projection/checkpoint plus bounded compact Rust RAM state; indexed PostgreSQL hydration/history fallback.",
+      "status": "required_not_implemented"
+    }
+  ],
+  "questions": [
+    {
+      "id": "order-01",
+      "reference_pointer": "/0/questions/0",
+      "question": "Can I still sell 100 Olive Cups?",
+      "intent": "inventory.available_to_sell",
+      "required_datasets": [
+        "stock",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [
+        "supply"
+      ],
+      "projection_ids": [
+        "P_STOCK",
+        "P_PROMISE",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "documented_provider_path",
+      "blocking_data_gap": "Validate inventory state basis and scope; optional incoming supply is separately unknown if absent.",
+      "query_rule": "Use authoritative available state OR derive from disjoint physical/unavailable states at one cutoff. Show requested quantity, free amount and shortfall; incoming supply never fills current stock.",
+      "access_path": "Item/location direct lookup, bounded location aggregation with explicit unit; no event scan.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "inventory.available_to_sell",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "physical": 120,
+            "committed": 34,
+            "reserved": 0,
+            "damaged": 0,
+            "quality_control": 0,
+            "safety_stock": 0,
+            "provider_available": 86,
+            "requested": 100,
+            "incoming": 80
+          },
+          "expected": {
+            "available": 86,
+            "shortfall": 14,
+            "incoming_counted_as_stock": false
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "stock.basis"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "missing_inputs": [
+              "stock.basis"
+            ],
+            "available": null
+          }
+        },
+        "additional_cases": [
+          "Provider available=86 must not become 52 after subtracting 34 again.",
+          "Multi-location and quarantined stock; untracked/bundled items."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "order-02",
+      "reference_pointer": "/0/questions/1",
+      "question": "Which open orders can be fulfilled entirely from available stock?",
+      "intent": "orders.fulfillable",
+      "required_datasets": [
+        "orders",
+        "stock",
+        "allocations",
+        "policy",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_ORDER",
+        "P_STOCK",
+        "P_CONTEXT",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "supplemental_data_required",
+      "blocking_data_gap": "Explicit reservations or declared derived allocation and merchant priority policy.",
+      "query_rule": "Build a non-mutating fulfillment plan at a fixed snapshot. Respect existing allocations and eligibility, then allocate free stock once across the bounded candidate set in declared priority order. Distinguish tentative plan from committed stock.",
+      "access_path": "Open-order/item indexes; bounded plan or asynchronous job for large populations, stable result cursor.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "orders.fulfillable",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "free_units": 10,
+            "existing_allocations": [],
+            "orders": [
+              {
+                "id": "A",
+                "need": 6
+              },
+              {
+                "id": "B",
+                "need": 6
+              }
+            ],
+            "priority": [
+              "A",
+              "B"
+            ]
+          },
+          "expected": {
+            "A": "fully_fulfillable",
+            "B": "partial",
+            "B_units": 4,
+            "units_used": 10
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "policy.priority_method"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "joint_plan": null
+          }
+        },
+        "additional_cases": [
+          "Never use the same ten units for both orders.",
+          "Existing reservation belonging to this order is not unavailable to itself."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "order-03",
+      "reference_pointer": "/0/questions/2",
+      "question": "Which orders have a mismatch between promised and reserved quantities?",
+      "intent": "orders.reservation_variance",
+      "required_datasets": [
+        "orders",
+        "allocations",
+        "fulfillments",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_ORDER",
+        "P_STOCK",
+        "P_SHIPMENT",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "supplemental_data_required",
+      "blocking_data_gap": "Line-level reservation ownership cannot be inferred from an aggregate stock number.",
+      "query_rule": "For each line calculate remaining accepted obligation after explicit cancellations and confirmed dispatch, then compare active assigned reservation at the same cutoff. Avoid subtracting cancelled amounts twice from already-current quantities.",
+      "access_path": "Open-line and allocation adjacency indexes.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "orders.reservation_variance",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "original_qty": 10,
+            "cancelled_qty": 2,
+            "dispatched_qty": 3,
+            "active_reserved_qty": 4
+          },
+          "expected": {
+            "remaining_obligation": 5,
+            "under_reserved": 1
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "allocations.order_line_ownership"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "variance": null
+          }
+        },
+        "additional_cases": [
+          "Over-reservation; line edits; release without shipment."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "order-04",
+      "reference_pointer": "/0/questions/3",
+      "question": "Which open orders are affected by a delayed incoming delivery?",
+      "intent": "orders.inbound_delay_impact",
+      "required_datasets": [
+        "orders",
+        "supply",
+        "allocations",
+        "promises",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_ORDER",
+        "P_PROMISE",
+        "P_STOCK",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "supplemental_data_required",
+      "blocking_data_gap": "Supplier/PO promise revisions and supply-to-order dependencies require a supplemental feed.",
+      "query_rule": "Follow the changed incoming promise through explicit allocations to customer lines; compare revised receipt with customer deadline and show dependency gaps.",
+      "access_path": "Promise-to-item-to-allocated-order indexes, bounded dependent-order page.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "orders.inbound_delay_impact",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "supply_before": "2026-11-03",
+            "supply_after": "2026-11-05",
+            "allocated_order": "A",
+            "customer_due": "2026-11-04"
+          },
+          "expected": {
+            "affected": [
+              "A"
+            ],
+            "risk": "incoming_after_customer_deadline"
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "allocations.supply_to_order"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "confirmed_affected_orders": null
+          }
+        },
+        "additional_cases": [
+          "Shared SKU without allocation is potential exposure, not proven dependency."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "delivery-01",
+      "reference_pointer": "/1/questions/0",
+      "question": "Where are my parcels, and which need attention?",
+      "intent": "shipments.attention",
+      "required_datasets": [
+        "fulfillments",
+        "tracking",
+        "policy",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_SHIPMENT",
+        "P_CONTEXT",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "documented_provider_path",
+      "blocking_data_gap": "DHL entitlement/retention and exact shop shipment link; merchant stale-scan threshold is configurable.",
+      "query_rule": "Return latest supported scan and forecast with age, mapped exception and explicit attention policy. A forecast is not a promise and stale data is not a delivery failure.",
+      "access_path": "Status/last-scan indexes and shipment-by-order lookup.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "shipments.attention",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "shipment": "S1",
+            "scan_state": "exception",
+            "scan_time": "2026-10-31T09:00:00Z",
+            "now": "2026-10-31T10:00:00Z",
+            "policy": "exceptions_require_attention"
+          },
+          "expected": {
+            "attention": [
+              "S1"
+            ],
+            "latest_scan_age_seconds": 3600
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "tracking.coverage"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "delivery_status": "unknown"
+          }
+        },
+        "additional_cases": [
+          "Label-only; late scan; tracking number reused by carrier/service."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "delivery-02",
+      "reference_pointer": "/1/questions/1",
+      "question": "Which customer delivery commitments are overdue or at risk?",
+      "intent": "shipments.promise_risk",
+      "required_datasets": [
+        "orders",
+        "promises",
+        "fulfillments",
+        "tracking",
+        "policy",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_PROMISE",
+        "P_SHIPMENT",
+        "P_CONTEXT",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "supplemental_data_required",
+      "blocking_data_gap": "Explicit customer deadline and timezone; carrier ETA is not that promise.",
+      "query_rule": "Compare current customer commitment against confirmed delivered status and configured risk rule, using timezone-aware deadlines.",
+      "access_path": "Open-promise due index joined to shipment state by order.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "shipments.promise_risk",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "promised": "2026-10-30T17:00:00+01:00",
+            "now": "2026-10-31T10:00:00+01:00",
+            "last_state": "in_transit",
+            "coverage_complete": true
+          },
+          "expected": {
+            "overdue": true,
+            "arrival_date": "unknown"
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "promises.promised_at"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "promise_breached": null
+          }
+        },
+        "additional_cases": [
+          "Newer reviewed promise supersedes old deadline; incomplete carrier coverage."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "delivery-03",
+      "reference_pointer": "/1/questions/2",
+      "question": "Which partial deliveries still have missing items?",
+      "intent": "orders.partial_delivery_gaps",
+      "required_datasets": [
+        "orders",
+        "fulfillments",
+        "tracking",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_ORDER",
+        "P_SHIPMENT",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "documented_provider_path",
+      "blocking_data_gap": "Per-line shipment association and handover/delivery evidence; packing gaps remain explicit.",
+      "query_rule": "Separately report remaining_to_dispatch and remaining_to_deliver for non-cancelled line quantities. Do not conflate handover and delivery or count a shipping label as either.",
+      "access_path": "Order/line-to-shipment adjacency; bounded partial-shipment groups.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "orders.partial_delivery_gaps",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "ordered": 10,
+            "cancelled": 2,
+            "handed_over": 5,
+            "delivered": 3
+          },
+          "expected": {
+            "remaining_to_dispatch": 3,
+            "remaining_to_deliver": 5
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "fulfillments.line_quantity_links"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "remaining_quantities": null
+          }
+        },
+        "additional_cases": [
+          "Multiple packages; delivered carrier scan without package-to-line mapping."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "delivery-04",
+      "reference_pointer": "/1/questions/3",
+      "question": "What can I reliably tell this customer about their delivery status?",
+      "intent": "customer.delivery_reply",
+      "required_datasets": [
+        "orders",
+        "fulfillments",
+        "tracking",
+        "communications",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [
+        "promises"
+      ],
+      "projection_ids": [
+        "P_ORDER",
+        "P_SHIPMENT",
+        "P_CONTEXT",
+        "P_PROMISE",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "supplemental_data_required",
+      "blocking_data_gap": "Prior communication needs a reviewed feed or later mailbox/helpdesk integration.",
+      "query_rule": "Produce structured reply facts with evidence and known promises; external LLM may phrase them. If communication is missing, supply only the evidenced shipment fragment and flag omitted context. Never send automatically.",
+      "access_path": "Customer/order identity lookup plus bounded shipment/communication locators.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "customer.delivery_reply",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "order": "A",
+            "last_scan": "in_transit",
+            "forecast": null,
+            "prior_message": "We will update you after the next scan.",
+            "communication_coverage_complete": true
+          },
+          "expected": {
+            "facts": [
+              "in_transit",
+              "arrival_unknown"
+            ],
+            "send_action": false
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "communications"
+            ]
+          },
+          "expected": {
+            "status": "partial",
+            "missing_inputs": [
+              "communications"
+            ],
+            "prior_promises_checked": false
+          }
+        },
+        "additional_cases": [
+          "Wrong customer authorization; unknown ETA; no invented apology or promise."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "invoice-01",
+      "reference_pointer": "/2/questions/0",
+      "question": "Which invoices are still outstanding?",
+      "intent": "invoices.outstanding",
+      "required_datasets": [
+        "invoices",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_INVOICE",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "documented_provider_path",
+      "blocking_data_gap": "Correction chain, payment markers and invoice/order links must be validated per account.",
+      "query_rule": "Calculate the latest reported receivable from original finalized invoice and unique correction/payment effects; expose reported versus independently reconciled amounts. Negative balances are credit/overpayment, not negative debt.",
+      "access_path": "Open receivable index by due date/customer/currency.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "invoices.outstanding",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "gross_minor": 11900,
+            "credits_minor": 2380,
+            "reported_payments_minor": 5000,
+            "currency": "EUR"
+          },
+          "expected": {
+            "reported_open_minor": 4520,
+            "new_cash_from_marker": 0
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "invoices.correction_chain_coverage"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "open_minor": null
+          }
+        },
+        "additional_cases": [
+          "Draft invoices; STORNO of a credit; payment-marker deletion appended as correction."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "invoice-02",
+      "reference_pointer": "/2/questions/1",
+      "question": "Which orders still need an invoice under our invoicing rule?",
+      "intent": "orders.missing_invoice",
+      "required_datasets": [
+        "orders",
+        "fulfillments",
+        "invoices",
+        "policy",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_ORDER",
+        "P_INVOICE",
+        "P_SHIPMENT",
+        "P_CONTEXT",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "supplemental_data_required",
+      "blocking_data_gap": "Merchant invoicing trigger plus complete invoice population and confirmed cross-system links.",
+      "query_rule": "Select orders satisfying the rule; check linked valid invoice quantities/amounts including partial invoices. Absence only means missing when population coverage and identity are complete.",
+      "access_path": "Rule-eligible order index with order-to-document anti-join bounded by cutoff.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "orders.missing_invoice",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "order": "A",
+            "rule": "after_confirmed_dispatch",
+            "dispatch_confirmed": true,
+            "valid_invoices": [],
+            "invoice_import_complete": true,
+            "identity_complete": true
+          },
+          "expected": {
+            "missing_invoice": [
+              "A"
+            ]
+          }
+        },
+        "missing": {
+          "given": {
+            "invoice_import_complete": false
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "missing_invoice": null
+          }
+        },
+        "additional_cases": [
+          "Partial billing; old orders outside import window; cancelled invoices."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "invoice-03",
+      "reference_pointer": "/2/questions/2",
+      "question": "Where does the invoice amount differ from the agreed order amount?",
+      "intent": "invoices.order_amount_variance",
+      "required_datasets": [
+        "orders",
+        "invoices",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_ORDER",
+        "P_INVOICE",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "documented_provider_path",
+      "blocking_data_gap": "Version-aligned line equivalence and currency basis; unmatched shipping/tax/discount allocation stays unresolved.",
+      "query_rule": "Compare documented agreed order version and linked invoice coverage using exact decimal/tax/discount rules. Partial invoices compare only the covered lines/quantities; no currency conversion without an explicit rate.",
+      "access_path": "Order-to-invoice-line adjacency; bounded line reconciliation.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "invoices.order_amount_variance",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "agreed_covered_gross_minor": 11900,
+            "invoice_covered_gross_minor": 12000,
+            "currency": "EUR",
+            "links_complete": true
+          },
+          "expected": {
+            "difference_minor": 100
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "invoices.line_links"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "line_variance": null
+          }
+        },
+        "additional_cases": [
+          "Partial invoice is not a shortfall; original agreement unavailable after backfill."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "invoice-04",
+      "reference_pointer": "/2/questions/3",
+      "question": "Which invoices were created but have no evidence of being sent?",
+      "intent": "invoices.dispatch_evidence",
+      "required_datasets": [
+        "invoices",
+        "invoice_dispatch",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_INVOICE",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "documented_provider_path",
+      "blocking_data_gap": "easybill postbox coverage must include external-send limitations; sending is not receipt.",
+      "query_rule": "For finalized invoices expose provider-reported send evidence, pending/error, or no evidence within a declared scope. Do not claim definitely unsent from absence.",
+      "access_path": "Finalized-document index and document-to-dispatch lookup.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "invoices.dispatch_evidence",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "invoices": [
+              "I1",
+              "I2"
+            ],
+            "dispatches": [
+              {
+                "invoice": "I1",
+                "status": "OK"
+              }
+            ],
+            "postbox_coverage_complete": true
+          },
+          "expected": {
+            "without_send_evidence": [
+              "I2"
+            ],
+            "I1_evidence": "provider_reported_sent",
+            "recipient_delivery_proven": false
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "invoice_dispatch.coverage"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "without_send_evidence_population_complete": false
+          }
+        },
+        "additional_cases": [
+          "External send; postbox ERROR; sent event replay."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "collection-01",
+      "reference_pointer": "/3/questions/0",
+      "question": "Which orders are only authorized, actually paid or still awaiting payment?",
+      "intent": "orders.payment_state",
+      "required_datasets": [
+        "orders",
+        "payments",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_ORDER",
+        "P_PAYMENT",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "documented_provider_path",
+      "blocking_data_gap": "Successful transaction amounts and gateway/account identity, not just order financial labels.",
+      "query_rule": "Compare confirmed captured amount to the current obligation. Report authorization, capture, void, failures, partial collections and remaining balance separately.",
+      "access_path": "Order-to-transaction adjacency and unresolved-payment index.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "orders.payment_state",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "order_gross_minor": 11900,
+            "authorization_minor": 11900,
+            "successful_capture_minor": 5000
+          },
+          "expected": {
+            "collected_minor": 5000,
+            "remaining_minor": 6900,
+            "state": "partially_collected"
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "payments.status"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "collected_minor": null
+          }
+        },
+        "additional_cases": [
+          "Authorization expires; two partial captures; failed capture not paid."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "collection-02",
+      "reference_pointer": "/3/questions/1",
+      "question": "Which failed payments have since been completed successfully?",
+      "intent": "payments.recovered_attempts",
+      "required_datasets": [
+        "orders",
+        "payments",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_ORDER",
+        "P_PAYMENT",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "documented_provider_path",
+      "blocking_data_gap": "Complete attempt history and same-order identity; later success can still be only partial.",
+      "query_rule": "Retain all attempts, compare later confirmed collections with the required amount, separate resolved from still-open deficits.",
+      "access_path": "Failed-attempt subset and order-to-attempt ordered adjacency.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "payments.recovered_attempts",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "required_minor": 11900,
+            "attempts": [
+              {
+                "id": "T1",
+                "state": "failed",
+                "amount_minor": 11900
+              },
+              {
+                "id": "T2",
+                "state": "captured",
+                "amount_minor": 11900
+              }
+            ]
+          },
+          "expected": {
+            "recovered": true,
+            "failed_history_retained": [
+              "T1"
+            ]
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "payments.attempt_history_coverage"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "recovered_population_complete": false
+          }
+        },
+        "additional_cases": [
+          "Same amount on different order; successful authorization without capture."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "collection-03",
+      "reference_pointer": "/3/questions/2",
+      "question": "Which invoices have a mismatch between partial payments and the remaining amount?",
+      "intent": "invoices.payment_variance",
+      "required_datasets": [
+        "invoices",
+        "payments",
+        "payment_allocations",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_INVOICE",
+        "P_PAYMENT",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "supplemental_data_required",
+      "blocking_data_gap": "Proven invoice-to-payment allocation; multiple invoices and manual payments need explicit association.",
+      "query_rule": "Reconcile gross allocated customer payments and credits to the receivable. Report unallocated money separately. Provider fees never reduce the customer payment.",
+      "access_path": "Invoice-to-payment-allocation adjacency; unresolved residual index.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "invoices.payment_variance",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "invoice_minor": 11900,
+            "credit_minor": 2380,
+            "allocated_capture_minor": 5000,
+            "provider_fee_minor": 350
+          },
+          "expected": {
+            "remaining_minor": 4520,
+            "fee_added_to_customer_debt": 0
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "payment_allocations"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "unallocated_payments_separate": true
+          }
+        },
+        "additional_cases": [
+          "Overpayment; cash/manual transfer; duplicate invoice-tool marker."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "collection-04",
+      "reference_pointer": "/3/questions/3",
+      "question": "Which due receivables should Finance review today?",
+      "intent": "receivables.review_queue",
+      "required_datasets": [
+        "invoices",
+        "payment_allocations",
+        "payments",
+        "policy",
+        "cases",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_INVOICE",
+        "P_PAYMENT",
+        "P_CONTEXT",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "supplemental_data_required",
+      "blocking_data_gap": "Reminder policy, investigations and agreed extensions require explicit business context.",
+      "query_rule": "Prioritize due net receivables under the rule; show holds/extensions and payment uncertainty. Output a review queue, not automatic dunning.",
+      "access_path": "Due-date/currency index joined to current case flags; bounded ordered page.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "receivables.review_queue",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "invoice": "I1",
+            "open_minor": 4520,
+            "due_date": "2026-10-30",
+            "today": "2026-10-31",
+            "case": "none",
+            "case_coverage_complete": true,
+            "policy": "review_overdue"
+          },
+          "expected": {
+            "review": [
+              "I1"
+            ],
+            "send_reminder": false
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "cases.coverage"
+            ]
+          },
+          "expected": {
+            "status": "partial",
+            "queue_label": "amounts_due_case_context_unknown",
+            "automatic_action": false
+          }
+        },
+        "additional_cases": [
+          "Paid after due date; extension; active dispute; zero or credit balance."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "settlement-01",
+      "reference_pointer": "/4/questions/0",
+      "question": "Where is my money across payment providers?",
+      "intent": "providers.money_positions",
+      "required_datasets": [
+        "provider_ledger",
+        "positions",
+        "payouts",
+        "bank",
+        "holds",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_PROVIDER",
+        "P_BANK",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "provider_detail_unverified",
+      "blocking_data_gap": "Detailed held/processing/available breakdown and independent bank coverage are not implied by the default finance API.",
+      "query_rule": "Reconcile current account/currency positions with ledger and statement evidence. The categories must be disjoint; report unknown components and residuals rather than inventing zeros. Preserve opening balances and non-sale adjustments.",
+      "access_path": "Account/currency rollups plus payout matching indexes; no full historical scan.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "providers.money_positions",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "opening_minor": 0,
+            "captured_minor": 11900,
+            "fees_minor": 350,
+            "refunds_minor": 2380,
+            "processing_minor": 0,
+            "held_minor": 0,
+            "available_minor": 0,
+            "in_transit_minor": 9170,
+            "bank_confirmed_minor": 0,
+            "complete_partition": true
+          },
+          "expected": {
+            "net_assets_minor": 9170,
+            "in_transit_minor": 9170,
+            "bank_confirmed_minor": 0
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "holds",
+              "positions.processing_minor"
+            ]
+          },
+          "expected": {
+            "status": "partial",
+            "unknown_components": [
+              "held",
+              "processing"
+            ],
+            "unknown_components_are_zero": false
+          }
+        },
+        "additional_cases": [
+          "Multiple currencies; reserve release; transfer reversal; incomplete opening ledger."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "settlement-02",
+      "reference_pointer": "/4/questions/1",
+      "question": "Why is the payout lower than captured customer payments?",
+      "intent": "payouts.gross_to_net",
+      "required_datasets": [
+        "provider_ledger",
+        "payouts",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_PROVIDER",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "documented_provider_path",
+      "blocking_data_gap": "Complete payout member postings and signed adjustments; do not explain using all payments in a date window.",
+      "query_rule": "Sum only the postings assigned to this payout, separating captures/fees/refunds/other adjustments. Compare result to payout amount; retain any residual.",
+      "access_path": "Payout-to-ledger-entry adjacency with incremental per-payout totals; paginated explanation.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "payouts.gross_to_net",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "member_captures_minor": 11900,
+            "member_fees_minor": 350,
+            "member_refunds_minor": 2380,
+            "other_adjustments_minor": 0,
+            "payout_minor": 9170
+          },
+          "expected": {
+            "computed_net_minor": 9170,
+            "unexplained_minor": 0
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "provider_ledger.payout_membership_coverage"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "reconciled": false
+          }
+        },
+        "additional_cases": [
+          "FX/withdrawal adjustments; negative payout; missing source transaction link."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "settlement-03",
+      "reference_pointer": "/4/questions/2",
+      "question": "Which announced or sent payouts still lack bank evidence?",
+      "intent": "payouts.missing_bank_confirmation",
+      "required_datasets": [
+        "payouts",
+        "bank",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_PROVIDER",
+        "P_BANK",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "bank_import_required",
+      "blocking_data_gap": "A real validated bank-statement import is required; provider payout status alone is insufficient.",
+      "query_rule": "Match uniquely evidenced booked bank entries to sent payouts by account/reference/currency/amount with explicit tolerances. Report pending, unmatched or ambiguous and statement coverage separately.",
+      "access_path": "Unmatched sent-payout index and indexed bank match candidates; fixed cutoff.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "payouts.missing_bank_confirmation",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "payout": "P1",
+            "state": "sent",
+            "amount_minor": 9170,
+            "currency": "EUR",
+            "bank_import_complete_through": "2026-10-31",
+            "matching_booked_entries": []
+          },
+          "expected": {
+            "missing_confirmation": [
+              "P1"
+            ],
+            "conclusion": "no_evidence_in_imported_interval"
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "bank"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "bank_arrival": "unknown"
+          }
+        },
+        "additional_cases": [
+          "Identical amount for two payouts; bank pending versus booked; split/combined deposit."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "settlement-04",
+      "reference_pointer": "/4/questions/3",
+      "question": "Which amounts are held, and which releases are only announced?",
+      "intent": "providers.holds_and_releases",
+      "required_datasets": [
+        "holds",
+        "positions",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_PROVIDER",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "provider_detail_unverified",
+      "blocking_data_gap": "A verified source for hold identity/reason/amount and release promise is still needed.",
+      "query_rule": "Read current hold versions; distinguish promised release from actual release, scoped to account/currency. No summing superseded holds.",
+      "access_path": "Active-hold index by account/currency/release-date; bounded evidence detail.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "providers.holds_and_releases",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "hold_id": "H1",
+            "amount_minor": 9700,
+            "state": "active",
+            "release_promised_at": "2026-11-05",
+            "actual_release": null
+          },
+          "expected": {
+            "held_minor": 9700,
+            "released_minor": 0,
+            "release_is_only_promised": true
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "holds"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "held_minor": null
+          }
+        },
+        "additional_cases": [
+          "Partially released hold; changed promise; unrelated dispute amount."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "reversal-01",
+      "reference_pointer": "/5/questions/0",
+      "question": "Which returns are announced, received or already refunded?",
+      "intent": "returns.lifecycle",
+      "required_datasets": [
+        "returns",
+        "receipts",
+        "refunds",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [
+        "invoices",
+        "tracking"
+      ],
+      "projection_ids": [
+        "P_REVERSAL",
+        "P_STOCK",
+        "P_PAYMENT",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "supplemental_data_required",
+      "blocking_data_gap": "Actual line-level warehouse receipt/disposition and refund links; a return request is only intent.",
+      "query_rule": "Report independent quantities for requested/received/quarantined/restocked and separate refund money/status. Do not collapse them into one completed flag.",
+      "access_path": "Open return index and return-to-line/receipt/refund adjacency.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "returns.lifecycle",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "requested_qty": 2,
+            "received_qty": 2,
+            "quarantined_qty": 2,
+            "restocked_qty": 0,
+            "refund_state": "pending"
+          },
+          "expected": {
+            "physical_return_received": true,
+            "sellable_added": 0,
+            "cash_refund_confirmed": false
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "receipts"
+            ]
+          },
+          "expected": {
+            "status": "partial",
+            "receipt_state": "unknown",
+            "request_is_not_receipt": true
+          }
+        },
+        "additional_cases": [
+          "MISSING disposition; delivered parcel with unverified contents; restock without duplicate physical receipt."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "reversal-02",
+      "reference_pointer": "/5/questions/1",
+      "question": "Which credit notes are missing their corresponding refund?",
+      "intent": "credits.refund_gaps",
+      "required_datasets": [
+        "invoices",
+        "payments",
+        "entitlements",
+        "refunds",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_INVOICE",
+        "P_PAYMENT",
+        "P_REVERSAL",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "supplemental_data_required",
+      "blocking_data_gap": "Explicit refund entitlement, original payment and destination; an unpaid invoice credit may only reduce debt.",
+      "query_rule": "Compare approved cash refund entitlement with confirmed refunds linked to the same original payment. Credit documents alone do not create a cash repayment.",
+      "access_path": "Open entitlement index and credit-to-original-payment/refund adjacency.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "credits.refund_gaps",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "credit_minor": 2380,
+            "original_capture_minor": 11900,
+            "approved_cash_refund_minor": 2380,
+            "completed_cash_refund_minor": 0
+          },
+          "expected": {
+            "cash_refund_due_minor": 2380
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "entitlements"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "refund_due_minor": null
+          }
+        },
+        "additional_cases": [
+          "Unpaid invoice credited: no automatic refund.",
+          "Store credit agreed; partial refund; credit reversed."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "reversal-03",
+      "reference_pointer": "/5/questions/2",
+      "question": "What still needs correcting in stock, invoicing and payment after a cancellation?",
+      "intent": "cancellations.outstanding_steps",
+      "required_datasets": [
+        "orders",
+        "allocations",
+        "invoices",
+        "payments",
+        "refunds",
+        "entitlements",
+        "receipts",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_ORDER",
+        "P_STOCK",
+        "P_INVOICE",
+        "P_PAYMENT",
+        "P_REVERSAL",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "supplemental_data_required",
+      "blocking_data_gap": "Reservation ownership and financial/warehouse reconciliation context must be available, including explicit not-applicable states.",
+      "query_rule": "Build independent reservation, stock, invoice and payment checks at one cutoff. A cancellation cannot reverse a completed shipment or payment by itself. Branch between unshipped cancellation and return of shipped goods.",
+      "access_path": "Cancelled-order index and bounded related-entity graph; one snapshot across projections.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "cancellations.outstanding_steps",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "cancelled": true,
+            "shipped_qty": 0,
+            "receipt_requirement": "not_applicable",
+            "active_reserved_qty": 2,
+            "invoice_minor": 2380,
+            "credit_minor": 0,
+            "capture_minor": 2380,
+            "approved_refund_minor": 2380,
+            "completed_refund_minor": 0
+          },
+          "expected": {
+            "remaining_steps": [
+              "release_reservation",
+              "correct_invoice",
+              "refund_payment"
+            ],
+            "stock_receipt_required": false
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "allocations"
+            ]
+          },
+          "expected": {
+            "status": "partial",
+            "reservation_step": "unknown",
+            "do_not_mark_complete": true
+          }
+        },
+        "additional_cases": [
+          "Shipment already happened; void authorization instead of refund; already completed correction."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    },
+    {
+      "id": "reversal-04",
+      "reference_pointer": "/5/questions/3",
+      "question": "Is there a risk of duplicate repayment through both a refund and a chargeback?",
+      "intent": "refunds.chargeback_overlap",
+      "required_datasets": [
+        "payments",
+        "refunds",
+        "disputes",
+        "coverage",
+        "identity"
+      ],
+      "optional_datasets": [],
+      "projection_ids": [
+        "P_PAYMENT",
+        "P_REVERSAL",
+        "P_PROVIDER",
+        "P_COVERAGE"
+      ],
+      "first_release_data_assessment": "provider_detail_unverified",
+      "blocking_data_gap": "Exact original-transaction linkage plus booked chargeback debit/reversal evidence is still unproven for the default adapter.",
+      "query_rule": "For each original capture compare completed cash refunds and net booked chargeback debits excluding separately identified fees. Flag over-repayment and overlapping pending actions for review; neither an open dispute nor a fee is a completed refund.",
+      "access_path": "Original-transaction-to-refund/dispute adjacency; index active risk cases.",
+      "mcp_contract": {
+        "tool": "query_business",
+        "intent": "refunds.chargeback_overlap",
+        "shared_with": "UI query service",
+        "evidence_tools": [
+          "get_journal_entry",
+          "get_entity_history",
+          "get_evidence"
+        ]
+      },
+      "test_contract": {
+        "sufficient": {
+          "given": {
+            "capture_minor": 10000,
+            "refund_completed_minor": 10000,
+            "chargeback_debit_minor": 10000,
+            "chargeback_reversed_minor": 0,
+            "chargeback_fee_minor": 1500
+          },
+          "expected": {
+            "net_customer_repayments_minor": 20000,
+            "excess_minor": 10000,
+            "review_required": true
+          }
+        },
+        "missing": {
+          "given": {
+            "missing": [
+              "disputes.original_transaction_id"
+            ]
+          },
+          "expected": {
+            "status": "insufficient_data",
+            "duplicate_repayment_proven": false
+          }
+        },
+        "additional_cases": [
+          "Open dispute with zero booked debit; won dispute reversal; partial refunds; chargeback fees excluded."
+        ],
+        "common_suite": [
+          "duplicate delivery",
+          "late correction",
+          "fixed historical cutoff",
+          "engine restart/replay",
+          "cross-tenant denial",
+          "revoked authorization",
+          "projection lag",
+          "cold hydration",
+          "bounded pagination"
+        ]
+      },
+      "implementation_status": "not_started",
+      "test_status": "not_started",
+      "live_verification_status": "not_verified"
+    }
+  ],
+  "coverage_rule": "All 24 must have positive and insufficient-data executable acceptance evidence through committed PostgreSQL ingestion and the Rust query service over API/MCP. A system returning unknown for every question cannot pass. Missing external credentials may block live verification but do not excuse missing synthetic positive paths."
+}
