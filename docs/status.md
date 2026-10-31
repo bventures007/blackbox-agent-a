@@ -1,81 +1,35 @@
-# Implementation status
+# Local pilot implementation status
 
-## Current state
+## Current assignment
 
-Repository preparation is complete. Product implementation has not started. The source snapshot is a static prototype with simulated data. No production or provider acceptance case has run.
+Baseline-v11 / brief 2.0: P0–P4 local pilot, then handover and stop. The owner approved a personal saved access key and local testing before deciding later product/hosting scope. Passkeys, invitations, public SaaS/servers, gateways, native packaging and large capacity certification are deferred. Read delivery-profile.json and specs/LOCAL-PILOT.md.
+
+Product implementation has not started. The prototype is static/simulated. No production login, importer, database/engine, local MCP bridge or installer exists yet. All 97 acceptance records remain not_started: 60 active pilot cases and 37 deferred cases. The exact previous 86 case descriptions remain preserved; 11 local cases define the simpler delivery.
 
 ## Milestones
 
-- [ ] M0 — product/architecture contract, ADRs, threat model, acceptance mapping
-- [ ] M1 — authentication, tenant isolation, database-enforced append-only journal, persistence, ingestion, core UI
-- [ ] M2 — Golden Scenario, replay/restart, English/German UI and landing page
-- [ ] M3 — real MCP with full authorized journal/history reads, structured queries and 24 shared query contracts
-- [ ] Comparison checkpoint — M0–M3 plus local installation and report
-- [ ] M4 — first real connector adapters and capability verification
-- [ ] M5 — Mac local/remote client, public webhook gateway, deployment migration, release profiles and operation evidence
+- [ ] P0 — environment and minimal contracts; start implementation
+- [ ] P1 — local key/session, automatic owner/workspace and persisted Rust/journal slice
+- [ ] P2 — Golden Scenario, all 24 query contracts, UI/locales, import/readiness and restart
+- [ ] P3 — Shopify/Shopify Payments and supplemental producers; local agent keys/MCP
+- [ ] P4 — real Mac install, local performance/memory, backup/restore/upgrade, feedback guide and handover
 
-## Latest verification
+## Preserved foundation
 
-Seed preparation only: JSON parsing, reference checksums, requirement counts and matching repository baseline. This is not evidence of a working product. All cases in ../reports/acceptance.json start as not_started.
+Keep the append-only five-track journal, exact Rust business reducers, durable PostgreSQL/outbox, bounded RAM/cold reads, tenant/RLS boundaries, snapshots/replay and provenance. All 24 questions need positive/missing-data evidence. Keep 30-day plus disclosed open/related import defaults, exact date plans, real progress and central source/answer readiness. EN-default/full-DE UI and landing page and all English engineering content remain required.
 
-The visual reference now includes 67 captures (58 desktop, nine mobile), with an English index and reproducible routes/interactions in reference/screenshots/. The capture run completed without page-script errors; all images were inspected in contact sheets and selected full-size views. Both reference fonts loaded in every capture and no document-level horizontal overflow was observed at the two capture sizes. The journal/recorder can still scroll horizontally within their own regions on mobile. Static prototype assets remain unchanged; no product acceptance case has run.
+The visual reference is unchanged: 67 desktop/mobile captures plus original assets. The catalogue remains 24 questions, 26 datasets, 11 tenant-scoped projections and 22 source/internal producers. All 127 integration rows remain; the profile selects 68 current rows and preserves all existing work history. Legacy first_release labels are broader platform plans, not current pilot gates. All rows remain unassigned/unimplemented; no provider or customer account has been used.
 
-## Language clarification
+## Next action and prerequisites
 
-All engineering material is English. The UI and landing page default to English and also support complete German localization. Architecture and question specifications are now English; original German visual references are retained. See README.md for the full policy.
+Read START-HERE.md, AGENTS.md and the local contract, inspect the prototype and record actual tools/resources in build-environment.md. Begin P1 after the minimum P0 decisions. Synthetic work needs no merchant or LLM credentials. Later verify Shopify/Shopify Payments API grants/installation/account access, an actual compatible local MCP client and a real Apple Silicon install. Missing prerequisites are blocked proof, never success; complete unrelated work.
 
-## Journal and MCP clarification
+## Evidence policy
 
-The binding contract is specs/JOURNAL-AND-MCP.md. Runtime roles must be unable to update/delete/truncate canonical journal data. MCP covers all authorized business records and histories, beyond the 24 example questions. Journal/MCP coverage has four dedicated core acceptance cases. These are requirements, not implemented or executed capabilities.
+Keep reports/acceptance.json, question-coverage.json, performance.json and source history current with actual code commits, commands, environment and artifacts. Ordinary validators check preparation consistency only; the profile --release gate checks current evidence/selected independent approvals. No checker independently proves execution truth. Deferred requirements are not passed or automatic next work. Preserve the P4 comparison commit/report and stop for owner feedback.
 
-## Performance clarification
+Previous preparation findings and decisions are preserved in docs/history/baseline-v10-status.md and older Git tags. They describe the prior assignment, not current obligations.
 
-Implement the Rust business/query engine with bounded hot state and durable journal/checkpoint recovery as specified in specs/PERFORMANCE-ARCHITECTURE.md. The benchmark contract defines 250k, 10m and 100m profiles with explicit scopes. No performance or memory target has been measured. Maintain reports/performance.json. The full acceptance register now contains 86 cases.
+## Preparation verification for baseline-v11
 
-## Question-data audit
-
-The initial question catalogue and common architecture are now joined by specs/QUESTION-DATA-COVERAGE.md and specs/question-data-contracts.json: 24 intents, 26 required input datasets, 11 logical Rust projections, source-field candidates, 24 positive plus 24 missing-data examples, and extra edge cases. Public Shopify, easybill and DHL documentation was reviewed; no merchant credentials or live business API calls were used. Nine questions have documented launch-provider candidate paths, eleven need supplementary business context, three retain provider-detail gaps and one specifically requires bank import (bank evidence also contributes to the full money overview). These are data-dependency categories, not measured readiness. Actual SQL, adapters, reducers, indexes and executable fixtures remain unimplemented; reports/question-coverage.json tracks the open proof. DHL retention/use conditions must be resolved before perpetual live tracking ingestion.
-
-Catalogue consistency check: `python3 scripts/validate-question-catalogue.py` passed for all 24 original questions, 48 minimum case descriptions, 26 datasets, 11 tenant-scoped projections and 22 source/internal-producer entries. This checks specification references, not product behavior.
-
-## Central integration register
-
-INTEGRATIONS.md now provides the central source/capability work list: 22 sources/internal producers and 127 rows, including 72 first-release/internal work rows and 55 unreviewed roadmap rows. It maps each row to the five applicable tracks and canonical inputs, PostgreSQL events, Rust projections and question contracts. All rows are unassigned and not started; no connector, provider account or product acceptance test has run.
-
-The register uses append-only actor/timestamp/evidence history, a generated overview, exact code/artifact hashes and independent confirmation. The supplied GitHub Actions workflow checks consistency, history and the validator regression tests. At baseline v7, local register/crosswalk checks and 19 synthetic control tests passed; these are tooling tests only. REGISTRY-01 is the new full-release acceptance gate and remains not_started. Repository branch protection has not been changed.
-
-## Next action
-
-Read START-HERE.md and the full brief. Inspect the prototype and environment. Record capabilities in build-environment.md, create the product/architecture/ADR documents, and begin M1 after the minimum M0 decisions.
-
-## External prerequisites
-
-No credentials are required for the initial synthetic build. Later verify Shopify/Shopify Payments scopes/account access, easybill API access and DHL API/product eligibility. Record access and limitations per capability. Verify actual available Docker, Mac/Linux and MCP-client environments before claiming platform coverage.
-
-## Update after each meaningful checkpoint
-
-Record: current task; files/commit; actual start/test commands; observed results; open failures; external blockers; next concrete action. Keep the complete per-case execution record in ../reports/acceptance.json.
-
-## Web/desktop and synchronization update (baseline v8)
-
-The binding contract now includes complete browser management, a required additional Mac desktop client, one backend journal per workspace, three explicit connectivity modes, an optional-use public gateway, resumable source synchronization, truthful receipt/freshness states and fenced workspace migration. At baseline v8, the acceptance contract contained 67 cases (14 added); every product case remained not_started. Native packaging and gateway work belong to M5 and do not silently expand the earlier comparison checkpoint.
-
-All 127 integration rows now carry mode investigation obligations, with append-only preparation records. Implemented mappings and tests must account for all three modes; no provider support or live connectivity has been certified. The generated human register exposes this distinction. Public hosting/DNS, provider access and real Mac/distribution verification remain explicit external prerequisites. Preparation checks passed: question-catalogue validator; integration-register check against the full baseline-v7 commit (including preserved history and generated view); 30 synthetic register-control regression tests; JSON/reference/count checks and git diff --check. These checks validate repository preparation, not product behavior. The --release register gate remains intentionally blocked because no connector capability has been implemented.
-
-## Historical import and data readiness (baseline v9)
-
-The binding contract now specifies 30 days plus accessible older open/related records by default, editable fixed start dates, explicit from-now-only scope, opening snapshots, historical expansion and concurrent ongoing collection. Onboarding progress, central Sources/details and every UI/MCP answer share scoped data readiness and freshness. Requested coverage, actual verified history, loaded/committed/query-ready counts, last successful sync and last new record remain distinct. Exact percentages require a known scoped total. View filters, bounded RAM and retention do not alter the canonical journal.
-
-Nine core IMPORT/HEALTH acceptance cases were added (76 total); all product cases remain not_started. All 127 capability rows have new import/readiness investigation obligations and preserved append-only preparation history. Their eventual committed mappings require nine concrete rule explanations and applicable observed test evidence. No product importer, runtime health screen or provider account was implemented by preparing these specifications.
-
-Preparation verification for v9: `python3 scripts/validate-question-catalogue.py`, `python3 scripts/integration-register.py check --base 8c7550afb7f0fd3d51dee2befdffdccb5ea46c2d`, 33 synthetic register-control tests, JSON/acceptance/hash consistency checks and `git diff --check`. These verify specification/register preparation only; all product and live-provider acceptance remains unexecuted.
-
-## Identity, access and recovery (baseline v10)
-
-The owner-approved binding contract is specs/IDENTITY-ACCESS-AND-RECOVERY.md. It specifies self-hostable passkeys, protected remembered local devices, two human roles (owner/reader), separate read-only service principals, operator separation, People & agents, individual grants, one-time invitations, recovery and last-owner protection. Human OAuth and unattended service authorization are distinct. Dataset/tool/evidence/export permissions extend to derived answers, source health, Rust/caches/cold history and downloads. Distributed revocation has a maximum 60-second bound. RP/domain changes and restoration must not leak global identities or revive revoked access.
-
-The prior four-role AUTH-01 wording was explicitly refined to the approved simpler model while strengthening its enforcement expectation; its release gate remains. Ten new identity acceptance cases were added: eight core and two operations cases (86 total). The previous 75 other cases remain unchanged. All product cases still have not_started status. Existing integration rows, provider scope and append-only work history remain unchanged; shared pipeline/tenant evidence now explicitly includes the identity/grant contract.
-
-No authentication backend, local pairing, People & agents UI, Mac credential integration or executable product-security test was implemented in this specification update. Core browser/protocol proof is required at the comparison checkpoint; actual native/authenticator, migration/restore and named MCP-client proof are separately tracked.
-
-Preparation verification for v10: `python3 scripts/validate-question-catalogue.py`, `python3 scripts/integration-register.py check --base 87c7a2bac376410df7cd668a42e3d668dd6cdd79`, and `python3 -m unittest discover -s scripts/tests -p 'test_*.py'` passed (33 synthetic register-control tests). Acceptance/report consistency checks confirm 86 unique IDs, all not_started, ten added cases and only the owner-approved AUTH-01 refinement among earlier cases. Prototype, Golden Scenario, question data contracts and all integration plans/history remain unchanged. These are preparation checks, not executed product/authentication tests.
+The question catalogue validator, integration register check against 39eae75012ebf1c3c387100454155170aff44961, delivery-profile validator and 45 synthetic tooling regression tests passed. The new tests reject omitted/overlapping scope, deferred pass claims, incomplete capability selection, rewritten original cases, absent/stale evidence and unapproved selected rows. Prior history is preserved with 127 actual plan_changed scope records (382 records total); no implementation/test approval was fabricated. All product cases still remain not_started. These checks verify preparation and gate behavior, not a running local application or successful provider access.

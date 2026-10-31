@@ -1,27 +1,18 @@
 # Implementation specifications
 
-The central implementation and evidence work list is [INTEGRATIONS.md](../INTEGRATIONS.md). Follow [its update and verification rules](../integrations/README.md); this specification supplies requirements, while the register owns source-capability progress and confirmation.
+Read [LOCAL-PILOT.md](LOCAL-PILOT.md) and [delivery-profile.json](../delivery-profile.json) first. They define the current P0–P4 assignment and stop condition. Earlier platform features are deferred, not implicitly part of the local pilot.
 
-Read [JOURNAL-AND-MCP.md](JOURNAL-AND-MCP.md) first: it is the binding journal data-structure and complete authorized MCP read-access specification.
+| Contract | Current application |
+| --- | --- |
+| [IDENTITY-ACCESS-AND-RECOVERY.md](IDENTITY-ACCESS-AND-RECOVERY.md) | One saved personal owner key, sessions, host-only reset and distinct read-only agents; Passkeys deferred |
+| [JOURNAL-AND-MCP.md](JOURNAL-AND-MCP.md) | Database append-only journal, five tracks and full authorized business-history reads via local MCP |
+| [PERFORMANCE-ARCHITECTURE.md](PERFORMANCE-ARCHITECTURE.md) / [benchmark contract](../benchmarks/performance-contract.json) | Rust/TypeScript boundary, durable consistency, bounded memory/cold reads and required smoke profile; 10m/100m deferred |
+| [QUESTION-DATA-COVERAGE.md](QUESTION-DATA-COVERAGE.md), [CONNECTOR-CAPABILITIES.md](CONNECTOR-CAPABILITIES.md), [question-data-contracts.json](question-data-contracts.json) | Preserved 24 input/journal/RAM/query contracts and provider research; active source work is selected by the delivery profile |
+| [WEB-DESKTOP-AND-DEPLOYMENT.md](WEB-DESKTOP-AND-DEPLOYMENT.md) | Complete local browser/Compose product and real Mac install; native/public/remote delivery deferred |
+| [SOURCE-SYNCHRONIZATION.md](SOURCE-SYNCHRONIZATION.md) | local_standalone backfill/poll/reconcile; other modes declared unsupported/deferred |
+| [IMPORT-ONBOARDING-AND-DATA-READINESS.md](IMPORT-ONBOARDING-AND-DATA-READINESS.md) | Date selection, older open/related context, real counters and central Sources/answer readiness |
+| [WEBHOOK-GATEWAY.md](WEBHOOK-GATEWAY.md) | Explicit deferral; no public receiver is required for the pilot |
 
-Read [IDENTITY-ACCESS-AND-RECOVERY.md](IDENTITY-ACCESS-AND-RECOVERY.md) for the binding identity model: owner/reader humans, separate scoped agents, self-hostable passkeys/OAuth, protected local setup/pairing, invitations, People & agents, recovery, last-owner protection and bounded revocation. Core browser/protocol behavior is required at the comparison checkpoint; real native-device proof remains separately tracked. This supersedes the earlier four-role and mandatory password/OIDC assumptions.
+[INTEGRATIONS.md](../INTEGRATIONS.md) is the central source-by-source work list. [Its rules](../integrations/README.md) govern exact mappings, evidence and independent confirmation. The profile validator selects current rows without deleting future plans/history. All product/connector evidence starts unexecuted.
 
-Read [PERFORMANCE-ARCHITECTURE.md](PERFORMANCE-ARCHITECTURE.md) and [the benchmark contract](../benchmarks/performance-contract.json) for the Rust engine, memory/consistency rules and measurable targets.
-
-Read [QUESTION-DATA-COVERAGE.md](QUESTION-DATA-COVERAGE.md), [CONNECTOR-CAPABILITIES.md](CONNECTOR-CAPABILITIES.md) and [question-data-contracts.json](question-data-contracts.json) for all 24 input-to-answer paths, source-field candidates, journal families, RAM indexes and positive/missing-data examples. The public-documentation audit is not live integration proof. Update [question coverage](../reports/question-coverage.json) only with actual implementation evidence.
-
-Derive milestone and feature specifications from the authoritative root brief and acceptance inputs. Each spec should name its user behavior, affected module contracts, tenant/data rules, acceptance IDs and executable verification approach. Add unresolved assumptions and the selected decision.
-
-Keep specs short enough to implement; move immediately from the initial M0 contract to a working persisted slice. This folder is intentionally not populated with speculative application code. GitHub Spec Kit is optional and must not replace or weaken the supplied acceptance oracle.
-
-## Web, desktop and synchronization
-
-- [WEB-DESKTOP-AND-DEPLOYMENT.md](WEB-DESKTOP-AND-DEPLOYMENT.md): complete browser management, native Mac client, shared backend, profiles, installation and fenced workspace migration.
-- [SOURCE-SYNCHRONIZATION.md](SOURCE-SYNCHRONIZATION.md): per-capability initial import, cursors, polling, webhooks, reconciliation, mode coverage and freshness.
-- [WEBHOOK-GATEWAY.md](WEBHOOK-GATEWAY.md): optional-use public receiver, durable queue and backend-initiated delivery into private networks.
-
-These are binding full-release requirements. The native client and gateway may remain open at the earlier comparison checkpoint; no provider capability is verified by this specification.
-
-## Historical import and data readiness
-
-[IMPORT-ONBOARDING-AND-DATA-READINESS.md](IMPORT-ONBOARDING-AND-DATA-READINESS.md) is the binding core contract for first-connection date selection, accessible older open/related context and opening state, durable import progress, central Sources/details health, per-question readiness and later history expansion. It defines logical plan/run/coverage/health/answer DTO fields and the IMPORT/HEALTH gates. The integration register requires a concrete per-capability mapping; this is not a claim of an implemented importer.
+[future/](future/) preserves earlier platform designs and the exact baseline-v10 acceptance descriptions. Their old mandatory wording applies only to that prior reference and does not authorize new scope. Revisit them after actual user feedback and a new owner decision. Derive concise implementation specs/ADRs from the active contract and immediately implement a real persisted slice; planning frameworks are optional.

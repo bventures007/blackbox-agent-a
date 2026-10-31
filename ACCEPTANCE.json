@@ -1,7 +1,7 @@
 {
-  "version": "1.9",
+  "version": "2.0",
   "date": "2026-10-31",
-  "note": "Specification for tests to be implemented; not an already executable or executed suite. A reviewer must add independent variations.",
+  "note": "Test specifications, not executed tests. Only delivery_scope=local_pilot cases gate the current P0–P4 assignment. Deferred_future cases preserve prior requirements for later review; their release_gate flag is not active in the pilot.",
   "status_enum": [
     "not_started",
     "implemented_unverified",
@@ -13,7 +13,7 @@
   "rules": [
     "Passed requires a reproducible command, exact commit, environment and observed result.",
     "A missing provider account or platform makes the relevant gate blocked/unverified, not passed.",
-    "Core comparison can finish before external/operations gates, but customer launch cannot be declared ready with applicable release gates open.",
+    "Pilot completion requires the active profile gates and actual provider/platform/client evidence where selected. Deferred platform cases are not pilot blockers, passes or authorization to continue future work.",
     "Conditional extraction check is not applicable only if that optional feature is absent.",
     "Never modify expected business values merely to match an implementation.",
     "Source-capability completion must be backed by the central integration register, current immutable test evidence and independent confirmation; register validation alone is not provider or product proof."
@@ -25,7 +25,8 @@
       "check": "Install from a fresh checkout with no commercial cloud account or LLM key.",
       "expected": "Doctor checks prerequisites. Setup creates secure configuration. Up starts a persistent application. First admin and demo workspace can be created in the browser.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INSTALL-02",
@@ -33,7 +34,8 @@
       "check": "Restart API, worker and database after ingesting the Golden Scenario.",
       "expected": "Identical business state and resolvable evidence after restart; no reseeding over user data; volumes preserved.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "TENANT-01",
@@ -41,7 +43,8 @@
       "check": "Create tenants A/B with the same external order number and different amounts. Query list/detail/search/export endpoints and every MCP tool as A.",
       "expected": "No B content, counts, IDs, existence signals or evidence links leak. Unscoped operations fail closed.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "TENANT-02",
@@ -49,7 +52,8 @@
       "check": "Exercise real PostgreSQL application/worker roles without tenant context and with attempted cross-tenant writes.",
       "expected": "No cross-tenant reads or writes; policies also cover inserts/updates. Roles are not table owners, superusers or BYPASSRLS. Migration role is separate.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "TENANT-03",
@@ -57,7 +61,8 @@
       "check": "Reuse pooled DB connections after success, transaction failure and cancellation across A and B; mix concurrent worker retries.",
       "expected": "No leaked session tenant context; each transaction/job has validated scope.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "TENANT-04",
@@ -65,7 +70,8 @@
       "check": "Attempt cross-tenant foreign references, file access, cache hits, exported downloads and revoked MCP credentials.",
       "expected": "All denied without sensitive response content. Composite references and cache/object namespaces enforce the boundary.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "AUTH-01",
@@ -73,7 +79,8 @@
       "check": "Use owner and reader human memberships, separately scoped read-only service principals and a separate platform-operator context; remove membership, narrow grants and revoke sessions/tokens.",
       "expected": "Role/grant matrix enforced server-side across UI/API/MCP and storage paths; no implicit operator business access or service admin rights. Revocation follows the durable commit and maximum 60-second distributed bound. A workspace selector or client-supplied tenant ID is not authorization.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-02",
@@ -81,7 +88,8 @@
       "check": "Attempt setup takeover, default passwords, CSRF/session misuse and repeated login attempts.",
       "expected": "No default public admin, one-time protected bootstrap, safe cookie/session behavior, throttling and tested recovery.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-01",
@@ -89,7 +97,8 @@
       "check": "Verify a valid signed webhook, then corrupt its signature/body and replay it for another connection.",
       "expected": "Only valid connection-bound input is accepted; payload tenant_id cannot redirect ingestion.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-02",
@@ -97,7 +106,8 @@
       "check": "Deliver one provider event repeatedly and concurrently, including duplicated deliveries from multiple subscriptions.",
       "expected": "Delivery history may grow but canonical business effect occurs once; provider/account-scoped event identity is documented.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-03",
@@ -105,7 +115,8 @@
       "check": "Kill the API after durable receipt and kill a worker before/after committing a projection. Restart and retry.",
       "expected": "Every acknowledged input is processed or visibly queued/dead-lettered; no lost work or double financial/quantity effects.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-04",
@@ -113,7 +124,8 @@
       "check": "Deliver updates out of order and an old snapshot after a newer one.",
       "expected": "Latest business state follows documented version/effective-time rules, not arrival order; older evidence remains visible.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-05",
@@ -121,7 +133,8 @@
       "check": "Simulate pagination, interrupted backfill, HTTP 429, token expiry, unavailable provider and poison payload.",
       "expected": "Checkpoint resume, bounded retries/backoff, visible health, dead-letter repair and per-tenant fairness; no silent success.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-06",
@@ -129,7 +142,8 @@
       "check": "Omit a webhook then run provider reconciliation.",
       "expected": "Missing state is recovered with provenance; evidence is not duplicated as new business activity.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-01",
@@ -137,7 +151,8 @@
       "check": "Run GOLDEN-ORDER-TO-CASH.json, including intermediate checkpoints.",
       "expected": "Every specified expected value matches; evidence IDs resolve; conservation equations hold.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-02",
@@ -145,7 +160,8 @@
       "check": "Replay all Golden Scenario observations into empty projections twice, then vary quantities and amounts.",
       "expected": "Same semantic state with no double counting; generalized calculations, not hardcoded example values.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-03",
@@ -153,7 +169,8 @@
       "check": "Mix a payment authorization, capture, invoice paid marker, credit note, pending refund, completed refund, payout and bank credit.",
       "expected": "Only documented movements affect the corresponding balance; invoice mark is not a second capture; credit note is not cash; payout is not revenue.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-04",
@@ -161,7 +178,8 @@
       "check": "Use stock reservations, shipment, return receipt, quarantine and restock with separate quantities/units.",
       "expected": "Physical, reserved, quarantined and available quantities remain distinguishable; promises do not increase physical stock.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-05",
@@ -169,7 +187,8 @@
       "check": "Mix currencies, decimal quantities, partial payments and rounding cases.",
       "expected": "Integer money with currency, explicit decimal quantity rules, no silent cross-currency sum or floating-point drift.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-06",
@@ -177,7 +196,8 @@
       "check": "Create contradictory observations and ambiguous entity matches.",
       "expected": "Conflicts/uncertain links visible; no silent merge by email or bare order number; provenance remains attached.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-07",
@@ -185,7 +205,8 @@
       "check": "Query an effective-time cutoff and a recorded-time cutoff before/after a late correction.",
       "expected": "Documented bitemporal semantics produce stable historical answers; correction does not erase the prior known state.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "QUERY-01",
@@ -193,7 +214,8 @@
       "check": "Evaluate all 24 stable intents in specs/question-data-contracts.json using at least its positive and missing-data cases plus the specified edge cases. Positive paths must ingest through real PostgreSQL and Rust, return through API and MCP, and survive restart/replay and cold hydration.",
       "expected": "Correct typed result/calculation/evidence/cutoffs/coverage or explicit missing inputs; no keyword-only canned answers. All-positive paths are required: returning unknown for every intent cannot pass. Record per-intent evidence in reports/question-coverage.json; preserve tenant isolation and changed-value cases.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "QUERY-02",
@@ -201,7 +223,8 @@
       "check": "Test missing bank statements, incomplete invoice synchronization, absent customer/supplier promises, missing warehouse receipt, ambiguous allocation/transaction links and unavailable provider hold details from the question-data contract.",
       "expected": "Unknown/partial/conflict with exact missing capabilities and scoped freshness; no fabricated dates, zero balances or complete absence claims. Available inventory is not reduced twice, return intent is not warehouse receipt, and an open dispute is not completed repayment.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "MCP-01",
@@ -209,7 +232,8 @@
       "check": "Connect a protocol test client to real read-only MCP tools and compare results with the UI.",
       "expected": "Same scoped domain state and evidence; validated schemas, pagination, bounded results and typed failures.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "MCP-02",
@@ -217,7 +241,8 @@
       "check": "Test wrong issuer/audience, expired/revoked token, insufficient scope, wrong tenant, missing discovery and attempted write tools.",
       "expected": "Unauthorized access denied; current supported OAuth/resource metadata works; no arbitrary SQL or financial action exposed.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "MCP-03",
@@ -225,7 +250,8 @@
       "check": "Complete one real compatible client connection when access is provided.",
       "expected": "Record client/protocol/SDK versions, authorized scope and evidence. Mark pending if the client/account cannot be exercised.",
       "stage": "external",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "UI-01",
@@ -233,7 +259,8 @@
       "check": "Exercise landing, sign-in, workspace setup, sources, recorder, evidence, questions and Agent/MCP views on desktop and mobile.",
       "expected": "Reference design preserved; accessible keyboard/focus behavior; shipping remains ordinary sources; Xentral absent; no clipped critical controls.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "UI-02",
@@ -241,7 +268,8 @@
       "check": "Switch English/German on the landing page and in the application. Navigate through sign-in and onboarding, refresh, change workspace, and exercise all question views, validation, errors, empty states and accessibility labels. Inspect landing-page metadata in both locales.",
       "expected": "English is the default for both UI and landing page; German localization is complete; the selected locale persists across the landing page, sign-in and application; money/date/time formatting is locale-safe. Engineering documentation, identifiers and API/MCP contracts remain English.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SOURCE-01",
@@ -249,7 +277,8 @@
       "check": "Test Shopify/Shopify Payments against documented fixtures and authorized provider accounts.",
       "expected": "Backfill, incrementals and reconciliation are correctly mapped; actual grants/coverage documented; duplicate financial representation prevented.",
       "stage": "external",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "SOURCE-02",
@@ -257,7 +286,8 @@
       "check": "Test easybill adapter with fixture/server contract tests and authorized account access.",
       "expected": "Invoice/credit/status mapping with explicit IDs and scope; unsupported fields not fabricated; live verification status recorded.",
       "stage": "external",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SOURCE-03",
@@ -265,7 +295,8 @@
       "check": "Test DHL adapter and order/shipment matching with fixture/server tests and authorized account access.",
       "expected": "Status/scan timestamps, source coverage and ambiguity correct; labels/announcements do not imply physical delivery. Verify the selected DHL product/account retention and permitted-use conditions before enabling perpetual live carrier observations or derived facts; record agreement or blocked capability explicitly.",
       "stage": "external",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SOURCE-04",
@@ -273,7 +304,8 @@
       "check": "Import a bank CSV twice, including malformed dates, currency, missing references and ambiguous candidate payouts.",
       "expected": "Validation preview, tenant scope, audit and deduplication; ambiguous matches require review; file content is treated as untrusted data.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "OPS-01",
@@ -281,7 +313,8 @@
       "check": "Back up database, evidence objects and required secret configuration; restore into a clean isolated instance.",
       "expected": "State, evidence and connector configuration are recoverable; actual recovery duration and backup cutoff recorded.",
       "stage": "operations",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "OPS-02",
@@ -289,7 +322,8 @@
       "check": "Upgrade populated previous-schema data and exercise the documented recovery path.",
       "expected": "No silent data loss; compatible rollback or forward recovery rehearsed; migrations serialized and versioned.",
       "stage": "operations",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "OPS-03",
@@ -297,7 +331,8 @@
       "check": "Run local profile and public-server profile; stop a dependency and overload one tenant.",
       "expected": "Local loopback default, HTTPS public profile, readiness/health/logs/queue metrics, bounded resources and honest degraded status.",
       "stage": "operations",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "OPS-04",
@@ -305,7 +340,8 @@
       "check": "Build both linux/amd64 and linux/arm64 release images; install on Linux and a real Apple Silicon Mac.",
       "expected": "Record build versus actual platform execution separately. Unavailable platforms are unverified, not passed.",
       "stage": "operations",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "OPS-05",
@@ -313,7 +349,8 @@
       "check": "Run the documented 50-tenant/250k-event baseline with concurrent ingestion and reads.",
       "expected": "Report hardware, commands, distributions, p95 latency/lag and invariant checks. Target failures remain visible; no capacity claim without measurement.",
       "stage": "operations",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "SEC-01",
@@ -321,7 +358,8 @@
       "check": "Scan dependencies/secrets and inspect runtime logs, fixtures, object URLs and recovery material.",
       "expected": "No committed or logged secrets, source payload access controlled, encryption keys recoverable separately; material findings triaged and resolved before release.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "SEC-02",
@@ -329,7 +367,8 @@
       "check": "Execute authorized tenant export and a configured redaction/deletion flow.",
       "expected": "Tenant boundaries retained; affected evidence/projections/backups handled according to documented retention policy; changes audited.",
       "stage": "operations",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "SEC-03",
@@ -337,7 +376,8 @@
       "check": "If AI/email extraction is implemented, supply malicious instructions and ambiguous monetary promises in source text.",
       "expected": "Source content cannot change authorization/tool policy; uncertain candidates do not become confirmed financial facts. Mark not applicable if feature absent.",
       "stage": "conditional",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "EXTEND-01",
@@ -345,7 +385,8 @@
       "check": "Add a small fixture connector and a new supported question following the extension guide.",
       "expected": "Manifest/adapter/contracts/tests and query registration suffice; no edits to unrelated financial rules or ingestion core; boundaries checked.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "SAAS-01",
@@ -353,7 +394,8 @@
       "check": "Onboard a second workspace, invite a user, revoke access and apply a per-tenant ingestion limit.",
       "expected": "Roles, audit and usage limits work on the same artifact as local mode. Operator-managed commercial plans are acceptable for initial release.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "CI-01",
@@ -361,7 +403,8 @@
       "check": "Run aggregate verification from a clean checkout and generated release image.",
       "expected": "Actual tests/build/migrations pass with immutable inputs; each acceptance ID maps to evidence or explicit non-pass status; no skipped check reported as success.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "JOURNAL-01",
@@ -369,7 +412,8 @@
       "check": "Attempt UPDATE, DELETE and TRUNCATE on canonical journal entries and immutable payload/link records using actual API, worker and ingestion runtime roles. Exercise cascading deletes and cleanup paths. Verify authorized append operations still work.",
       "expected": "Database-enforced append-only behavior; historical bytes/links/timestamps unchanged; runtime roles cannot bypass protection or escalate privileges; mutable operational/projection data remains separate.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "JOURNAL-02",
@@ -377,7 +421,8 @@
       "check": "Append a commitment correction and reversal, retry deliveries, ingest the same provider identity with different content, and rebuild projections. Query current and historical cutoffs.",
       "expected": "Original entries remain unchanged and readable; new entries reference prior versions; current and historical state are correct; no duplicate effects or silent content replacement; conflicts are explicit and replay reproduces state.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "MCP-04",
@@ -385,7 +430,8 @@
       "check": "Use a protocol client to discover exposed schema and traverse all five tracks, entity histories, correction/derivation links and evidence. Include new synthetic business records outside the 24 named question examples; attempt cross-tenant reads and unavailable/redacted evidence access.",
       "expected": "All authorized business records are retrievable through bounded composable read tools, with results matching domain services. The 24 intents do not restrict data coverage. Unauthorized data remains inaccessible; missing/redacted evidence and incomplete coverage are explicit.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "MCP-05",
@@ -393,7 +439,8 @@
       "check": "Read multiple journal/history pages at a fixed snapshot while writes commit concurrently, including lower sequence allocation with later commit, rollbacks and late business timestamps. Resume later and try a cursor in a different tenant.",
       "expected": "Stable snapshot pagination has no omissions or duplicates, does not skip late commits, and clearly exposes continuation for newer records. Cutoffs are consistent across related reads; cross-tenant cursors are denied without leaking data.",
       "stage": "core",
-      "release_gate": true
+      "release_gate": true,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "PERF-01",
@@ -401,7 +448,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Profile hot order/state queries through API and MCP using the Rust engine, shared reducers, realistic tenant/entity keys and the smoke profile. Compare an indexed PostgreSQL reference path and inspect actual execution plans.",
-      "expected": "Canonical money/stock rules have one implementation; API/MCP results agree; hot queries use direct indexes/working state without full-journal scans or N+1 reads. Report full request latency and the measured benefit/overhead of the engine, not just a Rust microbenchmark."
+      "expected": "Canonical money/stock rules have one implementation; API/MCP results agree; hot queries use direct indexes/working state without full-journal scans or N+1 reads. Report full request latency and the measured benefit/overhead of the engine, not just a Rust microbenchmark.",
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "PERF-02",
@@ -409,7 +457,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Terminate processes before/after durable journal commit, projection/checkpoint commit and RAM publication. Retry events, route to a lagging replica, then request at_least_cursor and latest_committed reads, including all five tracks and changed/revoked permissions.",
-      "expected": "No lost acknowledged input, duplicate business effect, false applied cursor, partial state or unauthorized cached response. Required cutoffs are satisfied or explicitly reported behind/unavailable. Durable-to-RAM recovery and domain replay agree."
+      "expected": "No lost acknowledged input, duplicate business effect, false applied cursor, partial state or unauthorized cached response. Required cutoffs are satisfied or explicitly reported behind/unavailable. Durable-to-RAM recovery and domain replay agree.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "PERF-03",
@@ -417,7 +466,8 @@
       "stage": "operations",
       "release_gate": true,
       "check": "Execute the reference_10m profile from benchmarks/performance-contract.json on the specified or explicitly comparable documented hardware, with concurrent ingestion and both closed-loop/fixed-arrival reads.",
-      "expected": "Meet the specified API/MCP query-class, acknowledgement, lag, correctness, success-rate and memory targets. Keep commands, data manifest, p50/p95/p99 and raw evidence. Unavailable hardware is blocked/not run; a target miss is a failure, not a capacity claim."
+      "expected": "Meet the specified API/MCP query-class, acknowledgement, lag, correctness, success-rate and memory targets. Keep commands, data manifest, p50/p95/p99 and raw evidence. Unavailable hardware is blocked/not run; a target miss is a failure, not a capacity claim.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "PERF-04",
@@ -425,7 +475,8 @@
       "stage": "operations",
       "release_gate": true,
       "check": "Exercise per-tenant/global memory limits, hot/cold eviction and hydration, high-cardinality data, long histories, snapshot/rebuild peaks, corrupt/lost snapshots, engine restart with an unapplied tail and one overloaded tenant.",
-      "expected": "Bounded memory without hidden mapped/page-cache overuse or OOM; correct cold access and current authorization; independent tenants remain serviceable. Normal restart uses a compatible snapshot/projection plus tail within the reference-profile target; full rebuild remains correct and separately measured."
+      "expected": "Bounded memory without hidden mapped/page-cache overuse or OOM; correct cold access and current authorization; independent tenants remain serviceable. Normal restart uses a compatible snapshot/projection plus tail within the reference-profile target; full rebuild remains correct and separately measured.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "PERF-05",
@@ -434,7 +485,8 @@
       "release_gate": false,
       "capacity_claim_gate": "100-million-entry operation",
       "check": "Provide a runnable scale_100m experiment and run it when reference resources are available. Separately report complete durable records with a bounded hot set and any optional narrow compact-RAM experiment.",
-      "expected": "A 100-million-entry claim requires observed scale-profile correctness, latency, memory and recovery evidence with exact resident/excluded fields and index/raw-evidence costs. If unexecuted, report not run/blocked and make no such capacity claim; a smaller validated release remains distinguishable."
+      "expected": "A 100-million-entry claim requires observed scale-profile correctness, latency, memory and recovery evidence with exact resident/excluded fields and index/raw-evidence costs. If unexecuted, report not run/blocked and make no such capacity claim; a smaller validated release remains distinguishable.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "REGISTRY-01",
@@ -442,7 +494,8 @@
       "stage": "operations",
       "release_gate": true,
       "check": "Validate the central integration register, its generated human view and append-only history; inspect actual implementation/test evidence and run its --release gate for the full release.",
-      "expected": "Every source/data capability has its exact field/event-to-track mapping, six implementation steps, actual contributor/time/commit records, contract/pipeline/recovery/tenant test artifacts and separate authorized live evidence where applicable. Independent reviewer confirmation cites current tests and acknowledges unavailable fields/events. Stale code, missing evidence, self-approval and edits to prior history fail checks. Roadmap entries remain honest and non-gating; partial capabilities do not waive complete question-answer gates. Every row additionally declares all three synchronization modes with schedules/coverage/limitations; tests cite exercised modes and independent reviews acknowledge unsupported modes."
+      "expected": "Every source/data capability has its exact field/event-to-track mapping, six implementation steps, actual contributor/time/commit records, contract/pipeline/recovery/tenant test artifacts and separate authorized live evidence where applicable. Independent reviewer confirmation cites current tests and acknowledges unavailable fields/events. Stale code, missing evidence, self-approval and edits to prior history fail checks. Roadmap entries remain honest and non-gating; partial capabilities do not waive complete question-answer gates. Every row additionally declares all three synchronization modes with schedules/coverage/limitations; tests cite exercised modes and independent reviews acknowledge unsupported modes.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "WEB-01",
@@ -450,7 +503,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "With no desktop app installed or running, complete browser sign-in/bootstrap, workspace/membership/roles, source configuration and health, journal/evidence/questions, MCP settings, exports and application administration against local and public-server test profiles.",
-      "expected": "The browser provides complete business management through the same authorized API, with persisted EN/DE localization and supplied design. Native runtime controls are not prerequisites for browser workflows."
+      "expected": "The browser provides complete business management through the same authorized API, with persisted EN/DE localization and supplied design. Native runtime controls are not prerequisites for browser workflows.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "WEB-02",
@@ -458,7 +512,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Attempt to invoke native runtime controls from browser requests, a remote origin, a forged workspace and an untrusted desktop navigation; inspect API/query contracts shared by both clients.",
-      "expected": "Local process control is narrowly privileged and unavailable to arbitrary web/remote content. Normal management remains authorized server-side. Clients do not duplicate business calculations or expose a shell, Docker socket or credentials."
+      "expected": "Local process control is narrowly privileged and unavailable to arbitrary web/remote content. Normal management remains authorized server-side. Clients do not duplicate business calculations or expose a shell, Docker socket or credentials.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "DESKTOP-01",
@@ -466,7 +521,8 @@
       "stage": "operations",
       "release_gate": true,
       "check": "On a real Apple Silicon Mac, install the versioned native artifact, exercise prerequisite detection, local setup/start/status/logs/stop and browser opening, close/reopen the window, restart the supervised backend and upgrade populated data.",
-      "expected": "Shared UI and EN/DE locales work; missing container runtime is clearly explained. No silent prerequisite installation or reseeding. Window close preserves background ingestion; explicit shutdown/restart preserves journal/cursors. Record actual OS/artifact/build and distribution-signing evidence separately; an unavailable environment is blocked, not passed."
+      "expected": "Shared UI and EN/DE locales work; missing container runtime is clearly explained. No silent prerequisite installation or reseeding. Window close preserves background ingestion; explicit shutdown/restart preserves journal/cursors. Record actual OS/artifact/build and distribution-signing evidence separately; an unavailable environment is blocked, not passed.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "DESKTOP-02",
@@ -474,7 +530,8 @@
       "stage": "operations",
       "release_gate": true,
       "check": "Use the desktop client against a remote HTTPS backend on a host without local database/container services. Change backend/workspace, revoke a session, restart the client and attempt an untrusted endpoint/navigation.",
-      "expected": "Normal remote management works with the same API/UI and tenant boundaries. Secrets use OS credential storage, remote content cannot use native privileges, and selecting another endpoint does not move or copy a workspace journal. Authentication/revocation and backend compatibility are explicit."
+      "expected": "Normal remote management works with the same API/UI and tenant boundaries. Secrets use OS credential storage, remote content cannot use native privileges, and selecting another endpoint does not move or copy a workspace journal. Authentication/revocation and backend compatibility are explicit.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SYNC-01",
@@ -482,7 +539,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Against provider-shaped test servers, start initial paginated import while updates arrive, interrupt a page, resume cursors, replay duplicate pages and expire a delta cursor. Exercise poll-only and public-callback paths without real credentials.",
-      "expected": "Durable overlap/checkpoints prevent silent gaps and double effects across backfill/live transition. Failed pages cannot skip unseen input. Expired cursors trigger bounded recovery and visible coverage limits; resulting journal/Rust/API/MCP agree."
+      "expected": "Durable overlap/checkpoints prevent silent gaps and double effects across backfill/live transition. Failed pages cannot skip unseen input. Expired cursors trigger bounded recovery and visible coverage limits; resulting journal/Rust/API/MCP agree.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SYNC-02",
@@ -490,7 +548,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "For each implemented capability, exercise the declared local_standalone/local_gateway/public_server support or unsupported behavior, including a resource with polling only and an unavailable history window. Validate INTEGRATIONS.md mappings and mode-scoped evidence.",
-      "expected": "Actual topics/resources, grants, history limits, schedules, retry/rate budgets, recovery and limitations are explicit. Private standalone callbacks to localhost are rejected. Unsupported/partial modes remain visible and cannot claim full source history; source cards do not imply capabilities."
+      "expected": "Actual topics/resources, grants, history limits, schedules, retry/rate budgets, recovery and limitations are explicit. Private standalone callbacks to localhost are rejected. Unsupported/partial modes remain visible and cannot claim full source history; source cards do not imply capabilities.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SYNC-03",
@@ -498,7 +557,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Keep the engine current while source polling fails, deliver a gateway receipt without local commit, delay Rust application after a commit and reconcile a missed historical transition. Query UI/API/MCP at latest_committed and at_least_cursor.",
-      "expected": "Gateway receipt, journal commit, engine lag and source freshness are distinct. Receipt IDs cannot satisfy journal cutoffs. Last/next successful or scheduled checks and gaps are scoped to the capability; missing external history is not fabricated or hidden by a green engine. Answers preserve uncertainty."
+      "expected": "Gateway receipt, journal commit, engine lag and source freshness are distinct. Receipt IDs cannot satisfy journal cutoffs. Last/next successful or scheduled checks and gaps are scoped to the capability; missing external history is not fabricated or hidden by a green engine. Answers preserve uncertainty.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SYNC-04",
@@ -506,7 +566,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Exercise scheduler concurrency, lease takeover, HTTP 429, reauthorization, pause/disconnect, callback registration/rotation/removal, and switching poll/direct/gateway modes with pending duplicate inputs. Test provider-specific OAuth redirect setup independently from webhook routing.",
-      "expected": "One fenced logical collector per capability, tenant fairness, durable cursor resume, bounded retries and deduplication across modes. Old credentials/subscriptions cannot redirect to another workspace. Failed revocation/removal is visible; journal history remains intact. Unsupported OAuth or callback setup is blocked explicitly."
+      "expected": "One fenced logical collector per capability, tenant fairness, durable cursor resume, bounded retries and deduplication across modes. Old credentials/subscriptions cannot redirect to another workspace. Failed revocation/removal is visible; journal history remains intact. Unsupported OAuth or callback setup is blocked explicitly.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "GATEWAY-01",
@@ -514,7 +575,8 @@
       "stage": "operations",
       "release_gate": true,
       "check": "Use a network-isolated private backend that denies inbound connections and allows outbound TLS to the gateway. Deliver signed provider-shaped events to the gateway callback and read their results through PostgreSQL, Rust, browser and MCP.",
-      "expected": "Backend-initiated authenticated delivery works without port forwarding or a tunnel. The registered callback belongs to the public gateway, not localhost or the consumer stream. Gateway does not expose local administration/MCP; evidence and business state match direct ingestion."
+      "expected": "Backend-initiated authenticated delivery works without port forwarding or a tunnel. The registered callback belongs to the public gateway, not localhost or the consumer stream. Gateway does not expose local administration/MCP; evidence and business state match direct ingestion.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "GATEWAY-02",
@@ -522,7 +584,8 @@
       "stage": "operations",
       "release_gate": true,
       "check": "Kill/restart gateway and consumer before/after queue persistence, provider response, delivery lease, canonical journal/outbox commit, local acknowledgement and Rust application. Lose acknowledgement replies, reorder/duplicate deliveries and compete consumers.",
-      "expected": "No successful receipt exists only in RAM; retained admitted deliveries recover. Local acknowledgement follows canonical commit; three receipt states remain truthful. Persistent identity/fencing prevents skips or duplicate financial/quantity effects. Poison inputs remain visibly quarantined without blocking other tenants."
+      "expected": "No successful receipt exists only in RAM; retained admitted deliveries recover. Local acknowledgement follows canonical commit; three receipt states remain truthful. Persistent identity/fencing prevents skips or duplicate financial/quantity effects. Poison inputs remain visibly quarantined without blocking other tenants.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "GATEWAY-03",
@@ -530,7 +593,8 @@
       "stage": "operations",
       "release_gate": true,
       "check": "Tamper exact raw body/signature/envelope, routing IDs and account identity; attempt cross-tenant queue reads, replay where timestamp rules apply, revoked backend credentials, credential rotation and reassignment while receipts are pending.",
-      "expected": "Both legs authenticate with least-privilege credentials and secure transport/storage. Invalid inputs are denied, no payload/log/credential leak or routing by untrusted tenant field. Pending receipts keep original tenant binding. Gateway trust/data visibility and per-provider validation limitations are documented."
+      "expected": "Both legs authenticate with least-privilege credentials and secure transport/storage. Invalid inputs are denied, no payload/log/credential leak or routing by untrusted tenant field. Pending receipts keep original tenant binding. Gateway trust/data visibility and per-provider validation limitations are documented.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "GATEWAY-04",
@@ -538,7 +602,8 @@
       "stage": "operations",
       "release_gate": true,
       "check": "Reach per-tenant byte/count/age quotas, stop a consumer, expire unacknowledged data under the configured policy, exhaust durable storage, restart/restore the queue and attempt available/unavailable polling recovery.",
-      "expected": "Limits/retention and provider retry constraints are explicit. Admission failure is not successfully acknowledged. Accepted expiry produces visible scoped gaps and partial answers; recovery never invents unavailable history. Backlog metrics, alerts, fairness, encrypted backup/restore and acknowledged-payload cleanup follow the declared policy."
+      "expected": "Limits/retention and provider retry constraints are explicit. Admission failure is not successfully acknowledged. Accepted expiry produces visible scoped gaps and partial answers; recovery never invents unavailable history. Backlog metrics, alerts, fairness, encrypted backup/restore and acknowledged-payload cleanup follow the declared policy.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "GATEWAY-05",
@@ -546,7 +611,8 @@
       "stage": "external",
       "release_gate": true,
       "check": "When separately authorized, register a real public HTTPS gateway callback with an eligible launch-provider account, deliver into a backend behind NAT and verify subscription creation/validation, actual event receipt, reconnect, rotation and removal.",
-      "expected": "Record provider/product revision, authorized scope, public callback registration and exact end-to-end evidence without secrets. Distinguish each tested capability from absent push support. Synthetic container/local tests do not satisfy public/provider verification; missing host/DNS/account authorization is blocked."
+      "expected": "Record provider/product revision, authorized scope, public callback registration and exact end-to-end evidence without secrets. Distinguish each tested capability from absent push support. Synthetic container/local tests do not satisfy public/provider verification; missing host/DNS/account authorization is blocked.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "DEPLOY-01",
@@ -554,7 +620,8 @@
       "stage": "operations",
       "release_gate": true,
       "check": "Move a populated workspace between local and server profiles using the documented dry-run/export/import/fenced-cutover procedure; inject interrupted export/import, concurrent old writer, pending gateway inputs and failure before/after resumed target writes.",
-      "expected": "Exactly one canonical writer remains. Tenant-scoped identity, journal/evidence counts/hashes/cutoffs and Rust state verify; keys migrate securely; callbacks/routing and cursors switch with reconciliation. No cross-tenant data or duplicate effects. Recovery never reactivates a stale writable copy after newer target commits."
+      "expected": "Exactly one canonical writer remains. Tenant-scoped identity, journal/evidence counts/hashes/cutoffs and Rust state verify; keys migrate securely; callbacks/routing and cursors switch with reconciliation. No cross-tenant data or duplicate effects. Recovery never reactivates a stale writable copy after newer target commits.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "IMPORT-01",
@@ -562,7 +629,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Connect sources with different history/grant restrictions. Select the default last-30-days plus open/related-record plan, this year, last 12 months, a custom start and from-now-only. Exercise timezone/DST/end-of-month boundaries, later source connection and explicit overrides.",
-      "expected": "Show and persist exact resolved UTC boundaries, timezone, cutoff, optional opening-state scope and selected permissions/limitations. A later source inherits the saved workspace start as a proposal. No silent shorter successful import, moving daily start, undisclosed older-record retrieval or forced extended-history authorization. English/German dates and explanations agree."
+      "expected": "Show and persist exact resolved UTC boundaries, timezone, cutoff, optional opening-state scope and selected permissions/limitations. A later source inherits the saved workspace start as a proposal. No silent shorter successful import, moving daily start, undisclosed older-record retrieval or forced extended-history authorization. English/German dates and explanations agree.",
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "IMPORT-02",
@@ -570,7 +638,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Import a recent refund of an older closed order, an old open invoice, an unsettled payout and an old active reservation; vary availability of linked captures, opening stock/balances and historical access. Include a current snapshot with no original transitions.",
-      "expected": "Retrieve only disclosed accessible open/dependency context with bounded traversal. Missing history or opening state remains partial/unknown, not zero. Snapshot/opening balances are not new cash/stock movements; changing the history window preserves conservation and current state. No fabricated intermediate events or backdated system knowledge."
+      "expected": "Retrieve only disclosed accessible open/dependency context with bounded traversal. Missing history or opening state remains partial/unknown, not zero. Snapshot/opening balances are not new cash/stock movements; changing the history window preserves conservation and current state. No fabricated intermediate events or backdated system knowledge.",
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "IMPORT-03",
@@ -578,7 +647,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Run initial import with exact, unknown and revised totals while live events arrive. Retry duplicate pages, fail/quarantine records, pause/cancel/resume history, refresh clients and restart processes at fetch/commit/projection boundaries.",
-      "expected": "Stable logical-record cohorts/counters survive restart without counting attempts or journal entries as extra orders. Named-stage percentages require exact scoped totals; unknown totals show counts/phase and revised scope is visible. Loaded, committed and query-ready are distinct; failures/pending work prevent false full readiness. Historical pause/cancel preserves committed data and does not silently stop live collection."
+      "expected": "Stable logical-record cohorts/counters survive restart without counting attempts or journal entries as extra orders. Named-stage percentages require exact scoped totals; unknown totals show counts/phase and revised scope is visible. Loaded, committed and query-ready are distinct; failures/pending work prevent false full readiness. Historical pause/cancel preserves committed data and does not silently stop live collection.",
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "IMPORT-04",
@@ -586,7 +656,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "During backfill, make order projections ready while payment and bank imports are incomplete, leave an unrelated optional source disconnected and query order-only, payment-dependent, full-money and zero-result intents through UI/API/MCP.",
-      "expected": "Readiness follows actual required fields/links/coverage/cutoffs, not all source cards or a loaded count. Supported questions work progressively; partial/blocked questions identify missing dependencies and never fabricate zero balances or omit unmatched records. Optional unrelated sources do not block supported results. Valid empty results require adequate coverage."
+      "expected": "Readiness follows actual required fields/links/coverage/cutoffs, not all source cards or a loaded count. Supported questions work progressively; partial/blocked questions identify missing dependencies and never fabricate zero balances or omit unmatched records. Optional unrelated sources do not block supported results. Valid empty results require adequate coverage.",
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "IMPORT-05",
@@ -594,7 +665,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Extend an existing 30-day import to 12 months with overlaps, duplicate deliveries, new live updates, interrupted/resumed jobs and older evidence arriving after newer observations. Query current and historical-as-known cutoffs.",
-      "expected": "Versioned/audited expansion preserves prior coverage, stable IDs and journal append-only rules. No duplicate monetary/quantity effects, changed recorded_at or regressed current state. Reevaluate affected links/projections/readiness and keep late-discovered evidence distinct from what was previously known."
+      "expected": "Versioned/audited expansion preserves prior coverage, stable IDs and journal append-only rules. No duplicate monetary/quantity effects, changed recorded_at or regressed current state. Reevaluate affected links/projections/readiness and keep late-discovered evidence distinct from what was previously known.",
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "IMPORT-06",
@@ -602,7 +674,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Change dashboard analysis windows and RAM limits, select strict from-now-only, decline opening/context import, narrow a collection scope where supported and inspect retention/redaction behavior.",
-      "expected": "Import selection, view filter, bounded RAM working set and retention remain separate. Display changes never delete journal data or silently alter source collection. Active old obligations remain handled within authorized scope; cold history remains addressable. Strict new-only scope is honored and its dependent answers show gaps; later expansion is explicit. Provider retention/use restrictions remain enforced."
+      "expected": "Import selection, view filter, bounded RAM working set and retention remain separate. Display changes never delete journal data or silently alter source collection. Active old obligations remain handled within authorized scope; cold history remains addressable. Strict new-only scope is honored and its dependent answers show gaps; later expansion is explicit. Provider retention/use restrictions remain enforced.",
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "HEALTH-01",
@@ -610,7 +683,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Exercise a quiet source with complete empty polling, a partially failed poll, a permission-only credential check, a new webhook, delayed reconciliation, stopped status updates, manual CSV and an internal producer.",
-      "expected": "Last successful scoped sync/check and last new record/receipt remain distinct. Empty successful checks can be current; failures and credential checks cannot claim full sync. A webhook alone does not prove completeness. Per-capability schedules/thresholds, nullable next checks with reasons, stale observation time, gaps and actual recovery actions are explicit; no fabricated timestamps or universal green state."
+      "expected": "Last successful scoped sync/check and last new record/receipt remain distinct. Empty successful checks can be current; failures and credential checks cannot claim full sync. A webhook alone does not prove completeness. Per-capability schedules/thresholds, nullable next checks with reasons, stale observation time, gaps and actual recovery actions are explicit; no fabricated timestamps or universal green state.",
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "HEALTH-02",
@@ -618,7 +692,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Use the onboarding progress view, central Sources overview, source details/import history and answer data-status detail in English/German, narrow viewports and keyboard navigation. Refresh/reconnect clients and attempt cross-tenant or read-only import controls.",
-      "expected": "All surfaces use shared authorized server state, preserve the supplied design and expose requested/available periods, meaningful counts, current phase, last completed import with its outcome, last/next checks, received/committed/applied milestones and source limitations. Status is accessible beyond color; exact timestamps and actionable errors are available. Safe retries/history expansion are role-bound; no data/credential leak or false reset on refresh. Desktop shares this contract when delivered."
+      "expected": "All surfaces use shared authorized server state, preserve the supplied design and expose requested/available periods, meaningful counts, current phase, last completed import with its outcome, last/next checks, received/committed/applied milestones and source limitations. Status is accessible beyond color; exact timestamps and actionable errors are available. Safe retries/history expansion are role-bound; no data/credential leak or false reset on refresh. Desktop shares this contract when delivered.",
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "HEALTH-03",
@@ -626,7 +701,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Read an answer at a fixed journal/applied cutoff while history imports and source health update concurrently; keep orders current while payments lag, provide disjoint historical coverage intervals, and skew provider timestamps used for delivery-latency estimates.",
-      "expected": "UI/API/MCP report the answer scope/cutoffs and per-capability coverage/freshness without claiming newer applied data or filling historical holes. Requested range, verified intervals and historical snapshot-only limitations remain distinct from current sync. Latency estimates identify their sample/window/clock limits; configured polling cadence and gateway receipt are not external-freshness guarantees."
+      "expected": "UI/API/MCP report the answer scope/cutoffs and per-capability coverage/freshness without claiming newer applied data or filling historical holes. Requested range, verified intervals and historical snapshot-only limitations remain distinct from current sync. Latency estimates identify their sample/window/clock limits; configured polling cadence and gateway receipt are not external-freshness guarantees.",
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "AUTH-03",
@@ -634,7 +710,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Exercise real passkey registration/sign-in with virtual authenticators against the selected WebAuthn/session implementation: fresh and repeated challenges, wrong RP/origin/user, invalid signatures, missing required user verification, synced credential counter behavior, session fixation, CSRF and expired sessions. Run with no external identity provider, mail account or commercial auth SaaS.",
-      "expected": "Valid supported passkeys work; malicious/replayed assertions and unsafe sessions fail. Public sessions use protected cookies with 30-minute idle and 24-hour absolute defaults. Recent verification protects sensitive changes. No hidden password/email/central-service dependency. Record library/browser versions; virtual authentication is not real-device proof."
+      "expected": "Valid supported passkeys work; malicious/replayed assertions and unsafe sessions fail. Public sessions use protected cookies with 30-minute idle and 24-hour absolute defaults. Recent verification protects sensitive changes. No hidden password/email/central-service dependency. Record library/browser versions; virtual authentication is not real-device proof.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-04",
@@ -642,7 +719,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Install local CLI/browser and self-hosted server profiles without a native client. Race, guess, replay and expire bootstrap/pairing codes; restart after setup; use an unpaired browser, forged Origin/Host and a local credential against a different backend. Reopen an enrolled local session and revoke its device.",
-      "expected": "Host-authorized setup is one-time and atomic; setup codes expire within 30 minutes, pairing codes within five minutes. Local reopening is convenient but never authorized by loopback alone. No permanent URL/localStorage secret, automatic re-enrollment after revocation or remote authority from a local device credential. Protected credential-store failures are explicit; no default administrator or restarted bootstrap takeover."
+      "expected": "Host-authorized setup is one-time and atomic; setup codes expire within 30 minutes, pairing codes within five minutes. Local reopening is convenient but never authorized by loopback alone. No permanent URL/localStorage secret, automatic re-enrollment after revocation or remote authority from a local device credential. Protected credential-store failures are explicit; no default administrator or restarted bootstrap takeover.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-05",
@@ -650,7 +728,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Create a SaaS workspace and a second isolated workspace, accept known-user and owner-shared invitations, forward/replay/expire/revoke invitations and use a wrong account. Race removal/demotion of the last owners; transfer ownership of service principals.",
-      "expected": "New signup cannot claim existing tenants/operator rights. Intended membership is bound to one workspace and role; unverified recipients remain pending until the inviter confirms identity. Invites are single-use, scoped, expiring and revocable. The last active owner survives concurrent operations; ownership transfer is audited and active services cannot be orphaned. Removing one membership preserves unrelated workspace access."
+      "expected": "New signup cannot claim existing tenants/operator rights. Intended membership is bound to one workspace and role; unverified recipients remain pending until the inviter confirms identity. Invites are single-use, scoped, expiring and revocable. The last active owner survives concurrent operations; ownership transfer is audited and active services cannot be orphaned. Removing one membership preserves unrelated workspace access.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-06",
@@ -658,7 +737,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Complete first-owner recovery setup, lose the only enrolled device, recover using a saved one-use code, and attempt repeated/concurrent code use, guessing, privilege expansion, use of replaced factors and old sessions. Regenerate recovery codes and rehearse the documented host-authorized recovery path.",
-      "expected": "Recovery has a restricted expiring session, establishes a replacement authenticator and preserves only existing memberships. Codes are hashed, single-use and never logged; old code sets, compromised factors and previous human sessions/refresh tokens become unusable. Service credential review/revocation is explicit. No email-only, anonymous or setup-endpoint takeover. A saved recovery route restores a sole owner."
+      "expected": "Recovery has a restricted expiring session, establishes a replacement authenticator and preserves only existing memberships. Codes are hashed, single-use and never logged; old code sets, compromised factors and previous human sessions/refresh tokens become unusable. Service credential review/revocation is explicit. No email-only, anonymous or setup-endpoint takeover. A saved recovery route restores a sole owner.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-07",
@@ -666,7 +746,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Grant a reader and an agent only a subset of input datasets/tools, with raw evidence and export disabled. Exercise all five tracks, derived questions/aggregates, search, related links, Sources/readiness, files/downloads, hot caches and Rust RPC, cold history and cross-tenant cursors using actual runtime roles. Add a new dataset/tool.",
-      "expected": "Permission intersections apply throughout UI/API/MCP/storage. Restricted inputs cannot leak through computed values, metadata, health or exports; safe permission-limited answers distinguish unavailable authority without disclosing hidden details. New datasets/tools are denied until granted. Credential/auth tables and operator secrets remain outside business schema discovery. Authorized complete access still traverses histories beyond the 24 intents."
+      "expected": "Permission intersections apply throughout UI/API/MCP/storage. Restricted inputs cannot leak through computed values, metadata, health or exports; safe permission-limited answers distinguish unavailable authority without disclosing hidden details. New datasets/tools are denied until granted. Credential/auth tables and operator secrets remain outside business schema discovery. Authorized complete access still traverses histories beyond the 24 intents.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-08",
@@ -674,7 +755,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Run a protocol-level human MCP authorization-code/PKCE and consent flow plus an unattended service-principal client-credentials flow using selected maintained components. Attempt issuer/resource/client/redirect/state mixups, refresh-token reuse, scope escalation, source/gateway credential substitution and local stdio owner bypass. Rotate the service credential.",
-      "expected": "Individual human and service identities remain distinct, scoped and revocable. Access tokens expire within five minutes and do not bypass current grants. Read-only principals cannot call admin/ingestion/native controls. Secrets are protected and rotation invalidates old credentials within the defined overlap. Pin protocols/libraries and document flow/client support; actual named-client proof remains MCP-03, not inferred from protocol tests."
+      "expected": "Individual human and service identities remain distinct, scoped and revocable. Access tokens expire within five minutes and do not bypass current grants. Read-only principals cannot call admin/ingestion/native controls. Secrets are protected and rotation invalidates old credentials within the defined overlap. Pin protocols/libraries and document flow/client support; actual named-client proof remains MCP-03, not inferred from protocol tests.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-09",
@@ -682,7 +764,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "With at least two API instances, warm authorization/result caches and open MCP streams, revoke/downgrade membership, client consent, device and service credentials. Continue refresh, pages, exports and object downloads through each instance and engine/cold path; restart/fail over a replica and interrupt its auth-state refresh. Measure from durable revocation acknowledgment.",
-      "expected": "The processing instance denies new unauthorized access immediately; all replicas, streams and delivery paths enforce revocation within 60 seconds maximum. Stale authorization fails closed after the bound. Old data-snapshot cursors and still-unexpired tokens do not preserve revoked rights. No new forbidden pages/chunks/results are delivered after the bound; already delivered information cannot be recalled. Report actual measured times and evidence."
+      "expected": "The processing instance denies new unauthorized access immediately; all replicas, streams and delivery paths enforce revocation within 60 seconds maximum. Stale authorization fails closed after the bound. Old data-snapshot cursors and still-unexpired tokens do not preserve revoked rights. No new forbidden pages/chunks/results are delivered after the bound; already delivered information cannot be recalled. Report actual measured times and evidence.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-10",
@@ -690,7 +773,8 @@
       "stage": "core",
       "release_gate": true,
       "check": "Use People & agents and personal security settings in English and German, entirely in a browser without a native process: add a reader/agent, inspect a grant, connect a protocol client, inspect last use/expiry, rotate/revoke, manage passkeys/sessions and save recovery codes. Attempt admin actions as a reader.",
-      "expected": "The short access journey clearly shows workspace, role/principal type, responsible owner, allowed data/tools/evidence/export and active/pending/revoked state. Never-used and unavailable telemetry are distinct. Own security management does not permit self-promotion. No credential leakage or false connected-client claim. Core source/business management remains complete and preserves the reference design."
+      "expected": "The short access journey clearly shows workspace, role/principal type, responsible owner, allowed data/tools/evidence/export and active/pending/revoked state. Never-used and unavailable telemetry are distinct. Own security management does not permit self-promotion. No credential leakage or false connected-client claim. Core source/business management remains complete and preserves the reference design.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-11",
@@ -698,7 +782,8 @@
       "stage": "operations",
       "release_gate": true,
       "check": "On a real supported Mac, exercise protected local native/CLI/browser enrollment, close/reopen, Keychain locked/unavailable, device revocation and recovery. Authenticate a remote server with supported Touch ID/passkey and security-key alternatives using the system browser, then switch backend.",
-      "expected": "Record actual OS, authenticator, browser and artifact versions. Local direct opening and remote passkey login work through separate credentials with recovery; no plaintext Keychain fallback or remote native privilege. Unsupported authenticator/client combinations are explicit. A simulated authenticator or successful packaging is insufficient real-platform evidence."
+      "expected": "Record actual OS, authenticator, browser and artifact versions. Local direct opening and remote passkey login work through separate credentials with recovery; no plaintext Keychain fallback or remote native privilege. Unsupported authenticator/client combinations are explicit. A simulated authenticator or successful packaging is insufficient real-platform evidence.",
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-12",
@@ -706,7 +791,109 @@
       "stage": "operations",
       "release_gate": true,
       "check": "Migrate one workspace from a multi-workspace source to a different backend/RP origin and perform an isolated restore of a backup taken before access revocation. Re-enroll the target owner, reconcile reader/service grants and try old sessions, credentials and old-issuer tokens at both backends.",
-      "expected": "Workspace migration exports no unrelated memberships or global user authenticators. RP-bound private keys are not exported or assumed portable. An authenticated re-enrollment/recovery path preserves access to the migrated business data; obsolete sessions/tokens/device bindings are invalidated. Backup restoration deliberately fences/rotates stale auth state so revoked access does not silently revive. Record the actual migration/restore procedure and evidence."
+      "expected": "Workspace migration exports no unrelated memberships or global user authenticators. RP-bound private keys are not exported or assumed portable. An authenticated re-enrollment/recovery path preserves access to the migrated business data; obsolete sessions/tokens/device bindings are invalidated. Backup restoration deliberately fences/rotates stale auth state so revoked access does not silently revive. Record the actual migration/restore procedure and evidence.",
+      "delivery_scope": "deferred_future"
+    },
+    {
+      "id": "LOCAL-01",
+      "category": "local_pilot",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Run explicit local setup twice and concurrently, restart with existing data, attempt first-admin HTTP takeover and inspect generated owner/workspace/key state. Save the displayed key and log in.",
+      "expected": "Exactly one automatic owner/workspace; a CSPRNG-generated personal key with at least 256 random bits is shown once through a protected host setup channel and only a verifier is persisted. Restarts do not replace credentials/data. No username/email/domain/passkey/central service required; no default shared key, secret URL or application-log disclosure."
+    },
+    {
+      "id": "LOCAL-02",
+      "category": "local_pilot",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Exercise key login, wrong/guessed keys, session fixation, CSRF, remember-me/browser restart, idle/absolute expiry, logout and authenticated key rotation. Continue API/history/evidence/export requests with old keys and sessions.",
+      "expected": "Maintained verifier/session components enforce throttling, protected cookies and exact origins. Remembered sessions expire after at most 30 days absolute/seven days idle; ordinary sessions after eight hours absolute and appropriate browser-close behavior. No secret localStorage. Rotation commits before acknowledgment, invalidates the old owner key/all owner sessions and permits new login; post-acknowledgment requests fail and affected streams stop within five seconds."
+    },
+    {
+      "id": "LOCAL-03",
+      "category": "local_pilot",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Lose the owner key and invoke host-only reset with and without authorized OS/volume access; attempt anonymous HTTP reset. Restore an isolated backup predating credential revocation and try old owner/agent keys before and after recovery.",
+      "expected": "Only protected host access resets credentials. Reset/restore rotates owner access and invalidates sessions/agent keys, with safe audit. Journal/evidence/source encryption material remains usable and exact business answers survive; login keys are not data-encryption keys. Stale backup credentials do not silently revive and no remote reset endpoint bypasses authentication."
+    },
+    {
+      "id": "LOCAL-04",
+      "category": "local_pilot",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Create two named agent keys and run the real SDK stdio MCP bridge against the persisted backend. Attempt missing/expired/revoked/other-workspace/owner-credential substitution, admin/write/ingestion/native calls and auth-table discovery. Rotate/revoke one key while paginating/streaming and leave the other active.",
+      "expected": "Agents use separate principals and current workspace-scoped read grants for business records/evidence only, through the same UI/query/Rust/cold services. No owner key is accepted as an agent credential. Revocation denies new requests after acknowledgment and stops affected delivery within five seconds without revoking an unrelated key. Keys never enter arguments/Git/logs. Local protocol compatibility is recorded; cloud reachability/public OAuth is not claimed."
+    },
+    {
+      "id": "LOCAL-05",
+      "category": "local_pilot",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Inspect actual listeners and published container ports; attempt LAN/public bind, no-key loopback calls, forged Host/Origin, DNS rebinding, cross-origin forms and direct engine/database/native-control access. Exercise two synthetic tenants and poisoned cached scope.",
+      "expected": "Only the authenticated web/API loopback interface is published. Unsupported public exposure fails explicitly; internal ports stay private. Localhost is not authorization; origin/CSRF and scope checks protect admin, data, evidence and secrets. Tenant/RLS/RPC/cache boundaries remain intact despite one visible workspace. No browser shell or Docker-socket route exists."
+    },
+    {
+      "id": "LOCAL-06",
+      "category": "local_pilot",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Complete the first-start/save-key/login/remember/logout/reset guidance, source setup/import status, journal/questions/evidence and named agent settings in English and German using desktop/narrow viewports and keyboard navigation. Refresh between landing/sign-in/app states.",
+      "expected": "One owner/workspace is automatic. English-default/full German and locale-safe formatting persist. Key permissions, last use, expiry/revoke, planned providers and local client reachability are understandable; no employee/Passkey/SaaS setup is required. Supplied design is retained with no clipped essential controls or false live/connected claims."
+    },
+    {
+      "id": "LOCAL-07",
+      "category": "local_pilot",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "With no inbound internet route, import provider-shaped pages while polling new changes; interrupt/cancel/resume jobs, duplicate/reorder pages, expire cursors/tokens, simulate 429/empty/partial checks and disconnect/reconnect. Inspect all three capability mode declarations and test provider-authorization prerequisites separately.",
+      "expected": "local_standalone outbound import/poll/reconciliation preserves cursors, deduplication, fairness and honest readiness/freshness through PostgreSQL/Rust/API/MCP. Failed/unsupported history stays visible; gateway/public_server are unsupported/deferred and not provisioned. No localhost callback or universal merchant-authorization claim. Declared schedules, limits and recoverability have observed evidence."
+    },
+    {
+      "id": "LOCAL-08",
+      "category": "local_pilot",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "On a real Apple Silicon Mac, follow the tester guide from a fresh checkout/release with documented container prerequisites. Setup/start, close/reopen the browser, stop/restart backend, inspect health/logs, run example, back up/restore and upgrade populated data. Keep a second independent install alongside it.",
+      "expected": "Versioned Compose/wrapper and browser product work without native packaging, Passkeys, external identity service or public hosting. Prerequisites/commands/errors are clear; no silent global install/reseed/destructive volume reset. Browser close preserves supervised ingestion. Ports/volumes/keys remain isolated. Record actual OS/runtime/image/build versions and results; a build alone cannot pass."
+    },
+    {
+      "id": "LOCAL-09",
+      "category": "local_pilot",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "At the local smoke workload, kill API/worker/engine before/after journal, projection/checkpoint and RAM publication; request committed cursors while the engine lags; constrain memory, evict/hydrate cold records and corrupt/remove snapshots. Revoke agent access while hot and cold reads run.",
+      "expected": "No acknowledged input loss, double business effects, partial state or false cursor/current authorization. Correct bounded hot/cold reads survive restart and replay; incompatible snapshots rebuild safely. Report actual RSS/total stack/peak memory, restart time and lag under declared Mac/container budgets. The pilot does not claim distributed failover or 10m/100m capacity."
+    },
+    {
+      "id": "LOCAL-10",
+      "category": "local_pilot",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Run ordinary catalogue/register/profile checks, inspect exact selected capability mappings/test/reviewer evidence and exercise adversarial release-gate tests. Attempt to mark a deferred case passed, omit an active ID, reuse stale evidence or bypass independent review. The final scripts/validate-delivery-profile.py --release invocation is a separate handover check after evidence is committed.",
+      "expected": "The active profile and case/report sets match; active gates require reproducible current evidence, and all selected capability rows require existing independent approval/live proof as applicable. Deferred cases remain separate and cannot inflate the pilot pass count. Original 86 case descriptions and append-only history remain preserved. A green preparation check cannot certify the product."
+    },
+    {
+      "id": "LOCAL-11",
+      "category": "local_pilot",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Follow the short tester journey and explicitly export diagnostics after an import or query error; inspect the result, logs and network traffic for personal/order data, keys and automatic telemetry.",
+      "expected": "Tester instructions cover start/save-key/import/first answer/local agent/restart/recovery and report actual blockers. Diagnostics contain only explicitly selected safe version/runtime/error/status metadata; no secrets/raw business content or automatic upload. Feedback observations are recorded honestly, not invented user studies."
     }
-  ]
+  ],
+  "active_profile": "local_pilot",
+  "profile_contract": "delivery-profile.json"
 }

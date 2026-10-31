@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "note": "Implementation has not started. This file is a result register, not executed test evidence. Populate after real verification.",
+  "note": "No product case has run. delivery_scope distinguishes active pilot proof from deferred platform references; deferred work is not a pass. Update only from actual evidence.",
   "specification": "ACCEPTANCE.json",
   "cases": [
     {
@@ -12,7 +12,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INSTALL-02",
@@ -23,7 +24,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "TENANT-01",
@@ -34,7 +36,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "TENANT-02",
@@ -45,7 +48,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "TENANT-03",
@@ -56,7 +60,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "TENANT-04",
@@ -67,7 +72,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "AUTH-01",
@@ -78,7 +84,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-02",
@@ -89,7 +96,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-01",
@@ -100,7 +108,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-02",
@@ -111,7 +120,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-03",
@@ -122,7 +132,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-04",
@@ -133,7 +144,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-05",
@@ -144,7 +156,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "INGEST-06",
@@ -155,7 +168,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-01",
@@ -166,7 +180,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-02",
@@ -177,7 +192,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-03",
@@ -188,7 +204,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-04",
@@ -199,7 +216,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-05",
@@ -210,7 +228,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-06",
@@ -221,7 +240,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-07",
@@ -232,7 +252,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "QUERY-01",
@@ -243,7 +264,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "QUERY-02",
@@ -254,7 +276,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "MCP-01",
@@ -265,7 +288,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "MCP-02",
@@ -276,7 +300,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "MCP-03",
@@ -287,7 +312,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "UI-01",
@@ -298,7 +324,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "UI-02",
@@ -309,7 +336,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SOURCE-01",
@@ -320,7 +348,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "SOURCE-02",
@@ -331,7 +360,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SOURCE-03",
@@ -342,7 +372,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SOURCE-04",
@@ -353,7 +384,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "OPS-01",
@@ -364,7 +396,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "OPS-02",
@@ -375,7 +408,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "OPS-03",
@@ -386,7 +420,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "OPS-04",
@@ -397,7 +432,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "OPS-05",
@@ -408,7 +444,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "SEC-01",
@@ -419,7 +456,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "SEC-02",
@@ -430,7 +468,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "SEC-03",
@@ -441,7 +480,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "EXTEND-01",
@@ -452,7 +492,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "SAAS-01",
@@ -463,7 +504,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "CI-01",
@@ -474,7 +516,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "JOURNAL-01",
@@ -485,7 +528,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "JOURNAL-02",
@@ -496,7 +540,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "MCP-04",
@@ -507,7 +552,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "MCP-05",
@@ -518,7 +564,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "PERF-01",
@@ -529,7 +576,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "PERF-02",
@@ -540,7 +588,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "PERF-03",
@@ -551,7 +600,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "PERF-04",
@@ -562,7 +612,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "PERF-05",
@@ -573,7 +624,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "REGISTRY-01",
@@ -584,7 +636,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "WEB-01",
@@ -595,7 +648,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "WEB-02",
@@ -606,7 +660,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "DESKTOP-01",
@@ -617,7 +672,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "DESKTOP-02",
@@ -628,7 +684,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SYNC-01",
@@ -639,7 +696,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SYNC-02",
@@ -650,7 +708,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SYNC-03",
@@ -661,7 +720,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "SYNC-04",
@@ -672,7 +732,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "GATEWAY-01",
@@ -683,7 +744,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "GATEWAY-02",
@@ -694,7 +756,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "GATEWAY-03",
@@ -705,7 +768,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "GATEWAY-04",
@@ -716,7 +780,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "GATEWAY-05",
@@ -727,7 +792,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "DEPLOY-01",
@@ -738,7 +804,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "IMPORT-01",
@@ -749,7 +816,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "IMPORT-02",
@@ -760,7 +828,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "IMPORT-03",
@@ -771,7 +840,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "IMPORT-04",
@@ -782,7 +852,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "IMPORT-05",
@@ -793,7 +864,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "IMPORT-06",
@@ -804,7 +876,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "HEALTH-01",
@@ -815,7 +888,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "HEALTH-02",
@@ -826,7 +900,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "HEALTH-03",
@@ -837,7 +912,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     },
     {
       "id": "AUTH-03",
@@ -848,7 +924,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-04",
@@ -859,7 +936,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-05",
@@ -870,7 +948,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-06",
@@ -881,7 +960,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-07",
@@ -892,7 +972,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-08",
@@ -903,7 +984,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-09",
@@ -914,7 +996,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-10",
@@ -925,7 +1008,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-11",
@@ -936,7 +1020,8 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
-      "blocker": null
+      "blocker": null,
+      "delivery_scope": "deferred_future"
     },
     {
       "id": "AUTH-12",
@@ -947,7 +1032,141 @@
       "environment": null,
       "observed_result": null,
       "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "deferred_future"
+    },
+    {
+      "id": "LOCAL-01",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "LOCAL-02",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "LOCAL-03",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "LOCAL-04",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "LOCAL-05",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "LOCAL-06",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "LOCAL-07",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "LOCAL-08",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "LOCAL-09",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "LOCAL-10",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "LOCAL-11",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
       "blocker": null
     }
-  ]
+  ],
+  "active_profile": "local_pilot"
 }

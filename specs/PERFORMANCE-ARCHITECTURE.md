@@ -1,5 +1,7 @@
 # Performance architecture: durable journal, compact Rust read engine
 
+> Current delivery: LOCAL-PILOT.md and ../delivery-profile.json. The Rust/durability/consistency/memory/cold-read design remains binding. The smoke workload and LOCAL-09 memory/crash/recovery proof are pilot gates. The reference_10m, scale_100m, hosted replicas and public-gateway behavior below are deferred options, not current implementation requirements. Do not claim unmeasured capacity.
+
 Status: required implementation direction and measurable targets, not measured capacity. This specification refines the default stack in BUILD-PROMPT-EN.txt and preserves every invariant in JOURNAL-AND-MCP.md. Both independent implementations receive the same contract.
 
 ## 1. Objective and workload
@@ -20,7 +22,7 @@ The acceptance workload and proposed latency/memory budgets are in benchmarks/pe
 
 Recommended additions: `apps/engine/` (Rust service), `crates/domain/` (pure deterministic business rules), `crates/projections/`, `crates/query/`, `crates/storage/`, a Cargo workspace and Cargo.lock. `packages/contracts/` defines shared wire schemas; generated or conformance-tested TypeScript/Rust types must agree. TypeScript application services authorize and orchestrate calls. Do not implement separate money/stock rules in TypeScript and Rust. Any TypeScript domain package is a facade/value-contract layer, not a competing financial reducer.
 
-This replaces the earlier TypeScript-only domain default. A whole-product Rust rewrite is not required. An alternative engine design needs an ADR and equivalent correctness, memory, recovery and end-to-end benchmark evidence. Rust by itself is not proof of performance; validate the boundary with a small vertical slice before building the rest of the engine. Do not spend M0 building a general-purpose database.
+This replaces the earlier TypeScript-only domain default. A whole-product Rust rewrite is not required. An alternative engine design needs an ADR and equivalent correctness, memory, recovery and end-to-end benchmark evidence. Rust by itself is not proof of performance; validate the boundary with a small vertical slice before building the rest of the engine. Do not spend P0 building a general-purpose database.
 
 ## 3. Durable write, incremental projection, atomic visibility
 
@@ -89,7 +91,7 @@ RLS cannot protect data already copied into a process. Every in-memory key, snap
 
 ## 8. Measurement contract
 
-Use the machine-readable benchmark contract. Proposed target profiles are engineering goals, not published capacity claims. Run a short development profile, a required 10-million-entry profile on documented reference hardware, and a separate 100-million-entry scale experiment. If hardware is unavailable, supply the runnable harness and report not run/blocked; do not extrapolate a pass from a smaller dataset or provision paid infrastructure without owner authorization.
+Use the machine-readable benchmark contract. Proposed target profiles are engineering goals, not published capacity claims. For the pilot run the smoke profile and local memory/recovery checks. The 10-million-entry reference and 100-million-entry scale experiment remain deferred gates for later capacity claims. If hardware is unavailable, supply the runnable harness and report not run/blocked; do not extrapolate a pass from a smaller dataset or provision paid infrastructure without owner authorization.
 
 Measure full API/MCP tool latency through authentication, authorization, serialization, internal RPC, consistency barrier, query execution and response decoding. LLM generation and public-internet latency are separate measurements, not hidden additions to the local tool SLO. Report p50/p95/p99, throughput, failure/retry rate, timeouts and correctness under concurrent ingestion. Fast rejections, stale responses and truncated partial answers do not count as successful fast queries.
 

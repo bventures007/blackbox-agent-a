@@ -1,67 +1,37 @@
-# Start the independent Blackbox build
+# Start the independent local pilot build
 
-This repository contains the full context needed to start. It is an implementation assignment for one agent, not a request to generate another proposal.
+The current assignment is **P0–P4 local pilot, then handover and stop**. The owner wants local testing and early-user feedback before choosing a hosting or distribution strategy. The former automatic M0–M5 assignment is superseded.
 
-## Owner: how to start
+## Start
 
-1. Give agent A its repository and agent B its repository. Each needs its own checkout and write access to that assigned repository. Do not share a working directory or database.
-2. Open or clone the assigned repository in the coding environment. A GitHub link alone does not grant a coding service access to a private repository; select or authorize that repository in that service if required.
-3. Paste the ordinary GO prompt from README.md. For Codex with Goal support, select `/goal` in the composer and use the text in GOAL.txt as the objective. In an interactive CLI, `/goal <objective>` is also supported. This is a chat command, not a shell command. See the [official app instructions](https://learn.chatgpt.com/docs/reference/slash-commands) and [Goals guide](https://developers.openai.com/cookbook/examples/codex/using_goals_in_codex).
-4. Give both agents comparable resource limits and test access. Do not share credentials in prompts or Git. Initial synthetic work needs no merchant account or LLM key.
-5. Review the saved comparison checkpoint and final acceptance report. Use REVIEW-PROMPT-EN.txt for an independent technical review.
-
-Nothing starts automatically just because this repository exists. The owner launches each build. No new agent run is started by this seed.
-
-## Language policy
-
-Use English for all requirements, documentation, architecture decisions, feature briefs, agent instructions, code identifiers, comments, tests, logs, API/MCP contracts and handover reports. Only the application UI and landing page require both English (default) and complete German localization. Keep machine-readable identifiers stable in English; localize product-facing text through locale resources. Preserve the original German reference UI and screenshots as design inputs; implement English and German product locales.
-
-## Agent: first actions
-
-Read the files in AGENTS.md's order, including the binding specs/JOURNAL-AND-MCP.md and specs/PERFORMANCE-ARCHITECTURE.md contracts, inspect the local visual reference, and check the environment. Record versions and available Docker/database/browser capabilities in docs/build-environment.md. Make the milestone/task checklist concrete in docs/status.md, document necessary ADRs, then immediately start implementing the smallest complete persisted path.
-
-Use reference/screenshots/README.md as the visual reading guide. It links all implemented pages, key dialog and lifecycle states, the 24 expanded questions and mobile views, and identifies product areas with no existing screen design. Inspect the original prototype for interactions; screenshots are not executable product acceptance evidence.
-
-Use specs/QUESTION-DATA-COVERAGE.md and specs/question-data-contracts.json to implement complete vertical slices: actual input fields → committed journal → Rust projection → shared query → API/MCP evidence. The capability audit identifies supplemental inputs and provider gaps. Maintain reports/question-coverage.json; all 24 positive paths must work with isolated synthetic data even when live access remains blocked.
-
-Use INTEGRATIONS.md as the central source/capability work list. Follow integrations/README.md to claim rows, record per-field mappings, implementation, actual tests and independent confirmation. Append to the work history and regenerate the overview in each affected change. Run the supplied validator; do not treat roadmap rows or a green subset as complete source coverage.
-
-The default scope is the full BUILD-PROMPT-EN.txt, milestones M0–M5. Preserve the checkpoint after M0–M3 plus local installation for comparison, then continue independent work on real adapters and operations. If a provider account is missing, build and contract-test what can be verified; document the missing live verification without presenting it as success. A complete release cannot be asserted while applicable release gates remain open.
-
-Read specs/WEB-DESKTOP-AND-DEPLOYMENT.md, specs/SOURCE-SYNCHRONIZATION.md and specs/WEBHOOK-GATEWAY.md. Full web management is mandatory; desktop is an additional required client. The optional-use gateway is part of M5 implementation, not automatically provisioned hosting. Every capability must declare and test supported/partial/unsupported connectivity modes.
-
-Read specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md before implementing source setup and answers. Its import choices/progress, central source-health views and per-answer readiness are core requirements at the comparison checkpoint; provider-specific live proof still belongs to M4 and native/gateway delivery to M5.
-
-Read specs/IDENTITY-ACCESS-AND-RECOVERY.md before auth/schema implementation. Passkeys, owner/reader memberships, separate read-only service identities, protected local CLI/browser pairing, invitations, grants and recovery are core work. The native Mac Keychain UX and real-device proof belong to M5. There is no mandatory central identity SaaS, email/password signup or additional Member role. Keep a protocol/client compatibility table and actual revocation/isolation evidence.
-
-## Milestones and visible results
-
-| Milestone | Concrete result |
-| --- | --- |
-| M0 | Written product/architecture contract, ADRs, threat model and acceptance mapping; implementation begins |
-| M1 | Real auth, two isolated tenants, PostgreSQL, durable ingestion, workers, Rust engine vertical slice, import-plan/progress setup and central source-health UI |
-| M2 | Full Golden Scenario through Rust reducers, bounded RAM state, snapshots/restarts and English/German UI and landing page |
-| M3 | Real scoped MCP with full authorized journal/history traversal, bounded structured queries, all 24 query contracts, evidence links, per-answer readiness/freshness and explicit missing-data results |
-| Comparison checkpoint | M0–M3 plus a usable local installer, reproducible tests and a recorded commit |
-| M4 | Shopify/Shopify Payments, easybill and DHL adapter work, tests and honest live-access status |
-| M5 | Mac local/remote desktop client, optional-use gateway, release profiles, fenced workspace migration, recovery/upgrade/security, 10m benchmark evidence and a separate 100m capacity experiment |
-
-The comparison checkpoint requires the local Compose installer and complete core browser workflow; native packaging and the public gateway may still be explicitly unfinished. Full release requires both.
-
-At the checkpoint, create reports/checkpoint.md with exact commit, start/test commands, environment, screenshots, acceptance status and limitations. Do not conflate this checkpoint with customer-production readiness.
-
-## Completion evidence
-
-Deliver executable source, locked dependencies, migrations, container/Compose release setup, the actual `./blackbox` wrapper, tests/CI, operating instructions and extension guides. Demonstrate a fresh install, the real persisted Order-to-Cash replay, tenant isolation, UI/MCP consistency and recovery. Maintain every acceptance ID in reports/acceptance.json with observed evidence.
-
-For every environment or provider you could not exercise, state the exact prerequisite and the smallest next verification step. A mock or an arm64 image build is not a live-provider or real-Mac test.
-
-## Optional: stop at the first comparison checkpoint
-
-Use this prompt instead of the default full-build prompt only when the owner wants to choose a foundation before funding the remaining scope:
+Give each coding agent only its assigned repository and an independent checkout/runtime. Paste:
 
 ```text
-GO. Read AGENTS.md and START-HERE.md. Implement BUILD-PROMPT-EN.txt through M0–M3 plus a working local installer. Verify the applicable core acceptance cases, record reports/checkpoint.md and reports/acceptance.json, then stop at that checkpoint. M4–M5 remain explicitly unfinished. Preserve the supplied design and use separate runtime state. Do not stop after planning or scaffolding.
+GO. Read AGENTS.md, START-HERE.md, delivery-profile.json and BUILD-PROMPT-EN.txt. Implement the local pilot P0–P4, preserving the supplied design. Verify the active acceptance cases, keep actual evidence and the central integration register current, and deliver a runnable local application plus reports/checkpoint.md. Stop at the pilot handover; defer Passkeys, SaaS, public hosting, gateways and native packaging. Complete independent work when external access is missing and report blockers honestly. Do not stop at a plan or mockup.
 ```
 
-For Goal-capable tools, the same text can be used as the objective. Use the same scope for both agents.
+For a Goal-capable coding tool use GOAL.txt as the objective. This seed does not start an agent automatically. A GitHub URL alone does not grant a coding service access to a private repo; authorize that repo in the chosen service. Do not paste credentials into prompts.
+
+## Read and begin
+
+Follow AGENTS.md's reading order. Read specs/LOCAL-PILOT.md and specs/IDENTITY-ACCESS-AND-RECOVERY.md before copying any earlier authentication or platform assumption. Inspect reference/screenshots/README.md and reference/prototype/. Record available tools/platforms in docs/build-environment.md, choose the minimum ADRs, and start a persisted slice. Use English for engineering; UI and landing page use English by default plus complete German.
+
+The first user experience is: install prerequisites, start locally, save one personal access key, open the browser, connect a source or run the example, and ask an evidence-backed question. One owner/workspace is automatic. Separate agent keys grant business read access. No Passkey, email signup, domain, employee management or native shell is required.
+
+## Milestones
+
+| Milestone | Result |
+| --- | --- |
+| P0 | Environment, minimal contracts and implementation started |
+| P1 | Local setup/key/session, workspace, PostgreSQL/outbox/worker/Rust and basic recorder |
+| P2 | Golden Scenario, 24 question paths, evidence, EN/DE UI/landing, import/readiness and RAM/restart correctness |
+| P3 | Shopify/Shopify Payments local import/poll/reconcile, supplemental producers and local read-only MCP |
+| P4 | Fresh real-Mac install, backup/restore/upgrade, smoke/memory tests, safe diagnostics, tester guide and evidence-backed handover |
+
+The required capability IDs and acceptance IDs are explicit in delivery-profile.json. The old `first_release` labels in the broad source catalogue do not expand this selection. Keep all future rows and gates visible and unstarted; do not mark them passed or proceed automatically. Missing account/platform access blocks the affected proof, not unrelated development. A restricted preview with pending live tests must be labelled accordingly.
+
+## Completion
+
+Deliver actual code, dependencies, migrations, versioned local Compose/wrapper, tests/CI and documentation. A real Apple Silicon run is distinct from building an arm64 image. A protocol test is distinct from an actual MCP-client connection. No mock proves provider access. Preserve all journal, correctness, isolation and evidence requirements selected for the pilot.
+
+Use scripts/validate-delivery-profile.py in ordinary CI and its --release gate before claiming the pilot complete. Update reports/checkpoint.md with commit, commands, resource conditions, screenshots, verified scope and blockers. Give the owner the local result and feedback guide, then stop. Later product scope needs a new owner decision.

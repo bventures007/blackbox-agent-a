@@ -60,7 +60,7 @@ The 24 supplied questions are acceptance examples and supported domain queries, 
 
 Complete access means the business data the caller is authorized to read in its tenant. It excludes other tenants, credentials, auth/session tables, internal operational secrets and unauthorized personal evidence. All tools enforce the same application authorization as the UI. No arbitrary SQL or business write/payment actions are required.
 
-Follow IDENTITY-ACCESS-AND-RECOVERY.md for owner/reader humans, separate service principals and dataset/tool/evidence/export grants. Grant restrictions apply to derived answers, aggregates, links, source-health/readiness counters and hot/cold queries as well as raw reads. A permission-limited answer must not disclose excluded values or sensitive existence details. Keep fixed data snapshot cutoffs distinct from current authorization: revocation is rechecked across pages/streams and observed within the maximum 60-second bound even for an old snapshot. Auth/security operational tables never become part of general business-schema discovery.
+Follow IDENTITY-ACCESS-AND-RECOVERY.md for the pilot owner key, sessions and separate read-only agent principals. The simple agent grant covers business records/evidence in one workspace; credential/auth/admin data remains excluded. Validate current authorization through answers, links, aggregates, health, hot/cold reads and downloads. A fixed data snapshot never preserves revoked rights: new requests fail after durable revocation acknowledgment and affected streams stop within five seconds. Fine-grained dataset grants, employee roles and multi-replica authorization are deferred.
 
 Implement the following logical capabilities. Exact names may be adjusted with a documented equivalent mapping; none of the capabilities may be omitted:
 
@@ -92,7 +92,7 @@ These are core release gates. Record actual commands, tested commit, environment
 
 ## Deployment and transport boundaries
 
-Each workspace has one canonical writable backend journal. Browser and desktop use the same authorized services. An optional gateway queues source deliveries outside that journal; its mutable queue is not a sixth business track. Gateway transport receipt is distinct from backend journal commit and Rust applied cursor. Expose source gaps/backlog independently of engine consistency in UI/MCP. Follow SOURCE-SYNCHRONIZATION.md and WEBHOOK-GATEWAY.md; a gateway does not publish a local MCP server to cloud clients.
+Each workspace has one canonical writable backend journal. The pilot browser and local MCP bridge use the same authorized services. Native clients and the gateway described below are deferred options, not pilot work. An optional gateway queues source deliveries outside that journal; its mutable queue is not a sixth business track. Gateway transport receipt is distinct from backend journal commit and Rust applied cursor. Expose source gaps/backlog independently of engine consistency in UI/MCP. Follow SOURCE-SYNCHRONIZATION.md and WEBHOOK-GATEWAY.md; a gateway does not publish a local MCP server to cloud clients.
 
 ## Import scope and answer readiness
 

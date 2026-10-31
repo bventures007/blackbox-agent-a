@@ -1,5 +1,7 @@
 # Question-to-data coverage contract
 
+> Current delivery: LOCAL-PILOT.md and ../delivery-profile.json. Preserve every question/data contract and its generalized synthetic positive/missing-data tests. Provider launch labels below describe the earlier broad platform plan; the pilot selects Shopify/Shopify Payments and supplemental local producers. easybill/DHL and other unimplemented providers remain planned, so live answers must expose their missing inputs.
+
 The central implementation and evidence work list is [INTEGRATIONS.md](../INTEGRATIONS.md). Follow [its update and verification rules](../integrations/README.md); this specification supplies requirements, while the register owns source-capability progress and confirmation.
 
 Status: **specification and public API documentation checked; software and real integrations not implemented or tested**. This supplements the existing build brief, journal/MCP and performance contracts. The original 24 question texts remain unchanged.

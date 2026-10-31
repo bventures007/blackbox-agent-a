@@ -1929,5 +1929,15 @@
       },
       "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     }
-  ]
+  ],
+  "active_pilot_providers": [
+    "shopify",
+    "shopify_payments",
+    "generic",
+    "replay",
+    "bank_csv",
+    "policy",
+    "runtime"
+  ],
+  "delivery_profile": "delivery-profile.json"
 }

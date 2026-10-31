@@ -270,20 +270,22 @@ def render(register, contract, history, states):
              '[How to use and update this register](integrations/README.md) · [Append-only work history](integrations/history.jsonl) · [Machine-readable plan](integrations/register.json)', '',
              '[Historical import and data readiness contract](specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md): date selection, older open/related items, opening state, truthful progress, source health and per-answer readiness. Every capability must provide its own mapping and test evidence. This development register is not a tenant runtime health dashboard.', '',
              'The five tracks are Source, Fact, Commitment, Movement and Reservation. They are logical journal tracks; physical SQL tables follow the journal contract. Each event uses only the applicable tracks.', '',
+             '**Active scope: local pilot.** [delivery-profile.json](delivery-profile.json) selects the required capability rows. Scope labels below preserve the broader platform plan; they do not make every first_release row a pilot requirement. Use the [local pilot contract](specs/LOCAL-PILOT.md) and its release gate. Deferred providers remain planned and unverified.', '',
              '## Source overview', '',
-             '| Source | Scope | Capabilities | Implemented | Test suites passed | Independently approved |',
-             '| --- | --- | ---: | ---: | ---: | ---: |']
+             '| Source | Pilot | Platform plan | Capabilities | Implemented | Test suites passed | Independently approved |',
+             '| --- | --- | --- | ---: | ---: | ---: | ---: |']
     for pid, provider in providers.items():
         subset = [r for r in rows if r['provider'] == pid]
         implemented = sum(bool(states[r['id']]['implementation']) for r in subset)
         tested = sum(all(k in states[r['id']]['tests'] and states[r['id']]['tests'][k]['result'] == 'passed' for k in TESTS) for r in subset)
         count = sum(approved(r, states[r['id']]) for r in subset)
-        lines.append(f"| [{cell(provider['name'])}](#source-{pid}) | {provider['release_scope']} | {len(subset)} | {implemented} | {tested} | {count} |")
+        pilot = "required" if pid in register.get("active_pilot_providers", []) else "deferred"
+        lines.append(f"| [{cell(provider['name'])}](#source-{pid}) | {pilot} | {provider['release_scope']} | {len(subset)} | {implemented} | {tested} | {count} |")
     lines += ['', '## Per-source work list', '',
               'Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement · **R** Reservation. “—” means no event in this data contract requires that track. Step counts are work claims, not test passes. Tests show the four required suites. Live evidence is separate.', '']
     for pid, provider in providers.items():
         lines += [f'<a id="source-{pid}"></a>', f"### {provider['name']}", '',
-                  f"**Scope:** {provider['release_scope']}. **Documentation:** {provider['documentation_status']}.", '',
+                  f"**Pilot:** {'required' if pid in register.get('active_pilot_providers', []) else 'deferred'}. **Platform plan:** {provider['release_scope']}. **Documentation:** {provider['documentation_status']}.", '',
                   f"**Input:** {provider['ingestion']}", '', f"**Prerequisites:** {provider['external_prerequisites']}", '']
         if provider['release_scope'] == 'roadmap':
             lines += ['All rows below are desired, unreviewed capabilities. Confirm actual provider support before implementing them; they do not expand the first-release scope.', '']

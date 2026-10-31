@@ -1,5 +1,7 @@
 # Historical import, first connection and data readiness
 
+> Current delivery: LOCAL-PILOT.md. This import/readiness contract remains required for the local browser and MCP bridge. Native/remote/gateway displays apply only if a later scope enables those modes. The automatic local workspace has one owner; read-only agent keys exercise denied import controls. No employee-management or public-hosting flow is needed.
+
 Binding owner-approved behavior for the initial connection, ongoing source management and evidence-backed answers. Implement with SOURCE-SYNCHRONIZATION.md, WEBHOOK-GATEWAY.md, JOURNAL-AND-MCP.md and the question-data contracts. All engineering material is English. Browser and desktop product copy is English by default with complete German localization. These are requirements, not implemented features or completed provider tests.
 
 ## 1. Product defaults and explicit user choices
@@ -91,7 +93,7 @@ Reducing an analysis window does not erase history. Narrowing future collection 
 
 Every row in INTEGRATIONS.md has an import/readiness investigation obligation. Its committed mapping artifact must add `import_readiness` with nonempty concrete explanations for `time_selection`, `historical_availability`, `open_and_related_records`, `opening_state`, `progress_accounting`, `readiness_rules`, `health_rules`, `history_expansion` and `data_handling`. Explain unavailable behavior and affected questions; do not copy a blanket success statement. Internal/rule/replay producers and CSV imports explain their actual trigger/scope/coverage instead of claiming a provider sync. UI-ready counts and absence claims need real adapter/projection evidence.
 
-The existing contract/pipeline/recovery/tenant/live evidence must exercise the applicable import and health behaviors, with exact run/plan IDs, source restrictions, changed values and query IDs. Keep actor/time/commit/test/reviewer history; creating this specification is not implementation evidence. Use provider-shaped local test servers for all core cases without real credentials. Launch-adapter live verification belongs to M4, native parity and public gateway proof to M5. All new core behavior is required at the M0–M3 plus local-installer comparison checkpoint; the existing gateway/native milestone split stays intact.
+The existing contract/pipeline/recovery/tenant/live evidence must exercise the applicable import and health behaviors, with exact run/plan IDs, source restrictions, changed values and query IDs. Keep actor/time/commit/test/reviewer history; creating this specification is not implementation evidence. Use provider-shaped local test servers for all core cases without real credentials. In the active pilot, import/readiness is P2 and selected Shopify/Shopify Payments live proof is P3; real local installation/recovery is P4. Native parity, gateway proof and additional launch adapters are deferred. Follow delivery-profile.json rather than the superseded M0–M5 milestone split.
 
 Use local, non-sensitive measurements to evaluate time to first evidence-backed useful answer and onboarding completion. Future opt-in adoption analytics may evaluate return usage; do not transmit tenant data or add an external analytics dependency by default. These are product-learning measures, not achieved adoption or latency claims.
 

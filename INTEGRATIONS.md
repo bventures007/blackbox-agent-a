@@ -14,32 +14,34 @@ This is the central work list. Planned support is not a working connection. An a
 
 The five tracks are Source, Fact, Commitment, Movement and Reservation. They are logical journal tracks; physical SQL tables follow the journal contract. Each event uses only the applicable tracks.
 
+**Active scope: local pilot.** [delivery-profile.json](delivery-profile.json) selects the required capability rows. Scope labels below preserve the broader platform plan; they do not make every first_release row a pilot requirement. Use the [local pilot contract](specs/LOCAL-PILOT.md) and its release gate. Deferred providers remain planned and unverified.
+
 ## Source overview
 
-| Source | Scope | Capabilities | Implemented | Test suites passed | Independently approved |
-| --- | --- | ---: | ---: | ---: | ---: |
-| [Shopify](#source-shopify) | first_release | 8 | 0 | 0 | 0 |
-| [Shopify Payments](#source-shopify_payments) | first_release | 6 | 0 | 0 | 0 |
-| [easybill](#source-easybill) | first_release | 3 | 0 | 0 | 0 |
-| [DHL Unified Tracking](#source-dhl) | first_release | 1 | 0 | 0 | 0 |
-| [Validated bank statement CSV](#source-bank_csv) | first_release | 1 | 0 | 0 | 0 |
-| [Signed typed business-event API](#source-generic) | first_release | 25 | 0 | 0 | 0 |
-| [Deterministic synthetic replay](#source-replay) | first_release | 25 | 0 | 0 | 0 |
-| [Versioned workspace rules](#source-policy) | first_release | 1 | 0 | 0 | 0 |
-| [Shopware 6](#source-shopware) | roadmap | 8 | 0 | 0 | 0 |
-| [WooCommerce](#source-woocommerce) | roadmap | 6 | 0 | 0 | 0 |
-| [Mailbox](#source-email) | roadmap | 3 | 0 | 0 | 0 |
-| [Lexware Office](#source-lexware) | roadmap | 3 | 0 | 0 | 0 |
-| [sevdesk](#source-sevdesk) | roadmap | 3 | 0 | 0 | 0 |
-| [Billbee](#source-billbee) | roadmap | 5 | 0 | 0 | 0 |
-| [Sufio](#source-sufio) | roadmap | 3 | 0 | 0 | 0 |
-| [Stripe standalone account](#source-stripe) | roadmap | 7 | 0 | 0 | 0 |
-| [PayPal](#source-paypal) | roadmap | 7 | 0 | 0 | 0 |
-| [Mollie](#source-mollie) | roadmap | 7 | 0 | 0 | 0 |
-| [DPD](#source-dpd) | roadmap | 1 | 0 | 0 | 0 |
-| [UPS](#source-ups) | roadmap | 1 | 0 | 0 | 0 |
-| [Klaviyo](#source-klaviyo) | roadmap | 1 | 0 | 0 | 0 |
-| [Internal ingestion and identity services](#source-runtime) | first_release | 2 | 0 | 0 | 0 |
+| Source | Pilot | Platform plan | Capabilities | Implemented | Test suites passed | Independently approved |
+| --- | --- | --- | ---: | ---: | ---: | ---: |
+| [Shopify](#source-shopify) | required | first_release | 8 | 0 | 0 | 0 |
+| [Shopify Payments](#source-shopify_payments) | required | first_release | 6 | 0 | 0 | 0 |
+| [easybill](#source-easybill) | deferred | first_release | 3 | 0 | 0 | 0 |
+| [DHL Unified Tracking](#source-dhl) | deferred | first_release | 1 | 0 | 0 | 0 |
+| [Validated bank statement CSV](#source-bank_csv) | required | first_release | 1 | 0 | 0 | 0 |
+| [Signed typed business-event API](#source-generic) | required | first_release | 25 | 0 | 0 | 0 |
+| [Deterministic synthetic replay](#source-replay) | required | first_release | 25 | 0 | 0 | 0 |
+| [Versioned workspace rules](#source-policy) | required | first_release | 1 | 0 | 0 | 0 |
+| [Shopware 6](#source-shopware) | deferred | roadmap | 8 | 0 | 0 | 0 |
+| [WooCommerce](#source-woocommerce) | deferred | roadmap | 6 | 0 | 0 | 0 |
+| [Mailbox](#source-email) | deferred | roadmap | 3 | 0 | 0 | 0 |
+| [Lexware Office](#source-lexware) | deferred | roadmap | 3 | 0 | 0 | 0 |
+| [sevdesk](#source-sevdesk) | deferred | roadmap | 3 | 0 | 0 | 0 |
+| [Billbee](#source-billbee) | deferred | roadmap | 5 | 0 | 0 | 0 |
+| [Sufio](#source-sufio) | deferred | roadmap | 3 | 0 | 0 | 0 |
+| [Stripe standalone account](#source-stripe) | deferred | roadmap | 7 | 0 | 0 | 0 |
+| [PayPal](#source-paypal) | deferred | roadmap | 7 | 0 | 0 | 0 |
+| [Mollie](#source-mollie) | deferred | roadmap | 7 | 0 | 0 | 0 |
+| [DPD](#source-dpd) | deferred | roadmap | 1 | 0 | 0 | 0 |
+| [UPS](#source-ups) | deferred | roadmap | 1 | 0 | 0 | 0 |
+| [Klaviyo](#source-klaviyo) | deferred | roadmap | 1 | 0 | 0 | 0 |
+| [Internal ingestion and identity services](#source-runtime) | required | first_release | 2 | 0 | 0 | 0 |
 
 ## Per-source work list
 
@@ -48,7 +50,7 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 <a id="source-shopify"></a>
 ### Shopify
 
-**Scope:** first_release. **Documentation:** reviewed.
+**Pilot:** required. **Platform plan:** first_release. **Documentation:** reviewed.
 
 **Input:** GraphQL Admin API: paginated backfill and reconciliation; verified HTTPS webhooks trigger durable receipt and re-fetch. Pin an API version and fixture schema; consume all nested pages.
 
@@ -56,14 +58,14 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [shopify.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -115,13 +117,21 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify.returns / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify.receipts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify.orders / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify.stock / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify.allocations / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify.fulfillments / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify.payments / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify.returns / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify.receipts / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify.refunds / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
 
 </details>
 
 <a id="source-shopify_payments"></a>
 ### Shopify Payments
 
-**Scope:** first_release. **Documentation:** reviewed.
+**Pilot:** required. **Platform plan:** first_release. **Documentation:** reviewed.
 
 **Input:** Query ShopifyPaymentsAccount balanceTransactions, payouts and disputes with pagination; reconcile provider balances independently of order ingestion.
 
@@ -129,12 +139,12 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [shopify_payments.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify_payments.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify_payments.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify_payments.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify_payments.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopify_payments.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify_payments.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify_payments.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify_payments.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify_payments.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify_payments.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopify_payments.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -178,13 +188,19 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify_payments.holds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify_payments.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify_payments.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify_payments.provider_ledger / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify_payments.positions / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify_payments.payouts / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify_payments.holds / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify_payments.refunds / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopify_payments.disputes / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
 
 </details>
 
 <a id="source-easybill"></a>
 ### easybill
 
-**Scope:** first_release. **Documentation:** reviewed.
+**Pilot:** deferred. **Platform plan:** first_release. **Documentation:** reviewed.
 
 **Input:** GET /documents and /documents/{id}; /document-payments; /post-boxes; document versions where available. Reconcile edited_at with overlap and stable page handling. Webhook notifications can trigger authenticated re-fetch; verify the documented signature scheme before trusting payloads.
 
@@ -192,9 +208,9 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [easybill.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [easybill.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [easybill.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [easybill.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [easybill.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [easybill.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -226,13 +242,16 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | easybill.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | easybill.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | easybill.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | easybill.invoices / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | easybill.invoice_dispatch / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | easybill.payment_allocations / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-dhl"></a>
 ### DHL Unified Tracking
 
-**Scope:** first_release. **Documentation:** reviewed.
+**Pilot:** deferred. **Platform plan:** first_release. **Documentation:** reviewed.
 
 **Input:** GET https://api-eu.dhl.com/track/shipments?trackingNumber=... for known shop shipment references; optional authorized push subscriptions with reconciliation. Back off and stop/slow polling terminal shipments according to the actual contract.
 
@@ -240,7 +259,7 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [dhl.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [dhl.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -264,13 +283,14 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | dhl.tracking / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | dhl.tracking / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | dhl.tracking / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-bank_csv"></a>
 ### Validated bank statement CSV
 
-**Scope:** first_release. **Documentation:** internal_contract_required.
+**Pilot:** required. **Platform plan:** first_release. **Documentation:** internal_contract_required.
 
 **Input:** Authorized upload -> versioned mapping/validation -> durable import records -> same journal/outbox/engine path.
 
@@ -278,7 +298,7 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [bank_csv.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [bank_csv.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -302,13 +322,14 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | bank_csv.bank / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | bank_csv.bank / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | bank_csv.bank / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
 
 </details>
 
 <a id="source-generic"></a>
 ### Signed typed business-event API
 
-**Scope:** first_release. **Documentation:** internal_contract_required.
+**Pilot:** required. **Platform plan:** first_release. **Documentation:** internal_contract_required.
 
 **Input:** Versioned authenticated event envelope with idempotency key, tenant-bound connection, source identity, occurred_at and typed payload.
 
@@ -316,31 +337,31 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [generic.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [generic.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [generic.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -460,13 +481,38 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.identity / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.orders / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.stock / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.allocations / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.supply / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.promises / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.fulfillments / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.tracking / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.communications / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.invoices / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.invoice_dispatch / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.payments / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.payment_allocations / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.policy / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.cases / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.provider_ledger / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.positions / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.payouts / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.bank / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.holds / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.returns / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.receipts / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.entitlements / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.refunds / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.disputes / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | generic.identity / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
 
 </details>
 
 <a id="source-replay"></a>
 ### Deterministic synthetic replay
 
-**Scope:** first_release. **Documentation:** internal_contract_required.
+**Pilot:** required. **Platform plan:** first_release. **Documentation:** internal_contract_required.
 
 **Input:** Replay typed observations through the same tenant-scoped ingestion path.
 
@@ -474,31 +520,31 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [replay.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [replay.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -618,13 +664,38 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.identity / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.orders / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.stock / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.allocations / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.supply / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.promises / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.fulfillments / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.tracking / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.communications / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.invoices / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.invoice_dispatch / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.payments / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.payment_allocations / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.policy / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.cases / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.provider_ledger / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.positions / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.payouts / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.bank / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.holds / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.returns / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.receipts / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.entitlements / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.refunds / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.disputes / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.identity / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
 
 </details>
 
 <a id="source-policy"></a>
 ### Versioned workspace rules
 
-**Scope:** first_release. **Documentation:** internal_contract_required.
+**Pilot:** required. **Platform plan:** first_release. **Documentation:** internal_contract_required.
 
 **Input:** Authorized settings/import appends rule-change evidence; runtime query reads the version effective at its cutoff.
 
@@ -632,7 +703,7 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [policy.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [policy.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -656,13 +727,14 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | policy.policy / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | policy.policy / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | policy.policy / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
 
 </details>
 
 <a id="source-shopware"></a>
 ### Shopware 6
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -672,14 +744,14 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [shopware.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopware.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopware.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopware.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopware.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopware.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopware.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [shopware.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopware.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopware.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopware.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopware.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopware.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopware.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopware.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [shopware.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -731,13 +803,21 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopware.returns / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopware.receipts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopware.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopware.orders / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopware.stock / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopware.allocations / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopware.fulfillments / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopware.payments / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopware.returns / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopware.receipts / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | shopware.refunds / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-woocommerce"></a>
 ### WooCommerce
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -747,12 +827,12 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [woocommerce.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [woocommerce.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [woocommerce.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [woocommerce.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [woocommerce.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [woocommerce.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [woocommerce.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [woocommerce.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [woocommerce.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [woocommerce.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [woocommerce.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [woocommerce.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -796,13 +876,19 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | woocommerce.payments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | woocommerce.returns / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | woocommerce.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | woocommerce.orders / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | woocommerce.stock / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | woocommerce.fulfillments / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | woocommerce.payments / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | woocommerce.returns / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | woocommerce.refunds / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-email"></a>
 ### Mailbox
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -812,9 +898,9 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [email.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [email.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [email.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [email.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [email.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [email.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -846,13 +932,16 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | email.promises / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | email.communications / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | email.cases / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | email.promises / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | email.communications / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | email.cases / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-lexware"></a>
 ### Lexware Office
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -862,9 +951,9 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [lexware.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [lexware.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [lexware.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [lexware.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [lexware.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [lexware.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -896,13 +985,16 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | lexware.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | lexware.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | lexware.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | lexware.invoices / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | lexware.invoice_dispatch / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | lexware.payment_allocations / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-sevdesk"></a>
 ### sevdesk
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -912,9 +1004,9 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [sevdesk.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [sevdesk.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [sevdesk.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [sevdesk.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [sevdesk.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [sevdesk.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -946,13 +1038,16 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sevdesk.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sevdesk.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sevdesk.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | sevdesk.invoices / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | sevdesk.invoice_dispatch / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | sevdesk.payment_allocations / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-billbee"></a>
 ### Billbee
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -962,11 +1057,11 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [billbee.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [billbee.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [billbee.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [billbee.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [billbee.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [billbee.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [billbee.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [billbee.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [billbee.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [billbee.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -1006,13 +1101,18 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | billbee.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | billbee.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | billbee.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | billbee.orders / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | billbee.fulfillments / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | billbee.invoices / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | billbee.invoice_dispatch / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | billbee.payment_allocations / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-sufio"></a>
 ### Sufio
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -1022,9 +1122,9 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [sufio.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [sufio.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [sufio.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [sufio.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [sufio.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [sufio.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -1056,13 +1156,16 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sufio.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sufio.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sufio.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | sufio.invoices / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | sufio.invoice_dispatch / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | sufio.payment_allocations / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-stripe"></a>
 ### Stripe standalone account
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -1072,13 +1175,13 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [stripe.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [stripe.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [stripe.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [stripe.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [stripe.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [stripe.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [stripe.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [stripe.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [stripe.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [stripe.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [stripe.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [stripe.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [stripe.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [stripe.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -1126,13 +1229,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | stripe.holds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | stripe.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | stripe.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | stripe.payments / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | stripe.provider_ledger / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | stripe.positions / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | stripe.payouts / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | stripe.holds / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | stripe.refunds / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | stripe.disputes / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-paypal"></a>
 ### PayPal
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -1142,13 +1252,13 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [paypal.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [paypal.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [paypal.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [paypal.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [paypal.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [paypal.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [paypal.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [paypal.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [paypal.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [paypal.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [paypal.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [paypal.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [paypal.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [paypal.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -1196,13 +1306,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | paypal.holds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | paypal.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | paypal.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | paypal.payments / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | paypal.provider_ledger / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | paypal.positions / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | paypal.payouts / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | paypal.holds / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | paypal.refunds / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | paypal.disputes / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-mollie"></a>
 ### Mollie
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -1212,13 +1329,13 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [mollie.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [mollie.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [mollie.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [mollie.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [mollie.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [mollie.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
-| [mollie.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [mollie.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [mollie.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [mollie.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [mollie.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [mollie.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [mollie.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
+| [mollie.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -1266,13 +1383,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | mollie.holds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | mollie.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | mollie.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | mollie.payments / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | mollie.provider_ledger / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | mollie.positions / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | mollie.payouts / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | mollie.holds / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | mollie.refunds / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | mollie.disputes / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-dpd"></a>
 ### DPD
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -1282,7 +1406,7 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [dpd.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [dpd.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -1306,13 +1430,14 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | dpd.tracking / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | dpd.tracking / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | dpd.tracking / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-ups"></a>
 ### UPS
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -1322,7 +1447,7 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [ups.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [ups.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -1346,13 +1471,14 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | ups.tracking / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | ups.tracking / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | ups.tracking / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-klaviyo"></a>
 ### Klaviyo
 
-**Scope:** roadmap. **Documentation:** not_audited.
+**Pilot:** deferred. **Platform plan:** roadmap. **Documentation:** not_audited.
 
 **Input:** Adapter, fields, scopes, account eligibility, backfill and lifecycle semantics still need a separate capability mapping.
 
@@ -1362,7 +1488,7 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [klaviyo.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [klaviyo.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -1386,13 +1512,14 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | klaviyo.communications / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | klaviyo.communications / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | klaviyo.communications / plan_changed |   Deferred from the local pilot. Preserve this source capability and prior research/history as a future option; no live support, completed implementation or test result is claimed. New scope requires an owner decision after local feedback. | —;  |
 
 </details>
 
 <a id="source-runtime"></a>
 ### Internal ingestion and identity services
 
-**Scope:** first_release. **Documentation:** internal_contract_required.
+**Pilot:** required. **Platform plan:** first_release. **Documentation:** internal_contract_required.
 
 **Input:** Server-owned ingestion, reconciliation, import and identity-review checkpoints. Not a merchant connector or public capability to declare arbitrary completeness.
 
@@ -1400,8 +1527,8 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [runtime.coverage](#data-coverage) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
-| [runtime.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [runtime.coverage](#data-coverage) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [runtime.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
 
 #### Synchronization by capability
 
@@ -1429,6 +1556,8 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | runtime.identity / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | runtime.coverage / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 | 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | runtime.identity / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | runtime.coverage / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | runtime.identity / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
 
 </details>
 

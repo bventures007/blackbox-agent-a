@@ -1,5 +1,7 @@
 # Connector capability audit for the question catalogue
 
+> Current delivery: LOCAL-PILOT.md and ../delivery-profile.json selects the pilot capability rows. The provider research and larger launch labels below are preserved reference, not automatic implementation scope. Shopify/Shopify Payments and supplemental producers are current; easybill/DHL and other providers are deferred. All permission, evidence and retention constraints still apply before any later live ingestion.
+
 The central implementation and evidence work list is [INTEGRATIONS.md](../INTEGRATIONS.md). Follow [its update and verification rules](../integrations/README.md); this specification supplies requirements, while the register owns source-capability progress and confirmation.
 
 Reviewed on 2026-10-31 against the public sources linked below. The implementation repository still contains specifications and a static prototype. **No merchant API credentials were used, no live business API calls were made and no connector is implemented by this audit.** Public schema inspection is not account, integration or end-to-end verification.

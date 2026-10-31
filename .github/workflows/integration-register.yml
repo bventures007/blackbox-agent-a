@@ -17,6 +17,7 @@ jobs:
         run: |
           python3 scripts/validate-question-catalogue.py
           python3 scripts/integration-register.py check
+          python3 scripts/validate-delivery-profile.py
           if [ -n "$BASE_SHA" ] && git cat-file -e "$BASE_SHA:integrations/history.jsonl" 2>/dev/null; then
             python3 scripts/integration-register.py check --base "$BASE_SHA"
           fi

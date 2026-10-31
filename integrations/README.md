@@ -1,5 +1,7 @@
 # Working with the central integration register
 
+**Current assignment: local pilot.** [delivery-profile.json](../delivery-profile.json) selects 68 required rows: Shopify/Shopify Payments, generic/replay/bank/policy/runtime. The 127-row catalogue and its legacy `first_release` labels preserve the larger platform plan; easybill/DHL and other providers are deferred. Use `python3 scripts/validate-delivery-profile.py --release` for the pilot gate. The existing register `--release` remains the broader future-platform gate. Both require real evidence and are intentionally blocked on this seed.
+
 Open **[INTEGRATIONS.md](../INTEGRATIONS.md)** to review progress as a human. It is the central source-by-source work list, with a five-track matrix and links to the exact required data. The file renders directly on GitHub; no application, database or spreadsheet software is needed.
 
 The owner can give an agent this instruction:
@@ -31,7 +33,7 @@ Every data family names its applicable Source, Fact, Commitment, Movement and Re
 
 Reuse shared infrastructure and tests. Each row must link the code and cases proving that this capability actually uses it. An unrelated successful shared test cannot certify every adapter.
 
-Apply [the identity/access contract](../specs/IDENTITY-ACCESS-AND-RECOVERY.md) to shared authorization and each capability's pipeline/tenant evidence. Exercise a human owner, restricted reader and separately scoped read-only agent; provider/worker/gateway credentials are distinct. Verify denial through derived answers, evidence, exports, source health and hot/cold reads, including revocation. The platform operator has no automatic tenant read access. This adds shared authorization proof obligations without claiming connector implementation or changing provider API capability plans.
+Apply [the identity/access contract](../specs/IDENTITY-ACCESS-AND-RECOVERY.md) to shared authorization and each capability's pipeline/tenant evidence. For the pilot exercise the human owner, two separate read-only agent principals and an unauthorized second synthetic tenant; provider/worker/generic-producer credentials are distinct. Employee and fine-grained grants are deferred. Verify denial through derived answers, evidence, exports, source health and hot/cold reads, including revocation. No platform-operator mode is required by the local pilot. This adds shared authorization proof obligations without claiming connector implementation or changing provider API capability plans.
 
 ## Required verification
 
@@ -124,4 +126,10 @@ A plan change requires appended `plan_changed` history for each affected row. Th
 
 Each row now has an `import_readiness_plan` investigation obligation. The generated source overview includes an expandable import/readiness section. The committed mapping must provide every `import_readiness` explanation above; the validator rejects missing/blank mappings. For provider sources, verify the actual timestamp/filter/history/grant semantics and accessible older open/related context. CSV and internal producers describe their real coverage and trigger instead of pretending to have a continuously synchronized provider.
 
-Use existing contract/pipeline/recovery/tenant and applicable live evidence to prove the relevant IMPORT/HEALTH behaviors, with logical record counts, plan/run IDs, coverage intervals, missing prerequisites, actual query cutoffs and successful-sync versus new-event timestamps. A coherent explanation is not evidence of a successful import. Reviewers inspect the actual UI/API/MCP outcomes and source restrictions. Existing release gates and actor/commit/test/independence rules remain unchanged. The development register does not replace the product's per-tenant runtime Sources dashboard.
+Use existing contract/pipeline/recovery/tenant and applicable live evidence to prove the relevant IMPORT/HEALTH behaviors, with logical record counts, plan/run IDs, coverage intervals, missing prerequisites, actual query cutoffs and successful-sync versus new-event timestamps. A coherent explanation is not evidence of a successful import. Reviewers inspect the actual UI/API/MCP outcomes and source restrictions. Actor/commit/test/independence rules remain unchanged; delivery-profile.json now selects which rows and product gates apply to the local pilot. The development register does not replace the product's per-tenant runtime Sources dashboard.
+
+## Pilot applicability and release evidence
+
+Run `python3 scripts/validate-delivery-profile.py` in ordinary CI. Its `--release` option requires active acceptance results with committed evidence, code/contract freshness and independent approval of every selected capability row. Record LOCAL-10 from ordinary/adversarial gate verification; the final aggregate release invocation is a separate handover check so its own pass report is not circular. The checker validates records, not the truth of test execution; reproduce them in independent review.
+
+Mappings still enumerate all three modes. In this pilot, gateway/public modes are unsupported/deferred, have no active methods and explain that their implementation is out of scope. Contract tests verify those declarations and refusals; pipeline/recovery/tenant/live runs exercise local_standalone where supported. This does not require gateway infrastructure or public callback provisioning. Do not mark unsupported capability support as passed merely to finish a row.

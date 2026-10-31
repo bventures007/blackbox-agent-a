@@ -1,106 +1,28 @@
-BLACKBOX — ARCHITECTURE AND DELIVERY APPROACH
-As of 2026-10-31. Proposal and build contract; production software has not been implemented.
+BLACKBOX — LOCAL PILOT ARCHITECTURE
+Version 2.0 · Owner-approved local-first delivery. No production app has been implemented by this seed.
 
-1. The central decision
-One product, one data model, one repository per independent implementation, three deployment modes: hosted SaaS, a customer's Linux server, and local use on a Mac. Deployment mode changes configuration and infrastructure, not business rules. Local installations retain tenant isolation.
+The current scope is specs/LOCAL-PILOT.md and delivery-profile.json: P0–P4, then handover and stop for feedback. Future hosting, SaaS, native clients and Passkeys are options, not automatic next milestones. Preserve a modular foundation without implementing their infrastructure now.
 
-The existing prototype is the visual and interaction reference. It currently stores workspace/source selections in the browser, simulates events, and has no real MCP server. Its example data does not demonstrate live provider integrations. The new software needs a persistent backend core.
+One local release contains React/Vite UI and landing page served by Fastify, a TypeScript API/auth/MCP layer and connector worker, a Rust business/query engine, PostgreSQL and local evidence storage. Compose/wrapper commands start it on the user's Mac. Only the authenticated web/API loopback port is exposed. Native packaging is not needed for the pilot. Document prerequisites and prove an actual Apple Silicon install, not just image compilation.
 
-All engineering material is English: requirements, architecture, documentation, feature briefs, agent instructions, code identifiers, comments, tests, logs, API/MCP contracts and handover reports. The application UI and landing page are English by default and also fully available in German. Translate product-facing text through locale resources, not business identifiers or contracts. Existing German prototype screens are visual/copy references only.
+One automatic workspace/owner uses a CSPRNG-generated personal bearer login key. A normal browser session avoids repeated key entry. Authentication is not data encryption; a protected host-only reset replaces lost access without deleting business data. Read-only agents have distinct named keys/principals. Use maintained random/verifier/session components and a replaceable authentication boundary. Defer passkeys, employee invites, remote OAuth and fine-grained permission editors. See specs/IDENTITY-ACCESS-AND-RECOVERY.md for exact bootstrap/session/revocation/reset tests.
 
-2. Technical recommendation
-Use TypeScript for React/Vite, Fastify, authentication, connector transport and MCP transport. Add a Rust engine for canonical business reducers, incremental projections, compact bounded in-memory indexes and fast queries. PostgreSQL stores the durable journal, relationships, checkpoints, persistent projections and jobs; indexed historical reads remain available. Use Drizzle with explicit SQL migrations and pg-boss as the proposed job library. UI and MCP call the same authorized application services and Rust engine. See specs/PERFORMANCE-ARCHITECTURE.md and benchmarks/performance-contract.json for the binding contract and unproven performance targets.
+Keep tenant_id, composite references, validated service/RPC scope, real RLS and protected API/worker DB roles, tenant-aware in-memory keys and actual adversarial two-tenant fixtures. One visible local workspace is a UX choice, not permission to use global unscoped state. Credentials, identity and operational records are separate from the five business tracks. These boundaries make later deployment work possible; they do not certify SaaS readiness.
 
-This is one modular product with clearly separated business modules. API, worker and internal Rust engine are separate processes; API/worker replicas and tenant-partitioned engines can be added as measured load requires. Keep the initial operating footprint small. Store objects and evidence through a storage interface: a persistent local volume by default, optionally S3-compatible storage for SaaS. Choose maintained self-hostable passkey/session/OAuth components under specs/IDENTITY-ACCESS-AND-RECOVERY.md; validate human web/MCP and unattended-service authorization separately. No external identity provider or mail service is mandatory.
+Sources, Facts, Commitments, Movements and Reservations are linked views over the canonical immutable journal. Runtime roles cannot update/delete/truncate committed journal payloads/links. Corrections/reversals append; mutable projections/jobs/auth are separate. Sensitive raw evidence has a distinct, explicit retention/redaction policy. Preserve exact money/quantity semantics and evidence lineage. A host administrator remains outside the application tamper-resistance boundary.
 
-Vite output is a production build; the Vite preview server is not a production server. Source: https://vite.dev/guide/static-deploy.html
-pg-boss provides PostgreSQL-backed jobs. Handlers may run repeatedly; business idempotency remains an application responsibility. Source: https://pgboss.io/introduction
+The write/read path is verified input -> durable PostgreSQL journal/outbox -> idempotent Rust reducer/projection/checkpoint -> consistent bounded RAM state -> authorized API/MCP answer. Do not independently dual-write RAM and PostgreSQL. The same Rust money/stock rules serve UI and MCP. Use direct scoped entity indexes, bounded queries and indexed cold history. Recovery loads a compatible snapshot/projection plus committed tail; corruption falls back to replay. Source freshness, durable commit and applied cursor are distinct. All 24 query contracts and broader history traversal remain required.
 
-3. The five tracks
-Sources: original observations with provenance.
-Facts: deterministically derived or confirmed statements with evidence.
-Commitments: promises and outstanding obligations.
-Movements: recorded changes in quantities or money.
-Reservations: holds that affect availability.
+The first real adapters are Shopify/Shopify Payments, using supported outbound initial import, polling and reconciliation. Signed typed generic input, replay, bank CSV, policy and internal producers make full synthetic Order-to-Cash behavior reproducible. Provider authorization/account limits remain explicit. easybill/DHL and other cards stay planned; absence of their live data produces partial answers rather than fabricated invoices/shipments. No gateway/public callback or tunnel is required. Future provider ingestion still must honor retention/use requirements.
 
-The tracks are views over a connected data model. One piece of evidence can contribute to several views without counting its money more than once. An invoice payment marker is not another customer payment; a payout is not new revenue; a credit note is not a completed refund.
+Default import is last 30 days plus disclosed accessible older open/related context, with fixed date choices, snapshots, ongoing collection and later expansion. A shared authorized service drives onboarding, Sources/details and every answer's readiness. Distinguish loaded/committed/query-ready counts, successful checks versus new events, requested versus verified history, and engine lag versus upstream gaps. Import/view/RAM/retention are independent choices.
 
-The canonical journal is append-only, enforced against UPDATE, DELETE and TRUNCATE by runtime roles. Corrections extend the history and current views are recalculated. Mutable projections and job/authentication state remain separate. Sensitive raw evidence is stored outside the journal and may follow an authorized retention/redaction workflow with an appended audit entry. The journal must not be silently pruned. See specs/JOURNAL-AND-MCP.md for the data structure, enforcement, operator trust boundary and retention distinction. This is a product requirement, not a claim of legal compliance.
+Use maintained MCP SDK stdio through an authenticated local bridge sharing the query service. Agent keys permit workspace business/evidence reads, never owner administration or arbitrary SQL. Test a protocol client and record actual local-client compatibility separately. Public cloud agents do not gain access to loopback automatically; remote OAuth/routing is deferred.
 
-AI may phrase answers or extract candidates. Amounts, availability, entity links and answers must be supported by traceable rules and evidence. Expose missing, stale or contradictory data. The product can give defensible answers from available evidence; it cannot guarantee absolute truth.
+Measure the 250k-entry smoke profile under actual declared Mac/container hardware, with realistic five-track data, concurrent ingestion, hot/cold reads, current authorization and bounded memory/recovery tests. Keep exact corpus and resources comparable between A/B builds. The 10m/100m contracts are preserved for later evaluation; do not claim those capacities without measurements or build HA solely for a future benchmark.
 
-4. Multi-tenancy from the start
-A tenant initially corresponds to a workspace/company. Users can hold roles in multiple workspaces. Connections, events, files, jobs, search results, exports and MCP access are restricted to the authorized tenant.
+Dependency direction: domain <- application <- adapters/entrypoints. Keep TypeScript orchestration, Rust canonical rules, versioned cross-language schemas, source manifests/fixtures and shared question contracts separate. Use Drizzle/reviewed SQL, PostgreSQL-backed jobs, pnpm/Cargo lockfiles and pinned versions/licenses. No required Kafka/Redis/Kubernetes/vector DB/proprietary control plane. Add material ADRs, not a framework project.
 
-The two human roles are owner (Owner / Administrator) and reader. Agents/services have distinct scoped read-only principals, not administrator sessions. The platform operator has no implicit tenant business access. Identity, membership, client consent, grant and credential are separate records. Protected device enrollment enables immediate local opening; remote servers use passkeys. People & agents manages invitation, datasets/tools/evidence/export grants, expiry, last use and revocation. Recovery codes/additional authenticators and last-owner protection are required. Revocation is durable and observed across all replicas/read paths within 60 seconds maximum; authorization failures cannot be hidden for performance. The binding identity contract also defines safe local bootstrap, RP-bound credentials and scoped migration/restore.
+P0 selects minimal contracts and starts implementation; P1 produces the local persisted slice; P2 proves business/query/UI/import/restart behavior; P3 connects local agents and initial real sources; P4 proves local install/backup/restore/upgrade/performance and hands over. Preserve current acceptance/evidence and the source work register. A restricted preview with blockers is not an unqualified pilot pass, and a verified local pilot is not a public SaaS certification. Both agents stop at this same scope for comparison.
 
-Enforce the boundary in both application services and PostgreSQL. RLS alone is not automatically sufficient: table owners and BYPASSRLS roles can bypass policies. Use separate migration roles, protected application roles, tenant-scoped constraints and tests with the actual production roles. Source: https://www.postgresql.org/docs/current/ddl-rowsecurity.html
-
-Start with a shared database using tenant_id and RLS. A separate database per large customer can become a later deployment option; it is not required for version one. Per-tenant workload limits prevent a large import from blocking other tenants.
-
-5. Easy extension
-apps/ contains the shared web UI, desktop shell, API, worker, Rust engine and separately deployable webhook gateway. A workspace has one writable canonical journal at its selected backend; desktop/browser share authorized services and never own independent business replicas.
-crates/domain/ contains the canonical pure Rust business rules; crates/projections/, crates/query/ and crates/storage/ support the engine.
-packages/domain/ may contain a typed facade but must not duplicate financial or stock calculations.
-packages/application/ contains authorized use cases.
-packages/connectors/ contains isolated source adapters.
-packages/contracts/ contains shared versioned data contracts.
-packages/database/ contains tables, migrations and access policies.
-packages/mcp/ contains the agent interface.
-features/ contains plain-English founder ideas and acceptance examples.
-specs/ contains implementable specifications.
-experiments/ contains experiments disabled by default.
-tests/, fixtures/, scripts/, infra/ and docs/ make quality and operations reproducible.
-
-A new source needs configuration, capabilities, an adapter, sample payloads and contract tests. A new business question needs inputs, a domain query, evidence, error/missing-data behavior and tests. Both should be possible without changing central financial rules or growing a single catch-all script.
-
-The founder describes an idea using the feature template, and the agent turns it into a small, testable change. An experiment runs in an isolated demo workspace behind a feature flag. Permanent business rules still require a data contract and tests.
-
-6. Implementation sequence
-M0: product contract, fixed boundaries, architecture decisions and acceptance matrix.
-M1: login, two tenants, real persistence, job processing, source health and recorder.
-M2: complete synthetic Order-to-Cash cycle through Rust reducers, evidence, bounded RAM state, snapshot/tail recovery, replay and English/German UI and landing page.
-M3: real read-only MCP with full authorized journal/history access and bounded structured queries; all 24 questions have a defined data contract and return either evidence-backed results or explicit missing-data explanations.
-M4: real sources for the initial Shopify pilot: Shopify and Shopify Payments, one invoice provider (proposed: easybill), and one carrier (proposed: DHL). Verify API access, merchant agreements, permissions and test accounts.
-M5: Mac desktop local/remote client, optional-use public webhook gateway, installation profiles, Linux/Mac verification, fenced workspace migration, backups/restore, upgrade rehearsal, required 10-million-entry performance validation, separately labeled 100-million-entry experiment and independent acceptance.
-
-For two agents, M0–M3 plus local installation is the first fair comparison point. Both can then continue M4–M5. Select and improve one foundation after comparison; do not blindly merge the implementations.
-
-Additional connectors follow later. The prototype may display them as planned sources but must not present simulations as live integrations. Xentral remains removed. Shipping providers remain ordinary sources. Klaviyo is optional.
-
-Shopify documents a lack of event-ordering guarantees and recommends regular reconciliation alongside webhooks. Source: https://shopify.dev/docs/apps/build/webhooks
-Different IDs are relevant for Shopify delivery deduplication and event correlation. Source: https://shopify.dev/docs/apps/build/webhooks/verify-deliveries
-
-7. Hosting and installation
-For development and self-hosting: Docker Compose, persistent volumes, a secure first-admin setup flow and browser access. Docker Compose is available on macOS through Docker Desktop. Its license conditions depend on usage; document installer prerequisites. Source: https://docs.docker.com/compose/install/
-
-The intended experience is: install prerequisites, run ./blackbox setup, then ./blackbox up. The agent must implement these commands; they do not exist in the current prototype. A native Mac client is now required for the full M5 release, in addition to complete browser management. It shares the React UI/API and controls the local Compose runtime or connects to a remote backend. The local installer at the earlier comparison checkpoint may still be CLI/browser only.
-
-For a pilot: a Linux server supporting containers, an HTTPS reverse proxy, separate backups and monitoring. For paid SaaS, consider a provider in the required data region and managed PostgreSQL if the budget and operating model support it. The same code must also work with self-managed PostgreSQL. Domain, provider, accounts and payment authorization are later concrete decisions; this package does not create hosting accounts.
-
-A single server is not a high-availability solution. Validate database failure handling, restoration, storage, horizontal scaling and operational readiness before promising such availability to customers.
-
-A running Mac in a private network still has no public webhook callback. Choose local_standalone with supported outbound polling/imports, local_gateway with a separately deployed public HTTPS receiver and durable queue consumed outbound, or public_server with direct callbacks and reconciliation. The gateway is optional to use and required to implement in M5; it is not a second business journal or a proxy for local web/MCP access. Distinguish gateway receipt, canonical journal commit and Rust applied state. See specs/WEB-DESKTOP-AND-DEPLOYMENT.md, specs/SOURCE-SYNCHRONIZATION.md and specs/WEBHOOK-GATEWAY.md for the binding lifecycle, credential, coverage, migration and test contracts.
-
-8. Spec Kit and the GO assignment
-Spec Kit is optional. It can structure specifications, planning and implementation with reusable coding-agent workflows. It does not replace architecture decisions, acceptance tests or independent review. Source: https://github.com/github/spec-kit
-
-The supplied package is the binding baseline. If using Spec Kit, import product rules, specifications and tasks from it. Verify the chosen version and integration commands against current official documentation at implementation time. Agents must be able to complete the same assignment without it.
-
-GO is a work instruction, not a universal CLI command. An agent should use it to implement, test and document subtasks independently. It still needs an executable environment, repository access and eventually provider access. Missing external access must never be reported as successful verification.
-
-9. Definition of done
-A demonstrably installable and tested first release with a complete core workflow. It does not imply every imaginable tool is integrated, every possible question is supported, or the system is defect-free.
-
-Acceptance distinguishes:
-- Domain correctness: the same input produces the same traceable state.
-- Data isolation: tenant A cannot see tenant B through exports, MCP or files.
-- Operational resilience: restart, failure, retries, upgrade and restore are tested.
-- Design fidelity: reference implemented for desktop/mobile, with English and German UI and landing page.
-- Honest integration status: implementation, contract tests and actual provider tests are reported separately.
-- Extensibility: an additional adapter and question can be added without redesigning the core.
-
-Before the first customer deployment, an experienced reviewer should independently examine authentication, tenant boundaries, money/quantity logic, key management and recovery. Tests demonstrate specific properties; they do not prove the absence of every defect.
-
-10. Historical import and visible readiness
-The binding contract is specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md. Start with 30 days plus disclosed accessible older open/related items, offer explicit date choices and later history expansion, and collect new events concurrently. Importing current historical snapshots does not reconstruct missing transitions. Persist actual recorded/effective times, opening-state semantics and scoped coverage. Onboarding, central Sources/details, answers and MCP share one authorized health/readiness service. Last successful check differs from last new record; received, committed and query-ready are separate milestones. Exact percentages require known scoped totals. Import dates, analysis filters, bounded RAM and retention remain independent.
+All engineering content remains English. UI and landing page default to English with complete German localization, matching the unchanged visual reference. Deliver a short tester guide and explicit sanitized diagnostic export without automatic telemetry. Let observed feedback determine the next scope.

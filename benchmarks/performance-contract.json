@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "status": "Proposed acceptance targets; no application benchmark has run.",
   "specification": "specs/PERFORMANCE-ARCHITECTURE.md",
   "units": {
@@ -25,7 +25,7 @@
     "smoke": {
       "purpose": "Development/regression profile; preserves the earlier baseline and is not proof of million-entry capacity.",
       "reference_host": {
-        "os": "Linux",
+        "os": "Linux, or a real macOS host with a documented Linux container runtime; disclose host and container resource limits.",
         "vcpus": 4,
         "ram_mib": 8192,
         "storage": "Document actual persistent storage and durability settings."
@@ -44,10 +44,10 @@
         "current_state_api_p95_ms": 2000,
         "projection_lag_p95_ms": 10000
       },
-      "required_for": "Core comparison smoke test; real Mac/Linux coverage is separately reported."
+      "required_for": "Local pilot; use comparable declared hardware/corpus/limits for independent A/B evaluation."
     },
     "reference_10m": {
-      "purpose": "Required performance release gate; targets are not measured claims.",
+      "purpose": "Deferred future performance gate; not required by local_pilot and not a measured claim.",
       "reference_host": {
         "os": "Linux",
         "vcpus": 8,
@@ -108,7 +108,7 @@
       ]
     },
     "scale_100m": {
-      "purpose": "Capacity-claim gate and required runnable experiment. An unexecuted run does not block a smaller validated release but forbids a 100-million-entry capacity claim.",
+      "purpose": "Deferred future experiment and capacity-claim gate; no 100-million-entry claim without execution/evidence.",
       "reference_host": {
         "os": "Linux",
         "vcpus": 16,
@@ -140,5 +140,6 @@
     }
   },
   "report_path": "reports/performance.json",
-  "correctness_overrides_speed": true
+  "correctness_overrides_speed": true,
+  "delivery_profile": "delivery-profile.json"
 }

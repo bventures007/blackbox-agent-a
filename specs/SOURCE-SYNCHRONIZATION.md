@@ -1,5 +1,7 @@
 # Source synchronization contract
 
+> Current delivery: LOCAL-PILOT.md and ../delivery-profile.json. Implement local_standalone only. Keep all three mode entries in capability mappings; mark local_gateway/public_server unsupported with a deferred-scope reason and verify that refusal without building those runtimes. Direct callback, gateway, switching and remote-client requirements below describe deferred modes. LOCAL-07 replaces the prior SYNC/GATEWAY gates for this pilot; core INGEST, IMPORT and HEALTH behavior still applies.
+
 Binding for every source/data capability, in all deployment profiles. The central work list is INTEGRATIONS.md; its machine-readable plan/history and committed mapping artifacts remain the authority for implementation evidence. A provider logo is not evidence of API, polling or webhook support.
 
 ## Per-capability transport declaration
@@ -34,11 +36,11 @@ Mutable synchronization tables store tenant/connection/capability, selected mode
 
 ## Honest health and answers
 
-Both clients show backend location, selected delivery mode, callback/gateway state, last successful source check, next scheduled poll, oldest pending receipt, backfill progress and known coverage gaps. Separate **received by gateway**, **committed in journal**, and **applied by Rust**. A quiet provider or successful gateway HTTP response does not prove complete freshness. Keep source freshness, transport backlog and engine lag independently observable.
+The pilot browser shows local backend state, last successful source check, next scheduled poll, backlog, backfill progress and known gaps. If later enabled, native/remote clients and callback/gateway state use the same shared health contract. Separate **received by gateway**, **committed in journal**, and **applied by Rust**. A quiet provider or successful gateway HTTP response does not prove complete freshness. Keep source freshness, transport backlog and engine lag independently observable.
 
 The shared API/MCP query result exposes scoped coverage, last successful source synchronization, pending/gap reasons and committed/applied cutoffs. `latest_committed` means the latest commit in this workspace's backend, not the latest possible external provider event. Gateway receipt IDs cannot satisfy `at_least_cursor`. Unknown/partial must propagate to affected business answers, including absence claims. Successful imports do not certify later provider activity.
 
-Required acceptance: SYNC-01 through SYNC-04 plus INGEST-01 through INGEST-06, PERF-02, QUERY-02, REGISTRY-01 and gateway tests. Launch accounts/access remain external prerequisites; preparing these contracts does not automatically connect a source.
+Pilot acceptance: LOCAL-07/09/10, INGEST-01 through INGEST-06 and QUERY-02. Earlier SYNC-01–04, PERF-02, REGISTRY-01 and gateway cases remain deferred references. Launch accounts/access remain external prerequisites; preparing these contracts does not automatically connect a source.
 
 ## Historical import and user-visible readiness
 

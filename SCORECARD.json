@@ -1,6 +1,6 @@
 {
-  "version": "1.1",
-  "use": "Independent comparison after the same checkpoint, inputs and resource budget; a score never overrides a failed release gate.",
+  "version": "2.0",
+  "use": "Compare the same P0–P4 local pilot, inputs and resource budgets; active failed release gates override score. Deferred features earn no extra completion credit.",
   "weights_percent": {
     "domain_correctness_and_evidence": 25,
     "tenant_isolation_and_authorization": 20,
@@ -26,5 +26,6 @@
     "Cross-review after independent implementation; have an experienced reviewer check release-critical areas.",
     "Compare the same benchmark profile, dataset, hardware and freshness mode. Pending 10m/100m runs do not earn inferred performance points; report evidence available at the current checkpoint separately."
   ],
-  "checkpoint": "First compare M0-M3 plus local installation. Mark untested external capabilities separately; full customer launch also needs applicable M4-M5 gates."
+  "checkpoint": "P4 local pilot handover and stop. Distinguish actual Mac, provider and local-client proof; no automatic continuation to the former M4–M5 platform roadmap.",
+  "active_profile": "local_pilot"
 }

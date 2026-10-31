@@ -1,18 +1,13 @@
-# Independent comparison protocol
+# Independent local pilot comparison
 
-Both repositories receive the same initial commit. Preserve that baseline and build independently. Repository A/B are labels, not different feature scopes or architectures. Do not inspect the competing implementation during the build.
+Both repositories start from the same baseline-v11 input. Compare P0–P4 local pilots, not the former platform roadmap. Do not inspect/copy the competing implementation during the build; do not merge implementations or databases automatically.
 
-1. Record each agent/model/version and execution environment in build-environment.md. Give both comparable budgets, hardware, permissions and provider access; disclose differences.
-2. Use independent working directories, database/volume names and secrets. If both run locally, configure separate ports and Compose project names. A repository name alone does not isolate Docker volumes or ports.
-3. Preserve the M0–M3 plus local-installer checkpoint as a tested commit. Record it in reports/checkpoint.md and the tested commit for every acceptance result. Keep later work so the same checkpoint remains reviewable.
-4. Review each from a fresh checkout. Use REVIEW-PROMPT-EN.txt, ACCEPTANCE.json and independently varied data. Do not trust screenshots or the builder's pass claim alone.
-5. Apply SCORECARD.json only at the same scope. Report pending external/operations checks separately. A disqualifier overrides a high weighted score.
-6. Select one primary foundation. Adopt specific reviewed improvements from the other later; do not automatically merge the two systems or their databases.
+1. Record agent/model/version, resource conditions and actual host tools. Use equivalent scope, runtime limits, fixture corpus and provider/test access; disclose differences.
+2. Use separate checkouts, ports, volumes, database names and secrets. Keep actual business/customer data isolated and separately authorized.
+3. Save the tested P4 commit and reports/checkpoint.md. Run the same active cases in delivery-profile.json, from a clean checkout/artifact, with independent variations.
+4. Check installation, save-key/sign-in/reset usability, first source/import/answer journey, local MCP, journal correctness, tenant boundaries, actual latency/memory, backup/restore/upgrade and extension cost.
+5. Separate synthetic proof from actual Shopify/account, local MCP-client and real Mac evidence. A partial preview with missing external gates is comparable only with its limitations visible.
+6. Run the active profile release gate and review source mappings/actor/test/independent confirmation. Deferred cases do not increase the pilot score and are not blockers. Keep their status unstarted.
+7. Apply SCORECARD.json; a serious security/data-loss defect overrides total score. Select one foundation, then decide future scope from observed user feedback.
 
-Required comparison output: tested commits; install results; correctness and tenant-isolation findings; design fidelity; effort to add a source/question; restore/upgrade evidence when in scope; weighted score and release blockers. The owner chooses after this review.
-
-The v8 contract retains the same early checkpoint: complete core browser workflow plus local Compose installation. Native Mac packaging, the optional-use public gateway and deployment migration belong to M5 and may remain unfinished at the checkpoint. A full-release comparison must exercise those features and the per-capability connectivity evidence; do not compare one agent at the checkpoint with another at full scope.
-
-Baseline v9 adds core historical-import onboarding and data-readiness behavior at the same comparison checkpoint. Evaluate selected versus accessible history, real progress and counts, central Sources health and per-answer dependencies with synthetic provider-shaped fixtures. Missing real merchant access must not excuse missing core behavior; actual provider verification remains M4 and native/gateway scope remains M5.
-
-Baseline v10 fixes the owner-approved identity model equally for both builds: passkeys, protected local opening, owner/reader human roles and distinct read-only agents. Compare core bootstrap, grants, recovery, revocation and protocol tests at M0–M3 plus local installation. Separate virtual-authenticator results from M5 native Keychain/real-Mac proof and external MCP-client evidence. Both builders receive the same simplified role contract; it does not relax tenant isolation or other existing gates.
+Passkeys, employee management, public servers/SaaS, gateways, native packaging, additional providers and larger capacity certification are deferred. Building those automatically is scope drift, not a reason to award extra points. Required output: tested commits, exact commands, results, findings, screenshots, install/first-answer friction, safe diagnostics, score and smallest next validation steps. Stop after handover.

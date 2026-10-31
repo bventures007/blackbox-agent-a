@@ -1,86 +1,66 @@
-# Blackbox — business flight recorder
+# Blackbox — local business flight recorder
 
-An independent implementation workspace for a commerce business flight recorder: evidence from source systems becomes traceable facts, commitments, movements and reservations, available to people and agents through the same business services.
+A local commerce flight recorder: source evidence becomes linked facts, commitments, movements and reservations, with trustworthy answers for people and read-only agents.
 
-**Status: prepared build assignment. Production application development has not started.** The included static prototype is the visual reference, with simulated data. Acceptance specifications are supplied; executable product tests still need to be built.
+**Status: prepared build assignment. Product implementation has not started.** The static prototype is the design reference, with simulated data. The current assignment is a **local pilot P0–P4, then handover and stop for feedback**. The previous automatic SaaS/server/native/gateway roadmap is deferred.
 
-**For source-by-source progress, open [the central integration register](INTEGRATIONS.md): required data, five journal tracks, implementation, tests, live verification and who confirmed the work.**
+## Start the build
 
-## Start here
-
-Open this repository in your coding agent, then give it this prompt:
+Give each coding agent its assigned repository and paste:
 
 ```text
-GO. Read AGENTS.md and START-HERE.md. Implement Blackbox according to BUILD-PROMPT-EN.txt, preserving the supplied design. Work through M0–M5, record the comparison checkpoint after M0–M3 plus local installation, and verify against ACCEPTANCE.json. Keep docs/status.md, reports/acceptance.json and the central INTEGRATIONS.md register current with actual evidence. Deliver running software and reproducible evidence; do not stop at a plan. Complete independent work when external access is missing and report those blockers honestly.
+GO. Read AGENTS.md, START-HERE.md, delivery-profile.json and BUILD-PROMPT-EN.txt. Implement the local pilot P0–P4, preserving the supplied design. Verify the active acceptance cases, keep actual evidence and the central integration register current, and deliver a runnable local application plus reports/checkpoint.md. Stop at the pilot handover; defer Passkeys, SaaS, public hosting, gateways and native packaging. Complete independent work when external access is missing and report blockers honestly. Do not stop at a plan or mockup.
 ```
 
-For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow and an optional checkpoint-only scope are explained in [START-HERE.md](START-HERE.md).
+Use [GOAL.txt](GOAL.txt) as the objective in a Goal-capable agent. [START-HERE.md](START-HERE.md) explains scope and completion. No agent is started automatically. Both repos receive identical inputs; work only in the assigned repo with separate ports, volumes, databases and secrets.
 
-## Contents
+## Pilot experience
+
+- Start the local backend and open the browser; no domain, email signup or external identity service.
+- Save one generated personal access key. Remembered protected sessions avoid repeated entry; host-only reset preserves business data.
+- One owner/workspace is automatic. Agents get separate named, revocable read-only keys and a local MCP connection.
+- Connect Shopify/Shopify Payments through supported outbound import/polling/reconciliation; run the full synthetic scenario through replay/generic/bank/policy/runtime inputs.
+- See actual date-based import progress, source health, the five journal tracks, evidence and all 24 Order-to-Cash questions. Live answers remain partial when prerequisite sources are missing.
+- Test restart, backup/restore, upgrade, bounded memory and actual local latency. Share a runnable local pilot and short feedback guide.
+
+The TypeScript/Rust/PostgreSQL architecture, append-only journal, exact business logic and tenant-safe foundation remain. Passkeys (even optional), employee invitations, SaaS, public servers/gateways, native packaging and larger capacity certification are later choices. The local browser product is the first deliverable; its container-runtime prerequisites must be explicit.
+
+## Read the contracts and progress
 
 | File | Purpose |
 | --- | --- |
-| [INTEGRATIONS.md](INTEGRATIONS.md) | Central human-readable work list: 22 sources/internal producers, 127 capability rows, ownership and evidence |
-| [integrations/README.md](integrations/README.md) | Update workflow, six implementation steps, evidence requirements and enforced checks |
-| [AGENTS.md](AGENTS.md) | Working rules, reading order and boundaries |
-| [START-HERE.md](START-HERE.md) | Launch instructions, scope and handover |
-| [BUILD-PROMPT-EN.txt](BUILD-PROMPT-EN.txt) | Full implementation contract |
-| [specs/IDENTITY-ACCESS-AND-RECOVERY.md](specs/IDENTITY-ACCESS-AND-RECOVERY.md) | Passkeys, secure local opening, people/agent grants, recovery and revocation |
-| [specs/WEB-DESKTOP-AND-DEPLOYMENT.md](specs/WEB-DESKTOP-AND-DEPLOYMENT.md) | Complete web management, required Mac client, deployment profiles and workspace migration |
-| [specs/SOURCE-SYNCHRONIZATION.md](specs/SOURCE-SYNCHRONIZATION.md) | Per-capability import/polling/webhook/reconciliation lifecycle and freshness |
-| [specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md](specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md) | Date selection, first-import progress, central source health and per-answer data readiness |
-| [specs/WEBHOOK-GATEWAY.md](specs/WEBHOOK-GATEWAY.md) | Optional public receiver, durable queue, outbound delivery and receipt boundaries |
-| [specs/JOURNAL-AND-MCP.md](specs/JOURNAL-AND-MCP.md) | Append-only data structure and full authorized MCP read contract |
-| [specs/PERFORMANCE-ARCHITECTURE.md](specs/PERFORMANCE-ARCHITECTURE.md) | Rust engine, memory limits, durable consistency and recovery |
-| [specs/QUESTION-DATA-COVERAGE.md](specs/QUESTION-DATA-COVERAGE.md) | All 24 questions mapped to inputs, journal families, RAM projections, queries and test examples |
-| [specs/CONNECTOR-CAPABILITIES.md](specs/CONNECTOR-CAPABILITIES.md) | Reviewed provider candidates, supplemental data and unresolved integration proof |
-| [specs/question-data-contracts.json](specs/question-data-contracts.json) | Machine-readable field/data/query crosswalk and 48 minimum acceptance examples |
-| [reports/question-coverage.json](reports/question-coverage.json) | Per-question implementation and verification register; all runtime proof pending |
-| [benchmarks/performance-contract.json](benchmarks/performance-contract.json) | Measurable 250k / 10m / 100m workload profiles |
-| [ARCHITECTURE-EN.txt](ARCHITECTURE-EN.txt) | Architecture and delivery approach |
-| [ACCEPTANCE.json](ACCEPTANCE.json) | 86 acceptance cases with release gates |
-| [GOLDEN-ORDER-TO-CASH.json](GOLDEN-ORDER-TO-CASH.json) | Synthetic business cycle: 19 events, 11 checkpoints |
-| [reference/questions.json](reference/questions.json) | 24 questions in six Order-to-Cash groups |
-| [reference/prototype/](reference/prototype/) | Original visual and interaction reference |
-| [reference/screenshots/README.md](reference/screenshots/README.md) | Visual catalogue: 67 desktop/mobile captures, interaction states and coverage boundaries |
-| [docs/status.md](docs/status.md) | Durable implementation progress and next action |
-| [reports/acceptance.json](reports/acceptance.json) | Honest per-case execution status, initially not started |
-| [features/](features/) | Plain-language feature ideas for future expansion |
-| [SCORECARD.json](SCORECARD.json) | Common comparison criteria |
-| [REVIEW-PROMPT-EN.txt](REVIEW-PROMPT-EN.txt) | Independent review assignment |
+| [specs/LOCAL-PILOT.md](specs/LOCAL-PILOT.md) | Current scope, P0–P4, sources, acceptance and stop condition |
+| [delivery-profile.json](delivery-profile.json) | Machine-readable 60 active cases, 37 deferred cases and 68 required capability rows |
+| [BUILD-PROMPT-EN.txt](BUILD-PROMPT-EN.txt) / [AGENTS.md](AGENTS.md) | Implementation assignment and agent rules |
+| [specs/IDENTITY-ACCESS-AND-RECOVERY.md](specs/IDENTITY-ACCESS-AND-RECOVERY.md) | Personal login key, sessions, host reset and separate read-only agents |
+| [INTEGRATIONS.md](INTEGRATIONS.md) / [integrations/README.md](integrations/README.md) | Central 127-row source/capability register, work history and independent evidence; current selection comes from the delivery profile |
+| [specs/README.md](specs/README.md) | Journal, performance, source mapping, synchronization and import/readiness contracts |
+| [ACCEPTANCE.json](ACCEPTANCE.json) / [reports/acceptance.json](reports/acceptance.json) | 97 specifications/results, explicitly split into active pilot and deferred future work; no product case has run |
+| [GOLDEN-ORDER-TO-CASH.json](GOLDEN-ORDER-TO-CASH.json) / [reference/questions.json](reference/questions.json) | Preserved business oracle and 24 questions |
+| [ARCHITECTURE-EN.txt](ARCHITECTURE-EN.txt) | Local modular foundation and future extension boundaries |
+| [docs/status.md](docs/status.md) / [docs/comparison.md](docs/comparison.md) | Actual progress and fair comparison protocol |
+| [specs/future/](specs/future/) | Preserved previous platform options, not automatic implementation requirements |
+| [reference/screenshots/README.md](reference/screenshots/README.md) / [reference/prototype/](reference/prototype/) | Complete 67-capture design catalogue and interactive reference |
 
-## Target product
+Engineering documentation/code/tests/logs/contracts are English. Application UI and landing page default to English with complete German localization. The original German prototype/screenshots remain unchanged reference assets.
 
-- One modular TypeScript/Rust product: web/API/connectors in TypeScript; canonical business reducers, compact RAM projections and fast queries in a Rust engine; PostgreSQL provides durability and indexed cold access.
-- Hosted multi-tenant SaaS, self-hosted Linux and local Mac through the same backend release; complete web management plus a required Mac desktop client.
-- Passkeys for people, protected remembered local devices and individual read-only agent access; owner/reader roles, recovery and revocation without a mandatory external identity service.
-- Explicit local polling/import, optional public webhook gateway and direct server-webhook modes, with truthful per-capability coverage and synchronization health.
-- All engineering material in English; application UI and landing page in English by default, with complete German localization.
-- Order-to-Cash first, a database-enforced append-only journal, evidence-linked answers, actual tenant isolation and read-only MCP over all authorized business records and histories.
-- An offline synthetic workflow first; Shopify/Shopify Payments, easybill and DHL as the initial real connector scope, subject to actual provider access.
-- A clear historical-import setup (30 days plus accessible open/related items by default), progressive answers and truthful source health throughout the product.
-- Founder-friendly extension points for connectors, questions and isolated experiments.
+## Preparation checks
 
-The full contract specifies details and exceptions. GitHub Spec Kit is optional; the repository already contains the requirements and acceptance baseline. Do not spend the implementation run installing a planning framework.
+```sh
+python3 scripts/validate-question-catalogue.py
+python3 scripts/integration-register.py check
+python3 scripts/validate-delivery-profile.py
+python3 -m unittest discover -s scripts/tests -p 'test_*.py'
+```
 
-## Language policy
+These check the specification/register tooling, not a running product. At actual pilot handover, also run `python3 scripts/validate-delivery-profile.py --release`: active product evidence and selected capability approvals are required. The broader register `--release` remains a future-platform check. Both release checks intentionally fail on this unimplemented seed.
 
-Use English for all requirements, documentation, architecture decisions, feature briefs, agent instructions, code identifiers, comments, tests, logs, API/MCP contracts and handover reports. Only the application UI and landing page require both English (default) and complete German localization. Keep machine-readable identifiers stable in English; localize product-facing text through locale resources.
-
-The unchanged prototype and screenshots contain original German UI copy. Use them as visual references; the production UI and landing page must implement both locales. The canonical question specification in reference/questions.json is English.
-
-## Preview the existing design
-
-With Python 3 installed, from the repository root:
+## Preview the reference
 
 ```sh
 python3 -m http.server 4173 --bind 127.0.0.1 --directory reference/prototype
 ```
 
-Open `http://127.0.0.1:4173/` or `http://127.0.0.1:4173/#app/agents`. This serves the static design reference only. The production `./blackbox` commands described in the brief are not implemented yet.
+Open `http://127.0.0.1:4173/` or `http://127.0.0.1:4173/#app/agents`. This serves the unchanged static reference only. The production `./blackbox` wrapper/access-key login is not implemented yet. Inspect the screenshot catalogue for all pages/states and missing product views; screenshots are not acceptance proof.
 
-Start with the [visual reference catalogue](reference/screenshots/README.md): all six existing top-level views, onboarding, evidence drawers, invoice/payment lifecycles, 24 expanded Order-to-Cash questions and representative mobile views. The catalogue distinguishes existing design references from product views that still need to be designed. It includes capture recipes and checksums; these are reference assets, not product-test evidence.
-
-## Independent comparison
-
-Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v10`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).
+The shared input tag is `baseline-v11`; older tags preserve earlier decisions. Compare both builds at the local pilot scope using [REVIEW-PROMPT-EN.txt](REVIEW-PROMPT-EN.txt) and [SCORECARD.json](SCORECARD.json). GitHub Spec Kit is optional and must not delay implementation.

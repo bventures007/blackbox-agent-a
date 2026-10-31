@@ -11,7 +11,8 @@
       "dataset_manifest": null,
       "measurements": null,
       "evidence_paths": [],
-      "limitations": []
+      "limitations": [],
+      "delivery_scope": "local_pilot"
     },
     "reference_10m": {
       "status": "not_started",
@@ -21,7 +22,8 @@
       "dataset_manifest": null,
       "measurements": null,
       "evidence_paths": [],
-      "limitations": []
+      "limitations": [],
+      "delivery_scope": "deferred_future"
     },
     "scale_100m": {
       "status": "not_started",
@@ -31,7 +33,9 @@
       "dataset_manifest": null,
       "measurements": null,
       "evidence_paths": [],
-      "limitations": []
+      "limitations": [],
+      "delivery_scope": "deferred_future"
     }
-  }
+  },
+  "active_profile": "local_pilot"
 }
