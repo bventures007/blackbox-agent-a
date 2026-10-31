@@ -9,6 +9,10 @@ import {
   requireCapabilityScopes,
 } from "../connectors/shopify-client.js";
 import { fetchStockPage, normalizeStock } from "../connectors/shopify-stock.js";
+import {
+  fetchFulfillmentPage,
+  normalizeFulfillments,
+} from "../connectors/shopify-fulfillments.js";
 import { ProviderError } from "../connectors/transport.js";
 import {
   fetchOrderPage,
@@ -432,13 +436,20 @@ export async function processSourceJob(j: Job) {
             j.checkpoint,
             AbortSignal.timeout(45000),
           )
-        : await fetchOrderPage(
-            credentials,
-            j.capability,
-            j.checkpoint,
-            j.parameters,
-            AbortSignal.timeout(45000),
-          );
+        : j.capability === "fulfillments"
+          ? await fetchFulfillmentPage(
+              credentials,
+              j.checkpoint,
+              j.parameters,
+              AbortSignal.timeout(45000),
+            )
+          : await fetchOrderPage(
+              credentials,
+              j.capability,
+              j.checkpoint,
+              j.parameters,
+              AbortSignal.timeout(45000),
+            );
     for (const raw of data.nodes) {
       let objects: SourceObject[];
       try {
@@ -451,14 +462,22 @@ export async function processSourceJob(j: Job) {
                 j.checkpoint.through!,
                 credentials.fixture,
               )
-            : await normalizeSourceOrder(
-                raw,
-                j.connection_id,
-                j.account_anchor,
-                j.capability,
-                j.parameters,
-                j.checkpoint.stage,
-              );
+            : j.capability === "fulfillments"
+              ? await normalizeFulfillments(
+                  raw,
+                  j.connection_id,
+                  j.parameters,
+                  j.checkpoint.stage,
+                  j.checkpoint.through!,
+                )
+              : await normalizeSourceOrder(
+                  raw,
+                  j.connection_id,
+                  j.account_anchor,
+                  j.capability,
+                  j.parameters,
+                  j.checkpoint.stage,
+                );
       } catch (e) {
         const id = z.object({ id: z.string() }).parse(raw).id;
         objects = [
@@ -499,6 +518,7 @@ export async function processSourceJob(j: Job) {
           j.capability,
           j.checkpoint.through!,
           conflict,
+          objects.flatMap((o) => o.coverage_missing ?? []),
         );
         const result = await ingest(
           j.tenant_id,

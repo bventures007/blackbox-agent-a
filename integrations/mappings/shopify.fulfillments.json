@@ -1,0 +1,173 @@
+{
+  "row_id": "shopify.fulfillments",
+  "source_revision": "Shopify Admin GraphQL 2026-10; fulfillment-v1; records-v2; questions-v7",
+  "input_resources": [
+    "orders(first:10,after,query:updated_at ranges)",
+    "Order.fulfillments (full array without first truncation)",
+    "Order.fulfillmentsCount(count,precision)",
+    "Fulfillment.fulfillmentLineItems(first:100,after)",
+    "fulfillment(id)",
+    "shop.id and currentAppInstallation.accessScopes"
+  ],
+  "grants": [
+    "read_orders or write_orders",
+    "read_all_orders for older accessible history"
+  ],
+  "identity_rule": "Immutable verified shop, keyed connection-scoped fulfillment/order/line/location identities. Stable economic fulfillment record; provider updatedAt observation revision. Same-revision changed content is quarantined.",
+  "coverage_rule": "Declared order-scoped exact cutoff only; no global or intermediate event-history claim. Preparation without milestones marks a physical handover gap. Separate tracking source required.",
+  "retention": {
+    "decision": "unresolved",
+    "basis": "No live store grant or merchant retention authorization is available. Synthetic fixtures only verified. Local evidence encryption and 90-day access expiry exist; complete purge/rotation/recovery retention operations remain open."
+  },
+  "fields": {
+    "shipment_id": {
+      "status": "derived",
+      "rule": "opaqueIdentity(connection, fulfillments + provider ID); fulfillment-v1; input Fulfillment.id",
+      "normalization": "Stable connection-scoped keyed UUID; same namespace as order/inventory links. No text-name matching.",
+      "missing_behavior": "Missing shipment/order/line identity fails import; missing location stays absent and cannot prove a stock-location effect."
+    },
+    "order_id": {
+      "status": "derived",
+      "rule": "opaqueIdentity(connection, provider order ID); fulfillment-v1; input Order.id",
+      "normalization": "Stable connection-scoped keyed UUID; same namespace as order/inventory links. No text-name matching.",
+      "missing_behavior": "Missing shipment/order/line identity fails import; missing location stays absent and cannot prove a stock-location effect."
+    },
+    "line_id": {
+      "status": "derived",
+      "rule": "opaqueIdentity(connection, provider line ID); fulfillment-v1; input Fulfillment.fulfillmentLineItems.nodes[].lineItem.id",
+      "normalization": "Stable connection-scoped keyed UUID; same namespace as order/inventory links. No text-name matching.",
+      "missing_behavior": "Missing shipment/order/line identity fails import; missing location stays absent and cannot prove a stock-location effect."
+    },
+    "location_id": {
+      "status": "derived",
+      "rule": "opaqueIdentity(connection, provider location ID); fulfillment-v1; input Fulfillment.location.id",
+      "normalization": "Stable connection-scoped keyed UUID; same namespace as order/inventory links. No text-name matching.",
+      "missing_behavior": "Missing shipment/order/line identity fails import; missing location stays absent and cannot prove a stock-location effect."
+    },
+    "quantity": {
+      "status": "source",
+      "source_path": "Fulfillment.fulfillmentLineItems.nodes[].quantity",
+      "normalization": "Exact nonnegative integer string, never product weight; full nested population and unique line IDs required.",
+      "missing_behavior": "Null, negative or malformed quantities quarantine; no default zero."
+    },
+    "unit": {
+      "status": "derived",
+      "rule": "Shopify fulfillment integer line counts => piece; fulfillment-v1",
+      "normalization": "No conversion to mass, volume or length.",
+      "missing_behavior": "Other unit requirements need a supplemental producer."
+    },
+    "carrier": {
+      "status": "missing",
+      "reason": "This adapter does not yet query carrier/tracking identifiers or parcel-to-line assignments.",
+      "normalization": "No guessed carrier, tracking token or per-parcel quantity.",
+      "missing_behavior": "Carrier-specific claims and tracking population remain unavailable without a supplemental source."
+    },
+    "tracking_number": {
+      "status": "missing",
+      "reason": "This adapter does not yet query carrier/tracking identifiers or parcel-to-line assignments.",
+      "normalization": "No guessed carrier, tracking token or per-parcel quantity.",
+      "missing_behavior": "Carrier-specific claims and tracking population remain unavailable without a supplemental source."
+    },
+    "handover_at": {
+      "status": "source",
+      "source_path": "Fulfillment.inTransitAt",
+      "normalization": "Explicit timestamp only, after creation and no later than updatedAt/fixed cutoff. No inference from SUCCESS, tracking-number creation or administrative status.",
+      "missing_behavior": "Null stays absent. Preparation without physical timestamps creates fulfillments.handover_confirmation; delivery does not manufacture missing handover time."
+    },
+    "delivered_at": {
+      "status": "source",
+      "source_path": "Fulfillment.deliveredAt",
+      "normalization": "Explicit timestamp only, after creation and no later than updatedAt/fixed cutoff. No inference from SUCCESS, tracking-number creation or administrative status.",
+      "missing_behavior": "Null stays absent. Preparation without physical timestamps creates fulfillments.handover_confirmation; delivery does not manufacture missing handover time."
+    },
+    "state": {
+      "status": "derived",
+      "rule": "fulfillment-v1: deliveredAt => delivered; else inTransitAt => handed_over; else CANCELLED => cancelled; SUCCESS => prepared; ERROR/FAILURE => failed",
+      "normalization": "Physical state takes precedence; administrative_status is retained separately. Contradictory milestone order is quarantined.",
+      "missing_behavior": "Preparation/failure is factual but cannot prove carrier handover or complete physical delivery answers."
+    }
+  },
+  "event_rules": [
+    {
+      "event": "shipment.observed",
+      "tracks": [
+        "source",
+        "fact",
+        "movement",
+        "reservation"
+      ],
+      "rule": "Versioned current fulfillment assertion. Rust records-v2 emits fact for every valid state; movement/reservation only for handed_over or delivered. Stable economic record counted once; no additive stock delta."
+    },
+    {
+      "event": "shipment.dispatched",
+      "tracks": [],
+      "rule": "No separate discrete event emitted from current snapshots; supplied milestone fields remain in shipment.observed assertions.",
+      "unsupported_reason": "The order/fulfillment snapshot is not an exhaustive intermediate lifecycle event stream; no inferred administrative-to-physical transition."
+    },
+    {
+      "event": "shipment.delivered",
+      "tracks": [],
+      "rule": "No separate discrete event emitted from current snapshots; supplied milestone fields remain in shipment.observed assertions.",
+      "unsupported_reason": "The order/fulfillment snapshot is not an exhaustive intermediate lifecycle event stream; no inferred administrative-to-physical transition."
+    },
+    {
+      "event": "shipment.cancelled",
+      "tracks": [],
+      "rule": "No separate discrete event emitted from current snapshots; supplied milestone fields remain in shipment.observed assertions.",
+      "unsupported_reason": "The order/fulfillment snapshot is not an exhaustive intermediate lifecycle event stream; no inferred administrative-to-physical transition."
+    }
+  ],
+  "synchronization": {
+    "initial_import": "Immutable date range plus explicitly selected accessible older open/related context. Full fulfillment array count check and nested line pagination before each order is processed.",
+    "cursor": "Fenced durable outer order cursor and fixed cutoff. Nested pages must finish with stable updatedAt; repeated cursors, oversized populations and imprecise counts reject the page.",
+    "reconciliation": "Periodic bounded full selected order enumeration; observed provider revisions append. No physical return or stock increase inferred from cancellation/disappearance.",
+    "deduplication": "Connection/economic fulfillment/provider updatedAt observation ID; fixed replay idempotent; different content at same revision is a conflict. Rust selects each economic record once.",
+    "freshness": "Per-page identity/grants check; successful check, new record, reconciliation, processing and unresolved review remain distinct.",
+    "modes": {
+      "local_standalone": {
+        "status": "partial",
+        "methods": [
+          "polling",
+          "import"
+        ],
+        "schedule": "Default incremental 120 seconds plus 0\u201310% jitter; reconciliation every six hours.",
+        "history_limit": "Accessible updated order snapshots and selected older open context; max 100000 orders, 1000 fulfillments/order, 500 lines/fulfillment, 10000 lines/outer page, 2 MiB response. No exhaustive event history.",
+        "authentication": "Encrypted existing app token or permitted client credentials; verified immutable shop, read_orders/write_orders and applicable read_all_orders; no public callback.",
+        "recovery": "Durable outer cursor, provider revision idempotence, bounded retries, original-input review retry, journal reconstruction after process restart.",
+        "limitations": "Missing carrier/tracking and parcel allocation; only supplied physical milestones; non-atomic provider reads; no live proof.",
+        "reason": "Local outbound-only snapshot capability; unresolved fields remain explicit and may require supplemental producers."
+      },
+      "local_gateway": {
+        "status": "unsupported",
+        "methods": [],
+        "schedule": "No gateway/server scheduling in the pilot.",
+        "history_limit": "No history transport in this mode.",
+        "authentication": "No public callback, gateway credential or public binding is provisioned.",
+        "recovery": "No mode runtime to recover; use local_standalone.",
+        "limitations": "Deferred by baseline-v14 local pilot scope.",
+        "reason": "Explicit owner-approved P0\u2013P4 scope excludes gateway and public-server implementation."
+      },
+      "public_server": {
+        "status": "unsupported",
+        "methods": [],
+        "schedule": "No gateway/server scheduling in the pilot.",
+        "history_limit": "No history transport in this mode.",
+        "authentication": "No public callback, gateway credential or public binding is provisioned.",
+        "recovery": "No mode runtime to recover; use local_standalone.",
+        "limitations": "Deferred by baseline-v14 local pilot scope.",
+        "reason": "Explicit owner-approved P0\u2013P4 scope excludes gateway and public-server implementation."
+      }
+    }
+  },
+  "import_readiness": {
+    "time_selection": "Shared immutable timezone-aware 30-day/calendar/custom/from-now plan. Fixed cutoff bounds query and milestone timestamps.",
+    "historical_availability": "Accessible order current snapshots plus supplied fulfillment milestone timestamps; not historical states or complete event history. read_all_orders required for older order access.",
+    "open_and_related_records": "Provider-declared open/unsettled older orders only when selected. Older shipment details require related/open consent; strict new-only excludes them from journal and evidence.",
+    "opening_state": "No stock or provider-balance opening derived from fulfillment; preparation and dispatch are separate.",
+    "progress_accounting": "One logical fulfillment with committed/duplicate/skipped/quarantined counters; applied cursor must catch up before finishing. No guessed total/percentage.",
+    "readiness_rules": "Per-order fixed point coverage only if valid population. Prepared/failed missing milestone marks handover_confirmation; actual malformed records block complete scope. Carrier tracking remains separate.",
+    "health_rules": "Existing account/grant/reconnect fencing and truthful per-capability check/new/processed/review state. No missing timestamp is silently upgraded to physical handover.",
+    "history_expansion": "Append new wider plan; stable provider revision replay does not double count. New capability has its own independent incremental/reconciliation chain.",
+    "data_handling": "Only minimal order header and fulfillment identities/counts/times/line links requested; no addresses/customer names. Individual encrypted evidence; retention/rotation operations not certified here."
+  }
+}

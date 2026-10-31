@@ -121,7 +121,17 @@ export const datasetRecord = z.discriminatedUnion("dataset", [
   }),
   record("fulfillments", {
     order_id: id,
-    state: z.enum(["label", "handed_over", "delivered", "cancelled"]),
+    state: z.enum([
+      "label",
+      "prepared",
+      "failed",
+      "handed_over",
+      "delivered",
+      "cancelled",
+    ]),
+    administrative_status: z
+      .enum(["success", "cancelled", "error", "failure"])
+      .optional(),
     lines: z.array(shippedLine).max(500),
     location_id: id.optional(),
     handover_at: time.optional(),

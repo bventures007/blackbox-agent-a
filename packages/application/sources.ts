@@ -20,11 +20,12 @@ export const scheduledCapabilities = [
   "payments",
   "refunds",
   "stock",
+  "fulfillments",
 ] as const;
 export const startImport = z
   .object({
     selection: importSelection,
-    capabilities: z.array(z.enum(scheduledCapabilities)).min(1).max(4),
+    capabilities: z.array(z.enum(scheduledCapabilities)).min(1).max(5),
     acknowledge_restrictions: z.boolean().default(false),
   })
   .strict();
@@ -175,6 +176,9 @@ export async function planPreview(
               "inventory_non_atomic_locations",
               "inventory_scan_bounded",
             ]
+          : []),
+        ...(body.capabilities.includes("fulfillments")
+          ? ["fulfillment_preparation_is_not_handover"]
           : []),
       ],
       available_from: source.scopes.includes("read_all_orders")

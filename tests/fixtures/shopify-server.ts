@@ -102,9 +102,18 @@ app.post("/admin/api/2026-10/graphql.json", async (req) => {
       },
     };
   }
-  if (body.query.includes("BlackboxSource")) {
+  if (
+    body.query.includes("BlackboxSource") ||
+    body.query.includes("BlackboxFulfillment")
+  ) {
     sourceRequests.push({
-      query: body.query.includes("BlackboxSourceLines") ? "lines" : "orders",
+      query: body.query.includes("BlackboxSourceLines")
+        ? "lines"
+        : body.query.includes("BlackboxFulfillmentLines")
+          ? "fulfillment_lines"
+          : body.query.includes("BlackboxFulfillments")
+            ? "fulfillments"
+            : "orders",
       variables: body.variables,
     });
     if (sourceScenario.rate_limit) {
@@ -120,6 +129,23 @@ app.post("/admin/api/2026-10/graphql.json", async (req) => {
       };
     }
     const orders = sourceScenario.orders ?? [];
+    if (body.query.includes("BlackboxFulfillmentLines")) {
+      const vars = body.variables as any,
+        shipment = orders
+          .flatMap((o: any) => o.fulfillments ?? [])
+          .find((s: any) => s.id === vars.id);
+      return {
+        data: {
+          fulfillment: {
+            updatedAt: shipment.updatedAt,
+            fulfillmentLineItems: {
+              nodes: shipment.extraLines ?? [],
+              pageInfo: { hasNextPage: false, endCursor: null },
+            },
+          },
+        },
+      };
+    }
     if (body.query.includes("BlackboxSourceLines")) {
       const vars = body.variables as any,
         node = orders.find((o: any) => o.id === vars.id);

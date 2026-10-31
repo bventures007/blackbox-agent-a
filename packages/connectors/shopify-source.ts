@@ -29,6 +29,7 @@ export type SourceObject = {
   raw: unknown;
   error_code?: string;
   skipped?: boolean;
+  coverage_missing?: string[];
 };
 const time = z.iso.datetime({ offset: true });
 const money = z.object({
@@ -370,6 +371,7 @@ export async function scopedSnapshotCoverage(
   capability: string,
   through: string,
   conflict = false,
+  missing: string[] = [],
 ) {
   const base = z.object({ id: z.string(), test: z.boolean() }).parse(raw),
     entity = await opaqueIdentity(connection, base.id);
@@ -378,13 +380,20 @@ export async function scopedSnapshotCoverage(
     caps.map((cap) =>
       record(connection, entity, cap + ":" + base.id, through, base.test, {
         dataset: "coverage",
-        capability: cap as "orders" | "payments" | "refunds" | "identity",
+        capability: cap as
+          "orders" | "payments" | "refunds" | "identity" | "fulfillments",
         entity_scope: entity,
         history_start: through,
         complete_through: through,
-        backfill_complete: !conflict,
-        missing_fields: conflict ? ["source_conflict"] : [],
-        failure_state: conflict ? "error" : "none",
+        backfill_complete: !conflict && !missing.length,
+        missing_fields: [
+          ...new Set([...(conflict ? ["source_conflict"] : []), ...missing]),
+        ],
+        failure_state: conflict
+          ? "error"
+          : missing.length
+            ? "incomplete"
+            : "none",
         basis: "declared",
         history_kind: "snapshot_only",
       }),

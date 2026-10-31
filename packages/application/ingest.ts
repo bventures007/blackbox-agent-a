@@ -102,6 +102,46 @@ export async function ingest(
         "SELECT entry_id,payload_hash FROM bb.journal WHERE connection_id=$1 AND provider_identity=$2 AND record_type='source'",
         [connection, e.id],
       );
+      if (
+        !old.rows[0] &&
+        transaction.providerSnapshot &&
+        "record" in e &&
+        e.record.dataset === "fulfillments"
+      ) {
+        // A later administrative snapshot cannot silently remove recorded physical evidence.
+        // The journal head lock serializes this check with ingestion and owner corrections.
+        const prior = (
+          await c.query(
+            "SELECT entry_id,payload_hash,payload->'record' AS record FROM bb.journal j WHERE connection_id=$1 AND record_type='source' AND record_id=$2 AND occurred_at<$3 AND NOT EXISTS(SELECT 1 FROM bb.journal s WHERE s.supersedes_entry_id=j.entry_id) ORDER BY occurred_at DESC,sequence DESC LIMIT 1",
+            [connection, e.economic_id, e.occurred_at],
+          )
+        ).rows[0];
+        if (
+          prior &&
+          ["handed_over", "delivered"].includes(prior.record.state)
+        ) {
+          const next = e.record;
+          const changedMilestone = ["handover_at", "delivered_at"].some(
+            (k) => prior.record[k] && prior.record[k] !== (next as any)[k],
+          );
+          const physicalRegression =
+            prior.record.state === "delivered"
+              ? next.state !== "delivered"
+              : !["handed_over", "delivered"].includes(next.state);
+          const quantities = (lines: any[]) =>
+            JSON.stringify(
+              [...lines]
+                .sort((a, b) => a.line_id.localeCompare(b.line_id))
+                .map((l) => [l.line_id, l.quantity, l.unit]),
+            );
+          if (
+            changedMilestone ||
+            physicalRegression ||
+            quantities(prior.record.lines) !== quantities(next.lines)
+          )
+            old.rows.push(prior);
+        }
+      }
       if (old.rows[0]) {
         if (old.rows[0].payload_hash === digest) {
           duplicates++;

@@ -20,6 +20,7 @@ import {
 } from "../connectors/shopify-source.js";
 import type { PoolClient } from "pg";
 import { normalizeStock } from "../connectors/shopify-stock.js";
+import { normalizeFulfillments } from "../connectors/shopify-fulfillments.js";
 
 const catalogue = JSON.parse(
   await readFile(
@@ -238,7 +239,13 @@ export async function decideReview(
               transactions: [raw.transaction],
               transactionsCount: { count: 1, precision: "EXACT" },
             }
-          : raw;
+          : raw.source_scope === "single_fulfillment"
+            ? {
+                ...raw.order_context,
+                fulfillments: [raw.fulfillment],
+                fulfillmentsCount: { count: 1, precision: "EXACT" },
+              }
+            : raw;
       const normalized =
         item.capability === "stock"
           ? await normalizeStock(
@@ -250,14 +257,22 @@ export async function decideReview(
                 : item.checkpoint.through,
               raw.synthetic === true,
             )
-          : await normalizeSourceOrder(
-              replayRaw,
-              item.connection_id,
-              item.account_anchor,
-              item.capability,
-              item.parameters as ImportParameters,
-              item.checkpoint.stage === "open" ? "open" : "recent",
-            );
+          : item.capability === "fulfillments"
+            ? await normalizeFulfillments(
+                replayRaw,
+                item.connection_id,
+                item.parameters as ImportParameters,
+                item.checkpoint.stage,
+                item.checkpoint.through,
+              )
+            : await normalizeSourceOrder(
+                replayRaw,
+                item.connection_id,
+                item.account_anchor,
+                item.capability,
+                item.parameters as ImportParameters,
+                item.checkpoint.stage === "open" ? "open" : "recent",
+              );
       const original = normalized.find((o) => o.object_id === item.object_id);
       const group = original
         ? [original]

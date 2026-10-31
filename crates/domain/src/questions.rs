@@ -351,6 +351,13 @@ pub fn execute(records: &[Record], request: &Question) -> Result<Value, String> 
     for cap in required {
         ctx.coverage(cap);
     }
+    if required.contains(&"fulfillments") {
+        for r in ctx.rows("fulfillments") {
+            if ctx.scoped(r) && matches!(s(&r.data, "state"), "prepared" | "failed") {
+                ctx.gap("fulfillments.handover_confirmation");
+            }
+        }
+    }
     for r in ctx.rows("identity") {
         if s(&r.data, "confidence") == "ambiguous" && ctx.scoped(r) {
             ctx.conflicts.insert("ambiguous_identity".into());
@@ -418,6 +425,6 @@ pub fn execute(records: &[Record], request: &Question) -> Result<Value, String> 
         .take(request.limit)
         .collect();
     Ok(
-        json!({"status":status,"intent":request.intent,"result":if status=="insufficient_data"{Value::Null}else{json!({"rows":page,"count_in_scope":total})},"missing_inputs":ctx.missing,"conflicts":ctx.conflicts,"evidence":ctx.evidence,"input_entries":ctx.inputs,"coverage":{"basis":"declared_source_intervals","independently_verified":false,"limitations":limitations},"rule_version":"questions-v6","as_of":request.as_of,"next_offset":if request.offset+request.limit<total{Some(request.offset+request.limit)}else{None},"truncated":false}),
+        json!({"status":status,"intent":request.intent,"result":if status=="insufficient_data"{Value::Null}else{json!({"rows":page,"count_in_scope":total})},"missing_inputs":ctx.missing,"conflicts":ctx.conflicts,"evidence":ctx.evidence,"input_entries":ctx.inputs,"coverage":{"basis":"declared_source_intervals","independently_verified":false,"limitations":limitations},"rule_version":"questions-v7","as_of":request.as_of,"next_offset":if request.offset+request.limit<total{Some(request.offset+request.limit)}else{None},"truncated":false}),
     )
 }

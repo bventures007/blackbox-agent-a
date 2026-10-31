@@ -260,7 +260,32 @@ pub fn record_tracks(record: &serde_json::Value) -> &'static [&'static str] {
         "bank" if record["booking_status"] == "booked" => &["fact", "movement"],
         "provider_ledger" => &["fact", "movement"],
         "receipts" if record["disposition"] != "missing" => &["fact", "movement", "reservation"],
-        "fulfillments" if record["state"] == "handed_over" => &["fact", "movement", "reservation"],
+        "fulfillments" if matches!(record["state"].as_str(), Some("handed_over" | "delivered")) => {
+            &["fact", "movement", "reservation"]
+        }
         _ => &["fact"],
+    }
+}
+
+#[cfg(test)]
+mod record_track_tests {
+    use super::record_tracks;
+    use serde_json::json;
+    #[test]
+    fn fulfillment_preparation_has_no_physical_tracks() {
+        for state in ["prepared", "label", "failed", "cancelled"] {
+            assert_eq!(
+                record_tracks(&json!({"dataset":"fulfillments","state":state})),
+                &["fact"]
+            );
+        }
+        for state in ["handed_over", "delivered"] {
+            assert_eq!(
+                record_tracks(
+                    &json!({"dataset":"fulfillments","state":state,"administrative_status":"cancelled"})
+                ),
+                &["fact", "movement", "reservation"]
+            );
+        }
     }
 }

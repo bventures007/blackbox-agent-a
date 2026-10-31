@@ -1,5 +1,6 @@
 export const recordGermanFields: Record<string, string> = {
   dataset: "Datenart",
+  administrative_status: "Verwaltungsstatus",
   customer_id: "Kunden-ID",
   status: "Status",
   currency: "Währung",
@@ -101,6 +102,11 @@ export const recordGermanFields: Record<string, string> = {
   relationship_type: "Zuordnungsart",
 };
 export const recordGermanValues: Record<string, string> = {
+  prepared: "Vorbereitet",
+  failed: "Fehlgeschlagen",
+  success: "Erfolgreich",
+  failure: "Fehlgeschlagen",
+  error: "Fehler",
   orders: "Aufträge",
   stock: "Bestand",
   allocations: "Reservierungen",

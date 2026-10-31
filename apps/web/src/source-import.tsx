@@ -63,6 +63,7 @@ const en = {
   payments: "Payments",
   refunds: "Refunds",
   stock: "Inventory snapshots (requires inventory read access)",
+  fulfillments: "Fulfillments and recorded handover milestones",
   sourceHealth: "Collection and import progress",
   lastSuccess: "Last successful scoped check",
   lastNew: "Last new record",
@@ -112,7 +113,7 @@ const en = {
   close: "Close",
   changed: "Change scope",
   unsupported:
-    "This flow imports orders, payments and refunds, with optional inventory snapshots. Other selected Shopify capabilities are still being implemented.",
+    "This flow imports orders, payments and refunds, with optional inventory snapshots and fulfillments. Other selected Shopify capabilities are still being implemented.",
 };
 const de: Record<keyof typeof en, string> = {
   needs_review: "Prüfung erforderlich",
@@ -168,6 +169,7 @@ const de: Record<keyof typeof en, string> = {
   payments: "Zahlungen",
   refunds: "Erstattungen",
   stock: "Bestandsaufnahmen (Leseberechtigung für Lagerbestand erforderlich)",
+  fulfillments: "Auslieferungen und erfasste Übergabezeitpunkte",
   sourceHealth: "Erfassung und Importfortschritt",
   lastSuccess: "Letzte erfolgreiche Prüfung des Datenumfangs",
   lastNew: "Letzter neuer Datensatz",
@@ -217,9 +219,13 @@ const de: Record<keyof typeof en, string> = {
   close: "Schließen",
   changed: "Umfang ändern",
   unsupported:
-    "Dieser Ablauf importiert Aufträge, Zahlungen und Erstattungen sowie optional Bestandsaufnahmen. Weitere ausgewählte Shopify-Datenbereiche werden noch implementiert.",
+    "Dieser Ablauf importiert Aufträge, Zahlungen und Erstattungen sowie optional Bestandsaufnahmen und Auslieferungen. Weitere ausgewählte Shopify-Datenbereiche werden noch implementiert.",
 };
 const reasons: Record<string, [string, string]> = {
+  fulfillment_preparation_is_not_handover: [
+    "A prepared fulfillment is not proof of courier handover. Missing milestone timestamps leave delivery answers incomplete.",
+    "Eine vorbereitete Auslieferung belegt keine Übergabe an den Transportdienst. Fehlende Zeitpunkte lassen Lieferantworten unvollständig.",
+  ],
   inventory_current_snapshot_only: [
     "Inventory supplies current states, not historical opening balances or the causes of quantity changes.",
     "Lagerdaten liefern aktuelle Zustände, keine historischen Anfangsbestände oder Ursachen von Mengenänderungen.",
@@ -464,6 +470,7 @@ export function ImportPlan({
     r = useRemote("/v1/sources/readiness"),
     a = useAction(),
     [includeStock, setIncludeStock] = useState(false),
+    [includeFulfillments, setIncludeFulfillments] = useState(false),
     [preset, setPreset] = useState("last_30_days"),
     [zone, setZone] = useState(
       timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -503,6 +510,7 @@ export function ImportPlan({
       "payments",
       "refunds",
       ...(includeStock ? ["stock"] : []),
+      ...(includeFulfillments ? ["fulfillments"] : []),
     ],
     acknowledge_restrictions: ack,
   };
@@ -617,6 +625,14 @@ export function ImportPlan({
               onChange={(e) => setIncludeStock(e.target.checked)}
             />
             {s.stock}
+          </label>
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={includeFulfillments}
+              onChange={(e) => setIncludeFulfillments(e.target.checked)}
+            />
+            {s.fulfillments}
           </label>
           <label>
             {s.range}
