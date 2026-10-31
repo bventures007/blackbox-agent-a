@@ -36,6 +36,20 @@ const copy = {
       "Restored raw content is blocked. Reconcile the policy and backup cutoff through the host before reopening it.",
     copies:
       "Old immutable backups and external exports remain unchanged. A current authenticated ledger prevents silent revival on restore. Copies outside this installation cannot be guaranteed erased.",
+    generations: "Known managed backup generations",
+    copyScan: "Inventory checked",
+    copyTotal: "Completed generations found",
+    copyUnknown:
+      "The managed backup inventory is unavailable. Other backups and exported copies are unknown.",
+    copyNone:
+      "No backup destination is enrolled. Other backups and exported copies are unknown.",
+    copyLimited:
+      "Only the newest 100 generations are listed; older generations may also retain original content.",
+    mayPredate: "May contain content removed or restricted since this cutoff",
+    policyAtCutoff:
+      "No later policy change is recorded; archive contents have not been inspected",
+    copyBasis:
+      "This bounded list checks managed metadata and file sizes, not archive contents or recoverability. Restricting live content does not delete these copies. Their configured backup retention policy applies; keep an independently exported current restriction ledger for recovery.",
     cleanup: "Physical removal runs through guarded host maintenance:",
     automatic:
       "While the backend is running, expired or restricted originals are checked hourly; abandoned temporary files are checked daily. Cleanup briefly pauses the application. Sleep or shutdown delays physical removal; access expires immediately.",
@@ -88,6 +102,21 @@ const copy = {
       "Wiederhergestellte Originalinhalte sind gesperrt. Gleiche Richtlinie und Sicherungsstand am Host ab, bevor du sie wieder freigibst.",
     copies:
       "Alte unveränderliche Sicherungen und externe Exporte bleiben unverändert. Ein aktuelles authentifiziertes Sperrverzeichnis verhindert eine unbemerkte Freigabe nach Wiederherstellung. Die Löschung von Kopien außerhalb dieser Installation kann nicht garantiert werden.",
+    generations: "Bekannte verwaltete Sicherungsstände",
+    copyScan: "Bestand geprüft",
+    copyTotal: "Gefundene abgeschlossene Sicherungen",
+    copyUnknown:
+      "Der Bestand verwalteter Sicherungen ist nicht verfügbar. Weitere Sicherungen und exportierte Kopien sind unbekannt.",
+    copyNone:
+      "Es ist kein Sicherungsziel eingerichtet. Weitere Sicherungen und exportierte Kopien sind unbekannt.",
+    copyLimited:
+      "Nur die neuesten 100 Sicherungen werden angezeigt; ältere Sicherungen können ebenfalls Originalinhalte enthalten.",
+    mayPredate:
+      "Kann Inhalte enthalten, die seit diesem Stand entfernt oder gesperrt wurden",
+    policyAtCutoff:
+      "Keine spätere Richtlinienänderung erfasst; Archivinhalte wurden nicht geprüft",
+    copyBasis:
+      "Diese begrenzte Liste prüft verwaltete Metadaten und Dateigrößen, nicht Archivinhalte oder Wiederherstellbarkeit. Eine Sperrung im laufenden System löscht diese Kopien nicht. Es gilt die eingerichtete Aufbewahrung für Sicherungen; bewahre ein separat exportiertes aktuelles Sperrverzeichnis für die Wiederherstellung auf.",
     cleanup: "Die physische Entfernung erfolgt über geschützte Host-Wartung:",
     automatic:
       "Bei laufendem Backend werden abgelaufene oder gesperrte Originale stündlich geprüft; verwaiste temporäre Dateien täglich. Die Bereinigung pausiert die Anwendung kurz. Ruhezustand oder Ausschalten verzögert die physische Entfernung; der Zugriff endet sofort mit Ablauf der Frist.",
@@ -308,6 +337,41 @@ export function EvidencePolicy() {
       <p>{s.cleanup}</p>
       <pre>./blackbox evidence purge</pre>
       <p className="muted">{s.copies}</p>
+      <details>
+        <summary>{s.generations}</summary>
+        <p>{s.copyBasis}</p>
+        {remote.data?.maintenance?.copies?.state === "available" ? (
+          <>
+            <p>
+              {s.copyScan}:{" "}
+              <DateText value={remote.data.maintenance.copies.observed_at} />
+            </p>
+            <p>
+              {s.copyTotal}: {remote.data.maintenance.copies.total}
+            </p>
+            {remote.data.maintenance.copies.truncated && (
+              <p className="notice">{s.copyLimited}</p>
+            )}
+            {remote.data.maintenance.copies.generations.map((v: any) => (
+              <p key={v.generation}>
+                <code>{v.generation}</code> ·{" "}
+                <DateText value={v.recoverable_cutoff} /> ·{" "}
+                {remote.data.latest_content_policy_change &&
+                Date.parse(v.recoverable_cutoff) <=
+                  Date.parse(remote.data.latest_content_policy_change)
+                  ? s.mayPredate
+                  : s.policyAtCutoff}
+              </p>
+            ))}
+          </>
+        ) : (
+          <p>
+            {remote.data?.maintenance?.copies?.state === "not_configured"
+              ? s.copyNone
+              : s.copyUnknown}
+          </p>
+        )}
+      </details>
       <details>
         <summary>{s.history}</summary>
         {remote.data?.policies.map((p: any) => (

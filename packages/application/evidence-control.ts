@@ -24,6 +24,24 @@ const schema = z
     check_interval_seconds: z.literal(3600),
     orphan_interval_seconds: z.literal(86400),
     scheduler_heartbeat: date,
+    copies: z
+      .object({
+        observed_at: date,
+        state: z.enum(["not_configured", "available", "unavailable"]),
+        generations: z
+          .array(
+            z
+              .object({
+                generation: z.string().regex(/^[a-f0-9]{32}$/),
+                recoverable_cutoff: z.iso.datetime({ offset: true }),
+              })
+              .strict(),
+          )
+          .max(100),
+        total: z.number().int().nonnegative().max(20000).nullable(),
+        truncated: z.boolean(),
+      })
+      .strict(),
   })
   .strict();
 

@@ -23,6 +23,13 @@ test("evidence cleanup status is private, bounded and bound to the installation 
     check_interval_seconds: 3600,
     orphan_interval_seconds: 86400,
     scheduler_heartbeat: now,
+    copies: {
+      observed_at: now,
+      state: "available",
+      generations: [{ generation: "a".repeat(32), recoverable_cutoff: now }],
+      total: 1,
+      truncated: false,
+    },
   };
   const save = async (v: unknown) => {
     await writeFile(path, JSON.stringify(v), { mode: 0o600 });

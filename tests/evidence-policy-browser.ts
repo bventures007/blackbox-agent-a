@@ -94,6 +94,24 @@ try {
         0,
       );
     }
+    if (process.env.TEST_EXPECT_BACKUP_WARNING === "1") {
+      await panel
+        .getByText(
+          language === "de"
+            ? "Bekannte verwaltete Sicherungsstände"
+            : "Known managed backup generations",
+          { exact: true },
+        )
+        .click();
+      const warning = panel.getByText(
+        language === "de"
+          ? "Kann Inhalte enthalten, die seit diesem Stand entfernt oder gesperrt wurden"
+          : "May contain content removed or restricted since this cutoff",
+        { exact: false },
+      );
+      await warning.waitFor();
+      await warning.scrollIntoViewIfNeeded();
+    }
     assert.ok(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,

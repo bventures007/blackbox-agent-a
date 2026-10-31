@@ -93,6 +93,11 @@ export async function evidencePolicyStatus(tenant: string) {
   return scoped(tenant, async (c) => ({
     default_days: 90,
     maintenance: await evidenceMaintenanceStatus(tenant),
+    latest_content_policy_change: (
+      await c.query(
+        "SELECT max(changed_at) changed_at FROM (SELECT created_at changed_at FROM bb.evidence_policies UNION ALL SELECT created_at FROM bb.evidence_provider_limits UNION ALL SELECT restricted_at FROM bb.evidence_restrictions UNION ALL SELECT effective_expires_at FROM bb.evidence_retention WHERE effective_expires_at<=now()) changes",
+      )
+    ).rows[0].changed_at,
     policies: (
       await c.query(
         "SELECT policy_id,connection_id,evidence_class,days,reason,created_at FROM bb.evidence_policies ORDER BY created_at DESC,policy_id DESC LIMIT 100",

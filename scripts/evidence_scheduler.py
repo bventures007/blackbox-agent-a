@@ -22,7 +22,15 @@ def publish(root,now=None,heartbeat=None,maintenance_required=False):
  completed=load_json(runtime/'evidence-policy-status.json').get('completed_at')
  checked=timestamp(state.get('last_checked_at'));clock_anomaly=checked is not None and checked>now+300
  next_check=now if checked is None else checked+(RETRY_SECONDS if state.get('state')=='failed'else CHECK_SECONDS)
+ # Cache bounded metadata inspection across heartbeat/UI publication. A newly
+ # completed generation invalidates the cache without waiting for another hour.
+ copies=load_json(runtime/'evidence-copy-inventory.json');copied_at=timestamp(copies.get('observed_at'))
+ generation=load_json(runtime/'backup-status.json').get('generation')
+ if copied_at is None or copied_at>now+300 or now-copied_at>=60 or copies.get('last_generation')!=generation:
+  from evidence_copies import inventory
+  copies={**inventory(root,now),'last_generation':generation};atomic_json(runtime/'evidence-copy-inventory.json',copies)
  value={'schema_version':1,'owner_workspace_id':load_json(runtime/'owner-workspace.json').get('tenant_id'),'observed_at':iso(now),'state':'maintenance_required'if maintenance_required else 'clock_anomaly'if clock_anomaly else state.get('state','scheduled'),'last_checked_at':state.get('last_checked_at'),'last_attempt':state.get('last_attempt'),'last_completed':completed,'next_check_at':None if clock_anomaly or maintenance_required else iso(next_check),'check_interval_seconds':CHECK_SECONDS,'orphan_interval_seconds':SCAN_SECONDS,'scheduler_heartbeat':heartbeat or load_json(runtime/'supervisor.json').get('observed_at')}
+ value['copies']={k:v for k,v in copies.items()if k!='last_generation'}
  atomic_json(runtime/'control/status/evidence-policy.json',value);return value
 
 def tick(root,now=None):
