@@ -77,6 +77,15 @@ try {
         { exact: true },
       )
       .waitFor();
+    if (!process.env.TEST_OWNER_KEY)
+      await panel
+        .getByText(
+          language === "de"
+            ? "Originale ohne bestätigte Quellen- und Belegklassenzuordnung"
+            : "Originals without a verified source/class association",
+          { exact: false },
+        )
+        .waitFor();
     await panel.scrollIntoViewIfNeeded();
     if (process.env.TEST_HOST_SCHEDULER === "1") {
       await panel

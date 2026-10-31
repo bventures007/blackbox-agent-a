@@ -1,3 +1,4 @@
+import { maintainCheckpoints } from "../packages/application/checkpoint-maintenance.js";
 import { openSecret, secretKeyVersion } from "../packages/auth/secrets.js";
 import {
   dataKey,
@@ -82,8 +83,10 @@ try {
       id = row.connection_id;
     }
   }
+  const cursorCounts = await maintainCheckpoints(pool);
   console.log(
     JSON.stringify({
+      ...cursorCounts,
       status: "passed",
       checked_retained_evidence: count,
       checked_provider_credentials: credentials,

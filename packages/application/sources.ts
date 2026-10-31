@@ -1,3 +1,4 @@
+import { sealCheckpoint } from "./source-checkpoint.js";
 import { randomUUID } from "node:crypto";
 import type { PoolClient } from "pg";
 import { z } from "zod";
@@ -233,7 +234,17 @@ export async function enqueueJob(
   );
   await c.query(
     "INSERT INTO bb.source_jobs(tenant_id,job_id,connection_id,plan_id,capability,kind,run_id,checkpoint,next_at)VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)",
-    [tenant, job, connection, plan, capability, kind, run, checkpoint, nextAt],
+    [
+      tenant,
+      job,
+      connection,
+      plan,
+      capability,
+      kind,
+      run,
+      await sealCheckpoint(tenant, connection, job, checkpoint),
+      nextAt,
+    ],
   );
   return { run_id: run, job_id: job };
 }

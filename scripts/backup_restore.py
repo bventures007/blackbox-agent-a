@@ -35,7 +35,7 @@ def verified_backup(root,path,secret):
   metadata=manifest['metadata']
   expected={'application':'0.1.0','postgres_major':17,'engine_rpc':1,'lifecycle':'lifecycle-v2','typed_records':'records-v3','questions':'questions-v9','backup_format':1}
   compatibility=metadata.get('compatibility',{})
-  if compatibility.get('schema')in [7,8]:
+  if compatibility.get('schema')in [7,8,10]:
    from release_compatibility import backup_compatibility
    if compatibility!=backup_compatibility(root,compatibility['schema']):raise BackupFormatError('incompatible_backup_contract')
   elif {k:compatibility.get(k)for k in expected}!=expected or compatibility.get('schema')not in [5,6]or set(compatibility)!=set(expected)|{'schema'}:raise BackupFormatError('incompatible_backup_contract')
@@ -53,7 +53,7 @@ def verified_backup(root,path,secret):
   if any(len(k)!=32 for k in material):raise BackupFormatError('backup_data_key_invalid')
   if ring and (len(small['secrets/identity'])!=32 or small['secrets/identity']in material):raise BackupFormatError('backup_identity_key_invalid')
   if ring and (any(hashlib.sha256(small['secrets/'+key_filename(k)]).hexdigest()!=ring['checksums'][k]for k in ring['keys'])or hashlib.sha256(small['secrets/identity']).hexdigest()!=ring['identity_sha256']):raise BackupFormatError('backup_key_integrity_mismatch')
-  if compatibility.get('schema')==8:
+  if compatibility.get('schema')in [8,10]:
    from evidence_policy import verified_ledger
    try:verified_ledger(root,small['policy/redactions.json'],small['secrets/identity']if ring else small['secrets/data'])
    except (RuntimeConfigError,ValueError):raise BackupFormatError('backup_policy_ledger_invalid')from None

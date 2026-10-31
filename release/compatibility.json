@@ -1,11 +1,12 @@
 {
   "manifest_version": 1,
-  "release": "0.1.0-pilot.2",
+  "release": "0.1.0-pilot.3",
   "install": {
     "postgres_major": 17,
-    "schema": 8,
+    "schema": 10,
     "upgrade_from_schema": [
-      7
+      7,
+      8
     ],
     "rollback": "No populated binary downgrade. Use a compatible forward fix or isolated verified pre-upgrade restore with its recorded cutoff."
   },
@@ -47,7 +48,8 @@
     "postgres_read": [
       17,
       18
-    ]
+    ],
+    "source_checkpoint": 2
   },
   "migrations": [
     {
@@ -81,6 +83,14 @@
     {
       "file": "008-evidence-policy.sql",
       "sha256": "487df1bfd46c18a2ba4367583e4f44ff1d84516fd613765238cd99dac124f5e7"
+    },
+    {
+      "file": "009-evidence-provenance-and-cursors.sql",
+      "sha256": "0dd1fd765e912feb78a1b5a2323e0a7c39e3d97b09386fd6c05a730f67b6a01f"
+    },
+    {
+      "file": "010-unclassified-access-boundary.sql",
+      "sha256": "b02684429e9d528fb602d546039fa452403fe25c14d22128fd1a461ed3260d5a"
     }
   ],
   "legacy_schema": {

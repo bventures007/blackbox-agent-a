@@ -1,6 +1,10 @@
+import {
+  encryptEvidence,
+  durableReplace,
+} from "../packages/auth/key-material.js";
 /** Actual PostgreSQL/API/Rust/MCP policy boundaries using isolated synthetic tenants. */
 import assert from "node:assert/strict";
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHash } from "node:crypto";
 import { readFile, writeFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import pg from "pg";
@@ -361,6 +365,51 @@ try {
     check(
       "stricter_provider_ceiling_expiry_and_restriction_deny_API_and_actual_MCP_while_fixed_business_answer_survives",
     );
+    const unclassified: string[] = [];
+    for (const withContext of [false, true]) {
+      const id = randomUUID(),
+        raw = Buffer.from(
+          JSON.stringify({ synthetic_unclassified_original: true }),
+        );
+      await durableReplace(
+        join(process.env.EVIDENCE_DIR!, s.tenant, id),
+        await encryptEvidence(s.tenant, id, raw),
+      );
+      await admin.query(
+        "INSERT INTO bb.evidence(tenant_id,evidence_id,sha256,created_at)VALUES($1,$2,$3,now()+interval '1 day')",
+        [s.tenant, id, createHash("sha256").update(raw).digest("hex")],
+      );
+      if (withContext)
+        await admin.query(
+          "INSERT INTO bb.evidence_context(tenant_id,evidence_id,evidence_class)VALUES($1,$2,'legacy_unclassified')",
+          [s.tenant, id],
+        );
+      const row = (
+        await admin.query(
+          "SELECT retained,accessible,connection_id,evidence_class FROM bb.evidence_retention WHERE tenant_id=$1 AND evidence_id=$2",
+          [s.tenant, id],
+        )
+      ).rows[0];
+      assert.equal(row.retained, false);
+      assert.equal(row.accessible, false);
+      assert.equal(row.connection_id, null);
+      assert.deepEqual(await evidence(s, id), { status: "unavailable" });
+      assert.deepEqual(await mcp(s, "get_evidence", { evidence_id: id }), {
+        status: "unavailable",
+      });
+      unclassified.push(id);
+    }
+    await policy(s, 365, "legacy_unclassified", null);
+    for (const id of unclassified)
+      assert.deepEqual(await evidence(s, id), { status: "unavailable" });
+    assert.equal(
+      (await call("/v1/evidence-policy", undefined, s.headers)).counts
+        .unclassified,
+      2,
+    );
+    check(
+      "valid_encrypted_originals_without_source_class_provenance_denied_API_MCP_even_after_longer_owner_policy",
+    );
     const roles = [
       process.env.DATABASE_URL,
       process.env.WORKER_DATABASE_URL,
@@ -402,7 +451,16 @@ try {
     }
     await writeFile(
       join(runtime, "evidence-policy-proof.json"),
-      JSON.stringify({ s, other, initial, aged, capped, fixed, answer }),
+      JSON.stringify({
+        s,
+        other,
+        initial,
+        aged,
+        capped,
+        fixed,
+        answer,
+        unclassified,
+      }),
       { mode: 0o600 },
     );
     check(
@@ -412,6 +470,8 @@ try {
     const p = JSON.parse(
       await readFile(join(runtime, "evidence-policy-proof.json"), "utf8"),
     );
+    for (const id of p.unclassified)
+      assert.deepEqual(await evidence(p.s, id), { status: "unavailable" });
     assert.deepEqual(await evidence(p.s, p.initial.evidence_id), {
       status: "unavailable",
     });

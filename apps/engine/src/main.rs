@@ -73,7 +73,7 @@ fn internal(h: &HeaderMap, a: &App) -> Result<(), Error> {
         ));
     }
     if h.get("x-blackbox-contract").and_then(|v| v.to_str().ok())
-        != Some("63f6ffba3371cfc080f8702987120964ea6aea0979fc4949eccdf3d908e7fb11")
+        != Some("f44009de0ee45cf3b5d92fa8f5360099077a62fa7d3bf680384b03e1aa2090b6")
     {
         return Err(error("runtime_contract_incompatible"));
     }
@@ -316,7 +316,7 @@ fn release_manifest() -> Value {
             "{:x}",
             Sha256::digest(serde_json::to_vec(&manifest["runtime"]).unwrap())
         ),
-        "63f6ffba3371cfc080f8702987120964ea6aea0979fc4949eccdf3d908e7fb11",
+        "f44009de0ee45cf3b5d92fa8f5360099077a62fa7d3bf680384b03e1aa2090b6",
         "unsupported compiled runtime contract"
     );
     manifest

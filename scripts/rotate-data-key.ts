@@ -1,3 +1,4 @@
+import { maintainCheckpoints } from "../packages/application/checkpoint-maintenance.js";
 /** Fenced host maintenance only. No provider credentials, raw content or key bytes in output. */
 import pg from "pg";
 import { createHash } from "node:crypto";
@@ -117,8 +118,14 @@ try {
       }
     }
   }
+  const cursorCounts = await maintainCheckpoints(
+    pool,
+    target,
+    mode === "transform",
+  );
   console.log(
     JSON.stringify({
+      ...cursorCounts,
       status: "passed",
       mode,
       target,

@@ -32,6 +32,8 @@ const copy = {
     save: "Save retention policy",
     future: "Selected policy saved. Existing content cannot gain extra time.",
     counts: "Accessible / pending physical removal / removed",
+    unclassified:
+      "Originals without a verified source/class association are blocked and scheduled for audited removal. Business facts remain available. A longer policy cannot reopen these originals.",
     blocked:
       "Restored raw content is blocked. Reconcile the policy and backup cutoff through the host before reopening it.",
     copies:
@@ -98,6 +100,8 @@ const copy = {
     future:
       "Richtlinie gespeichert. Vorhandene Inhalte erhalten keine zusätzliche Zeit.",
     counts: "Zugänglich / Entfernung ausstehend / entfernt",
+    unclassified:
+      "Originale ohne bestätigte Quellen- und Belegklassenzuordnung sind gesperrt und für die protokollierte Entfernung vorgesehen. Geschäftsdaten bleiben verfügbar. Eine längere Frist gibt diese Originale nicht wieder frei.",
     blocked:
       "Wiederhergestellte Originalinhalte sind gesperrt. Gleiche Richtlinie und Sicherungsstand am Host ab, bevor du sie wieder freigibst.",
     copies:
@@ -182,6 +186,11 @@ export function EvidencePolicy() {
         <p>
           {s.counts}: {remote.data.counts.accessible} /{" "}
           {remote.data.counts.removal_pending} / {remote.data.counts.disposed}
+        </p>
+      )}
+      {remote.data?.counts?.unclassified > 0 && (
+        <p role="status">
+          {s.unclassified} ({remote.data.counts.unclassified})
         </p>
       )}
       <form

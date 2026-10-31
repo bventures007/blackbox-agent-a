@@ -13,6 +13,19 @@ def workflow(root,source,secret,api,arguments,command,mark,token):
  metadata=sql(source,"SELECT md5(string_agg(e::text,'' ORDER BY tenant_id,evidence_id)) FROM bb.evidence e;")
  identity=(runtime/'secrets/identity').read_bytes();oldkey=(runtime/'secrets/data').read_bytes()
  old=generation(source);cipher=target(json.loads((runtime/'backup.json').read_text()))/old['generation']
+ # Corrupted provider cursors must prevent a published recovery generation too.
+ row=proof['proof'][0];where="tenant_id='"+row['tenant']+"' AND job_id='"+row['job']+"'"
+ checkpoint=json.loads(sql(source,'SELECT checkpoint FROM bb.source_jobs WHERE '+where+';'))
+ sql(source,"UPDATE bb.source_jobs SET checkpoint=jsonb_set(checkpoint,'{sealed_after,tag}','\"AAAAAAAAAAAAAAAAAAAAAA==\"'::jsonb) WHERE "+where+';')
+ try:
+  try:generation(source);raise AssertionError('Corrupted cursor published')
+  except RuntimeConfigError:pass
+  assert cipher.exists()
+ finally:
+  encoded=json.dumps(checkpoint).encode().hex()
+  sql(source,"UPDATE bb.source_jobs SET checkpoint=convert_from(decode('"+encoded+"','hex'),'UTF8')::jsonb WHERE "+where+';')
+ mark('tampered_encrypted_cursor_blocks_backup_publication_preserving_prior_generation')
+
  process=None
  log=runtime/'rotation-test-output.log';old_restore=root/'work'/('rotation-old-backup-'+token)
  try:

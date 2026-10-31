@@ -110,7 +110,7 @@ export async function evidencePolicyStatus(tenant: string) {
     ).rows,
     counts: (
       await c.query(
-        "SELECT count(*)::integer total,count(*) FILTER(WHERE accessible)::integer accessible,count(*) FILTER(WHERE NOT retained AND disposed_at IS NULL)::integer removal_pending,count(*) FILTER(WHERE disposed_at IS NOT NULL)::integer disposed FROM bb.evidence_retention",
+        "SELECT count(*)::integer total,count(*) FILTER(WHERE (connection_id IS NULL OR evidence_class='legacy_unclassified') AND disposed_at IS NULL)::integer unclassified,count(*) FILTER(WHERE accessible)::integer accessible,count(*) FILTER(WHERE NOT retained AND disposed_at IS NULL)::integer removal_pending,count(*) FILTER(WHERE disposed_at IS NOT NULL)::integer disposed FROM bb.evidence_retention",
       )
     ).rows[0],
     recovery_blocked: !!(

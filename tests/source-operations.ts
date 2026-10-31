@@ -466,7 +466,17 @@ try {
       [a.id, interrupted.job_id],
     )
   ).rows[0].checkpoint;
-  assert.ok(checkpoint.after);
+  assert.equal(checkpoint.after, null);
+  assert.ok(checkpoint.sealed_after);
+  assert.equal(
+    (
+      await admin.query(
+        "SELECT cursor FROM bb.import_runs WHERE tenant_id=$1 AND run_id=$2",
+        [a.id, interrupted.run_id],
+      )
+    ).rows[0].cursor,
+    null,
+  );
   await api(a, `/v1/connections/${connection}/state`, { state: "paused" });
   await api(b, `/v1/connections/${strictConnected.connection_id}/state`, {
     state: "paused",

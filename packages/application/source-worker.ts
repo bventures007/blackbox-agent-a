@@ -1,3 +1,4 @@
+import { openCheckpoint, sealCheckpoint } from "./source-checkpoint.js";
 import { randomUUID } from "node:crypto";
 import type { PoolClient } from "pg";
 import { z } from "zod";
@@ -92,11 +93,22 @@ export async function claimSourceJob(tenant: string): Promise<Job | null> {
         [candidate.job_id],
       )
     ).rows[0] as Job;
+    j.checkpoint = await openCheckpoint(
+      j.tenant_id,
+      j.connection_id,
+      j.job_id,
+      j.checkpoint,
+    );
     if (!j.checkpoint.through) {
       j.checkpoint.through = new Date().toISOString();
       await c.query("UPDATE bb.source_jobs SET checkpoint=$2 WHERE job_id=$1", [
         j.job_id,
-        j.checkpoint,
+        await sealCheckpoint(
+          j.tenant_id,
+          j.connection_id,
+          j.job_id,
+          j.checkpoint,
+        ),
       ]);
     }
     await c.query(
@@ -191,11 +203,21 @@ async function yieldPage(
     await assertLease(c, j);
     await c.query(
       "UPDATE bb.source_jobs SET state='queued',phase=$2,checkpoint=$3,attempts=0,lease_owner=NULL,leased_until=NULL,next_at=now()+$4::interval,error_code=NULL,updated_at=now() WHERE job_id=$1",
-      [j.job_id, phase, checkpoint, delay + " milliseconds"],
+      [
+        j.job_id,
+        phase,
+        await sealCheckpoint(
+          j.tenant_id,
+          j.connection_id,
+          j.job_id,
+          checkpoint,
+        ),
+        delay + " milliseconds",
+      ],
     );
     await c.query(
-      "UPDATE bb.import_runs SET state='running',phase=$2,cursor=$3,updated_at=now() WHERE run_id=$1",
-      [j.run_id, phase, checkpoint.after],
+      "UPDATE bb.import_runs SET state='running',phase=$2,cursor=NULL,updated_at=now() WHERE run_id=$1",
+      [j.run_id, phase],
     );
   });
 }
@@ -268,7 +290,7 @@ async function finish(j: Job) {
       ],
     );
     await c.query(
-      "UPDATE bb.source_jobs SET state='complete_with_gaps',phase=CASE WHEN $2>0 THEN 'needs_review' ELSE 'ready_for_queries' END,completed_at=now(),updated_at=now(),lease_owner=NULL,leased_until=NULL,attempts=0,error_code=CASE WHEN $2>0 THEN 'source_records_quarantined' ELSE NULL END WHERE job_id=$1",
+      "UPDATE bb.source_jobs SET checkpoint=(checkpoint-'sealed_after')||jsonb_build_object('after',NULL),state='complete_with_gaps',phase=CASE WHEN $2>0 THEN 'needs_review' ELSE 'ready_for_queries' END,completed_at=now(),updated_at=now(),lease_owner=NULL,leased_until=NULL,attempts=0,error_code=CASE WHEN $2>0 THEN 'source_records_quarantined' ELSE NULL END WHERE job_id=$1",
       [j.job_id, quarantined],
     );
     await c.query(
@@ -585,7 +607,7 @@ export async function processSourceJob(j: Job) {
     });
     const next = {
       ...j.checkpoint,
-      after: data.pageInfo.endCursor,
+      after: data.pageInfo.hasNextPage ? data.pageInfo.endCursor : null,
       pages: j.checkpoint.pages + 1,
     };
     if (data.pageInfo.hasNextPage) {

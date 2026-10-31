@@ -1,3 +1,7 @@
+import {
+  sealCheckpoint,
+  openCheckpoint,
+} from "../packages/application/source-checkpoint.js";
 /** Synthetic, host-maintenance-only rotation corpus. No provider network calls. */
 import pg from "pg";
 import assert from "node:assert/strict";
@@ -76,6 +80,34 @@ try {
         "INSERT INTO bb.source_secrets(tenant_id,connection_id,key_version,sealed,validated_at)VALUES($1,$2,$3,$4,now())",
         [tenant, connection, sealed.key_version, sealed],
       );
+      const plan = randomUUID(),
+        run = randomUUID(),
+        job = randomUUID();
+      const cursor = {
+        from: "2026-01-01T00:00:00Z",
+        stage: "recent",
+        pages: 1,
+        after: "synthetic-private-cursor-" + randomUUID(),
+      };
+      await pool.query(
+        "INSERT INTO bb.import_plans(tenant_id,plan_id,connection_id,revision,parameters,capabilities,selected_by,provider_revision)VALUES($1,$2,$3,1,'{}',ARRAY['orders'],$4,'synthetic-cursor-v1')",
+        [tenant, plan, connection, randomUUID()],
+      );
+      await pool.query(
+        "INSERT INTO bb.import_runs(tenant_id,run_id,connection_id,plan_id,kind,state,phase)VALUES($1,$2,$3,$4,'initial','paused','import_records')",
+        [tenant, run, connection, plan],
+      );
+      await pool.query(
+        "INSERT INTO bb.source_jobs(tenant_id,job_id,connection_id,plan_id,capability,kind,run_id,checkpoint,state)VALUES($1,$2,$3,$4,'orders','initial',$5,$6,'paused')",
+        [
+          tenant,
+          job,
+          connection,
+          plan,
+          run,
+          await sealCheckpoint(tenant, connection, job, cursor),
+        ],
+      );
       await mkdir(join(process.env.EVIDENCE_DIR!, tenant), {
         recursive: true,
         mode: 0o700,
@@ -110,11 +142,17 @@ try {
           "INSERT INTO bb.evidence(tenant_id,evidence_id,sha256)VALUES($1,$2,$3)",
           [tenant, id, createHash("sha256").update(bytes).digest("hex")],
         );
+        await pool.query(
+          "INSERT INTO bb.evidence_context(tenant_id,evidence_id,connection_id,evidence_class)VALUES($1,$2,$3,'provider_response')",
+          [tenant, id, connection],
+        );
       }
       proof.push({
         tenant,
         connection,
         plaintext_hash: digest(plain),
+        job,
+        cursor_hash: digest(cursor),
         stable_identity: await opaqueIdentity(
           tenant,
           "rotation-test-stable-identity",
@@ -159,6 +197,23 @@ try {
       await assert.rejects(() =>
         openSecret(row.tenant, randomUUID(), stored.sealed),
       );
+      const checkpoint = (
+        await pool.query(
+          "SELECT checkpoint FROM bb.source_jobs WHERE tenant_id=$1 AND job_id=$2",
+          [row.tenant, row.job],
+        )
+      ).rows[0].checkpoint;
+      assert.equal(checkpoint.after, null);
+      assert.equal(checkpoint.sealed_after.key_version, (await dataKey()).id);
+      assert.equal(
+        digest(
+          await openCheckpoint(row.tenant, row.connection, row.job, checkpoint),
+        ),
+        row.cursor_hash,
+      );
+      await assert.rejects(() =>
+        openCheckpoint(row.tenant, row.connection, randomUUID(), checkpoint),
+      );
       const evidence = (
         await pool.query(
           "SELECT evidence_id,sha256 FROM bb.evidence WHERE tenant_id=$1 ORDER BY evidence_id",
@@ -182,6 +237,7 @@ try {
         status: "passed",
         checks: [
           "both_tenant_credentials_and_identity_anchors_preserved",
+          "both_tenant_encrypted_cursors_preserved_and_job_bound",
           "credential_wrong_tenant_and_purpose_denied",
           "all_retained_evidence_plaintext_hashes_preserved",
         ],
