@@ -1,0 +1,141 @@
+{
+  "kind": "failed_projection_retry_recovery",
+  "status": "passed",
+  "tested_commit": "5c7f7ee1decd23fbd726a3cb9878c439581dc7d0",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T20:41:58.563444+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "ports": [
+      18817,
+      18819
+    ],
+    "stages": [
+      "work/projection-retry-91f76cfe852f",
+      "work/projection-retry-recovery-91f76cfe852f"
+    ],
+    "images": {
+      "node": "sha256:d958293bac95a495418545659a65a82dca16c29030198ac381aa55bad81e79e6",
+      "engine": "sha256:bd2beea7746855ff268f68cff78b69197d331a0e8efe5611d5543621f10ae8b9"
+    },
+    "prior_fixture": {
+      "purpose": "Exact own-repository prior schema10 host/runtime fixture; not an independent review or distributed artifact",
+      "host_source_commit": "828355916add4585addf6a1d2788d9a39d01f3d1",
+      "node_source_commit": "828355916add4585addf6a1d2788d9a39d01f3d1",
+      "engine_source_commit": "828355916add4585addf6a1d2788d9a39d01f3d1",
+      "node_image": "sha256:0825713809999e1da9d131dafc4e247650ad80a8495fa5928ff00ff117f95383",
+      "engine_image": "sha256:f94e4b847432b6f403d2686dd8ec4852ffdf7ea892913b608bc4c4e7a05385c2",
+      "compose_adjustment": "Dedicated immutable-source tags prevent development tag replacement from removing prior identities. Actual image IDs are recorded.",
+      "files": {
+        "bin/LICENSE": "afbdb4e07a359499db587ae632815809b1fc1670a92d5449af112ce9a67833a2",
+        "bin/age": "4012dfc2725883beafb710894af4f599b7a94f8c8e0f51f02cc96ab8df33915e",
+        "bin/age-keygen": "c16e229245123d0ad27442317461d63915416cad0294395cd19ca93feb3211ea",
+        "blackbox": "0d7ef0f762602bc415361910849c90740bae15847287098e72ed82d1ac1a20f5",
+        "infra/compose/compose.yaml": "921108b4d400837c07d0262e0713a034d84ecd8440fa48710d3948c4bd80ea90",
+        "infra/compose/init.sh": "275d3b3d85971ca1fc32bcc689b7d3ede9ba15abae3f0c7d28b7cb5779b480de",
+        "packages/database/migrations/001-foundation.sql": "9afdee5051ea6dfb1e9b39bc0837018c5f63b347a41cd8c90d606a348cd4f58f",
+        "packages/database/migrations/002-producer-receipts.sql": "63f4ff07f8b37f28be54e206d119a88d875cdc62cb50665a82ec6965956c40fd",
+        "packages/database/migrations/003-record-projections.sql": "b5bec5701cb15215ede9101242825d17724df3825b0d4d287b8853b50a776475",
+        "packages/database/migrations/004-source-operations.sql": "9b86e8b806bb87c6b1bf84ba511a8ef89be7451f54b925ebef3a65c952684eee",
+        "packages/database/migrations/005-owner-review.sql": "328d6adaecc01967ed9eea5a93f37c8b74317e6df0de5cd11376051d84091f19",
+        "packages/database/migrations/006-recovery-guards.sql": "fcb52319962ae63c77f9574904129fb80a2d4df05687e332dedff4ed4c96ec90",
+        "packages/database/migrations/007-runtime-contract.sql": "d4b60d4bd005dffa660c361adda1a58e1a7f2394b17a6340b8c73c9df430423e",
+        "packages/database/migrations/008-evidence-policy.sql": "487df1bfd46c18a2ba4367583e4f44ff1d84516fd613765238cd99dac124f5e7",
+        "packages/database/migrations/009-evidence-provenance-and-cursors.sql": "0dd1fd765e912feb78a1b5a2323e0a7c39e3d97b09386fd6c05a730f67b6a01f",
+        "packages/database/migrations/010-unclassified-access-boundary.sql": "b02684429e9d528fb602d546039fa452403fe25c14d22128fd1a461ed3260d5a",
+        "release/compatibility.json": "e7e7430394646fb42d5727a99c46d68e7980c3cf06795f87a069f134cda034bb",
+        "scripts/backup_codec.py": "6a1c009633d5b8b92a517f0da6ce9d38cf6517f0d5a16d8dc8cb5889d2a6daf4",
+        "scripts/backup_operations.py": "acd5476505b9735246460f7fba6893d374465d8c219a4092a58587b66d37b6e8",
+        "scripts/backup_restore.py": "20de83a05fc1e70e370e70137b412c7c6ff924591ec907faad31721e5f654dfb",
+        "scripts/backup_supervisor.py": "a72bc4cb5846ecc81934705430a4420753a05eed6410ec46235a6ba0d88cb15b",
+        "scripts/database_identity.py": "74ce1b5855e0bd14bb1da85b9691c1eec9b0862a093a20cf50f87d45a4ac6102",
+        "scripts/diagnostics.py": "049b8f55e8ff7f1f48945e0fb24368b773fbf730e91b487fe230de826997c9c4",
+        "scripts/evidence_copies.py": "7fde7bbd481ccd804eb7582c0c7d57b12a9b13b46f1c013dfd9d1b8ba1c6d451",
+        "scripts/evidence_policy.py": "d8b6dfbcd9a135a604ba926ab8568d3e00ead20d7571c5930fea7785b64ffab0",
+        "scripts/evidence_scheduler.py": "1d5a4c87825540710189c7d7ef54b5a7223b58c92c63e2b0bed2c202a0a0e285",
+        "scripts/host_runtime.py": "01fe2e682ac3ee4586a856407f251069ca3318148d758c059e1634e01a7945b1",
+        "scripts/key_rotation.py": "0c192f5637a555b6cc20c20b93e57c7c7c0fc38e649b7148ebe87783e1d23df7",
+        "scripts/release_compatibility.py": "3297fe5b8fa952dccec0315bcff7b8f521c2f3e439f27e28fced983a4ea46619",
+        "scripts/release_images.py": "1dc4378ec3da7876a8c1712eba926c83071c8ed02e06323997877ce1beb8307e",
+        "scripts/upgrade-probe.mjs": "40e3eff958b76b6f32a477ccc072a25a7736b67c0f28893d0ebd5d65d73924ed",
+        "scripts/upgrade_operations.py": "c72c8fc8743bcf2c17a54abe9aa3b4cf534ceb5aa6337ef998b1efd33fe91285",
+        "vendor/age.lock.json": "eb713ececb9fe1a041d4f6274245b47d94531d741b1bfde2e35e1985ee0c482c"
+      }
+    }
+  },
+  "checks": [
+    "actual_corrupt_candidate_fails_and_plain_resume_cannot_create_retry",
+    "actual_SIGKILL_after_retry_grant_and_immutable_audit_preserves_old_failed_candidate",
+    "replacement_failure_cannot_reuse_old_authorization_even_after_backward_creation_clock",
+    "new_explicit_retry_publishes_fresh_generation_preserves_both_failed_candidates_and_API_SDK_MCP",
+    "isolated_restore_requires_explicit_failed_build_retry_before_owner_issuance_without_journal_change"
+  ],
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18817",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-e919e38840be-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-e919e38840be-postgres-1  Running\n Container blackbox-a-e919e38840be-api-1  Creating\n Container blackbox-a-e919e38840be-engine-1  Creating\n Container blackbox-a-e919e38840be-worker-1  Creating\n Container blackbox-a-e919e38840be-engine-1  Created\n Container blackbox-a-e919e38840be-worker-1  Created\n Container blackbox-a-e919e38840be-api-1  Created\n Container blackbox-a-e919e38840be-postgres-1  Waiting\n Container blackbox-a-e919e38840be-postgres-1  Waiting\n Container blackbox-a-e919e38840be-postgres-1  Waiting\n Container blackbox-a-e919e38840be-postgres-1  Healthy\n Container blackbox-a-e919e38840be-api-1  Starting\n Container blackbox-a-e919e38840be-postgres-1  Healthy\n Container blackbox-a-e919e38840be-worker-1  Starting\n Container blackbox-a-e919e38840be-postgres-1  Healthy\n Container blackbox-a-e919e38840be-engine-1  Starting\n Container blackbox-a-e919e38840be-engine-1  Started\n Container blackbox-a-e919e38840be-worker-1  Started\n Container blackbox-a-e919e38840be-api-1  Started\n"
+    },
+    {
+      "command": "python3 -c import pathlib,sys;sys.path.insert(0,'scripts');from backup_supervisor import stop;stop(pathlib.Path.cwd())",
+      "exit_code": 0,
+      "observed": ""
+    },
+    {
+      "command": "python3 -c import pathlib,sys;sys.path.insert(0,'scripts');from backup_operations import enroll;from host_runtime import create_file;r=pathlib.Path.cwd();v=pathlib.Path(sys.argv[1]);create_file(v/'recovery.key',enroll(r,v)) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-vault-91f76cfe852f",
+      "exit_code": 0,
+      "observed": ""
+    },
+    {
+      "command": "python3 -c import pathlib,sys,json,uuid;sys.path.insert(0,'scripts');import upgrade_operations as u\nr=pathlib.Path.cwd();original=u.probe\n\ndef probe(root,mode):\n if mode=='compare':\n  build=str(uuid.uuid4())\n  u.sql(root,\"INSERT INTO bb.projection_builds(tenant_id,build_id,source_generation_id,source_rule,target_rule,source_cutoff,target_cutoff,state,verified_count)SELECT tenant_id,'\"+build+\"',projection_generation,projection_rule,'lifecycle-v3',committed,committed,'ready',1 FROM bb.heads;INSERT INTO bb.projections(tenant_id,generation_id,entity_id,applied,rule_version,state,checksum,verified_checksum)SELECT tenant_id,'\"+build+\"',entity_id,applied,'lifecycle-v3',state,'corrupt','corrupt' FROM bb.projections LIMIT 1;\")\n return original(root,mode)\nu.probe=probe\nu.upgrade(r,pathlib.Path(sys.argv[1]).read_bytes(),node_image=sys.argv[2],engine_image=sys.argv[3])\n /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-vault-91f76cfe852f/recovery.key sha256:d958293bac95a495418545659a65a82dca16c29030198ac381aa55bad81e79e6 sha256:bd2beea7746855ff268f68cff78b69197d331a0e8efe5611d5543621f10ae8b9",
+      "exit_code": 1,
+      "observed": "Traceback (most recent call last):\n  File \"<string>\", line 10, in <module>\n    u.upgrade(r,pathlib.Path(sys.argv[1]).read_bytes(),node_image=sys.argv[2],engine_image=sys.argv[3])\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/upgrade_operations.py\", line 253, in upgrade\n    run(root,'up','-d','engine');marker['target_probe']=probe(root,'compare');run(root,'stop','engine')\n                                                        ~~~~~^^^^^^^^^^^^^^^^\n  File \"<string>\", line 8, in probe\n    return original(root,mode)\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/upgrade_operations.py\", line 156, in probe\n    result=json.loads(run(root,'run','--rm','--no-deps','--name',project+'-upgrade-probe','--label','com.blackbox.upgrade='+marker['operation_id'],'--user',str(os.getuid())+':'+str(os.getgid()),'tooling','node','--input-type=module','-',mode,input=script,timeout=330))\n                      ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/backup_operations.py\", line 56, in run\n    if result.returncode:raise RuntimeConfigError('Host container operation failed; inspect local diagnostics.')\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nhost_runtime.RuntimeConfigError: Host container operation failed; inspect local diagnostics.\n"
+    },
+    {
+      "command": "python3 -c import pathlib,sys;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;upgrade(pathlib.Path.cwd(),pathlib.Path(sys.argv[1]).read_bytes(),resume=True,retry_failed_builds=len(sys.argv)>2) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-vault-91f76cfe852f/recovery.key",
+      "exit_code": 1,
+      "observed": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import pathlib,sys;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;upgrade(pathlib.Path.cwd(),pathlib.Path(sys.argv[1]).read_bytes(),resume=True,retry_failed_builds=len(sys.argv)>2)\n                                                                                           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/upgrade_operations.py\", line 253, in upgrade\n    run(root,'up','-d','engine');marker['target_probe']=probe(root,'compare');run(root,'stop','engine')\n                                                        ~~~~~^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/upgrade_operations.py\", line 156, in probe\n    result=json.loads(run(root,'run','--rm','--no-deps','--name',project+'-upgrade-probe','--label','com.blackbox.upgrade='+marker['operation_id'],'--user',str(os.getuid())+':'+str(os.getgid()),'tooling','node','--input-type=module','-',mode,input=script,timeout=330))\n                      ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/backup_operations.py\", line 56, in run\n    if result.returncode:raise RuntimeConfigError('Host container operation failed; inspect local diagnostics.')\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nhost_runtime.RuntimeConfigError: Host container operation failed; inspect local diagnostics.\n"
+    },
+    {
+      "command": "python3 -c import pathlib,sys;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;upgrade(pathlib.Path.cwd(),pathlib.Path(sys.argv[1]).read_bytes(),resume=True,retry_failed_builds=len(sys.argv)>2) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-vault-91f76cfe852f/recovery.key",
+      "exit_code": 1,
+      "observed": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import pathlib,sys;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;upgrade(pathlib.Path.cwd(),pathlib.Path(sys.argv[1]).read_bytes(),resume=True,retry_failed_builds=len(sys.argv)>2)\n                                                                                           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/upgrade_operations.py\", line 253, in upgrade\n    run(root,'up','-d','engine');marker['target_probe']=probe(root,'compare');run(root,'stop','engine')\n                                                        ~~~~~^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/upgrade_operations.py\", line 156, in probe\n    result=json.loads(run(root,'run','--rm','--no-deps','--name',project+'-upgrade-probe','--label','com.blackbox.upgrade='+marker['operation_id'],'--user',str(os.getuid())+':'+str(os.getgid()),'tooling','node','--input-type=module','-',mode,input=script,timeout=330))\n                      ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/backup_operations.py\", line 56, in run\n    if result.returncode:raise RuntimeConfigError('Host container operation failed; inspect local diagnostics.')\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nhost_runtime.RuntimeConfigError: Host container operation failed; inspect local diagnostics.\n"
+    },
+    {
+      "command": "python3 -c import pathlib,sys;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;upgrade(pathlib.Path.cwd(),pathlib.Path(sys.argv[1]).read_bytes(),resume=True,retry_failed_builds=len(sys.argv)>2) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-vault-91f76cfe852f/recovery.key",
+      "exit_code": 1,
+      "observed": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import pathlib,sys;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;upgrade(pathlib.Path.cwd(),pathlib.Path(sys.argv[1]).read_bytes(),resume=True,retry_failed_builds=len(sys.argv)>2)\n                                                                                           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/upgrade_operations.py\", line 253, in upgrade\n    run(root,'up','-d','engine');marker['target_probe']=probe(root,'compare');run(root,'stop','engine')\n                                                        ~~~~~^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/upgrade_operations.py\", line 156, in probe\n    result=json.loads(run(root,'run','--rm','--no-deps','--name',project+'-upgrade-probe','--label','com.blackbox.upgrade='+marker['operation_id'],'--user',str(os.getuid())+':'+str(os.getgid()),'tooling','node','--input-type=module','-',mode,input=script,timeout=330))\n                      ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-91f76cfe852f/scripts/backup_operations.py\", line 56, in run\n    if result.returncode:raise RuntimeConfigError('Host container operation failed; inspect local diagnostics.')\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nhost_runtime.RuntimeConfigError: Host container operation failed; inspect local diagnostics.\n"
+    },
+    {
+      "command": "python3 -c import pathlib,sys;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;upgrade(pathlib.Path.cwd(),pathlib.Path(sys.argv[1]).read_bytes(),resume=True,retry_failed_builds=len(sys.argv)>2) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-vault-91f76cfe852f/recovery.key retry",
+      "exit_code": 0,
+      "observed": ""
+    },
+    {
+      "command": "python3 -c import pathlib,sys,json;sys.path.insert(0,'scripts');from backup_operations import generation;print(json.dumps(generation(pathlib.Path.cwd())))",
+      "exit_code": 0,
+      "observed": "{\"state\": \"completed\", \"installation_id\": \"3e830078-7404-4f5b-8b32-ec793e74d4af\", \"last_attempt\": \"2026-10-31T20:40:52.096843+00:00\", \"last_completed\": \"2026-10-31T20:41:06.372065+00:00\", \"recoverable_cutoff\": \"2026-10-31T20:41:05.127128+00:00\", \"generation\": \"f2fe7109d00445818cf418ffcd805fcc.bb.age\", \"ciphertext_sha256\": \"9ba8c207e94a35c6e7e1e317f19a47df70c5b95fc8afb340ac3ab935a47f6dda\", \"bytes\": 165531, \"protected\": true, \"same_device\": true, \"last_restore_test\": null, \"retention\": {\"deleted\": 1, \"retained\": 1}}\n"
+    },
+    {
+      "command": "/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/blackbox restore resume --to /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-recovery-91f76cfe852f",
+      "exit_code": 1,
+      "observed": "Host container operation failed; inspect local diagnostics.\r\n"
+    },
+    {
+      "command": "/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/blackbox restore resume --to /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/projection-retry-recovery-91f76cfe852f --retry-failed-builds",
+      "exit_code": 0,
+      "observed": "Restore validated. Save the newly issued owner key; old owner, agent and browser access has been revoked.\r\nWiederherstellung gepr\u00fcft. Speichere den neuen Eigent\u00fcmerschl\u00fcssel; alte Eigent\u00fcmer-, Agenten- und Browserzugriffe sind widerrufen.\r\n\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-9882aa88d4ba-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nRestored local application: http://127.0.0.1:18819\r\nRaw evidence and provider collection remain blocked until host policy/account reconciliation.\r\nOriginalbelege und Anbieterabrufe bleiben bis zur Richtlinien- und Kontenpr\u00fcfung am Host gesperrt.\r\n"
+    }
+  ],
+  "elapsed_seconds": 204.071,
+  "limitations": [
+    "Synthetic candidate corruption and deliberate pause before first engine call; actual host SIGKILL",
+    "Synthetic backward creation timestamp, not a changed system clock",
+    "Small fixture, not smoke performance or independent approval"
+  ]
+}
