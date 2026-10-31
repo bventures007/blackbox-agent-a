@@ -19,6 +19,8 @@ import { canonical } from "../../packages/auth/producer.js";
 import { validSignature } from "../../packages/auth/producer.js";
 import { businessQuery, observation } from "../../packages/contracts/index.js";
 import { journal, InvalidCursor } from "../../packages/application/journal.js";
+import { registerReviewRoutes } from "./reviews.js";
+import { readEvidence } from "../../packages/application/evidence.js";
 import { registerOwnerRoutes } from "./owner.js";
 import { registerSourceRoutes } from "./sources.js";
 import { registerStatic } from "./static.js";
@@ -89,7 +91,12 @@ app.addHook("onRequest", async (req, reply) => {
   }
 });
 app.setErrorHandler((err, req, reply) => {
-  log("access.denied", { tenant_id: req.principal?.tenant_id });
+  log(
+    err instanceof z.ZodError || err instanceof Forbidden
+      ? "access.denied"
+      : "operation.failed",
+    { tenant_id: req.principal?.tenant_id },
+  );
   reply
     .code(
       err instanceof z.ZodError ? 400 : err instanceof Forbidden ? 403 : 503,
@@ -105,6 +112,7 @@ const owner = (p?: Principal) => {
   return p;
 };
 await registerSourceRoutes(app, owner);
+await registerReviewRoutes(app, owner, internal);
 app.post("/v1/login", async (req, reply) => {
   const attempt = attempts.get(req.ip);
   if (attempt && attempt.until > Date.now() && attempt.count >= 5)
@@ -473,7 +481,7 @@ app.post("/v1/tools/:tool", async (req, reply) => {
 
   if (tool === "get_journal_entry") {
     const q = z.object({ entry_id: z.uuid() }).strict().parse(req.body);
-    return scoped(p.tenant_id, async (c) => ({
+    const result = await scoped(p.tenant_id, async (c) => ({
       entry:
         (
           await c.query("SELECT * FROM bb.journal WHERE entry_id=$1", [
@@ -481,35 +489,17 @@ app.post("/v1/tools/:tool", async (req, reply) => {
           ])
         ).rows[0] ?? null,
     }));
+    await authenticate(req.accessKey!, ["agent", "session"]);
+    return result;
   }
   if (tool === "get_evidence") {
     const q = z.object({ evidence_id: z.uuid() }).strict().parse(req.body);
-    const present = await scoped(
-      p.tenant_id,
-      async (c) =>
-        (
-          await c.query(
-            "SELECT 1 FROM bb.evidence WHERE evidence_id=$1 AND expires_at>now()",
-            [q.evidence_id],
-          )
-        ).rowCount,
-    );
-    if (!present) return { status: "unavailable" };
-    const bytes = await readFile(
-      join(process.env.EVIDENCE_DIR!, p.tenant_id, q.evidence_id),
-    );
-    const key = await readFile(process.env.DATA_KEY_FILE!);
-    const d = createDecipheriv("aes-256-gcm", key, bytes.subarray(0, 12));
-    d.setAAD(Buffer.from(`v1:${p.tenant_id}:${q.evidence_id}`));
-    d.setAuthTag(bytes.subarray(-16));
-    const content = Buffer.concat([
-      d.update(bytes.subarray(12, -16)),
-      d.final(),
-    ]).toString();
+    const content = await readEvidence(p.tenant_id, q.evidence_id);
     await authenticate(req.accessKey!, ["agent", "session"]);
+    if (content === null) return { status: "unavailable" };
     return {
       status: "available",
-      content: JSON.parse(content),
+      content,
       untrusted: true,
     };
   }

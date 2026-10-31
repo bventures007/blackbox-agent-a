@@ -185,7 +185,7 @@ export const datasetRecord = z.discriminatedUnion("dataset", [
     transaction_id: id,
     amount_minor: money,
     currency,
-    confidence: z.enum(["verified", "ambiguous"]),
+    confidence: z.enum(["verified", "ambiguous", "rejected"]),
   }),
   record("policy", {
     rule_kind: z.enum(["priority", "invoicing", "attention", "reminder"]),
@@ -247,7 +247,12 @@ export const datasetRecord = z.discriminatedUnion("dataset", [
     currency,
     reference: id,
     payout_id: id.optional(),
-    match_confidence: z.enum(["verified", "ambiguous", "unmatched"]),
+    match_confidence: z.enum([
+      "verified",
+      "ambiguous",
+      "unmatched",
+      "rejected",
+    ]),
   }),
   record("holds", {
     account_id: id,
@@ -337,7 +342,7 @@ export const datasetRecord = z.discriminatedUnion("dataset", [
       "shipment_order",
       "refund_payment",
     ]),
-    confidence: z.enum(["verified", "ambiguous"]),
+    confidence: z.enum(["verified", "ambiguous", "rejected"]),
   }),
 ]);
 export const datasetKinds: Record<(typeof datasets)[number], string> = {

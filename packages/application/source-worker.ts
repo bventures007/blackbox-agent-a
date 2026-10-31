@@ -124,7 +124,13 @@ async function objectCommitted(
       o.error_code ?? (r.conflicts ? "provider_content_conflict" : null),
     ],
   );
-  if (state === "quarantined")
+  if (r.review_case_ids.length) {
+    await c.query(
+      "UPDATE bb.review_cases SET run_id=COALESCE(run_id,$2),object_id=COALESCE(object_id,$3) WHERE case_id=ANY($1::uuid[])",
+      [r.review_case_ids, j.run_id, o.object_id],
+    );
+  }
+  if (state === "quarantined" && !r.review_case_ids.length)
     await c.query(
       `INSERT INTO bb.review_cases(tenant_id,case_id,connection_id,kind,evidence_id,run_id,object_id)
     VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT DO NOTHING`,
@@ -527,10 +533,14 @@ export async function sourceTick() {
     ...tenants.slice(0, cursor),
   ].slice(0, 2);
   cursor = (cursor + selected.length) % tenants.length;
-  await Promise.allSettled(
+  const results = await Promise.allSettled(
     selected.map(async ({ tenant_id }) => {
       const job = await claimSourceJob(tenant_id);
       if (job) await processSourceJob(job);
     }),
   );
+  results.forEach((result, index) => {
+    if (result.status === "rejected")
+      log("source.scheduler_failed", { tenant_id: selected[index].tenant_id });
+  });
 }

@@ -11,9 +11,12 @@ export type IngestResult = {
   duplicates: number;
   conflicts: number;
   evidence_id: string;
+  review_case_ids: string[];
+  reviewed_conflicts: number;
 };
 export type IngestTransaction = {
   providerSnapshot?: boolean;
+  origin?: "owner_decision";
   before?: (c: PoolClient) => Promise<void>;
   committed?: (c: PoolClient, result: IngestResult) => Promise<void>;
 };
@@ -66,6 +69,8 @@ export async function ingest(
       "INSERT INTO bb.evidence(tenant_id,evidence_id,sha256) VALUES($1,$2,$3)",
       [tenant, evidence, hash(bytes.toString())],
     );
+    const reviewCases: string[] = [];
+    let reviewedConflicts = 0;
     let added = 0,
       duplicates = 0,
       conflicts = 0;
@@ -102,17 +107,60 @@ export async function ingest(
           duplicates++;
           continue;
         }
-        await c.query(
-          "INSERT INTO bb.review_cases(tenant_id,case_id,connection_id,entry_id,kind,evidence_id) VALUES($1,$2,$3,$4,$5,$6)",
-          [
-            tenant,
-            randomUUID(),
-            connection,
-            old.rows[0].entry_id,
-            "provider_content_conflict",
-            evidence,
-          ],
-        );
+        const priorCase = (
+          await c.query(
+            "SELECT case_id,state FROM bb.review_cases WHERE connection_id=$1 AND entry_id=$2 AND claim_hash=$3",
+            [connection, old.rows[0].entry_id, digest],
+          )
+        ).rows[0];
+        if (priorCase?.state === "resolved") {
+          duplicates++;
+          reviewedConflicts++;
+          continue;
+        }
+        const caseId = priorCase?.case_id ?? randomUUID();
+        if (!priorCase) {
+          await c.query(
+            "INSERT INTO bb.review_cases(tenant_id,case_id,connection_id,entry_id,kind,evidence_id,claim_hash) VALUES($1,$2,$3,$4,'provider_content_conflict',$5,$6)",
+            [
+              tenant,
+              caseId,
+              connection,
+              old.rows[0].entry_id,
+              evidence,
+              digest,
+            ],
+          );
+          await c.query(
+            "INSERT INTO bb.review_claims(tenant_id,case_id,claim,evidence_id)VALUES($1,$2,$3,$4)",
+            [tenant, caseId, e, evidence],
+          );
+          if ("record" in e && e.record.dataset !== "coverage") {
+            parsed.push(
+              observation.parse({
+                id: randomUUID(),
+                economic_id: caseId,
+                entity_id: e.entity_id,
+                kind: "coverage.observed",
+                occurred_at: e.occurred_at,
+                test: e.test,
+                record: {
+                  dataset: "coverage",
+                  capability: e.record.dataset,
+                  entity_scope: e.entity_id,
+                  history_start: e.occurred_at,
+                  complete_through: e.occurred_at,
+                  backfill_complete: false,
+                  missing_fields: ["source_conflict"],
+                  failure_state: "error",
+                  basis: "declared",
+                  history_kind: "mixed",
+                },
+              }),
+            );
+          }
+        }
+        reviewCases.push(caseId);
         conflicts++;
         continue;
       }
@@ -143,7 +191,7 @@ export async function ingest(
       cursor++;
       const entry = randomUUID();
       await c.query(
-        `INSERT INTO bb.journal(tenant_id,sequence,entry_id,record_type,record_id,event_type,schema_version,connection_id,entity_id,provider_identity,occurred_at,payload,payload_hash,evidence_id,supersedes_entry_id,rule_version,correlation_id) VALUES($1,$2,$3,'source',$4,$5,1,$6,$7,$8,$9,$10,$11,$12,$13,'source-v1',$14)`,
+        `INSERT INTO bb.journal(tenant_id,sequence,entry_id,record_type,record_id,event_type,schema_version,connection_id,entity_id,provider_identity,occurred_at,payload,payload_hash,evidence_id,supersedes_entry_id,rule_version,correlation_id) VALUES($1,$2,$3,'source',$4,$5,1,$6,$7,$8,$9,$10,$11,$12,$13,$15,$14)`,
         [
           tenant,
           cursor,
@@ -159,8 +207,25 @@ export async function ingest(
           evidence,
           e.supersedes_entry_id ?? null,
           randomUUID(),
+          transaction.origin === "owner_decision"
+            ? "owner-decision-v1"
+            : "source-v1",
         ],
       );
+      if (
+        "record" in e &&
+        transaction.origin !== "owner_decision" &&
+        (("confidence" in e.record && e.record.confidence === "ambiguous") ||
+          ("match_confidence" in e.record &&
+            ["ambiguous", "unmatched"].includes(e.record.match_confidence)))
+      ) {
+        const caseId = randomUUID();
+        await c.query(
+          "INSERT INTO bb.review_cases(tenant_id,case_id,connection_id,entry_id,kind,evidence_id)VALUES($1,$2,$3,$4,'unresolved_link',$5)",
+          [tenant, caseId, connection, entry, evidence],
+        );
+        reviewCases.push(caseId);
+      }
       await c.query(
         "INSERT INTO bb.outbox(tenant_id,sequence,entity_id) VALUES($1,$2,$3)",
         [tenant, cursor, e.entity_id],
@@ -177,6 +242,8 @@ export async function ingest(
       duplicates,
       conflicts,
       evidence_id: evidence,
+      review_case_ids: reviewCases,
+      reviewed_conflicts: reviewedConflicts,
     };
     await transaction.committed?.(c, result);
     return result;

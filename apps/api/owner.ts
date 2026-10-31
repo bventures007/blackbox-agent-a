@@ -90,16 +90,6 @@ export async function registerOwnerRoutes(
       ).rows,
     }));
   });
-  app.get("/v1/reviews", async (req) => {
-    const p = owner(req.principal);
-    return scoped(p.tenant_id, async (c) => ({
-      cases: (
-        await c.query(
-          "SELECT r.*,c.provider,j.evidence_id,j.entity_id FROM bb.review_cases r JOIN bb.connections c USING(tenant_id,connection_id) LEFT JOIN bb.journal j ON j.tenant_id=r.tenant_id AND j.entry_id=r.entry_id ORDER BY r.created_at DESC LIMIT 100",
-        )
-      ).rows,
-    }));
-  });
   app.post("/v1/example", async (req) => {
     const p = owner(req.principal);
     z.object({}).strict().parse(req.body);

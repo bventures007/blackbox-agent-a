@@ -1,4 +1,5 @@
 import { useState, Fragment } from "react";
+import { Reviews } from "./reviews.js";
 import { ShopifySetup, SourceProgress } from "./source-import.js";
 import { useLocale, questionTitles, eventTitle } from "./locale.js";
 import { api, download } from "./api.js";
@@ -464,7 +465,6 @@ export function Journal({
 export function Sources({ onLogs }: { onLogs: (id: string) => void }) {
   const { t } = useLocale(),
     r = useRemote("/v1/connections", undefined, 5000),
-    review = useRemote("/v1/reviews"),
     a = useAction();
   const [name, setName] = useState(""),
     [provider, setProvider] = useState("generic"),
@@ -634,25 +634,7 @@ export function Sources({ onLogs }: { onLogs: (id: string) => void }) {
           )}
         </Panel>
       )}
-      <Panel title={t.review}>
-        <p>{t.reviewIntro}</p>
-        {review.data?.cases.length ? (
-          review.data.cases.map((c: any) => (
-            <article className="source-row" key={c.case_id}>
-              <div>
-                <Badge state={c.state} />
-                <h3>{c.kind}</h3>
-                <p>
-                  {c.provider} · {c.case_id}
-                </p>
-                <p className="notice">{t.reviewLimit}</p>
-              </div>
-            </article>
-          ))
-        ) : (
-          <Empty>{t.noReviews}</Empty>
-        )}
-      </Panel>
+      <Reviews />
       <Panel title={t.shipping}>
         <p className="muted">{t.plannedNote}</p>
         <div className="actions">

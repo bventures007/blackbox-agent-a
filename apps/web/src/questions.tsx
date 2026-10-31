@@ -1,3 +1,4 @@
+import { recordGermanFields, recordGermanValues } from "./record-labels.js";
 import { useState } from "react";
 import { intents } from "../../../packages/contracts/questions.js";
 import { useLocale, questionTitles, semanticNames } from "./locale.js";
@@ -13,6 +14,7 @@ import {
 } from "./common.js";
 import { Icon } from "./icons.js";
 const germanFields: Record<string, string> = {
+  ...recordGermanFields,
   account_id: "Konto-ID",
   active_reserved: "Aktiv reserviert",
   agreed_covered_gross_minor: "Vereinbarter abgedeckter Bruttobetrag",
@@ -182,6 +184,7 @@ export function Value({
     <span>
       {t[value as keyof typeof t] ??
         semanticNames[String(value)]?.[locale === "de" ? 1 : 0] ??
+        (locale === "de" ? recordGermanValues[String(value)] : undefined) ??
         String(value)}
     </span>
   );
@@ -368,6 +371,20 @@ export function Questions({
         >
           <Badge state={result.status} />
           <p className="notice">{t.notVerified}</p>
+          {result.human_confirmed_inputs?.length > 0 && (
+            <div className="notice">
+              <strong>
+                {locale === "de"
+                  ? "Enthält menschlich bestätigte Angaben"
+                  : "Includes human-confirmed information"}
+              </strong>
+              <p>
+                {locale === "de"
+                  ? "Die ursprünglichen Anbieterangaben bleiben im Verlauf erhalten. Entscheidungen und Belege sind unter Quellen → Prüfung erforderlich verfügbar."
+                  : "Original provider claims remain in history. Decisions and evidence are available under Sources → Needs review."}
+              </p>
+            </div>
+          )}
           <dl className="details">
             <div>
               <dt>{t.cutoff}</dt>

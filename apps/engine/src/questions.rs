@@ -112,6 +112,15 @@ async fn execute(
         .collect();
     let mut result = blackbox_domain::questions::execute(&records, &q.request)
         .map_err(|_| error("query_data_conflict"))?;
+    let inputs: Vec<Uuid> = result["input_entries"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .filter_map(|v| v.as_str().and_then(|v| Uuid::parse_str(v).ok()))
+        .collect();
+    let decisions = sqlx::query("SELECT x.entry_id,d.decision_id,d.case_id,d.principal_id,d.reason_code,to_char(d.created_at AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"') AS decided_at FROM bb.review_decision_entries x JOIN bb.review_decisions d USING(tenant_id,decision_id) WHERE x.entry_id=ANY($1) AND d.required_cursor<=$2")
+        .bind(&inputs).bind(cutoff).fetch_all(&mut *tx).await.map_err(|_|error("read_failed"))?;
+    result["human_confirmed_inputs"] = json!(decisions.iter().map(|r|json!({"entry_id":r.get::<Uuid,_>("entry_id"),"decision_id":r.get::<Uuid,_>("decision_id"),"case_id":r.get::<Uuid,_>("case_id"),"actor_id":r.get::<Uuid,_>("principal_id"),"reason_code":r.get::<String,_>("reason_code"),"decided_at":r.get::<String,_>("decided_at"),"origin":"human_confirmed"})).collect::<Vec<_>>());
     tx.commit().await.map_err(|_| error("read_failed"))?;
     let valid:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM bb.authenticate($1) WHERE tenant_id=$2 AND purpose IN ('agent','session'))").bind(&q.verifier).bind(q.tenant_id).fetch_one(&a.db).await.map_err(|_|error("authorization_unavailable"))?;
     if !valid {

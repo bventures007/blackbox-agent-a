@@ -244,12 +244,17 @@ export async function normalizeSourceOrder(
     )
       continue;
     const txObject = await opaqueIdentity(connection, capability + ":" + t.id);
+    const retainedInput = {
+      source_scope: "single_transaction",
+      order_context: base,
+      transaction: t,
+    };
     if (!t.processedAt) {
       results.push({
         object_id: txObject,
         dataset: capability,
         observations: [],
-        raw: t,
+        raw: retainedInput,
         error_code: "transaction_time_missing",
       });
       continue;
@@ -297,7 +302,7 @@ export async function normalizeSourceOrder(
         object_id: txObject,
         dataset: capability,
         observations: [],
-        raw: t,
+        raw: retainedInput,
         error_code: "transaction_status_unresolved",
       });
       continue;
@@ -307,7 +312,7 @@ export async function normalizeSourceOrder(
         object_id: txObject,
         dataset: capability,
         observations: [],
-        raw: t,
+        raw: retainedInput,
         error_code: "refund_parent_missing",
       });
       continue;
@@ -354,7 +359,7 @@ export async function normalizeSourceOrder(
       object_id: txObject,
       dataset: capability,
       observations: [observation],
-      raw: { order_id: base.id, transaction: t },
+      raw: retainedInput,
     });
   }
   return results;

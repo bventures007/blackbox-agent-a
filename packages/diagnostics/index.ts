@@ -10,6 +10,14 @@ const messages: Record<string, string> = {
   "worker.failed": "Worker operation failed",
   "access.denied": "Access denied",
   "source.fetched": "Provider page fetched",
+  "source.scheduler_failed": "Source scheduling operation failed",
+  "source.retry_scheduled": "Source retry scheduled",
+  "engine.apply_failed": "Engine apply operation failed",
+  "operation.failed": "Application operation failed",
+  "review.decision_saved": "Owner review decision saved",
+  "review.readiness_checked": "Review query readiness checked",
+  "review.resolved": "Review resolved after query checks",
+  "diagnostics.event_invalid": "Unknown diagnostic event rejected",
 };
 const component = process.env.COMPONENT ?? "api",
   instance = randomUUID();
@@ -60,7 +68,7 @@ const logger = pino(
   },
 );
 export function log(event: string, metadata: Record<string, unknown> = {}) {
-  if (!Object.hasOwn(messages, event)) event = "access.denied";
+  if (!Object.hasOwn(messages, event)) event = "diagnostics.event_invalid";
   const record: Record<string, unknown> = {
     schema_version: 1,
     record_id: randomUUID(),
