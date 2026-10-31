@@ -1,0 +1,36 @@
+{
+  "tested_commit": "08a300953d4012202adad221e7f9449727d97254",
+  "status": "passed_for_named_synthetic_suites",
+  "executed_at": "2026-10-31T15:45:10.278056+00:00",
+  "checks": {
+    "pnpm typecheck": "passed before commit",
+    "pnpm test": "11 passed before commit",
+    "cargo test --locked --offline": "6 passed before commit",
+    "pnpm build:web": "passed before commit",
+    "persisted_regressions": "all five passed from clean commit"
+  },
+  "evidence": [
+    "fulfillments-time-regression.json",
+    "reviews-time-regression.json",
+    "questions-v8-evidence.json",
+    "golden-time-regression.json",
+    "slice-time-regression.json"
+  ],
+  "new_adversaries": [
+    "future_handover",
+    "future_delivery",
+    "unknown_earlier_handover",
+    "future_tracking",
+    "partial_plan",
+    "missing_handover",
+    "future_invoice",
+    "future_cancellation",
+    "future_promise",
+    "conflicting_milestones",
+    "missing_delivery"
+  ],
+  "limitations": [
+    "Synthetic generic/provider data; no live Shopify or independent review",
+    "No complete P4, operational, distribution or performance certification"
+  ]
+}
