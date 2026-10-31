@@ -91,15 +91,18 @@ pub(crate) fn shipment_qty(
     line: &str,
     unit: &str,
     delivered: bool,
+    as_of: &str,
 ) -> Result<i64, String> {
     let mut total = 0;
     for r in shipments.iter().filter(|r| {
         s(&r.data, "order_id") == order
-            && if delivered {
-                s(&r.data, "state") == "delivered"
-            } else {
-                matches!(s(&r.data, "state"), "handed_over" | "delivered")
-            }
+            && shipment_progress(r, as_of).is_ok_and(|(hand, delivery)| {
+                if delivered {
+                    delivery == Some(true)
+                } else {
+                    hand == Some(true)
+                }
+            })
     }) {
         for l in array(&r.data, "lines")
             .iter()
@@ -110,11 +113,17 @@ pub(crate) fn shipment_qty(
     }
     Ok(total)
 }
-fn latest_scan<'a>(tracking: &[&'a Record], shipment: &str) -> Option<&'a Record> {
+fn latest_scan<'a>(tracking: &[&'a Record], shipment: &str, as_of: &str) -> Option<&'a Record> {
     tracking
         .iter()
         .copied()
-        .filter(|t| s(&t.data, "shipment_id") == shipment)
+        .filter(|t| {
+            s(&t.data, "shipment_id") == shipment
+                && chrono::DateTime::parse_from_rfc3339(s(&t.data, "scan_at"))
+                    .ok()
+                    .zip(chrono::DateTime::parse_from_rfc3339(as_of).ok())
+                    .is_some_and(|(scan, at)| scan <= at)
+        })
         .max_by_key(|r| seconds(s(&r.data, "scan_at")).unwrap_or(0))
 }
 pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
@@ -168,7 +177,14 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                         let key = (s(line, "item_id").to_owned(), unit.to_owned());
                         let remaining = sub(
                             sub(q(line, "quantity")?, q(line, "cancelled_quantity")?)?,
-                            shipment_qty(&shipments, &order.id, line_id, unit, false)?,
+                            shipment_qty(
+                                &shipments,
+                                &order.id,
+                                line_id,
+                                unit,
+                                false,
+                                &ctx.request.as_of,
+                            )?,
                         )?
                         .max(0);
                         let owned = allocations
@@ -204,8 +220,22 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                     let line_id = s(line, "line_id");
                     let unit = s(line, "unit");
                     let accepted = sub(q(line, "quantity")?, q(line, "cancelled_quantity")?)?;
-                    let dispatch = shipment_qty(&shipments, &order.id, line_id, unit, false)?;
-                    let delivered = shipment_qty(&shipments, &order.id, line_id, unit, true)?;
+                    let dispatch = shipment_qty(
+                        &shipments,
+                        &order.id,
+                        line_id,
+                        unit,
+                        false,
+                        &ctx.request.as_of,
+                    )?;
+                    let delivered = shipment_qty(
+                        &shipments,
+                        &order.id,
+                        line_id,
+                        unit,
+                        true,
+                        &ctx.request.as_of,
+                    )?;
                     let remaining = sub(accepted, dispatch)?.max(0);
                     if intent == "orders.partial_delivery_gaps" {
                         out.push(json!({"id":format!("{}:{}",order.id,line_id),"order_id":order.id,"line_id":line_id,"unit":unit,"remaining_to_dispatch":decimal(remaining),"remaining_to_deliver":decimal(sub(accepted,delivered)?.max(0))}));
@@ -250,7 +280,7 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
             let policy = ctx.policy("attention");
             let selected: Vec<_> = shipments.into_iter().filter(|r| ctx.scoped(r)).collect();
             for shipment in selected {
-                if let Some(scan) = latest_scan(&tracking, &shipment.id) {
+                if let Some(scan) = latest_scan(&tracking, &shipment.id, &ctx.request.as_of) {
                     let age = sub(
                         seconds(&ctx.request.as_of)?,
                         seconds(s(&scan.data, "scan_at"))?,
@@ -281,9 +311,16 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                     .iter()
                     .filter(|r| s(&r.data, "order_id") == s(&promise.data, "order_id"))
                     .collect();
-                let delivered = !relevant.is_empty()
-                    && relevant.iter().all(|r| s(&r.data, "state") == "delivered");
-                out.push(json!({"id":promise.id,"order_id":promise.data["order_id"],"promised_at":promise.data["promised_at"],"overdue":!delivered&&seconds(s(&promise.data,"promised_at"))?<seconds(&ctx.request.as_of)?,"delivered":delivered,"arrival_date":"unknown"}));
+                let progress: Vec<_> = relevant
+                    .iter()
+                    .map(|r| shipment_progress(r, &ctx.request.as_of))
+                    .collect::<Result<_, _>>()?;
+                let delivered = if progress.iter().any(|(_, d)| d.is_none()) {
+                    None
+                } else {
+                    Some(!progress.is_empty() && progress.iter().all(|(_, d)| *d == Some(true)))
+                };
+                out.push(json!({"id":promise.id,"order_id":promise.data["order_id"],"promised_at":promise.data["promised_at"],"overdue":delivered!=Some(true)&&seconds(s(&promise.data,"promised_at"))?<seconds(&ctx.request.as_of)?,"delivered":delivered,"arrival_date":"unknown"}));
             }
             if out.is_empty() {
                 ctx.gap("promises.promised_at");
@@ -298,7 +335,7 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                     .iter()
                     .filter(|r| s(&r.data, "order_id") == order.id)
                 {
-                    if let Some(scan) = latest_scan(&tracking, &ship.id) {
+                    if let Some(scan) = latest_scan(&tracking, &ship.id, &ctx.request.as_of) {
                         facts.insert(s(&scan.data, "status").to_owned());
                         if scan.data["forecast_at"].is_null() {
                             facts.insert("arrival_unknown".into());

@@ -32,7 +32,14 @@ pub const INTENTS: &[(&str, &[&str])] = &[
     ("inventory.available_to_sell", &["stock", "identity"]),
     (
         "orders.fulfillable",
-        &["orders", "stock", "allocations", "policy", "identity"],
+        &[
+            "orders",
+            "stock",
+            "allocations",
+            "fulfillments",
+            "policy",
+            "identity",
+        ],
     ),
     (
         "orders.reservation_variance",
@@ -184,6 +191,43 @@ pub(crate) fn seconds(value: &str) -> Result<i64, String> {
     chrono::DateTime::parse_from_rfc3339(value)
         .map(|v| v.timestamp())
         .map_err(|_| "invalid_timestamp".into())
+}
+/// Physical milestones are evaluated at the business time, independently of recorded/effective cutoffs.
+pub(crate) fn shipment_progress(
+    r: &Record,
+    as_of: &str,
+) -> Result<(Option<bool>, Option<bool>), String> {
+    let at = chrono::DateTime::parse_from_rfc3339(as_of).map_err(|_| "invalid_timestamp")?;
+    let milestone = |field: &str| -> Result<Option<bool>, String> {
+        r.data[field]
+            .as_str()
+            .map(|v| {
+                chrono::DateTime::parse_from_rfc3339(v)
+                    .map(|v| v <= at)
+                    .map_err(|_| "invalid_timestamp".into())
+            })
+            .transpose()
+    };
+    let handover = milestone("handover_at")?;
+    let delivery = milestone("delivered_at")?;
+    let state = s(&r.data, "state");
+    let dispatched = if delivery == Some(true) {
+        Some(true)
+    } else if handover.is_some() {
+        handover
+    } else if matches!(state, "handed_over" | "delivered" | "prepared" | "failed") {
+        None
+    } else {
+        Some(false)
+    };
+    let delivered = delivery.or_else(|| {
+        if state == "delivered" {
+            None
+        } else {
+            Some(false)
+        }
+    });
+    Ok((dispatched, delivered))
 }
 pub(crate) struct Context<'a> {
     pub records: &'a [Record],
@@ -353,8 +397,26 @@ pub fn execute(records: &[Record], request: &Question) -> Result<Value, String> 
     }
     if required.contains(&"fulfillments") {
         for r in ctx.rows("fulfillments") {
-            if ctx.scoped(r) && matches!(s(&r.data, "state"), "prepared" | "failed") {
-                ctx.gap("fulfillments.handover_confirmation");
+            if ctx.scoped(r) {
+                let (dispatched, delivered) = shipment_progress(r, &request.as_of)?;
+                if dispatched.is_none() {
+                    ctx.gap("fulfillments.handover_confirmation");
+                }
+                if delivered.is_none() {
+                    ctx.gap("fulfillments.delivery_confirmation");
+                }
+                if let (Some(h), Some(d)) = (
+                    r.data["handover_at"].as_str(),
+                    r.data["delivered_at"].as_str(),
+                ) {
+                    if chrono::DateTime::parse_from_rfc3339(h).map_err(|_| "invalid_timestamp")?
+                        > chrono::DateTime::parse_from_rfc3339(d)
+                            .map_err(|_| "invalid_timestamp")?
+                    {
+                        ctx.conflicts
+                            .insert("fulfillment_milestone_order_conflict".into());
+                    }
+                }
             }
         }
     }
@@ -425,6 +487,6 @@ pub fn execute(records: &[Record], request: &Question) -> Result<Value, String> 
         .take(request.limit)
         .collect();
     Ok(
-        json!({"status":status,"intent":request.intent,"result":if status=="insufficient_data"{Value::Null}else{json!({"rows":page,"count_in_scope":total})},"missing_inputs":ctx.missing,"conflicts":ctx.conflicts,"evidence":ctx.evidence,"input_entries":ctx.inputs,"coverage":{"basis":"declared_source_intervals","independently_verified":false,"limitations":limitations},"rule_version":"questions-v7","as_of":request.as_of,"next_offset":if request.offset+request.limit<total{Some(request.offset+request.limit)}else{None},"truncated":false}),
+        json!({"status":status,"intent":request.intent,"result":if status=="insufficient_data"{Value::Null}else{json!({"rows":page,"count_in_scope":total})},"missing_inputs":ctx.missing,"conflicts":ctx.conflicts,"evidence":ctx.evidence,"input_entries":ctx.inputs,"coverage":{"basis":"declared_source_intervals","independently_verified":false,"limitations":limitations},"rule_version":"questions-v8","as_of":request.as_of,"next_offset":if request.offset+request.limit<total{Some(request.offset+request.limit)}else{None},"truncated":false}),
     )
 }

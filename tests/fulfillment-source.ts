@@ -485,6 +485,17 @@ try {
         ).rows[0].count,
       ) > 0,
     );
+    const malformedCase = (
+      await admin.query(
+        "SELECT case_id FROM bb.review_cases WHERE tenant_id=$1 AND kind='fulfillment_quantity_missing' LIMIT 1",
+        [a.id],
+      )
+    ).rows[0];
+    const malformedDetail = await api(
+      a,
+      `/v1/reviews/${malformedCase.case_id}`,
+    );
+    assert.ok(malformedDetail.affected_intents.includes("orders.fulfillable"));
     checks.push(
       "null_quantity_is_quarantined_without_zero_default_or_population_coverage",
       "two_workspace_identity_query_and_evidence_isolation",

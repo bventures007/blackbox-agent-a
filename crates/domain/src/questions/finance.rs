@@ -158,10 +158,8 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                         || trigger == "after_confirmed_dispatch"
                             && shipments.iter().any(|shipment| {
                                 s(&shipment.data, "order_id") == order.id
-                                    && matches!(
-                                        s(&shipment.data, "state"),
-                                        "handed_over" | "delivered"
-                                    )
+                                    && shipment_progress(shipment, &ctx.request.as_of)
+                                        .is_ok_and(|(hand, _)| hand == Some(true))
                             });
                     let linked: Vec<_> = invoices
                         .iter()

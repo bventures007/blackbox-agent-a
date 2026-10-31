@@ -369,7 +369,8 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                 let mut shipped_by_line: BTreeMap<(&str, &str), i64> = BTreeMap::new();
                 for shipment in shipments.iter().filter(|r| {
                     s(&r.data, "order_id") == order.id
-                        && matches!(s(&r.data, "state"), "handed_over" | "delivered")
+                        && shipment_progress(r, &ctx.request.as_of)
+                            .is_ok_and(|(hand, _)| hand == Some(true))
                 }) {
                     for line in array(&shipment.data, "lines") {
                         let key = (s(line, "line_id"), s(line, "unit"));
@@ -383,6 +384,16 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                     }
                 }
                 let shipped = shipped_by_line.values().any(|n| *n > 0);
+                let dispatch_unknown = shipments
+                    .iter()
+                    .filter(|r| s(&r.data, "order_id") == order.id)
+                    .any(|r| {
+                        shipment_progress(r, &ctx.request.as_of)
+                            .is_ok_and(|(hand, _)| hand.is_none())
+                    });
+                if dispatch_unknown {
+                    steps.push("verify_handover");
+                }
                 let mut unreturned = false;
                 for ((line, unit), quantity) in shipped_by_line {
                     let returned = receipts
@@ -404,7 +415,7 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                 if unreturned || (shipped && ctx.missing.contains("receipts.coverage")) {
                     steps.push("verify_return_receipt");
                 }
-                out.push(json!({"id":order.id,"remaining_steps":steps,"stock_receipt_required":shipped,"reservation_step":if ctx.missing.contains("allocations.coverage"){"unknown"}else{"checked"},"do_not_mark_complete":!ctx.missing.is_empty()}));
+                out.push(json!({"id":order.id,"remaining_steps":steps,"stock_receipt_required":if dispatch_unknown{None}else{Some(shipped)},"reservation_step":if ctx.missing.contains("allocations.coverage"){"unknown"}else{"checked"},"do_not_mark_complete":!ctx.missing.is_empty()}));
             }
         }
         _ => return Err("unsupported_intent".into()),

@@ -640,6 +640,7 @@ export const semanticNames: Record<string, [string, string]> = {
   ],
   release_reservation: ["Release reservation", "Reservierung freigeben"],
   verify_return_receipt: ["Verify return receipt", "Retoureneingang prüfen"],
+  verify_handover: ["Verify physical handover", "Physische Übergabe prüfen"],
   void_authorization: ["Void authorization", "Autorisierung aufheben"],
   correct_invoice: ["Correct invoice", "Rechnung korrigieren"],
   refund_payment: ["Refund payment", "Zahlung erstatten"],

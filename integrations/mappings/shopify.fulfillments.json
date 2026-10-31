@@ -1,6 +1,6 @@
 {
   "row_id": "shopify.fulfillments",
-  "source_revision": "Shopify Admin GraphQL 2026-10; fulfillment-v1; records-v2; questions-v7",
+  "source_revision": "Shopify Admin GraphQL 2026-10; fulfillment-v1; records-v2; questions-v8",
   "input_resources": [
     "orders(first:10,after,query:updated_at ranges)",
     "Order.fulfillments (full array without first truncation)",

@@ -9,7 +9,9 @@ def run(command):
  if r.returncode:raise RuntimeError('Question verification failed')
 def native(*cmd):run(['python3','scripts/native-dev.py',*cmd])
 def test(phase):native('exec','node','--import','tsx','tests/questions/pipeline.ts',phase)
-def adversarial(phase):native('exec','node','--import','tsx','tests/questions/adversarial.ts',phase)
+def adversarial(phase):
+ native('exec','node','--import','tsx','tests/questions/adversarial.ts',phase)
+ native('exec','node','--import','tsx','tests/questions/shipping-time.ts',phase)
 try:
  test('seed');adversarial('seed');native('down');native('up');test('verify');adversarial('verify')
  for phase in ['corrupt','remove']:test(phase);adversarial(phase);native('down');native('up');test('verify');adversarial('verify')

@@ -29,13 +29,16 @@ const catalogue = JSON.parse(
   ),
 );
 function affected(dataset: string): string[] {
-  return catalogue.questions
+  const intents = catalogue.questions
     .filter(
       (q: any) =>
         q.required_datasets.includes(dataset) ||
         q.optional_datasets.includes(dataset),
     )
     .map((q: any) => q.intent);
+  // The implementation also reads dispatch facts to compute remaining fulfillment need.
+  if (dataset === "fulfillments") intents.push("orders.fulfillable");
+  return [...new Set<string>(intents)];
 }
 export class ReviewError extends Error {
   constructor(
