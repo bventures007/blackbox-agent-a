@@ -48,3 +48,7 @@ Positive and absent-input cases run through signed HTTP, PostgreSQL, Rust, API a
 SDK MCP. Changed money/currency/fractional units, corrections, old snapshots and
 fixed-cutoff recovery are tested separately. Passing this suite is not live
 merchant verification, UI completion, independent capability review or release.
+
+## Settlement scope refinements (questions-v2)
+
+Cash refund gaps aggregate approved cash entitlements by original capture and currency and subtract completed refunds once per capture. Multiple credits return a grouped row with their entitlement identities. Cancellation queries hydrate fulfillments and compare shipped line/unit quantities with matching non-missing receipts; unrelated receipts cannot satisfy an order, and a zero-quantity reservation is not an outstanding stock release. An unobserved refund population returns unknown rather than false for cash confirmation. Impossible hold releases and dispute reversals return explicit conflicts with unknown monetary conclusions. These changes preserve the prior rule version in historical test evidence; new evaluations disclose questions-v2. Explicit historical rule-version selection remains part of the upgrade/rebuild work.

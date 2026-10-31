@@ -73,10 +73,14 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                 .rows("holds")
                 .into_iter()
                 .filter(|r| ctx.scoped(r) && ctx.currency(r))
+                .collect::<Vec<_>>()
             {
                 let released = n(&hold.data, "released_minor")?;
                 let held = sub(n(&hold.data, "amount_minor")?, released)?;
-                out.push(json!({"id":hold.id,"account_id":hold.data["account_id"],"currency":hold.data["currency"],"held_minor":held,"released_minor":released,"release_promised_at":hold.data["release_promised_at"],"release_is_only_promised":!hold.data["release_promised_at"].is_null()&&hold.data["released_at"].is_null()}));
+                if held < 0 {
+                    ctx.conflicts.insert("hold_release_exceeds_amount".into());
+                }
+                out.push(json!({"id":hold.id,"account_id":hold.data["account_id"],"currency":hold.data["currency"],"held_minor":if held<0 {None}else{Some(held)},"released_minor":released,"release_promised_at":hold.data["release_promised_at"],"release_is_only_promised":!hold.data["release_promised_at"].is_null()&&hold.data["released_at"].is_null()}));
             }
         }
         "providers.money_positions" => {
@@ -146,11 +150,17 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
             let receipts = ctx.rows("receipts");
             let refunds = ctx.effects("refunds");
             let receipt_known = !ctx.missing.contains("receipts.coverage");
-            for ret in returns.into_iter().filter(|r| ctx.scoped(r)) {
+            let refund_known = !ctx.missing.contains("refunds.coverage");
+            for ret in returns
+                .into_iter()
+                .filter(|r| ctx.scoped(r))
+                .collect::<Vec<_>>()
+            {
                 let related: Vec<_> = receipts
                     .iter()
                     .filter(|r| {
                         s(&r.data, "return_id") == ret.id
+                            && s(&r.data, "line_id") == s(&ret.data, "line_id")
                             && s(&r.data, "unit") == s(&ret.data, "unit")
                     })
                     .collect();
@@ -162,12 +172,16 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                     .iter()
                     .filter(|r| s(&r.data, "disposition") == "restocked")
                     .try_fold(0, |n, r| add(n, q(&r.data, "quantity")?))?;
+                if received > q(&ret.data, "quantity")? {
+                    ctx.conflicts
+                        .insert("return_receipt_exceeds_requested".into());
+                }
                 let cash = refunds.iter().any(|r| {
                     s(&r.data, "return_id") == ret.id
                         && s(&r.data, "status") == "completed"
                         && s(&r.data, "destination") == "cash"
                 });
-                out.push(json!({"id":ret.id,"unit":ret.data["unit"],"requested_quantity":ret.data["quantity"],"received_quantity":if receipt_known{Some(decimal(received))}else{None},"quarantined_quantity":if receipt_known{Some(decimal(sub(received,restocked)?))}else{None},"sellable_added":if receipt_known{Some(decimal(restocked))}else{None},"physical_return_received":if receipt_known{Some(received>0)}else{None},"receipt_state":if receipt_known{"observed"}else{"unknown"},"request_is_not_receipt":true,"cash_refund_confirmed":cash}));
+                out.push(json!({"id":ret.id,"unit":ret.data["unit"],"requested_quantity":ret.data["quantity"],"received_quantity":if receipt_known{Some(decimal(received))}else{None},"quarantined_quantity":if receipt_known{Some(decimal(sub(received,restocked)?))}else{None},"sellable_added":if receipt_known{Some(decimal(restocked))}else{None},"physical_return_received":if receipt_known{Some(received>0)}else{None},"receipt_state":if receipt_known{"observed"}else{"unknown"},"request_is_not_receipt":true,"cash_refund_confirmed":if cash {Some(true)} else if refund_known {Some(false)} else {None}}));
             }
         }
         "credits.refund_gaps" => {
@@ -183,9 +197,18 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                         && s(&r.data, "destination") == "cash"
                 })
                 .collect();
+            let mut grouped: BTreeMap<(&str, &str), Vec<&Record>> = BTreeMap::new();
             for entitlement in selected {
-                let transaction = s(&entitlement.data, "original_transaction_id");
-                let currency = s(&entitlement.data, "currency");
+                grouped
+                    .entry((
+                        s(&entitlement.data, "original_transaction_id"),
+                        s(&entitlement.data, "currency"),
+                    ))
+                    .or_default()
+                    .push(entitlement);
+            }
+            for ((transaction, currency), mut entitlements) in grouped {
+                entitlements.sort_by_key(|r| &r.id);
                 if !payments.iter().any(|p| {
                     p.id == transaction
                         && s(&p.data, "status") == "captured"
@@ -203,9 +226,17 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                     }),
                     "amount_minor",
                 )?;
-                out.push(json!({"id":entitlement.id,"currency":currency,"original_transaction_id":transaction,"cash_refund_due_minor":sub(n(&entitlement.data,"amount_minor")?,refunded)?.max(0)}));
+                // A refund settles its original capture once. It is not subtracted separately from every credit.
+                let due = sub(sum(entitlements.iter().copied(), "amount_minor")?, refunded)?.max(0);
+                let mut row = json!({"id":if entitlements.len()==1{entitlements[0].id.as_str()}else{transaction},"currency":currency,"original_transaction_id":transaction,"cash_refund_due_minor":due});
+                if entitlements.len() > 1 {
+                    row["entitlement_ids"] =
+                        json!(entitlements.iter().map(|r| &r.id).collect::<Vec<_>>());
+                }
+                out.push(row);
             }
         }
+
         "refunds.chargeback_overlap" => {
             let payments = ctx.effects("payments");
             let refunds = ctx.effects("refunds");
@@ -218,6 +249,7 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
             for payment in payments
                 .into_iter()
                 .filter(|r| ctx.scoped(r) && ctx.currency(r) && s(&r.data, "status") == "captured")
+                .collect::<Vec<_>>()
             {
                 let currency = s(&payment.data, "currency");
                 let related: Vec<_> = refunds
@@ -248,12 +280,20 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                     sum(cases.iter().copied(), "debit_minor")?,
                     sum(cases.iter().copied(), "reversal_minor")?,
                 )?;
+                let invalid_reversal = cases.iter().any(|r| {
+                    n(&r.data, "reversal_minor").unwrap_or(0)
+                        > n(&r.data, "debit_minor").unwrap_or(0)
+                });
+                if invalid_reversal {
+                    ctx.conflicts
+                        .insert("chargeback_reversal_exceeds_debit".into());
+                }
                 let repayments = add(refunded, chargeback)?;
                 let excess = sub(repayments, n(&payment.data, "amount_minor")?)?.max(0);
                 let overlap = (refunded > 0
                     || related.iter().any(|r| s(&r.data, "status") == "pending"))
                     && cases.iter().any(|r| s(&r.data, "state") == "open");
-                out.push(json!({"id":payment.id,"currency":currency,"net_customer_repayments_minor":repayments,"excess_minor":excess,"review_required":excess>0||overlap,"pending_overlap":overlap,"chargeback_fees_excluded":true}));
+                out.push(json!({"id":payment.id,"currency":currency,"net_customer_repayments_minor":if invalid_reversal {None}else{Some(repayments)},"excess_minor":if invalid_reversal {None}else{Some(excess)},"review_required":invalid_reversal||excess>0||overlap,"pending_overlap":overlap,"chargeback_fees_excluded":true}));
             }
         }
         "cancellations.outstanding_steps" => {
@@ -268,12 +308,14 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
             for order in orders
                 .into_iter()
                 .filter(|r| ctx.scoped(r) && s(&r.data, "status") == "cancelled")
+                .collect::<Vec<_>>()
             {
                 let mut steps = vec![];
-                if allocations
-                    .iter()
-                    .any(|a| s(&a.data, "order_id") == order.id && s(&a.data, "status") == "active")
-                {
+                if allocations.iter().any(|a| {
+                    s(&a.data, "order_id") == order.id
+                        && s(&a.data, "status") == "active"
+                        && q(&a.data, "quantity").is_ok_and(|n| n > 0)
+                }) {
                     steps.push("release_reservation");
                 }
                 for invoice in docs.iter().filter(|i| {
@@ -286,21 +328,35 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                         break;
                     }
                 }
+                let mut dues: BTreeMap<(&str, &str), i64> = BTreeMap::new();
                 for entitlement in entitlements.iter().filter(|e| {
                     s(&e.data, "order_id") == order.id
                         && s(&e.data, "state") == "approved"
                         && s(&e.data, "destination") == "cash"
                 }) {
+                    let key = (
+                        s(&entitlement.data, "original_transaction_id"),
+                        s(&entitlement.data, "currency"),
+                    );
+                    dues.insert(
+                        key,
+                        add(
+                            *dues.get(&key).unwrap_or(&0),
+                            n(&entitlement.data, "amount_minor")?,
+                        )?,
+                    );
+                }
+                for ((transaction, currency), due) in dues {
                     let completed = sum(
                         refunds.iter().copied().filter(|r| {
-                            s(&r.data, "original_transaction_id")
-                                == s(&entitlement.data, "original_transaction_id")
+                            s(&r.data, "original_transaction_id") == transaction
+                                && s(&r.data, "currency") == currency
                                 && s(&r.data, "status") == "completed"
                                 && s(&r.data, "destination") == "cash"
                         }),
                         "amount_minor",
                     )?;
-                    if completed < n(&entitlement.data, "amount_minor")? {
+                    if completed < due {
                         steps.push("refund_payment");
                         break;
                     }
@@ -310,11 +366,42 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                 }) {
                     steps.push("void_authorization");
                 }
-                let shipped = shipments.iter().any(|r| {
+                let mut shipped_by_line: BTreeMap<(&str, &str), i64> = BTreeMap::new();
+                for shipment in shipments.iter().filter(|r| {
                     s(&r.data, "order_id") == order.id
                         && matches!(s(&r.data, "state"), "handed_over" | "delivered")
-                });
-                if shipped && receipts.is_empty() {
+                }) {
+                    for line in array(&shipment.data, "lines") {
+                        let key = (s(line, "line_id"), s(line, "unit"));
+                        shipped_by_line.insert(
+                            key,
+                            add(
+                                *shipped_by_line.get(&key).unwrap_or(&0),
+                                q(line, "quantity")?,
+                            )?,
+                        );
+                    }
+                }
+                let shipped = shipped_by_line.values().any(|n| *n > 0);
+                let mut unreturned = false;
+                for ((line, unit), quantity) in shipped_by_line {
+                    let returned = receipts
+                        .iter()
+                        .filter(|r| {
+                            s(&r.data, "line_id") == line
+                                && s(&r.data, "unit") == unit
+                                && s(&r.data, "disposition") != "missing"
+                        })
+                        .try_fold(0, |n, r| add(n, q(&r.data, "quantity")?))?;
+                    if returned < quantity {
+                        unreturned = true;
+                    }
+                    if returned > quantity {
+                        ctx.conflicts
+                            .insert("return_receipt_exceeds_shipped".into());
+                    }
+                }
+                if unreturned || (shipped && ctx.missing.contains("receipts.coverage")) {
                     steps.push("verify_return_receipt");
                 }
                 out.push(json!({"id":order.id,"remaining_steps":steps,"stock_receipt_required":shipped,"reservation_step":if ctx.missing.contains("allocations.coverage"){"unknown"}else{"checked"},"do_not_mark_complete":!ctx.missing.is_empty()}));

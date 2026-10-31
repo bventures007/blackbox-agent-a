@@ -9,9 +9,10 @@ def run(command):
  if r.returncode:raise RuntimeError('Question verification failed')
 def native(*cmd):run(['python3','scripts/native-dev.py',*cmd])
 def test(phase):native('exec','node','--import','tsx','tests/questions/pipeline.ts',phase)
+def adversarial(phase):native('exec','node','--import','tsx','tests/questions/adversarial.ts',phase)
 try:
- test('seed');native('down');native('up');test('verify')
- for phase in ['corrupt','remove']:test(phase);native('down');native('up');test('verify')
+ test('seed');adversarial('seed');native('down');native('up');test('verify');adversarial('verify')
+ for phase in ['corrupt','remove']:test(phase);adversarial(phase);native('down');native('up');test('verify');adversarial('verify')
  test('security');status='passed'
 finally:
  result={'kind':'synthetic_all_24_questions','status':status,'tested_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True).strip()),'executed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'environment':{'host':platform.platform(),'runtime':'Isolated native Postgres.app 18.4 / Node 25.9.0 / Rust 1.90.0'},'commands':records,'limitations':['Synthetic declared supplemental source scope, not merchant/provider coverage','No independent review or performance certification','UI and complete source lifecycle remain separate gates']}
