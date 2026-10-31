@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "active_profile": "local_pilot",
-  "version": "2.0",
-  "owner_decision": "Local application and personal access key first; test and collect feedback before selecting any later deployment/authentication scope. Approved in this conversation after baseline-v10.",
+  "version": "2.1",
+  "owner_decision": "Local application and personal access key first; test and collect feedback before selecting any later deployment/authentication scope. Approved in this conversation after baseline-v10. After baseline-v11, the owner approved System & Diagnostics, bounded filterable logs, local fallback and explicit diagnostic acceptance as required pilot work.",
   "scope_specification": "specs/LOCAL-PILOT.md",
   "milestones": [
     "P0",
@@ -72,7 +72,15 @@
     "LOCAL-08",
     "LOCAL-09",
     "LOCAL-10",
-    "LOCAL-11"
+    "LOCAL-11",
+    "DIAG-01",
+    "DIAG-02",
+    "DIAG-03",
+    "DIAG-04",
+    "DIAG-05",
+    "DIAG-06",
+    "DIAG-07",
+    "DIAG-08"
   ],
   "deferred_acceptance_ids": [
     "AUTH-01",

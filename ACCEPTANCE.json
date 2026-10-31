@@ -1,5 +1,5 @@
 {
-  "version": "2.0",
+  "version": "2.1",
   "date": "2026-10-31",
   "note": "Test specifications, not executed tests. Only delivery_scope=local_pilot cases gate the current P0–P4 assignment. Deferred_future cases preserve prior requirements for later review; their release_gate flag is not active in the pilot.",
   "status_enum": [
@@ -16,7 +16,8 @@
     "Pilot completion requires the active profile gates and actual provider/platform/client evidence where selected. Deferred platform cases are not pilot blockers, passes or authorization to continue future work.",
     "Conditional extraction check is not applicable only if that optional feature is absent.",
     "Never modify expected business values merely to match an implementation.",
-    "Source-capability completion must be backed by the central integration register, current immutable test evidence and independent confirmation; register validation alone is not provider or product proof."
+    "Source-capability completion must be backed by the central integration register, current immutable test evidence and independent confirmation; register validation alone is not provider or product proof.",
+    "DIAG-01 through DIAG-08 are mandatory local pilot gates governed by specs/SYSTEM-AND-DIAGNOSTICS.md; preparation checks are not diagnostics implementation evidence."
   ],
   "cases": [
     {
@@ -892,6 +893,78 @@
       "release_gate": true,
       "check": "Follow the short tester journey and explicitly export diagnostics after an import or query error; inspect the result, logs and network traffic for personal/order data, keys and automatic telemetry.",
       "expected": "Tester instructions cover start/save-key/import/first answer/local agent/restart/recovery and report actual blockers. Diagnostics contain only explicitly selected safe version/runtime/error/status metadata; no secrets/raw business content or automatic upload. Feedback observations are recorded honestly, not invented user studies."
+    },
+    {
+      "id": "DIAG-01",
+      "category": "system_and_diagnostics",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Use System & Diagnostics in English and German on desktop and narrow layouts with keyboard navigation. Filter retained mixed-level records by level, time, component, provider/connection, run, correlation ID and literal text; combine/clear filters, paginate, follow/pause/resume, reconnect after rotation, copy details and open View logs from source/run details.",
+      "expected": "The owner-only view matches SYSTEM-AND-DIAGNOSTICS.md, preserves the supplied design, defaults to last-hour INFO+, applies documented AND/OR semantics and stable bounded pagination, and reauthorizes links. Pause does not stop collection. Empty, stale/disconnected, expired-history, lost-record and never-recorded DEBUG states are distinct. Known UI explanations/actions are localized while engineering logs remain English. No duplicate rows, unsafe rendering or secret-bearing filter URLs."
+    },
+    {
+      "id": "DIAG-02",
+      "category": "system_and_diagnostics",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Inject failed API/worker/database/engine/MCP probes, no-progress queues, a source 429/expired permission, an empty successful source check and a Rust committed/applied gap. Interrupt status transport, advance observation age beyond 30 seconds, and restore services. Compare System & Diagnostics, Sources, import details and answer readiness.",
+      "expected": "Health uses actual probes/shared durable operational state with timestamps and reasons, never absence of ERROR logs. Runtime observations refresh within five seconds when healthy and stale/disconnected states cannot stay green. Source freshness follows its capability schedule, last successful check differs from last new event, and committed versus applied cutoffs are honest. Configured/self-tested MCP is not claimed as a connected client. Recovery and next actions are visible without triggering extra provider polling."
+    },
+    {
+      "id": "DIAG-03",
+      "category": "system_and_diagnostics",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Follow a real persisted provider-shaped import batch through the TypeScript worker, PostgreSQL journal/outbox, Rust application and an API/MCP query. Retry and reorder batches, crash around commit/publication, and inspect wrapper/API/worker/engine/bridge records against the shared schema and durable checkpoints.",
+      "expected": "Records have versioned bounded allowlisted fields, verified workspace scope, stable record/event/operation/run/batch IDs and applicable trace/attempt linkage. Commit/application success is logged only after the actual boundary; the query identifies its own applied cutoff without exposing content. INFO is batch/run summarized, durations are measured honestly and missing logs never override durable truth. No arbitrary payload/SQL values/cursor secrets; MCP stdio stdout remains valid protocol-only output."
+    },
+    {
+      "id": "DIAG-04",
+      "category": "system_and_diagnostics",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "On a supported real Mac, run setup with missing prerequisites and then inspect retained logs with the API, PostgreSQL and container runtime stopped in turn. Exercise documented logs filters/follow/JSON, doctor and host diagnostics export; interrupt follow, simulate inaccessible log files and restart with existing data.",
+      "expected": "Host-authorized commands read persistent sanitized files without a working API/database/container runtime or HTTP login, and report unavailable live checks honestly. Setup phases/errors have an accessible path or explicit persistence failure. Commands have validated filters, documented exit codes and safe actionable output, do not install/reset silently and do not capture setup keys, shell traces or environments. Interrupting follow preserves backend/data; install namespaces remain isolated."
+    },
+    {
+      "id": "DIAG-05",
+      "category": "system_and_diagnostics",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Activate component/connection DEBUG, close the browser, expire the 15-minute maximum, stop early, renew explicitly and restart services. Fill technical logs/index/container copies to the configured default cap, advance age past seven days and restart after downtime. Inspect retention cursors, business journal and security audit records.",
+      "expected": "Debug defaults off, is enforced server-side for at most 15 minutes and resets to INFO on restart; activation/expiry and scope are visible and safely audited. Seven-day or 100-MiB-total rotation covers all managed retained technical copies/indexes, with startup/hourly age cleanup and truthful retained range/loss notices. Missing prior DEBUG is not fabricated. Technical rotation cannot delete or mutate business journal/evidence or replace the required durable security audit."
+    },
+    {
+      "id": "DIAG-06",
+      "category": "system_and_diagnostics",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Inject unique synthetic secret/PII canaries, nested exceptions, credential-bearing URLs/headers, provider payload/control/HTML strings and database parameters through normal/debug/error paths. Inspect stdout/stderr/files/index/UI/copy/export. Attempt anonymous, read-only agent, other-tenant, forged-origin/CSRF and revoked-owner access to list/search/count/live/detail/debug/download endpoints; revoke during streaming.",
+      "expected": "Allowlisting/redaction occurs before emission across all producers and third-party loggers, with no synthetic secrets/raw business content in any sink and no log/HTML injection. Owner-only diagnostic access enforces workspace scope including counts/cursors/exports; safe infrastructure metadata does not expose other tenants. Agent business readiness still works without technical-log privilege. New requests are denied after durable revocation acknowledgment and streams stop within five seconds; no browser filesystem/shell/socket escape."
+    },
+    {
+      "id": "DIAG-07",
+      "category": "system_and_diagnostics",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Under the active pilot smoke workload with default INFO logging, generate retained mixed log data up to the 100-MiB cap and measure 200-row first-page filters and literal search, live delivery, CPU/RSS/disk and business API/MCP latency. Enable bounded DEBUG and inject a slow/read-only/full logging sink, queue saturation and then a shared-disk journal-write failure.",
+      "expected": "First-page p95 is at most two seconds and healthy live visibility at most five seconds under declared hardware/corpus/sample counts. All active business performance/correctness gates hold with default logging. Finite async buffers and all retained copies remain bounded; low-level suppression/error loss is counted and diagnostics becomes degraded without recursive storms. Independent healthy journal storage continues correctly; failed durable journal writes are not acknowledged. No business-data deletion or hidden unbounded log/index/container copy; report DEBUG overhead separately."
+    },
+    {
+      "id": "DIAG-08",
+      "category": "system_and_diagnostics",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Preview and explicitly export diagnostics through UI and host CLI after an import/query failure and while services are down. Include older log schemas, oversized excerpts, unsafe paths and synthetic customer/secret canaries; inspect bundles/temp cleanup and network traffic. Follow the tester troubleshooting guide.",
+      "expected": "Export remains local and explicit, with selected categories/time range, size/truncation/unavailable notices and a 10-MiB bundle cap. Allowlisted versions/runtime/health/error counts and sanitized excerpts preserve correlation through consistent per-bundle pseudonyms, excluding credentials/PII/raw orders/emails/evidence dumps and personal paths. Bounded temporary files expire/clean up; user-selected saved files are distinct. No automatic upload/telemetry. The guide and real observations are accurate; fabricated user-test evidence cannot pass."
     }
   ],
   "active_profile": "local_pilot",

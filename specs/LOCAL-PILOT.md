@@ -13,10 +13,10 @@ One visible workspace and one human owner are created automatically. Separate lo
 | Milestone | Required result |
 | --- | --- |
 | P0 — smallest contract | Confirm environment, read references, choose supported dependencies, record the minimal schema/auth/Rust boundaries and begin implementation |
-| P1 — local foundation | Working Compose backend, secure access-key setup, automatic owner/workspace, local web UI, append-only PostgreSQL journal, durable ingestion/outbox and Rust vertical slice |
-| P2 — useful answers | Full Golden Scenario and all 24 positive/missing-data question contracts, journal/evidence UI, bounded RAM/cold access, restart recovery, import setup and truthful source health, EN/DE UI and landing page |
+| P1 — local foundation | Working Compose backend, secure access-key setup, automatic owner/workspace, local web UI, append-only PostgreSQL journal, durable ingestion/outbox, Rust vertical slice and structured logging/CLI fallback |
+| P2 — useful answers | Full Golden Scenario and all 24 positive/missing-data question contracts, journal/evidence UI, bounded RAM/cold access, restart recovery, import setup and truthful source health, System & Diagnostics, EN/DE UI and landing page |
 | P3 — connected pilot | Shopify/Shopify Payments outbound import/polling/reconciliation, named read-only agent keys and a working local MCP client/bridge, bank CSV and signed typed generic input; actual external access reported separately |
-| P4 — handover and stop | Fresh install on a real Apple Silicon Mac, backup/restore, populated upgrade, local performance smoke and bounded-memory/crash tests, clean-checkout verification, screenshots, short tester guide, safe diagnostics and honest evidence report |
+| P4 — handover and stop | Fresh install on a real Apple Silicon Mac, backup/restore, populated upgrade, local performance smoke and bounded-memory/crash tests, clean-checkout verification, screenshots, DIAG-01–08 proof, short tester guide, safe diagnostics and honest evidence report |
 
 The primary deliverable is a local backend plus complete browser UI, started by a small wrapper. A native `.app`/DMG, Tauri shell, signing/notarization, remote desktop client and background OS-service installer are deferred. Closing the browser must not stop the supervised backend; an explicit stop must preserve durable data. Do not claim a dependency-free installer: show the required container runtime and supported versions. A small double-click launcher may be added only if useful and tested, without becoming a prerequisite for core functionality.
 
@@ -37,6 +37,10 @@ Use `local_standalone` only: initial import, outbound polling and reconciliation
 Keep the supplied design, English-default UI/landing with full German, all English engineering material, five journal tracks, append-only enforcement, exact financial/quantity rules, provenance, 24 question contracts plus complete authorized history traversal, and the TypeScript/Rust boundary. PostgreSQL remains canonical; compact RAM is rebuildable. Preserve commit-before-ack, outbox, idempotency, late/corrected events, fixed query cutoffs, safe snapshots/tail recovery, bounded memory and indexed cold reads. Never downgrade these because the app is local.
 
 The 250k-entry smoke profile and local memory/recovery checks are required. Use the same generated corpus, resource limits and workload for A/B comparison; report actual Mac/container hardware and measurements. The 10m reference run and 100m experiment remain future performance gates, not current delivery work; no capacity claim is permitted without its actual evidence. A local application can be structurally ready for larger datasets without claiming those scales are verified.
+
+## Runtime visibility is pilot scope
+
+Follow [SYSTEM-AND-DIAGNOSTICS.md](SYSTEM-AND-DIAGNOSTICS.md): owner-only EN/DE System & Diagnostics, measured status, live/filterable retained DEBUG/INFO/WARN/ERROR logs, source/run links, correlation through durable commit/Rust application/query, setup/outage CLI access and explicit safe export. Default technical retention is seven days or 100 MiB total, whichever is reached first; scoped debug expires within 15 minutes. Keep technical retention separate from the append-only journal and required security audit. Implement from P1 and verify DIAG-01–08 before P4 completion. No external logging service or automatic telemetry is required.
 
 ## Deferred work is not an automatic next phase
 

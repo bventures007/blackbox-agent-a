@@ -98,3 +98,7 @@ The existing contract/pipeline/recovery/tenant/live evidence must exercise the a
 Use local, non-sensitive measurements to evaluate time to first evidence-backed useful answer and onboarding completion. Future opt-in adoption analytics may evaluate return usage; do not transmit tenant data or add an external analytics dependency by default. These are product-learning measures, not achieved adoption or latency claims.
 
 Required acceptance: IMPORT-01 through IMPORT-06, HEALTH-01 through HEALTH-03, plus existing SYNC/INGEST/QUERY/MCP/UI/TENANT/PERF gates. No acceptance is passed merely by displaying plausible progress numbers.
+
+## Source-to-diagnostics navigation
+
+SYSTEM-AND-DIAGNOSTICS.md adds owner-only View logs actions on source details and import runs, carrying the authorized connection/run identifiers into central filters and linking back. The health overview reuses this shared readiness state; it does not infer completeness/freshness from technical log rows. Keep runtime observation staleness separate from provider cadence. Read-only MCP agents retain business readiness without gaining technical log/admin access. Technical logs summarize runs/batches; rotation cannot delete durable import coverage or journal records.

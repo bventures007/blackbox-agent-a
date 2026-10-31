@@ -1,6 +1,6 @@
 # Independent local pilot comparison
 
-Both repositories start from the same baseline-v11 input. Compare P0–P4 local pilots, not the former platform roadmap. Do not inspect/copy the competing implementation during the build; do not merge implementations or databases automatically.
+Both repositories start from the same baseline-v12 input. Compare P0–P4 local pilots, not the former platform roadmap. Do not inspect/copy the competing implementation during the build; do not merge implementations or databases automatically.
 
 1. Record agent/model/version, resource conditions and actual host tools. Use equivalent scope, runtime limits, fixture corpus and provider/test access; disclose differences.
 2. Use separate checkouts, ports, volumes, database names and secrets. Keep actual business/customer data isolated and separately authorized.
@@ -11,3 +11,5 @@ Both repositories start from the same baseline-v11 input. Compare P0–P4 local 
 7. Apply SCORECARD.json; a serious security/data-loss defect overrides total score. Select one foundation, then decide future scope from observed user feedback.
 
 Passkeys, employee management, public servers/SaaS, gateways, native packaging, additional providers and larger capacity certification are deferred. Building those automatically is scope drift, not a reason to award extra points. Required output: tested commits, exact commands, results, findings, screenshots, install/first-answer friction, safe diagnostics, score and smallest next validation steps. Stop after handover.
+
+Compare DIAG-01–08 using the same generated log corpus up to the default cap and the same smoke resources. Require the central EN/DE view plus actual local outage/debug/retention/redaction/performance evidence; extra hosted logging tools are not a substitute. Keep normal production logging enabled in business benchmarks.

@@ -1166,6 +1166,102 @@
       "observed_result": null,
       "evidence_paths": [],
       "blocker": null
+    },
+    {
+      "id": "DIAG-01",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "local_pilot"
+    },
+    {
+      "id": "DIAG-02",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "local_pilot"
+    },
+    {
+      "id": "DIAG-03",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "local_pilot"
+    },
+    {
+      "id": "DIAG-04",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "local_pilot"
+    },
+    {
+      "id": "DIAG-05",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "local_pilot"
+    },
+    {
+      "id": "DIAG-06",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "local_pilot"
+    },
+    {
+      "id": "DIAG-07",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "local_pilot"
+    },
+    {
+      "id": "DIAG-08",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     }
   ],
   "active_profile": "local_pilot"

@@ -2,17 +2,17 @@
 
 ## Current assignment
 
-Baseline-v11 / brief 2.0: P0–P4 local pilot, then handover and stop. The owner approved a personal saved access key and local testing before deciding later product/hosting scope. Passkeys, invitations, public SaaS/servers, gateways, native packaging and large capacity certification are deferred. Read delivery-profile.json and specs/LOCAL-PILOT.md.
+Baseline-v12 / brief 2.1: P0–P4 local pilot, then handover and stop. The owner approved a personal saved access key and local testing before deciding later product/hosting scope. Passkeys, invitations, public SaaS/servers, gateways, native packaging and large capacity certification are deferred. Read delivery-profile.json and specs/LOCAL-PILOT.md.
 
-Product implementation has not started. The prototype is static/simulated. No production login, importer, database/engine, local MCP bridge or installer exists yet. All 97 acceptance records remain not_started: 60 active pilot cases and 37 deferred cases. The exact previous 86 case descriptions remain preserved; 11 local cases define the simpler delivery.
+Product implementation has not started. The prototype is static/simulated. No production login, importer, database/engine, local MCP bridge or installer exists yet. All 105 acceptance records remain not_started: 68 active pilot cases and 37 deferred cases. The exact previous 86 case descriptions remain preserved; 11 local cases define the simpler delivery and eight DIAG cases make operational visibility a required part of it. No diagnostics implementation exists yet.
 
 ## Milestones
 
 - [ ] P0 — environment and minimal contracts; start implementation
-- [ ] P1 — local key/session, automatic owner/workspace and persisted Rust/journal slice
-- [ ] P2 — Golden Scenario, all 24 query contracts, UI/locales, import/readiness and restart
+- [ ] P1 — local key/session, automatic owner/workspace and persisted Rust/journal slice, structured logging and CLI fallback
+- [ ] P2 — Golden Scenario, all 24 query contracts, UI/locales, import/readiness, System & Diagnostics and restart
 - [ ] P3 — Shopify/Shopify Payments and supplemental producers; local agent keys/MCP
-- [ ] P4 — real Mac install, local performance/memory, backup/restore/upgrade, feedback guide and handover
+- [ ] P4 — real Mac install, local performance/memory, backup/restore/upgrade, DIAG-01–08 evidence, feedback guide and handover
 
 ## Preserved foundation
 
@@ -28,8 +28,10 @@ Read START-HERE.md, AGENTS.md and the local contract, inspect the prototype and 
 
 Keep reports/acceptance.json, question-coverage.json, performance.json and source history current with actual code commits, commands, environment and artifacts. Ordinary validators check preparation consistency only; the profile --release gate checks current evidence/selected independent approvals. No checker independently proves execution truth. Deferred requirements are not passed or automatic next work. Preserve the P4 comparison commit/report and stop for owner feedback.
 
-Previous preparation findings and decisions are preserved in docs/history/baseline-v10-status.md and older Git tags. They describe the prior assignment, not current obligations.
+Previous preparation findings and decisions are preserved in docs/history/baseline-v10-status.md, docs/history/baseline-v11-status.md and older Git tags. They describe the prior assignment, not current obligations.
 
-## Preparation verification for baseline-v11
+## Diagnostics addition for baseline-v12
 
-The question catalogue validator, integration register check against 39eae75012ebf1c3c387100454155170aff44961, delivery-profile validator and 45 synthetic tooling regression tests passed. The new tests reject omitted/overlapping scope, deferred pass claims, incomplete capability selection, rewritten original cases, absent/stale evidence and unapproved selected rows. Prior history is preserved with 127 actual plan_changed scope records (382 records total); no implementation/test approval was fabricated. All product cases still remain not_started. These checks verify preparation and gate behavior, not a running local application or successful provider access.
+The owner approved a central System & Diagnostics view with source/run links, measured/stale health, common correlated structured logs, filters/live/history, local setup/outage access, bounded seven-day/100-MiB technical retention, 15-minute scoped debug and explicit sanitized export. The new specification defines permissions, redaction, failure behavior, performance bounds and P1–P4 implementation order. DIAG-01–08 are selected release gates; reports remain not_started. Start/Goal/build/review instructions include the new contract. Source capability selection, all previous acceptance semantics, journal/data contracts, integration history and visual references are unchanged.
+
+The question catalogue validator, integration register check against 8d67454b4a8fd3556312bf5160ecbb0655ab0e13, delivery-profile validator and all 45 existing tooling regression tests passed. An additional consistency check confirms all 97 previous acceptance cases are byte-equivalent as parsed records, all 105 results remain not_started, and integration history/source selection, golden data and visual assets are unchanged. These checks verify specification/control consistency only; no runtime, diagnostic feature or product result is claimed.

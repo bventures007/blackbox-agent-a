@@ -1,5 +1,5 @@
 BLACKBOX — LOCAL PILOT ARCHITECTURE
-Version 2.0 · Owner-approved local-first delivery. No production app has been implemented by this seed.
+Version 2.1 · Owner-approved local-first delivery. No production app has been implemented by this seed.
 
 The current scope is specs/LOCAL-PILOT.md and delivery-profile.json: P0–P4, then handover and stop for feedback. Future hosting, SaaS, native clients and Passkeys are options, not automatic next milestones. Preserve a modular foundation without implementing their infrastructure now.
 
@@ -20,6 +20,8 @@ Default import is last 30 days plus disclosed accessible older open/related cont
 Use maintained MCP SDK stdio through an authenticated local bridge sharing the query service. Agent keys permit workspace business/evidence reads, never owner administration or arbitrary SQL. Test a protocol client and record actual local-client compatibility separately. Public cloud agents do not gain access to loopback automatically; remote OAuth/routing is deferred.
 
 Measure the 250k-entry smoke profile under actual declared Mac/container hardware, with realistic five-track data, concurrent ingestion, hot/cold reads, current authorization and bounded memory/recovery tests. Keep exact corpus and resources comparable between A/B builds. The 10m/100m contracts are preserved for later evaluation; do not claim those capacities without measurements or build HA solely for a future benchmark.
+
+Implement specs/SYSTEM-AND-DIAGNOSTICS.md with a common sanitized structured log contract across wrapper/API/worker/Rust/MCP, persistent bounded local files and optional rebuildable search index. Use actual probes and shared source/readiness/cursor state for owner-only EN/DE health and filtered live/history views. Keep local CLI access during API/database/runtime outages, 15-minute debug expiry, seven-day/100-MiB-total technical retention and explicit bounded exports. Technical logs are separate from business journal and required durable security audit; do not put best-effort logging on the commit/query critical path or require a hosted observability stack. DIAG-01–08 are active pilot gates.
 
 Dependency direction: domain <- application <- adapters/entrypoints. Keep TypeScript orchestration, Rust canonical rules, versioned cross-language schemas, source manifests/fixtures and shared question contracts separate. Use Drizzle/reviewed SQL, PostgreSQL-backed jobs, pnpm/Cargo lockfiles and pinned versions/licenses. No required Kafka/Redis/Kubernetes/vector DB/proprietary control plane. Add material ADRs, not a framework project.
 

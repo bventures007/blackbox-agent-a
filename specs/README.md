@@ -11,6 +11,7 @@ Read [LOCAL-PILOT.md](LOCAL-PILOT.md) and [delivery-profile.json](../delivery-pr
 | [WEB-DESKTOP-AND-DEPLOYMENT.md](WEB-DESKTOP-AND-DEPLOYMENT.md) | Complete local browser/Compose product and real Mac install; native/public/remote delivery deferred |
 | [SOURCE-SYNCHRONIZATION.md](SOURCE-SYNCHRONIZATION.md) | local_standalone backfill/poll/reconcile; other modes declared unsupported/deferred |
 | [IMPORT-ONBOARDING-AND-DATA-READINESS.md](IMPORT-ONBOARDING-AND-DATA-READINESS.md) | Date selection, older open/related context, real counters and central Sources/answer readiness |
+| [SYSTEM-AND-DIAGNOSTICS.md](SYSTEM-AND-DIAGNOSTICS.md) | Owner-only health/live log UI, filters/correlation, bounded retention/debug, outage CLI, safe export and DIAG-01–08 pilot gates |
 | [WEBHOOK-GATEWAY.md](WEBHOOK-GATEWAY.md) | Explicit deferral; no public receiver is required for the pilot |
 
 [INTEGRATIONS.md](../INTEGRATIONS.md) is the central source-by-source work list. [Its rules](../integrations/README.md) govern exact mappings, evidence and independent confirmation. The profile validator selects current rows without deleting future plans/history. All product/connector evidence starts unexecuted.
