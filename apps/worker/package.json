@@ -1,0 +1,10 @@
+{
+  "name": "@blackbox/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/main.js",
+  "scripts": { "build": "tsc -p tsconfig.json", "typecheck": "tsc -p tsconfig.json --noEmit", "test": "echo 'see /tests'" },
+  "dependencies": { "@blackbox/application": "workspace:*", "@blackbox/contracts": "workspace:*", "@blackbox/database": "workspace:*", "@blackbox/logging": "workspace:*", "zod": "3.25.76" },
+  "devDependencies": { "typescript": "5.9.3", "@types/node": "22.19.1" }
+}

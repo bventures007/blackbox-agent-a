@@ -34,3 +34,12 @@ test-results/
 .vscode/
 __pycache__/
 *.pyc
+
+# Blackbox local pilot runtime
+/.secrets/
+/.local/
+/target/
+/release/dist/
+/apps/landing/dist/
+/apps/web/dist/
+/tests/evidence/tmp/

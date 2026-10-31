@@ -1,0 +1,9 @@
+{
+  "name": "@blackbox/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "vite --port 5173 --host 127.0.0.1", "build": "tsc -p tsconfig.json --noEmit && vite build", "typecheck": "tsc -p tsconfig.json --noEmit", "test": "echo 'browser tests live in /tests'" },
+  "dependencies": { "react": "18.3.1", "react-dom": "18.3.1", "@blackbox/i18n": "workspace:*", "@blackbox/contracts": "workspace:*" },
+  "devDependencies": { "vite": "6.4.1", "@vitejs/plugin-react": "4.7.0", "typescript": "5.9.3", "@types/react": "18.3.27", "@types/react-dom": "18.3.7" }
+}

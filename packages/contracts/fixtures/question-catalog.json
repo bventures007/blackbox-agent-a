@@ -1,0 +1,797 @@
+[
+ {
+  "id": "order",
+  "number": "01",
+  "label": {
+   "en": "Order",
+   "de": "Auftrag"
+  },
+  "title": {
+   "en": "Order & availability",
+   "de": "Auftrag & Verfügbarkeit"
+  },
+  "agent": {
+   "en": "Order checker",
+   "de": "Auftragscheck"
+  },
+  "team": "Sales · Operations",
+  "icon": "box",
+  "benefit": {
+   "en": "Make realistic promises and identify overselling earlier.",
+   "de": "Realistische Zusagen geben und Überverkäufe früher erkennen."
+  },
+  "scope": {
+   "en": "What can we reliably promise the customer?",
+   "de": "Was können wir dem Kunden verbindlich zusagen?"
+  },
+  "tracks": [
+   "fact",
+   "commitment",
+   "reservation"
+  ],
+  "sources": {
+   "en": "Shopify / Shopware · Inventory data · Commitments",
+   "de": "Shopify / Shopware · Bestandsdaten · Zusagen"
+  },
+  "questions": [
+   {
+    "ref": "order-01",
+    "intent": "inventory.available_to_sell",
+    "q": {
+     "en": "Can I still sell 100 Olive Cups?",
+     "de": "Kann ich noch 100 Olive Cups verkaufen?"
+    },
+    "method": {
+     "en": "Subtract active reservations from physical stock. Show promised receipts separately until goods have actually been received.",
+     "de": "Physischen Bestand um offene Reservierungen reduzieren. Zugesagte Zugänge separat zeigen, bis ein tatsächlicher Wareneingang vorliegt."
+    },
+    "need": {
+     "en": "Item ID, stock snapshot, active reservations and open supply commitments.",
+     "de": "Artikel-ID, Bestandsstand, aktive Reservierungen und offene Lieferzusagen."
+    },
+    "result": {
+     "en": "Available quantity, shortfall and evidence for the current state.",
+     "de": "Verfügbare Menge, Fehlmenge und Belege zum aktuellen Stand."
+    },
+    "params": [
+     {
+      "name": "item_id",
+      "type": "text",
+      "required": true
+     },
+     {
+      "name": "requested_quantity",
+      "type": "quantity"
+     }
+    ]
+   },
+   {
+    "ref": "order-02",
+    "intent": "orders.fulfillable",
+    "q": {
+     "en": "Which open orders can be fulfilled entirely from available stock?",
+     "de": "Welche offenen Aufträge sind vollständig aus verfügbarem Bestand erfüllbar?"
+    },
+    "method": {
+     "en": "Check each open line against stock and allocated reservations. Allocate the same units to only one order.",
+     "de": "Jede offene Position gegen Bestand und bereits zugeteilte Reservierungen prüfen. Dieselben Stücke nur einem Auftrag zuordnen."
+    },
+    "need": {
+     "en": "Open order lines, reservation allocations and current stock per warehouse.",
+     "de": "Offene Auftragspositionen, Reservierungszuordnung und aktuelle Bestände je Lager."
+    },
+    "result": {
+     "en": "Orders classified as fully fulfillable, partially fulfillable or blocked, with reasons.",
+     "de": "Liste: vollständig erfüllbar, teilweise erfüllbar oder blockiert – mit Grund."
+    },
+    "params": []
+   },
+   {
+    "ref": "order-03",
+    "intent": "orders.reservation_variance",
+    "q": {
+     "en": "Which orders have a mismatch between promised and reserved quantities?",
+     "de": "Bei welchen Aufträgen passt die zugesagte Menge nicht zur Reservierung?"
+    },
+    "method": {
+     "en": "Compare the current order quantity with active reservations per line. Account for canceled and shipped quantities.",
+     "de": "Aktuelle Auftragsmenge und aktive Reservierung je Position vergleichen. Stornierte oder ausgelieferte Mengen berücksichtigen."
+    },
+    "need": {
+     "en": "Order changes, lines, reservations, cancellations and recorded shipments.",
+     "de": "Auftragsänderungen, Positionen, Reservierungen, Stornos und gebuchte Auslieferungen."
+    },
+    "result": {
+     "en": "Variance per order and line, including missing or excess quantities.",
+     "de": "Abweichung je Auftrag und Position, mit fehlender oder überzähliger Menge."
+    },
+    "params": []
+   },
+   {
+    "ref": "order-04",
+    "intent": "orders.inbound_delay_impact",
+    "q": {
+     "en": "Which open orders are affected by a delayed incoming delivery?",
+     "de": "Welche offenen Aufträge werden von einer verschobenen Warenankunft betroffen?"
+    },
+    "method": {
+     "en": "Link the changed receipt commitment to open customer orders through items and allocations. Mark the impact as unresolved where allocations are missing.",
+     "de": "Die geänderte Zugangszusage über Artikel und Zuteilung mit offenen Kundenaufträgen verbinden. Fehlende Zuteilungen als ungeklärte Betroffenheit markieren."
+    },
+    "need": {
+     "en": "Versioned receipt commitment, item links, order allocations and customer deadlines.",
+     "de": "Versionierte Zugangszusage, Artikel-Zuordnung, Auftragszuteilung und Kundentermine."
+    },
+    "result": {
+     "en": "Affected orders and commitments at risk, for manual review.",
+     "de": "Betroffene Aufträge und gefährdete Zusagen zur manuellen Prüfung."
+    },
+    "params": [
+     {
+      "name": "promise_id",
+      "type": "text"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "delivery",
+  "number": "02",
+  "label": {
+   "en": "Delivery",
+   "de": "Lieferung"
+  },
+  "title": {
+   "en": "Delivery & customer communication",
+   "de": "Lieferung & Kundeninformation"
+  },
+  "agent": {
+   "en": "Delivery assistant",
+   "de": "Lieferbegleiter"
+  },
+  "team": "Customer Success · Operations",
+  "icon": "truck",
+  "benefit": {
+   "en": "Identify delivery problems earlier and help customers with evidence-backed information.",
+   "de": "Lieferprobleme früher sehen und Kunden mit belegbaren Angaben helfen."
+  },
+  "scope": {
+   "en": "What is happening to the goods on their way to the customer?",
+   "de": "Was passiert mit der Ware auf dem Weg zum Kunden?"
+  },
+  "tracks": [
+   "source",
+   "fact",
+   "commitment",
+   "movement"
+  ],
+  "sources": {
+   "en": "Shop · DHL / DPD / UPS · Customer communication",
+   "de": "Shop · DHL / DPD / UPS · Kundenkommunikation"
+  },
+  "questions": [
+   {
+    "ref": "delivery-01",
+    "intent": "shipments.attention",
+    "q": {
+     "en": "Where are my parcels, and which need attention?",
+     "de": "Wo sind meine Pakete – und welche brauchen Aufmerksamkeit?"
+    },
+    "method": {
+     "en": "Combine the latest carrier status with the order, scan time and reported forecast. Keep older scans visible in history.",
+     "de": "Den letzten Carrier-Status mit Auftrag, Scan-Zeit und gemeldeter Prognose zusammenführen. Alte Scans bleiben in der Historie sichtbar."
+    },
+    "need": {
+     "en": "Order-to-shipment links, carrier scans and available delivery forecasts.",
+     "de": "Auftrag-Sendung-Zuordnung, Carrier-Scans und vorhandene Zustellprognosen."
+    },
+    "result": {
+     "en": "Shipment overview with last known status and issues requiring attention.",
+     "de": "Sendungsübersicht mit letztem bekannten Status und Auffälligkeiten."
+    },
+    "params": []
+   },
+   {
+    "ref": "delivery-02",
+    "intent": "shipments.promise_risk",
+    "q": {
+     "en": "Which customer delivery commitments are overdue or at risk?",
+     "de": "Welche Lieferzusagen an Kunden sind überschritten oder gefährdet?"
+    },
+    "method": {
+     "en": "Compare the customer commitment with actual shipping or delivery status. Label carrier forecasts as estimates.",
+     "de": "Kundenzusage und tatsächlichen Versand- bzw. Zustellstatus vergleichen. Eine Carrier-Prognose als Schätzung ausweisen."
+    },
+    "need": {
+     "en": "Explicit customer commitment, time zone, shipment status and any carrier forecast.",
+     "de": "Explizite Kundenzusage, Zeitzone, Sendungsstatus und ggf. Carrier-Prognose."
+    },
+    "result": {
+     "en": "Prioritized cases with the promised date, current state and explanation.",
+     "de": "Priorisierte Fälle mit zugesagtem Termin, aktuellem Stand und Begründung."
+    },
+    "params": []
+   },
+   {
+    "ref": "delivery-03",
+    "intent": "orders.partial_delivery_gaps",
+    "q": {
+     "en": "Which partial deliveries still have missing items?",
+     "de": "Bei welchen Teillieferungen fehlt noch Ware?"
+    },
+    "method": {
+     "en": "Compare ordered quantities per line with confirmed partial deliveries. Handle canceled lines and shipping labels without shipment confirmation separately.",
+     "de": "Bestellte Mengen je Position den bestätigten Teillieferungen gegenüberstellen. Stornierte Positionen und reine Versandlabels gesondert behandeln."
+    },
+    "need": {
+     "en": "Order lines, partial deliveries, included quantities and handover/delivery events.",
+     "de": "Auftragspositionen, Teillieferungen, enthaltene Mengen und Übergabe-/Zustellereignisse."
+    },
+    "result": {
+     "en": "Outstanding quantities per order and the associated shipments.",
+     "de": "Offene Restmengen je Auftrag sowie die zugehörigen Sendungen."
+    },
+    "params": [
+     {
+      "name": "order_id",
+      "type": "text"
+     }
+    ]
+   },
+   {
+    "ref": "delivery-04",
+    "intent": "customer.delivery_reply",
+    "q": {
+     "en": "What can I reliably tell this customer about their delivery status?",
+     "de": "Was kann ich diesem Kunden zum Lieferstatus verlässlich antworten?"
+    },
+    "method": {
+     "en": "Use the order, latest scans and prior promises to draft a reply. Explicitly leave unknown arrival dates unresolved.",
+     "de": "Auftrag, letzte Scans und bereits gemachte Zusagen in einen Antwortentwurf überführen. Unbekannte Ankunftstermine ausdrücklich offenlassen."
+    },
+    "need": {
+     "en": "Customer-to-order links, carrier history and prior communication.",
+     "de": "Kunden-Auftrags-Zuordnung, Carrier-Verlauf und bisherige Kommunikation."
+    },
+    "result": {
+     "en": "Customer-friendly draft with internal evidence; sending remains a separate action.",
+     "de": "Kundenfreundlicher Antwortentwurf mit internen Belegen; Versand bleibt ein eigener Schritt."
+    },
+    "params": [
+     {
+      "name": "order_id",
+      "type": "text",
+      "required": true
+     },
+     {
+      "name": "customer_id",
+      "type": "text"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "invoice",
+  "number": "03",
+  "label": {
+   "en": "Invoice",
+   "de": "Rechnung"
+  },
+  "title": {
+   "en": "Invoice & receivables",
+   "de": "Rechnung & Forderung"
+  },
+  "agent": {
+   "en": "Invoice checker",
+   "de": "Rechnungsprüfer"
+  },
+  "team": "Finance · Backoffice",
+  "icon": "list",
+  "benefit": {
+   "en": "Find missing documents and understand the current receivables balance.",
+   "de": "Beleglücken finden und den aktuellen Forderungsstand nachvollziehen."
+  },
+  "scope": {
+   "en": "What has the customer been invoiced for?",
+   "de": "Was wurde dem Kunden in Rechnung gestellt?"
+  },
+  "tracks": [
+   "source",
+   "fact",
+   "commitment"
+  ],
+  "sources": {
+   "en": "Shop · Invoicing tool · Document links",
+   "de": "Shop · Rechnungstool · Belegzuordnung"
+  },
+  "questions": [
+   {
+    "ref": "invoice-01",
+    "intent": "invoices.outstanding",
+    "q": {
+     "en": "Which invoices are still outstanding?",
+     "de": "Welche Rechnungen sind noch offen?"
+    },
+    "method": {
+     "en": "Calculate each invoice state from its original amount, corrections and reported payments. Do not sum superseded states again.",
+     "de": "Je Rechnung den aktuellen Stand aus Originalbetrag, Korrekturen und gemeldeten Zahlungen bilden. Ersetzte Stände nicht erneut summieren."
+    },
+    "need": {
+     "en": "Invoice, correction documents, reported payment status and due date.",
+     "de": "Rechnung, Korrekturbelege, gemeldeter Zahlungsstand und Fälligkeit."
+    },
+    "result": {
+     "en": "Outstanding amounts and due dates with an evidence chain; payment markers are not bank evidence.",
+     "de": "Offene Beträge und Fälligkeiten mit Belegkette; Zahlungsmarkierungen sind noch kein Banknachweis."
+    },
+    "params": []
+   },
+   {
+    "ref": "invoice-02",
+    "intent": "orders.missing_invoice",
+    "q": {
+     "en": "Which orders still need an invoice under our invoicing rule?",
+     "de": "Für welche Aufträge fehlt nach unserer Regel noch eine Rechnung?"
+    },
+    "method": {
+     "en": "Evaluate orders against the configured invoicing rule, for example after shipment. Reconcile linked invoices and cancellations.",
+     "de": "Aufträge anhand der hinterlegten Fakturierungsregel prüfen, zum Beispiel nach Versand. Zugeordnete Rechnungen und Stornos abgleichen."
+    },
+    "need": {
+     "en": "Invoicing rule, order/delivery status, invoice links and complete import coverage.",
+     "de": "Fakturierungsregel, Auftrags-/Lieferstatus, Rechnungszuordnung und vollständiger Importstand."
+    },
+    "result": {
+     "en": "Review list of potentially missing invoices; status remains unknown when data is incomplete.",
+     "de": "Prüfliste potenziell fehlender Rechnungen; bei Datenlücken bleibt der Status unbekannt."
+    },
+    "params": []
+   },
+   {
+    "ref": "invoice-03",
+    "intent": "invoices.order_amount_variance",
+    "q": {
+     "en": "Where does the invoice amount differ from the agreed order amount?",
+     "de": "Wo weicht der Rechnungsbetrag vom vereinbarten Auftragsbetrag ab?"
+    },
+    "method": {
+     "en": "Compare lines, quantities, discounts, shipping charges, currency and stated taxes. Account for partial invoices.",
+     "de": "Positionen, Mengen, Rabatte, Versandkosten, Währung und ausgewiesene Steuern vergleichen. Teilrechnungen berücksichtigen."
+    },
+    "need": {
+     "en": "Versioned order and invoice lines, including partial-invoice references.",
+     "de": "Versionierter Auftrag und Rechnungspositionen einschließlich Teilrechnungsbezug."
+    },
+    "result": {
+     "en": "Amount difference per line with a traceable reconciliation explanation.",
+     "de": "Betragsdifferenz je Position und eine nachvollziehbare Erklärung des Abgleichs."
+    },
+    "params": [
+     {
+      "name": "order_id",
+      "type": "text"
+     }
+    ]
+   },
+   {
+    "ref": "invoice-04",
+    "intent": "invoices.dispatch_evidence",
+    "q": {
+     "en": "Which invoices were created but have no evidence of being sent?",
+     "de": "Welche Rechnungen wurden erstellt, aber noch nicht nachweislich versendet?"
+    },
+    "method": {
+     "en": "Link created documents to the invoicing tool's sending event. With incomplete sending data, report missing evidence only.",
+     "de": "Erstellte Belege mit dem Versandereignis des Rechnungstools verbinden. Ohne vollständige Versanddaten nur fehlenden Nachweis melden."
+    },
+    "need": {
+     "en": "Invoice ID, creation time, sending status and last synchronization time.",
+     "de": "Rechnungs-ID, Erstellzeit, Versandstatus und Zeitpunkt der letzten Synchronisierung."
+    },
+    "result": {
+     "en": "Documents without sending evidence, including data freshness rather than an unsupported conclusion that they were not sent.",
+     "de": "Liste der Belege ohne Versandnachweis – mit Datenstand statt pauschalem Versandurteil."
+    },
+    "params": []
+   }
+  ]
+ },
+ {
+  "id": "collection",
+  "number": "04",
+  "label": {
+   "en": "Customer payment",
+   "de": "Kundenzahlung"
+  },
+  "title": {
+   "en": "Customer payment & resolution",
+   "de": "Kundenzahlung & Klärung"
+  },
+  "agent": {
+   "en": "Payment investigator",
+   "de": "Zahlungsklärer"
+  },
+  "team": "Finance · Customer Success",
+  "icon": "check",
+  "benefit": {
+   "en": "Resolve payment issues precisely and avoid unnecessary payment reminders.",
+   "de": "Zahlungsprobleme gezielt klären und unnötige Zahlungserinnerungen vermeiden."
+  },
+  "scope": {
+   "en": "Has the customer made their payment?",
+   "de": "Hat der Kunde seine Zahlung geleistet?"
+  },
+  "tracks": [
+   "fact",
+   "commitment",
+   "movement"
+  ],
+  "sources": {
+   "en": "Shop / Invoice · Payment provider · Payment evidence",
+   "de": "Shop / Rechnung · Payment-Provider · Zahlungsbelege"
+  },
+  "questions": [
+   {
+    "ref": "collection-01",
+    "intent": "orders.payment_state",
+    "q": {
+     "en": "Which orders are only authorized, actually paid or still awaiting payment?",
+     "de": "Welche Aufträge sind nur autorisiert, tatsächlich bezahlt oder noch ausstehend?"
+    },
+    "method": {
+     "en": "Read authorizations, successful captures and failed attempts separately. Show order status alongside transaction status.",
+     "de": "Autorisierung, erfolgreichen Einzug und fehlgeschlagene Versuche getrennt lesen. Auftragsstatus und Transaktionsstatus nebeneinander zeigen."
+    },
+    "need": {
+     "en": "Order ID, unique transaction reference, amount, currency and latest payment status.",
+     "de": "Auftrags-ID, eindeutige Transaktionsreferenz, Betrag, Währung und letzter Zahlungsstatus."
+    },
+    "result": {
+     "en": "Payment status per order with evidence; an authorization does not count as a capture.",
+     "de": "Zahlungsstatus je Auftrag mit Beleg; eine Autorisierung zählt nicht als Einzug."
+    },
+    "params": [
+     {
+      "name": "order_id",
+      "type": "text"
+     }
+    ]
+   },
+   {
+    "ref": "collection-02",
+    "intent": "payments.recovered_attempts",
+    "q": {
+     "en": "Which failed payments have since been completed successfully?",
+     "de": "Welche fehlgeschlagenen Zahlungen wurden inzwischen erfolgreich nachgeholt?"
+    },
+    "method": {
+     "en": "Order all attempts for the same order chronologically. Account for a later success without removing the failure from history.",
+     "de": "Alle Versuche desselben Auftrags zeitlich ordnen. Einen späteren Erfolg berücksichtigen, ohne den Fehler aus der Historie zu entfernen."
+    },
+    "need": {
+     "en": "Payment attempts sharing an order reference and a confirmed captured amount.",
+     "de": "Zahlungsversuche mit gemeinsamer Auftragsreferenz und bestätigtem Einzugsbetrag."
+    },
+    "result": {
+     "en": "Outstanding payment issues separated from resolved cases.",
+     "de": "Noch offene Zahlungsprobleme getrennt von bereits gelösten Fällen."
+    },
+    "params": []
+   },
+   {
+    "ref": "collection-03",
+    "intent": "invoices.payment_variance",
+    "q": {
+     "en": "Which invoices have a mismatch between partial payments and the remaining amount?",
+     "de": "Bei welchen Rechnungen passen Teilzahlungen und Restbetrag nicht zusammen?"
+    },
+    "method": {
+     "en": "Reconcile allocated customer payments and correction documents against the receivable. Do not treat provider fees as a customer payment shortfall.",
+     "de": "Zugeordnete Kundenzahlungen und Korrekturbelege gegen die Forderung rechnen. Provider-Gebühren nicht dem Kunden als Fehlbetrag anlasten."
+    },
+    "need": {
+     "en": "Invoice, payment allocations, gross amounts, currencies and correction documents.",
+     "de": "Rechnung, Zahlungszuordnungen, Bruttobeträge, Währungen und Korrekturbelege."
+    },
+    "result": {
+     "en": "Remaining amount or overpayment with calculation; unallocated payments shown separately.",
+     "de": "Restbetrag oder Überzahlung mit Rechenweg; unzugeordnete Zahlungen separat."
+    },
+    "params": [
+     {
+      "name": "invoice_id",
+      "type": "text"
+     }
+    ]
+   },
+   {
+    "ref": "collection-04",
+    "intent": "receivables.review_queue",
+    "q": {
+     "en": "Which due receivables should Finance review today?",
+     "de": "Welche fälligen Forderungen sollte Finance heute prüfen?"
+    },
+    "method": {
+     "en": "Prioritize by due date and outstanding amount. Account for reported payments, ongoing investigations and agreed deadlines.",
+     "de": "Nach Fälligkeit und offenem Betrag priorisieren. Gemeldete Zahlungen, laufende Klärungen und vereinbarte Fristen berücksichtigen."
+    },
+    "need": {
+     "en": "Receivables balance, due date, received payments, resolution status and applicable reminder rules.",
+     "de": "Forderungsstand, Fälligkeit, Zahlungseingänge, Klärungsstatus und geltende Erinnerungsregeln."
+    },
+    "result": {
+     "en": "Evidence-backed review list with reasons and open questions. No automatic payment reminder.",
+     "de": "Belegte Prüfliste mit Gründen und offenen Fragen. Keine automatische Mahnung."
+    },
+    "params": [
+     {
+      "name": "today",
+      "type": "date"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "settlement",
+  "number": "05",
+  "label": {
+   "en": "Payout",
+   "de": "Auszahlung"
+  },
+  "title": {
+   "en": "Payout & bank reconciliation",
+   "de": "Auszahlung & Bankabgleich"
+  },
+  "agent": {
+   "en": "Cash reconciler",
+   "de": "Cash-Abgleich"
+  },
+  "team": "Finance · Founder",
+  "icon": "arrow",
+  "benefit": {
+   "en": "Understand where the money is and which differences remain unresolved.",
+   "de": "Verstehen, wo das Geld liegt und welche Differenzen noch zu klären sind."
+  },
+  "scope": {
+   "en": "Has the captured money reached our bank account?",
+   "de": "Ist das eingezogene Geld auf unserem Bankkonto angekommen?"
+  },
+  "tracks": [
+   "fact",
+   "movement",
+   "reservation",
+   "commitment"
+  ],
+  "sources": {
+   "en": "Payment provider · Payout report · Bank evidence",
+   "de": "Payment-Provider · Auszahlungsbericht · Bankbeleg"
+  },
+  "questions": [
+   {
+    "ref": "settlement-01",
+    "intent": "providers.money_positions",
+    "q": {
+     "en": "Where is my money across payment providers?",
+     "de": "Wo steckt mein Geld bei den Payment-Providern?"
+    },
+    "method": {
+     "en": "Separate processing, available, held, in-transit and bank-confirmed amounts. Count only the current state per provider.",
+     "de": "In Abwicklung, verfügbar, gebunden, unterwegs und per Bankbeleg bestätigt getrennt ausweisen. Je Provider nur den aktuellen Stand zählen."
+    },
+    "need": {
+     "en": "Transactions, fees, holds, refunds, payouts and separate bank evidence.",
+     "de": "Transaktionen, Gebühren, Einbehalte, Erstattungen, Auszahlungen und separate Bankbelege."
+    },
+    "result": {
+     "en": "Evidence-backed money positions per provider. A payout is not new revenue.",
+     "de": "Belegte Geldpositionen je Provider. Eine Auszahlung ist kein neuer Umsatz."
+    },
+    "params": []
+   },
+   {
+    "ref": "settlement-02",
+    "intent": "payouts.gross_to_net",
+    "q": {
+     "en": "Why is the payout lower than captured customer payments?",
+     "de": "Warum ist die Auszahlung niedriger als die eingezogenen Kundenzahlungen?"
+    },
+    "method": {
+     "en": "Break down the transactions included in the payout report: captures minus fees, refunds and other evidenced deductions.",
+     "de": "Die im Auszahlungsbericht enthaltenen Transaktionen aufschlüsseln: Einzüge minus Gebühren, Erstattungen und weitere belegte Abzüge."
+    },
+    "need": {
+     "en": "Payout reference and a complete list of included transactions and adjustments.",
+     "de": "Auszahlungsreferenz und vollständige Liste der enthaltenen Transaktionen und Anpassungen."
+    },
+    "result": {
+     "en": "Gross-to-net reconciliation; any remaining difference is explicitly unresolved.",
+     "de": "Überleitung vom Brutto zum Netto; eine verbleibende Differenz wird als ungeklärt ausgewiesen."
+    },
+    "params": [
+     {
+      "name": "payout_id",
+      "type": "text",
+      "required": true
+     }
+    ]
+   },
+   {
+    "ref": "settlement-03",
+    "intent": "payouts.missing_bank_confirmation",
+    "q": {
+     "en": "Which announced or sent payouts still lack bank evidence?",
+     "de": "Welche angekündigten oder abgegangenen Auszahlungen haben noch keinen Banknachweis?"
+    },
+    "method": {
+     "en": "Distinguish announcements from actual payout transfers. Match transferred amounts to bank entries by reference, amount and currency.",
+     "de": "Ankündigung und tatsächlichen Abgang unterscheiden. Abgegangene Beträge über Referenz, Betrag und Währung mit Bankbuchungen abgleichen."
+    },
+    "need": {
+     "en": "Payout status, reference, amount, currency, bank entries and their import coverage.",
+     "de": "Auszahlungsstatus, Referenz, Betrag, Währung, Bankbuchungen und deren Importstand."
+    },
+    "result": {
+     "en": "Missing confirmations with age and data freshness; no conclusion about bank receipt without bank data.",
+     "de": "Ausstehende Nachweise mit Alter und Datenstand; ohne Bankdaten kein Urteil über den Eingang."
+    },
+    "params": []
+   },
+   {
+    "ref": "settlement-04",
+    "intent": "providers.holds_and_releases",
+    "q": {
+     "en": "Which amounts are held, and which releases are only announced?",
+     "de": "Welche Beträge sind einbehalten und welche Freigabe ist nur angekündigt?"
+    },
+    "method": {
+     "en": "Show active holds and pending release commitments separately from actual releases. Do not add historical holds together.",
+     "de": "Aktive Einbehalte und offene Freigabezusagen getrennt von tatsächlichen Freigaben zeigen. Historische Einbehalte nicht addieren."
+    },
+    "need": {
+     "en": "Provider balances, hold reason, status changes and any release dates.",
+     "de": "Provider-Salden, Einbehaltsgrund, Statuswechsel und vorhandene Freigabetermine."
+    },
+    "result": {
+     "en": "Held amounts by provider and reason; expected dates explicitly labeled as commitments.",
+     "de": "Gebundene Beträge nach Provider und Grund; erwartete Termine ausdrücklich als Zusage."
+    },
+    "params": []
+   }
+  ]
+ },
+ {
+  "id": "reversal",
+  "number": "06",
+  "label": {
+   "en": "Reversal",
+   "de": "Rückabwicklung"
+  },
+  "title": {
+   "en": "Cancellation, return & refund",
+   "de": "Storno, Retoure & Erstattung"
+  },
+  "agent": {
+   "en": "Returns assistant",
+   "de": "Retourenbegleiter"
+  },
+  "team": "Customer Success · Finance",
+  "icon": "refresh",
+  "benefit": {
+   "en": "Resolve outstanding reversals and prevent duplicate refunds.",
+   "de": "Offene Rückabwicklungen schließen und doppelte Erstattungen vermeiden."
+  },
+  "scope": {
+   "en": "What still needs to happen after a cancellation or return?",
+   "de": "Was muss nach einem Storno oder einer Rückgabe noch passieren?"
+  },
+  "tracks": [
+   "fact",
+   "commitment",
+   "movement",
+   "reservation"
+  ],
+  "sources": {
+   "en": "Shop / Returns system · Invoicing tool · Provider",
+   "de": "Shop / Retourensystem · Rechnungstool · Provider"
+  },
+  "questions": [
+   {
+    "ref": "reversal-01",
+    "intent": "returns.lifecycle",
+    "q": {
+     "en": "Which returns are announced, received or already refunded?",
+     "de": "Welche Rückgaben sind angekündigt, eingegangen oder bereits erstattet?"
+    },
+    "method": {
+     "en": "Treat the return request, actual goods receipt, document correction and cash refund as separate steps.",
+     "de": "Rückgabeanfrage, tatsächlichen Wareneingang, Belegkorrektur und Geldrückfluss als eigenständige Schritte lesen."
+    },
+    "need": {
+     "en": "Return ID, order lines, return-shipment status, goods receipt and refund reference.",
+     "de": "Retouren-ID, Auftragspositionen, Rücksendestatus, Wareneingang und Erstattungsreferenz."
+    },
+    "result": {
+     "en": "State per return with the next unresolved step. An announcement does not confirm goods receipt.",
+     "de": "Stand je Retoure mit dem nächsten ungeklärten Schritt. Eine Ankündigung bestätigt keinen Wareneingang."
+    },
+    "params": [
+     {
+      "name": "return_id",
+      "type": "text"
+     }
+    ]
+   },
+   {
+    "ref": "reversal-02",
+    "intent": "credits.refund_gaps",
+    "q": {
+     "en": "Which credit notes are missing their corresponding refund?",
+     "de": "Bei welchen Gutschriften fehlt die zugehörige Erstattung?"
+    },
+    "method": {
+     "en": "Link credit notes to the original payment state and refunds. A credit note can reduce an outstanding receivable without returning money.",
+     "de": "Gutschriften mit dem ursprünglichen Zahlungsstand und Erstattungen verbinden. Offene Forderungen können durch Gutschrift sinken, ohne Geld zurückzuzahlen."
+    },
+    "need": {
+     "en": "Credit note, original customer payment, refund entitlement and provider evidence.",
+     "de": "Gutschrift, ursprüngliche Kundenzahlung, Erstattungsanspruch und Provider-Nachweis."
+    },
+    "result": {
+     "en": "Only genuinely outstanding refund cases, separated from receivable-only corrections.",
+     "de": "Nur tatsächlich offene Erstattungsfälle – getrennt von reinen Forderungskorrekturen."
+    },
+    "params": []
+   },
+   {
+    "ref": "reversal-03",
+    "intent": "cancellations.outstanding_steps",
+    "q": {
+     "en": "What still needs correcting in stock, invoicing and payment after a cancellation?",
+     "de": "Was muss nach einem Storno bei Bestand, Rechnung und Zahlung noch korrigiert werden?"
+    },
+    "method": {
+     "en": "Reconcile the cancellation with reservation release, document correction and payment reversal. Recognize steps already completed.",
+     "de": "Den Storno mit Reservierungsfreigabe, Belegkorrektur und Zahlungsrückabwicklung abgleichen. Bereits erledigte Schritte erkennen."
+    },
+    "need": {
+     "en": "Cancellation event, reservation history, invoice documents and payment/refund status.",
+     "de": "Stornoereignis, Reservierungsverlauf, Rechnungsbelege und Zahlungs-/Erstattungsstatus."
+    },
+    "result": {
+     "en": "Evidence-backed checklist of outstanding steps per order; no automatic posting.",
+     "de": "Checkliste offener Schritte je Auftrag mit Belegen; keine automatische Buchung."
+    },
+    "params": [
+     {
+      "name": "order_id",
+      "type": "text"
+     }
+    ]
+   },
+   {
+    "ref": "reversal-04",
+    "intent": "refunds.chargeback_overlap",
+    "q": {
+     "en": "Is there a risk of duplicate repayment through both a refund and a chargeback?",
+     "de": "Droht eine doppelte Rückzahlung durch Erstattung und Chargeback?"
+    },
+    "method": {
+     "en": "Link refunds and chargebacks actually booked by the provider to the same original transaction. Treat open disputes separately.",
+     "de": "Rückzahlungen und vom Provider tatsächlich gebuchte Rückbelastungen auf dieselbe Ursprungstransaktion beziehen. Offene Streitfälle getrennt behandeln."
+    },
+    "need": {
+     "en": "Original transaction, refund IDs, chargeback postings, amounts and statuses.",
+     "de": "Ursprungstransaktion, Erstattungs-IDs, Chargeback-Buchungen, Beträge und Status."
+    },
+    "result": {
+     "en": "Suspected cases for review with an amount comparison. An open dispute alone is not a repayment.",
+     "de": "Verdachtsfälle zur Prüfung mit Betragsvergleich. Ein offener Streitfall allein ist noch keine Rückzahlung."
+    },
+    "params": []
+   }
+  ]
+ }
+]

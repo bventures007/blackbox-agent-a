@@ -1,0 +1,135 @@
+# Blackbox local pilot — Compose release. Only the API/web port is published, on loopback only.
+name: ${BLACKBOX_PROJECT:-blackbox-agent-a}
+services:
+  postgres:
+    image: postgres:17@sha256:${POSTGRES_DIGEST:-}
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/pg_superuser_password
+      POSTGRES_DB: postgres
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    command: ["postgres", "-c", "fsync=on", "-c", "synchronous_commit=on", "-c", "full_page_writes=on", "-c", "shared_buffers=256MB", "-c", "max_connections=60", "-c", "log_min_messages=warning", "-c", "log_statement=none"]
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro
+    secrets: [pg_superuser_password, pg_migrator_password, pg_api_password, pg_worker_password, pg_engine_password]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d blackbox"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    logging: { driver: json-file, options: { max-size: "5m", max-file: "2" } }
+    networks: [internal]
+  engine:
+    image: ${BLACKBOX_IMAGE_ENGINE:-blackbox-agent-a/engine:0.1.0-dev}
+    environment:
+      ENGINE_DATABASE_URL_FILE: /run/secrets/url_engine
+      ENGINE_TOKEN_FILE: /run/secrets/engine_token
+      ENGINE_SNAPSHOT_DIR: /var/blackbox/data/engine
+      ENGINE_TENANT_BUDGET_MIB: ${ENGINE_TENANT_BUDGET_MIB:-64}
+      ENGINE_GLOBAL_BUDGET_MIB: ${ENGINE_GLOBAL_BUDGET_MIB:-768}
+      LOG_DIR: /var/blackbox/logs
+      SERVICE_VERSION: ${BLACKBOX_VERSION:-0.1.0-dev}
+    volumes: [data:/var/blackbox/data, logs:/var/blackbox/logs]
+    secrets: [url_engine, engine_token]
+    depends_on: { postgres: { condition: service_healthy } }
+    restart: unless-stopped
+    mem_limit: ${ENGINE_MEM_LIMIT:-1536m}
+    logging: { driver: json-file, options: { max-size: "5m", max-file: "2" } }
+    networks: [internal]
+  api:
+    image: ${BLACKBOX_IMAGE_NODE:-blackbox-agent-a/node:0.1.0-dev}
+    command: ["node", "apps/api/dist/server.js"]
+    environment:
+      API_PORT: "8080"
+      PUBLIC_ORIGIN: http://127.0.0.1:${BLACKBOX_PORT:-19080}
+      PUBLIC_PORT: ${BLACKBOX_PORT:-19080}
+      API_DATABASE_URL_FILE: /run/secrets/url_api
+      MIGRATOR_DATABASE_URL_FILE: /run/secrets/url_migrator
+      ENGINE_URL: http://engine:7000
+      ENGINE_TOKEN_FILE: /run/secrets/engine_token
+      DATA_KEY_FILE: /run/secrets/data_key
+      DATA_DIR: /var/blackbox/data
+      LOG_DIR: /var/blackbox/logs
+      MCP_HTTP_ENABLED: ${MCP_HTTP_ENABLED:-0}
+      SERVICE_VERSION: ${BLACKBOX_VERSION:-0.1.0-dev}
+    ports: ["127.0.0.1:${BLACKBOX_PORT:-19080}:8080"]
+    volumes: [data:/var/blackbox/data, logs:/var/blackbox/logs]
+    secrets: [url_api, url_migrator, engine_token, data_key]
+    depends_on: { postgres: { condition: service_healthy } }
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8080/api/health/live',{headers:{host:process.env.PUBLIC_ORIGIN.replace('http://','')}}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+    mem_limit: ${API_MEM_LIMIT:-768m}
+    logging: { driver: json-file, options: { max-size: "5m", max-file: "2" } }
+    networks: [internal]
+  worker:
+    image: ${BLACKBOX_IMAGE_NODE:-blackbox-agent-a/node:0.1.0-dev}
+    command: ["node", "apps/worker/dist/main.js"]
+    environment:
+      WORKER_DATABASE_URL_FILE: /run/secrets/url_worker
+      ENGINE_URL: http://engine:7000
+      ENGINE_TOKEN_FILE: /run/secrets/engine_token
+      DATA_KEY_FILE: /run/secrets/data_key
+      DATA_DIR: /var/blackbox/data
+      LOG_DIR: /var/blackbox/logs
+      PUBLIC_ORIGIN: http://127.0.0.1:${BLACKBOX_PORT:-19080}
+      SERVICE_VERSION: ${BLACKBOX_VERSION:-0.1.0-dev}
+    volumes: [data:/var/blackbox/data, logs:/var/blackbox/logs]
+    secrets: [url_worker, engine_token, data_key]
+    depends_on: { postgres: { condition: service_healthy } }
+    restart: unless-stopped
+    mem_limit: ${WORKER_MEM_LIMIT:-768m}
+    logging: { driver: json-file, options: { max-size: "5m", max-file: "2" } }
+    networks: [internal]
+  fixture:
+    # Provider-shaped Shopify fixture for synthetic SLICE-01 proof; internal network only, never published.
+    profiles: [fixture]
+    image: ${BLACKBOX_IMAGE_NODE:-blackbox-agent-a/node:0.1.0-dev}
+    command: ["node", "fixture/server.mjs"]
+    environment:
+      FIXTURE_PORT: "4799"
+      FIXTURE_TOKEN: ${FIXTURE_TOKEN:-shpat_fixture_token_000000000000}
+      FIXTURE_SEED: ${FIXTURE_SEED:-slice-01}
+      FIXTURE_ORDERS: ${FIXTURE_ORDERS:-7}
+      FIXTURE_THROTTLE_FIRST: ${FIXTURE_THROTTLE_FIRST:-0}
+    restart: unless-stopped
+    logging: { driver: json-file, options: { max-size: "2m", max-file: "1" } }
+    networks: [internal]
+volumes:
+  postgres: {}
+  data: {}
+  logs: {}
+networks:
+  internal: { driver: bridge, internal: false }
+secrets:
+  pg_superuser_password:
+    file: "${BLACKBOX_SECRETS:-../../.secrets}/pg_superuser_password"
+  pg_migrator_password:
+    file: "${BLACKBOX_SECRETS:-../../.secrets}/pg_migrator_password"
+  pg_api_password:
+    file: "${BLACKBOX_SECRETS:-../../.secrets}/pg_api_password"
+  pg_worker_password:
+    file: "${BLACKBOX_SECRETS:-../../.secrets}/pg_worker_password"
+  pg_engine_password:
+    file: "${BLACKBOX_SECRETS:-../../.secrets}/pg_engine_password"
+  url_migrator:
+    file: "${BLACKBOX_SECRETS:-../../.secrets}/url_migrator"
+  url_api:
+    file: "${BLACKBOX_SECRETS:-../../.secrets}/url_api"
+  url_worker:
+    file: "${BLACKBOX_SECRETS:-../../.secrets}/url_worker"
+  url_engine:
+    file: "${BLACKBOX_SECRETS:-../../.secrets}/url_engine"
+  engine_token:
+    file: "${BLACKBOX_SECRETS:-../../.secrets}/engine_token"
+  data_key:
+    file: "${BLACKBOX_SECRETS:-../../.secrets}/data_key"

@@ -1,0 +1,12 @@
+# ADR-003 Owner access key, sessions, agent keys and host-only reset
+
+**Status:** accepted 2026-10-31 (P0); validated by LOCAL-01..05 and AUTH-02.
+
+- **Owner key:** `bbx_owner_` + 52 base32 characters from 32 CSPRNG bytes (256 bits). Only `sha256(secret)` is stored (`credentials.verifier`); comparison uses `crypto.timingSafeEqual`. A slow KDF is unnecessary for a 256-bit random secret and would only add latency; the prefix lets the UI recognise pasted keys.
+- **Setup channel:** `./blackbox setup` runs the one-shot `setup` command inside the API image with the migrator connection; it creates tenant/owner/credential atomically under an advisory lock and prints the key once to the terminal. Restarting never regenerates it. No HTTP endpoint creates an owner.
+- **Sessions:** opaque 256-bit token in an `HttpOnly; SameSite=Strict; Path=/` cookie (`Secure` is added automatically when served over HTTPS). Server stores `sha256(token)`, absolute/idle expiry (8 h ordinary; 30 d absolute / 7 d idle when "stay signed in" is chosen), `owner_id`, `revoked_at`. Logout and key rotation revoke server-side. Login attempts are throttled per source (5 failures → exponential delay, persisted in `login_attempts`).
+- **CSRF/origin:** every mutating request must carry `Origin` (or `Referer`) equal to the configured loopback origin and the header `X-Blackbox-Request: 1`; forged `Host` is rejected. CORS is not enabled.
+- **Agent keys:** `bbx_agent_` + 52 base32 chars; stored as verifier with `principal_id`, workspace binding, status, `expires_at`, `last_used_at`, `revoked_at`. Grant = read all business records and evidence of the workspace. Agent credentials are refused on owner/admin/ingest routes; owner sessions are refused on the MCP bridge.
+- **Revocation:** committed before the HTTP response; an in-process authorization cache has a 2 s TTL and is invalidated on commit, so streams recheck within 5 s.
+- **Reset:** `./blackbox reset-access` runs inside the API image with the migrator credentials (host volume access required), rotates the owner key, revokes all sessions and agent keys, appends an `audit_events` row. The login key never derives encryption material (ADR-008), so business data is untouched.
+- **Adapter boundary:** `packages/application/src/auth/authenticator.ts` exposes `authenticateOwnerSession`, `authenticateAgentKey`; a later passkey adapter would implement the same interface. Not implemented now.

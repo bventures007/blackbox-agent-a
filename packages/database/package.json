@@ -1,0 +1,13 @@
+{
+  "name": "@blackbox/database",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "files": ["dist", "migrations"],
+  "scripts": { "build": "tsc -p tsconfig.json", "typecheck": "tsc -p tsconfig.json --noEmit", "test": "echo 'integration tests live in /tests'" },
+  "dependencies": { "postgres": "3.4.7", "@blackbox/contracts": "workspace:*" },
+  "devDependencies": { "typescript": "5.9.3", "@types/node": "22.19.1" }
+}

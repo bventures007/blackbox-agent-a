@@ -1,0 +1,92 @@
+{
+  "roles": [
+    {
+      "rolname": "bbx_api",
+      "rolsuper": false,
+      "rolbypassrls": false,
+      "rolcreaterole": false,
+      "rolcreatedb": false
+    },
+    {
+      "rolname": "bbx_engine",
+      "rolsuper": false,
+      "rolbypassrls": false,
+      "rolcreaterole": false,
+      "rolcreatedb": false
+    },
+    {
+      "rolname": "bbx_migrator",
+      "rolsuper": false,
+      "rolbypassrls": false,
+      "rolcreaterole": false,
+      "rolcreatedb": false
+    },
+    {
+      "rolname": "bbx_worker",
+      "rolsuper": false,
+      "rolbypassrls": false,
+      "rolcreaterole": false,
+      "rolcreatedb": false
+    }
+  ],
+  "journal_privileges": [
+    {
+      "grantee": "bbx_api",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "bbx_api",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "bbx_worker",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "bbx_worker",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "bbx_engine",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "bbx_engine",
+      "privilege_type": "SELECT"
+    }
+  ],
+  "mutation_outcomes": {
+    "api.update": "42501",
+    "api.delete": "42501",
+    "api.truncate": "42501",
+    "api.delete_links": "42501",
+    "worker.update": "42501",
+    "worker.delete": "42501",
+    "worker.truncate": "42501",
+    "worker.delete_links": "42501",
+    "engine.update": "42501",
+    "engine.delete": "42501",
+    "engine.truncate": "42501",
+    "engine.delete_links": "42501"
+  },
+  "correction_chain": [
+    {
+      "journal_sequence": "1",
+      "event_type": "order.accepted",
+      "supersedes_entry_id": null,
+      "gross": "11900"
+    },
+    {
+      "journal_sequence": "2",
+      "event_type": "order.accepted",
+      "supersedes_entry_id": null,
+      "gross": "11900"
+    },
+    {
+      "journal_sequence": "3",
+      "event_type": "order.revised",
+      "supersedes_entry_id": "631384f5-2c61-4278-9d70-9f2caeed2133",
+      "gross": "9520"
+    }
+  ]
+}

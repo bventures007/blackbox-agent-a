@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title data-i18n="guide.title">blackbox — Installation guide</title><link rel="stylesheet" href="prototype.css" /><link rel="stylesheet" href="landing.css" /></head>
+<body>
+<div class="wrap">
+  <nav class="site-nav" aria-label="Site"><a class="brand" href="index.html"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 16V8h4v8h4V8h4v8h4"/></svg></span>blackbox<span class="brand-dot">.</span></a><div class="nav-actions"><div class="lang" role="group" aria-label="Language"><button data-lang="en" aria-pressed="true">EN</button><button data-lang="de" aria-pressed="false">DE</button></div><a class="btn primary" data-download href="index.html#download" data-i18n="cta.download">Download for Mac</a></div></nav>
+  <main class="guide">
+    <div class="eyebrow"><span data-i18n="guide.eyebrow">Installation guide · macOS Apple Silicon</span></div>
+    <h1 data-i18n="guide.h1">From download to first answer</h1>
+    <p class="hero-copy" style="text-align:left;max-width:none" data-i18n="guide.intro">The package contains the <code>./blackbox</code> wrapper, a pinned Compose configuration and the container images. You do not need Git, Node or Rust. You do need Docker Desktop.</p>
+    <div class="alert info"><strong data-i18n="guide.prereq_t">Prerequisites:</strong> <span data-i18n="guide.prereq">macOS 14 or newer on Apple Silicon (M1 or later), Docker Desktop 4.30 or newer running, about 3 GB free disk space. Network access is only needed for the sources you connect (for example Shopify) and for your own MCP client.</span></div>
+    <ol class="guide-steps">
+      <li><h3 data-i18n="guide.s1t">Download and verify</h3><p data-i18n="guide.s1">Download the archive from the landing page. Optionally compare the SHA-256 with the one shown there:</p><pre class="code">shasum -a 256 ~/Downloads/<span id="g-filename">blackbox-&lt;version&gt;-macos-arm64.tar.gz</span></pre><p class="hint" data-i18n="guide.s1n">macOS may ask whether the download should be kept; a checksum match proves the bytes are intact. There is no signing or notarization in this pilot, and you never need to disable system security globally.</p></li>
+      <li><h3 data-i18n="guide.s2t">Extract</h3><pre class="code">cd ~/Downloads && tar -xzf <span data-filename>blackbox-&lt;version&gt;-macos-arm64.tar.gz</span> && cd <span data-dirname>blackbox-&lt;version&gt;</span></pre></li>
+      <li><h3 data-i18n="guide.s3t">Check prerequisites</h3><pre class="code">./blackbox doctor</pre><p data-i18n="guide.s3">Exit code 0 means ready. Exit code 2 lists what is missing (for example a stopped Docker Desktop or a port already in use) with a code and the next step. Nothing is installed or changed by doctor.</p></li>
+      <li><h3 data-i18n="guide.s4t">Set up and save your key</h3><pre class="code">./blackbox setup</pre><p data-i18n="guide.s4">Setup generates the installation secrets, loads the bundled images, starts PostgreSQL, applies migrations and creates your workspace. Your personal access key is printed once in the terminal — save it in your password manager now. It is never written to logs.</p></li>
+      <li><h3 data-i18n="guide.s5t">Start and open</h3><pre class="code">./blackbox up
+open http://127.0.0.1:19080/</pre><p data-i18n="guide.s5">Sign in with your key. Under Sources, connect Shopify (custom-app token) or run the synthetic example. Under Questions & Answers, ask one of the 24 questions. The UI defaults to English; switch to German with DE.</p></li>
+      <li><h3 data-i18n="guide.s6t">Stop, restart, update</h3><pre class="code">./blackbox down      # stop; journal, cursors and snapshots are kept
+./blackbox up        # restart and catch up
+./blackbox status    # services and port
+./blackbox logs --since 1h --level warn   # works even while the API is down
+./blackbox upgrade   # fenced, backed-up upgrade to a newer package extracted next to this one</pre><p data-i18n="guide.s6">Closing the browser does not stop collection. Stopping Docker Desktop or shutting down the Mac stops processing; nothing is processed while stopped and nothing is lost. No autostart service is installed.</p></li>
+      <li><h3 data-i18n="guide.s7t">Backup, restore, lost key</h3><pre class="code">./blackbox backup --configure   # choose a destination and create the recovery key (shown once)
+./blackbox backup               # encrypted generation
+./blackbox restore FILE         # isolated restore; asks for the recovery key
+./blackbox reset-access         # lost owner key: rotates it, keeps business data</pre></li>
+    </ol>
+    <div class="alert warn" data-i18n="guide.trouble">Trouble? Setup phases are written to <code>.local/setup.log</code> in the extracted folder. <code>./blackbox doctor</code> explains what to do next. For a tester report, export sanitized diagnostics from System & Diagnostics or with <code>./blackbox diagnostics export --output report.json</code> and review the file before sharing — nothing is uploaded automatically.</div>
+    <p><a class="btn secondary" href="index.html" data-i18n="guide.back">Back to the landing page</a></p>
+  </main>
+  <footer class="site-footer"><span>blackbox · <span data-i18n="footer.pilot">local pilot</span> · <span id="footer-version"></span></span></footer>
+</div>
+<script src="landing.js" defer></script>
+</body>
+</html>

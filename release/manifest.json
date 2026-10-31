@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "version": "0.1.0-dev",
+  "status": "preview",
+  "date": "2026-10-31",
+  "tested_commit": null,
+  "release_notes": "Development preview; no installable artifact has been produced yet. The landing shows the honest unavailable state.",
+  "prerequisites": ["macOS 14+ on Apple Silicon", "Docker Desktop 4.30+ (running)", "~3 GB free disk"],
+  "guide_url": "guide.html",
+  "artifacts": []
+}

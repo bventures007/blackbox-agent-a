@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+# Blackbox local pilot wrapper (macOS bash 3.2 compatible). Commands:
+#   doctor | setup | up | down | status | logs | demo | verify | backup | restore | upgrade | diagnostics export | reset-access
+# Exit codes: 0 success, 1 failure, 2 degraded/prerequisite missing. Never installs software, never deletes volumes.
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+COMPOSE_DIR="$ROOT/infra/compose"
+SECRETS="$ROOT/.secrets"
+LOCAL="$ROOT/.local"
+SETUP_LOG="$LOCAL/setup.log"
+ENV_FILE="$COMPOSE_DIR/.env"
+VERSION_FILE="$ROOT/release/VERSION"
+VERSION="$(cat "$VERSION_FILE" 2>/dev/null || echo 0.1.0-dev)"
+mkdir -p "$LOCAL"
+phase() { local msg="$1"; printf '{"schema_version":1,"level":"INFO","component":"wrapper","event_name":"wrapper.phase","message":"%s","occurred_at":"%s"}\n' "$msg" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$SETUP_LOG"; echo "▸ $msg"; }
+fail() { printf '{"schema_version":1,"level":"ERROR","component":"wrapper","event_name":"wrapper.error","message":"%s","error_code":"%s","occurred_at":"%s"}\n' "$1" "${2:-wrapper_error}" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$SETUP_LOG"; echo "✖ $1" >&2; echo "  Setup log: $SETUP_LOG" >&2; exit "${3:-1}"; }
+compose() { (cd "$COMPOSE_DIR" && docker compose --env-file "$ENV_FILE" "$@"); }
+randhex() { od -An -N"$1" -tx1 /dev/urandom | tr -d ' \n'; }
+need_env() { [ -f "$ENV_FILE" ] || fail "not set up yet: run ./blackbox setup" "not_setup" 2; }
+port_of() { grep -E '^BLACKBOX_PORT=' "$ENV_FILE" 2>/dev/null | cut -d= -f2 || echo 19080; }
+
+cmd_doctor() {
+  local rc=0
+  echo "Blackbox doctor (version $VERSION)"
+  if command -v docker >/dev/null 2>&1; then echo "✓ docker: $(docker --version 2>/dev/null | head -1)"; else echo "✖ docker not found (code: docker_missing). Install Docker Desktop 4.30+ for Apple Silicon, then rerun."; rc=2; fi
+  if docker compose version >/dev/null 2>&1; then echo "✓ compose: $(docker compose version --short 2>/dev/null)"; else echo "✖ docker compose plugin missing (code: compose_missing)"; rc=2; fi
+  if docker info >/dev/null 2>&1; then echo "✓ container runtime reachable ($(docker info --format '{{.OperatingSystem}} {{.Architecture}} cpus={{.NCPU}} mem={{.MemTotal}}' 2>/dev/null))"; else echo "✖ container runtime not running (code: runtime_down). Start Docker Desktop."; rc=2; fi
+  case "$(uname -m)" in arm64|aarch64) echo "✓ architecture: $(uname -m) (Apple Silicon path)";; *) echo "! architecture $(uname -m): only Apple Silicon is tested in this pilot (code: untested_arch)"; rc=2;; esac
+  if [ -f "$ENV_FILE" ]; then echo "✓ configured: port $(port_of), project $(grep -E '^BLACKBOX_PROJECT=' "$ENV_FILE" | cut -d= -f2)"; else echo "· not set up yet (run ./blackbox setup)"; fi
+  if [ -d "$SECRETS" ]; then local mode; mode=$(stat -f '%Lp' "$SECRETS" 2>/dev/null || stat -c '%a' "$SECRETS"); [ "$mode" = "700" ] && echo "✓ secrets directory mode 700" || { echo "✖ secrets directory mode $mode (expected 700) (code: secrets_mode)"; rc=2; }; fi
+  if [ -f "$ENV_FILE" ] && docker info >/dev/null 2>&1; then
+    local port; port=$(port_of)
+    if lsof -nP -iTCP:"$port" -sTCP:LISTEN >/dev/null 2>&1; then
+      if compose ps --status running --services 2>/dev/null | grep -q '^api$'; then echo "✓ api listening on 127.0.0.1:$port"; else echo "✖ port $port is used by another process (code: port_conflict). Change BLACKBOX_PORT in $ENV_FILE."; rc=2; fi
+    else echo "· api not running (./blackbox up)"; fi
+    compose ps --format 'table {{.Service}}\t{{.State}}\t{{.Health}}' 2>/dev/null || true
+    local free; free=$(df -g "$ROOT" | awk 'NR==2{print $4}'); echo "· free disk: ${free} GiB at $ROOT (warning below 5 GiB)"; [ "${free:-0}" -lt 5 ] && { echo "! low disk space (code: disk_low)"; rc=2; }
+  fi
+  echo "Log store: $LOCAL (setup log) and the 'logs' volume; UI: http://127.0.0.1:$(port_of)/"
+  return $rc
+}
+
+cmd_setup() {
+  phase "setup started (version $VERSION)"
+  command -v docker >/dev/null 2>&1 || fail "docker is required; run ./blackbox doctor" "docker_missing" 2
+  docker info >/dev/null 2>&1 || fail "container runtime is not running; start Docker Desktop and rerun" "runtime_down" 2
+  if [ ! -f "$ENV_FILE" ]; then cp "$COMPOSE_DIR/.env.example" "$ENV_FILE"; sed -i '' "s/^BLACKBOX_VERSION=.*/BLACKBOX_VERSION=$VERSION/" "$ENV_FILE" 2>/dev/null || true
+    if [ -n "${BLACKBOX_PORT:-}" ]; then sed -i '' "s/^BLACKBOX_PORT=.*/BLACKBOX_PORT=$BLACKBOX_PORT/" "$ENV_FILE"; fi
+    if [ -n "${BLACKBOX_PROJECT:-}" ]; then sed -i '' "s/^BLACKBOX_PROJECT=.*/BLACKBOX_PROJECT=$BLACKBOX_PROJECT/" "$ENV_FILE"; fi
+    local digest; digest=$(docker image inspect postgres:17 --format '{{index .RepoDigests 0}}' 2>/dev/null | sed 's/.*@sha256://' || true)
+    [ -n "$digest" ] && sed -i '' "s/^POSTGRES_DIGEST=.*/POSTGRES_DIGEST=$digest/" "$ENV_FILE"
+    phase "compose environment written ($ENV_FILE)"; else phase "compose environment exists; kept"; fi
+  if [ -d "$SECRETS" ] && [ -f "$SECRETS/data_key" ]; then phase "secrets exist; kept (no rotation on setup)"; else
+    umask 077; mkdir -p "$SECRETS"; chmod 700 "$SECRETS"
+    for n in pg_superuser_password pg_migrator_password pg_api_password pg_worker_password pg_engine_password; do [ -f "$SECRETS/$n" ] || randhex 24 > "$SECRETS/$n"; done
+    [ -f "$SECRETS/engine_token" ] || randhex 32 > "$SECRETS/engine_token"
+    [ -f "$SECRETS/data_key" ] || randhex 32 > "$SECRETS/data_key"
+    printf 'postgres://bbx_migrator:%s@postgres:5432/blackbox\n' "$(cat "$SECRETS/pg_migrator_password")" > "$SECRETS/url_migrator"
+    printf 'postgres://bbx_api:%s@postgres:5432/blackbox\n' "$(cat "$SECRETS/pg_api_password")" > "$SECRETS/url_api"
+    printf 'postgres://bbx_worker:%s@postgres:5432/blackbox\n' "$(cat "$SECRETS/pg_worker_password")" > "$SECRETS/url_worker"
+    printf 'postgres://bbx_engine:%s@postgres:5432/blackbox\n' "$(cat "$SECRETS/pg_engine_password")" > "$SECRETS/url_engine"
+    chmod 600 "$SECRETS"/*; phase "installation secrets generated (data key, engine token, database roles) in $SECRETS (0700/0600)"; fi
+  if [ -d "$ROOT/release/images" ] && ls "$ROOT/release/images"/*.tar >/dev/null 2>&1; then for t in "$ROOT/release/images"/*.tar; do phase "loading bundled image $(basename "$t")"; docker load -i "$t" >/dev/null; done; fi
+  phase "starting database"; compose up -d postgres >>"$SETUP_LOG" 2>&1 || fail "could not start PostgreSQL (see setup log)" "postgres_start_failed"
+  local i=0; until compose exec -T postgres pg_isready -U postgres -d blackbox >/dev/null 2>&1; do i=$((i+1)); [ $i -gt 60 ] && fail "PostgreSQL did not become ready" "postgres_not_ready"; sleep 1; done
+  phase "applying migrations and creating the workspace"
+  local out; out=$(compose run --rm --no-deps -T api node apps/api/dist/cli.js setup 2>>"$SETUP_LOG") || fail "setup command failed (see setup log)" "setup_failed"
+  if echo "$out" | grep -q 'BLACKBOX_SETUP_RESULT created'; then
+    local key; key=$(echo "$out" | awk '/BLACKBOX_OWNER_KEY/{print $2}')
+    phase "owner workspace created; personal access key displayed once (not logged)"
+    cat <<MSG
+
+  ══════════════════════════════════════════════════════════════════════════════
+  Your personal access key / Dein persönlicher Zugangsschlüssel (shown once / wird nur einmal angezeigt):
+
+      $key
+
+  EN: Save it in your password manager now. Anyone holding this key has administrator access to this
+      workspace; never give it to an agent (agents get their own read-only keys in Agents & MCP).
+      If you lose it: ./blackbox reset-access (requires access to this folder; business data is kept).
+  DE: Speichere ihn jetzt in deinem Passwort-Manager. Wer diesen Schlüssel besitzt, hat Administratorzugriff
+      auf diesen Workspace; gib ihn nie an einen Agenten (Agenten erhalten eigene Nur-Lese-Schlüssel).
+      Bei Verlust: ./blackbox reset-access (benötigt Zugriff auf diesen Ordner; Geschäftsdaten bleiben erhalten).
+  ══════════════════════════════════════════════════════════════════════════════
+MSG
+  else phase "workspace already exists; access key unchanged"; echo "Workspace already set up. Your saved key still works (lost it? ./blackbox reset-access)."; fi
+  phase "setup finished; next: ./blackbox up"
+}
+cmd_up() { need_env; phase "starting services"; compose up -d --remove-orphans ${1:-} >>"$SETUP_LOG" 2>&1 || fail "could not start services (see setup log)" "up_failed"; echo "Started. Open http://127.0.0.1:$(port_of)/  (stop: ./blackbox down; status: ./blackbox status)"; }
+cmd_down() { need_env; phase "stopping services (data, cursors and journal preserved)"; compose stop >>"$SETUP_LOG" 2>&1; echo "Stopped. Volumes preserved."; }
+cmd_status() { need_env; compose ps --format 'table {{.Service}}\t{{.State}}\t{{.Health}}\t{{.Ports}}'; local port; port=$(port_of); if curl -fsS -m 3 -H "Host: 127.0.0.1:$port" "http://127.0.0.1:$port/api/health/live" >/dev/null 2>&1; then echo "api: reachable on http://127.0.0.1:$port"; else echo "api: not reachable (exit 2)"; return 2; fi; }
+cmd_logs() {
+  # Reads retained NDJSON files directly from the logs volume (works without API/database). Filters mirror the UI.
+  local follow=0 level="INFO" since="1h" component="" connection="" run="" format="text" n=200
+  while [ $# -gt 0 ]; do case "$1" in --follow|-f) follow=1;; --level) level=$(echo "$2" | tr a-z A-Z); shift;; --since) since="$2"; shift;; --component) component="$2"; shift;; --connection) connection="$2"; shift;; --run) run="$2"; shift;; --format) format="$2"; shift;; --lines) n="$2"; shift;; --help|-h) echo "usage: ./blackbox logs [--follow] [--level debug|info|warn|error] [--since 1h|30m|2d] [--component api|worker|engine|mcp|wrapper] [--connection ID] [--run ID] [--format text|json] [--lines N]"; return 0;; *) fail "unknown option $1 (see --help)" "bad_option" 2;; esac; shift; done
+  case "$level" in DEBUG|INFO|WARN|ERROR) ;; *) fail "--level must be debug|info|warn|error" "bad_level" 2;; esac
+  echo "$since" | grep -Eq '^[0-9]+[mhd]$' || fail "--since must look like 30m, 2h or 7d" "bad_since" 2
+  need_env
+  local vol; vol="$(grep -E '^BLACKBOX_PROJECT=' "$ENV_FILE" | cut -d= -f2)_logs"
+  docker volume inspect "$vol" >/dev/null 2>&1 || fail "log volume $vol not found; nothing has run yet" "no_logs" 2
+  local args="--level $level --since $since --lines $n --format $format"; [ -n "$component" ] && args="$args --component $component"; [ -n "$connection" ] && args="$args --connection $connection"; [ -n "$run" ] && args="$args --run $run"; [ $follow = 1 ] && args="$args --follow"
+  # the reader is a small self-contained node script mounted read-only; interruption only stops following
+  docker run --rm -i --network none -v "$vol:/logs:ro" -v "$ROOT/scripts/logs-reader.mjs:/reader.mjs:ro" node:22-bookworm-slim node /reader.mjs $args
+}
+cmd_demo() { need_env; echo "The demo is started from the browser: sign in, open Sources → 'Synthetic example (replay)' → Connect, then run the example."; echo "URL: http://127.0.0.1:$(port_of)/"; }
+cmd_verify() { need_env; echo "Running the release verification suite from this checkout (requires pnpm and cargo)…"; (cd "$ROOT" && cargo test --release -q 2>&1 | tail -5 && pnpm -r run test 2>&1 | tail -15); }
+cmd_reset_access() {
+  need_env; echo "This rotates the owner access key, signs out all sessions and revokes all agent keys. Business data is kept."; printf 'Type RESET to continue: '; read -r ans; [ "$ans" = "RESET" ] || fail "cancelled" "cancelled" 2
+  local out; out=$(compose run --rm --no-deps -T api node apps/api/dist/cli.js reset-access 2>>"$SETUP_LOG") || fail "reset failed (see setup log)" "reset_failed"
+  echo; echo "New personal access key (shown once): $(echo "$out" | awk '/BLACKBOX_OWNER_KEY/{print $2}')"; echo "Create new agent keys in Agents & MCP."
+  phase "owner access reset through the host channel"
+}
+cmd_backup() { need_env; "$ROOT/scripts/backup.sh" "$@"; }
+cmd_restore() { need_env; "$ROOT/scripts/restore.sh" "$@"; }
+cmd_upgrade() { need_env; "$ROOT/scripts/upgrade.sh" "$@"; }
+cmd_diagnostics() { need_env; [ "${1:-}" = "export" ] || fail "usage: ./blackbox diagnostics export [--since 1h] --output FILE" "bad_usage" 2; shift; local since="1h" out=""; while [ $# -gt 0 ]; do case "$1" in --since) since="$2"; shift;; --output) out="$2"; shift;; esac; shift; done; [ -n "$out" ] || fail "--output FILE is required" "bad_usage" 2
+  local vol; vol="$(grep -E '^BLACKBOX_PROJECT=' "$ENV_FILE" | cut -d= -f2)_logs"
+  docker run --rm -i --network none -v "$vol:/logs:ro" -v "$ROOT/scripts/logs-reader.mjs:/reader.mjs:ro" node:22-bookworm-slim node /reader.mjs --export --since "$since" --version "$VERSION" > "$out" && echo "Diagnostics bundle written to $out ($(wc -c < "$out" | tr -d ' ') bytes). Review it before sharing; nothing was uploaded."; }
+
+case "${1:-help}" in
+  doctor) cmd_doctor;; setup) cmd_setup;; up) shift; cmd_up "$@";; down) cmd_down;; status) cmd_status;; logs) shift; cmd_logs "$@";; demo) cmd_demo;; verify) cmd_verify;;
+  backup) shift; cmd_backup "$@";; restore) shift; cmd_restore "$@";; upgrade) shift; cmd_upgrade "$@";; diagnostics) shift; cmd_diagnostics "$@";; reset-access) cmd_reset_access;;
+  version) echo "$VERSION";;
+  *) cat <<USAGE
+Blackbox local pilot — ./blackbox <command>
+  doctor                 check prerequisites, ports, storage and service state (exit 2 = something needs attention)
+  setup                  create secrets, start PostgreSQL, apply migrations, create the owner workspace and show the access key once
+  up | down | status     start / stop (data preserved) / show services
+  logs [filters]         read retained sanitized logs from the host volume (works while the API is down); see --help
+  demo                   how to run the synthetic example
+  verify                 run the test suites from this checkout
+  backup | restore FILE  encrypted backup generations and isolated restore (see docs/operations.md)
+  upgrade                fenced, backed-up upgrade to the release in this folder
+  diagnostics export --output FILE   explicit sanitized diagnostics bundle (no upload)
+  reset-access           host-only owner key reset (business data kept)
+USAGE
+  ;;
+esac

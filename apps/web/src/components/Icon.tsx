@@ -1,0 +1,7 @@
+const P: Record<string, string> = {
+  wave: 'M4 16V8h4v8h4V8h4v8h4', plug: 'M9 2v6M15 2v6M5 8h14v4a7 7 0 0 1-14 0V8zM12 19v3', spark: 'M12 2l2 7 7 3-7 3-2 7-2-7-7-3 7-3z', code: 'M8 6l-6 6 6 6M16 6l6 6-6 6', list: 'M4 6h16M4 12h16M4 18h16', alert: 'M12 3l10 18H2L12 3zm0 7v4m0 3v1',
+  pulse: 'M3 12h4l3-8 4 16 3-8h4', gear: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm8 4l2 1-1 3-2-.3a7 7 0 0 1-1.6 1.6L17 20l-3 1-1-2a7 7 0 0 1-2 0l-1 2-3-1 .3-2A7 7 0 0 1 5.7 16L3.5 16.3l-1-3L4.5 12 2.5 11l1-3 2 .3A7 7 0 0 1 7 6.7L6.7 4.5l3-1 1 2a7 7 0 0 1 2 0l1-2 3 1-.3 2a7 7 0 0 1 1.6 1.6l2-.3 1 3-2 1z',
+  exit: 'M10 4H5v16h5M14 8l4 4-4 4M18 12H9', menu: 'M4 7h16M4 12h16M4 17h16', close: 'M6 6l12 12M18 6L6 18', arrow: 'M5 12h14M13 6l6 6-6 6', chevron: 'M9 6l6 6-6 6', check: 'M4 12l5 5L20 7', box: 'M3 7l9-4 9 4v10l-9 4-9-4V7zm9 4v10M3 7l9 4 9-4',
+  truck: 'M2 7h11v9H2zM13 10h5l3 3v3h-8zM6 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4z', refresh: 'M4 12a8 8 0 0 1 14-5l2-2v6h-6l2-2a5 5 0 1 0 1 6', shield: 'M12 2l8 3v6c0 5-3 9-8 11-5-2-8-6-8-11V5l8-3z', copy: 'M8 8h12v12H8zM4 16V4h12', play: 'M6 4l14 8-14 8z', pause: 'M7 4h4v16H7zM13 4h4v16h-4z', plus: 'M12 5v14M5 12h14', info: 'M12 8h.01M11 12h1v4h1M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20z',
+};
+export function Icon({ name, className = 'icon' }: { name: string; className?: string }) { return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={P[name] ?? P.info} /></svg>; }

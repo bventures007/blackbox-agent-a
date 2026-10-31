@@ -1,0 +1,5 @@
+blackbox-agent-a-api-1 127.0.0.1:19080->8080/tcp
+blackbox-agent-a-worker-1 
+blackbox-agent-a-engine-1 127.0.0.1:19070->7000/tcp
+blackbox-agent-a-postgres-1 127.0.0.1:19032->5432/tcp
+blackbox-agent-a-fixture-1 127.0.0.1:19079->4799/tcp

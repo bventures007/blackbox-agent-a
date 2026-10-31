@@ -1,0 +1,9 @@
+# Test-only override for the developer checkout: publishes PostgreSQL and the fixture server on loopback so the
+# integration suites can run from the host. Never shipped in the release archive.
+services:
+  postgres:
+    ports: ["127.0.0.1:19032:5432"]
+  fixture:
+    ports: ["127.0.0.1:19079:4799"]
+  engine:
+    ports: ["127.0.0.1:19070:7000"]

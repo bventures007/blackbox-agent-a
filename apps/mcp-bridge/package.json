@@ -1,0 +1,11 @@
+{
+  "name": "@blackbox/mcp-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": { "blackbox-mcp": "./dist/main.js" },
+  "main": "./dist/main.js",
+  "scripts": { "build": "tsc -p tsconfig.json", "typecheck": "tsc -p tsconfig.json --noEmit", "test": "echo 'see /tests'" },
+  "dependencies": { "@modelcontextprotocol/sdk": "1.24.3", "zod": "3.25.76", "@blackbox/contracts": "workspace:*" },
+  "devDependencies": { "typescript": "5.9.3", "@types/node": "22.19.1" }
+}

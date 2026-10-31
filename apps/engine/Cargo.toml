@@ -1,0 +1,30 @@
+[package]
+name = "bbx-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[[bin]]
+name = "bbx-engine"
+path = "src/main.rs"
+
+[dependencies]
+bbx-domain = { path = "../../crates/domain" }
+bbx-projections = { path = "../../crates/projections" }
+bbx-query = { path = "../../crates/query" }
+bbx-storage = { path = "../../crates/storage" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+tokio = { workspace = true }
+tokio-postgres = { workspace = true }
+deadpool-postgres = { workspace = true }
+axum = { workspace = true }
+tower-http = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+anyhow = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
