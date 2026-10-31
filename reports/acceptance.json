@@ -838,6 +838,116 @@
       "observed_result": null,
       "evidence_paths": [],
       "blocker": null
+    },
+    {
+      "id": "AUTH-03",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "AUTH-04",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "AUTH-05",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "AUTH-06",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "AUTH-07",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "AUTH-08",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "AUTH-09",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "AUTH-10",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "AUTH-11",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "AUTH-12",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
     }
   ]
 }

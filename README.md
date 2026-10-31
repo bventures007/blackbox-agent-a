@@ -25,6 +25,7 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 | [AGENTS.md](AGENTS.md) | Working rules, reading order and boundaries |
 | [START-HERE.md](START-HERE.md) | Launch instructions, scope and handover |
 | [BUILD-PROMPT-EN.txt](BUILD-PROMPT-EN.txt) | Full implementation contract |
+| [specs/IDENTITY-ACCESS-AND-RECOVERY.md](specs/IDENTITY-ACCESS-AND-RECOVERY.md) | Passkeys, secure local opening, people/agent grants, recovery and revocation |
 | [specs/WEB-DESKTOP-AND-DEPLOYMENT.md](specs/WEB-DESKTOP-AND-DEPLOYMENT.md) | Complete web management, required Mac client, deployment profiles and workspace migration |
 | [specs/SOURCE-SYNCHRONIZATION.md](specs/SOURCE-SYNCHRONIZATION.md) | Per-capability import/polling/webhook/reconciliation lifecycle and freshness |
 | [specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md](specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md) | Date selection, first-import progress, central source health and per-answer data readiness |
@@ -37,7 +38,7 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 | [reports/question-coverage.json](reports/question-coverage.json) | Per-question implementation and verification register; all runtime proof pending |
 | [benchmarks/performance-contract.json](benchmarks/performance-contract.json) | Measurable 250k / 10m / 100m workload profiles |
 | [ARCHITECTURE-EN.txt](ARCHITECTURE-EN.txt) | Architecture and delivery approach |
-| [ACCEPTANCE.json](ACCEPTANCE.json) | 76 acceptance cases with release gates |
+| [ACCEPTANCE.json](ACCEPTANCE.json) | 86 acceptance cases with release gates |
 | [GOLDEN-ORDER-TO-CASH.json](GOLDEN-ORDER-TO-CASH.json) | Synthetic business cycle: 19 events, 11 checkpoints |
 | [reference/questions.json](reference/questions.json) | 24 questions in six Order-to-Cash groups |
 | [reference/prototype/](reference/prototype/) | Original visual and interaction reference |
@@ -52,6 +53,7 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 
 - One modular TypeScript/Rust product: web/API/connectors in TypeScript; canonical business reducers, compact RAM projections and fast queries in a Rust engine; PostgreSQL provides durability and indexed cold access.
 - Hosted multi-tenant SaaS, self-hosted Linux and local Mac through the same backend release; complete web management plus a required Mac desktop client.
+- Passkeys for people, protected remembered local devices and individual read-only agent access; owner/reader roles, recovery and revocation without a mandatory external identity service.
 - Explicit local polling/import, optional public webhook gateway and direct server-webhook modes, with truthful per-capability coverage and synchronization health.
 - All engineering material in English; application UI and landing page in English by default, with complete German localization.
 - Order-to-Cash first, a database-enforced append-only journal, evidence-linked answers, actual tenant isolation and read-only MCP over all authorized business records and histories.
@@ -81,4 +83,4 @@ Start with the [visual reference catalogue](reference/screenshots/README.md): al
 
 ## Independent comparison
 
-Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v9`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).
+Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v10`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).

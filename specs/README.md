@@ -4,6 +4,8 @@ The central implementation and evidence work list is [INTEGRATIONS.md](../INTEGR
 
 Read [JOURNAL-AND-MCP.md](JOURNAL-AND-MCP.md) first: it is the binding journal data-structure and complete authorized MCP read-access specification.
 
+Read [IDENTITY-ACCESS-AND-RECOVERY.md](IDENTITY-ACCESS-AND-RECOVERY.md) for the binding identity model: owner/reader humans, separate scoped agents, self-hostable passkeys/OAuth, protected local setup/pairing, invitations, People & agents, recovery, last-owner protection and bounded revocation. Core browser/protocol behavior is required at the comparison checkpoint; real native-device proof remains separately tracked. This supersedes the earlier four-role and mandatory password/OIDC assumptions.
+
 Read [PERFORMANCE-ARCHITECTURE.md](PERFORMANCE-ARCHITECTURE.md) and [the benchmark contract](../benchmarks/performance-contract.json) for the Rust engine, memory/consistency rules and measurable targets.
 
 Read [QUESTION-DATA-COVERAGE.md](QUESTION-DATA-COVERAGE.md), [CONNECTOR-CAPABILITIES.md](CONNECTOR-CAPABILITIES.md) and [question-data-contracts.json](question-data-contracts.json) for all 24 input-to-answer paths, source-field candidates, journal families, RAM indexes and positive/missing-data examples. The public-documentation audit is not live integration proof. Update [question coverage](../reports/question-coverage.json) only with actual implementation evidence.

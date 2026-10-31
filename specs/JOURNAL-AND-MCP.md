@@ -60,6 +60,8 @@ The 24 supplied questions are acceptance examples and supported domain queries, 
 
 Complete access means the business data the caller is authorized to read in its tenant. It excludes other tenants, credentials, auth/session tables, internal operational secrets and unauthorized personal evidence. All tools enforce the same application authorization as the UI. No arbitrary SQL or business write/payment actions are required.
 
+Follow IDENTITY-ACCESS-AND-RECOVERY.md for owner/reader humans, separate service principals and dataset/tool/evidence/export grants. Grant restrictions apply to derived answers, aggregates, links, source-health/readiness counters and hot/cold queries as well as raw reads. A permission-limited answer must not disclose excluded values or sensitive existence details. Keep fixed data snapshot cutoffs distinct from current authorization: revocation is rechecked across pages/streams and observed within the maximum 60-second bound even for an old snapshot. Auth/security operational tables never become part of general business-schema discovery.
+
 Implement the following logical capabilities. Exact names may be adjusted with a documented equivalent mapping; none of the capabilities may be omitted:
 
 | Tool/capability | Required result |

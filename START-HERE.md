@@ -32,6 +32,8 @@ Read specs/WEB-DESKTOP-AND-DEPLOYMENT.md, specs/SOURCE-SYNCHRONIZATION.md and sp
 
 Read specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md before implementing source setup and answers. Its import choices/progress, central source-health views and per-answer readiness are core requirements at the comparison checkpoint; provider-specific live proof still belongs to M4 and native/gateway delivery to M5.
 
+Read specs/IDENTITY-ACCESS-AND-RECOVERY.md before auth/schema implementation. Passkeys, owner/reader memberships, separate read-only service identities, protected local CLI/browser pairing, invitations, grants and recovery are core work. The native Mac Keychain UX and real-device proof belong to M5. There is no mandatory central identity SaaS, email/password signup or additional Member role. Keep a protocol/client compatibility table and actual revocation/isolation evidence.
+
 ## Milestones and visible results
 
 | Milestone | Concrete result |

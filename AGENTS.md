@@ -9,6 +9,7 @@
    Then INTEGRATIONS.md and integrations/README.md — the mandatory central source/capability work register, evidence history and independent confirmation rules.
    Then specs/WEB-DESKTOP-AND-DEPLOYMENT.md, specs/SOURCE-SYNCHRONIZATION.md and specs/WEBHOOK-GATEWAY.md — complete browser management, required native Mac client, mode-specific synchronization and the optional-use public gateway.
    Then specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md — date-based historical import, older open/related context, truthful progress, central Sources health and per-answer readiness.
+   Then specs/IDENTITY-ACCESS-AND-RECOVERY.md — passkeys, local device enrollment, two human roles, scoped agents, invitations, recovery and bounded revocation.
 4. ARCHITECTURE-EN.txt and reference/manifest.json — rationale and provenance.
 5. reference/screenshots/README.md and reference/prototype/ — follow the illustrated user journey, inspect the complete page/state catalogue and mobile views, then explore the prototype in a browser. Read the coverage boundaries; the missing product views still follow the build brief.
 6. docs/status.md and reports/acceptance.json — actual progress, then the relevant specs and module contracts as they are created.
@@ -24,6 +25,7 @@ These instructions support the owner's current request. Direct owner instruction
 - Follow the Rust engine / TypeScript orchestration boundary in specs/PERFORMANCE-ARCHITECTURE.md. Canonical financial/stock rules have one implementation in Rust; shared schemas must agree across languages. Benchmark the real authorized API/MCP path and keep reports/performance.json honest.
 - Enforce dependency direction: domain <- application <- adapters/entrypoints. Business calculations never belong in components or routes.
 - A tenant-owned operation requires validated server-side scope. Test real PostgreSQL application/worker roles, including RLS and connection-pool reuse.
+- Implement the identity/access contract at M1–M3: human owner/reader roles, separate read-only service principals, self-hostable passkeys/OAuth, protected local pairing and tested recovery. Never infer authority from localhost, a workspace selector, a valid token alone or a platform-operator role. Enforce grants on derived answers/evidence/exports and Rust/cache/cold reads; measure the 60-second maximum distributed revocation bound. Native integration is M5, not an excuse to defer core browser authentication.
 - Enforce the canonical journal as append-only at the database boundary, including immutable payloads and links. Corrections and reversals append new entries. Keep mutable projections/operational state separate. MCP must cover all authorized business records and histories as specified in specs/JOURNAL-AND-MCP.md, beyond the 24 example question intents.
 - Preserve evidence and derivation provenance. Unknown or conflicting is a valid result; unsupported certainty is a defect.
 - Never count authorizations as captures, payouts as revenue, invoice payment markers as additional cash, or credit notes as completed refunds. Use integer minor units and explicit quantities.
@@ -43,7 +45,7 @@ These instructions support the owner's current request. Direct owner instruction
 ## Durable progress and handover
 
 - Keep docs/status.md updated with milestone, last passing command, failures, next action and exact external blockers.
-- Maintain reports/acceptance.json for all 76 acceptance IDs. A pass needs the tested commit, actual command, environment, result and evidence path. Missing provider access or an untested platform is not a pass.
+- Maintain reports/acceptance.json for all 86 acceptance IDs. A pass needs the tested commit, actual command, environment, result and evidence path. Missing provider access or an untested platform is not a pass.
 - Record model/agent, relevant version, platform and resource conditions in docs/build-environment.md without secrets. Do not assume unlimited execution budget or invent one for the owner.
 - At M0–M3 plus local installation, write reports/checkpoint.md and preserve the tested commit so both implementations can be compared at the same point. Continue M4–M5 unless the owner explicitly requests a checkpoint stop.
 - End with exact start/test commands, fresh-checkout verification, screenshots, remaining release blockers and independent-review instructions. Distinguish local tests, real Mac/Linux tests, provider verification, blocked and not-run checks.

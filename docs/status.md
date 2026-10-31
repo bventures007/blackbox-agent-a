@@ -30,7 +30,7 @@ The binding contract is specs/JOURNAL-AND-MCP.md. Runtime roles must be unable t
 
 ## Performance clarification
 
-Implement the Rust business/query engine with bounded hot state and durable journal/checkpoint recovery as specified in specs/PERFORMANCE-ARCHITECTURE.md. The benchmark contract defines 250k, 10m and 100m profiles with explicit scopes. No performance or memory target has been measured. Maintain reports/performance.json. The full acceptance register now contains 76 cases.
+Implement the Rust business/query engine with bounded hot state and durable journal/checkpoint recovery as specified in specs/PERFORMANCE-ARCHITECTURE.md. The benchmark contract defines 250k, 10m and 100m profiles with explicit scopes. No performance or memory target has been measured. Maintain reports/performance.json. The full acceptance register now contains 86 cases.
 
 ## Question-data audit
 
@@ -69,3 +69,13 @@ The binding contract now specifies 30 days plus accessible older open/related re
 Nine core IMPORT/HEALTH acceptance cases were added (76 total); all product cases remain not_started. All 127 capability rows have new import/readiness investigation obligations and preserved append-only preparation history. Their eventual committed mappings require nine concrete rule explanations and applicable observed test evidence. No product importer, runtime health screen or provider account was implemented by preparing these specifications.
 
 Preparation verification for v9: `python3 scripts/validate-question-catalogue.py`, `python3 scripts/integration-register.py check --base 8c7550afb7f0fd3d51dee2befdffdccb5ea46c2d`, 33 synthetic register-control tests, JSON/acceptance/hash consistency checks and `git diff --check`. These verify specification/register preparation only; all product and live-provider acceptance remains unexecuted.
+
+## Identity, access and recovery (baseline v10)
+
+The owner-approved binding contract is specs/IDENTITY-ACCESS-AND-RECOVERY.md. It specifies self-hostable passkeys, protected remembered local devices, two human roles (owner/reader), separate read-only service principals, operator separation, People & agents, individual grants, one-time invitations, recovery and last-owner protection. Human OAuth and unattended service authorization are distinct. Dataset/tool/evidence/export permissions extend to derived answers, source health, Rust/caches/cold history and downloads. Distributed revocation has a maximum 60-second bound. RP/domain changes and restoration must not leak global identities or revive revoked access.
+
+The prior four-role AUTH-01 wording was explicitly refined to the approved simpler model while strengthening its enforcement expectation; its release gate remains. Ten new identity acceptance cases were added: eight core and two operations cases (86 total). The previous 75 other cases remain unchanged. All product cases still have not_started status. Existing integration rows, provider scope and append-only work history remain unchanged; shared pipeline/tenant evidence now explicitly includes the identity/grant contract.
+
+No authentication backend, local pairing, People & agents UI, Mac credential integration or executable product-security test was implemented in this specification update. Core browser/protocol proof is required at the comparison checkpoint; actual native/authenticator, migration/restore and named MCP-client proof are separately tracked.
+
+Preparation verification for v10: `python3 scripts/validate-question-catalogue.py`, `python3 scripts/integration-register.py check --base 87c7a2bac376410df7cd668a42e3d668dd6cdd79`, and `python3 -m unittest discover -s scripts/tests -p 'test_*.py'` passed (33 synthetic register-control tests). Acceptance/report consistency checks confirm 86 unique IDs, all not_started, ten added cases and only the owner-approved AUTH-01 refinement among earlier cases. Prototype, Golden Scenario, question data contracts and all integration plans/history remain unchanged. These are preparation checks, not executed product/authentication tests.

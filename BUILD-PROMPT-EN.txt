@@ -1,5 +1,5 @@
 BLACKBOX — INDEPENDENT IMPLEMENTATION BRIEF
-Version 1.8 · 2026-10-31 · Product owner: the person providing this package
+Version 1.9 · 2026-10-31 · Product owner: the person providing this package
 
 GO. Build the product described here. This is an implementation assignment, not a request for another mockup or a plan-only response. Work in the assigned repository. Use the supplied local prototype as the visual and interaction reference. Continue through implementation, verification and reproducible packaging. Do not claim external validation that you could not perform.
 
@@ -48,7 +48,7 @@ Use a TypeScript/Rust monorepo: pnpm workspaces for the web/API/connector layer 
 - PostgreSQL as the authoritative durable journal and transaction store, with persistent projections/checkpoints and indexed cold-history access; Drizzle plus reviewed SQL migrations. RAM is rebuildable acceleration, never an independent source of truth.
 - PostgreSQL-backed jobs, preferably pg-boss, with transactional inbox/outbox boundaries and idempotent handlers.
 - Official maintained MCP SDK for a read-only server mounted in the API and an optional local stdio entrypoint using the same application services.
-- An established maintained authentication implementation supporting local accounts and an OIDC adapter. Select and pin it in an ADR. Verify remote MCP OAuth interoperability separately; ordinary web login alone is not sufficient. Use supported OAuth/resource-server libraries, not custom cryptographic protocols.
+- Maintained self-hostable WebAuthn/passkey, session and OAuth components following specs/IDENTITY-ACCESS-AND-RECOVERY.md. No required external identity provider, email service or commercial auth SaaS. Select and pin components in an ADR; password/email-link/OIDC modes are future options, not mandatory first-release work. Verify MCP human and service flows separately; ordinary web login is insufficient. Do not invent cryptographic protocols.
 - ObjectStore interface: local persistent volume by default, S3-compatible storage for hosted installations or multiple API replicas.
 - Rust unit/property tests for canonical reducers/query behavior; Vitest for TypeScript services/contracts; real PostgreSQL integration tests, Playwright for browser acceptance and the required performance harness.
 
@@ -69,6 +69,7 @@ crates/query/              indexed point queries and bounded aggregates
 crates/storage/            durable journal/projection adapters
 packages/domain/           optional typed facade only; no duplicate money/stock reducers
 packages/application/      authorized use cases and ports
+packages/auth/             identity, memberships, scoped grants, sessions and recovery adapters
 packages/database/         schema, RLS, migrations, tenant transaction helpers
 packages/contracts/        versioned DTOs, event and connector schemas
 packages/connectors/       isolated provider adapters and capability manifests
@@ -107,13 +108,13 @@ Support current and historical queries with explicit time semantics: occurred/ef
 Structured connector data should use deterministic mapping. Optional email/document/LLM extraction must produce candidates with source quotations, confidence and review status; uncertain extractions must not silently become authoritative monetary or stock facts. Treat source text as data, never as agent instructions.
 
 5. TENANT AND ACCESS BOUNDARIES
-Model tenants/workspaces, users, memberships, role assignments, connections and service credentials. Start with Owner/Admin/Member/Read-only and explicitly scoped MCP service access. Validate membership server-side. The client choosing a workspace or sending tenant_id is not authorization.
+Follow specs/IDENTITY-ACCESS-AND-RECOVERY.md as the binding contract. Humans have two workspace roles: owner (Owner / Administrator) and reader (read-only employee). Agents/services have separate technical identities with explicit read grants and a responsible owner. The SaaS operator is a separate administrative context with no implicit tenant business access. Model identity, membership, grant, client consent and credential separately. The client choosing a workspace or sending tenant_id is not authorization. Protect the last owner and support ownership handover.
 
 Every tenant-owned database table uses tenant_id and appropriate tenant-scoped constraints, composite references and indexes. Enable PostgreSQL RLS with read/write policies, enforce it for application roles, and use separate migration credentials. Application and worker data roles must not own protected tables or have SUPERUSER/BYPASSRLS. Prove the actual production roles are subject to policies. A privileged queue dispatcher, if needed, must not expose tenant data and must establish a validated scope before domain work.
 
 Pass tenant scope through API, worker, MCP, search, exports, files, caches, retries and audit access. Use transaction-local tenant context and prove connection-pool reuse cannot leak scope. Derive webhook tenancy from authenticated connection identity and signature verification, not from a payload's tenant field. Tokens are hashed or encrypted appropriately, scoped, revocable and redacted from logs. Credential encryption keys live outside the database with documented rotation and recovery.
 
-Use maintained session/password/auth components, secure cookies, CSRF protection where applicable, login throttling and tested account recovery. SaaS self-registration/invitations and local first-admin bootstrap must not create default passwords or unauthenticated administration. Specify session revocation and permission-change behavior.
+Use passkeys for server login and protected local device enrollment for direct local opening after setup. The CLI/browser checkpoint must already implement secure one-time host-authorized bootstrap/pairing, revocable sessions and recovery; native Keychain integration follows in M5. Use maintained auth components, safe cookies, CSRF defenses and throttling. Bootstrap is never first-public-visitor takeover. Recovery codes/additional authenticators, last-owner protection, individual invitations and the People & agents UI are required. Enforce dataset/tool/evidence/export grants through derived answers, Rust caches and cold reads, not only routes. Revocation must meet the contract's maximum 60-second distributed bound. Implement AUTH-01 through AUTH-12 and preserve EN/DE usability; no implicit email-only fallback or shared owner token.
 
 6. INGESTION AND CONNECTORS
 INTEGRATIONS.md is the mandatory central human-readable implementation register. Follow integrations/README.md and keep integrations/register.json plus the append-only integrations/history.jsonl authoritative. Track every capability independently: exact source-field/event-to-track mappings, six implementation steps, implementer/contributors, timestamps, tested Git revision, commands, environments, case IDs, immutable artifacts and independent reviewer confirmation. Separate contract/pipeline/recovery/tenant tests from provider/live proof. Record missing fields and blockers; partial capability approval does not establish complete answer coverage. Update the register for every affected connector/shared-code change, preserve history, invalidate stale evidence and regenerate the overview. Enforce its validator in ordinary CI and its --release gate in the actual release pipeline alongside all other acceptance cases. Roadmap entries stay outside first-release delivery requirements.
@@ -147,11 +148,13 @@ Implement search_events, get_business_state, get_evidence and the schema-discove
 
 For remote MCP, implement the current supported HTTP transport and OAuth resource-server requirements, discovery, issuer/audience validation, expiry, scopes, tenant binding and revocation using maintained libraries. Pin the tested protocol/SDK versions. Test at least one real compatible client plus a protocol-level client when access is available. For local stdio, share services and keep credentials out of source control. If a named client cannot be tested, document that limitation instead of claiming universal compatibility.
 
+Human MCP access uses passkey browser authentication, OAuth authorization code with PKCE and explicit client/workspace consent. Unattended agents use distinct read-only service principals and standards-based credentials for short-lived tokens where the client supports that flow. Follow specs/IDENTITY-ACCESS-AND-RECOVERY.md for credential lifecycle, grants, recovery, local-device/remote separation and tested compatibility. A local stdio bridge has a scoped identity; it is not a privileged bypass.
+
 An external agent may summarize returned facts or draft a response. Core balances and provenance must still work without an LLM. A native in-app AI chat is optional; the required product is a trustworthy recorder/query service, not a model subscription.
 
 8. DELIVERY MILESTONES AND DONE GATES
 M0 — Contract: map prototype behavior, record ADRs/threat model, define schema and acceptance mapping. Then implement; do not wait for approval of routine choices.
-M1 — Foundation: real authentication, two tenants, authorization, database/migrations, durable ingestion, resumable synchronization state, jobs, Rust engine vertical slice, explicit import-plan onboarding/progress, central source health, recorder and evidence in the shared browser UI.
+M1 — Foundation: passkey authentication, protected local setup/pairing, people/grants/recovery, two tenants and authorization, database/migrations, durable ingestion, resumable synchronization state, jobs, Rust engine vertical slice, explicit import-plan onboarding/progress, central source health, recorder and evidence in the shared browser UI.
 M2 — Golden path: the entire synthetic Order-to-Cash cycle through the canonical Rust reducers, bounded RAM state, durable checkpoints, restart/replay, late/duplicate events, conflicting evidence and correct query results. English-default UI and landing page with complete German localization.
 M3 — Agent access: real scoped MCP, complete authorized journal/history/schema read access, bounded structured queries, shared query services, all 24 question contracts, per-answer import/readiness/freshness, evidence and missing-data behavior.
 M4 — Real sources: Shopify/Shopify Payments, easybill and DHL adapters, backfill/polling/reconciliation and supported direct callback setup, with mode/coverage and external-verification status per capability.
@@ -168,6 +171,8 @@ Provide an actual ./blackbox command wrapper with documented commands: doctor, s
 
 A first-time user should be able to install prerequisites, run ./blackbox setup and ./blackbox up, open the printed local URL, create the first admin and start the example workspace. This is a target acceptance experience, not an existing command in the supplied reference.
 
+The URL alone does not grant access. Pair the local browser through protected one-time enrollment; subsequent local opens use the remembered device/session. A server uses a short-lived host-provided setup code followed by passkey registration and recovery setup. No secret is placed in the URL. Account/RP credentials and sessions require explicit handling during migration/restore as defined in specs/IDENTITY-ACCESS-AND-RECOVERY.md.
+
 Provide Linux server deployment instructions, environment variable schema, external PostgreSQL and object-store configuration, tenant onboarding, per-tenant ingestion quotas, liveness/readiness, structured redacted logs, queue lag/dead-letter and sync-staleness metrics, database/migration status, graceful shutdown and credential rotation. Hosted scaling uses stateless API replicas, shared storage, tenant-aware workers and partitioned Rust engines with explicit ownership, applied-cursor routing and failover. Do not load every tenant into every API/engine replica. Scale based on measurements and indexes, not a claim that containers imply unlimited capacity.
 
 Backups include database, evidence objects and recovery of encryption keys/configuration. Implement and actually rehearse restoration into an isolated environment. Rehearse upgrading one prior schema version with populated data; use a documented compatible rollback or forward-recovery path. Do not assume a down-migration is safe. Document maintenance windows and measured recovery time/data-loss window; do not promise high availability from a single VM.
@@ -180,6 +185,7 @@ Implement executable tests derived from ACCEPTANCE.json and the Golden Scenario,
 - Integration tests against real PostgreSQL, actual RLS roles and actual worker/job paths.
 - Signed/invalid webhook, duplicate/concurrent delivery, late events, rate-limit, cursor resume and failure recovery tests. Add browser-only management, native local/remote lifecycle, NAT-isolated outbound gateway delivery, queue/commit/applied crash boundaries, mode-specific coverage and fenced deployment-migration tests from the new binding contracts.
 - Cross-tenant denial tests across every endpoint, MCP tool, exports, search, object storage and caches.
+- Passkey challenge/origin misuse, competing setup/invitation/recovery claims, last-owner races, local pairing, permission-limited derived answers, human/service MCP separation and measured revocation across replicas/streams. Distinguish virtual-authenticator core tests from actual Mac/authenticator and real-client proof.
 - Fresh installation, restarts with retained data, migration/upgrade and complete backup/restore.
 - UI E2E for onboarding, source setup, recorder evidence, question result, MCP settings, and the six-group question catalog. Visual regression at desktop and mobile against the supplied design.
 - English/German coverage, keyboard navigation, focus handling and accessible labels.

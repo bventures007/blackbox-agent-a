@@ -31,6 +31,8 @@ Every data family names its applicable Source, Fact, Commitment, Movement and Re
 
 Reuse shared infrastructure and tests. Each row must link the code and cases proving that this capability actually uses it. An unrelated successful shared test cannot certify every adapter.
 
+Apply [the identity/access contract](../specs/IDENTITY-ACCESS-AND-RECOVERY.md) to shared authorization and each capability's pipeline/tenant evidence. Exercise a human owner, restricted reader and separately scoped read-only agent; provider/worker/gateway credentials are distinct. Verify denial through derived answers, evidence, exports, source health and hot/cold reads, including revocation. The platform operator has no automatic tenant read access. This adds shared authorization proof obligations without claiming connector implementation or changing provider API capability plans.
+
 ## Required verification
 
 | Test kind | Minimum coverage |

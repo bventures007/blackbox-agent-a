@@ -2,6 +2,8 @@
 
 Binding owner-approved requirements for the full M0–M5 assignment. This is a specification, not an implemented installer or hosted service. Read with SOURCE-SYNCHRONIZATION.md and WEBHOOK-GATEWAY.md.
 
+IDENTITY-ACCESS-AND-RECOVERY.md is the binding login, membership and credential contract: passkeys on servers, protected remembered local devices, owner/reader humans, scoped service principals, recovery and bounded revocation. Browser completeness includes People & agents and security settings. The local CLI/browser checkpoint must implement protected pairing before the native shell exists; loopback alone never authorizes the first administrator.
+
 ## One backend, two clients
 
 The complete management product must work in a normal browser without installing the desktop app: sign-in, workspace/member/role administration, source setup and credentials, connection health, recorder, evidence, questions, MCP access, exports and application settings. Preserve the supplied design. English is the default; all product UI and the landing page also support German. Share React components, locale resources and authorized API/query services between browser and desktop; never duplicate business reducers in a client.
@@ -33,6 +35,8 @@ Deliver reproducible desktop build/package instructions, a versioned Apple Silic
 ## Moving a workspace
 
 Provide an explicit operator-run migration procedure with a dry run. Freeze ingestion and acquire/fence the workspace writer; export a consistent journal/evidence/configuration checkpoint plus required encryption keys through a separate secure channel. Verify identity, counts/hashes, journal cutoff and schema compatibility on the target; rebuild/verify Rust state. Disable the old writer, move/rotate provider callback registrations or gateway routing, invalidate sessions/tokens as required, then resume and reconcile from the saved cursors. Reject overlapping writers. Preserve tenant and source identity without exposing a cross-tenant export. Document rollback before and after resumed writes; never restore an old writable copy after new target commits. Hosted per-tenant migration needs a scoped export/import, not a whole shared database dump. This is not peer-to-peer merging.
+
+Passkeys are RP-bound and Blackbox cannot export their private keys. A domain/issuer change needs explicit authenticated re-enrollment/recovery and session/token/device invalidation. Do not export global user credentials or other memberships with one tenant. Test restoration of a backup predating revocation: stale credentials must not silently become valid. Follow the identity contract for separation of local host, provider/gateway, human and agent credentials.
 
 ## Delivery sequence and proof
 

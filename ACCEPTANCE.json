@@ -1,5 +1,5 @@
 {
-  "version": "1.8",
+  "version": "1.9",
   "date": "2026-10-31",
   "note": "Specification for tests to be implemented; not an already executable or executed suite. A reviewer must add independent variations.",
   "status_enum": [
@@ -70,8 +70,8 @@
     {
       "id": "AUTH-01",
       "category": "authorization",
-      "check": "Use owner, admin, member and read-only roles; remove membership and revoke sessions/tokens.",
-      "expected": "Role matrix enforced server-side; revoked access stops according to documented bounded behavior; workspace selector is not authorization.",
+      "check": "Use owner and reader human memberships, separately scoped read-only service principals and a separate platform-operator context; remove membership, narrow grants and revoke sessions/tokens.",
+      "expected": "Role/grant matrix enforced server-side across UI/API/MCP and storage paths; no implicit operator business access or service admin rights. Revocation follows the durable commit and maximum 60-second distributed bound. A workspace selector or client-supplied tenant ID is not authorization.",
       "stage": "core",
       "release_gate": true
     },
@@ -627,6 +627,86 @@
       "release_gate": true,
       "check": "Read an answer at a fixed journal/applied cutoff while history imports and source health update concurrently; keep orders current while payments lag, provide disjoint historical coverage intervals, and skew provider timestamps used for delivery-latency estimates.",
       "expected": "UI/API/MCP report the answer scope/cutoffs and per-capability coverage/freshness without claiming newer applied data or filling historical holes. Requested range, verified intervals and historical snapshot-only limitations remain distinct from current sync. Latency estimates identify their sample/window/clock limits; configured polling cadence and gateway receipt are not external-freshness guarantees."
+    },
+    {
+      "id": "AUTH-03",
+      "category": "identity_and_access",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Exercise real passkey registration/sign-in with virtual authenticators against the selected WebAuthn/session implementation: fresh and repeated challenges, wrong RP/origin/user, invalid signatures, missing required user verification, synced credential counter behavior, session fixation, CSRF and expired sessions. Run with no external identity provider, mail account or commercial auth SaaS.",
+      "expected": "Valid supported passkeys work; malicious/replayed assertions and unsafe sessions fail. Public sessions use protected cookies with 30-minute idle and 24-hour absolute defaults. Recent verification protects sensitive changes. No hidden password/email/central-service dependency. Record library/browser versions; virtual authentication is not real-device proof."
+    },
+    {
+      "id": "AUTH-04",
+      "category": "identity_and_access",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Install local CLI/browser and self-hosted server profiles without a native client. Race, guess, replay and expire bootstrap/pairing codes; restart after setup; use an unpaired browser, forged Origin/Host and a local credential against a different backend. Reopen an enrolled local session and revoke its device.",
+      "expected": "Host-authorized setup is one-time and atomic; setup codes expire within 30 minutes, pairing codes within five minutes. Local reopening is convenient but never authorized by loopback alone. No permanent URL/localStorage secret, automatic re-enrollment after revocation or remote authority from a local device credential. Protected credential-store failures are explicit; no default administrator or restarted bootstrap takeover."
+    },
+    {
+      "id": "AUTH-05",
+      "category": "identity_and_access",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Create a SaaS workspace and a second isolated workspace, accept known-user and owner-shared invitations, forward/replay/expire/revoke invitations and use a wrong account. Race removal/demotion of the last owners; transfer ownership of service principals.",
+      "expected": "New signup cannot claim existing tenants/operator rights. Intended membership is bound to one workspace and role; unverified recipients remain pending until the inviter confirms identity. Invites are single-use, scoped, expiring and revocable. The last active owner survives concurrent operations; ownership transfer is audited and active services cannot be orphaned. Removing one membership preserves unrelated workspace access."
+    },
+    {
+      "id": "AUTH-06",
+      "category": "identity_and_access",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Complete first-owner recovery setup, lose the only enrolled device, recover using a saved one-use code, and attempt repeated/concurrent code use, guessing, privilege expansion, use of replaced factors and old sessions. Regenerate recovery codes and rehearse the documented host-authorized recovery path.",
+      "expected": "Recovery has a restricted expiring session, establishes a replacement authenticator and preserves only existing memberships. Codes are hashed, single-use and never logged; old code sets, compromised factors and previous human sessions/refresh tokens become unusable. Service credential review/revocation is explicit. No email-only, anonymous or setup-endpoint takeover. A saved recovery route restores a sole owner."
+    },
+    {
+      "id": "AUTH-07",
+      "category": "identity_and_access",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Grant a reader and an agent only a subset of input datasets/tools, with raw evidence and export disabled. Exercise all five tracks, derived questions/aggregates, search, related links, Sources/readiness, files/downloads, hot caches and Rust RPC, cold history and cross-tenant cursors using actual runtime roles. Add a new dataset/tool.",
+      "expected": "Permission intersections apply throughout UI/API/MCP/storage. Restricted inputs cannot leak through computed values, metadata, health or exports; safe permission-limited answers distinguish unavailable authority without disclosing hidden details. New datasets/tools are denied until granted. Credential/auth tables and operator secrets remain outside business schema discovery. Authorized complete access still traverses histories beyond the 24 intents."
+    },
+    {
+      "id": "AUTH-08",
+      "category": "identity_and_access",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Run a protocol-level human MCP authorization-code/PKCE and consent flow plus an unattended service-principal client-credentials flow using selected maintained components. Attempt issuer/resource/client/redirect/state mixups, refresh-token reuse, scope escalation, source/gateway credential substitution and local stdio owner bypass. Rotate the service credential.",
+      "expected": "Individual human and service identities remain distinct, scoped and revocable. Access tokens expire within five minutes and do not bypass current grants. Read-only principals cannot call admin/ingestion/native controls. Secrets are protected and rotation invalidates old credentials within the defined overlap. Pin protocols/libraries and document flow/client support; actual named-client proof remains MCP-03, not inferred from protocol tests."
+    },
+    {
+      "id": "AUTH-09",
+      "category": "identity_and_access",
+      "stage": "core",
+      "release_gate": true,
+      "check": "With at least two API instances, warm authorization/result caches and open MCP streams, revoke/downgrade membership, client consent, device and service credentials. Continue refresh, pages, exports and object downloads through each instance and engine/cold path; restart/fail over a replica and interrupt its auth-state refresh. Measure from durable revocation acknowledgment.",
+      "expected": "The processing instance denies new unauthorized access immediately; all replicas, streams and delivery paths enforce revocation within 60 seconds maximum. Stale authorization fails closed after the bound. Old data-snapshot cursors and still-unexpired tokens do not preserve revoked rights. No new forbidden pages/chunks/results are delivered after the bound; already delivered information cannot be recalled. Report actual measured times and evidence."
+    },
+    {
+      "id": "AUTH-10",
+      "category": "identity_and_access",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Use People & agents and personal security settings in English and German, entirely in a browser without a native process: add a reader/agent, inspect a grant, connect a protocol client, inspect last use/expiry, rotate/revoke, manage passkeys/sessions and save recovery codes. Attempt admin actions as a reader.",
+      "expected": "The short access journey clearly shows workspace, role/principal type, responsible owner, allowed data/tools/evidence/export and active/pending/revoked state. Never-used and unavailable telemetry are distinct. Own security management does not permit self-promotion. No credential leakage or false connected-client claim. Core source/business management remains complete and preserves the reference design."
+    },
+    {
+      "id": "AUTH-11",
+      "category": "identity_and_access",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "On a real supported Mac, exercise protected local native/CLI/browser enrollment, close/reopen, Keychain locked/unavailable, device revocation and recovery. Authenticate a remote server with supported Touch ID/passkey and security-key alternatives using the system browser, then switch backend.",
+      "expected": "Record actual OS, authenticator, browser and artifact versions. Local direct opening and remote passkey login work through separate credentials with recovery; no plaintext Keychain fallback or remote native privilege. Unsupported authenticator/client combinations are explicit. A simulated authenticator or successful packaging is insufficient real-platform evidence."
+    },
+    {
+      "id": "AUTH-12",
+      "category": "identity_and_access",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "Migrate one workspace from a multi-workspace source to a different backend/RP origin and perform an isolated restore of a backup taken before access revocation. Re-enroll the target owner, reconcile reader/service grants and try old sessions, credentials and old-issuer tokens at both backends.",
+      "expected": "Workspace migration exports no unrelated memberships or global user authenticators. RP-bound private keys are not exported or assumed portable. An authenticated re-enrollment/recovery path preserves access to the migrated business data; obsolete sessions/tokens/device bindings are invalidated. Backup restoration deliberately fences/rotates stale auth state so revoked access does not silently revive. Record the actual migration/restore procedure and evidence."
     }
   ]
 }
