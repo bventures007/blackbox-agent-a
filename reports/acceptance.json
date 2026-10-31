@@ -1450,7 +1450,7 @@
       "tested_commit": "74463df6de343f832cc2a02a127d47b8c56edfdc",
       "command": "python3 scripts/verify-evidence-recovery.py --output .runtime/evidence-recovery-readiness.json --node-image-commit 4850531 --engine-image-commit 4850531",
       "environment": "macOS27.2 Apple Silicon; isolated PostgreSQL17 Compose and exact4850531 Node/Rust images; actual SDK MCP. Earlier clean4850531 native/API/ENDE Chrome proof is separately recorded.",
-      "observed_result": "Clean 74463df6de343f832cc2a02a127d47b8c56edfdc passed actual PostgreSQL17 fenced evidence disposal and older-backup reconciliation with exact4850531 Node/Rust images. An unsafe file left the intent and maintenance fence intact; explicit resume removed it without journal changes. Restoring an older backup kept raw content blocked, rejected wrong-MAC/stale ledgers, merged the newer authenticated ledger and removed denied content before clearing only the evidence guard. API/actual SDK MCP and restart preserved the restriction and fixed business answer. The no-ledger branch required an explicit exact owner cutoff decision and audit; provider guards remained. A separate exact schema7 archive restored forward to schema8 with the11900 capture/2380 refund answer unchanged. All101 Python,22 Node,six Rust tests and typecheck passed on the clean commit. Evidence: reports/runs/evidence-policy-74463df. These small synthetic tests are not smoke RTO, distribution, populated in-place upgrade, live-provider retention or independent approval. Automatic disposal scheduling, full field/provider inventory, source revalidation and remaining P4 work remain open. Automatic persistent cleanup and owner status additionally verified at clean21913aa, including actual removal/API/MCP/restart/EN-DE checks; due timestamps are synthetic, not physical Mac sleep evidence. Affected managed generation/cutoff disclosure, unchanged authenticated older archive, EN/DE browser and replaced-destination unknown state verified at clean1ff4a09 with recorded2dd2136 Node/4850531 Rust images. Known protected saved-ledger reconciliation without --ledger and refusal of corrupt/unapplied ledger export verified at clean c3315f3 alongside the full older-backup recovery/API/MCP/restart regression.",
+      "observed_result": "Clean bd123cf5f3a3311164549320098d3edd46334060 passed eight correctly signed producer canaries rejected before journal/evidence/file writes, actual evidence policy API/SDK MCP/RLS/restart and EN/DE browser checks. Screenshots were visually inspected. All 24 positive/missing/changed question fixtures, five settlement and eleven shipping-time adversaries passed persisted API/SDK MCP, restart, corrupt/deleted projections and security checks. Typecheck, 24 Node tests and 112 Python tests passed on the clean commit. Evidence: reports/runs/coverage-privacy-bd123cf. This closes arbitrary-text coverage diagnostic input; complete field/provider inventory, legacy association policy, encrypted provider checkpoint handling and remaining P4 work continue. No live-provider, performance or independent approval claim.",
       "evidence_paths": [
         "reports/runs/evidence-policy-74463df/host-recovery.json",
         "reports/runs/evidence-policy-74463df/schema7-forward-restore.json",
@@ -1462,7 +1462,10 @@
         "reports/runs/evidence-copies-1ff4a09/copies.json",
         "reports/runs/evidence-copies-1ff4a09/validation.json",
         "reports/runs/evidence-known-ledger-c3315f3/recovery.json",
-        "reports/runs/evidence-known-ledger-c3315f3/validation.json"
+        "reports/runs/evidence-known-ledger-c3315f3/validation.json",
+        "reports/runs/coverage-privacy-bd123cf/privacy.json",
+        "reports/runs/coverage-privacy-bd123cf/questions.json",
+        "reports/runs/coverage-privacy-bd123cf/validation.json"
       ],
       "blocker": "Full field/provider inventory including legacy association gaps and independent review remain open. Live provider retention authorization is unavailable.",
       "delivery_scope": "local_pilot"
