@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { quantity } from "./lifecycle.js";
+import { coverageFieldCode, coverageLimitationCode } from "./coverage-codes.js";
 const id = z.uuid(),
   money = z.number().int().safe().nonnegative(),
   signed = z.number().int().safe();
@@ -329,14 +330,7 @@ export const datasetRecord = z.discriminatedUnion("dataset", [
     history_start: time,
     complete_through: time,
     backfill_complete: z.boolean(),
-    missing_fields: z
-      .array(
-        z
-          .string()
-          .regex(/^[a-z_]+(?:\.[a-z_]+)*$/)
-          .max(160),
-      )
-      .max(100),
+    missing_fields: z.array(coverageFieldCode).max(100),
     failure_state: z.enum(["none", "incomplete", "revoked", "error"]),
     basis: z.literal("declared"),
     history_kind: z
@@ -344,15 +338,7 @@ export const datasetRecord = z.discriminatedUnion("dataset", [
       .optional(),
     stock_snapshot_id: id.optional(),
     allocation_ids: z.array(id).max(248).optional(),
-    limitations: z
-      .array(
-        z
-          .string()
-          .regex(/^[a-z_]+(?:\.[a-z_]+)*$/)
-          .max(160),
-      )
-      .max(20)
-      .optional(),
+    limitations: z.array(coverageLimitationCode).max(20).optional(),
   }),
   record("identity", {
     entity_id: id,

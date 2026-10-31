@@ -1,7 +1,7 @@
 /** Actual PostgreSQL/API/Rust/MCP policy boundaries using isolated synthetic tenants. */
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, writeFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import pg from "pg";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
@@ -11,6 +11,7 @@ import { ingest } from "../packages/application/ingest.js";
 import { pool as applicationPool } from "../packages/database/index.js";
 import { fixture } from "./questions/fixtures.js";
 import { runtimeFingerprint } from "../packages/runtime/compatibility.js";
+import { signature } from "../packages/auth/producer.js";
 const base = process.env.BLACKBOX_API_URL!,
   runtime = process.env.TEST_RUNTIME_DIR!,
   admin = new pg.Pool({ connectionString: process.env.ADMIN_DATABASE_URL });
@@ -122,6 +123,77 @@ try {
       other = await provision(),
       sample = fixture(12),
       canary = "synthetic-retention-person@example.test";
+    const producer = await call(
+      "/v1/producers",
+      { name: "Synthetic coverage privacy probe", provider: "generic" },
+      s.headers,
+    );
+    const coverage = sample.records.find(
+      (v) => v.record.dataset === "coverage",
+    )!;
+    for (const field of ["missing_fields", "limitations"]) {
+      for (const text of [
+        "private_customer_name",
+        "secret_token_canary",
+        "alice.example",
+        "canary@example.test",
+      ]) {
+        const body = {
+          observations: [
+            { ...coverage, record: { ...coverage.record, [field]: [text] } },
+          ],
+        };
+        const path = "/v1/ingest/" + producer.connection_id,
+          timestamp = String(Math.floor(Date.now() / 1000)),
+          nonce = randomUUID();
+        const result = await call(
+          path,
+          body,
+          {
+            authorization: "Bearer " + producer.key,
+            "x-blackbox-time": timestamp,
+            "x-blackbox-nonce": nonce,
+            "x-blackbox-signature": signature(
+              producer.key,
+              path,
+              timestamp,
+              nonce,
+              body,
+            ),
+          },
+          400,
+        );
+        assert.deepEqual(result, { error: "invalid_request" });
+      }
+    }
+    assert.equal(
+      (
+        await admin.query(
+          "SELECT count(*) FROM bb.journal WHERE tenant_id=$1",
+          [s.tenant],
+        )
+      ).rows[0].count,
+      "0",
+    );
+    assert.equal(
+      (
+        await admin.query(
+          "SELECT count(*) FROM bb.evidence WHERE tenant_id=$1",
+          [s.tenant],
+        )
+      ).rows[0].count,
+      "0",
+    );
+    assert.deepEqual(
+      await readdir(join(process.env.EVIDENCE_DIR!, s.tenant)).catch((e) => {
+        if (e.code === "ENOENT") return [];
+        throw e;
+      }),
+      [],
+    );
+    check(
+      "signed_producer_free_text_coverage_canaries_rejected_before_journal_or_evidence_write_without_error_echo",
+    );
     const initial = await ingest(s.tenant, s.connection, sample.records, {
       canary,
       secret: "synthetic-retention-secret",
