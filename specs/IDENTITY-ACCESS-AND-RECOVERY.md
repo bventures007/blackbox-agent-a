@@ -47,3 +47,7 @@ Keep identity, membership, credential and session records separate from journal 
 Maintain an authentication adapter boundary so a future passkey or server login can authenticate the existing identity. Do not implement those adapters now. Future server exposure needs an explicit threat model, transport, recovery and user-management review; changing the bind address is not a supported upgrade path.
 
 Acceptance: AUTH-02 plus LOCAL-01 through LOCAL-05 and the shared isolation/security/MCP cases selected in ../delivery-profile.json. These are specifications; no product login is implemented by this document.
+
+## Operational key and content policy
+
+PILOT-OPERATIONS-AND-RECOVERY.md specifies the independent installation data key and backup recovery material, protected host storage, rotation/failure/restore behavior and field-level raw-content policy. These do not replace the simple personal login key or add a second login factor. Backup configuration may be postponed with an honest unprotected status. Human repair uses authenticated owner commands; business MCP credentials cannot approve corrections or administer backups.

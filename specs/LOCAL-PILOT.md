@@ -12,13 +12,17 @@ One visible workspace and one human owner are created automatically. Separate lo
 
 | Milestone | Required result |
 | --- | --- |
-| P0 — smallest contract | Confirm environment, read references, choose supported dependencies, record the minimal schema/auth/Rust boundaries and begin implementation |
-| P1 — local foundation | Working Compose backend, secure access-key setup, automatic owner/workspace, local web UI, append-only PostgreSQL journal, durable ingestion/outbox, Rust vertical slice and structured logging/CLI fallback |
-| P2 — useful answers | Full Golden Scenario and all 24 positive/missing-data question contracts, journal/evidence UI, bounded RAM/cold access, restart recovery, import setup and truthful source health, System & Diagnostics, EN/DE UI and landing page |
+| P0 — smallest contract | Confirm environment, minimal schema/auth/RPC/key choices and actual Shopify authorization prerequisites; begin implementation |
+| P1 — local foundation | Working Compose backend, secure access-key setup, automatic owner/workspace, local web UI, append-only PostgreSQL journal, durable ingestion/outbox, Rust vertical slice and structured logging/CLI fallback; prove SLICE-01 and attempt authorized SLICE-02 before broad UI work |
+| P2 — useful answers | Full Golden Scenario and all 24 positive/missing-data question contracts, journal/evidence UI, bounded RAM/cold access, restart recovery, import setup and truthful source health, System & Diagnostics, owner repair/settings flows, model-free question templates, EN/DE UI and landing page |
 | P3 — connected pilot | Shopify/Shopify Payments outbound import/polling/reconciliation, named read-only agent keys and a working local MCP client/bridge, bank CSV and signed typed generic input; actual external access reported separately |
-| P4 — handover and stop | Landing-page download and fresh archive install on a real Apple Silicon Mac (DIST-01–03), backup/restore, populated upgrade, local performance smoke and bounded-memory/crash tests, clean-checkout verification, screenshots, DIAG-01–08 proof, short tester guide, safe diagnostics and honest evidence report |
+| P4 — handover and stop | Landing-page download and fresh archive install on a real Apple Silicon Mac (DIST-01–03), backup/restore, populated upgrade, local performance smoke and bounded-memory/crash tests, clean-checkout verification, screenshots, DIAG-01–08 and PILOT-01–10 proof, short tester guide, safe diagnostics and honest evidence report |
 
 The primary deliverable is a local backend plus complete browser UI, started by a small wrapper. A native `.app`/DMG, Tauri shell, signing/notarization, remote desktop client and background OS-service installer are deferred. Closing the browser must not stop the supervised backend; an explicit stop must preserve durable data. Do not claim a dependency-free installer: show the required container runtime and supported versions. The landing must prominently link the actual versioned archive and installation guide before any backend is running, with honest platform/runtime requirements and release status. Follow WEB-DESKTOP-AND-DEPLOYMENT.md and DIST-01–03; a fake button or checkout install is insufficient. A small double-click launcher may be added only if useful and tested, without becoming a prerequisite for core functionality.
+
+Read [FIRST-VERTICAL-SLICE.md](FIRST-VERTICAL-SLICE.md): the initial provider-shaped persisted order/payment-to-MCP-and-restart checkpoint comes before broad interface work; real provider proof starts as soon as authorized access permits. It does not remove later provider or 24-question obligations.
+
+Follow [PILOT-OPERATIONS-AND-RECOVERY.md](PILOT-OPERATIONS-AND-RECOVERY.md) for scheduled encrypted backups, compatible updates, owner review/correction, Mac lifecycle/storage limits, secret/retention rules, strengthened pilot performance and the boundary between deterministic local questions and external agent conversation.
 
 ## Source scope
 
@@ -36,7 +40,7 @@ Use `local_standalone` only: initial import, outbound polling and reconciliation
 
 Keep the supplied design, English-default UI/landing with full German, all English engineering material, five journal tracks, append-only enforcement, exact financial/quantity rules, provenance, 24 question contracts plus complete authorized history traversal, and the TypeScript/Rust boundary. PostgreSQL remains canonical; compact RAM is rebuildable. Preserve commit-before-ack, outbox, idempotency, late/corrected events, fixed query cutoffs, safe snapshots/tail recovery, bounded memory and indexed cold reads. Never downgrade these because the app is local.
 
-The 250k-entry smoke profile and local memory/recovery checks are required. Use the same generated corpus, resource limits and workload for A/B comparison; report actual Mac/container hardware and measurements. The 10m reference run and 100m experiment remain future performance gates, not current delivery work; no capacity claim is permitted without its actual evidence. A local application can be structurally ready for larger datasets without claiming those scales are verified.
+The strengthened 250k-entry smoke profile and local memory/recovery checks are required under PILOT-09: hot API p95 <=200 ms, hot MCP p95 <=350 ms, plus the contract's cold/history/aggregate, lag, memory and recovery bounds. The earlier mixed two-second ceiling alone cannot pass. Use the same generated corpus, resource limits and workload for A/B comparison; report actual Mac/container hardware and measurements. The 10m reference run and 100m experiment remain future performance gates, not current delivery work; no capacity claim is permitted without its actual evidence. A local application can be structurally ready for larger datasets without claiming those scales are verified.
 
 ## Runtime visibility is pilot scope
 

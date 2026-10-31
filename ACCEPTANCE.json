@@ -1,5 +1,5 @@
 {
-  "version": "2.2",
+  "version": "2.3",
   "date": "2026-10-31",
   "note": "Test specifications, not executed tests. Only delivery_scope=local_pilot cases gate the current P0–P4 assignment. Deferred_future cases preserve prior requirements for later review; their release_gate flag is not active in the pilot.",
   "status_enum": [
@@ -18,7 +18,8 @@
     "Never modify expected business values merely to match an implementation.",
     "Source-capability completion must be backed by the central integration register, current immutable test evidence and independent confirmation; register validation alone is not provider or product proof.",
     "DIAG-01 through DIAG-08 are mandatory local pilot gates governed by specs/SYSTEM-AND-DIAGNOSTICS.md; preparation checks are not diagnostics implementation evidence.",
-    "DIST-01 through DIST-03 require a real landing-page-to-download-to-install journey as specified in specs/WEB-DESKTOP-AND-DEPLOYMENT.md, not merely a checkout install or placeholder link."
+    "DIST-01 through DIST-03 require a real landing-page-to-download-to-install journey as specified in specs/WEB-DESKTOP-AND-DEPLOYMENT.md, not merely a checkout install or placeholder link.",
+    "SLICE-01/02 and PILOT-01–10 are active gates under specs/FIRST-VERTICAL-SLICE.md and specs/PILOT-OPERATIONS-AND-RECOVERY.md. Run the narrow persisted path early; blocked provider access cannot become a synthetic live pass. Stricter smoke per-class targets supplement, not waive, earlier gates."
   ],
   "cases": [
     {
@@ -993,6 +994,114 @@
       "release_gate": true,
       "check": "Build and validate the release manifest, archive, checksums, image references and release workflow. Test missing/404/unauthorized assets, incompatible architecture, wrong size/hash/version, corrupt archives, inaccessible image registry and latest-alias promotion before successful download/install evidence. Scan package, landing bundle and logs for credentials/runtime data.",
       "expected": "The documented WEB-DESKTOP-AND-DEPLOYMENT.md download contract is enforced: immutable versioned assets and manifest/image/guide metadata agree, all CTA destinations are tested and latest promotion waits for matching evidence. Integrity/access/support failures block release promotion and produce honest user guidance; no fake success based on HEAD/build alone, substituted source archive or bundled secrets. Shared asset delivery is HTTPS or explicit isolated localhost testing; public publication remains separately authorized."
+    },
+    {
+      "id": "SLICE-01",
+      "category": "first_vertical_slice",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Before broad P2 UI/catalog work, execute FIRST-VERTICAL-SLICE.md against provider-shaped HTTP/pagination fixtures using the actual Shopify adapter, PostgreSQL journal/outbox, Rust checkpoints/RAM and real SDK MCP path. Vary order/payment IDs and amounts, duplicate/reorder/correct inputs, restart the whole stack and corrupt/remove the engine snapshot; query fixed cutoffs, revoke access and use two tenants with colliding external IDs.",
+      "expected": "A recorded P1 checkpoint demonstrates computed order payment state and evidence through the real persisted path, without canonical-answer shortcuts or demo reseeding. Fixed-cutoff business results survive restart/replay without double effects; latest queries disclose new data and projection lag. Agent/tenant denials hold. Minimal UI/diagnostics are real. The synthetic result is labeled and does not replace SLICE-02 or the later five-track/24-question gates."
+    },
+    {
+      "id": "SLICE-02",
+      "category": "first_vertical_slice",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "As early as authorized access permits, repeat connect/read/commit/apply/API-and-MCP-answer/restart with the actual Shopify API and existing authorized order/transaction data, recording API version, grants/account requirements, test/live status and supported fields. Compare fixed-cutoff values and provenance after restart.",
+      "expected": "Actual source data passes the same persisted adapter/journal/Rust/MCP path; a token check or mock is insufficient. No unauthorized merchant mutations or unredacted customer/secret evidence. Missing access is blocked_external, allowing independent work but preventing a complete-pilot claim. Development payments are labeled; order transactions do not prove Shopify Payments payout, ledger or bank-settlement access. Central source mapping/test/reviewer obligations remain."
+    },
+    {
+      "id": "PILOT-01",
+      "category": "pilot_operational_readiness",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Configure backup destination/recovery material and exercise 24-hour scheduling, overdue startup/wake, explicit pre-upgrade backup, seven-daily/four-weekly retention, unavailable external volume, interrupted encryption/finalization and concurrent database/evidence changes. Inspect Backups & recovery, diagnostics, filesystem paths and generation manifests.",
+      "expected": "PILOT-OPERATIONS-AND-RECOVERY.md backup policy is implemented with one fenced coherent snapshot, encrypted protected output and atomic completion. Failed/missing destinations do not fall back silently or delete the last complete backup; no upload/OS service is installed. Last generation/cutoff, actual recoverable age, same-device limitation and last actual restore-test date remain distinct. Retention touches only owned completed generations. Scheduled creation does not need an owner session or stored backup recovery secret."
+    },
+    {
+      "id": "PILOT-02",
+      "category": "pilot_operational_readiness",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Remove the original installation/local encryption key and restore a populated encrypted backup into an isolated destination using only its saved recovery material. Test wrong keys, corruption, partial generations, stale credential revocations, newer redaction state and an existing destination. Measure recovery on the smoke corpus plus up to 250 MiB of synthetic evidence.",
+      "expected": "Backup/decryption/database/evidence/version integrity is checked before exposure; business values and evidence recover independently of the lost install key. Owner/agent access is fenced/rotated, provider workers stay paused until checked, and old restricted evidence is not silently revived. Replacement is explicit. Machine-processing time to authorized query readiness is <=600 seconds on declared smoke hardware, with operator wait and full elapsed reported separately. Missing recovery material fails honestly; no login reset decrypts lost keys."
+    },
+    {
+      "id": "PILOT-03",
+      "category": "pilot_operational_readiness",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Upgrade populated data using the release compatibility manifest. Mix incompatible API/worker/Rust/MCP/schema/backup versions, interrupt each migration/rebuild phase, fail pre-upgrade backup and rotate reducer interpretation with concurrent new entries. Exercise only the declared safe binary rollback, otherwise isolated restore/forward recovery.",
+      "expected": "A serialized fenced maintenance flow checks versions/space/recoverable backup, preserves immutable entries and releases/reports failures safely. Unknown versions fail explicitly; no half-migrated/current claims or arbitrary schema downgrade. Versioned replay/rebuilt projections publish atomically without duplicate derived business effects and retain disclosed historical interpretation. Recovery is rehearsed with exact artifacts/cutoffs, not a claim that image rollback undoes database changes."
+    },
+    {
+      "id": "PILOT-04",
+      "category": "pilot_operational_readiness",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Use Needs review in EN/DE for an ambiguous order-payment link, conflicting provider payload, quarantined processing failure and an evidence-backed human correction. Confirm/reject/retry with repeated and competing clicks; try stale revisions, other tenants and read-only agents. Observe durable decision, Rust application, answer readiness and historical queries.",
+      "expected": "Owner-only revision-checked/idempotent actions append business decisions with actor/reason/evidence, preserving original observations and explicit human/provider provenance. Field precedence is documented; uncertainty is not guessed away. Recalculation remains visible until the required cursor is applied. Current and historical API/MCP values are correct without duplicate cash/stock effects; expired raw evidence limits reprocessing honestly. Leaving a case unresolved or hiding a warning cannot mark missing coverage complete."
+    },
+    {
+      "id": "PILOT-05",
+      "category": "pilot_operational_readiness",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "On a supported real Mac, close the browser, sleep/wake, stop/restart the runtime and reboot; simulate longer suspension, clock/network changes and expired leases/credentials. Reconnect the same provider account, then attempt to replace it with a different account. Reconnect an MCP bridge using a revoked key.",
+      "expected": "The documented manual wrapper/runtime startup model is honest and installs no hidden autostart/keep-awake service. Resume revalidates fencing/current auth, coalesces due jobs and reconciles with bounded overlap/backoff without a polling storm or cursor loss. Health/catch-up/gaps stay truthful. Different provider accounts use new namespaces, not old cursors/history; disconnect preserves history. Revoked agent access cannot revive on reconnect."
+    },
+    {
+      "id": "PILOT-06",
+      "category": "pilot_operational_readiness",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Constrain host/container/VM and target-volume storage; cross warning/critical thresholds during import, backup, snapshot/rebuild and export, then inject ENOSPC before the next check and restore capacity. Saturate bounded queues/downloads and request unauthorized file cleanup.",
+      "expected": "Configured thresholds and all relevant storage usage are visible. Defaults warn below max(10%,5 GiB) and become critical below max(2%,1 GiB). Critical capacity pauses new/optional work without advancing uncommitted cursors; safe authorized reads remain possible only when dependencies permit. Failed durable writes are never acknowledged. No journal/unrelated file deletion or hidden fallback destination. Recovery resumes safely; staging, retries, buffers and evidence sizes are bounded and failures are actionable."
+    },
+    {
+      "id": "PILOT-07",
+      "category": "pilot_operational_readiness",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Inspect protected host secret paths/mounts and encrypted provider/sensitive-directory values. Attempt missing/corrupt keys, ciphertext tampering/wrong-tenant substitution and plaintext fallback. Rotate installation data keys and provider tokens, interrupt rotation, retry with a different provider account and restore an old encrypted generation with its recovery material.",
+      "expected": "Owner-only permissions and maintained authenticated encryption with purpose/tenant/key-version binding hold. Owner/agent credentials remain verifier-only and independent of encryption; missing live keys are not regenerated over data. Rotation is recoverable and verified before retiring live material; old backups retain honest recovery/erasure limitations. Account/grant validation fences provider replacement. No secret in frontend/logs/arguments or undocumented plaintext fallback; host-owner trust boundary and actual whole-disk encryption coverage are clear."
+    },
+    {
+      "id": "PILOT-08",
+      "category": "pilot_operational_readiness",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Inspect every mapped field against the committed data inventory; ingest synthetic PII/secret canaries, historical evidence and stricter source-retention cases. Expire/restrict raw evidence under the default 90-day local-receipt policy or a configured override; inspect journal, queries, caches, temporary exports and affected backups. Restore a backup predating restriction with and without a newer redaction ledger.",
+      "expected": "Canonical data uses allowlisted typed business values and opaque anchors, not raw personal content/secret-bearing strings; protected mappings/evidence remain separate. Retention is disclosed and respects stricter provider rules. Raw removal/restriction is audited and reflected in every live content path while typed replay/business history remains intact. Older restores cannot silently revive access: apply the current ledger or hold raw content blocked for reconciliation. External copies/old backups and accidental canonical PII receive explicit policy treatment, not a false universal erasure/compliance claim."
+    },
+    {
+      "id": "PILOT-09",
+      "category": "pilot_operational_readiness",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Run the strengthened smoke profile in benchmarks/performance-contract.json through both API and SDK MCP with concurrent ingestion, mixed hot/cold/history/aggregate queries, default logging/current authorization, fixed-arrival load, memory limits, restart and cold rebuild. Flood one principal, cancel/deadline queries and compare other tenants.",
+      "expected": "All per-class pilot latency/lag/success/memory/recovery bounds hold together on the declared corpus/hardware; the old mixed two-second ceiling alone cannot pass. Report per-class actual percentiles and scheduled-arrival latency, failures and whole-stack peaks with reproducible evidence. Page/deadline/concurrency limits bound work and prevent starvation without weakening correctness or treating rejected/stale/truncated responses as successes. 10m/100m capacity is not claimed."
+    },
+    {
+      "id": "PILOT-10",
+      "category": "pilot_operational_readiness",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Use all 24 local question templates and typed parameters/entity selection in EN/DE without an LLM key/subscription. Vary values, ambiguous IDs, unsupported scope and missing evidence. Inspect network egress and connect a separately configured compatible local MCP client for free-text questions, including untrusted source instructions.",
+      "expected": "Local questions execute generalized deterministic domain/query services with evidence/cutoffs/uncertainty, not keyword-canned answers. Free text is clearly scoped to template/entity search or the external agent; no embedded chat/extraction or secret model dependency is implied. No automatic LLM transmission occurs. Actual client versions/transport/data flow are documented; cloud-only clients cannot magically reach loopback. Existing SEC-03 still applies if optional extraction is actually implemented; external model wording is not guaranteed by tool correctness."
     }
   ],
   "active_profile": "local_pilot",

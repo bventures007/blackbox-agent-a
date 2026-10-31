@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "active_profile": "local_pilot",
-  "version": "2.2",
-  "owner_decision": "Local application and personal access key first; test and collect feedback before selecting any later deployment/authentication scope. Approved in this conversation after baseline-v10. After baseline-v11, the owner approved System & Diagnostics, bounded filterable logs, local fallback and explicit diagnostic acceptance as required pilot work. After baseline-v12, the owner required a landing-page download leading to a real tested local installation package.",
+  "version": "2.3",
+  "owner_decision": "Local application and personal access key first; test and collect feedback before selecting any later deployment/authentication scope. Approved in this conversation after baseline-v10. After baseline-v11, the owner approved System & Diagnostics, bounded filterable logs, local fallback and explicit diagnostic acceptance as required pilot work. After baseline-v12, the owner required a landing-page download leading to a real tested local installation package. After baseline-v13, the owner approved seven operational refinements and an early persisted Shopify-to-MCP/restart slice before broad UI work.",
   "scope_specification": "specs/LOCAL-PILOT.md",
   "milestones": [
     "P0",
@@ -83,7 +83,19 @@
     "DIAG-08",
     "DIST-01",
     "DIST-02",
-    "DIST-03"
+    "DIST-03",
+    "SLICE-01",
+    "SLICE-02",
+    "PILOT-01",
+    "PILOT-02",
+    "PILOT-03",
+    "PILOT-04",
+    "PILOT-05",
+    "PILOT-06",
+    "PILOT-07",
+    "PILOT-08",
+    "PILOT-09",
+    "PILOT-10"
   ],
   "deferred_acceptance_ids": [
     "AUTH-01",

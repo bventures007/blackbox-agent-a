@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "note": "No engine or application benchmark has run. All values remain unmeasured.",
+  "note": "No engine/application benchmark has run. The smoke profile now includes mandatory per-query API/MCP, memory, lag and recovery targets under PILOT-09; every measurement remains unmeasured.",
   "contract": "benchmarks/performance-contract.json",
   "profiles": {
     "smoke": {

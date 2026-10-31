@@ -45,3 +45,7 @@ Pilot acceptance: LOCAL-07/09/10, INGEST-01 through INGEST-06 and QUERY-02. Earl
 ## Historical import and user-visible readiness
 
 [IMPORT-ONBOARDING-AND-DATA-READINESS.md](IMPORT-ONBOARDING-AND-DATA-READINESS.md) defines the binding date choices, 30-day/open-items default, strict from-now-only behavior, older related context/opening state, expansion, durable counters, central Sources health and per-answer readiness. Treat initial-run completion, historical completeness, current sync freshness and query readiness as separate dimensions. Add its nine-field `import_readiness` mapping per capability; do not infer success from a connected credential, a recent webhook or an empty unfinished page. Required additional core gates: IMPORT-01–06 and HEALTH-01–03.
+
+## Early proof and operational recovery
+
+Follow FIRST-VERTICAL-SLICE.md for an actual Shopify-shaped adapter/persistence/Rust/MCP/restart checkpoint in P1 and earliest authorized live proof. PILOT-OPERATIONS-AND-RECOVERY.md defines sleep/wake/clock/network catch-up, disk-pressure pausing and same-account reconnect checks. Different provider accounts require a new connection namespace; disconnect preserves committed history. Operational repair cannot advance an uncommitted checkpoint or fabricate recovered coverage.

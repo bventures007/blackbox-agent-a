@@ -2,17 +2,17 @@
 
 ## Current assignment
 
-Baseline-v13 / brief 2.2: P0–P4 local pilot, then handover and stop. The owner approved a personal saved access key and local testing before deciding later product/hosting scope. Passkeys, invitations, public SaaS/servers, gateways, native packaging and large capacity certification are deferred. Read delivery-profile.json and specs/LOCAL-PILOT.md.
+Baseline-v14 / brief 2.3: P0–P4 local pilot, then handover and stop. The owner approved a personal saved access key and local testing before deciding later product/hosting scope. Passkeys, invitations, public SaaS/servers, gateways, native packaging and large capacity certification are deferred. Read delivery-profile.json and specs/LOCAL-PILOT.md.
 
-Product implementation has not started. The prototype is static/simulated. No production login, importer, database/engine, local MCP bridge or installer exists yet. All 108 acceptance records remain not_started: 71 active pilot cases and 37 deferred cases. The exact previous 86 case descriptions remain preserved; 11 local cases define the simpler delivery and eight DIAG cases make operational visibility a required part of it. Three DIST cases additionally require the landing-page download-to-install journey. No diagnostics implementation or actual download artifact exists yet.
+Product implementation has not started. The prototype is static/simulated. No production login, importer, database/engine, local MCP bridge or installer exists yet. All 120 acceptance records remain not_started: 83 active pilot cases and 37 deferred cases. The exact previous 86 case descriptions remain preserved; 11 local cases define the simpler delivery and eight DIAG cases make operational visibility a required part of it. Three DIST cases additionally require the landing-page download-to-install journey. Two SLICE and ten PILOT cases additionally require early feasibility and the seven operational refinements. No actual software, diagnostics or download artifact exists yet.
 
 ## Milestones
 
 - [ ] P0 — environment and minimal contracts; start implementation
-- [ ] P1 — local key/session, automatic owner/workspace and persisted Rust/journal slice, structured logging and CLI fallback
+- [ ] P1 — local key/session, automatic owner/workspace and persisted Rust/journal slice, structured logging/CLI and SLICE-01; earliest authorized SLICE-02
 - [ ] P2 — Golden Scenario, all 24 query contracts, UI/locales, import/readiness, System & Diagnostics and restart
 - [ ] P3 — Shopify/Shopify Payments and supplemental producers; local agent keys/MCP
-- [ ] P4 — real landing download/archive Mac install (DIST-01–03), local performance/memory, backup/restore/upgrade, DIAG-01–08 evidence, feedback guide and handover
+- [ ] P4 — real landing download/archive Mac install (DIST-01–03), local performance/memory, backup/restore/upgrade, DIAG-01–08/PILOT-01–10 evidence, feedback guide and handover
 
 ## Preserved foundation
 
@@ -41,3 +41,9 @@ The question catalogue validator, integration register check against 8d67454b4a8
 The owner required installation access directly from the landing page. The local deployment contract now defines prominent consistent EN/DE download actions, independent static landing/guide delivery before backend setup, actual versioned Mac archives with pinned prebuilt images, prerequisites, release metadata/checksums, truthful pending/unsupported/private access states and a tested browser-download-to-first-start journey. DIST-01–03 are active release gates; build/Goal/review entry points include them. This does not authorize public publication or require a native DMG. All 105 previous case definitions, source history and visual/business references are unchanged. All product evidence remains not_started.
 
 The question catalogue validator, integration register check against 1b9de2522960cb48c5499b26d3ade28e81921f5c, delivery-profile validator and all 45 existing tooling regression tests passed. A consistency check confirms all 105 previous case definitions are unchanged, all 108 results remain not_started, and source history/business/reference assets are unchanged. These are preparation checks only; no actual downloadable product or installation proof is claimed.
+
+## Operational refinements for baseline-v14
+
+The owner approved seven refinements after the Buzz/source/specification audit: configured daily encrypted backups and independent recovery; explicit version-compatible updates and rule rebuilds; owner review/correction; Mac sleep/wake/account/disk behavior; protected keys and field-level content/retention policy; stronger pilot per-class latency/memory/recovery targets; and deterministic local questions with external MCP conversation. SLICE-01 proves a narrow actual persisted adapter-to-MCP/restart path before broad UI; SLICE-02 attempts real Shopify access as early as authorized. External blockers remain honest and do not halt independent work. PILOT-01–10 are mandatory current gates. All 108 prior case definitions and source/business/reference inputs are preserved; source selection and future scope are unchanged.
+
+The smoke contract now includes hot p95 <=200 ms API / <=350 ms MCP, separate cold/history/aggregate targets, memory/lag/restart/rebuild/restore bounds and both concurrency/fixed-arrival measurements. These are unmeasured acceptance goals, not capacity claims. All reports remain not_started. The question catalogue validator, register check against d989fcea99f8241e5d78963166d5e91be1486810, delivery-profile validator and all 45 existing tooling regression tests passed. Additional consistency checks confirm all 108 previous cases are unchanged, all 120 results remain unexecuted, prior smoke targets were not loosened, deferred benchmark profiles are identical and source history/business/reference assets are preserved. These are specification/control checks, not product or performance evidence.

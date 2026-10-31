@@ -7,14 +7,14 @@ The current assignment is **P0–P4 local pilot, then handover and stop**. The o
 Give each coding agent only its assigned repository and an independent checkout/runtime. Paste:
 
 ```text
-GO. Read AGENTS.md, START-HERE.md, delivery-profile.json and BUILD-PROMPT-EN.txt. Implement the local pilot P0–P4, preserving the supplied design. Verify the active acceptance cases, keep actual evidence and the central integration register current, and deliver a runnable local application plus reports/checkpoint.md. Stop at the pilot handover; defer Passkeys, SaaS, public hosting, gateways and native packaging. Complete independent work when external access is missing and report blockers honestly. Do not stop at a plan or mockup.
+GO. Read AGENTS.md, START-HERE.md, delivery-profile.json and BUILD-PROMPT-EN.txt. Implement the local pilot P0–P4, preserving the supplied design. Prove the first persisted source-to-MCP/restart slice before broad UI work, then satisfy the operational and strengthened performance contracts. Verify the active acceptance cases, keep actual evidence and the central integration register current, and deliver a runnable local application plus reports/checkpoint.md. Stop at the pilot handover; defer Passkeys, SaaS, public hosting, gateways and native packaging. Complete independent work when external access is missing and report blockers honestly. Do not stop at a plan or mockup.
 ```
 
 For a Goal-capable coding tool use GOAL.txt as the objective. This seed does not start an agent automatically. A GitHub URL alone does not grant a coding service access to a private repo; authorize that repo in the chosen service. Do not paste credentials into prompts.
 
 ## Read and begin
 
-Follow AGENTS.md's reading order. Read specs/LOCAL-PILOT.md, specs/IDENTITY-ACCESS-AND-RECOVERY.md and specs/SYSTEM-AND-DIAGNOSTICS.md before copying any earlier authentication or platform assumption. Inspect reference/screenshots/README.md and reference/prototype/. Record available tools/platforms in docs/build-environment.md, choose the minimum ADRs, and start a persisted slice. Use English for engineering; UI and landing page use English by default plus complete German.
+Follow AGENTS.md's reading order. Read specs/FIRST-VERTICAL-SLICE.md, specs/PILOT-OPERATIONS-AND-RECOVERY.md, specs/LOCAL-PILOT.md, specs/IDENTITY-ACCESS-AND-RECOVERY.md and specs/SYSTEM-AND-DIAGNOSTICS.md before copying any earlier authentication or platform assumption. Inspect reference/screenshots/README.md and reference/prototype/. Record available tools/platforms in docs/build-environment.md, choose the minimum ADRs, and start a persisted slice. Use English for engineering; UI and landing page use English by default plus complete German.
 
 The first user experience is: open the landing page, download the versioned Mac installation package, follow the EN/DE guide and install prerequisites, start locally, save one personal access key, open the browser, connect a source or run the example, and ask an evidence-backed question. One owner/workspace is automatic. Separate agent keys grant business read access. No Passkey, email signup, domain, employee management or native shell is required.
 
@@ -22,11 +22,11 @@ The first user experience is: open the landing page, download the versioned Mac 
 
 | Milestone | Result |
 | --- | --- |
-| P0 | Environment, minimal contracts and implementation started |
-| P1 | Local setup/key/session, workspace, PostgreSQL/outbox/worker/Rust, basic recorder and structured logs/CLI fallback |
+| P0 | Environment, minimal contracts, Shopify authorization feasibility and implementation started |
+| P1 | Local setup/key/session, workspace, PostgreSQL/outbox/worker/Rust, basic recorder/logs/CLI and SLICE-01 persisted MCP/restart proof; earliest authorized SLICE-02 |
 | P2 | Golden Scenario, 24 question paths, evidence, EN/DE UI/landing, import/readiness, System & Diagnostics and RAM/restart correctness |
 | P3 | Shopify/Shopify Payments local import/poll/reconcile, supplemental producers and local read-only MCP |
-| P4 | Real landing download and fresh Mac install (DIST-01–03), backup/restore/upgrade, smoke/memory tests, DIAG-01–08 proof, safe diagnostics, tester guide and evidence-backed handover |
+| P4 | Real landing download and fresh Mac install (DIST-01–03), backup/restore/upgrade, smoke/memory tests, DIAG-01–08/PILOT-01–10 proof, safe diagnostics, tester guide and evidence-backed handover |
 
 The required capability IDs and acceptance IDs are explicit in delivery-profile.json. The old `first_release` labels in the broad source catalogue do not expand this selection. Keep all future rows and gates visible and unstarted; do not mark them passed or proceed automatically. Missing account/platform access blocks the affected proof, not unrelated development. A restricted preview with pending live tests must be labelled accordingly.
 

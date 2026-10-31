@@ -2,8 +2,8 @@
 
 ## Read before implementation
 
-1. START-HERE.md, delivery-profile.json and specs/LOCAL-PILOT.md — current P0–P4 scope and stop condition.
-2. BUILD-PROMPT-EN.txt and specs/IDENTITY-ACCESS-AND-RECOVERY.md — local build and personal access-key contract.
+1. START-HERE.md, delivery-profile.json, specs/LOCAL-PILOT.md and specs/FIRST-VERTICAL-SLICE.md — current P0–P4 scope, early persisted checkpoint and stop condition.
+2. BUILD-PROMPT-EN.txt, specs/IDENTITY-ACCESS-AND-RECOVERY.md and specs/PILOT-OPERATIONS-AND-RECOVERY.md — local identity, backup/update/repair/runtime/secret policy and model-free answer contract.
 3. specs/JOURNAL-AND-MCP.md, specs/PERFORMANCE-ARCHITECTURE.md, benchmarks/performance-contract.json, ACCEPTANCE.json and GOLDEN-ORDER-TO-CASH.json — preserved business/durability/latency correctness with explicit pilot applicability.
 4. specs/QUESTION-DATA-COVERAGE.md, specs/CONNECTOR-CAPABILITIES.md, specs/question-data-contracts.json, INTEGRATIONS.md and integrations/README.md — inputs through journal/RAM/query, exact source-capability work and independent evidence. delivery-profile.json selects current rows; broad catalogue labels are not current delivery scope.
 5. specs/WEB-DESKTOP-AND-DEPLOYMENT.md, specs/SOURCE-SYNCHRONIZATION.md, specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md and specs/SYSTEM-AND-DIAGNOSTICS.md — local browser/Compose, outbound sync, selected dates/progress/health, per-answer readiness and owner diagnostics.
@@ -16,6 +16,7 @@ Direct owner instructions take precedence. Documents under specs/future/ preserv
 
 - Work only in the assigned repo. Do not read/copy the competing implementation or add it as a remote. Use separate ports, Compose projects, volumes and secrets.
 - Current delivery is the local pilot P0–P4. Do not continue former M4/M5 work, implement optional Passkeys, build SaaS/public gateways or create native packaging as a prerequisite. Stop after an evidence-backed handover. This is an explicit owner-approved scope change, not permission to weaken active correctness/security requirements.
+- Prove SLICE-01 in P1 before broad P2 interface/catalog work. Attempt authorized Shopify SLICE-02 as soon as access permits; blocked external proof must remain blocked while independent work continues. Follow specs/PILOT-OPERATIONS-AND-RECOVERY.md and PILOT-01–10, including stronger smoke targets, safe repairs, actual backup/upgrade recovery and model-free local templates with external MCP dialogue.
 - Make routine reversible choices independently, record material ADRs, and proceed from the smallest contract to running code. Do not spend the run designing frameworks or stop at a plan/scaffold. Complete independent work when external prerequisites are missing.
 - Preserve the Golden Scenario, question semantics, reference assets and active acceptance oracle. Add independent adversarial fixtures. Never edit expected values or claim fake evidence to obtain a pass. Current applicability comes from delivery-profile.json; deferred cases stay unstarted and do not count toward completion.
 - Maintain this existing AGENTS.md. Create actual docs/product.md, docs/architecture.md, module contracts, locked dependencies and migrations as implementation begins.

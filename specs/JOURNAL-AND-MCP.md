@@ -97,3 +97,7 @@ Each workspace has one canonical writable backend journal. The pilot browser and
 ## Import scope and answer readiness
 
 Follow IMPORT-ONBOARDING-AND-DATA-READINESS.md for historical imports and expansion: append when actually learned, preserve supplied effective time, do not backdate recorded time, fabricate transitions or count opening snapshots as new movements. Every MCP answer exposes the same scoped readiness/coverage/freshness and missing dependencies as the UI, with its actual committed/applied cutoffs. Import window, view preference, RAM policy and retention are independent; changing a dashboard window never deletes journal entries.
+
+## Operational refinements
+
+PILOT-OPERATIONS-AND-RECOVERY.md adds owner-only review/repair decisions with immutable actor/reason/input links, idempotent processing and required/applied-cursor visibility; versioned migrations/rebuilds never rewrite journal history. Its typed-field inventory and separate evidence/directory retention constrain what enters the permanent journal. Local question templates and external MCP dialogue share these same bounded deterministic services. FIRST-VERTICAL-SLICE.md proves a small persisted source-to-answer/restart path before broad UI work.

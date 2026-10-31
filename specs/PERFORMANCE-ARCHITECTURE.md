@@ -109,3 +109,7 @@ For the 100-million experiment, report two separate results: (1) a complete dura
 - [RocksDB memory accounting](https://github.com/meta/rocksdb/wiki/Memory-usage-in-RocksDB): memory includes more than the configured block cache.
 
 These references motivate design choices; they do not establish that this unbuilt application meets any performance target. Verify current dependency versions and measure the implementation.
+
+## Strengthened pilot gate after baseline-v13
+
+The smoke profile now has binding per-class API/MCP, memory, lag and recovery budgets under PILOT-09. Hot current-state p95 must meet 200 ms API / 350 ms MCP on the declared smoke resources, with normal logging/durability/auth and concurrent ingestion. Cold/history/aggregate and restart/rebuild targets are separately defined in benchmarks/performance-contract.json. The old mixed two-second ceiling is not sufficient alone. Use its closed-loop and fixed-arrival modes and minimum per-class samples; failures/stale/truncated results cannot count as successful fast queries. PILOT-OPERATIONS-AND-RECOVERY.md supplies backup-restore conditions and bounded query admission/cancellation. Deferred 10m/100m profiles remain unchanged.

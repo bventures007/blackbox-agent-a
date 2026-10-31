@@ -1,5 +1,5 @@
 {
-  "version": "1.1",
+  "version": "1.2",
   "status": "Proposed acceptance targets; no application benchmark has run.",
   "specification": "specs/PERFORMANCE-ARCHITECTURE.md",
   "units": {
@@ -19,11 +19,12 @@
     "Report reference-hardware unavailability as not run/blocked; do not silently change targets or provision paid infrastructure.",
     "Include an indexed PostgreSQL reference read path using identical business outputs; compare complete request latency, not just an isolated Rust function.",
     "Large historical scans and evidence downloads have separate measurements and resource budgets; they are not covered by the point-lookup SLO.",
-    "For A/B comparison, use the same frozen generated corpus/dataset manifest and workload schedule, or explicitly mark results as non-comparable. A shared numeric seed alone is insufficient if generator algorithms differ."
+    "For A/B comparison, use the same frozen generated corpus/dataset manifest and workload schedule, or explicitly mark results as non-comparable. A shared numeric seed alone is insufficient if generator algorithms differ.",
+    "For local_pilot, every strengthened smoke per-class API/MCP target, fixed-arrival workload, success fraction, memory/lag and recovery bound is mandatory under PILOT-09. The earlier mixed current_state_api ceiling alone is insufficient. All targets are unmeasured engineering goals until actually tested."
   ],
   "profiles": {
     "smoke": {
-      "purpose": "Development/regression profile; preserves the earlier baseline and is not proof of million-entry capacity.",
+      "purpose": "Required local-pilot performance/correctness profile with per-query latency, bounded memory and recovery; not proof of million-entry capacity.",
       "reference_host": {
         "os": "Linux, or a real macOS host with a documented Linux container runtime; disclose host and container resource limits.",
         "vcpus": 4,
@@ -32,19 +33,72 @@
       },
       "dataset": {
         "tenants": 50,
-        "minimum_journal_entries": 250000
+        "minimum_journal_entries": 250000,
+        "minimum_distinct_orders": 10000,
+        "largest_tenant_fraction": 0.5,
+        "hot_active_orders": 2000,
+        "order_history_entries_p95_minimum": 50,
+        "evidence_bytes_for_restore_test_maximum": 262144000,
+        "note": "Keep at least 250,000 valid five-track entries across 50 synthetic tenants; use a frozen shared corpus including high-cardinality strings, long histories, late corrections and actual evidence locators. Warm-up touches only the designated hot set; cold samples are not prehydrated."
       },
       "load": {
         "ingested_journal_entries_per_second": 20,
-        "duration_seconds": 300,
-        "concurrent_query_clients": 20
+        "duration_seconds": 600,
+        "concurrent_query_clients": 20,
+        "warmup_seconds_maximum": 60,
+        "additional_fixed_arrival_read_requests_per_second": 40,
+        "latency_accounting": "Run the existing 20-client concurrency workload and a separate fixed-arrival run at 40 reads/second, both with 20 journal entries/second ingestion. Count scheduled-arrival-to-completion including queues; report offered/achieved rate, backlog and failures. Targets apply to both runs, not their average. Repeat the same query mix separately through API and MCP."
       },
       "targets": {
         "durable_ack_p95_ms": 500,
         "current_state_api_p95_ms": 2000,
-        "projection_lag_p95_ms": 10000
+        "projection_lag_p95_ms": 2000,
+        "hot_current_state_api_p95_ms": 200,
+        "hot_current_state_api_p99_ms": 500,
+        "hot_current_state_mcp_p95_ms": 350,
+        "hot_current_state_mcp_p99_ms": 900,
+        "cold_order_state_api_p95_ms": 1000,
+        "cold_order_state_mcp_p95_ms": 1250,
+        "entity_history_100_entries_api_p95_ms": 500,
+        "entity_history_100_entries_mcp_p95_ms": 750,
+        "bounded_30_day_summary_api_p95_ms": 1000,
+        "bounded_30_day_summary_mcp_p95_ms": 1500,
+        "successful_query_fraction_minimum": 0.999,
+        "engine_steady_rss_mib_maximum": 1024,
+        "engine_peak_rss_mib_maximum": 1536,
+        "total_stack_peak_memory_mib_maximum": 6144,
+        "snapshot_restart_ready_seconds_maximum": 30,
+        "restart_unapplied_tail_entries": 1000,
+        "no_snapshot_rebuild_ready_seconds_maximum": 180,
+        "backup_restore_query_ready_seconds_maximum": 600
       },
-      "required_for": "Local pilot; use comparable declared hardware/corpus/limits for independent A/B evaluation."
+      "required_for": "Local pilot; use comparable declared hardware/corpus/limits for independent A/B evaluation.",
+      "query_mix_percent": {
+        "hot_current_state": 50,
+        "cold_order_state": 20,
+        "entity_history_first_100_entries": 20,
+        "bounded_30_day_summary": 10
+      },
+      "query_limits": {
+        "default_page_rows": 100,
+        "maximum_page_rows": 500,
+        "synchronous_deadline_ms": 5000,
+        "maximum_concurrent_queries_per_agent": 8,
+        "maximum_concurrent_queries_per_workspace": 16,
+        "maximum_concurrent_queries_global": 32,
+        "note": "Use bounded admission/work queues and cancel actual underlying work. Legitimate benchmark traffic is spread across tenants/principals; separate overload tests must prove fairness and explicit retry responses."
+      },
+      "measurement_rules": [
+        "Collect at least 1,000 completed/request-attempt samples per query class and transport for each load mode; distribute tenant/principal IDs and scope. Classify errors and include scheduled queue delay; do not calculate percentiles from successes alone while hiding a failed success-fraction target.",
+        "Preserve the old 500-ms durable ack and 2,000-ms mixed current-state API ceilings. The stronger per-class targets and 2,000-ms lag ceiling also apply; no target is an alternative to correctness.",
+        "Run with INFO logging, auth/RLS/cursor barriers and PostgreSQL durability enabled. Identify cold entity IDs before the run; require measured misses/hydration and exclude them from warm-up. Maintain a cold sample pool by controlled eviction without changing business state.",
+        "Keep old 50-tenant/250k-entry/4-vCPU/8-GiB smoke baseline minimums. The 6-GiB total-stack cap includes database, engine, API/worker, logging, mapped/page-cache memory and snapshot/rebuild peaks inside the runtime; report macOS/container runtime and external test driver overhead separately rather than hiding them.",
+        "Measure each query class in both direct API and actual authenticated SDK MCP protocol runs with the same corpus/mix/cutoffs. LLM generation and public internet transit are outside this local contract and must be labeled separately.",
+        "Measure cold process restart from launch request with images/runtime already installed, including probes, compatible projection/snapshot load and a 1,000-entry unapplied tail. Ready means scoped correct authorized queries, not warming every historical record. Image downloads and first setup are reported separately.",
+        "Measure corrupt/missing-snapshot full rebuild at the same corpus and resource bounds without dropping canonical history or falsifying applied cursors. New ingestion during recovery must catch up consistently.",
+        "Restore target includes decryption/database/evidence validation, credential fencing and engine readiness on up to 250 MiB of synthetic evidence; separate operator wait from machine time and report both. Backups/restore rules are specified in specs/PILOT-OPERATIONS-AND-RECOVERY.md.",
+        "The overload/cancellation tests intentionally exceed concurrency budgets; report them separately from legitimate success-fraction/performance runs. Rejections cannot be counted as successful low-latency business answers."
+      ]
     },
     "reference_10m": {
       "purpose": "Deferred future performance gate; not required by local_pilot and not a measured claim.",

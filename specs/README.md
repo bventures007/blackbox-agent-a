@@ -4,6 +4,8 @@ Read [LOCAL-PILOT.md](LOCAL-PILOT.md) and [delivery-profile.json](../delivery-pr
 
 | Contract | Current application |
 | --- | --- |
+| [FIRST-VERTICAL-SLICE.md](FIRST-VERTICAL-SLICE.md) | P1 persisted adapter-to-MCP/restart checkpoint and earliest authorized live Shopify proof |
+| [PILOT-OPERATIONS-AND-RECOVERY.md](PILOT-OPERATIONS-AND-RECOVERY.md) | Daily backup/recovery, safe upgrades, owner repairs, Mac lifecycle/storage, secret/retention policy, stricter performance and model-free local question UX |
 | [IDENTITY-ACCESS-AND-RECOVERY.md](IDENTITY-ACCESS-AND-RECOVERY.md) | One saved personal owner key, sessions, host-only reset and distinct read-only agents; Passkeys deferred |
 | [JOURNAL-AND-MCP.md](JOURNAL-AND-MCP.md) | Database append-only journal, five tracks and full authorized business-history reads via local MCP |
 | [PERFORMANCE-ARCHITECTURE.md](PERFORMANCE-ARCHITECTURE.md) / [benchmark contract](../benchmarks/performance-contract.json) | Rust/TypeScript boundary, durable consistency, bounded memory/cold reads and required smoke profile; 10m/100m deferred |

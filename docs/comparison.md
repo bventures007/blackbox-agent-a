@@ -1,6 +1,6 @@
 # Independent local pilot comparison
 
-Both repositories start from the same baseline-v13 input. Compare P0–P4 local pilots, not the former platform roadmap. Do not inspect/copy the competing implementation during the build; do not merge implementations or databases automatically.
+Both repositories start from the same baseline-v14 input. Compare P0–P4 local pilots, not the former platform roadmap. Do not inspect/copy the competing implementation during the build; do not merge implementations or databases automatically.
 
 1. Record agent/model/version, resource conditions and actual host tools. Use equivalent scope, runtime limits, fixture corpus and provider/test access; disclose differences.
 2. Use separate checkouts, ports, volumes, database names and secrets. Keep actual business/customer data isolated and separately authorized.
@@ -15,3 +15,5 @@ Passkeys, employee management, public servers/SaaS, gateways, native packaging, 
 Compare DIAG-01–08 using the same generated log corpus up to the default cap and the same smoke resources. Require the central EN/DE view plus actual local outage/debug/retention/redaction/performance evidence; extra hosted logging tools are not a substitute. Keep normal production logging enabled in business benchmarks.
 
 For DIST-01–03, compare the complete landing-to-download-to-install journey using each actual versioned archive on an equivalent fresh Mac. Record private distribution/registry access prerequisites and any blockers; a checkout build is not a substitute for the download advertised to users.
+
+Compare the early SLICE-01 checkpoint and independently observed SLICE-02 provider access, then PILOT-01–10. Use the strengthened smoke per-class API/MCP and recovery budgets under identical resources/corpus, not only the old aggregate ceiling. Judge actual recovery, user repair and model-free answers; optional embedded chat/autostart/public infrastructure adds no completion credit.
