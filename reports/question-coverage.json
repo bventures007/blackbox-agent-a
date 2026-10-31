@@ -26,9 +26,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Validate inventory state basis and scope; optional incoming supply is separately unknown if absent."
     },
@@ -43,9 +43,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Explicit reservations or declared derived allocation and merchant priority policy."
     },
@@ -60,9 +60,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Line-level reservation ownership cannot be inferred from an aggregate stock number."
     },
@@ -77,9 +77,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Supplier/PO promise revisions and supply-to-order dependencies require a supplemental feed."
     },
@@ -94,9 +94,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "DHL entitlement/retention and exact shop shipment link; merchant stale-scan threshold is configurable."
     },
@@ -111,9 +111,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Explicit customer deadline and timezone; carrier ETA is not that promise."
     },
@@ -128,9 +128,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Per-line shipment association and handover/delivery evidence; packing gaps remain explicit."
     },
@@ -145,9 +145,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Prior communication needs a reviewed feed or later mailbox/helpdesk integration."
     },
@@ -162,9 +162,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Correction chain, payment markers and invoice/order links must be validated per account."
     },
@@ -179,9 +179,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Merchant invoicing trigger plus complete invoice population and confirmed cross-system links."
     },
@@ -196,9 +196,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Version-aligned line equivalence and currency basis; unmatched shipping/tax/discount allocation stays unresolved."
     },
@@ -213,9 +213,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "easybill postbox coverage must include external-send limitations; sending is not receipt."
     },
@@ -230,9 +230,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Successful transaction amounts and gateway/account identity, not just order financial labels."
     },
@@ -247,9 +247,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Complete attempt history and same-order identity; later success can still be only partial."
     },
@@ -264,9 +264,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Proven invoice-to-payment allocation; multiple invoices and manual payments need explicit association."
     },
@@ -281,9 +281,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Reminder policy, investigations and agreed extensions require explicit business context."
     },
@@ -298,9 +298,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Detailed held/processing/available breakdown and independent bank coverage are not implied by the default finance API."
     },
@@ -315,9 +315,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Complete payout member postings and signed adjustments; do not explain using all payments in a date window."
     },
@@ -332,9 +332,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "A real validated bank-statement import is required; provider payout status alone is insufficient."
     },
@@ -349,9 +349,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "A verified source for hold identity/reason/amount and release promise is still needed."
     },
@@ -366,9 +366,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Actual line-level warehouse receipt/disposition and refund links; a return request is only intent."
     },
@@ -383,9 +383,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Explicit refund entitlement, original payment and destination; an unpaid invoice credit may only reduce debt."
     },
@@ -400,9 +400,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Reservation ownership and financial/warehouse reconciliation context must be available, including explicit not-applicable states."
     },
@@ -417,9 +417,9 @@
       "api_mcp_parity_test": "passed",
       "restart_cold_path_test": "passed",
       "live_verification": "not_verified",
-      "tested_commit": "bd147b9b4441df9954fd09d9a791bbfcf4001e30",
+      "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
       "evidence_paths": [
-        "reports/runs/stock-bd147b9/questions-v6-evidence.json"
+        "reports/runs/fulfillments-b5cbeae/questions-v7-evidence.json"
       ],
       "open_dependency": "Exact original-transaction linkage plus booked chargeback debit/reversal evidence is still unproven for the default adapter."
     }

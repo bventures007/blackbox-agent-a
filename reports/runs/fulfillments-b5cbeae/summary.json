@@ -1,0 +1,35 @@
+{
+  "tested_commit": "b5cbeae2791ceedbde4866de31608ba04f13197a",
+  "status": "passed_for_named_synthetic_suites",
+  "executed_at": "2026-10-31T15:35:41.754558+00:00",
+  "checks": {
+    "pnpm typecheck": "passed",
+    "pnpm test": "11 passed",
+    "cargo test --locked --offline": "6 passed",
+    "pnpm build:web": "passed",
+    "fulfillment mapping validator": "passed; exact required field/event/mode/readiness shape",
+    "visual_inspection": "EN desktop and DE mobile scope preview inspected; controls visible and scrollable"
+  },
+  "evidence": [
+    "fulfillments-evidence.json",
+    "sources-fulfillment-regression.json",
+    "stock-fulfillment-regression.json",
+    "reviews-fulfillment-regression.json",
+    "questions-v7-evidence.json",
+    "golden-fulfillment-regression.json",
+    "slice-fulfillment-regression.json"
+  ],
+  "development_failures": [
+    "An invalid tracking coverage enum and a non-expanding import request were corrected in the fixture.",
+    "A static producer-helper import initialized the API database role before the test selected the worker role; PostgreSQL denied source_checks INSERT. Dynamic import and an explicit current_user assertion correct the harness; grants were not broadened."
+  ],
+  "known_follow_up": [
+    "Separate domain-only probe found future handover counted before request.as_of for generic inputs. Fix and persisted adversarial proof follow; existing passed suites did not cover this edge.",
+    "Fulfillable query currently does not hydrate fulfillment records despite reducer use; add dependency and independent partial-dispatch fixture."
+  ],
+  "limitations": [
+    "Synthetic provider; no authorized live Shopify/Payments account or independent review",
+    "Carrier/tracking and parcel allocation unavailable in this adapter; test tracking scope is separate explicit synthetic generic data",
+    "Remaining selected adapters, complete operational/distribution/performance gates and P4 handover remain work"
+  ]
+}
