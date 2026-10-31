@@ -19,6 +19,10 @@ class HostRuntimeTest(unittest.TestCase):
         compose_config(self.runtime,True)
         directory=self.runtime/'secrets';data=(directory/'data').read_bytes();identity=(directory/'identity').read_bytes()
         self.assertNotEqual(data,identity);self.assertEqual(len(identity),32)
+        for name in ['identity','data']:
+            path=directory/name;original=path.read_bytes();path.write_bytes(os.urandom(32))
+            with self.assertRaisesRegex(RuntimeConfigError,'integrity mismatch'):compose_config(self.runtime)
+            self.assertEqual(path.stat().st_size,32);path.write_bytes(original)
         for name in ['identity','keyring.json']:
             path=directory/name;original=path.read_bytes();path.unlink()
             with self.assertRaises(RuntimeConfigError):compose_config(self.runtime,True)

@@ -11,7 +11,7 @@ import {
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { createCipheriv, randomBytes } from "node:crypto";
+import { createCipheriv, randomBytes, createHash } from "node:crypto";
 import {
   dataKey,
   encryptEvidence,
@@ -77,12 +77,31 @@ test("versioned material preserves legacy decryption and identity, rejects tampe
       /metadata_missing/,
     );
     const ring = {
-      version: 1,
+      version: 2,
       active: "data-v1",
       keys: ["data-v1"],
       identity: "independent-v1",
+      checksums: {
+        "data-v1": createHash("sha256").update(old).digest("hex"),
+      } as Record<string, string>,
+      identity_sha256: createHash("sha256")
+        .update(await readFile(join(directory, "identity")))
+        .digest("hex"),
     };
     await write("keyring.json", JSON.stringify(ring));
+    await write("data", randomBytes(32));
+    await assert.rejects(
+      () => encryptEvidence(tenant, evidence, plain),
+      /integrity_mismatch/,
+    );
+    await write("data", old);
+    const originalIdentity = await readFile(join(directory, "identity"));
+    await write("identity", randomBytes(32));
+    await assert.rejects(
+      () => opaqueIdentity(tenant, "stable-fixture"),
+      /integrity_mismatch/,
+    );
+    await write("identity", originalIdentity);
     const independentIdentity = await opaqueIdentity(tenant, "stable-fixture");
     assert.notEqual(independentIdentity, oldIdentity);
     const encrypted = await encryptEvidence(tenant, evidence, plain),
@@ -111,6 +130,9 @@ test("versioned material preserves legacy decryption and identity, rejects tampe
     const next = "data-" + randomBytes(16).toString("hex");
     await write(next, randomBytes(32));
     ring.keys.push(next);
+    ring.checksums[next] = createHash("sha256")
+      .update(await readFile(join(directory, next)))
+      .digest("hex");
     await write("keyring.json", JSON.stringify(ring));
     const migrated = await encryptEvidence(
       tenant,
@@ -139,6 +161,7 @@ test("versioned material preserves legacy decryption and identity, rejects tampe
     assert.deepEqual(await readFile(join(directory, "evidence")), migrated);
     ring.active = next;
     ring.keys = [next];
+    ring.checksums = { [next]: ring.checksums[next] };
     await write("keyring.json", JSON.stringify(ring));
     await unlink(join(directory, "data"));
     assert.equal((await dataKey()).id, next);

@@ -49,6 +49,7 @@ def verified_backup(root,path,secret):
   material=[small['secrets/'+key_filename(k)]for k in ring['keys']]if ring else [small['secrets/data']]
   if any(len(k)!=32 for k in material):raise BackupFormatError('backup_data_key_invalid')
   if ring and (len(small['secrets/identity'])!=32 or small['secrets/identity']in material):raise BackupFormatError('backup_identity_key_invalid')
+  if ring and (any(hashlib.sha256(small['secrets/'+key_filename(k)]).hexdigest()!=ring['checksums'][k]for k in ring['keys'])or hashlib.sha256(small['secrets/identity']).hexdigest()!=ring['identity_sha256']):raise BackupFormatError('backup_key_integrity_mismatch')
   installation=decode_json(small['installation.json'])
   if installation.get('compatibility')!=compatibility or installation.get('installation_id')!=metadata.get('installation_id'):raise BackupFormatError('backup_installation_manifest_mismatch')
   uuid.UUID(installation['installation_id'])

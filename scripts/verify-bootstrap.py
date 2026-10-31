@@ -91,6 +91,14 @@ try:
  finally:held.rename(key)
  command(['./blackbox','up']);ready();assert state(sample['entity_id'])['result']==before['result']
  checks.append('lost_key_fails_closed_stop_available_original_restore_recovers')
+ for name in ['data','identity']:
+  path=stage/'.runtime/secrets'/name;original=path.read_bytes();replacement=os.urandom(32);path.write_bytes(replacement)
+  try:
+   failed=command(['./blackbox','up'],expect=1);assert 'integrity mismatch'in failed;assert path.read_bytes()==replacement
+   command(['./blackbox','down'])
+  finally:path.write_bytes(original)
+  command(['./blackbox','up']);ready();assert state(sample['entity_id'])['result']==before['result']
+ checks.append('same_length_data_or_identity_key_corruption_denies_startup_until_original_restored')
  reset=command(['./blackbox','reset-access'],interactive=True);fresh=re.findall(r'bb_owner_[A-Za-z0-9_-]{43}',reset);assert len(fresh)==1 and fresh[0]!=owner
  assert call('/v1/status')[0]==401;assert call('/v1/login',{'key':owner})[0]==401
  login(fresh[0]);assert state(sample['entity_id'])['result']==before['result']

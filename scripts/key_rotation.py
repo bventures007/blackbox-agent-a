@@ -1,5 +1,5 @@
 """Host-authorized, resumable data-key rotation. Failures keep every application writer stopped."""
-import json,os,re,secrets,time,uuid,subprocess
+import json,os,re,secrets,time,uuid,subprocess,hashlib
 from host_runtime import RuntimeConfigError,compose_config,read_keyring,key_filename,protected_read,create_file,validate_keys
 from backup_operations import operation_lock,atomic_json,services,run,sql,stamp,cutoffs
 
@@ -84,7 +84,7 @@ def rotate(root,resume=False):
     if path.exists()or path.is_symlink():
      if len(protected_read(path,32))!=32:raise RuntimeConfigError('Invalid pending rotation key. Restore original material.')
     else:create_file(path,secrets.token_bytes(32))
-    ring={**ring,'keys':[old,new]};atomic_json(runtime/'secrets/keyring.json',ring)
+    ring={**ring,'keys':[old,new],'checksums':{**ring['checksums'],new:hashlib.sha256(protected_read(path,32)).hexdigest()}};atomic_json(runtime/'secrets/keyring.json',ring)
    validate_keys(runtime)
    marker['phase']='reencrypting';atomic_json(marker_path,marker)
    marker['transform']=transform_tool(root,config,marker,'transform')
@@ -93,7 +93,7 @@ def rotate(root,resume=False):
   if cutoffs(root)!=marker['cutoffs']:raise RuntimeConfigError('Journal cutoff changed during rotation verification.')
   marker['verification']=verified;marker['phase']='verified';atomic_json(marker_path,marker)
   # Every referenced ciphertext and provider secret has been authenticated under the new key.
-  atomic_json(runtime/'secrets/keyring.json',{'version':1,'active':new,'keys':[new],'identity':'independent-v1'})
+  atomic_json(runtime/'secrets/keyring.json',{**ring,'active':new,'keys':[new],'checksums':{new:ring['checksums'][new]}})
   marker['phase']='retiring';atomic_json(marker_path,marker)
   (runtime/'secrets'/key_filename(old)).unlink(missing_ok=True);sync_directory(runtime/'secrets');validate_keys(runtime)
   operation=str(uuid.UUID(marker['operation_id']))

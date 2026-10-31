@@ -26,7 +26,7 @@ class BackupRestoreTests(unittest.TestCase):
    with self.assertRaises(BackupFormatError):
     with verified_backup(ROOT,self.backup(**changes),self.secret):pass
  def test_rotated_keyring_material_is_complete_bounded_and_independent(self):
-  key='data-'+uuid.uuid4().hex;ring={'version':1,'active':key,'keys':[key],'identity':'independent-v1'}
+  key='data-'+uuid.uuid4().hex;ring={'version':2,'active':key,'keys':[key],'identity':'independent-v1','checksums':{key:hashlib.sha256(b'x'*32).hexdigest()},'identity_sha256':hashlib.sha256(b'y'*32).hexdigest()}
   material={key:b'x'*32,'internal':b'a'*64,'identity':b'y'*32,'keyring.json':json.dumps(ring).encode()}
   with verified_backup(ROOT,self.backup(materials=material),self.secret)as(_,manifest,small,digest):
    self.assertNotIn('secrets/data',small);self.assertEqual(small['secrets/'+key],b'x'*32)

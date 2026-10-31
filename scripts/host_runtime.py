@@ -1,6 +1,7 @@
 """Protected, create-once host configuration. Never repairs lost keys by replacing them."""
 from contextlib import contextmanager
 import fcntl
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -98,11 +99,14 @@ def key_filename(identifier: str) -> str:
 
 
 def parse_keyring(value: dict) -> dict:
-    if not isinstance(value, dict) or set(value) != {'version', 'active', 'keys', 'identity'} or type(value['version']) is not int or value['version'] != 1 or value['identity'] != 'independent-v1':
+    if not isinstance(value, dict) or set(value) != {'version', 'active', 'keys', 'identity', 'checksums', 'identity_sha256'} or type(value['version']) is not int or value['version'] != 2 or value['identity'] != 'independent-v1':
         raise RuntimeConfigError('Invalid encryption keyring metadata.')
     keys = value['keys']
     if not isinstance(keys, list) or not 1 <= len(keys) <= 2 or any(not isinstance(k, str) or not KEY_ID.fullmatch(k) for k in keys) or len(set(keys)) != len(keys) or value['active'] not in keys:
         raise RuntimeConfigError('Invalid encryption keyring versions.')
+    hashes = value['checksums']
+    if not isinstance(hashes, dict) or set(hashes) != set(keys) or any(not isinstance(v, str) or not re.fullmatch('[a-f0-9]{64}', v) for v in [*hashes.values(), value['identity_sha256']]):
+        raise RuntimeConfigError('Invalid encryption key integrity metadata.')
     return value
 
 
@@ -128,11 +132,15 @@ def validate_keys(runtime: Path) -> None:
         material = protected_read(runtime / 'secrets' / key_filename(identifier), 32)
         if len(material) != 32:
             raise RuntimeConfigError('Invalid data key. Restore the original; no replacement generated.')
+        if ring and hashlib.sha256(material).hexdigest() != ring['checksums'][identifier]:
+            raise RuntimeConfigError('Data key integrity mismatch. Restore the original; no replacement generated.')
         data.append(material)
     if ring:
         identity = protected_read(runtime / 'secrets/identity', 32)
         if len(identity) != 32 or identity in data or len(set(data)) != len(data):
             raise RuntimeConfigError('Invalid or coupled independent key material. Restore the original keys.')
+        if hashlib.sha256(identity).hexdigest() != ring['identity_sha256']:
+            raise RuntimeConfigError('Identity key integrity mismatch. Restore the original; entity identities must not change.')
     if not re.fullmatch(rb'[a-f0-9]{64}', protected_read(runtime / 'secrets/internal', 64)):
         raise RuntimeConfigError('Invalid internal key. Restore the original; no replacement generated.')
 
@@ -155,7 +163,7 @@ def prepare_keys(runtime: Path, may_create: bool) -> None:
     create_file(keys[0], secrets.token_bytes(32))
     create_file(keys[1], secrets.token_hex(32).encode())
     create_file(keys[2], secrets.token_bytes(32))
-    create_file(keys[3], json.dumps({'version': 1, 'active': 'data-v1', 'keys': ['data-v1'], 'identity': 'independent-v1'}).encode())
+    create_file(keys[3], json.dumps({'version': 2, 'active': 'data-v1', 'keys': ['data-v1'], 'identity': 'independent-v1', 'checksums': {'data-v1': hashlib.sha256(protected_read(keys[0],32)).hexdigest()}, 'identity_sha256': hashlib.sha256(protected_read(keys[2],32)).hexdigest()}).encode())
     validate_keys(runtime)
 
 

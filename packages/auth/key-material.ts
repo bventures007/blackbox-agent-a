@@ -1,5 +1,10 @@
 /** Maintained Node AES-256-GCM; bounded versioned material, no plaintext fallback. */
-import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
+import {
+  createCipheriv,
+  createDecipheriv,
+  randomBytes,
+  createHash,
+} from "node:crypto";
 import { constants } from "node:fs";
 import { open, rename, unlink } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -7,14 +12,20 @@ import { z } from "zod";
 export const keyId = z.string().regex(/^(?:data-v1|data-[a-f0-9]{32})$/);
 export const keyringSchema = z
   .object({
-    version: z.literal(1),
+    version: z.literal(2),
     active: keyId,
     keys: z.array(keyId).min(1).max(2),
     identity: z.literal("independent-v1"),
+    checksums: z.record(keyId, z.string().regex(/^[a-f0-9]{64}$/)),
+    identity_sha256: z.string().regex(/^[a-f0-9]{64}$/),
   })
   .strict()
   .refine(
-    (v) => new Set(v.keys).size === v.keys.length && v.keys.includes(v.active),
+    (v) =>
+      new Set(v.keys).size === v.keys.length &&
+      v.keys.includes(v.active) &&
+      Object.keys(v.checksums).length === v.keys.length &&
+      v.keys.every((id) => Object.hasOwn(v.checksums, id)),
   );
 export type Keyring = z.infer<typeof keyringSchema>;
 export function materialDirectory() {
@@ -88,6 +99,12 @@ export async function dataKey(id?: string) {
     32,
   );
   if (bytes.length !== 32) throw Error("data_key_unavailable");
+  if (
+    ring &&
+    createHash("sha256").update(bytes).digest("hex") !==
+      ring.checksums[selected]
+  )
+    throw Error("data_key_integrity_mismatch");
   return { id: selected, bytes };
 }
 export async function identityKey() {
@@ -97,12 +114,17 @@ export async function identityKey() {
     if (bytes.length !== 32) throw Error("identity_key_unavailable");
     return bytes;
   }
-  if (await readKeyring()) {
+  const ring = await readKeyring();
+  if (ring) {
     const bytes = await protectedBytes(
       join(materialDirectory(), "identity"),
       32,
     );
     if (bytes.length !== 32) throw Error("identity_key_unavailable");
+    if (
+      createHash("sha256").update(bytes).digest("hex") !== ring.identity_sha256
+    )
+      throw Error("identity_key_integrity_mismatch");
     return bytes;
   }
   // Pre-keyring development installations preserve the historical derivation.
