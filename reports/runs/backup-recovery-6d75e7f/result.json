@@ -1,0 +1,56 @@
+{
+  "kind": "isolated_backup_recovery_after_original_removal",
+  "status": "failed",
+  "tested_commit": "6d75e7fa3fa23f0949a97d6caa16d69afc4bb8a7",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T16:43:17.585317+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "source_port": 18759,
+    "restore_port": 18757,
+    "source_stage": "work/bootstrap-6891c73f7773",
+    "restore_stage": "work/recovered-17183cc1f2b7",
+    "node_image_source_commit": "95dd040",
+    "engine_image_source_commit": "b1f8392",
+    "node_image": "sha256:f0e8c226d9ca6bdc8ed9fdc572319282a54a77db9975cea07b981315ccfb351c",
+    "database": "PostgreSQL17 Compose; one synthetic replay workspace"
+  },
+  "original_removed": false,
+  "checks": [],
+  "commands": [
+    {
+      "command": "python3 scripts/verify-bootstrap.py --port 18759 --node-image-commit 95dd040 --engine-image-commit b1f8392 --output /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/.runtime/recovery-bootstrap-17183cc1f2b7.json",
+      "exit_code": 0,
+      "observed": "fresh_host_setup_login_and_persisted_example\nfresh_bootstrap_checks_passed\n"
+    },
+    {
+      "command": "./blackbox reset-access",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-f44e144cbb07-postgres-1  Created0.0s \r\n\u001b[?25h\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\r\n \u280b Container blackbox-a-f44e144cbb07-postgres-1  Starting0.1s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 1/1\r\n \u2714 Container blackbox-a-f44e144cbb07-postgres-1  Started0.1s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-f44e144cbb07-postgres-1  Running\n Container blackbox-a-f44e144cbb07-engine-1  Created\n Container blackbox-a-f44e144cbb07-worker-1  Created\n Container blackbox-a-f44e144cbb07-api-1  Created\n Container blackbox-a-f44e144cbb07-postgres-1  Waiting\n Container blackbox-a-f44e144cbb07-postgres-1  Waiting\n Container blackbox-a-f44e144cbb07-postgres-1  Waiting\n Container blackbox-a-f44e144cbb07-postgres-1  Healthy\n Container blackbox-a-f44e144cbb07-api-1  Starting\n Container blackbox-a-f44e144cbb07-postgres-1  Healthy\n Container blackbox-a-f44e144cbb07-worker-1  Starting\n Container blackbox-a-f44e144cbb07-postgres-1  Healthy\n Container blackbox-a-f44e144cbb07-engine-1  Starting\n Container blackbox-a-f44e144cbb07-engine-1  Started\n Container blackbox-a-f44e144cbb07-api-1  Started\n Container blackbox-a-f44e144cbb07-worker-1  Started\n"
+    }
+  ],
+  "corpus": {
+    "journal_entries": null,
+    "retained_evidence_objects": null,
+    "encrypted_bytes": null
+  },
+  "timing": {
+    "total_test_seconds": 68.448,
+    "bootstrap_seconds": 50.655,
+    "loss_to_authorized_API_and_MCP_seconds": null,
+    "operator_wait_seconds": 0.0,
+    "automated_operator": true
+  },
+  "restore_state": null,
+  "limitations": [
+    "Small synthetic corpus; not the required 250-MiB smoke corpus or recovery-time acceptance",
+    "Same physical Apple Silicon Mac with new isolated Compose resources; not a second machine",
+    "Copied host runtime and prebuilt development images; not the browser-downloaded distribution artifact",
+    "Current policy reconciliation, source revalidation, scheduler/retention, key rotation, upgrade and independent review remain outside this proof"
+  ]
+}

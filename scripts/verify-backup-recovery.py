@@ -93,7 +93,7 @@ try:
  command(source,['./blackbox','up']);api=API(a.source_port);api.ready();api.login(old_owner)
  entity=sql(source,"SELECT entity_id FROM bb.journal WHERE record_type='source' ORDER BY sequence LIMIT 1;").decode().strip()
  snapshot=cutoffs(source);assert len(snapshot['heads'])==1
- arguments={'entity_id':entity,'recorded_cutoff':int(snapshot['heads'][0]['committed']),'effective_at':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+ arguments={'entity_id':entity,'recorded_cutoff':int(snapshot['heads'][0]['committed']),'effective_at':datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z')}
  answer=api.state(arguments);assert answer['result']['captured_minor']==11900 and answer['result']['refunded_minor']==2380
  code,issued=api.call('/v1/agents',{'name':'Synthetic original recovery proof'});assert code==200;old_agent=issued['key']
  old_cookie='; '.join(cookie.name+'='+cookie.value for cookie in api.jar)
