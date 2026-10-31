@@ -100,9 +100,9 @@ cmd_logs() {
   docker volume inspect "$vol" >/dev/null 2>&1 || fail "log volume $vol not found; nothing has run yet" "no_logs" 2
   local args="--level $level --since $since --lines $n --format $format"; [ -n "$component" ] && args="$args --component $component"; [ -n "$connection" ] && args="$args --connection $connection"; [ -n "$run" ] && args="$args --run $run"; [ $follow = 1 ] && args="$args --follow"
   # the reader is a small self-contained node script mounted read-only; interruption only stops following
-  docker run --rm -i --network none -v "$vol:/logs:ro" -v "$ROOT/scripts/logs-reader.mjs:/reader.mjs:ro" node:22-bookworm-slim node /reader.mjs $args
+  docker run --rm -i --network none -v "$vol:/logs:ro" -v "$ROOT/scripts/logs-reader.mjs:/reader.mjs:ro" "$(grep -E '^BLACKBOX_IMAGE_NODE=' "$ENV_FILE" | cut -d= -f2)" node /reader.mjs $args
 }
-cmd_demo() { need_env; echo "The demo is started from the browser: sign in, open Sources → 'Synthetic example (replay)' → Connect, then run the example."; echo "URL: http://127.0.0.1:$(port_of)/"; }
+cmd_demo() { need_env; echo "The demo is started from the browser: sign in, open Sources → 'Replay' (marked synthetic) → Connect → 'Run the example'."; echo "URL: http://127.0.0.1:$(port_of)/"; }
 cmd_verify() { need_env; echo "Running the release verification suite from this checkout (requires pnpm and cargo)…"; (cd "$ROOT" && cargo test --release -q 2>&1 | tail -5 && pnpm -r run test 2>&1 | tail -15); }
 cmd_reset_access() {
   need_env; echo "This rotates the owner access key, signs out all sessions and revokes all agent keys. Business data is kept."; printf 'Type RESET to continue: '; read -r ans; [ "$ans" = "RESET" ] || fail "cancelled" "cancelled" 2
@@ -115,7 +115,7 @@ cmd_restore() { need_env; "$ROOT/scripts/restore.sh" "$@"; }
 cmd_upgrade() { need_env; "$ROOT/scripts/upgrade.sh" "$@"; }
 cmd_diagnostics() { need_env; [ "${1:-}" = "export" ] || fail "usage: ./blackbox diagnostics export [--since 1h] --output FILE" "bad_usage" 2; shift; local since="1h" out=""; while [ $# -gt 0 ]; do case "$1" in --since) since="$2"; shift;; --output) out="$2"; shift;; esac; shift; done; [ -n "$out" ] || fail "--output FILE is required" "bad_usage" 2
   local vol; vol="$(grep -E '^BLACKBOX_PROJECT=' "$ENV_FILE" | cut -d= -f2)_logs"
-  docker run --rm -i --network none -v "$vol:/logs:ro" -v "$ROOT/scripts/logs-reader.mjs:/reader.mjs:ro" node:22-bookworm-slim node /reader.mjs --export --since "$since" --version "$VERSION" > "$out" && echo "Diagnostics bundle written to $out ($(wc -c < "$out" | tr -d ' ') bytes). Review it before sharing; nothing was uploaded."; }
+  docker run --rm -i --network none -v "$vol:/logs:ro" -v "$ROOT/scripts/logs-reader.mjs:/reader.mjs:ro" "$(grep -E '^BLACKBOX_IMAGE_NODE=' "$ENV_FILE" | cut -d= -f2)" node /reader.mjs --export --since "$since" --version "$VERSION" > "$out" && echo "Diagnostics bundle written to $out ($(wc -c < "$out" | tr -d ' ') bytes). Review it before sharing; nothing was uploaded."; }
 
 case "${1:-help}" in
   doctor) cmd_doctor;; setup) cmd_setup;; up) shift; cmd_up "$@";; down) cmd_down;; status) cmd_status;; logs) shift; cmd_logs "$@";; demo) cmd_demo;; verify) cmd_verify;;

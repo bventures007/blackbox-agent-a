@@ -185,8 +185,7 @@ impl TransactionState {
 pub struct AccountState {
     pub account_id: String, pub currency: String, pub captured_minor: i64, pub fees_minor: i64, pub refunded_minor: i64, pub chargeback_minor: i64, pub chargeback_fee_minor: i64, pub chargeback_reversed_minor: i64, pub adjustments_minor: i64,
     pub payout_sent_minor: i64, pub payout_reversed_minor: i64, pub payouts: BTreeMap<String, (i64, String)>, pub holds: BTreeMap<String, (i64, String)>, pub bank_confirmed_minor: i64, pub bank_matched_payouts: BTreeSet<String>,
-    pub ledger: BTreeMap<String, (String, i64, i64, i64, Option<String>)>, pub last_balance: Option<(String, Option<i64>, Option<i64>, Option<i64>, Option<i64>, String)>, pub prov: Provenance,
-}
+    pub ledger: BTreeMap<String, (String, i64, i64, i64, Option<String>)>, pub last_balance: Option<(String, Option<i64>, Option<i64>, Option<i64>, Option<i64>, String)>, pub prov: Provenance, #[serde(default)] pub effects_seen: BTreeSet<String> }
 impl AccountState {
     pub fn balance_minor(&self) -> i64 { self.captured_minor - self.fees_minor - self.refunded_minor - self.chargeback_minor - self.chargeback_fee_minor + self.chargeback_reversed_minor + self.adjustments_minor - self.payout_sent_minor + self.payout_reversed_minor }
     pub fn held_minor(&self) -> i64 { self.holds.values().filter(|h| h.1 == "placed").map(|h| h.0).sum() }
@@ -195,7 +194,10 @@ impl AccountState {
     pub fn in_transit_minor(&self) -> i64 { self.payouts.iter().filter(|(id, p)| p.1 == "sent" && !self.bank_matched_payouts.contains(*id)).map(|(_, p)| p.0).sum() }
     fn apply(&mut self, d: &Derived, m: &ApplyMeta) {
         match d {
-            Derived::CashMovement { account_id, currency, amount_minor, kind, payout_id, .. } => { self.account_id = account_id.clone(); self.currency = currency.clone(); match kind {
+            Derived::CashMovement { account_id, currency, amount_minor, kind, payout_id, economic_effect_id, .. } => { self.account_id = account_id.clone(); self.currency = currency.clone();
+                // one economic effect (e.g. the fee of a capture reported by the gateway and again by the provider ledger) counts once
+                if let Some(e) = economic_effect_id { if !self.effects_seen.insert(e.clone()) { return; } }
+                match kind {
                 CashKind::Capture => self.captured_minor += amount_minor, CashKind::Fee => self.fees_minor += -amount_minor, CashKind::Refund => self.refunded_minor += -amount_minor,
                 CashKind::PayoutTransfer => { self.payout_sent_minor += -amount_minor; if let Some(p) = payout_id { self.payouts.insert(p.clone(), (-amount_minor, "sent".into())); } }
                 CashKind::PayoutReversal => { self.payout_reversed_minor += amount_minor; if let Some(p) = payout_id { if let Some(e) = self.payouts.get_mut(p) { e.1 = "reversed".into(); } } }

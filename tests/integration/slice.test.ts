@@ -64,7 +64,9 @@ describe('SLICE-01 provider-shaped persisted path', () => {
     const runsBefore = ((await apiFetch(`/api/sources/${connectionId}/runs`, { cookie })).body.runs as Array<Record<string, unknown>>).filter((x) => x.state === 'complete').length;
     const r = await apiFetch(`/api/sources/${connectionId}/actions`, { method: 'POST', cookie, body: JSON.stringify({ action: 'retry' }) }); expect(r.status).toBe(200);
     // the retry must start a NEW run (a finished singleton job is re-armed, not ignored); the overlap window re-fetches the newest order(s)
-    await waitFor(async () => { const rr = await apiFetch(`/api/sources/${connectionId}/runs`, { cookie }); const runs = rr.body.runs as Array<Record<string, unknown>>; return runs.filter((x) => x.state === 'complete').length > runsBefore ? true : null; }, 90_000);
+    const actionAt = Date.now() - 2000;
+    await waitFor(async () => { const rr = await apiFetch(`/api/sources/${connectionId}/runs`, { cookie }); const runs = rr.body.runs as Array<Record<string, unknown>>; return runs.some((x) => x.state === 'complete' && new Date(x.started_at as string).getTime() >= actionAt) ? true : null; }, 90_000);
+    void runsBefore;
     const counts = await apiFetch('/api/journal/counts', { cookie }); await waitApplied(cookie, Number(counts.body.committed_cursor), 60_000);
     const after = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state' }) });
     expect(normalize((after.body.result as { orders: unknown[] }).orders)).toEqual(normalize((before.body.result as { orders: unknown[] }).orders));
@@ -111,8 +113,11 @@ describe('SLICE-01 provider-shaped persisted path', () => {
     const before = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', consistency: { mode: 'at_least_cursor', cursor: cutoff } }) });
     const beforeState = await apiFetch('/api/state', { method: 'POST', cookie, body: JSON.stringify({ entity_type: 'order', entity_id: '#1001' }) });
     const h0 = await engineHealth(); ev.engine_before_restart = h0.tenants;
+    const me = await apiFetch('/api/whoami', { cookie }); const tenantId = me.body.tenant_id as string;
+    // every tenant must come back ready; the owner's tenant must have re-applied at least up to the cutoff taken before the restart
+    const caughtUp = (h: { tenants: Array<Record<string, unknown>> }) => h.tenants.every((t) => t.ready === true) && h.tenants.some((t) => t.tenant_id === tenantId && Number(t.applied_cursor) >= cutoff);
     execSync(`${COMPOSE} restart api worker engine`, { stdio: 'pipe', cwd: ROOT });
-    await waitFor(async () => { try { const h = await engineHealth(); return h.tenants.every((t) => t.ready === true && Number(t.applied_cursor) >= cutoff) ? h : null; } catch { return null; } }, 120_000);
+    await waitFor(async () => { try { const h = await engineHealth(); return caughtUp(h) ? h : null; } catch { return null; } }, 120_000);
     cookie = await loginOwner(); // sessions survive restart (server-side), but renew for safety in this test
     const after = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', consistency: { mode: 'at_least_cursor', cursor: cutoff } }) });
     expect(normalize(after.body.result)).toEqual(normalize(before.body.result)); expect(after.body.evidence_entry_ids).toEqual(before.body.evidence_entry_ids);
@@ -120,7 +125,7 @@ describe('SLICE-01 provider-shaped persisted path', () => {
     execSync(`${COMPOSE} stop engine`, { stdio: 'pipe', cwd: ROOT });
     const removed = execSync(`docker run --rm -v blackbox-agent-a_data:/d alpine sh -c "ls /d/engine/*/ 2>/dev/null | head -3; rm -rf /d/engine/*; echo removed"`, { cwd: ROOT }).toString(); ev.snapshot_removed = removed.trim();
     execSync(`${COMPOSE} start engine`, { stdio: 'pipe', cwd: ROOT });
-    const h2 = await waitFor(async () => { try { const h = await engineHealth(); return h.tenants.every((t) => t.ready === true && Number(t.applied_cursor) >= cutoff) ? h : null; } catch { return null; } }, 180_000);
+    const h2 = await waitFor(async () => { try { const h = await engineHealth(); return caughtUp(h) ? h : null; } catch { return null; } }, 180_000);
     ev.engine_after_rebuild = h2.tenants;
     const rebuilt = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', consistency: { mode: 'at_least_cursor', cursor: cutoff } }) });
     expect(normalize(rebuilt.body.result)).toEqual(normalize(before.body.result));

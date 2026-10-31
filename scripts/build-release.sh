@@ -12,7 +12,7 @@ echo "▸ saving images"
 docker save "blackbox-agent-a/node:$VERSION" -o "$STAGE/release/images/node.tar"; docker save "blackbox-agent-a/engine:$VERSION" -o "$STAGE/release/images/engine.tar"; docker save postgres:17 -o "$STAGE/release/images/postgres-17.tar"
 cp "$ROOT/blackbox" "$STAGE/blackbox"; cp "$ROOT/infra/compose/compose.yaml" "$STAGE/infra/compose/"; cp -R "$ROOT/infra/compose/postgres-init" "$STAGE/infra/compose/"; cp "$ROOT"/scripts/*.sh "$ROOT"/scripts/*.mjs "$STAGE/scripts/"; cp "$ROOT/release/compat.json" "$STAGE/release/"; echo "$VERSION" > "$STAGE/release/VERSION"
 sed -e "s/^BLACKBOX_VERSION=.*/BLACKBOX_VERSION=$VERSION/" -e "s#^BLACKBOX_IMAGE_NODE=.*#BLACKBOX_IMAGE_NODE=blackbox-agent-a/node:$VERSION#" -e "s#^BLACKBOX_IMAGE_ENGINE=.*#BLACKBOX_IMAGE_ENGINE=blackbox-agent-a/engine:$VERSION#" -e "s/^POSTGRES_DIGEST=.*/POSTGRES_DIGEST=$PG_DIGEST/" "$ROOT/infra/compose/.env.example" > "$STAGE/infra/compose/.env.example"
-cp "$ROOT/docs/operations.md" "$STAGE/docs/" 2>/dev/null || true
+cp "$ROOT/docs/operations.md" "$ROOT/docs/feedback-guide.md" "$STAGE/docs/" 2>/dev/null || true
 cat > "$STAGE/README.md" <<MD
 # Blackbox $VERSION — local installation package (macOS Apple Silicon)
 

@@ -1,18 +1,18 @@
 {
   "order-01": {
-    "applied_cursor": 495,
+    "applied_cursor": 84435,
     "calculation": [
-      "Provider-reported available quantity 83 used as basis; committed/reserved are not subtracted again.",
-      "requested 100 -> shortfall 17",
+      "Provider-reported available quantity 86 used as basis; committed/reserved are not subtracted again.",
+      "requested 100 -> shortfall 14",
       "Incoming supply promises are listed separately and never counted as stock."
     ],
     "conflicts": [],
     "coverage": [
       {
         "capability": "stock",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T16:56:48.932Z",
         "note": "1 missing fields",
-        "status": "complete_for_declared_scope"
+        "status": "partial"
       },
       {
         "capability": "coverage",
@@ -22,9 +22,9 @@
       },
       {
         "capability": "identity",
-        "complete_through": null,
-        "note": "no coverage observation for this capability",
-        "status": "unavailable"
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
       }
     ],
     "evidence_entry_ids": [
@@ -33,18 +33,18 @@
       "d9fef606-9469-4b33-8c14-cb1aef6c3484",
       "f14953bd-0bea-499f-9d7b-15720945fcf6",
       "b72edb5e-4790-4f73-8338-a80bf9be2c6e",
-      "b2173d5c-3723-4ad2-b40a-d1a9103715de",
-      "e4767287-7e6b-4ead-a238-141fd3678c97"
+      "e4767287-7e6b-4ead-a238-141fd3678c97",
+      "71aba709-df7d-473d-9fcc-63d763afadd9"
     ],
     "hydration_rounds": 0,
     "intent": "inventory.available_to_sell",
     "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 495,
+      "snapshot_cursor": 84435,
       "truncated": false
     },
-    "required_cursor": 495,
+    "required_cursor": 84435,
     "result": {
       "active_reservations": [
         {
@@ -52,7 +52,7 @@
           "reservation_id": "R-QC"
         }
       ],
-      "available": "83",
+      "available": "86",
       "basis": "provider_available",
       "can_promise": false,
       "damaged": "0",
@@ -66,32 +66,32 @@
       ],
       "incoming_counted_as_stock": false,
       "item_id": "CUP-Q",
-      "physical": "117",
+      "physical": "120",
       "quality_control": "0",
       "quarantined": "0",
       "requested": "100",
       "reserved": "4",
       "safety_stock": "0",
-      "shortfall": "17",
+      "shortfall": "14",
       "unit": "piece"
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 58,
+    "timing_ms": 18,
     "effective_at": null,
-    "recorded_cutoff": 495,
+    "recorded_cutoff": 84435,
     "readiness": [
       {
         "capability": "stock",
-        "coverage_status": "complete_for_declared_scope",
-        "readiness": "ready",
+        "coverage_status": "partial",
+        "readiness": "partial",
         "sources": [
           {
             "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:28:13.969Z",
+            "last_successful_sync_at": "2026-10-31T17:27:28.489Z",
             "last_new_record_at": "2026-10-31T16:17:39.513Z",
             "collection_state": "ready"
           },
@@ -100,8 +100,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:39:26.203Z",
-            "last_new_record_at": "2026-10-31T16:39:26.203Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -109,7 +109,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:50.561Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
             "last_new_record_at": "2026-10-31T16:53:50.561Z",
             "collection_state": "ready"
           }
@@ -125,8 +125,438 @@
       },
       {
         "capability": "identity",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      }
+    ]
+  },
+  "order-02": {
+    "applied_cursor": 84435,
+    "calculation": [
+      "Open orders ordered by oldest_first; free stock allocated once per item across the page; existing own reservations count for their order.",
+      "This is a non-mutating plan at a fixed snapshot, not a committed reservation."
+    ],
+    "conflicts": [],
+    "coverage": [
+      {
+        "capability": "orders",
+        "complete_through": "2026-10-31T16:56:48.952Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "stock",
+        "complete_through": "2026-10-31T16:56:48.932Z",
+        "note": "1 missing fields",
+        "status": "partial"
+      },
+      {
+        "capability": "allocations",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": "1 missing fields",
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "policy",
+        "complete_through": null,
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "coverage",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "identity",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      }
+    ],
+    "evidence_entry_ids": [
+      "83076edf-cea9-4c7d-b155-900ecb9727e5",
+      "3b79aef6-b6fc-4131-aac7-775f3418bcdb",
+      "9ac0c22e-1435-4587-99f5-66954521278a",
+      "d9fef606-9469-4b33-8c14-cb1aef6c3484",
+      "f14953bd-0bea-499f-9d7b-15720945fcf6",
+      "b72edb5e-4790-4f73-8338-a80bf9be2c6e",
+      "e4767287-7e6b-4ead-a238-141fd3678c97",
+      "71aba709-df7d-473d-9fcc-63d763afadd9",
+      "209bf22e-3fa7-4e8d-8d8a-528a44e9a4ee",
+      "4d5c8e98-ed8e-4df8-befd-af69a875142b",
+      "9beea1c6-e55c-4584-a870-23fee194394c",
+      "b8ce4016-92a3-4eed-a103-1a6b7f0e0aff",
+      "1bfc2bbe-00ea-402d-88bb-34f8a5fe5613",
+      "e0411d72-eb33-43e3-aa91-fc74d83bae1a",
+      "dd914b8d-5115-45d0-a32c-1251fbf4b29d",
+      "a6f2a7c6-e91b-4144-ac33-4cf6f36bb662",
+      "e798a740-9d77-4dc2-9473-365fc3398e5b",
+      "23df1e24-aa0d-4166-8c9c-eefddb4e0f9a",
+      "9155989c-77da-4c4c-81a1-9987c57f4c3a",
+      "01fca1bf-e4a4-4428-ba0d-4cdf8f2c7ff8",
+      "4d5467fa-6511-42a2-8ca5-75085f32d7bd",
+      "4acdc868-7d61-44ca-9a74-79524cd0266e",
+      "3c7e62cc-5672-46e9-ba1e-dac0dbeca490",
+      "cd27d4e2-a428-4319-bac1-f96a98de409f",
+      "efa4ceb2-9347-4992-8d73-b150d7e89645",
+      "7f6e8b81-8e4d-4cea-a5fe-f97f408614e1",
+      "11211bd1-ddb4-461b-b7c8-fb4665270c75",
+      "7b9081e8-efa4-4aa4-8070-003c98b1e3ce",
+      "b85950fd-01a4-463a-a67e-4f4912804e88",
+      "d1205a58-5592-4487-971b-3ed4df998748",
+      "c3eb3e63-8f1e-4edc-a1d8-0c4f93b1a993",
+      "676d7da8-4e4c-4a0e-8661-681e004ce8d3",
+      "d05a3e39-108f-41e2-b7d7-3dae50be20dc",
+      "e22cd47c-6633-47f7-b57c-abe526d6bed6",
+      "c8e324e4-bbc0-4a57-94f4-74169e3ca601",
+      "1323359b-f090-49c0-903c-e73e00137a5c",
+      "d04a29f0-5d38-42b4-86cd-3d517efce92c",
+      "8f5a9a85-51be-4eaa-ae08-7d650f3f1327",
+      "cc7836c5-4047-45dd-9510-b2e3c9450db7",
+      "70261b99-cba1-4a80-b559-936d950e1958",
+      "a34d051a-826a-4240-bfbb-b494b8488b6b",
+      "2c0f6b96-1340-4313-86d3-65a10fb6c8ca",
+      "bbcb3c3a-a84d-4e32-9c1e-3b7aecfdd353",
+      "86bf0108-a5f0-4baa-beb3-847bf618e0fd",
+      "c52652d2-9d2c-4679-8b21-8fbc3c8d5489",
+      "855d9a22-e01c-48ff-b331-af4b42e978ff",
+      "431020bd-da77-42f1-827b-ab52f59af1de",
+      "d908e9df-ea8c-428c-8a2f-105a12bf72aa",
+      "5403f970-f0b2-439c-ab46-befd1e7d71a6",
+      "62af4f82-bef1-4098-9c9e-4a7109d7a84b",
+      "d86e51f6-24f9-4778-a599-2426c39c4be3",
+      "fbfb91ca-59a3-49c3-8c2e-1c70ec69844c",
+      "6178c5fd-7e76-41cb-bef4-20760035ed2d",
+      "d7831f2c-c194-4998-91e8-0fbfcf16595f",
+      "22f50919-5a67-41de-8fbf-6ffcdddd93e7",
+      "f1f2e7f3-82c6-4a13-b7cf-3d8f5c2a843a",
+      "dbde6680-0893-4d48-8ca3-cccc72899a9b",
+      "4817f06b-25b6-4ced-8f0a-8c6773a3a824",
+      "bc8ab54e-ff71-4c12-852d-46a88558c361",
+      "177f4d0d-7ea0-433e-bbec-9423260072ec",
+      "b2173d5c-3723-4ad2-b40a-d1a9103715de",
+      "775873a9-f303-4ea6-9eaf-c5a764cae68b",
+      "55272bb5-359b-4f24-a556-ab2ee13956bb",
+      "7b017e54-f8fb-44fc-9c78-2aa9e4a7d084",
+      "0deeaa7d-02d8-41e9-a0da-0cc02a942b4e",
+      "59a95c17-e2cd-44ae-8381-5963f42c3e1f",
+      "2dcc1828-8637-491d-8985-8d975052d6d8",
+      "5438948f-808b-45cb-b9ff-0ae346751f27",
+      "dee3338b-bdb4-460c-886c-ba29b698e82e",
+      "0ac2ee13-19c2-4617-b0cc-5eb0891471c6",
+      "a27ddd4f-b87a-4ded-8864-897c35e5275e",
+      "c05dd18f-b337-4cab-8383-a691ce511b28"
+    ],
+    "hydration_rounds": 0,
+    "intent": "orders.fulfillable",
+    "missing_inputs": [
+      "stock.basis[I]"
+    ],
+    "pagination": {
+      "next_cursor": null,
+      "snapshot_cursor": 84435,
+      "truncated": false
+    },
+    "required_cursor": 84435,
+    "result": {
+      "plan": [
+        {
+          "classification": "fully_fulfillable",
+          "lines": [
+            {
+              "covered": "2",
+              "item_id": "SKU-101",
+              "line_id": "9001",
+              "own_reservation": "0",
+              "planned_from_free": "2",
+              "remaining": "2"
+            }
+          ],
+          "order_id": "#1001",
+          "reason": null
+        },
+        {
+          "classification": "fully_fulfillable",
+          "lines": [
+            {
+              "covered": "5",
+              "item_id": "SKU-100",
+              "line_id": "9003",
+              "own_reservation": "0",
+              "planned_from_free": "5",
+              "remaining": "5"
+            }
+          ],
+          "order_id": "#1003",
+          "reason": null
+        },
+        {
+          "classification": "fully_fulfillable",
+          "lines": [
+            {
+              "covered": "1",
+              "item_id": "SKU-102",
+              "line_id": "9005",
+              "own_reservation": "0",
+              "planned_from_free": "1",
+              "remaining": "1"
+            }
+          ],
+          "order_id": "#1005",
+          "reason": null
+        },
+        {
+          "classification": "fully_fulfillable",
+          "lines": [
+            {
+              "covered": "6",
+              "item_id": "MUG-Q",
+              "line_id": "QB/1",
+              "own_reservation": "0",
+              "planned_from_free": "6",
+              "remaining": "6"
+            }
+          ],
+          "order_id": "#QB",
+          "reason": null
+        },
+        {
+          "classification": "fully_fulfillable",
+          "lines": [
+            {
+              "covered": "5",
+              "item_id": "CUP-Q",
+              "line_id": "QC/1",
+              "own_reservation": "4",
+              "planned_from_free": "1",
+              "remaining": "5"
+            }
+          ],
+          "order_id": "#QC",
+          "reason": null
+        },
+        {
+          "classification": "blocked",
+          "lines": [
+            {
+              "covered": "0",
+              "item_id": "I",
+              "line_id": "L",
+              "own_reservation": "0",
+              "planned_from_free": "0",
+              "remaining": "1"
+            }
+          ],
+          "order_id": "#S2",
+          "reason": "stock basis unknown for I"
+        }
+      ],
+      "plan_is_tentative": true,
+      "priority_method": "oldest_first",
+      "stock_not_mutated": true,
+      "units_planned": [
+        {
+          "item_id": "CUP-Q",
+          "quantity": "1"
+        },
+        {
+          "item_id": "MUG-Q",
+          "quantity": "6"
+        },
+        {
+          "item_id": "SKU-100",
+          "quantity": "5"
+        },
+        {
+          "item_id": "SKU-101",
+          "quantity": "2"
+        },
+        {
+          "item_id": "SKU-102",
+          "quantity": "1"
+        }
+      ]
+    },
+    "rule_version": "r1",
+    "status": "partial",
+    "timing_ms": 17,
+    "effective_at": null,
+    "recorded_cutoff": 84435,
+    "readiness": [
+      {
+        "capability": "orders",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "stock",
+        "coverage_status": "partial",
+        "readiness": "partial",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.489Z",
+            "last_new_record_at": "2026-10-31T16:17:39.513Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:50.561Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "allocations",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": null,
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:50.561Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "policy",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4508f860-28e9-49b6-b7fe-5a174ca4779a",
+            "provider": "policy",
+            "display_name": "policy qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.459Z",
+            "last_new_record_at": "2026-10-31T16:53:49.721Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "coverage",
         "coverage_status": "unavailable",
         "readiness": "blocked",
+        "sources": [],
+        "missing_source": true
+      },
+      {
+        "capability": "identity",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
@@ -152,7 +582,7 @@
     ]
   },
   "delivery-01": {
-    "applied_cursor": 499,
+    "applied_cursor": 84441,
     "calculation": [
       "Latest scan by effective time with its age; exceptions and never-scanned labels need attention; a forecast is an estimate and a stale scan is not a failure."
     ],
@@ -160,19 +590,19 @@
     "coverage": [
       {
         "capability": "fulfillments",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T16:56:49.077Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "tracking",
-        "complete_through": null,
-        "note": "no coverage observation for this capability",
-        "status": "unavailable"
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
       },
       {
         "capability": "policy",
-        "complete_through": null,
+        "complete_through": "2026-10-31T12:00:00.000Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -184,9 +614,9 @@
       },
       {
         "capability": "identity",
-        "complete_through": null,
-        "note": "no coverage observation for this capability",
-        "status": "unavailable"
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
       }
     ],
     "evidence_entry_ids": [
@@ -198,15 +628,13 @@
     ],
     "hydration_rounds": 0,
     "intent": "shipments.attention",
-    "missing_inputs": [
-      "tracking"
-    ],
+    "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 499,
+      "snapshot_cursor": 84441,
       "truncated": false
     },
-    "required_cursor": 499,
+    "required_cursor": 84441,
     "result": {
       "attention": [
         "SH-QC"
@@ -248,7 +676,7 @@
           "forecast": null,
           "forecast_is_estimate": true,
           "latest_scan": "exception",
-          "latest_scan_age_seconds": 28431,
+          "latest_scan_age_seconds": 30495,
           "latest_scan_time": "2026-10-31T09:00:00Z",
           "needs_attention": true,
           "order_id": "#QC",
@@ -261,10 +689,10 @@
       "stale_threshold_hours": 48
     },
     "rule_version": "r1",
-    "status": "partial",
-    "timing_ms": 55,
+    "status": "complete",
+    "timing_ms": 16,
     "effective_at": null,
-    "recorded_cutoff": 499,
+    "recorded_cutoff": 84441,
     "readiness": [
       {
         "capability": "fulfillments",
@@ -275,8 +703,8 @@
             "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
             "provider": "shopify",
             "display_name": "Fixture Store",
-            "health": "delayed",
-            "last_successful_sync_at": "2026-10-31T16:28:13.975Z",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
             "last_new_record_at": "2026-10-31T16:19:50.941Z",
             "collection_state": "ready"
           },
@@ -285,8 +713,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:39:26.203Z",
-            "last_new_record_at": "2026-10-31T16:39:26.203Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -294,7 +722,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:50.561Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
             "last_new_record_at": "2026-10-31T16:53:50.561Z",
             "collection_state": "ready"
           }
@@ -303,8 +731,8 @@
       },
       {
         "capability": "tracking",
-        "coverage_status": "unavailable",
-        "readiness": "blocked",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
@@ -320,7 +748,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:51.245Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.595Z",
             "last_new_record_at": "2026-10-31T16:53:51.245Z",
             "collection_state": "ready"
           }
@@ -355,7 +783,7 @@
             "provider": "policy",
             "display_name": "policy qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:49.721Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.459Z",
             "last_new_record_at": "2026-10-31T16:53:49.721Z",
             "collection_state": "ready"
           }
@@ -371,8 +799,790 @@
       },
       {
         "capability": "identity",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      }
+    ]
+  },
+  "delivery-02": {
+    "applied_cursor": 84441,
+    "calculation": [
+      "Current (highest revision) customer promise compared with confirmed delivered status at `now`; unknown arrival remains unknown."
+    ],
+    "conflicts": [],
+    "coverage": [
+      {
+        "capability": "orders",
+        "complete_through": "2026-10-31T16:56:48.952Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "promises",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "fulfillments",
+        "complete_through": "2026-10-31T16:56:49.077Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "tracking",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "policy",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "coverage",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "identity",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      }
+    ],
+    "evidence_entry_ids": [
+      "775873a9-f303-4ea6-9eaf-c5a764cae68b",
+      "177f4d0d-7ea0-433e-bbec-9423260072ec",
+      "1d5b79a1-3592-48ee-b34e-61be1f2aa710"
+    ],
+    "hydration_rounds": 0,
+    "intent": "shipments.promise_risk",
+    "missing_inputs": [],
+    "pagination": {
+      "next_cursor": null,
+      "snapshot_cursor": 84441,
+      "truncated": false
+    },
+    "required_cursor": 84441,
+    "result": {
+      "commitments": [
+        {
+          "arrival_date": null,
+          "arrival_known": false,
+          "at_risk": false,
+          "delivered": false,
+          "last_state": "in_transit",
+          "order_id": "#QC",
+          "overdue": false,
+          "promise_id": "CP-QC",
+          "promise_kind": "delivery",
+          "promised_at": "2026-11-04T17:00:00Z",
+          "revision": 1,
+          "timezone": "Europe/Berlin"
+        }
+      ],
+      "now": "2026-10-31T17:28:15.641+00:00"
+    },
+    "rule_version": "r1",
+    "status": "complete",
+    "timing_ms": 21,
+    "effective_at": null,
+    "recorded_cutoff": 84441,
+    "readiness": [
+      {
+        "capability": "orders",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "promises",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:50.561Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "fulfillments",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:50.561Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "tracking",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.595Z",
+            "last_new_record_at": "2026-10-31T16:53:51.245Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "policy",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4508f860-28e9-49b6-b7fe-5a174ca4779a",
+            "provider": "policy",
+            "display_name": "policy qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.459Z",
+            "last_new_record_at": "2026-10-31T16:53:49.721Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "coverage",
         "coverage_status": "unavailable",
         "readiness": "blocked",
+        "sources": [],
+        "missing_source": true
+      },
+      {
+        "capability": "identity",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      }
+    ]
+  },
+  "delivery-03": {
+    "applied_cursor": 84441,
+    "calculation": [
+      "remaining_to_dispatch = ordered - cancelled - handed over; remaining_to_deliver = ordered - cancelled - delivered; labels count as neither."
+    ],
+    "conflicts": [],
+    "coverage": [
+      {
+        "capability": "orders",
+        "complete_through": "2026-10-31T16:56:48.952Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "fulfillments",
+        "complete_through": "2026-10-31T16:56:49.077Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "tracking",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "coverage",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "identity",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      }
+    ],
+    "evidence_entry_ids": [
+      "9ac0c22e-1435-4587-99f5-66954521278a",
+      "d9fef606-9469-4b33-8c14-cb1aef6c3484",
+      "4817f06b-25b6-4ced-8f0a-8c6773a3a824",
+      "bc8ab54e-ff71-4c12-852d-46a88558c361",
+      "f14953bd-0bea-499f-9d7b-15720945fcf6",
+      "b72edb5e-4790-4f73-8338-a80bf9be2c6e",
+      "177f4d0d-7ea0-433e-bbec-9423260072ec",
+      "b2173d5c-3723-4ad2-b40a-d1a9103715de",
+      "775873a9-f303-4ea6-9eaf-c5a764cae68b",
+      "55272bb5-359b-4f24-a556-ab2ee13956bb",
+      "7b017e54-f8fb-44fc-9c78-2aa9e4a7d084",
+      "0deeaa7d-02d8-41e9-a0da-0cc02a942b4e",
+      "59a95c17-e2cd-44ae-8381-5963f42c3e1f",
+      "2dcc1828-8637-491d-8985-8d975052d6d8",
+      "5438948f-808b-45cb-b9ff-0ae346751f27",
+      "dee3338b-bdb4-460c-886c-ba29b698e82e",
+      "0ac2ee13-19c2-4617-b0cc-5eb0891471c6"
+    ],
+    "hydration_rounds": 0,
+    "intent": "orders.partial_delivery_gaps",
+    "missing_inputs": [],
+    "pagination": {
+      "next_cursor": null,
+      "snapshot_cursor": 84441,
+      "truncated": false
+    },
+    "required_cursor": 84441,
+    "result": {
+      "partial_deliveries": [
+        {
+          "lines": [
+            {
+              "cancelled": "2",
+              "delivered": "0",
+              "handed_over": "3",
+              "item_id": "CUP-Q",
+              "line_id": "QC/1",
+              "ordered": "10",
+              "remaining_to_deliver": "8",
+              "remaining_to_dispatch": "5"
+            }
+          ],
+          "order_id": "#QC",
+          "shipments": [
+            "SH-QC"
+          ]
+        }
+      ]
+    },
+    "rule_version": "r1",
+    "status": "complete",
+    "timing_ms": 21,
+    "effective_at": null,
+    "recorded_cutoff": 84441,
+    "readiness": [
+      {
+        "capability": "orders",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "fulfillments",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:50.561Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "tracking",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.595Z",
+            "last_new_record_at": "2026-10-31T16:53:51.245Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "coverage",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [],
+        "missing_source": true
+      },
+      {
+        "capability": "identity",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      }
+    ]
+  },
+  "delivery-04": {
+    "applied_cursor": 84441,
+    "calculation": [
+      "Structured reply facts from shipment state, carrier scans and reviewed promises; wording is left to the user or their agent; nothing is sent."
+    ],
+    "conflicts": [],
+    "coverage": [
+      {
+        "capability": "orders",
+        "complete_through": "2026-10-31T16:56:48.952Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "fulfillments",
+        "complete_through": "2026-10-31T16:56:49.077Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "tracking",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "communications",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "coverage",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "identity",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      }
+    ],
+    "evidence_entry_ids": [
+      "177f4d0d-7ea0-433e-bbec-9423260072ec",
+      "1d5b79a1-3592-48ee-b34e-61be1f2aa710",
+      "9ac0c22e-1435-4587-99f5-66954521278a",
+      "d9fef606-9469-4b33-8c14-cb1aef6c3484",
+      "4817f06b-25b6-4ced-8f0a-8c6773a3a824",
+      "bc8ab54e-ff71-4c12-852d-46a88558c361",
+      "f14953bd-0bea-499f-9d7b-15720945fcf6",
+      "b72edb5e-4790-4f73-8338-a80bf9be2c6e",
+      "b2173d5c-3723-4ad2-b40a-d1a9103715de",
+      "775873a9-f303-4ea6-9eaf-c5a764cae68b",
+      "55272bb5-359b-4f24-a556-ab2ee13956bb",
+      "7b017e54-f8fb-44fc-9c78-2aa9e4a7d084",
+      "0deeaa7d-02d8-41e9-a0da-0cc02a942b4e",
+      "59a95c17-e2cd-44ae-8381-5963f42c3e1f",
+      "2dcc1828-8637-491d-8985-8d975052d6d8",
+      "5438948f-808b-45cb-b9ff-0ae346751f27",
+      "dee3338b-bdb4-460c-886c-ba29b698e82e",
+      "0ac2ee13-19c2-4617-b0cc-5eb0891471c6"
+    ],
+    "hydration_rounds": 0,
+    "intent": "customer.delivery_reply",
+    "missing_inputs": [],
+    "pagination": {
+      "next_cursor": null,
+      "snapshot_cursor": 84441,
+      "truncated": false
+    },
+    "required_cursor": 84441,
+    "result": {
+      "known_promises": [
+        {
+          "kind": "delivery",
+          "promise_id": "CP-QC",
+          "promised_at": "2026-11-04T17:00:00Z"
+        }
+      ],
+      "omitted_context": [],
+      "order_id": "#QC",
+      "prior_communications": [
+        {
+          "facts": [
+            {
+              "actor": "merchant",
+              "customer_id": "C-Q",
+              "derived": "communication_fact",
+              "evidence_id": "ev-m1",
+              "message_id": "M-1",
+              "order_id": "#QC",
+              "sent_at": "2026-10-31T08:00:00Z",
+              "visibility_scope": "internal"
+            }
+          ],
+          "message_id": "M-1"
+        }
+      ],
+      "prior_promises_checked": true,
+      "send_action": false,
+      "shipment_facts": [
+        {
+          "arrival": "unknown",
+          "forecast": null,
+          "latest_scan": "exception",
+          "latest_scan_time": "2026-10-31T09:00:00Z",
+          "shipment_id": "SH-QC",
+          "state": "in_transit"
+        }
+      ]
+    },
+    "rule_version": "r1",
+    "status": "complete",
+    "timing_ms": 21,
+    "effective_at": null,
+    "recorded_cutoff": 84441,
+    "readiness": [
+      {
+        "capability": "orders",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "fulfillments",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:50.561Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "tracking",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.595Z",
+            "last_new_record_at": "2026-10-31T16:53:51.245Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "communications",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.595Z",
+            "last_new_record_at": "2026-10-31T16:53:51.245Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "coverage",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [],
+        "missing_source": true
+      },
+      {
+        "capability": "identity",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
@@ -398,7 +1608,7 @@
     ]
   },
   "invoice-01": {
-    "applied_cursor": 526,
+    "applied_cursor": 84451,
     "calculation": [
       "reported_open = max(0, original gross - credits - reported payment markers); markers are the invoicing tool's report, not cash; negative balances are credit/overpayment, not debt."
     ],
@@ -406,7 +1616,7 @@
     "coverage": [
       {
         "capability": "invoices",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T12:00:00.000Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -418,9 +1628,9 @@
       },
       {
         "capability": "identity",
-        "complete_through": null,
-        "note": "no coverage observation for this capability",
-        "status": "unavailable"
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
       }
     ],
     "evidence_entry_ids": [
@@ -431,21 +1641,20 @@
       "eb3b9e49-a025-4d89-b7a1-5441736098ac",
       "6797d396-e9f6-4251-be28-59acc71b6dfa",
       "6a5c9b9b-0458-40c3-b608-fd411c09bc6d",
+      "dae4f0d8-639b-4650-a202-735d0ab3ffb7",
       "2ae687d0-45d1-4051-ad41-bfaf659bb306",
       "4dcd0430-dde2-4b2c-9332-58979c59ee27",
-      "502a5ec0-e6f3-4891-9d75-a573f1f7f9e5",
-      "5ed784ff-d3eb-44b3-b749-671b7e6783bf",
-      "cc782c0b-0245-4bdd-94e7-ff58cd40abc6"
+      "502a5ec0-e6f3-4891-9d75-a573f1f7f9e5"
     ],
     "hydration_rounds": 0,
     "intent": "invoices.outstanding",
     "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 526,
+      "snapshot_cursor": 84451,
       "truncated": false
     },
-    "required_cursor": 526,
+    "required_cursor": 84451,
     "result": {
       "outstanding": [
         {
@@ -477,32 +1686,17 @@
           "reconciled_allocated_minor": 0,
           "reported_open_minor": 12000,
           "reported_paid_minor": 0
-        },
-        {
-          "credits_minor": 0,
-          "currency": "EUR",
-          "customer_id": "C-1",
-          "due_date": "2026-11-07",
-          "invoice_id": "INV-1001-step",
-          "net_minor": 11900,
-          "new_cash_from_marker": 0,
-          "order_id": "#1001-step",
-          "original_gross_minor": 11900,
-          "overdue": false,
-          "reconciled_allocated_minor": 0,
-          "reported_open_minor": 11900,
-          "reported_paid_minor": 0
         }
       ],
       "totals_by_currency": {
-        "EUR": 28420
+        "EUR": 16520
       }
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 19,
+    "timing_ms": 15,
     "effective_at": null,
-    "recorded_cutoff": 526,
+    "recorded_cutoff": 84451,
     "readiness": [
       {
         "capability": "invoices",
@@ -514,8 +1708,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:39:26.203Z",
-            "last_new_record_at": "2026-10-31T16:39:26.203Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -523,7 +1717,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:51.681Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
             "last_new_record_at": "2026-10-31T16:53:51.681Z",
             "collection_state": "ready"
           }
@@ -539,8 +1733,8 @@
       },
       {
         "capability": "identity",
-        "coverage_status": "unavailable",
-        "readiness": "blocked",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
@@ -566,7 +1760,7 @@
     ]
   },
   "invoice-02": {
-    "applied_cursor": 526,
+    "applied_cursor": 84451,
     "calculation": [
       "Orders satisfying trigger `after_confirmed_dispatch` without a linked valid (final, not cancelled) invoice covering the order amount, given complete invoice population and identity."
     ],
@@ -574,25 +1768,25 @@
     "coverage": [
       {
         "capability": "orders",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T16:56:48.952Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "fulfillments",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T16:56:49.077Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "invoices",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T12:00:00.000Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "policy",
-        "complete_through": null,
+        "complete_through": "2026-10-31T12:00:00.000Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -604,9 +1798,9 @@
       },
       {
         "capability": "identity",
-        "complete_through": null,
-        "note": "no coverage observation for this capability",
-        "status": "unavailable"
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
       }
     ],
     "evidence_entry_ids": [
@@ -619,6 +1813,7 @@
       "ce32e0ac-413d-41aa-95ff-0f3c07f1df2f",
       "e798a740-9d77-4dc2-9473-365fc3398e5b",
       "3c5f5636-c234-46c3-988e-59c244385d4d",
+      "3d14fa20-62c6-4db4-885d-772cfeb59c65",
       "32d9845f-1120-4fac-8343-769be99f17d4",
       "c51c7a07-1a38-4166-b697-d017de302d9c",
       "19e757e8-88c8-4197-8abf-6758bed6306b",
@@ -639,6 +1834,26 @@
       "537cc706-49bc-419c-ae9f-d6eafb5da9f0",
       "a279577c-9526-4f2c-bfb5-9ae363227fac",
       "9741c735-1b8a-4648-a853-e45ca8d409e1",
+      "9acb3586-fba3-4682-b014-34baec024331",
+      "4b79f4d2-31d2-409d-a68c-167327d74de4",
+      "46303188-2b8c-495c-bb91-aea864698d0e",
+      "1b0a8f14-0ce6-4e5c-9fd0-65736840b36c",
+      "7790fe12-3f2a-4b38-8e3f-f602bf6e9068",
+      "de8b3ba3-c960-46ef-87fa-0ceab3e61c0e",
+      "6a0eb714-0288-4d27-82ea-58255654a839",
+      "264a1484-d7c6-4717-8bfe-d93f73cf3225",
+      "a9378957-d0b6-4589-a4d3-af1de3f533af",
+      "bc7d3415-fedd-4109-8765-c8b7591c5499",
+      "6b50c36f-7ceb-4703-a037-3fff969b1baa",
+      "39a49e8b-aa35-4752-a400-6f959e21c86d",
+      "448f2bc0-3adb-42c2-aa35-c4fed0232ef1",
+      "696b7255-73a8-434d-9408-54bd2ad78693",
+      "7aff10c2-43fd-4b97-865d-2ce9c86f95d6",
+      "137e98c9-e81d-4676-af7a-0e021f9d74eb",
+      "8756093f-2fe9-41db-bb67-9cda7566e494",
+      "6d862416-722e-4503-a1e7-db2570fcd8ff",
+      "30b3f567-23ed-4afa-98c0-d59a9d75c584",
+      "310fec9a-f604-4bbd-8cf7-bdf48553cf37",
       "31ba337d-39fa-4a7d-9f8f-af7bc2c04b26",
       "12f5fef6-ba4a-4c8c-84d0-bf7a86ef55ff",
       "95ebe927-5fba-470a-a9a7-9b6a3b459807",
@@ -659,6 +1874,26 @@
       "7869a7be-d541-4583-8c69-631c0cc74e2e",
       "eaba1de8-eafe-4267-8cca-92d58f57f128",
       "1cd599f7-bb28-4105-9357-51fbcacb2a2e",
+      "182be0e2-0d37-41da-85c2-873d31236f25",
+      "1311f145-0ebb-4034-a5cf-3810e1fbf7f5",
+      "8aa50520-be81-48dd-996d-d05b4f1db8d2",
+      "a2b6d4cc-e6f2-4f1c-ac91-9012edc9eb60",
+      "d8bbb20e-1807-4097-af07-5b689b8eed30",
+      "13165d71-8467-49db-b8c6-21eba101d2b1",
+      "1fd1892e-4374-4225-bab6-8eeaf3dbfdcf",
+      "c1a9b4ab-ea9b-4024-8c86-8e4e81cd69e0",
+      "166ff8e9-6751-47a8-88e2-3f6a96fee6af",
+      "c523a858-fa2e-459e-adb8-37beb9a631af",
+      "aa21ac9b-0a9f-4b61-a3d6-c1a8d42b7267",
+      "3d4a4348-0ba6-45b8-9321-f209e289e948",
+      "dbf72b86-e8ac-4a83-83e8-b68c8004ad1e",
+      "d4253f0c-13b7-404a-97f2-366cda62a336",
+      "946156f1-580b-418a-bc2c-50669655e55b",
+      "9f397ef7-f5f9-41a3-bf23-7bcb4ad399ef",
+      "5e1723da-2521-444e-a157-ae9eb8c6b8f0",
+      "172abaa2-6f4f-4ca9-bc52-c27cd5c7dc97",
+      "ade3eee9-d26e-461f-b442-71b9711246a5",
+      "89033584-2797-4014-bd69-e5087a1e6b85",
       "53f15d51-b8a4-4062-bf80-a72ea7a06920",
       "901c652a-b727-4a7c-99c8-ac432807213f",
       "15ec8f0c-b75e-4f39-acd2-99cd085b59ed",
@@ -679,6 +1914,66 @@
       "f1008154-9d7b-419a-bf31-e770f9894a55",
       "ba1ffd53-546a-432d-9c11-976e0bf36fcd",
       "c785b74f-c8f2-494e-81e6-887e4e862f31",
+      "c3c172e6-c27f-4dd7-ac79-cc7a7af7252a",
+      "f1656e7b-076d-4c03-bdfb-0f04490d48c3",
+      "cb3c355e-1fa5-42fa-8267-2f31ec0edc32",
+      "9e96fbaf-0008-4978-aa32-03f88f73c546",
+      "db01db62-1325-4d26-a3ee-28e5e8e5be82",
+      "4c808d33-1bba-4dfa-8395-4079622f81fc",
+      "3987f1cb-6174-4963-b75f-3e4e0eb08b6a",
+      "404f8f50-97b2-4284-ba26-61e8b1db492e",
+      "8eaf52cc-6152-4fb5-ba66-b221f826b67a",
+      "d8786aa7-cd35-4d41-a587-5d1d69f12093",
+      "3b50aa7e-b0c6-4c28-a441-f4a5d0a4be01",
+      "a2487e0a-3ddb-48cf-a015-87e6af9a1cbf",
+      "e14a2519-89ea-4f18-9b14-50ef11e3d0a1",
+      "def9029b-86b8-4c92-874e-1c2dbe06edf3",
+      "1e0601df-14a7-4386-ab26-51c938eb31ef",
+      "6567893a-e259-4840-828d-5846b1639b73",
+      "b2753e5b-32d8-4f6d-87d6-e6cd4e81aa73",
+      "7d299c25-1cd8-4502-aa3f-faca243508a4",
+      "1b39f12a-6046-4f1e-a8d1-5cd3a3fd38b5",
+      "57c7213f-d125-48a4-b04a-ef65d43edefa",
+      "2d175db7-d32e-4f96-a00f-4dc528421757",
+      "ec2b7a7c-72b7-4949-b980-b258baa2f282",
+      "766fc7a8-698a-48b6-8d4a-9c5d3400328d",
+      "e0206ff1-f564-47f2-9cd3-ec3704460865",
+      "5ed784ff-d3eb-44b3-b749-671b7e6783bf",
+      "cc782c0b-0245-4bdd-94e7-ff58cd40abc6",
+      "c373e105-3234-4504-816c-de1b51b99ae6",
+      "9122a881-09e4-4007-a8e7-472caebf8beb",
+      "2fbb903c-9122-4676-8a91-1ec4d3b55f9a",
+      "cf812f2b-6ab6-4fbe-a067-b95168448dde",
+      "36b86646-0f1f-4398-8805-0239e4efe8b5",
+      "6635c9ab-f206-41b4-8dea-b5196a08e959",
+      "43ecc03a-561c-460d-b725-e32d275e496c",
+      "c2d3829f-953c-4e27-8de5-86cf6dc7f435",
+      "74f48eef-d6b4-400d-8acd-1b9303cac76e",
+      "55713314-3b1e-4125-a1df-28dec8640f85",
+      "0653d8d9-a083-4d73-bb21-abdd9e18ad24",
+      "7cbacf0b-8d6b-4c52-9395-9435811a2e7f",
+      "7fb026a4-8ec6-4e7e-9087-1a5e6ebe0941",
+      "9e51083f-0698-43bb-8e10-2b426c2dd41e",
+      "82c3c2d2-a769-4082-a571-8373f0a9f178",
+      "35284b66-90bf-4562-97c6-5b01d22bc747",
+      "0fcf36fb-51cc-4021-ac85-e3935b39b880",
+      "f11833f1-45bb-45f0-bc13-683c4083a9bb",
+      "d3564f8e-7d33-4327-a688-40e4f6a96ffc",
+      "82e32339-0931-4d8f-a9ee-6c70028f74bb",
+      "88989ac9-3033-42be-86dd-4b1ec1866d0e",
+      "0774f2ee-435f-4a35-aee8-7102cc0f9322",
+      "b7edec6e-b1bd-42d9-8a6d-4d73790479f6",
+      "6ac40a54-a645-4b05-a58c-4050f5441baa",
+      "1f8bbae5-c99d-45dd-83cc-4573efafc7d3",
+      "c0bcb598-e523-493d-8353-973c90e6e672",
+      "2c363cdd-f817-44e9-9a5d-17d2fb0d8f4b",
+      "4deb6a99-f573-41ed-be92-72d9f17bd727",
+      "c03cbbe6-f9e0-47ba-af4f-075c56bb286a",
+      "8cebbde4-bde5-4112-83b8-82d426594795",
+      "b1a488ee-2872-41c1-92f6-fc556255102e",
+      "d9e6e136-c380-4757-90d4-1d82af2f0aac",
+      "030ee844-0639-4ed9-9417-3d64564484df",
+      "e967fc27-47e2-4eb2-a327-46746d0842fd",
       "fb16986e-c1dd-4d86-a609-d9bc38a46db0",
       "9be57647-1c71-469f-93ca-55f33b10a6b4",
       "d27a69bd-1597-4707-ab9d-454d46d9e1ae",
@@ -699,6 +1994,26 @@
       "6a17cf92-f650-4477-bab1-cc0b0cf175b6",
       "e6b97e12-998a-44b3-8ae3-0fd116388f5a",
       "2387d638-b624-455f-b6fb-a0ebfaa50182",
+      "ee41cdc3-055d-47ae-a875-01f38cb01cc3",
+      "50c94f5a-e215-4ece-b073-e46fc65d49b4",
+      "c438a909-6fbd-486d-afbc-0cd4d0716757",
+      "6f9353a3-8906-4ea0-9362-5835e49380f0",
+      "4cc279db-dc92-4658-87a7-08e2c1bc95c1",
+      "9885e2e9-7c5f-42a1-9f3f-12c31c7bc5bc",
+      "f189ed9d-afd8-4299-80dd-f95887d42a76",
+      "84e0f7dd-6156-40d9-8bc0-79c2fd9e9f73",
+      "8a9feac6-8b18-4a62-ab1c-298b3cadfb8a",
+      "24e792eb-4b1f-4b2c-a80e-1a2794d751c5",
+      "2cf313dc-3b27-4e55-9f59-4e5f857dad5c",
+      "ef992025-bdb2-4f65-bc86-3532b8be1929",
+      "40307a9c-cd93-4d68-a23f-1a9788314a48",
+      "1e43767f-2abc-4186-bdd1-6b821deb6424",
+      "728d3dde-dfba-4166-b0b0-4e6ec6e16f83",
+      "fcf04366-fa81-4b5e-bc77-be3569fd547e",
+      "1856a2a7-60c4-49d2-8f6f-6956c1ac8d9d",
+      "bf316325-840a-4835-81a1-347a28d61279",
+      "c4d23c0f-a8b3-4037-8fec-f8cd6b4e7c43",
+      "0b5f2cd2-18b2-46d7-a86a-78fcdb2da723",
       "d1205a58-5592-4487-971b-3ed4df998748",
       "c3eb3e63-8f1e-4edc-a1d8-0c4f93b1a993",
       "ea80653f-becb-4f81-a9cc-5e2f3034fc84",
@@ -712,6 +2027,7 @@
       "ddc51f34-6480-4d53-ab9a-80fafe9586bc",
       "7b9081e8-efa4-4aa4-8070-003c98b1e3ce",
       "364dc2e1-6d0b-4f52-8303-727e8e2bb949",
+      "5cd5c689-e765-4a31-8938-a1a922210b56",
       "9ac0c22e-1435-4587-99f5-66954521278a",
       "d9fef606-9469-4b33-8c14-cb1aef6c3484",
       "4817f06b-25b6-4ced-8f0a-8c6773a3a824",
@@ -727,21 +2043,24 @@
       "59a95c17-e2cd-44ae-8381-5963f42c3e1f",
       "2dcc1828-8637-491d-8985-8d975052d6d8",
       "5438948f-808b-45cb-b9ff-0ae346751f27",
+      "dee3338b-bdb4-460c-886c-ba29b698e82e",
+      "0ac2ee13-19c2-4617-b0cc-5eb0891471c6",
       "29195468-445e-4409-88a6-88bb9b0d0a18",
       "50be00fe-6745-4ab9-b09f-cd29d2151613",
       "eb3b9e49-a025-4d89-b7a1-5441736098ac",
       "6797d396-e9f6-4251-be28-59acc71b6dfa",
-      "6a5c9b9b-0458-40c3-b608-fd411c09bc6d"
+      "6a5c9b9b-0458-40c3-b608-fd411c09bc6d",
+      "dae4f0d8-639b-4650-a202-735d0ab3ffb7"
     ],
     "hydration_rounds": 0,
     "intent": "orders.missing_invoice",
     "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 526,
+      "snapshot_cursor": 84451,
       "truncated": false
     },
-    "required_cursor": 526,
+    "required_cursor": 84451,
     "result": {
       "invoicing_trigger": "after_confirmed_dispatch",
       "missing_invoice": [
@@ -767,9 +2086,9 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 16,
+    "timing_ms": 18,
     "effective_at": null,
-    "recorded_cutoff": 526,
+    "recorded_cutoff": 84451,
     "readiness": [
       {
         "capability": "orders",
@@ -780,8 +2099,8 @@
             "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
             "provider": "shopify",
             "display_name": "Fixture Store",
-            "health": "delayed",
-            "last_successful_sync_at": "2026-10-31T16:28:13.975Z",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
             "last_new_record_at": "2026-10-31T16:19:50.941Z",
             "collection_state": "ready"
           },
@@ -790,8 +2109,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:39:26.203Z",
-            "last_new_record_at": "2026-10-31T16:39:26.203Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -799,8 +2118,8 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:50.561Z",
-            "last_new_record_at": "2026-10-31T16:53:50.561Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:52.553Z",
             "collection_state": "ready"
           }
         ],
@@ -815,8 +2134,8 @@
             "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
             "provider": "shopify",
             "display_name": "Fixture Store",
-            "health": "delayed",
-            "last_successful_sync_at": "2026-10-31T16:28:13.975Z",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
             "last_new_record_at": "2026-10-31T16:19:50.941Z",
             "collection_state": "ready"
           },
@@ -825,8 +2144,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:39:26.203Z",
-            "last_new_record_at": "2026-10-31T16:39:26.203Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -834,7 +2153,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:50.561Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
             "last_new_record_at": "2026-10-31T16:53:50.561Z",
             "collection_state": "ready"
           }
@@ -851,8 +2170,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:39:26.203Z",
-            "last_new_record_at": "2026-10-31T16:39:26.203Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -860,7 +2179,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:51.681Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
             "last_new_record_at": "2026-10-31T16:53:51.681Z",
             "collection_state": "ready"
           }
@@ -895,7 +2214,7 @@
             "provider": "policy",
             "display_name": "policy qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:49.721Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.459Z",
             "last_new_record_at": "2026-10-31T16:53:49.721Z",
             "collection_state": "ready"
           }
@@ -911,8 +2230,8 @@
       },
       {
         "capability": "identity",
-        "coverage_status": "unavailable",
-        "readiness": "blocked",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
@@ -938,7 +2257,7 @@
     ]
   },
   "invoice-03": {
-    "applied_cursor": 526,
+    "applied_cursor": 84451,
     "calculation": [
       "Compare the agreed order version with linked invoice coverage: whole-order invoices against order gross, partial invoices only over their covered lines/quantities; no currency conversion."
     ],
@@ -946,13 +2265,13 @@
     "coverage": [
       {
         "capability": "orders",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T16:56:48.952Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "invoices",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T12:00:00.000Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -964,9 +2283,9 @@
       },
       {
         "capability": "identity",
-        "complete_through": null,
-        "note": "no coverage observation for this capability",
-        "status": "unavailable"
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
       }
     ],
     "evidence_entry_ids": [
@@ -974,17 +2293,19 @@
       "4dcd0430-dde2-4b2c-9332-58979c59ee27",
       "502a5ec0-e6f3-4891-9d75-a573f1f7f9e5",
       "4d5c8e98-ed8e-4df8-befd-af69a875142b",
-      "9beea1c6-e55c-4584-a870-23fee194394c"
+      "9beea1c6-e55c-4584-a870-23fee194394c",
+      "7204c83c-baed-434f-81d1-045d93c76a7d",
+      "08d8141d-f176-44ae-b805-36768b7abd04"
     ],
     "hydration_rounds": 0,
     "intent": "invoices.order_amount_variance",
     "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 526,
+      "snapshot_cursor": 84451,
       "truncated": false
     },
-    "required_cursor": 526,
+    "required_cursor": 84451,
     "result": {
       "unresolved": [],
       "variances": [
@@ -1001,9 +2322,9 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 22,
+    "timing_ms": 16,
     "effective_at": null,
-    "recorded_cutoff": 526,
+    "recorded_cutoff": 84451,
     "readiness": [
       {
         "capability": "orders",
@@ -1014,8 +2335,8 @@
             "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
             "provider": "shopify",
             "display_name": "Fixture Store",
-            "health": "delayed",
-            "last_successful_sync_at": "2026-10-31T16:28:13.975Z",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
             "last_new_record_at": "2026-10-31T16:19:50.941Z",
             "collection_state": "ready"
           },
@@ -1024,8 +2345,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:39:26.203Z",
-            "last_new_record_at": "2026-10-31T16:39:26.203Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -1033,8 +2354,8 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:50.561Z",
-            "last_new_record_at": "2026-10-31T16:53:50.561Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:52.553Z",
             "collection_state": "ready"
           }
         ],
@@ -1050,8 +2371,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:39:26.203Z",
-            "last_new_record_at": "2026-10-31T16:39:26.203Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -1059,7 +2380,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:51.681Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
             "last_new_record_at": "2026-10-31T16:53:51.681Z",
             "collection_state": "ready"
           }
@@ -1075,8 +2396,8 @@
       },
       {
         "capability": "identity",
-        "coverage_status": "unavailable",
-        "readiness": "blocked",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
@@ -1102,23 +2423,23 @@
     ]
   },
   "invoice-04": {
-    "applied_cursor": 526,
+    "applied_cursor": 84451,
     "calculation": [
-      "No dispatch (postbox) capability is covered; sending cannot be evaluated."
+      "Finalized invoices without a provider-reported sent dispatch within the covered postbox scope; absence is evidence only within complete coverage and never proves non-sending."
     ],
     "conflicts": [],
     "coverage": [
       {
         "capability": "invoices",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T12:00:00.000Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "invoice_dispatch",
-        "complete_through": null,
-        "note": "no coverage observation for this capability",
-        "status": "unavailable"
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
       },
       {
         "capability": "coverage",
@@ -1128,31 +2449,167 @@
       },
       {
         "capability": "identity",
-        "complete_through": null,
-        "note": "no coverage observation for this capability",
-        "status": "unavailable"
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
       }
     ],
-    "evidence_entry_ids": [],
+    "evidence_entry_ids": [
+      "7b017e54-f8fb-44fc-9c78-2aa9e4a7d084",
+      "0deeaa7d-02d8-41e9-a0da-0cc02a942b4e",
+      "29195468-445e-4409-88a6-88bb9b0d0a18",
+      "50be00fe-6745-4ab9-b09f-cd29d2151613",
+      "eb3b9e49-a025-4d89-b7a1-5441736098ac",
+      "6797d396-e9f6-4251-be28-59acc71b6dfa",
+      "6a5c9b9b-0458-40c3-b608-fd411c09bc6d",
+      "dae4f0d8-639b-4650-a202-735d0ab3ffb7",
+      "2ae687d0-45d1-4051-ad41-bfaf659bb306",
+      "4dcd0430-dde2-4b2c-9332-58979c59ee27",
+      "502a5ec0-e6f3-4891-9d75-a573f1f7f9e5",
+      "385f8ced-2643-4eb6-bc1e-43389abd6082",
+      "1653203b-ccf2-416f-8fac-9c0f36b47491",
+      "537cc706-49bc-419c-ae9f-d6eafb5da9f0",
+      "a279577c-9526-4f2c-bfb5-9ae363227fac",
+      "9741c735-1b8a-4648-a853-e45ca8d409e1",
+      "7790fe12-3f2a-4b38-8e3f-f602bf6e9068",
+      "de8b3ba3-c960-46ef-87fa-0ceab3e61c0e",
+      "6d862416-722e-4503-a1e7-db2570fcd8ff",
+      "30b3f567-23ed-4afa-98c0-d59a9d75c584",
+      "310fec9a-f604-4bbd-8cf7-bdf48553cf37",
+      "64ee2102-eefe-406a-b1d5-4eee76b0fecf",
+      "9c034a65-4429-4eaa-84b7-fd0e29bf8bb5",
+      "7869a7be-d541-4583-8c69-631c0cc74e2e",
+      "eaba1de8-eafe-4267-8cca-92d58f57f128",
+      "1cd599f7-bb28-4105-9357-51fbcacb2a2e",
+      "d8bbb20e-1807-4097-af07-5b689b8eed30",
+      "13165d71-8467-49db-b8c6-21eba101d2b1",
+      "172abaa2-6f4f-4ca9-bc52-c27cd5c7dc97",
+      "ade3eee9-d26e-461f-b442-71b9711246a5",
+      "89033584-2797-4014-bd69-e5087a1e6b85",
+      "676ad341-9900-4c44-8e69-ae045565b6b3",
+      "498e287c-5021-4dc9-9ed7-ee328f6829d3",
+      "f1008154-9d7b-419a-bf31-e770f9894a55",
+      "ba1ffd53-546a-432d-9c11-976e0bf36fcd",
+      "c785b74f-c8f2-494e-81e6-887e4e862f31",
+      "db01db62-1325-4d26-a3ee-28e5e8e5be82",
+      "4c808d33-1bba-4dfa-8395-4079622f81fc",
+      "7d299c25-1cd8-4502-aa3f-faca243508a4",
+      "1b39f12a-6046-4f1e-a8d1-5cd3a3fd38b5",
+      "57c7213f-d125-48a4-b04a-ef65d43edefa",
+      "5ed784ff-d3eb-44b3-b749-671b7e6783bf",
+      "cc782c0b-0245-4bdd-94e7-ff58cd40abc6",
+      "7cbacf0b-8d6b-4c52-9395-9435811a2e7f",
+      "7fb026a4-8ec6-4e7e-9087-1a5e6ebe0941",
+      "9e51083f-0698-43bb-8e10-2b426c2dd41e",
+      "d3564f8e-7d33-4327-a688-40e4f6a96ffc",
+      "82e32339-0931-4d8f-a9ee-6c70028f74bb",
+      "d9e6e136-c380-4757-90d4-1d82af2f0aac",
+      "030ee844-0639-4ed9-9417-3d64564484df",
+      "e967fc27-47e2-4eb2-a327-46746d0842fd",
+      "dc7b076e-c05d-4bd1-a607-f03f421e1b2a",
+      "54a91e36-20ce-4e83-ab76-7fc41a43bb2e",
+      "6a17cf92-f650-4477-bab1-cc0b0cf175b6",
+      "e6b97e12-998a-44b3-8ae3-0fd116388f5a",
+      "2387d638-b624-455f-b6fb-a0ebfaa50182",
+      "4cc279db-dc92-4658-87a7-08e2c1bc95c1",
+      "9885e2e9-7c5f-42a1-9f3f-12c31c7bc5bc",
+      "bf316325-840a-4835-81a1-347a28d61279",
+      "c4d23c0f-a8b3-4037-8fec-f8cd6b4e7c43",
+      "0b5f2cd2-18b2-46d7-a86a-78fcdb2da723"
+    ],
     "hydration_rounds": 0,
     "intent": "invoices.dispatch_evidence",
-    "missing_inputs": [
-      "invoice_dispatch.coverage"
-    ],
+    "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 526,
+      "snapshot_cursor": 84451,
       "truncated": false
     },
-    "required_cursor": 526,
+    "required_cursor": 84451,
     "result": {
-      "without_send_evidence_population_complete": false
+      "with_send_evidence": [
+        {
+          "dispatches": 1,
+          "evidence": "provider_reported_sent",
+          "invoice_id": "I1",
+          "recipient_delivery_proven": false
+        }
+      ],
+      "without_send_evidence": [
+        {
+          "conclusion": "no_send_evidence_in_covered_scope",
+          "errors": 0,
+          "invoice_id": "I2",
+          "pending": 0
+        },
+        {
+          "conclusion": "no_send_evidence_in_covered_scope",
+          "errors": 0,
+          "invoice_id": "INV-1001-dup",
+          "pending": 0
+        },
+        {
+          "conclusion": "no_send_evidence_in_covered_scope",
+          "errors": 0,
+          "invoice_id": "INV-1001-dup5t57",
+          "pending": 0
+        },
+        {
+          "conclusion": "no_send_evidence_in_covered_scope",
+          "errors": 0,
+          "invoice_id": "INV-1001-full",
+          "pending": 0
+        },
+        {
+          "conclusion": "no_send_evidence_in_covered_scope",
+          "errors": 0,
+          "invoice_id": "INV-1001-full5t57",
+          "pending": 0
+        },
+        {
+          "conclusion": "no_send_evidence_in_covered_scope",
+          "errors": 0,
+          "invoice_id": "INV-1001-nobank",
+          "pending": 0
+        },
+        {
+          "conclusion": "no_send_evidence_in_covered_scope",
+          "errors": 0,
+          "invoice_id": "INV-1001-nobank5t57",
+          "pending": 0
+        },
+        {
+          "conclusion": "no_send_evidence_in_covered_scope",
+          "errors": 0,
+          "invoice_id": "INV-1001-step",
+          "pending": 0
+        },
+        {
+          "conclusion": "no_send_evidence_in_covered_scope",
+          "errors": 0,
+          "invoice_id": "INV-1001-step5t57",
+          "pending": 0
+        },
+        {
+          "conclusion": "no_send_evidence_in_covered_scope",
+          "errors": 0,
+          "invoice_id": "INV-1001-x3",
+          "pending": 0
+        },
+        {
+          "conclusion": "no_send_evidence_in_covered_scope",
+          "errors": 0,
+          "invoice_id": "INV-1001-x35t57",
+          "pending": 0
+        }
+      ],
+      "without_send_evidence_population_complete": true
     },
     "rule_version": "r1",
-    "status": "insufficient_data",
-    "timing_ms": 50,
+    "status": "complete",
+    "timing_ms": 14,
     "effective_at": null,
-    "recorded_cutoff": 526,
+    "recorded_cutoff": 84451,
     "readiness": [
       {
         "capability": "invoices",
@@ -1164,8 +2621,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:39:26.203Z",
-            "last_new_record_at": "2026-10-31T16:39:26.203Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -1173,7 +2630,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:51.681Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
             "last_new_record_at": "2026-10-31T16:53:51.681Z",
             "collection_state": "ready"
           }
@@ -1182,8 +2639,8 @@
       },
       {
         "capability": "invoice_dispatch",
-        "coverage_status": "unavailable",
-        "readiness": "blocked",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
@@ -1199,7 +2656,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:51.681Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
             "last_new_record_at": "2026-10-31T16:53:51.681Z",
             "collection_state": "ready"
           }
@@ -1215,8 +2672,887 @@
       },
       {
         "capability": "identity",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      }
+    ]
+  },
+  "collection-01": {
+    "applied_cursor": 84451,
+    "calculation": [
+      "collected = sum of successful captures; remaining = order gross - collected; authorizations, voids and failures are reported separately and never count as collected."
+    ],
+    "conflicts": [],
+    "coverage": [
+      {
+        "capability": "orders",
+        "complete_through": "2026-10-31T16:56:48.952Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "payments",
+        "complete_through": "2026-10-31T16:56:48.952Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "coverage",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "identity",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      }
+    ],
+    "evidence_entry_ids": [
+      "9ac0c22e-1435-4587-99f5-66954521278a",
+      "d9fef606-9469-4b33-8c14-cb1aef6c3484",
+      "4817f06b-25b6-4ced-8f0a-8c6773a3a824",
+      "bc8ab54e-ff71-4c12-852d-46a88558c361",
+      "f14953bd-0bea-499f-9d7b-15720945fcf6",
+      "b72edb5e-4790-4f73-8338-a80bf9be2c6e",
+      "177f4d0d-7ea0-433e-bbec-9423260072ec",
+      "b2173d5c-3723-4ad2-b40a-d1a9103715de",
+      "775873a9-f303-4ea6-9eaf-c5a764cae68b",
+      "55272bb5-359b-4f24-a556-ab2ee13956bb",
+      "7b017e54-f8fb-44fc-9c78-2aa9e4a7d084",
+      "0deeaa7d-02d8-41e9-a0da-0cc02a942b4e",
+      "59a95c17-e2cd-44ae-8381-5963f42c3e1f",
+      "2dcc1828-8637-491d-8985-8d975052d6d8",
+      "5438948f-808b-45cb-b9ff-0ae346751f27",
+      "dee3338b-bdb4-460c-886c-ba29b698e82e",
+      "0ac2ee13-19c2-4617-b0cc-5eb0891471c6"
+    ],
+    "hydration_rounds": 0,
+    "intent": "orders.payment_state",
+    "missing_inputs": [],
+    "pagination": {
+      "next_cursor": null,
+      "snapshot_cursor": 84451,
+      "truncated": false
+    },
+    "required_cursor": 84451,
+    "result": {
+      "orders": [
+        {
+          "authorization_is_capture": false,
+          "authorized_minor": 11900,
+          "collected_minor": 5000,
+          "currency": "EUR",
+          "failed_attempts": [],
+          "order_gross_minor": 1000,
+          "order_id": "#QC",
+          "refunded_minor": 0,
+          "remaining_minor": 0,
+          "state": "paid",
+          "transactions": [
+            "T-Q1"
+          ],
+          "voided_minor": 0
+        }
+      ]
+    },
+    "rule_version": "r1",
+    "status": "complete",
+    "timing_ms": 14,
+    "effective_at": null,
+    "recorded_cutoff": 84451,
+    "readiness": [
+      {
+        "capability": "orders",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "payments",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
+            "last_new_record_at": "2026-10-31T16:53:51.681Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "coverage",
         "coverage_status": "unavailable",
         "readiness": "blocked",
+        "sources": [],
+        "missing_source": true
+      },
+      {
+        "capability": "identity",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      }
+    ]
+  },
+  "collection-02": {
+    "applied_cursor": 84451,
+    "calculation": [
+      "Orders with at least one failed attempt: recovered when later confirmed captures reach the required amount; failures stay in history."
+    ],
+    "conflicts": [],
+    "coverage": [
+      {
+        "capability": "orders",
+        "complete_through": "2026-10-31T16:56:48.952Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "payments",
+        "complete_through": "2026-10-31T16:56:48.952Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "coverage",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "identity",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      }
+    ],
+    "evidence_entry_ids": [
+      "cd27d4e2-a428-4319-bac1-f96a98de409f",
+      "efa4ceb2-9347-4992-8d73-b150d7e89645",
+      "c8e324e4-bbc0-4a57-94f4-74169e3ca601",
+      "1323359b-f090-49c0-903c-e73e00137a5c",
+      "d04a29f0-5d38-42b4-86cd-3d517efce92c",
+      "8f5a9a85-51be-4eaa-ae08-7d650f3f1327",
+      "cc7836c5-4047-45dd-9510-b2e3c9450db7",
+      "d05a3e39-108f-41e2-b7d7-3dae50be20dc",
+      "e22cd47c-6633-47f7-b57c-abe526d6bed6",
+      "d908e9df-ea8c-428c-8a2f-105a12bf72aa",
+      "5403f970-f0b2-439c-ab46-befd1e7d71a6",
+      "62af4f82-bef1-4098-9c9e-4a7109d7a84b",
+      "d86e51f6-24f9-4778-a599-2426c39c4be3",
+      "fbfb91ca-59a3-49c3-8c2e-1c70ec69844c",
+      "b8ce4016-92a3-4eed-a103-1a6b7f0e0aff",
+      "1bfc2bbe-00ea-402d-88bb-34f8a5fe5613",
+      "6178c5fd-7e76-41cb-bef4-20760035ed2d",
+      "d7831f2c-c194-4998-91e8-0fbfcf16595f",
+      "22f50919-5a67-41de-8fbf-6ffcdddd93e7",
+      "f1f2e7f3-82c6-4a13-b7cf-3d8f5c2a843a",
+      "dbde6680-0893-4d48-8ca3-cccc72899a9b"
+    ],
+    "hydration_rounds": 0,
+    "intent": "payments.recovered_attempts",
+    "missing_inputs": [],
+    "pagination": {
+      "next_cursor": null,
+      "snapshot_cursor": 84451,
+      "truncated": false
+    },
+    "required_cursor": 84451,
+    "result": {
+      "recovered": [
+        {
+          "collected_minor": 7720,
+          "deficit_minor": 0,
+          "failed_history_retained": [
+            "500010"
+          ],
+          "order_id": "#1001",
+          "required_minor": 7720
+        },
+        {
+          "collected_minor": 4475,
+          "deficit_minor": 0,
+          "failed_history_retained": [
+            "500050"
+          ],
+          "order_id": "#1005",
+          "required_minor": 4475
+        },
+        {
+          "collected_minor": 600,
+          "deficit_minor": 0,
+          "failed_history_retained": [
+            "T-Q0"
+          ],
+          "order_id": "#QB",
+          "required_minor": 600
+        }
+      ],
+      "recovered_population_complete": true,
+      "still_open": []
+    },
+    "rule_version": "r1",
+    "status": "complete",
+    "timing_ms": 14,
+    "effective_at": null,
+    "recorded_cutoff": 84451,
+    "readiness": [
+      {
+        "capability": "orders",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.486Z",
+            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "payments",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
+            "last_new_record_at": "2026-10-31T16:53:51.681Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "coverage",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [],
+        "missing_source": true
+      },
+      {
+        "capability": "identity",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      }
+    ]
+  },
+  "collection-03": {
+    "applied_cursor": 84451,
+    "calculation": [
+      "remaining = (gross - credits) - confirmed allocated customer payments; provider fees never reduce the customer payment; proposed allocations are shown separately."
+    ],
+    "conflicts": [],
+    "coverage": [
+      {
+        "capability": "invoices",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "payments",
+        "complete_through": "2026-10-31T16:56:48.952Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "payment_allocations",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "coverage",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "identity",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      }
+    ],
+    "evidence_entry_ids": [
+      "7b017e54-f8fb-44fc-9c78-2aa9e4a7d084",
+      "0deeaa7d-02d8-41e9-a0da-0cc02a942b4e",
+      "29195468-445e-4409-88a6-88bb9b0d0a18",
+      "50be00fe-6745-4ab9-b09f-cd29d2151613",
+      "eb3b9e49-a025-4d89-b7a1-5441736098ac",
+      "6797d396-e9f6-4251-be28-59acc71b6dfa",
+      "6a5c9b9b-0458-40c3-b608-fd411c09bc6d",
+      "dae4f0d8-639b-4650-a202-735d0ab3ffb7"
+    ],
+    "hydration_rounds": 0,
+    "intent": "invoices.payment_variance",
+    "missing_inputs": [],
+    "pagination": {
+      "next_cursor": null,
+      "snapshot_cursor": 84451,
+      "truncated": false
+    },
+    "required_cursor": 84451,
+    "result": {
+      "variances": [
+        {
+          "allocated_capture_minor": 5000,
+          "credit_minor": 2380,
+          "currency": "EUR",
+          "fee_added_to_customer_debt": 0,
+          "invoice_id": "I1",
+          "invoice_minor": 11900,
+          "net_minor": 9520,
+          "overpayment_minor": 0,
+          "proposed_unconfirmed_minor": 0,
+          "remaining_minor": 4520,
+          "reported_paid_minor": 5000
+        }
+      ]
+    },
+    "rule_version": "r1",
+    "status": "complete",
+    "timing_ms": 18,
+    "effective_at": null,
+    "recorded_cutoff": 84451,
+    "readiness": [
+      {
+        "capability": "invoices",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
+            "last_new_record_at": "2026-10-31T16:53:51.681Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "payments",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
+            "last_new_record_at": "2026-10-31T16:53:51.681Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "payment_allocations",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
+            "last_new_record_at": "2026-10-31T16:53:51.681Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "coverage",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [],
+        "missing_source": true
+      },
+      {
+        "capability": "identity",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      }
+    ]
+  },
+  "collection-04": {
+    "applied_cursor": 84451,
+    "calculation": [
+      "Due net receivables (reported open > 0, due date before today) prioritized by due date; agreed extensions and disputes mark holds; no automatic reminder."
+    ],
+    "conflicts": [],
+    "coverage": [
+      {
+        "capability": "invoices",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "payment_allocations",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "payments",
+        "complete_through": "2026-10-31T16:56:48.952Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "policy",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "cases",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "coverage",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "identity",
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      }
+    ],
+    "evidence_entry_ids": [
+      "b0831f61-874f-470d-ae8b-9c38eb1b5f73",
+      "7b017e54-f8fb-44fc-9c78-2aa9e4a7d084",
+      "0deeaa7d-02d8-41e9-a0da-0cc02a942b4e",
+      "29195468-445e-4409-88a6-88bb9b0d0a18",
+      "50be00fe-6745-4ab9-b09f-cd29d2151613",
+      "eb3b9e49-a025-4d89-b7a1-5441736098ac",
+      "6797d396-e9f6-4251-be28-59acc71b6dfa",
+      "6a5c9b9b-0458-40c3-b608-fd411c09bc6d",
+      "dae4f0d8-639b-4650-a202-735d0ab3ffb7"
+    ],
+    "hydration_rounds": 0,
+    "intent": "receivables.review_queue",
+    "missing_inputs": [],
+    "pagination": {
+      "next_cursor": null,
+      "snapshot_cursor": 84451,
+      "truncated": false
+    },
+    "required_cursor": 84451,
+    "result": {
+      "automatic_action": false,
+      "policy": "review_overdue",
+      "queue_label": "amounts_due_with_case_context",
+      "review": [
+        {
+          "case_context": "known",
+          "cases": [],
+          "currency": "EUR",
+          "days_overdue": 1,
+          "due_date": "2026-10-30",
+          "invoice_id": "I1",
+          "on_hold": false,
+          "open_minor": 4520,
+          "send_reminder": false
+        }
+      ],
+      "today": "2026-10-31"
+    },
+    "rule_version": "r1",
+    "status": "complete",
+    "timing_ms": 16,
+    "effective_at": null,
+    "recorded_cutoff": 84451,
+    "readiness": [
+      {
+        "capability": "invoices",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
+            "last_new_record_at": "2026-10-31T16:53:51.681Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "payment_allocations",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
+            "last_new_record_at": "2026-10-31T16:53:51.681Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "payments",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
+            "last_new_record_at": "2026-10-31T16:53:51.681Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "policy",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4508f860-28e9-49b6-b7fe-5a174ca4779a",
+            "provider": "policy",
+            "display_name": "policy qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.459Z",
+            "last_new_record_at": "2026-10-31T16:53:49.721Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "cases",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:15.719Z",
+            "last_new_record_at": "2026-10-31T16:53:51.681Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "coverage",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [],
+        "missing_source": true
+      },
+      {
+        "capability": "identity",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
@@ -1242,15 +3578,15 @@
     ]
   },
   "bank_import": {
-    "run_id": "afa0d089-f6d5-4098-9461-b5ffbf43bdd7",
-    "imported": 2,
-    "duplicates": 0,
+    "run_id": "10558633-3516-44f3-a11a-e666ffdc085d",
+    "imported": 0,
+    "duplicates": 2,
     "rejected_rows": 0,
     "conflicts": 0,
-    "required_cursor": 568
+    "required_cursor": 0
   },
   "settlement-01": {
-    "applied_cursor": 574,
+    "applied_cursor": 84471,
     "calculation": [
       "provider_balance = captures - fees - completed refunds - chargebacks + reversals + adjustments - payouts sent + payout reversals; in_transit = payouts sent without booked bank match; bank_confirmed = matched booked bank credits; categories are disjoint and unknown components are reported, not zeroed."
     ],
@@ -1258,33 +3594,33 @@
     "coverage": [
       {
         "capability": "provider_ledger",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T12:00:00.000Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "positions",
-        "complete_through": null,
-        "note": "no coverage observation for this capability",
-        "status": "unavailable"
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": "2 missing fields",
+        "status": "complete_for_declared_scope"
       },
       {
         "capability": "payouts",
-        "complete_through": "2026-10-31T09:18:00Z",
-        "note": null,
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": "1 missing fields",
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "bank",
-        "complete_through": "2026-10-31T23:59:59Z",
+        "complete_through": "2026-10-31T09:19:00Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "holds",
-        "complete_through": null,
-        "note": "no coverage observation for this capability",
-        "status": "unavailable"
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": "holds are not exposed by the pinned Shopify Payments resources",
+        "status": "complete_for_declared_scope"
       },
       {
         "capability": "coverage",
@@ -1294,9 +3630,9 @@
       },
       {
         "capability": "identity",
-        "complete_through": null,
-        "note": "no coverage observation for this capability",
-        "status": "unavailable"
+        "complete_through": "2026-10-31T12:00:00.000Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
       }
     ],
     "evidence_entry_ids": [
@@ -1309,6 +3645,54 @@
       "2bf1d196-25ab-4c79-9d35-07c501ef9b4c",
       "98141162-7d5f-43f3-a6dc-95a35d31676a",
       "8b21b318-a7c7-47c2-a746-9fef5b7291db",
+      "6a0eb714-0288-4d27-82ea-58255654a839",
+      "264a1484-d7c6-4717-8bfe-d93f73cf3225",
+      "a9378957-d0b6-4589-a4d3-af1de3f533af",
+      "2f501fe5-40c1-4aa3-8df5-7e7babfa8ecd",
+      "16d232f2-6dd8-4035-baed-48689311c5d7",
+      "fdbaff19-6739-4857-9f6a-32c2d0570251",
+      "c1ffd002-0386-4f36-ad68-ce4669c0a8f8",
+      "1c96cdee-cd68-4bd3-8a14-623f3a1c172d",
+      "4f0c3bb6-d060-4a9c-a0e8-5a2137390f8a",
+      "a17741f3-e979-49eb-a041-c8ee86445ca9",
+      "1fd1892e-4374-4225-bab6-8eeaf3dbfdcf",
+      "c1a9b4ab-ea9b-4024-8c86-8e4e81cd69e0",
+      "166ff8e9-6751-47a8-88e2-3f6a96fee6af",
+      "9f65399b-07a1-4721-92dd-1f36f5f86249",
+      "360be3fa-9ca8-404b-98eb-21803771c3dd",
+      "06f546a9-485c-4d90-b4e6-36db5547ecd9",
+      "3ad4e0dd-4d97-4002-844c-3d1e60ce2ddd",
+      "4217ef97-92ea-44a5-8bc3-d7b0c72e70eb",
+      "e5931b27-94d9-4551-8dd7-f40713f0cd58",
+      "69667d2c-3e45-4440-b608-d7b101e83317",
+      "3987f1cb-6174-4963-b75f-3e4e0eb08b6a",
+      "404f8f50-97b2-4284-ba26-61e8b1db492e",
+      "8eaf52cc-6152-4fb5-ba66-b221f826b67a",
+      "3404cc65-db15-4ba5-af3d-b3f40798e586",
+      "84606d21-8ad6-442a-9334-212e552d9d22",
+      "29a7b05a-f342-40d4-8b8e-2aad3ceb8b2c",
+      "605f6d7e-1235-4cd4-a492-01a7af6e8858",
+      "1b5a12ce-3052-49cb-a7af-690b7172e8af",
+      "f3e91097-53fe-4170-879d-1fcf5b0eca7c",
+      "88989ac9-3033-42be-86dd-4b1ec1866d0e",
+      "0774f2ee-435f-4a35-aee8-7102cc0f9322",
+      "b7edec6e-b1bd-42d9-8a6d-4d73790479f6",
+      "e7ce1d6b-0275-41f1-a5bf-d9600de68644",
+      "2bafeca2-05ff-4a94-8238-b8231b4f8375",
+      "92969722-adba-43cc-bbab-f7470b1354a1",
+      "177ab267-e98f-4949-9b09-0dedacd18f52",
+      "4465b3f2-c71e-457f-b418-c1754c267a9f",
+      "5bd41395-e764-4340-8c86-cd5c3858bdeb",
+      "e00e7dd0-8474-4c41-b388-37154f43fd12",
+      "f189ed9d-afd8-4299-80dd-f95887d42a76",
+      "84e0f7dd-6156-40d9-8bc0-79c2fd9e9f73",
+      "8a9feac6-8b18-4a62-ab1c-298b3cadfb8a",
+      "52004839-6ff7-4c47-9fc4-4b8c07e7b492",
+      "f36115f4-c7f9-422c-8c37-3a9a47b44a8b",
+      "7929d6ad-75dd-4683-b144-2d03c12fd316",
+      "d9b6741e-ede2-42c8-b81e-1f923d4bc292",
+      "c106ec6b-adc3-4972-a848-d9a334f01d45",
+      "f16ed581-ff12-43e5-b2eb-7109839c5c49",
       "c8e324e4-bbc0-4a57-94f4-74169e3ca601",
       "86bf0108-a5f0-4baa-beb3-847bf618e0fd",
       "3f50e658-f066-4452-ab8b-9d4ed5c975c0",
@@ -1373,6 +3757,33 @@
       "4a703392-4f39-4044-991e-a6f08990ecae",
       "dbde6680-0893-4d48-8ca3-cccc72899a9b",
       "67dd8e4d-8a19-425a-bf42-2484aeda1528",
+      "9122a881-09e4-4007-a8e7-472caebf8beb",
+      "2fbb903c-9122-4676-8a91-1ec4d3b55f9a",
+      "120e035a-6018-468f-8e74-3b58a63d2613",
+      "95ee315d-7c34-4c4f-94a3-ff9547f9a0d5",
+      "2b53b069-60a5-491a-aa73-7b15b0f67ac2",
+      "0653d8d9-a083-4d73-bb21-abdd9e18ad24",
+      "26105091-9a45-4ee3-b1a8-44f984b51aff",
+      "5b67fae0-4466-4e44-bb42-190568f71f88",
+      "070ab447-e0ed-4369-9987-94a9b6c825cd",
+      "b284b5a2-b7f7-47ae-ba8e-38c20af772a6",
+      "fba3dd4e-355c-48cd-9057-13a6e5fe552e",
+      "44975934-64ab-4e98-aec1-fd82fef4110f",
+      "acb22a7d-2081-4584-8575-c80ab6cce36b",
+      "b1a488ee-2872-41c1-92f6-fc556255102e",
+      "42f4b024-d3a1-414c-93f2-c7b66003cd91",
+      "14939c7c-957e-4b97-95b0-3629dde4ebf3",
+      "5e1723da-2521-444e-a157-ae9eb8c6b8f0",
+      "90f481f2-d036-4d65-8842-4804ba17d250",
+      "473b9027-44bf-4fd3-85c2-935b1aa35270",
+      "8756093f-2fe9-41db-bb67-9cda7566e494",
+      "bae0b384-15e9-4a04-9b62-ed0be2fd6463",
+      "c5c5db0d-43d5-4b31-979a-265f668e5082",
+      "1856a2a7-60c4-49d2-8f6f-6956c1ac8d9d",
+      "9da27ef2-22de-4d8e-837e-2c27097168fa",
+      "33e0fb4e-ca69-4031-b83e-c7285700841c",
+      "b2753e5b-32d8-4f6d-87d6-e6cd4e81aa73",
+      "64051e1a-3484-447e-a974-6e5bb7bdfb13",
       "1323359b-f090-49c0-903c-e73e00137a5c",
       "d04a29f0-5d38-42b4-86cd-3d517efce92c",
       "8f5a9a85-51be-4eaa-ae08-7d650f3f1327",
@@ -1391,20 +3802,36 @@
       "d86e51f6-24f9-4778-a599-2426c39c4be3",
       "db93d31d-9112-4d9e-bb80-b320e1d3ad6c",
       "df1342ad-2490-4cd7-a5c8-dfb616b13cda",
-      "fa3079af-5a07-453a-9d94-ceabd379cbcc"
+      "fa3079af-5a07-453a-9d94-ceabd379cbcc",
+      "974523c0-7f44-40de-aa74-54675beb46b3",
+      "82c7c54f-d8cf-4452-80fe-715e98390a65",
+      "5df87861-f74b-44c4-b179-9deb29dda3de",
+      "865e0188-fafd-4b38-90ea-37db1ec23d73",
+      "e8762a34-9e19-4633-941e-6049efdef3dc",
+      "07010eb4-81e1-4a1d-a3e1-5318e97c2c57",
+      "2ea11021-b622-47ef-9336-04c4835686e5",
+      "2d28ac02-67b1-425f-95f4-fd4515009131",
+      "8eaf8a47-adeb-4a0f-bb14-e132a765db1f",
+      "4faaa3a1-edd8-49db-8ab8-aa44734a1581",
+      "d12b7631-3976-4c8d-91a1-324a330d7a62",
+      "4cdf471c-14b1-4b03-ae44-5fe45fa38ced",
+      "cc7836c5-4047-45dd-9510-b2e3c9450db7",
+      "3d14fa20-62c6-4db4-885d-772cfeb59c65",
+      "431020bd-da77-42f1-827b-ab52f59af1de",
+      "5cd5c689-e765-4a31-8938-a1a922210b56",
+      "fbfb91ca-59a3-49c3-8c2e-1c70ec69844c",
+      "3789354e-db99-4ce0-9c8b-8cd352014f6a",
+      "59f1ce4b-c7d2-43c7-b8f6-2b7b1534e450"
     ],
     "hydration_rounds": 0,
     "intent": "providers.money_positions",
-    "missing_inputs": [
-      "held",
-      "processing"
-    ],
+    "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 574,
+      "snapshot_cursor": 84471,
       "truncated": false
     },
-    "required_cursor": 574,
+    "required_cursor": 84471,
     "result": {
       "positions": [
         {
@@ -1422,7 +3849,7 @@
           "net_assets_minor": -150,
           "partition_complete": false,
           "payout_is_revenue": false,
-          "processing_minor": null,
+          "processing_minor": 0,
           "provider_balance_minor": -5000,
           "provider_reported_at": "2026-10-31T12:00:00Z",
           "provider_reported_total_minor": 9700,
@@ -1431,62 +3858,174 @@
           "unknown_components_are_zero": false
         },
         {
-          "account_id": "default",
+          "account_id": "default-dup5t57",
           "adjustments_minor": 0,
           "announced_payouts_minor": 0,
-          "available_minor": -1697,
-          "bank_confirmed_minor": 0,
-          "captured_minor": 77000,
-          "chargebacks_minor": 2100,
-          "currency": "EUR",
-          "fees_minor": 2100,
-          "held_minor": 2380,
-          "in_transit_minor": 55020,
-          "net_assets_minor": 55703,
-          "partition_complete": false,
-          "payout_is_revenue": false,
-          "processing_minor": null,
-          "provider_balance_minor": 683,
-          "provider_reported_at": null,
-          "provider_reported_total_minor": null,
-          "reconciliation_residual_minor": null,
-          "refunded_minor": 17097,
-          "unknown_components_are_zero": false
-        },
-        {
-          "account_id": "fixture-store.myshopify.com",
-          "adjustments_minor": 0,
-          "announced_payouts_minor": 0,
-          "available_minor": null,
-          "bank_confirmed_minor": 0,
-          "captured_minor": 40757,
+          "available_minor": 2380,
+          "bank_confirmed_minor": 9170,
+          "captured_minor": 11900,
           "chargebacks_minor": 0,
           "currency": "EUR",
-          "fees_minor": 0,
-          "held_minor": null,
+          "fees_minor": 350,
+          "held_minor": 0,
           "in_transit_minor": 0,
-          "net_assets_minor": 40757,
+          "net_assets_minor": 11550,
           "partition_complete": false,
           "payout_is_revenue": false,
-          "processing_minor": null,
-          "provider_balance_minor": 40757,
+          "processing_minor": 0,
+          "provider_balance_minor": 2380,
           "provider_reported_at": null,
           "provider_reported_total_minor": null,
           "reconciliation_residual_minor": null,
           "refunded_minor": 0,
           "unknown_components_are_zero": false
+        },
+        {
+          "account_id": "default-full5t57",
+          "adjustments_minor": 0,
+          "announced_payouts_minor": 0,
+          "available_minor": 2380,
+          "bank_confirmed_minor": 9170,
+          "captured_minor": 11900,
+          "chargebacks_minor": 0,
+          "currency": "EUR",
+          "fees_minor": 350,
+          "held_minor": 0,
+          "in_transit_minor": 0,
+          "net_assets_minor": 11550,
+          "partition_complete": false,
+          "payout_is_revenue": false,
+          "processing_minor": 0,
+          "provider_balance_minor": 2380,
+          "provider_reported_at": null,
+          "provider_reported_total_minor": null,
+          "reconciliation_residual_minor": null,
+          "refunded_minor": 0,
+          "unknown_components_are_zero": false
+        },
+        {
+          "account_id": "default-nobank5t57",
+          "adjustments_minor": 0,
+          "announced_payouts_minor": 0,
+          "available_minor": 2380,
+          "bank_confirmed_minor": 0,
+          "captured_minor": 11900,
+          "chargebacks_minor": 0,
+          "currency": "EUR",
+          "fees_minor": 350,
+          "held_minor": 0,
+          "in_transit_minor": 9170,
+          "net_assets_minor": 11550,
+          "partition_complete": false,
+          "payout_is_revenue": false,
+          "processing_minor": 0,
+          "provider_balance_minor": 2380,
+          "provider_reported_at": null,
+          "provider_reported_total_minor": null,
+          "reconciliation_residual_minor": null,
+          "refunded_minor": 0,
+          "unknown_components_are_zero": false
+        },
+        {
+          "account_id": "default-step5t57",
+          "adjustments_minor": 0,
+          "announced_payouts_minor": 0,
+          "available_minor": 2380,
+          "bank_confirmed_minor": 9170,
+          "captured_minor": 11900,
+          "chargebacks_minor": 0,
+          "currency": "EUR",
+          "fees_minor": 350,
+          "held_minor": 0,
+          "in_transit_minor": 0,
+          "net_assets_minor": 11550,
+          "partition_complete": false,
+          "payout_is_revenue": false,
+          "processing_minor": 0,
+          "provider_balance_minor": 2380,
+          "provider_reported_at": null,
+          "provider_reported_total_minor": null,
+          "reconciliation_residual_minor": null,
+          "refunded_minor": 0,
+          "unknown_components_are_zero": false
+        },
+        {
+          "account_id": "default-x35t57",
+          "adjustments_minor": 0,
+          "announced_payouts_minor": 0,
+          "available_minor": 7140,
+          "bank_confirmed_minor": 0,
+          "captured_minor": 35700,
+          "chargebacks_minor": 0,
+          "currency": "EUR",
+          "fees_minor": 1050,
+          "held_minor": 0,
+          "in_transit_minor": 27510,
+          "net_assets_minor": 34650,
+          "partition_complete": false,
+          "payout_is_revenue": false,
+          "processing_minor": 0,
+          "provider_balance_minor": 7140,
+          "provider_reported_at": null,
+          "provider_reported_total_minor": null,
+          "reconciliation_residual_minor": null,
+          "refunded_minor": 0,
+          "unknown_components_are_zero": false
+        },
+        {
+          "account_id": "default",
+          "adjustments_minor": 0,
+          "announced_payouts_minor": 0,
+          "available_minor": -18357,
+          "bank_confirmed_minor": 9170,
+          "captured_minor": 88900,
+          "chargebacks_minor": 2100,
+          "currency": "EUR",
+          "fees_minor": 2450,
+          "held_minor": 2380,
+          "in_transit_minor": 55020,
+          "net_assets_minor": 48213,
+          "partition_complete": false,
+          "payout_is_revenue": false,
+          "processing_minor": 0,
+          "provider_balance_minor": -15977,
+          "provider_reported_at": null,
+          "provider_reported_total_minor": null,
+          "reconciliation_residual_minor": null,
+          "refunded_minor": 36137,
+          "unknown_components_are_zero": false
+        },
+        {
+          "account_id": "fixture-store.myshopify.com",
+          "adjustments_minor": 0,
+          "announced_payouts_minor": 12345,
+          "available_minor": 0,
+          "bank_confirmed_minor": 0,
+          "captured_minor": 40757,
+          "chargebacks_minor": 0,
+          "currency": "EUR",
+          "fees_minor": 1333,
+          "held_minor": 0,
+          "in_transit_minor": 39424,
+          "net_assets_minor": 39424,
+          "partition_complete": false,
+          "payout_is_revenue": false,
+          "processing_minor": 0,
+          "provider_balance_minor": 0,
+          "provider_reported_at": "2026-10-31T17:28:14.629Z",
+          "provider_reported_total_minor": 51769,
+          "reconciliation_residual_minor": 51769,
+          "refunded_minor": 0,
+          "unknown_components_are_zero": false
         }
       ],
-      "unknown_components": [
-        "held",
-        "processing"
-      ]
+      "unknown_components": []
     },
     "rule_version": "r1",
     "status": "partial",
-    "timing_ms": 47,
+    "timing_ms": 17,
     "effective_at": null,
-    "recorded_cutoff": 574,
+    "recorded_cutoff": 84471,
     "readiness": [
       {
         "capability": "provider_ledger",
@@ -1498,8 +4037,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:39:26.203Z",
-            "last_new_record_at": "2026-10-31T16:39:26.203Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -1507,8 +4046,17 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:52.553Z",
-            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.977Z",
+            "last_new_record_at": "2026-10-31T17:28:15.977Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "d9fe3dee-9fbd-437d-9150-2e576d650a15",
+            "provider": "shopify_payments",
+            "display_name": "Fixture Payments",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.720Z",
+            "last_new_record_at": "2026-10-31T17:15:50.499Z",
             "collection_state": "ready"
           }
         ],
@@ -1516,8 +4064,8 @@
       },
       {
         "capability": "positions",
-        "coverage_status": "unavailable",
-        "readiness": "blocked",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
@@ -1533,8 +4081,17 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:52.553Z",
-            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.977Z",
+            "last_new_record_at": "2026-10-31T17:28:15.977Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "d9fe3dee-9fbd-437d-9150-2e576d650a15",
+            "provider": "shopify_payments",
+            "display_name": "Fixture Payments",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.726Z",
+            "last_new_record_at": null,
             "collection_state": "ready"
           }
         ],
@@ -1550,8 +4107,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:39:26.203Z",
-            "last_new_record_at": "2026-10-31T16:39:26.203Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -1559,8 +4116,17 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:52.553Z",
-            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.977Z",
+            "last_new_record_at": "2026-10-31T17:28:15.977Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "d9fe3dee-9fbd-437d-9150-2e576d650a15",
+            "provider": "shopify_payments",
+            "display_name": "Fixture Payments",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.720Z",
+            "last_new_record_at": "2026-10-31T17:15:50.499Z",
             "collection_state": "ready"
           }
         ],
@@ -1576,8 +4142,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:37:25.493Z",
-            "last_new_record_at": "2026-10-31T16:37:25.493Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.570Z",
+            "last_new_record_at": "2026-10-31T17:28:14.570Z",
             "collection_state": "ready"
           },
           {
@@ -1594,7 +4160,7 @@
             "provider": "bank_csv",
             "display_name": "bank_csv qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:52.852Z",
+            "last_successful_sync_at": "2026-10-31T17:28:16.070Z",
             "last_new_record_at": "2026-10-31T16:53:52.852Z",
             "collection_state": "ready"
           }
@@ -1603,8 +4169,8 @@
       },
       {
         "capability": "holds",
-        "coverage_status": "unavailable",
-        "readiness": "blocked",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
@@ -1620,9 +4186,18 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:52.553Z",
-            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "last_successful_sync_at": "2026-10-31T17:28:15.977Z",
+            "last_new_record_at": "2026-10-31T17:28:15.977Z",
             "collection_state": "ready"
+          },
+          {
+            "connection_id": "d9fe3dee-9fbd-437d-9150-2e576d650a15",
+            "provider": "shopify_payments",
+            "display_name": "Fixture Payments",
+            "health": "error",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "blocked"
           }
         ],
         "missing_source": false
@@ -1636,8 +4211,8 @@
       },
       {
         "capability": "identity",
-        "coverage_status": "unavailable",
-        "readiness": "blocked",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",

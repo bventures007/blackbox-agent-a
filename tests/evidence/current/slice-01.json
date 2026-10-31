@@ -1,9 +1,9 @@
 {
   "api": "http://127.0.0.1:19080",
-  "started_at": "2026-10-31T16:54:02.291Z",
+  "started_at": "2026-10-31T17:27:25.786Z",
   "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
   "import_run": {
-    "run_id": "02bdc744-d2da-4695-a262-aa20f9eeb2d7",
+    "run_id": "121eac19-34a2-4e92-967c-6e49869bed6a",
     "kind": "incremental",
     "state": "complete",
     "counters": {
@@ -11,42 +11,42 @@
       "conflicts": 0,
       "duplicates": 5,
       "total_known": false,
-      "requested_to": "2026-10-31T16:28:13.865Z",
+      "requested_to": "2026-10-31T17:27:14.357Z",
       "orders_fetched": 1,
       "requested_from": "2026-10-21T15:50:00.000Z",
-      "committed_cursor": 102,
+      "committed_cursor": 83785,
       "inventory_snapshots": 0,
       "observations_committed": 0
     }
   },
   "counts_after_import": {
     "counts": {
-      "source": 403,
-      "fact": 399,
-      "commitment": 43,
-      "movement": 61,
+      "source": 41837,
+      "fact": 41833,
+      "commitment": 44,
+      "movement": 62,
       "reservation": 25
     },
-    "committed_cursor": 931
+    "committed_cursor": 83801
   },
   "engine_after_import": {
     "version": "0.1.0-dev",
-    "uptime_seconds": 92,
+    "uptime_seconds": 12,
     "database": "reachable",
     "phase": "current",
-    "applied_cursor": 931,
-    "committed_cursor": 931,
+    "applied_cursor": 83801,
+    "committed_cursor": 83801,
     "lag_entries": 0,
     "lag_ms": 0,
-    "resident_entities": 142,
-    "snapshot_sequence": 445,
-    "rss_bytes": 9338880,
-    "resident_bytes_total": 127032,
+    "resident_entities": 155,
+    "snapshot_sequence": 83767,
+    "rss_bytes": 13352960,
+    "resident_bytes_total": 916760,
     "log_dropped": 0,
     "debug_active": false
   },
   "order_1001_api": {
-    "applied_cursor": 931,
+    "applied_cursor": 83801,
     "calculation": [
       "collected = sum of successful captures; remaining = order gross - collected; authorizations, voids and failures are reported separately and never count as collected."
     ],
@@ -54,13 +54,13 @@
     "coverage": [
       {
         "capability": "orders",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T16:56:48.952Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "payments",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T16:56:48.952Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -90,10 +90,10 @@
     "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 931,
+      "snapshot_cursor": 83801,
       "truncated": false
     },
-    "required_cursor": 931,
+    "required_cursor": 83801,
     "result": {
       "orders": [
         {
@@ -120,9 +120,9 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 12,
+    "timing_ms": 56,
     "effective_at": null,
-    "recorded_cutoff": 931,
+    "recorded_cutoff": 83801,
     "readiness": [
       {
         "capability": "orders",
@@ -133,8 +133,8 @@
             "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
             "provider": "shopify",
             "display_name": "Fixture Store",
-            "health": "delayed",
-            "last_successful_sync_at": "2026-10-31T16:28:13.975Z",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:14.408Z",
             "last_new_record_at": "2026-10-31T16:19:50.941Z",
             "collection_state": "ready"
           },
@@ -143,7 +143,7 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
+            "last_successful_sync_at": "2026-10-31T17:15:48.417Z",
             "last_new_record_at": "2026-10-31T16:53:59.041Z",
             "collection_state": "ready"
           },
@@ -152,7 +152,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:52.553Z",
+            "last_successful_sync_at": "2026-10-31T17:15:45.229Z",
             "last_new_record_at": "2026-10-31T16:53:52.553Z",
             "collection_state": "ready"
           }
@@ -168,8 +168,8 @@
             "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
             "provider": "shopify",
             "display_name": "Fixture Store",
-            "health": "delayed",
-            "last_successful_sync_at": "2026-10-31T16:28:13.975Z",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:14.408Z",
             "last_new_record_at": "2026-10-31T16:19:50.941Z",
             "collection_state": "ready"
           },
@@ -178,7 +178,7 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
+            "last_successful_sync_at": "2026-10-31T17:15:48.417Z",
             "last_new_record_at": "2026-10-31T16:53:59.041Z",
             "collection_state": "ready"
           },
@@ -187,7 +187,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:51.681Z",
+            "last_successful_sync_at": "2026-10-31T17:15:45.133Z",
             "last_new_record_at": "2026-10-31T16:53:51.681Z",
             "collection_state": "ready"
           }
@@ -230,8 +230,8 @@
     ]
   },
   "order_1001_state": {
-    "applied_cursor": 931,
-    "required_cursor": 931,
+    "applied_cursor": 83801,
+    "required_cursor": 83801,
     "status": "complete",
     "view": {
       "computed": {
@@ -310,7 +310,7 @@
         "voided_minor": 0
       }
     },
-    "recorded_cutoff": 931
+    "recorded_cutoff": 83801
   },
   "recovered": {
     "recovered": [
@@ -350,10 +350,10 @@
     "conflicts": 0,
     "duplicates": 5,
     "total_known": false,
-    "requested_to": "2026-10-31T16:54:03.151Z",
+    "requested_to": "2026-10-31T17:27:28.292Z",
     "orders_fetched": 1,
     "requested_from": "2026-10-21T15:50:00.000Z",
-    "committed_cursor": 931,
+    "committed_cursor": 83801,
     "inventory_snapshots": 0,
     "observations_committed": 0
   },
@@ -369,7 +369,7 @@
     "list_sources"
   ],
   "order_1001_mcp": {
-    "applied_cursor": 943,
+    "applied_cursor": 83817,
     "calculation": [
       "collected = sum of successful captures; remaining = order gross - collected; authorizations, voids and failures are reported separately and never count as collected."
     ],
@@ -377,13 +377,13 @@
     "coverage": [
       {
         "capability": "orders",
-        "complete_through": "2026-10-31T16:54:03.151Z",
+        "complete_through": "2026-10-31T16:56:48.952Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "payments",
-        "complete_through": "2026-10-31T16:54:03.151Z",
+        "complete_through": "2026-10-31T16:56:48.952Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -413,10 +413,10 @@
     "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 943,
+      "snapshot_cursor": 83817,
       "truncated": false
     },
-    "required_cursor": 943,
+    "required_cursor": 83817,
     "result": {
       "orders": [
         {
@@ -443,9 +443,9 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 8,
+    "timing_ms": 224,
     "effective_at": null,
-    "recorded_cutoff": 943,
+    "recorded_cutoff": 83817,
     "readiness": [
       {
         "capability": "orders",
@@ -457,7 +457,7 @@
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:54:03.376Z",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
             "last_new_record_at": "2026-10-31T16:19:50.941Z",
             "collection_state": "ready"
           },
@@ -466,7 +466,7 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
+            "last_successful_sync_at": "2026-10-31T17:15:48.417Z",
             "last_new_record_at": "2026-10-31T16:53:59.041Z",
             "collection_state": "ready"
           },
@@ -475,7 +475,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:52.553Z",
+            "last_successful_sync_at": "2026-10-31T17:15:45.229Z",
             "last_new_record_at": "2026-10-31T16:53:52.553Z",
             "collection_state": "ready"
           }
@@ -492,7 +492,7 @@
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:54:03.376Z",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
             "last_new_record_at": "2026-10-31T16:19:50.941Z",
             "collection_state": "ready"
           },
@@ -501,7 +501,7 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
+            "last_successful_sync_at": "2026-10-31T17:15:48.417Z",
             "last_new_record_at": "2026-10-31T16:53:59.041Z",
             "collection_state": "ready"
           },
@@ -510,7 +510,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:51.681Z",
+            "last_successful_sync_at": "2026-10-31T17:15:45.133Z",
             "last_new_record_at": "2026-10-31T16:53:51.681Z",
             "collection_state": "ready"
           }
@@ -555,6 +555,45 @@
   "revocation_denial_ms": 10,
   "engine_before_restart": [
     {
+      "applied_cursor": 15,
+      "committed_cursor": 15,
+      "known_entities": 4,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 4,
+      "snapshot_sequence": null,
+      "tenant_id": "02c2129d-7c19-483e-a66f-f5a5f2ad7b58"
+    },
+    {
+      "applied_cursor": 3,
+      "committed_cursor": 3,
+      "known_entities": 2,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 2,
+      "snapshot_sequence": 3,
+      "tenant_id": "4fce5e42-116e-4238-8d54-3728fe05f4c7"
+    },
+    {
+      "applied_cursor": 3,
+      "committed_cursor": 3,
+      "known_entities": 2,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 2,
+      "snapshot_sequence": 3,
+      "tenant_id": "f80f229f-94ba-4259-bbff-a36528a15549"
+    },
+    {
       "applied_cursor": 0,
       "committed_cursor": 0,
       "known_entities": 0,
@@ -568,17 +607,56 @@
       "tenant_id": "8ae67b4f-c18d-4b2c-9dcf-6e141ded3227"
     },
     {
-      "applied_cursor": 943,
-      "committed_cursor": 943,
-      "known_entities": 142,
+      "applied_cursor": 3,
+      "committed_cursor": 3,
+      "known_entities": 2,
       "lag_entries": 0,
       "lag_ms": 0,
       "last_error": null,
       "phase": "current",
       "ready": true,
-      "resident_entities": 142,
-      "snapshot_sequence": 931,
-      "tenant_id": "64edd3ba-385a-4462-bf62-19087a1b76ee"
+      "resident_entities": 2,
+      "snapshot_sequence": 3,
+      "tenant_id": "11eaff15-e83f-4dae-834a-303e127e8c2b"
+    },
+    {
+      "applied_cursor": 15,
+      "committed_cursor": 15,
+      "known_entities": 4,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 4,
+      "snapshot_sequence": 15,
+      "tenant_id": "910417d8-e777-43d2-9659-397a9c9b2793"
+    },
+    {
+      "applied_cursor": 0,
+      "committed_cursor": 0,
+      "known_entities": 0,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 0,
+      "snapshot_sequence": null,
+      "tenant_id": "7945b3cf-5e69-491b-8a21-a74c0f79bca6"
+    },
+    {
+      "applied_cursor": 0,
+      "committed_cursor": 0,
+      "known_entities": 0,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 0,
+      "snapshot_sequence": null,
+      "tenant_id": "ff0c49a4-6688-434a-a404-0c68ca1f4369"
     },
     {
       "applied_cursor": 15,
@@ -594,6 +672,139 @@
       "tenant_id": "6bf41cd3-dc0c-48a8-9479-b6e661b6adc7"
     },
     {
+      "applied_cursor": 83817,
+      "committed_cursor": 83817,
+      "known_entities": 155,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 155,
+      "snapshot_sequence": 83817,
+      "tenant_id": "64edd3ba-385a-4462-bf62-19087a1b76ee"
+    },
+    {
+      "applied_cursor": 0,
+      "committed_cursor": 0,
+      "known_entities": 0,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 0,
+      "snapshot_sequence": null,
+      "tenant_id": "147d0749-5d40-438e-9871-1989452451a2"
+    },
+    {
+      "applied_cursor": 15,
+      "committed_cursor": 15,
+      "known_entities": 4,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 4,
+      "snapshot_sequence": 15,
+      "tenant_id": "b5b41a11-5ad2-49a3-9779-16fbb1ee0e78"
+    }
+  ],
+  "snapshot_removed": "/d/engine/11eaff15-e83f-4dae-834a-303e127e8c2b/:\n00000000000000000003.snap.json\n\nremoved",
+  "engine_after_rebuild": [
+    {
+      "applied_cursor": 15,
+      "committed_cursor": 15,
+      "known_entities": 4,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 4,
+      "snapshot_sequence": 15,
+      "tenant_id": "02c2129d-7c19-483e-a66f-f5a5f2ad7b58"
+    },
+    {
+      "applied_cursor": 15,
+      "committed_cursor": 15,
+      "known_entities": 4,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 4,
+      "snapshot_sequence": 15,
+      "tenant_id": "6bf41cd3-dc0c-48a8-9479-b6e661b6adc7"
+    },
+    {
+      "applied_cursor": 15,
+      "committed_cursor": 15,
+      "known_entities": 4,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 4,
+      "snapshot_sequence": 15,
+      "tenant_id": "b5b41a11-5ad2-49a3-9779-16fbb1ee0e78"
+    },
+    {
+      "applied_cursor": 15,
+      "committed_cursor": 15,
+      "known_entities": 4,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 4,
+      "snapshot_sequence": 15,
+      "tenant_id": "910417d8-e777-43d2-9659-397a9c9b2793"
+    },
+    {
+      "applied_cursor": 83824,
+      "committed_cursor": 83824,
+      "known_entities": 155,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 155,
+      "snapshot_sequence": 82000,
+      "tenant_id": "64edd3ba-385a-4462-bf62-19087a1b76ee"
+    },
+    {
+      "applied_cursor": 0,
+      "committed_cursor": 0,
+      "known_entities": 0,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 0,
+      "snapshot_sequence": null,
+      "tenant_id": "ff0c49a4-6688-434a-a404-0c68ca1f4369"
+    },
+    {
+      "applied_cursor": 0,
+      "committed_cursor": 0,
+      "known_entities": 0,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 0,
+      "snapshot_sequence": null,
+      "tenant_id": "147d0749-5d40-438e-9871-1989452451a2"
+    },
+    {
       "applied_cursor": 3,
       "committed_cursor": 3,
       "known_entities": 2,
@@ -605,10 +816,62 @@
       "resident_entities": 2,
       "snapshot_sequence": 3,
       "tenant_id": "4fce5e42-116e-4238-8d54-3728fe05f4c7"
+    },
+    {
+      "applied_cursor": 3,
+      "committed_cursor": 3,
+      "known_entities": 2,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 2,
+      "snapshot_sequence": 3,
+      "tenant_id": "f80f229f-94ba-4259-bbff-a36528a15549"
+    },
+    {
+      "applied_cursor": 0,
+      "committed_cursor": 0,
+      "known_entities": 0,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 0,
+      "snapshot_sequence": null,
+      "tenant_id": "7945b3cf-5e69-491b-8a21-a74c0f79bca6"
+    },
+    {
+      "applied_cursor": 3,
+      "committed_cursor": 3,
+      "known_entities": 2,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 2,
+      "snapshot_sequence": 3,
+      "tenant_id": "11eaff15-e83f-4dae-834a-303e127e8c2b"
+    },
+    {
+      "applied_cursor": 0,
+      "committed_cursor": 0,
+      "known_entities": 0,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 0,
+      "snapshot_sequence": null,
+      "tenant_id": "8ae67b4f-c18d-4b2c-9dcf-6e141ded3227"
     }
   ],
   "tenant_collision": {
-    "tenant_b": "11eaff15-e83f-4dae-834a-303e127e8c2b",
+    "tenant_b": "9231e51e-6db1-4f9d-9ef8-5453a2fd6a18",
     "visible_to_a": false
   }
 }

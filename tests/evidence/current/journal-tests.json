@@ -83,33 +83,9 @@
       "gross": "11900"
     },
     {
-      "journal_sequence": "3",
-      "event_type": "fact.order_observed",
-      "supersedes_entry_id": null,
-      "gross": "11900"
-    },
-    {
-      "journal_sequence": "4",
-      "event_type": "commitment.order_obligation",
-      "supersedes_entry_id": null,
-      "gross": "11900"
-    },
-    {
-      "journal_sequence": "5",
-      "event_type": "fact.order_observed",
-      "supersedes_entry_id": null,
-      "gross": "11900"
-    },
-    {
-      "journal_sequence": "6",
-      "event_type": "commitment.order_obligation",
-      "supersedes_entry_id": null,
-      "gross": "11900"
-    },
-    {
       "journal_sequence": "7",
       "event_type": "order.revised",
-      "supersedes_entry_id": "b3caa251-4bdc-45e3-9c0e-899b000ac924",
+      "supersedes_entry_id": "1582b27a-c77f-4402-9549-89e6953cd11d",
       "gross": "9520"
     }
   ]

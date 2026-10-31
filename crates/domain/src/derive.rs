@@ -21,6 +21,8 @@ pub trait Resolver {
     fn hold(&self, _id: &str) -> Option<HoldRef> { None }
     fn payout(&self, _id: &str) -> Option<PayoutRef> { None }
     fn dispute_transaction(&self, _id: &str) -> Option<String> { None }
+    /// provider account that collected a transaction (refund holds and refund cash movements land on it)
+    fn transaction_account(&self, _id: &str) -> Option<String> { None }
 }
 pub struct NoResolver;
 impl Resolver for NoResolver {}
@@ -107,6 +109,11 @@ pub fn derive(entry: &JournalEntry, rs: &dyn Resolver) -> Result<Vec<Derived>, P
         Source::CaseRevised(c) => vec![D::CaseFact { case_id: c.case_id, customer_id: None, invoice_id: None, transaction_id: None, status: c.status, agreed_extension_until: c.agreed_extension_until }],
         Source::LedgerPosted(l) => {
             let mut v = vec![D::LedgerPostingFact { ledger_entry_id: l.ledger_entry_id.clone(), account_id: l.account_id.clone(), source_transaction_id: l.source_transaction_id.clone(), order_id: l.order_id.clone(), payout_id: l.payout_id.clone(), posting_type: l.posting_type.clone(), gross_minor: l.gross_minor, fee_minor: l.fee_minor, net_minor: l.net_minor, currency: l.currency.clone(), effective_time: l.effective_time.clone() }];
+            // a charge posting carries the provider fee: the same economic effect as payment.fee_booked for that transaction (deduplicated by effect id in the account reducer)
+            if l.posting_type == "charge" && l.fee_minor > 0 {
+                let effect = match &l.source_transaction_id { Some(t) => format!("fee:{t}"), None => format!("fee:ledger:{}", l.ledger_entry_id) };
+                v.push(D::CashMovement { account_id: l.account_id.clone(), currency: l.currency.clone(), amount_minor: -l.fee_minor, kind: CashKind::Fee, transaction_id: l.source_transaction_id.clone(), payout_id: l.payout_id.clone(), reference: l.ledger_entry_id.clone(), economic_effect_id: Some(effect), order_id: l.order_id.clone() });
+            }
             if matches!(l.posting_type.as_str(), "adjustment" | "reserve" | "transfer") {
                 v.push(D::CashMovement { account_id: l.account_id, currency: l.currency, amount_minor: l.net_minor, kind: CashKind::LedgerAdjustment, transaction_id: l.source_transaction_id, payout_id: l.payout_id, reference: l.ledger_entry_id.clone(), economic_effect_id: Some(format!("ledger:{}", l.ledger_entry_id)), order_id: l.order_id });
             }
@@ -164,17 +171,18 @@ pub fn derive(entry: &JournalEntry, rs: &dyn Resolver) -> Result<Vec<Derived>, P
         Source::EntitlementRecorded(e) => vec![D::RefundObligation { obligation_id: e.entitlement_id, invoice_id: e.invoice_id, credit_id: e.credit_id, original_transaction_id: Some(e.original_transaction_id), amount_minor: e.amount_minor, currency: e.currency, basis: "explicit_entitlement".into(), destination: e.destination }],
         Source::EntitlementRevised(e) => vec![D::RefundObligationRevised { obligation_id: e.entitlement_id, amount_minor: e.amount_minor, currency: e.currency, state: e.state }],
         Source::RefundPending(r) => vec![D::RefundObservation { refund_id: r.refund_id.clone(), original_transaction_id: r.original_transaction_id.clone(), order_id: r.order_id, amount_minor: r.amount_minor, currency: r.currency.clone(), state: "pending".into(), destination: r.destination },
-            D::CashHold { hold_id: format!("refund:{}", r.refund_id), account_id: "default".into(), currency: r.currency, amount_minor: r.amount_minor, state: "placed".into(), reason: "pending_refund".into(), source: "pending_refund".into(), transaction_id: Some(r.original_transaction_id) }],
+            D::CashHold { hold_id: format!("refund:{}", r.refund_id), account_id: rs.transaction_account(&r.original_transaction_id).unwrap_or_else(|| "default".into()), currency: r.currency, amount_minor: r.amount_minor, state: "placed".into(), reason: "pending_refund".into(), source: "pending_refund".into(), transaction_id: Some(r.original_transaction_id) }],
         Source::RefundCompleted(r) => {
             let eff = r.economic_effect_id.clone().unwrap_or_else(|| format!("refund:{}", r.refund_id));
+            let account = rs.transaction_account(&r.original_transaction_id).unwrap_or_else(|| "default".into());
             vec![D::RefundObservation { refund_id: r.refund_id.clone(), original_transaction_id: r.original_transaction_id.clone(), order_id: r.order_id.clone(), amount_minor: r.amount_minor, currency: r.currency.clone(), state: "completed".into(), destination: "original_payment".into() },
-                 D::CashMovement { account_id: "default".into(), currency: r.currency.clone(), amount_minor: -r.amount_minor, kind: CashKind::Refund, transaction_id: Some(r.original_transaction_id.clone()), payout_id: None, reference: r.refund_id.clone(), economic_effect_id: Some(eff), order_id: r.order_id },
-                 D::CashHold { hold_id: format!("refund:{}", r.refund_id), account_id: "default".into(), currency: r.currency, amount_minor: r.amount_minor, state: "released".into(), reason: "refund_completed".into(), source: "pending_refund".into(), transaction_id: Some(r.original_transaction_id) }]
+                 D::CashMovement { account_id: account.clone(), currency: r.currency.clone(), amount_minor: -r.amount_minor, kind: CashKind::Refund, transaction_id: Some(r.original_transaction_id.clone()), payout_id: None, reference: r.refund_id.clone(), economic_effect_id: Some(eff), order_id: r.order_id },
+                 D::CashHold { hold_id: format!("refund:{}", r.refund_id), account_id: account, currency: r.currency, amount_minor: r.amount_minor, state: "released".into(), reason: "refund_completed".into(), source: "pending_refund".into(), transaction_id: Some(r.original_transaction_id) }]
         }
         Source::RefundFailed(r) => vec![D::RefundObservation { refund_id: r.refund_id.clone(), original_transaction_id: r.original_transaction_id.clone(), order_id: None, amount_minor: r.amount_minor, currency: r.currency.clone(), state: "failed".into(), destination: "original_payment".into() },
             D::CashHold { hold_id: format!("refund:{}", r.refund_id), account_id: "default".into(), currency: r.currency, amount_minor: r.amount_minor, state: "released".into(), reason: "refund_failed".into(), source: "pending_refund".into(), transaction_id: Some(r.original_transaction_id) }],
         Source::RefundReversed(r) => vec![D::RefundObservation { refund_id: r.refund_id.clone(), original_transaction_id: r.original_transaction_id.clone(), order_id: None, amount_minor: r.amount_minor, currency: r.currency.clone(), state: "reversed".into(), destination: "original_payment".into() },
-            D::CashMovement { account_id: "default".into(), currency: r.currency, amount_minor: r.amount_minor, kind: CashKind::Refund, transaction_id: Some(r.original_transaction_id), payout_id: None, reference: format!("reversal:{}", r.refund_id), economic_effect_id: Some(format!("refund_reversal:{}", r.refund_id)), order_id: None }],
+            D::CashMovement { account_id: rs.transaction_account(&r.original_transaction_id).unwrap_or_else(|| "default".into()), currency: r.currency, amount_minor: r.amount_minor, kind: CashKind::Refund, transaction_id: Some(r.original_transaction_id), payout_id: None, reference: format!("reversal:{}", r.refund_id), economic_effect_id: Some(format!("refund_reversal:{}", r.refund_id)), order_id: None }],
         Source::DisputeOpened(d) => vec![D::DisputeObservation { dispute_id: d.dispute_id, original_transaction_id: Some(d.original_transaction_id), order_id: d.order_id, amount_minor: Some(d.amount_minor), currency: Some(d.currency), state: "open".into(), outcome: None, debit_minor: None, fee_minor: None, reversal_minor: None, posting_id: None }],
         Source::DisputeResolved(d) => vec![D::DisputeObservation { original_transaction_id: rs.dispute_transaction(&d.dispute_id), dispute_id: d.dispute_id, order_id: None, amount_minor: None, currency: None, state: "resolved".into(), outcome: Some(d.outcome), debit_minor: None, fee_minor: None, reversal_minor: None, posting_id: None }],
         Source::ChargebackDebit(c) => {

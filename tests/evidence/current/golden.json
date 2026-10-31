@@ -1,123 +1,95 @@
 {
+  "run_suffix": "5t57",
   "stepwise": [
     {
       "after": "G05",
-      "diffs": [
-        "physical_stock: 112000000 != 120",
-        "reserved_stock: 10000000 != 10",
-        "available_stock: 102000000 != 110",
-        "provider_balance_minor: 683 != 0"
-      ]
+      "diffs": []
     },
     {
       "after": "G08",
-      "diffs": [
-        "fees_minor: 2450 != 350",
-        "provider_balance_minor: 12233 != 11550"
-      ]
+      "diffs": []
     },
     {
       "after": "G10",
-      "diffs": [
-        "physical_stock: 102000000 != 110",
-        "available_stock: 102000000 != 110",
-        "provider_balance_minor: 12233 != 11550"
-      ]
+      "diffs": []
     },
     {
       "after": "G12",
-      "diffs": [
-        "physical_stock: 104000000 != 112",
-        "quarantined_stock: 2000000 != 2",
-        "available_stock: 102000000 != 110"
-      ]
+      "diffs": []
     },
     {
       "after": "G13",
-      "diffs": [
-        "physical_stock: 104000000 != 112",
-        "available_stock: 104000000 != 112"
-      ]
+      "diffs": []
     },
     {
       "after": "G14",
-      "diffs": [
-        "provider_balance_minor: 12233 != 11550"
-      ]
+      "diffs": []
     },
     {
       "after": "G15",
       "diffs": [
-        "provider_balance_minor: 12233 != 11550",
-        "provider_held_minor: 4760 != 2380",
-        "provider_available_minor: 7473 != 9170"
+        "provider_held_minor: 0 != 2380",
+        "provider_available_minor: 11550 != 9170"
       ]
     },
     {
       "after": "G16",
       "diffs": [
-        "provider_balance_minor: 9853 != 9170",
-        "provider_held_minor: 2380 != 0",
-        "provider_available_minor: 7473 != 9170"
+        "provider_balance_minor: 11550 != 9170",
+        "provider_available_minor: 11550 != 9170"
       ]
     },
     {
       "after": "G17",
       "diffs": [
-        "provider_balance_minor: 9853 != 9170",
-        "in_transit_minor: 55020 != 0"
+        "provider_balance_minor: 11550 != 9170"
       ]
     },
     {
       "after": "G18",
       "diffs": [
-        "provider_balance_minor: 683 != 0",
-        "in_transit_minor: 64190 != 9170"
+        "provider_balance_minor: 2380 != 0"
       ]
     },
     {
       "after": "G19",
       "diffs": [
-        "physical_stock: 104000000 != 112",
-        "available_stock: 104000000 != 112",
-        "fees_minor: 2450 != 350",
-        "provider_balance_minor: 683 != 0",
-        "in_transit_minor: 55020 != 0"
+        "provider_balance_minor: 2380 != 0"
       ]
     }
   ],
   "full_replay": {
-    "run_id": "297927e4-cffc-48e8-b8f1-ad01c09414b0",
-    "accepted": 0,
-    "duplicates": 19,
+    "run_id": "7a0eaded-db38-47f1-85a6-5e412d87afec",
+    "accepted": 19,
+    "duplicates": 0,
     "conflicts": 0,
-    "required_cursor": 0,
+    "required_cursor": 84126,
     "synthetic": true
   },
   "final_actual": {
-    "physical_stock": 104000000,
+    "physical_stock": 112,
     "reserved_stock": 0,
     "quarantined_stock": 0,
-    "available_stock": 104000000,
+    "available_stock": 112,
     "authorized_minor": 11900,
     "captured_minor": 11900,
-    "fees_minor": 2450,
+    "fees_minor": 350,
     "refunded_minor": 2380,
     "open_receivable_minor": 0,
     "invoice_original_minor": 11900,
     "invoice_credit_minor": 2380,
     "invoice_net_minor": 9520,
     "refund_payable_minor": 0,
-    "provider_balance_minor": 683,
-    "provider_held_minor": 2380,
-    "provider_available_minor": -1697,
+    "provider_balance_minor": 2380,
+    "provider_held_minor": 0,
+    "provider_available_minor": 2380,
     "payout_announced_minor": 0,
-    "in_transit_minor": 55020,
+    "in_transit_minor": 0,
     "bank_confirmed_minor": 9170,
     "customer_net_paid_minor": 9520
   },
   "second_replay": {
-    "run_id": "b1a7f2d8-82a2-4160-a133-5f3b2bb90aaf",
+    "run_id": "cb539746-e7ec-4922-8b44-3d05ff89c31f",
     "accepted": 0,
     "duplicates": 19,
     "conflicts": 0,
@@ -125,37 +97,37 @@
     "synthetic": true
   },
   "dup_replay": {
-    "run_id": "f6228ec4-5651-4c07-8036-851fbc0f2aa6",
-    "accepted": 0,
-    "duplicates": 57,
+    "run_id": "24eb5c05-cc34-43fe-834f-2b1392e10392",
+    "accepted": 19,
+    "duplicates": 38,
     "conflicts": 0,
-    "required_cursor": 0,
+    "required_cursor": 84228,
     "synthetic": true
   },
   "scaled_actual": {
-    "physical_stock": 104000000,
+    "physical_stock": 112,
     "reserved_stock": 0,
     "quarantined_stock": 0,
-    "available_stock": 104000000,
+    "available_stock": 112,
     "authorized_minor": 35700,
     "captured_minor": 35700,
-    "fees_minor": 2450,
+    "fees_minor": 1050,
     "refunded_minor": 7140,
     "open_receivable_minor": 0,
     "invoice_original_minor": 35700,
     "invoice_credit_minor": 7140,
     "invoice_net_minor": 28560,
     "refund_payable_minor": 0,
-    "provider_balance_minor": 683,
-    "provider_held_minor": 2380,
-    "provider_available_minor": -1697,
+    "provider_balance_minor": 7140,
+    "provider_held_minor": 0,
+    "provider_available_minor": 7140,
     "payout_announced_minor": 0,
-    "in_transit_minor": 55020,
-    "bank_confirmed_minor": 9170,
+    "in_transit_minor": 27510,
+    "bank_confirmed_minor": 0,
     "customer_net_paid_minor": 28560
   },
   "missing_bank": {
-    "applied_cursor": 931,
+    "applied_cursor": 84421,
     "calculation": [
       "Sent payouts without a confirmed booked bank match; announcements are not transfers; amount-only candidates require review and are never auto-matched."
     ],
@@ -163,9 +135,9 @@
     "coverage": [
       {
         "capability": "payouts",
-        "complete_through": "2026-10-31T09:18:00Z",
-        "note": null,
-        "status": "complete_for_declared_scope"
+        "complete_through": "2026-10-31T17:28:14.629Z",
+        "note": "1 missing fields",
+        "status": "partial"
       },
       {
         "capability": "bank",
@@ -187,28 +159,71 @@
       }
     ],
     "evidence_entry_ids": [
+      "82c7c54f-d8cf-4452-80fe-715e98390a65",
+      "5df87861-f74b-44c4-b179-9deb29dda3de",
+      "865e0188-fafd-4b38-90ea-37db1ec23d73",
+      "e8762a34-9e19-4633-941e-6049efdef3dc",
+      "07010eb4-81e1-4a1d-a3e1-5318e97c2c57",
+      "2ea11021-b622-47ef-9336-04c4835686e5",
+      "2d28ac02-67b1-425f-95f4-fd4515009131",
+      "8eaf8a47-adeb-4a0f-bb14-e132a765db1f",
+      "cc7836c5-4047-45dd-9510-b2e3c9450db7",
+      "3d14fa20-62c6-4db4-885d-772cfeb59c65",
+      "431020bd-da77-42f1-827b-ab52f59af1de",
+      "5cd5c689-e765-4a31-8938-a1a922210b56",
+      "fbfb91ca-59a3-49c3-8c2e-1c70ec69844c",
+      "3789354e-db99-4ce0-9c8b-8cd352014f6a",
+      "4faaa3a1-edd8-49db-8ab8-aa44734a1581",
+      "d12b7631-3976-4c8d-91a1-324a330d7a62",
       "715a0c49-7b6b-44d8-a78e-dcbb48e7675a",
       "ec1ad3b8-65bb-4bad-8506-cf85dbc8c846",
       "7c46119d-d015-40c6-be68-7aea484e9dba",
       "f62414bf-82b5-404d-8354-deaad1022d3e",
+      "29a7b05a-f342-40d4-8b8e-2aad3ceb8b2c",
+      "605f6d7e-1235-4cd4-a492-01a7af6e8858",
+      "1b5a12ce-3052-49cb-a7af-690b7172e8af",
+      "f3e91097-53fe-4170-879d-1fcf5b0eca7c",
       "e872d98d-b8e4-4b78-9624-5c18f0f3823d",
       "76604a59-a77e-4447-ae0a-67709d0ae2e7",
       "0b68f758-e524-4423-9151-dad974d7a106",
       "1ef4f82a-98a7-45e4-adcc-895fc8f92db4",
-      "2bf1d196-25ab-4c79-9d35-07c501ef9b4c"
+      "2bf1d196-25ab-4c79-9d35-07c501ef9b4c",
+      "e714e152-e937-446c-8907-331110135b86"
     ],
     "hydration_rounds": 0,
     "intent": "payouts.missing_bank_confirmation",
     "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 931,
+      "snapshot_cursor": 84421,
       "truncated": false
     },
-    "required_cursor": 931,
+    "required_cursor": 84415,
     "result": {
       "ambiguous": [],
       "missing_confirmation": [
+        {
+          "age_days": 3,
+          "amount_minor": 39424,
+          "bank_import_complete_through": "2026-10-31T09:19:00Z",
+          "conclusion": "no_evidence_in_imported_interval",
+          "currency": "EUR",
+          "issued_at": "2026-10-28T08:00:00.000Z",
+          "payout_id": "7001",
+          "state": "sent",
+          "trace_reference": "7001"
+        },
+        {
+          "age_days": null,
+          "amount_minor": 12345,
+          "bank_import_complete_through": "2026-10-31T09:19:00Z",
+          "conclusion": "announced_not_sent",
+          "currency": "EUR",
+          "issued_at": null,
+          "payout_id": "7002",
+          "state": "announced",
+          "trace_reference": "7002"
+        },
         {
           "age_days": 0,
           "amount_minor": 9170,
@@ -217,6 +232,17 @@
           "currency": "EUR",
           "issued_at": "2026-10-31T09:18:00+00:00",
           "payout_id": "OUT-1001-nobank",
+          "state": "sent",
+          "trace_reference": null
+        },
+        {
+          "age_days": 0,
+          "amount_minor": 9170,
+          "bank_import_complete_through": "2026-10-31T09:19:00Z",
+          "conclusion": "no_evidence_in_imported_interval",
+          "currency": "EUR",
+          "issued_at": "2026-10-31T09:18:00+00:00",
+          "payout_id": "OUT-1001-nobank5t57",
           "state": "sent",
           "trace_reference": null
         },
@@ -241,22 +267,22 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 15,
+    "timing_ms": 41,
     "effective_at": null,
-    "recorded_cutoff": 931,
+    "recorded_cutoff": 84415,
     "readiness": [
       {
         "capability": "payouts",
-        "coverage_status": "complete_for_declared_scope",
-        "readiness": "ready",
+        "coverage_status": "partial",
+        "readiness": "partial",
         "sources": [
           {
             "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
-            "last_new_record_at": "2026-10-31T16:53:59.041Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -264,8 +290,17 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:52.553Z",
+            "last_successful_sync_at": "2026-10-31T17:15:45.229Z",
             "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "d9fe3dee-9fbd-437d-9150-2e576d650a15",
+            "provider": "shopify_payments",
+            "display_name": "Fixture Payments",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.720Z",
+            "last_new_record_at": "2026-10-31T17:15:50.499Z",
             "collection_state": "ready"
           }
         ],
@@ -281,8 +316,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:54:00.732Z",
-            "last_new_record_at": "2026-10-31T16:53:59.041Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.570Z",
+            "last_new_record_at": "2026-10-31T17:28:14.570Z",
             "collection_state": "ready"
           },
           {
@@ -342,7 +377,7 @@
     ]
   },
   "refund_gaps": {
-    "applied_cursor": 931,
+    "applied_cursor": 84421,
     "calculation": [
       "Approved cash refund entitlement (explicit, or derived from credits on paid invoice portions when no entitlement feed exists) minus completed refunds on the same original payment; a credit note alone does not create a cash repayment."
     ],
@@ -356,7 +391,7 @@
       },
       {
         "capability": "payments",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T16:56:48.952Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -368,7 +403,7 @@
       },
       {
         "capability": "refunds",
-        "complete_through": "2026-10-31T09:18:00Z",
+        "complete_through": "2026-10-31T16:56:49.266Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -399,26 +434,51 @@
       "537cc706-49bc-419c-ae9f-d6eafb5da9f0",
       "a279577c-9526-4f2c-bfb5-9ae363227fac",
       "9741c735-1b8a-4648-a853-e45ca8d409e1",
+      "7790fe12-3f2a-4b38-8e3f-f602bf6e9068",
+      "de8b3ba3-c960-46ef-87fa-0ceab3e61c0e",
+      "6d862416-722e-4503-a1e7-db2570fcd8ff",
+      "30b3f567-23ed-4afa-98c0-d59a9d75c584",
+      "310fec9a-f604-4bbd-8cf7-bdf48553cf37",
       "64ee2102-eefe-406a-b1d5-4eee76b0fecf",
       "9c034a65-4429-4eaa-84b7-fd0e29bf8bb5",
       "7869a7be-d541-4583-8c69-631c0cc74e2e",
       "eaba1de8-eafe-4267-8cca-92d58f57f128",
       "1cd599f7-bb28-4105-9357-51fbcacb2a2e",
+      "d8bbb20e-1807-4097-af07-5b689b8eed30",
+      "13165d71-8467-49db-b8c6-21eba101d2b1",
+      "172abaa2-6f4f-4ca9-bc52-c27cd5c7dc97",
+      "ade3eee9-d26e-461f-b442-71b9711246a5",
+      "89033584-2797-4014-bd69-e5087a1e6b85",
       "676ad341-9900-4c44-8e69-ae045565b6b3",
       "498e287c-5021-4dc9-9ed7-ee328f6829d3",
       "f1008154-9d7b-419a-bf31-e770f9894a55",
       "ba1ffd53-546a-432d-9c11-976e0bf36fcd",
       "c785b74f-c8f2-494e-81e6-887e4e862f31",
+      "db01db62-1325-4d26-a3ee-28e5e8e5be82",
+      "4c808d33-1bba-4dfa-8395-4079622f81fc",
+      "7d299c25-1cd8-4502-aa3f-faca243508a4",
+      "1b39f12a-6046-4f1e-a8d1-5cd3a3fd38b5",
+      "57c7213f-d125-48a4-b04a-ef65d43edefa",
       "5ed784ff-d3eb-44b3-b749-671b7e6783bf",
       "cc782c0b-0245-4bdd-94e7-ff58cd40abc6",
       "7cbacf0b-8d6b-4c52-9395-9435811a2e7f",
       "7fb026a4-8ec6-4e7e-9087-1a5e6ebe0941",
       "9e51083f-0698-43bb-8e10-2b426c2dd41e",
+      "d3564f8e-7d33-4327-a688-40e4f6a96ffc",
+      "82e32339-0931-4d8f-a9ee-6c70028f74bb",
+      "d9e6e136-c380-4757-90d4-1d82af2f0aac",
+      "030ee844-0639-4ed9-9417-3d64564484df",
+      "e967fc27-47e2-4eb2-a327-46746d0842fd",
       "dc7b076e-c05d-4bd1-a607-f03f421e1b2a",
       "54a91e36-20ce-4e83-ab76-7fc41a43bb2e",
       "6a17cf92-f650-4477-bab1-cc0b0cf175b6",
       "e6b97e12-998a-44b3-8ae3-0fd116388f5a",
-      "2387d638-b624-455f-b6fb-a0ebfaa50182"
+      "2387d638-b624-455f-b6fb-a0ebfaa50182",
+      "4cc279db-dc92-4658-87a7-08e2c1bc95c1",
+      "9885e2e9-7c5f-42a1-9f3f-12c31c7bc5bc",
+      "bf316325-840a-4835-81a1-347a28d61279",
+      "c4d23c0f-a8b3-4037-8fec-f8cd6b4e7c43",
+      "0b5f2cd2-18b2-46d7-a86a-78fcdb2da723"
     ],
     "hydration_rounds": 0,
     "intent": "credits.refund_gaps",
@@ -427,10 +487,10 @@
     ],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 931,
+      "snapshot_cursor": 84421,
       "truncated": false
     },
-    "required_cursor": 931,
+    "required_cursor": 84421,
     "result": {
       "credit_without_cash_refund": [],
       "refund_gaps": [
@@ -461,7 +521,27 @@
           "completed_cash_refund_minor": 2380,
           "credit_minor": 2380,
           "currency": "EUR",
+          "invoice_id": "INV-1001-dup5t57",
+          "original_capture_minor": 11900
+        },
+        {
+          "approved_cash_refund_minor": 2380,
+          "basis": "derived_from_paid_invoice_credit",
+          "cash_refund_due_minor": 0,
+          "completed_cash_refund_minor": 2380,
+          "credit_minor": 2380,
+          "currency": "EUR",
           "invoice_id": "INV-1001-full",
+          "original_capture_minor": 11900
+        },
+        {
+          "approved_cash_refund_minor": 2380,
+          "basis": "derived_from_paid_invoice_credit",
+          "cash_refund_due_minor": 0,
+          "completed_cash_refund_minor": 2380,
+          "credit_minor": 2380,
+          "currency": "EUR",
+          "invoice_id": "INV-1001-full5t57",
           "original_capture_minor": 11900
         },
         {
@@ -481,7 +561,27 @@
           "completed_cash_refund_minor": 2380,
           "credit_minor": 2380,
           "currency": "EUR",
+          "invoice_id": "INV-1001-nobank5t57",
+          "original_capture_minor": 11900
+        },
+        {
+          "approved_cash_refund_minor": 2380,
+          "basis": "derived_from_paid_invoice_credit",
+          "cash_refund_due_minor": 0,
+          "completed_cash_refund_minor": 2380,
+          "credit_minor": 2380,
+          "currency": "EUR",
           "invoice_id": "INV-1001-step",
+          "original_capture_minor": 11900
+        },
+        {
+          "approved_cash_refund_minor": 2380,
+          "basis": "derived_from_paid_invoice_credit",
+          "cash_refund_due_minor": 0,
+          "completed_cash_refund_minor": 2380,
+          "credit_minor": 2380,
+          "currency": "EUR",
+          "invoice_id": "INV-1001-step5t57",
           "original_capture_minor": 11900
         },
         {
@@ -493,14 +593,24 @@
           "currency": "EUR",
           "invoice_id": "INV-1001-x3",
           "original_capture_minor": 35700
+        },
+        {
+          "approved_cash_refund_minor": 7140,
+          "basis": "derived_from_paid_invoice_credit",
+          "cash_refund_due_minor": 0,
+          "completed_cash_refund_minor": 7140,
+          "credit_minor": 7140,
+          "currency": "EUR",
+          "invoice_id": "INV-1001-x35t57",
+          "original_capture_minor": 35700
         }
       ]
     },
     "rule_version": "r1",
     "status": "partial",
-    "timing_ms": 11,
+    "timing_ms": 20,
     "effective_at": null,
-    "recorded_cutoff": 931,
+    "recorded_cutoff": 84421,
     "readiness": [
       {
         "capability": "invoices",
@@ -512,8 +622,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
-            "last_new_record_at": "2026-10-31T16:53:59.041Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -521,7 +631,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:51.681Z",
+            "last_successful_sync_at": "2026-10-31T17:15:45.133Z",
             "last_new_record_at": "2026-10-31T16:53:51.681Z",
             "collection_state": "ready"
           }
@@ -537,8 +647,8 @@
             "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
             "provider": "shopify",
             "display_name": "Fixture Store",
-            "health": "delayed",
-            "last_successful_sync_at": "2026-10-31T16:28:13.975Z",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
             "last_new_record_at": "2026-10-31T16:19:50.941Z",
             "collection_state": "ready"
           },
@@ -547,8 +657,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
-            "last_new_record_at": "2026-10-31T16:53:59.041Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -556,7 +666,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:51.681Z",
+            "last_successful_sync_at": "2026-10-31T17:15:45.133Z",
             "last_new_record_at": "2026-10-31T16:53:51.681Z",
             "collection_state": "ready"
           }
@@ -582,7 +692,7 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:52.553Z",
+            "last_successful_sync_at": "2026-10-31T17:15:45.229Z",
             "last_new_record_at": "2026-10-31T16:53:52.553Z",
             "collection_state": "ready"
           }
@@ -598,8 +708,8 @@
             "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
             "provider": "shopify",
             "display_name": "Fixture Store",
-            "health": "delayed",
-            "last_successful_sync_at": "2026-10-31T16:28:13.975Z",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:27:28.502Z",
             "last_new_record_at": "2026-10-31T16:19:50.941Z",
             "collection_state": "ready"
           },
@@ -608,8 +718,8 @@
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
-            "last_new_record_at": "2026-10-31T16:53:59.041Z",
+            "last_successful_sync_at": "2026-10-31T17:28:14.672Z",
+            "last_new_record_at": "2026-10-31T17:28:14.672Z",
             "collection_state": "ready"
           },
           {
@@ -617,8 +727,17 @@
             "provider": "generic",
             "display_name": "generic qa",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T16:53:52.553Z",
+            "last_successful_sync_at": "2026-10-31T17:15:45.229Z",
             "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "d9fe3dee-9fbd-437d-9150-2e576d650a15",
+            "provider": "shopify_payments",
+            "display_name": "Fixture Payments",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T17:28:14.720Z",
+            "last_new_record_at": "2026-10-31T17:15:50.499Z",
             "collection_state": "ready"
           }
         ],

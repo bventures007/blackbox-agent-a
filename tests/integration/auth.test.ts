@@ -4,7 +4,7 @@ import { execSync } from 'node:child_process';
 import { connect } from 'node:net';
 /** Raw HTTP/1.1 request so a forged Host header really reaches the server (fetch silently drops Host). */
 function rawRequest(path: string, headers: Record<string, string>): Promise<number> { return new Promise((res, rej) => { const u = new URL(API); const sock = connect(Number(u.port), u.hostname, () => { sock.write(`GET ${path} HTTP/1.1\r\n${Object.entries(headers).map(([k, v]) => `${k}: ${v}`).join('\r\n')}\r\nConnection: close\r\n\r\n`); }); let buf = ''; sock.on('data', (d) => { buf += d.toString(); }); sock.on('end', () => res(Number(/^HTTP\/1\.1 (\d{3})/.exec(buf)?.[1] ?? 0))); sock.on('error', rej); }); }
-import { API, apiFetch, loginOwner, ownerKey, evidence } from '../helpers/env';
+import { API, apiFetch, loginOwner, ownerKey, evidence, sql } from '../helpers/env';
 
 describe('LOCAL-01 / LOCAL-02 owner key and sessions', () => {
   it('no HTTP endpoint creates an owner or resets access; unauthenticated calls are denied', async () => {
@@ -13,13 +13,17 @@ describe('LOCAL-01 / LOCAL-02 owner key and sessions', () => {
   });
   it('rejects wrong keys without leaking partial matches and throttles repeated failures', async () => {
     const wrong = ownerKey().slice(0, -4) + 'aaaa';
+    // precondition: a fresh installation has no recorded failures (other suites and earlier runs leave some behind)
+    const mig = sql('migrator'); try { await mig`DELETE FROM login_attempts`; } finally { await mig.end(); }
     const statuses: number[] = []; const bodies = new Set<string>();
     for (let i = 0; i < 8; i++) { const r = await apiFetch('/api/auth/login', { method: 'POST', body: JSON.stringify({ access_key: wrong, remember: false }) }); statuses.push(r.status); bodies.add(JSON.stringify(r.body)); }
     expect(statuses.slice(0, 5).every((s) => s === 401)).toBe(true); expect(statuses).toContain(429);
     expect([...bodies].join()).not.toContain(wrong.slice(10, 30));
     evidence('auth-throttle.json', { statuses });
-    // wait out the throttle for the following tests
-    await new Promise((r) => setTimeout(r, 9000));
+    // the lock is exponential (2^n seconds from the fifth failure, capped at 300 s) and clears on a successful sign-in: wait it out
+    const until = Date.now() + 40_000; let recovered = 0;
+    while (Date.now() < until) { const r = await apiFetch('/api/auth/login', { method: 'POST', body: JSON.stringify({ access_key: ownerKey(), remember: false }) }); recovered = r.status; if (r.status === 200) break; await new Promise((res) => setTimeout(res, 1000)); }
+    expect(recovered).toBe(200);
   }, 30_000);
   it('issues an HttpOnly SameSite=Strict cookie, no secret in body/localStorage, and the session survives only server-side', async () => {
     const res = await fetch(API + '/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json', origin: API, 'x-blackbox-request': '1' }, body: JSON.stringify({ access_key: ownerKey(), remember: true }) });

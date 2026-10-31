@@ -79,7 +79,8 @@ export async function buildApp(config: ApiConfig): Promise<{ app: FastifyInstanc
   if (config.webDist && existsSync(config.webDist)) {
     await app.register(fastifyStatic, { root: config.webDist, prefix: '/', wildcard: false, index: false });
     app.setNotFoundHandler(async (req, reply) => {
-      if (req.url.startsWith('/api/')) return reply.code(404).send({ error: 'not_found' });
+      // the app shell is served only for navigations; unknown API paths, callbacks or non-GET requests are refused explicitly
+      if (req.url.startsWith('/api/') || (req.method !== 'GET' && req.method !== 'HEAD') || req.url.startsWith('/mcp')) return reply.code(404).send({ error: 'not_found' });
       if (req.url.startsWith('/landing')) return reply.sendFile('index.html', config.landingDist!);
       return reply.sendFile('index.html', join(config.webDist!));
     });

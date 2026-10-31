@@ -1,7 +1,18 @@
 //! Engine runtime: per-tenant apply loops (derive -> append -> fold -> publish), snapshots/checkpoints, hydration and queries.
 use crate::logging::{Fields, Log};
 use anyhow::Result;
-use bbx_domain::derive::{derive, to_inputs};
+use bbx_domain::derive::{derive, to_inputs, HoldRef, PayoutRef, ReservationRef, Resolver};
+
+/// Derivation inside one batch sees the facts derived from earlier entries of the same batch (not yet committed/applied):
+/// identical derivations on first pass, on restart and on rebuild, independent of how entries were batched.
+struct BatchOverlay<'a> { base: &'a bbx_projections::TenantState, staged: &'a [Derived] }
+impl Resolver for BatchOverlay<'_> {
+    fn reservation(&self, id: &str) -> Option<ReservationRef> { for d in self.staged.iter().rev() { if let Derived::AllocationObservation { reservation_id, order_id, line_id, item_id, location_id, .. } = d { if reservation_id == id { return Some(ReservationRef { item_id: item_id.clone(), order_id: order_id.clone(), line_id: line_id.clone(), location_id: location_id.clone() }); } } } self.base.reservation(id) }
+    fn hold(&self, id: &str) -> Option<HoldRef> { for d in self.staged.iter().rev() { if let Derived::CashHold { hold_id, account_id, currency, transaction_id, .. } = d { if hold_id == id { return Some(HoldRef { account_id: Some(account_id.clone()), currency: Some(currency.clone()), transaction_id: transaction_id.clone() }); } } } self.base.hold(id) }
+    fn payout(&self, id: &str) -> Option<PayoutRef> { for d in self.staged.iter().rev() { if let Derived::PayoutObservation { payout_id, account_id, amount_minor, currency, .. } = d { if payout_id == id { return Some(PayoutRef { account_id: Some(account_id.clone()), currency: currency.clone().or_else(|| self.base.payout(id).and_then(|p| p.currency)), amount_minor: amount_minor.or_else(|| self.base.payout(id).and_then(|p| p.amount_minor)) }); } } } self.base.payout(id) }
+    fn dispute_transaction(&self, id: &str) -> Option<String> { for d in self.staged.iter().rev() { if let Derived::DisputeObservation { dispute_id, original_transaction_id, .. } = d { if dispute_id == id && original_transaction_id.is_some() { return original_transaction_id.clone(); } } } self.base.dispute_transaction(id) }
+    fn transaction_account(&self, id: &str) -> Option<String> { for d in self.staged.iter().rev() { if let Derived::PaymentAttempt { transaction_id, account_id, .. } = d { if transaction_id == id { return Some(account_id.clone()); } } } self.base.transaction_account(id) }
+}
 use bbx_domain::derived::{Derived, EntityKind};
 use bbx_domain::entry::RecordType;
 use bbx_projections::{resolution_keys, Key, Snapshot, TenantState};
@@ -103,15 +114,15 @@ impl Engine {
             let started = Instant::now();
             let batch_id = Uuid::new_v4().to_string();
             let first = batch.first().map(|e| e.journal_sequence).unwrap_or(0); let last = batch.last().map(|e| e.journal_sequence).unwrap_or(0);
-            let mut derived_inputs = Vec::new(); let mut quarantined = 0u64;
+            let mut derived_inputs = Vec::new(); let mut quarantined = 0u64; let mut staged: Vec<Derived> = Vec::new();
             for entry in &batch {
                 if entry.record_type == RecordType::Source {
                     // hydrate entities the derivation may need to resolve ids
                     let keys = resolution_keys(&entry.event_type, &entry.payload);
                     self.hydrate_missing(tenant, &rt, &keys, entry.journal_sequence - 1).await;
-                    let res = { let st = rt.state.read().await; derive(entry, &*st) };
+                    let res = { let st = rt.state.read().await; derive(entry, &BatchOverlay { base: &*st, staged: &staged }) };
                     match res {
-                        Ok(d) => derived_inputs.extend(to_inputs(entry, &d)),
+                        Ok(d) => { derived_inputs.extend(to_inputs(entry, &d)); staged.extend(d.into_iter()); }
                         Err(e) => { quarantined += 1; if let Err(qe) = self.store.quarantine(entry, "unsupported_or_invalid_source", &e.to_string()).await { self.log.warn("engine.quarantine_failed", &format!("{qe}"), Fields { tenant_id: tid.clone(), error_code: Some("quarantine_write_failed".into()), ..Default::default() }); } }
                     }
                     rt.state.write().await.note_source(entry);

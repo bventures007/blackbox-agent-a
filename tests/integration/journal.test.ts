@@ -87,8 +87,8 @@ describe('TENANT-02 / TENANT-03 row-level security and pool reuse', () => {
     try {
       await tenantTx(pool, tenantA, (tx) => tx`SELECT count(*) FROM journal_entries`);
       await tenantTx(pool, tenantA, async (tx) => { await tx`SELECT count(*) FROM journal_entries`; throw new Error('rollback'); }).catch(() => undefined);
-      for (let i = 0; i < 6; i++) { const r = await pool.begin(async (tx) => tx`SELECT current_setting('app.tenant_id', true) AS t, count(*)::int AS n FROM journal_entries`); expect(r[0]!.t ?? '').toBe(''); expect(Number(r[0]!.n)).toBe(0); }
-      const mixed = await Promise.all([tenantA, tenantB, tenantA, tenantB].map((t) => tenantTx(pool, t, (tx) => tx`SELECT count(*)::int AS n FROM journal_entries`) as Promise<Array<{ n: number }>>));
+      for (let i = 0; i < 6; i++) { const r = await pool.begin(async (tx) => tx`SELECT current_setting('app.tenant_id', true) AS t, count(*)::int AS n FROM journal_entries WHERE record_type = 'source'`); expect(r[0]!.t ?? '').toBe(''); expect(Number(r[0]!.n)).toBe(0); }
+      const mixed = await Promise.all([tenantA, tenantB, tenantA, tenantB].map((t) => tenantTx(pool, t, (tx) => tx`SELECT count(*)::int AS n FROM journal_entries WHERE record_type = 'source'`) as Promise<Array<{ n: number }>>)); // derived tracks are appended by the engine; the source count is what this test controls
       expect(mixed.map((m) => Number(m[0]!.n))).toEqual([2, 0, 2, 0]);
     } finally { await pool.end(); }
   });
@@ -105,7 +105,7 @@ describe('JOURNAL-02 corrections, conflicts and replay reproducibility', () => {
     const [first] = await tenantTx(api, tenantA, (tx) => tx`SELECT entry_id FROM journal_entries WHERE dedup_key = 'k1'`) as Array<{ entry_id: string }>;
     const corr = entry('k1-corr', { order_id: '#1001', agreed_version: 2, currency: 'EUR', gross_minor: 9520, lines: [{ line_id: 'L1', item_id: 'CUP', quantity: '8', unit: 'piece', line_gross_minor: 9520 }] }, { event_type: 'order.revised', supersedes_entry_id: first!.entry_id, occurred_at: '2026-10-31T09:05:00Z' });
     await tenantTx(api, tenantA, (tx) => tx`SELECT * FROM journal_append(${tenantA}::uuid, ${tx.json([corr] as never)}::jsonb)`);
-    const rows = await tenantTx(api, tenantA, (tx) => tx`SELECT journal_sequence, event_type, supersedes_entry_id, payload->>'gross_minor' AS gross FROM journal_entries WHERE record_id = 'order:#1001' ORDER BY journal_sequence`) as Array<Record<string, unknown>>;
+    const rows = await tenantTx(api, tenantA, (tx) => tx`SELECT journal_sequence, event_type, supersedes_entry_id, payload->>'gross_minor' AS gross FROM journal_entries WHERE record_id = 'order:#1001' AND record_type = 'source' ORDER BY journal_sequence`) as Array<Record<string, unknown>>;
     results.correction_chain = rows;
     expect(rows.map((r) => r.event_type)).toEqual(['order.accepted', 'order.accepted', 'order.revised']);
     expect(rows[2]!.supersedes_entry_id).toBe(first!.entry_id); expect(rows[0]!.gross).toBe('11900'); expect(rows[2]!.gross).toBe('9520');
@@ -117,8 +117,9 @@ describe('JOURNAL-02 corrections, conflicts and replay reproducibility', () => {
     const [a, b] = (await Promise.all([p1, p2])) as Array<Array<{ journal_sequence: number }>>;
     const seqs = [Number(a[0]!.journal_sequence), Number(b[0]!.journal_sequence)].sort();
     expect(seqs[1]! - seqs[0]!).toBe(1);
-    const [hwm] = await tenantTx(api, tenantA, (tx) => tx`SELECT next_sequence - 1 AS h FROM tenant_sequences WHERE tenant_id = ${tenantA}::uuid`) as Array<{ h: number }>;
-    const [mx] = await tenantTx(api, tenantA, (tx) => tx`SELECT max(journal_sequence) AS m, count(*)::int AS n FROM journal_entries WHERE tenant_id = ${tenantA}::uuid`) as Array<{ m: number; n: number }>;
+    // high-water mark and max/count must be read in ONE snapshot: the engine appends derived entries concurrently
+    const [inv] = await tenantTx(api, tenantA, (tx) => tx`SELECT (SELECT next_sequence - 1 FROM tenant_sequences WHERE tenant_id = ${tenantA}::uuid) AS h, max(journal_sequence) AS m, count(*)::int AS n FROM journal_entries WHERE tenant_id = ${tenantA}::uuid`) as Array<{ h: number; m: number; n: number }>;
+    const hwm = inv; const mx = inv;
     expect(Number(hwm!.h)).toBe(Number(mx!.m)); expect(Number(mx!.n)).toBe(Number(mx!.m));
   });
   it('installation-scoped settings use the nil tenant and runtime roles can read them', async () => {

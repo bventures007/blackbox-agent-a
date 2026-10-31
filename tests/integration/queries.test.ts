@@ -127,7 +127,7 @@ describe('QUERY-01 positive paths for all 24 intents via API', () => {
       ev('return.received', 'q-rec-1', '2026-10-27T10:00:00Z', { receipt_id: 'RC-Q', return_id: 'RET-Q', item_id: 'CUP-Q', quantity: '2', unit: 'piece', disposition: 'quarantine' }),
       ev('refund.pending', 'q-ref-1', '2026-10-27T11:00:00Z', { refund_id: 'RF-Q', original_transaction_id: 'T-Q1', order_id: '#QC', amount_minor: 2380, currency: 'EUR' }),
       ev('refund.entitlement_recorded', 'q-ent-1', '2026-10-26T12:00:00Z', { entitlement_id: 'ENT-Q', invoice_id: 'I1', credit_id: 'CN1', original_transaction_id: 'T-Q1', amount_minor: 2380, currency: 'EUR', destination: 'original_payment' }),
-      ev('dispute.opened', 'q-disp-1', '2026-10-28T10:00:00Z', { dispute_id: 'DSP-Q', original_transaction_id: 'T-Q2', order_id: '#QB', amount_minor: 600, currency: 'EUR' }),
+      ev('dispute.opened', 'q-dispute-1', '2026-10-28T10:00:00Z', { dispute_id: 'DSP-Q', original_transaction_id: 'T-Q2', order_id: '#QB', amount_minor: 600, currency: 'EUR' }),
       ev('chargeback.debit_posted', 'q-cb-1', '2026-10-29T10:00:00Z', { dispute_id: 'DSP-Q', debit_posting_id: 'CBD-1', original_transaction_id: 'T-Q2', debit_minor: 600, fee_minor: 1500, currency: 'EUR' }),
       ev('refund.completed', 'q-ref-2', '2026-10-29T11:00:00Z', { refund_id: 'RF-Q2', original_transaction_id: 'T-Q2', order_id: '#QB', amount_minor: 600, currency: 'EUR' }),
       ev('order.cancelled', 'q-oA-cancel', '2026-10-30T12:00:00Z', { order_id: '#QA', full: true }),

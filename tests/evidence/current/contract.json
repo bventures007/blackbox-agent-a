@@ -1,0 +1,1122 @@
+{
+  "rows": {
+    "shopify.orders": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify.stock": {
+      "events_mapped": 1,
+      "events_unsupported": [
+        "inventory.adjustment_observed"
+      ],
+      "missing_fields": [
+        "safety_stock"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify.allocations": {
+      "events_mapped": 2,
+      "events_unsupported": [
+        "allocation.revised"
+      ],
+      "missing_fields": [
+        "policy_version"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify.fulfillments": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [
+        "location_id"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify.payments": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify.returns": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [
+        "reverse_shipment_id"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify.receipts": {
+      "events_mapped": 2,
+      "events_unsupported": [
+        "return.disposition_observed"
+      ],
+      "missing_fields": [
+        "location_id"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify.refunds": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify_payments.provider_ledger": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify_payments.positions": {
+      "events_mapped": 1,
+      "events_unsupported": [],
+      "missing_fields": [
+        "processing_minor",
+        "available_minor",
+        "held_minor"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify_payments.payouts": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [
+        "reversal_id"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify_payments.holds": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "provider.hold_recorded",
+        "provider.hold_released",
+        "provider.release_promised"
+      ],
+      "missing_fields": [
+        "hold_id",
+        "account_id",
+        "transaction_id",
+        "currency",
+        "amount_minor",
+        "reason",
+        "state",
+        "release_promised_at",
+        "released_at",
+        "evidence_id"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify_payments.refunds": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [
+        "destination"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "shopify_payments.disputes": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [
+        "debit_posting_id",
+        "debit_minor",
+        "reversal_minor"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "bank_csv.bank": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.orders": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.stock": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.allocations": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.supply": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.promises": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.fulfillments": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.tracking": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.communications": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.invoices": {
+      "events_mapped": 5,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.invoice_dispatch": {
+      "events_mapped": 1,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.payments": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.payment_allocations": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.policy": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.cases": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.provider_ledger": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.positions": {
+      "events_mapped": 1,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.payouts": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.bank": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.holds": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.returns": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.receipts": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.entitlements": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.refunds": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.disputes": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "generic.identity": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.orders": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.stock": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.allocations": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.supply": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "supply.commitment_recorded",
+        "supply.commitment_revised"
+      ],
+      "missing_fields": [
+        "promise_id",
+        "supplier_id",
+        "item_id",
+        "location_id",
+        "quantity",
+        "unit",
+        "promised_at",
+        "timezone",
+        "revision",
+        "allocation_links"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.promises": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "customer.commitment_recorded",
+        "customer.commitment_revised"
+      ],
+      "missing_fields": [
+        "promise_id",
+        "order_id",
+        "line_id",
+        "promised_at",
+        "timezone",
+        "promise_kind",
+        "revision",
+        "evidence_id"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.fulfillments": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.tracking": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "carrier.scan_observed",
+        "carrier.forecast_observed"
+      ],
+      "missing_fields": [
+        "carrier_service",
+        "tracking_number",
+        "scan_identity",
+        "status_code",
+        "effective_time",
+        "timezone",
+        "forecast",
+        "observed_at"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.communications": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "communication.observed",
+        "communication.extraction_reviewed"
+      ],
+      "missing_fields": [
+        "message_id",
+        "customer_id",
+        "order_id",
+        "sent_at",
+        "actor",
+        "evidence_ref",
+        "reviewed_commitments",
+        "visibility_scope"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.invoices": {
+      "events_mapped": 5,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.invoice_dispatch": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "invoice.dispatch_observed"
+      ],
+      "missing_fields": [
+        "dispatch_id",
+        "document_id",
+        "channel",
+        "status",
+        "processed_at",
+        "source_scope"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.payments": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.payment_allocations": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "payment.allocation_recorded",
+        "payment.allocation_revised",
+        "invoice.payment_marked"
+      ],
+      "missing_fields": [
+        "allocation_id",
+        "invoice_id",
+        "transaction_id",
+        "amount_minor",
+        "currency",
+        "confidence",
+        "evidence_id",
+        "revision"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.policy": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "business.rule_recorded",
+        "business.rule_revised"
+      ],
+      "missing_fields": [
+        "rule_id",
+        "rule_kind",
+        "version",
+        "effective_from",
+        "scope",
+        "priority_method",
+        "invoicing_trigger",
+        "tolerance",
+        "currency",
+        "timezone",
+        "reminder_policy"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.cases": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "business.case_recorded",
+        "business.case_revised"
+      ],
+      "missing_fields": [
+        "case_id",
+        "customer_id",
+        "invoice_id",
+        "transaction_id",
+        "status",
+        "agreed_extension_until",
+        "evidence_id"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.provider_ledger": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.positions": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "provider.balance_observed"
+      ],
+      "missing_fields": [
+        "account_id",
+        "currency",
+        "observed_at",
+        "total_minor",
+        "processing_minor",
+        "available_minor",
+        "held_minor",
+        "coverage"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.payouts": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.bank": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.holds": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "provider.hold_recorded",
+        "provider.hold_released",
+        "provider.release_promised"
+      ],
+      "missing_fields": [
+        "hold_id",
+        "account_id",
+        "transaction_id",
+        "currency",
+        "amount_minor",
+        "reason",
+        "state",
+        "release_promised_at",
+        "released_at",
+        "evidence_id"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.returns": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.receipts": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.entitlements": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "refund.entitlement_recorded",
+        "refund.entitlement_revised"
+      ],
+      "missing_fields": [
+        "entitlement_id",
+        "order_id",
+        "invoice_id",
+        "credit_id",
+        "original_transaction_id",
+        "amount_minor",
+        "currency",
+        "destination",
+        "approved_at",
+        "state"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.refunds": {
+      "events_mapped": 4,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.disputes": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "dispute.opened",
+        "dispute.resolved",
+        "chargeback.debit_posted",
+        "chargeback.reversed"
+      ],
+      "missing_fields": [
+        "dispute_id",
+        "original_transaction_id",
+        "order_id",
+        "amount_minor",
+        "currency",
+        "state",
+        "debit_posting_id",
+        "debit_minor",
+        "reversal_minor",
+        "evidence_id"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "replay.identity": {
+      "events_mapped": 0,
+      "events_unsupported": [
+        "entity.link_recorded",
+        "entity.link_revised",
+        "entity.link_conflict"
+      ],
+      "missing_fields": [
+        "entity_type",
+        "entity_id",
+        "connection_id",
+        "account_namespace",
+        "external_id",
+        "relationship_type",
+        "target_id",
+        "evidence_id",
+        "confidence",
+        "revision"
+      ],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "policy.policy": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "runtime.coverage": {
+      "events_mapped": 2,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    },
+    "runtime.identity": {
+      "events_mapped": 3,
+      "events_unsupported": [],
+      "missing_fields": [],
+      "modes": {
+        "local_standalone": "supported",
+        "local_gateway": "unsupported",
+        "public_server": "unsupported"
+      }
+    }
+  },
+  "catalog": {
+    "implemented": [
+      {
+        "id": "shopify",
+        "capabilities": [
+          "orders",
+          "payments",
+          "refunds",
+          "fulfillments",
+          "stock",
+          "allocations",
+          "returns",
+          "receipts"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "shopify_payments",
+        "capabilities": [
+          "provider_ledger",
+          "payouts",
+          "positions",
+          "disputes",
+          "refunds",
+          "holds"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "replay",
+        "capabilities": [
+          "orders",
+          "stock",
+          "allocations",
+          "fulfillments",
+          "invoices",
+          "payments",
+          "provider_ledger",
+          "payouts",
+          "bank",
+          "returns",
+          "receipts",
+          "refunds",
+          "tracking",
+          "supply",
+          "promises",
+          "communications",
+          "invoice_dispatch",
+          "payment_allocations",
+          "policy",
+          "cases",
+          "positions",
+          "holds",
+          "entitlements",
+          "disputes",
+          "identity"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "generic",
+        "capabilities": [
+          "orders",
+          "stock",
+          "allocations",
+          "supply",
+          "promises",
+          "fulfillments",
+          "tracking",
+          "communications",
+          "invoices",
+          "invoice_dispatch",
+          "payments",
+          "payment_allocations",
+          "policy",
+          "cases",
+          "provider_ledger",
+          "positions",
+          "payouts",
+          "bank",
+          "holds",
+          "returns",
+          "receipts",
+          "entitlements",
+          "refunds",
+          "disputes",
+          "identity"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "bank_csv",
+        "capabilities": [
+          "bank"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "policy",
+        "capabilities": [
+          "policy"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "runtime",
+        "capabilities": [
+          "coverage",
+          "identity"
+        ],
+        "status": "implemented"
+      }
+    ],
+    "planned": [
+      {
+        "id": "shopware",
+        "status": "planned"
+      },
+      {
+        "id": "woocommerce",
+        "status": "planned"
+      },
+      {
+        "id": "email",
+        "status": "planned"
+      },
+      {
+        "id": "lexware",
+        "status": "planned"
+      },
+      {
+        "id": "sevdesk",
+        "status": "planned"
+      },
+      {
+        "id": "billbee",
+        "status": "planned"
+      },
+      {
+        "id": "sufio",
+        "status": "planned"
+      },
+      {
+        "id": "stripe",
+        "status": "planned"
+      },
+      {
+        "id": "paypal",
+        "status": "planned"
+      },
+      {
+        "id": "mollie",
+        "status": "planned"
+      },
+      {
+        "id": "easybill",
+        "status": "planned"
+      },
+      {
+        "id": "dhl",
+        "status": "planned"
+      },
+      {
+        "id": "dpd",
+        "status": "planned"
+      },
+      {
+        "id": "ups",
+        "status": "planned"
+      },
+      {
+        "id": "klaviyo",
+        "status": "planned"
+      }
+    ],
+    "modes": {
+      "local_standalone": "supported",
+      "local_gateway": "unsupported (deferred)",
+      "public_server": "unsupported (deferred)"
+    },
+    "shopify_api_version": "2025-10",
+    "shopify_required_scopes": {
+      "orders": [
+        "read_orders"
+      ],
+      "payments": [
+        "read_orders"
+      ],
+      "refunds": [
+        "read_orders"
+      ],
+      "fulfillments": [
+        "read_orders",
+        "read_fulfillments"
+      ],
+      "stock": [
+        "read_inventory",
+        "read_locations"
+      ],
+      "allocations": [
+        "read_orders",
+        "read_merchant_managed_fulfillment_orders"
+      ],
+      "returns": [
+        "read_returns"
+      ],
+      "receipts": [
+        "read_returns"
+      ],
+      "provider_ledger": [
+        "read_shopify_payments_payouts"
+      ],
+      "payouts": [
+        "read_shopify_payments_payouts"
+      ],
+      "positions": [
+        "read_shopify_payments_payouts"
+      ],
+      "disputes": [
+        "read_shopify_payments_disputes"
+      ],
+      "holds": [
+        "read_shopify_payments_payouts"
+      ]
+    }
+  }
+}

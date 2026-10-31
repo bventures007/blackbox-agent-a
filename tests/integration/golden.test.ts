@@ -9,6 +9,8 @@ import { resolve } from 'node:path';
 import { ROOT, apiFetch, loginOwner, waitApplied, evidence } from '../helpers/env';
 
 let cookie: string; let replayId: string; const ev: Record<string, unknown> = {};
+// every run gets its own id namespace: provider identity is content-sensitive, so re-running a variant with changed mapping would otherwise be a conflict, not a replay
+const RUN = Math.random().toString(36).slice(2, 6); const S = (v: string) => `${v}${RUN}`; ev.run_suffix = RUN;
 const golden = JSON.parse(readFileSync(resolve(ROOT, 'GOLDEN-ORDER-TO-CASH.json'), 'utf8')) as { checkpoints: Array<{ after: string; expected: Record<string, number | string> }>; events: Array<{ id: string }> };
 const state = async (type: string, id: string, extra: Record<string, unknown> = {}) => { const r = await apiFetch('/api/state', { method: 'POST', cookie, body: JSON.stringify({ entity_type: type, entity_id: id, ...extra }) }); expect(r.status).toBe(200); return r.body as { status: string; view: { state: Record<string, unknown>; computed: Record<string, unknown>; evidence_entry_ids: string[] } }; };
 const q = (s: unknown) => Number(String(s)); // quantities are decimal strings
@@ -45,35 +47,35 @@ afterAll(() => evidence('golden.json', ev));
 describe('DOMAIN-01 Golden Scenario through ingestion, PostgreSQL, Rust and API', () => {
   it('matches every intermediate checkpoint when replayed step by step', async () => {
     const results: Array<{ after: string; diffs: string[] }> = [];
-    for (const cp of golden.checkpoints) { await replay({ stop_after: cp.after, id_suffix: '-step' }); const { diffs } = await checkpoint(cp.expected, '-step', 1); results.push({ after: cp.after, diffs }); }
+    for (const cp of golden.checkpoints) { await replay({ stop_after: cp.after, id_suffix: S('-step') }); const { diffs } = await checkpoint(cp.expected, S('-step'), 1); results.push({ after: cp.after, diffs }); }
     ev.stepwise = results;
     for (const r of results) expect(r.diffs, `after ${r.after}`).toEqual([]);
   }, 600_000);
   it('matches the final checkpoint after one full replay and conservation holds', async () => {
-    const r = await replay({ id_suffix: '-full' }); ev.full_replay = r;
-    const finalCp = golden.checkpoints.at(-1)!; const { diffs, actual } = await checkpoint(finalCp.expected, '-full', 1); ev.final_actual = actual;
+    const r = await replay({ id_suffix: S('-full') }); ev.full_replay = r;
+    const finalCp = golden.checkpoints.at(-1)!; const { diffs, actual } = await checkpoint(finalCp.expected, S('-full'), 1); ev.final_actual = actual;
     expect(diffs).toEqual([]);
     const a = actual as Record<string, number>;
     expect(a.captured_minor - a.fees_minor - a.refunded_minor).toBe(a.provider_balance_minor + a.in_transit_minor + a.bank_confirmed_minor);
     expect(a.available_stock).toBe(a.physical_stock - a.quarantined_stock - a.reserved_stock);
-    const evi = await state('account', 'default-full/EUR'); expect(evi.view.evidence_entry_ids.length).toBeGreaterThan(0);
+    const evi = await state('account', `default${S('-full')}/EUR`); expect(evi.view.evidence_entry_ids.length).toBeGreaterThan(0);
     const e = await apiFetch(`/api/journal/entries/${evi.view.evidence_entry_ids[0]}`, { cookie }); expect(e.status).toBe(200);
   }, 300_000);
 });
 
 describe('DOMAIN-02 replay twice and mutated values', () => {
   it('a second identical replay changes nothing (idempotent business effects)', async () => {
-    const before = await checkpoint(golden.checkpoints.at(-1)!.expected, '-full', 1);
-    const r = await replay({ id_suffix: '-full' }); ev.second_replay = r; expect(r.accepted).toBe(0); expect(r.duplicates).toBeGreaterThan(0);
-    const after = await checkpoint(golden.checkpoints.at(-1)!.expected, '-full', 1); expect(after.actual).toEqual(before.actual);
+    const before = await checkpoint(golden.checkpoints.at(-1)!.expected, S('-full'), 1);
+    const r = await replay({ id_suffix: S('-full') }); ev.second_replay = r; expect(r.accepted).toBe(0); expect(r.duplicates).toBeGreaterThan(0);
+    const after = await checkpoint(golden.checkpoints.at(-1)!.expected, S('-full'), 1); expect(after.actual).toEqual(before.actual);
   }, 300_000);
   it('duplicate concurrent deliveries (repeat 3) produce the same amounts', async () => {
-    const r = await replay({ id_suffix: '-dup', repeat: 3 }); ev.dup_replay = r;
-    const { diffs } = await checkpoint(golden.checkpoints.at(-1)!.expected, '-dup', 1); expect(diffs).toEqual([]);
+    const r = await replay({ id_suffix: S('-dup'), repeat: 3 }); ev.dup_replay = r;
+    const { diffs } = await checkpoint(golden.checkpoints.at(-1)!.expected, S('-dup'), 1); expect(diffs).toEqual([]);
   }, 300_000);
   it('scaled amounts (x3) with unique ids compute generalized values, not hardcoded ones', async () => {
-    await replay({ id_suffix: '-x3', scale: 3 });
-    const { diffs, actual } = await checkpoint(golden.checkpoints.at(-1)!.expected, '-x3', 3); ev.scaled_actual = actual;
+    await replay({ id_suffix: S('-x3'), scale: 3 });
+    const { diffs, actual } = await checkpoint(golden.checkpoints.at(-1)!.expected, S('-x3'), 3); ev.scaled_actual = actual;
     // stock quantities are shared across replays of the same item; money must scale
     expect(diffs.filter((d) => d.includes('_minor'))).toEqual([]);
     expect((actual as Record<string, number>).captured_minor).toBe(11900 * 3);
@@ -82,9 +84,9 @@ describe('DOMAIN-02 replay twice and mutated values', () => {
 
 describe('DOMAIN-03 / missing_bank variant / IMPORT-02 partial truth', () => {
   it('stopping at G18 leaves 9170 in transit and bank unknown rather than zero-confirmed', async () => {
-    await replay({ id_suffix: '-nobank', stop_after: 'G18' });
-    const acc = await state('account', 'default-nobank/EUR'); void acc; // isolated account of this variant; evaluate via payout entity
-    const payout = await state('payout', 'OUT-1001-nobank'); expect((payout.view.state as { state: string; bank_confirmed: boolean }).state).toBe('sent'); expect((payout.view.state as { bank_confirmed: boolean }).bank_confirmed).toBe(false);
+    await replay({ id_suffix: S('-nobank'), stop_after: 'G18' });
+    const acc = await state('account', `default${S('-nobank')}/EUR`); void acc; // isolated account of this variant; evaluate via payout entity
+    const payout = await state('payout', `OUT-1001${S('-nobank')}`); expect((payout.view.state as { state: string; bank_confirmed: boolean }).state).toBe('sent'); expect((payout.view.state as { bank_confirmed: boolean }).bank_confirmed).toBe(false);
     const missing = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'payouts.missing_bank_confirmation' }) });
     ev.missing_bank = missing.body;
     const rows = (missing.body.result as { missing_confirmation: Array<{ payout_id: string; conclusion: string }> }).missing_confirmation;

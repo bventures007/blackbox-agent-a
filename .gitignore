@@ -43,3 +43,6 @@ __pycache__/
 /apps/landing/dist/
 /apps/web/dist/
 /tests/evidence/tmp/
+
+# scratch event files for the register recorder
+/work/

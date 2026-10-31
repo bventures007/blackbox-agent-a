@@ -132,6 +132,7 @@ impl bbx_domain::derive::Resolver for TenantState {
     fn hold(&self, id: &str) -> Option<bbx_domain::derive::HoldRef> { match self.entities.get(&(EntityKind::Hold, id.to_string())) { Some(EntityState::Hold(h)) => Some(bbx_domain::derive::HoldRef { account_id: h.account_id.clone(), currency: h.currency.clone(), transaction_id: h.transaction_id.clone() }), _ => None } }
     fn payout(&self, id: &str) -> Option<bbx_domain::derive::PayoutRef> { match self.entities.get(&(EntityKind::Payout, id.to_string())) { Some(EntityState::Payout(p)) => Some(bbx_domain::derive::PayoutRef { account_id: Some(p.account_id.clone()), currency: Some(p.currency.clone()), amount_minor: Some(p.amount_minor) }), _ => None } }
     fn dispute_transaction(&self, id: &str) -> Option<String> { match self.entities.get(&(EntityKind::Dispute, id.to_string())) { Some(EntityState::Dispute(d)) => d.original_transaction_id.clone(), _ => None } }
+    fn transaction_account(&self, id: &str) -> Option<String> { match self.entities.get(&(EntityKind::Transaction, id.to_string())) { Some(EntityState::Transaction(t)) => Some(t.account_id.clone()), _ => None } }
 }
 
 /// Entity keys a source observation may need resolved (hydrate these before deriving).
@@ -143,6 +144,7 @@ pub fn resolution_keys(event_type: &str, payload: &serde_json::Value) -> Vec<Key
         "provider.hold_released" => { if let Some(id) = g("hold_id") { v.push((EntityKind::Hold, id)); } }
         "payout.failed" | "payout.reversed" => { if let Some(id) = g("payout_id") { v.push((EntityKind::Payout, id)); } }
         "dispute.resolved" | "chargeback.reversed" => { if let Some(id) = g("dispute_id") { v.push((EntityKind::Dispute, id)); } }
+        "refund.pending" | "refund.completed" | "refund.failed" | "refund.reversed" => { if let Some(id) = g("original_transaction_id") { v.push((EntityKind::Transaction, id)); } }
         "bank.credit_booked" | "bank.match_recorded" | "bank.match_revised" => { if let Some(id) = g("payout_id") { v.push((EntityKind::Payout, id)); } }
         _ => {}
     }

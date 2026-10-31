@@ -5,8 +5,9 @@
  */
 import { test, expect, type Page } from '@playwright/test';
 import { readFileSync, mkdirSync } from 'node:fs';
-import { resolve } from 'node:path';
-const ROOT = resolve(__dirname, '../..'); const KEY = readFileSync(resolve(ROOT, '.local/test-owner-key'), 'utf8').trim();
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..'); const KEY = readFileSync(resolve(ROOT, '.local/test-owner-key'), 'utf8').trim();
 const shots = resolve(ROOT, 'tests/evidence/current/screens'); mkdirSync(shots, { recursive: true });
 const shot = (page: Page, name: string) => page.screenshot({ path: resolve(shots, `${test.info().project.name}-${name}.png`), fullPage: true });
 async function signIn(page: Page, lang: 'en' | 'de') {
