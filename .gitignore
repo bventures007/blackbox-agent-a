@@ -37,3 +37,4 @@ __pycache__/
 /.runtime/
 /target/
 /work/
+/.tools/

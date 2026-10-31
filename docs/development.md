@@ -58,6 +58,7 @@ cargo test --workspace
 python3 scripts/validate-question-catalogue.py
 python3 scripts/integration-register.py check
 python3 scripts/validate-delivery-profile.py
+python3 scripts/fetch-host-tools.py
 python3 -m unittest discover -s scripts/tests -p 'test_*.py'
 ```
 

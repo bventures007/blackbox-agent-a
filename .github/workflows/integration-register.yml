@@ -21,5 +21,7 @@ jobs:
           if [ -n "$BASE_SHA" ] && git cat-file -e "$BASE_SHA:integrations/history.jsonl" 2>/dev/null; then
             python3 scripts/integration-register.py check --base "$BASE_SHA"
           fi
+      - name: Prepare pinned CI encryption dependency
+        run: python3 scripts/fetch-host-tools.py
       - name: Exercise enforcement failures and valid approvals
         run: python3 -m unittest discover -s scripts/tests -p 'test_*.py' -v
