@@ -35,7 +35,9 @@ verified source input
   -> authorized API/MCP response with applied cursor and freshness
 ```
 
-An ingestion acknowledgement means the journal transaction is durably committed, with the configured PostgreSQL durability settings and storage guarantees documented. It does not imply that every read replica has already applied the change. Never acknowledge a write that exists only in RAM or disable fsync/synchronous durability to make the benchmark pass.
+A core journal-ingestion acknowledgement means the journal transaction is durably committed, with the configured PostgreSQL durability settings and storage guarantees documented. It does not imply that every read replica has already applied the change. Never acknowledge a write that exists only in RAM or disable fsync/synchronous durability to make the benchmark pass.
+
+The optional public gateway has a separate gateway_received transport acknowledgement after its own durable queue commit (specs/WEBHOOK-GATEWAY.md). That receipt is not a backend journal cursor or an applied-state guarantee. Measure gateway admission, gateway backlog, canonical commit and engine lag separately; the existing durable-ingestion performance targets still measure actual backend journal commit.
 
 Avoid independent dual writes to PostgreSQL and RAM. A crash between two best-effort writes must not lose acknowledged data or leave a permanently divergent answer. Drive the engine from committed journal positions and durable dispatch/catch-up state. Notifications are wake-up hints; a persistent cursor is the recovery mechanism. A transactional outbox and bounded cursor polling are sufficient initially. Logical decoding is optional and requires its own operational/deduplication design.
 

@@ -1,5 +1,5 @@
 {
-  "version": "1.6",
+  "version": "1.7",
   "date": "2026-10-31",
   "note": "Specification for tests to be implemented; not an already executable or executed suite. A reviewer must add independent variations.",
   "status_enum": [
@@ -442,7 +442,119 @@
       "stage": "operations",
       "release_gate": true,
       "check": "Validate the central integration register, its generated human view and append-only history; inspect actual implementation/test evidence and run its --release gate for the full release.",
-      "expected": "Every source/data capability has its exact field/event-to-track mapping, six implementation steps, actual contributor/time/commit records, contract/pipeline/recovery/tenant test artifacts and separate authorized live evidence where applicable. Independent reviewer confirmation cites current tests and acknowledges unavailable fields/events. Stale code, missing evidence, self-approval and edits to prior history fail checks. Roadmap entries remain honest and non-gating; partial capabilities do not waive complete question-answer gates."
+      "expected": "Every source/data capability has its exact field/event-to-track mapping, six implementation steps, actual contributor/time/commit records, contract/pipeline/recovery/tenant test artifacts and separate authorized live evidence where applicable. Independent reviewer confirmation cites current tests and acknowledges unavailable fields/events. Stale code, missing evidence, self-approval and edits to prior history fail checks. Roadmap entries remain honest and non-gating; partial capabilities do not waive complete question-answer gates. Every row additionally declares all three synchronization modes with schedules/coverage/limitations; tests cite exercised modes and independent reviews acknowledge unsupported modes."
+    },
+    {
+      "id": "WEB-01",
+      "category": "experience",
+      "stage": "core",
+      "release_gate": true,
+      "check": "With no desktop app installed or running, complete browser sign-in/bootstrap, workspace/membership/roles, source configuration and health, journal/evidence/questions, MCP settings, exports and application administration against local and public-server test profiles.",
+      "expected": "The browser provides complete business management through the same authorized API, with persisted EN/DE localization and supplied design. Native runtime controls are not prerequisites for browser workflows."
+    },
+    {
+      "id": "WEB-02",
+      "category": "security",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Attempt to invoke native runtime controls from browser requests, a remote origin, a forged workspace and an untrusted desktop navigation; inspect API/query contracts shared by both clients.",
+      "expected": "Local process control is narrowly privileged and unavailable to arbitrary web/remote content. Normal management remains authorized server-side. Clients do not duplicate business calculations or expose a shell, Docker socket or credentials."
+    },
+    {
+      "id": "DESKTOP-01",
+      "category": "platforms",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "On a real Apple Silicon Mac, install the versioned native artifact, exercise prerequisite detection, local setup/start/status/logs/stop and browser opening, close/reopen the window, restart the supervised backend and upgrade populated data.",
+      "expected": "Shared UI and EN/DE locales work; missing container runtime is clearly explained. No silent prerequisite installation or reseeding. Window close preserves background ingestion; explicit shutdown/restart preserves journal/cursors. Record actual OS/artifact/build and distribution-signing evidence separately; an unavailable environment is blocked, not passed."
+    },
+    {
+      "id": "DESKTOP-02",
+      "category": "experience",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "Use the desktop client against a remote HTTPS backend on a host without local database/container services. Change backend/workspace, revoke a session, restart the client and attempt an untrusted endpoint/navigation.",
+      "expected": "Normal remote management works with the same API/UI and tenant boundaries. Secrets use OS credential storage, remote content cannot use native privileges, and selecting another endpoint does not move or copy a workspace journal. Authentication/revocation and backend compatibility are explicit."
+    },
+    {
+      "id": "SYNC-01",
+      "category": "durability",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Against provider-shaped test servers, start initial paginated import while updates arrive, interrupt a page, resume cursors, replay duplicate pages and expire a delta cursor. Exercise poll-only and public-callback paths without real credentials.",
+      "expected": "Durable overlap/checkpoints prevent silent gaps and double effects across backfill/live transition. Failed pages cannot skip unseen input. Expired cursors trigger bounded recovery and visible coverage limits; resulting journal/Rust/API/MCP agree."
+    },
+    {
+      "id": "SYNC-02",
+      "category": "connectors",
+      "stage": "core",
+      "release_gate": true,
+      "check": "For each implemented capability, exercise the declared local_standalone/local_gateway/public_server support or unsupported behavior, including a resource with polling only and an unavailable history window. Validate INTEGRATIONS.md mappings and mode-scoped evidence.",
+      "expected": "Actual topics/resources, grants, history limits, schedules, retry/rate budgets, recovery and limitations are explicit. Private standalone callbacks to localhost are rejected. Unsupported/partial modes remain visible and cannot claim full source history; source cards do not imply capabilities."
+    },
+    {
+      "id": "SYNC-03",
+      "category": "queries",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Keep the engine current while source polling fails, deliver a gateway receipt without local commit, delay Rust application after a commit and reconcile a missed historical transition. Query UI/API/MCP at latest_committed and at_least_cursor.",
+      "expected": "Gateway receipt, journal commit, engine lag and source freshness are distinct. Receipt IDs cannot satisfy journal cutoffs. Last/next successful or scheduled checks and gaps are scoped to the capability; missing external history is not fabricated or hidden by a green engine. Answers preserve uncertainty."
+    },
+    {
+      "id": "SYNC-04",
+      "category": "operations",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Exercise scheduler concurrency, lease takeover, HTTP 429, reauthorization, pause/disconnect, callback registration/rotation/removal, and switching poll/direct/gateway modes with pending duplicate inputs. Test provider-specific OAuth redirect setup independently from webhook routing.",
+      "expected": "One fenced logical collector per capability, tenant fairness, durable cursor resume, bounded retries and deduplication across modes. Old credentials/subscriptions cannot redirect to another workspace. Failed revocation/removal is visible; journal history remains intact. Unsupported OAuth or callback setup is blocked explicitly."
+    },
+    {
+      "id": "GATEWAY-01",
+      "category": "connectivity",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "Use a network-isolated private backend that denies inbound connections and allows outbound TLS to the gateway. Deliver signed provider-shaped events to the gateway callback and read their results through PostgreSQL, Rust, browser and MCP.",
+      "expected": "Backend-initiated authenticated delivery works without port forwarding or a tunnel. The registered callback belongs to the public gateway, not localhost or the consumer stream. Gateway does not expose local administration/MCP; evidence and business state match direct ingestion."
+    },
+    {
+      "id": "GATEWAY-02",
+      "category": "durability",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "Kill/restart gateway and consumer before/after queue persistence, provider response, delivery lease, canonical journal/outbox commit, local acknowledgement and Rust application. Lose acknowledgement replies, reorder/duplicate deliveries and compete consumers.",
+      "expected": "No successful receipt exists only in RAM; retained admitted deliveries recover. Local acknowledgement follows canonical commit; three receipt states remain truthful. Persistent identity/fencing prevents skips or duplicate financial/quantity effects. Poison inputs remain visibly quarantined without blocking other tenants."
+    },
+    {
+      "id": "GATEWAY-03",
+      "category": "security",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "Tamper exact raw body/signature/envelope, routing IDs and account identity; attempt cross-tenant queue reads, replay where timestamp rules apply, revoked backend credentials, credential rotation and reassignment while receipts are pending.",
+      "expected": "Both legs authenticate with least-privilege credentials and secure transport/storage. Invalid inputs are denied, no payload/log/credential leak or routing by untrusted tenant field. Pending receipts keep original tenant binding. Gateway trust/data visibility and per-provider validation limitations are documented."
+    },
+    {
+      "id": "GATEWAY-04",
+      "category": "operations",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "Reach per-tenant byte/count/age quotas, stop a consumer, expire unacknowledged data under the configured policy, exhaust durable storage, restart/restore the queue and attempt available/unavailable polling recovery.",
+      "expected": "Limits/retention and provider retry constraints are explicit. Admission failure is not successfully acknowledged. Accepted expiry produces visible scoped gaps and partial answers; recovery never invents unavailable history. Backlog metrics, alerts, fairness, encrypted backup/restore and acknowledged-payload cleanup follow the declared policy."
+    },
+    {
+      "id": "GATEWAY-05",
+      "category": "connectors",
+      "stage": "external",
+      "release_gate": true,
+      "check": "When separately authorized, register a real public HTTPS gateway callback with an eligible launch-provider account, deliver into a backend behind NAT and verify subscription creation/validation, actual event receipt, reconnect, rotation and removal.",
+      "expected": "Record provider/product revision, authorized scope, public callback registration and exact end-to-end evidence without secrets. Distinguish each tested capability from absent push support. Synthetic container/local tests do not satisfy public/provider verification; missing host/DNS/account authorization is blocked."
+    },
+    {
+      "id": "DEPLOY-01",
+      "category": "operations",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "Move a populated workspace between local and server profiles using the documented dry-run/export/import/fenced-cutover procedure; inject interrupted export/import, concurrent old writer, pending gateway inputs and failure before/after resumed target writes.",
+      "expected": "Exactly one canonical writer remains. Tenant-scoped identity, journal/evidence counts/hashes/cutoffs and Rust state verify; keys migrate securely; callbacks/routing and cursors switch with reconciliation. No cross-tenant data or duplicate effects. Recovery never reactivates a stale writable copy after newer target commits."
     }
   ]
 }

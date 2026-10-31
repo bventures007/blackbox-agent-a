@@ -37,7 +37,7 @@ Enforce the boundary in both application services and PostgreSQL. RLS alone is n
 Start with a shared database using tenant_id and RLS. A separate database per large customer can become a later deployment option; it is not required for version one. Per-tenant workload limits prevent a large import from blocking other tenants.
 
 5. Easy extension
-apps/ contains entrypoints and the UI.
+apps/ contains the shared web UI, desktop shell, API, worker, Rust engine and separately deployable webhook gateway. A workspace has one writable canonical journal at its selected backend; desktop/browser share authorized services and never own independent business replicas.
 crates/domain/ contains the canonical pure Rust business rules; crates/projections/, crates/query/ and crates/storage/ support the engine.
 packages/domain/ may contain a typed facade but must not duplicate financial or stock calculations.
 packages/application/ contains authorized use cases.
@@ -60,7 +60,7 @@ M1: login, two tenants, real persistence, job processing, source health and reco
 M2: complete synthetic Order-to-Cash cycle through Rust reducers, evidence, bounded RAM state, snapshot/tail recovery, replay and English/German UI and landing page.
 M3: real read-only MCP with full authorized journal/history access and bounded structured queries; all 24 questions have a defined data contract and return either evidence-backed results or explicit missing-data explanations.
 M4: real sources for the initial Shopify pilot: Shopify and Shopify Payments, one invoice provider (proposed: easybill), and one carrier (proposed: DHL). Verify API access, merchant agreements, permissions and test accounts.
-M5: installation packages, Linux/Mac verification, backups and restore, upgrade rehearsal, required 10-million-entry performance validation, separately labeled 100-million-entry experiment and independent acceptance.
+M5: Mac desktop local/remote client, optional-use public webhook gateway, installation profiles, Linux/Mac verification, fenced workspace migration, backups/restore, upgrade rehearsal, required 10-million-entry performance validation, separately labeled 100-million-entry experiment and independent acceptance.
 
 For two agents, M0–M3 plus local installation is the first fair comparison point. Both can then continue M4–M5. Select and improve one foundation after comparison; do not blindly merge the implementations.
 
@@ -72,13 +72,13 @@ Different IDs are relevant for Shopify delivery deduplication and event correlat
 7. Hosting and installation
 For development and self-hosting: Docker Compose, persistent volumes, a secure first-admin setup flow and browser access. Docker Compose is available on macOS through Docker Desktop. Its license conditions depend on usage; document installer prerequisites. Source: https://docs.docker.com/compose/install/
 
-The intended experience is: install prerequisites, run ./blackbox setup, then ./blackbox up. The agent must implement these commands; they do not exist in the current prototype. A native Mac app is not required for the first version.
+The intended experience is: install prerequisites, run ./blackbox setup, then ./blackbox up. The agent must implement these commands; they do not exist in the current prototype. A native Mac client is now required for the full M5 release, in addition to complete browser management. It shares the React UI/API and controls the local Compose runtime or connects to a remote backend. The local installer at the earlier comparison checkpoint may still be CLI/browser only.
 
 For a pilot: a Linux server supporting containers, an HTTPS reverse proxy, separate backups and monitoring. For paid SaaS, consider a provider in the required data region and managed PostgreSQL if the budget and operating model support it. The same code must also work with self-managed PostgreSQL. Domain, provider, accounts and payment authorization are later concrete decisions; this package does not create hosting accounts.
 
 A single server is not a high-availability solution. Validate database failure handling, restoration, storage, horizontal scaling and operational readiness before promising such availability to customers.
 
-Local execution does not imply continuous reachability or offline provider access. Provider data needs internet access, webhooks need a reachable HTTPS endpoint, and a sleeping Mac cannot accept continuous events. Provide initial import, polling where available, catch-up and visible freshness.
+A running Mac in a private network still has no public webhook callback. Choose local_standalone with supported outbound polling/imports, local_gateway with a separately deployed public HTTPS receiver and durable queue consumed outbound, or public_server with direct callbacks and reconciliation. The gateway is optional to use and required to implement in M5; it is not a second business journal or a proxy for local web/MCP access. Distinguish gateway receipt, canonical journal commit and Rust applied state. See specs/WEB-DESKTOP-AND-DEPLOYMENT.md, specs/SOURCE-SYNCHRONIZATION.md and specs/WEBHOOK-GATEWAY.md for the binding lifecycle, credential, coverage, migration and test contracts.
 
 8. Spec Kit and the GO assignment
 Spec Kit is optional. It can structure specifications, planning and implementation with reusable coding-agent workflows. It does not replace architecture decisions, acceptance tests or independent review. Source: https://github.com/github/spec-kit

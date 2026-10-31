@@ -1,5 +1,5 @@
 BLACKBOX — INDEPENDENT IMPLEMENTATION BRIEF
-Version 1.6 · 2026-10-31 · Product owner: the person providing this package
+Version 1.7 · 2026-10-31 · Product owner: the person providing this package
 
 GO. Build the product described here. This is an implementation assignment, not a request for another mockup or a plan-only response. Work in the assigned repository. Use the supplied local prototype as the visual and interaction reference. Continue through implementation, verification and reproducible packaging. Do not claim external validation that you could not perform.
 
@@ -27,7 +27,7 @@ Required areas: landing page; sign-in and first-run setup; workspaces and member
 
 DHL, DPD and UPS are ordinary sources feeding the common recorder. Do not add a separate shipment-tracking product area. Xentral has been removed and must remain absent. Klaviyo is an optional later connector, not a required launch dependency. Existing connector cards may remain only with honest states: available, configured, syncing, degraded, unsupported or planned. A mock must never be labeled as a live connection.
 
-2. ONE PRODUCT, THREE DEPLOYMENT MODES
+2. ONE PRODUCT, WEB AND DESKTOP, THREE DEPLOYMENT LOCATIONS
 Use the same domain model, migrations, authorization rules and release artifacts for:
 (a) hosted multi-tenant SaaS;
 (b) a customer's own Linux server;
@@ -35,7 +35,9 @@ Use the same domain model, migrations, authorization rules and release artifacts
 
 Self-hosted mode may start with one workspace, but must not bypass tenant isolation. Do not create separate local/SaaS business implementations. The application and replay tests must function without a commercial cloud account or an LLM key. Real external connectors still require network access and the appropriate provider accounts.
 
-Local installation means a browser application running locally through Docker Compose, not a required native Mac app. A native wrapper can be a later product. Remote webhooks cannot reach localhost by magic: document polling where supported and opt-in HTTPS forwarding for development. A sleeping Mac cannot continuously collect events; catch-up after restart must work and freshness must be visible.
+Read specs/WEB-DESKTOP-AND-DEPLOYMENT.md, specs/SOURCE-SYNCHRONIZATION.md and specs/WEBHOOK-GATEWAY.md as binding contracts. Deliver complete browser management and an additional Mac desktop client sharing the React UI and authorized backend API. The desktop client manages a local Compose runtime or connects to a remote backend; native packaging is required by M5. Container-runtime prerequisites must be visible, not silently installed. Closing a window does not stop the supervised backend.
+
+Separate deployment location from ingestion mode: local_standalone uses supported outbound polling/imports; local_gateway adds an optional public HTTPS receiver and durable queue consumed through a backend-initiated connection; public_server receives direct callbacks and reconciles. Providers must register an actually reachable public callback, never localhost. The gateway is optional for customers but required implementation in the full assignment. Each workspace has one writable canonical journal; moving it requires a verified, fenced migration, not changing a client URL. The browser remains a complete product without a desktop installation.
 
 3. DEFAULT ARCHITECTURE
 Use a TypeScript/Rust monorepo: pnpm workspaces for the web/API/connector layer and a Cargo workspace for the deterministic business/query engine. specs/PERFORMANCE-ARCHITECTURE.md is the binding performance, consistency, memory and recovery contract. Default stack:
@@ -55,7 +57,9 @@ Use supported stable dependency versions at implementation time and commit pnpm 
 Build one logical modular product with explicit interfaces, independently runnable API, worker and Rust engine. Initial deployment should require API/web, worker, the engine and PostgreSQL; include a maintained auth service only if the selected implementation needs it. A reverse proxy is part of the public-server profile. Do not require Kubernetes, Kafka, Redis, a vector database or a proprietary SaaS control plane for the first release.
 
 Recommended layout (minor changes allowed with explanation):
-apps/web/                  UI and landing page
+apps/web/                  shared React UI and landing page
+apps/desktop/              Mac shell and narrowly scoped local runtime controls
+apps/webhook-gateway/      optional public receiver, durable queue and authenticated delivery
 apps/api/                  HTTP routes, auth, MCP mount, static serving
 apps/worker/               source transport, reconciliation orchestration, scheduled jobs
 apps/engine/               internal Rust projection/query service
@@ -116,7 +120,7 @@ INTEGRATIONS.md is the mandatory central human-readable implementation register.
 
 Implement a connector contract covering configuration schema, supported capabilities, credential test, initial backfill, incremental cursor/checkpoint, webhook verification, normalization, reconciliation, rate limits, retries, health and disconnect/revocation. Declare actual data coverage and provider API revisions.
 
-Receive and durably record verified deliveries before acknowledging them. Use transactions/outbox so a crash cannot acknowledge an event and lose its processing job. Assume jobs and deliveries may execute more than once. Enforce deduplication and side-effect idempotency in persistent storage; no blanket end-to-end exactly-once claim. Support retries with backoff, dead-letter inspection, safe retry, pagination, resumable backfill and catch-up after downtime. Reconciliation is mandatory; webhooks alone are insufficient.
+For core direct ingestion, commit the verified canonical Source observation and processing outbox before acknowledging journal receipt. The separately deployed gateway may acknowledge provider transport receipt after its durable queue commit; that is gateway_received, not journal_committed or engine_applied. Follow specs/WEBHOOK-GATEWAY.md for typed receipts, local acknowledgement after commit, retention and crash tests. Use transactions/outbox so a crash cannot acknowledge an event and lose its processing job. Assume jobs and deliveries may execute more than once. Enforce deduplication and side-effect idempotency in persistent storage; no blanket end-to-end exactly-once claim. Support retries with backoff, dead-letter inspection, safe retry, pagination, resumable backfill and catch-up after downtime. Reconciliation is mandatory; webhooks alone are insufficient.
 
 Build in this order:
 A. A documented signed generic-event API, deterministic replay connector, and validated bank-statement CSV import. These make the complete Golden Scenario reproducible without credentials. They must use the real persistence, ingestion, authorization and projection paths.
@@ -143,13 +147,13 @@ An external agent may summarize returned facts or draft a response. Core balance
 
 8. DELIVERY MILESTONES AND DONE GATES
 M0 — Contract: map prototype behavior, record ADRs/threat model, define schema and acceptance mapping. Then implement; do not wait for approval of routine choices.
-M1 — Foundation: real authentication, two tenants, authorization, database/migrations, durable ingestion, jobs, Rust engine vertical slice, source setup, recorder and evidence UI.
+M1 — Foundation: real authentication, two tenants, authorization, database/migrations, durable ingestion, resumable synchronization state, jobs, Rust engine vertical slice, source setup, recorder and evidence in the shared browser UI.
 M2 — Golden path: the entire synthetic Order-to-Cash cycle through the canonical Rust reducers, bounded RAM state, durable checkpoints, restart/replay, late/duplicate events, conflicting evidence and correct query results. English-default UI and landing page with complete German localization.
 M3 — Agent access: real scoped MCP, complete authorized journal/history/schema read access, bounded structured queries, shared query services, all 24 question contracts, evidence and missing-data behavior.
-M4 — Real sources: Shopify/Shopify Payments, easybill and DHL adapter work and tests, with explicit external-verification status per capability.
-M5 — Install and operate: release images, self-host/local/hosted profiles, backup/restore, upgrade rehearsal, observability, isolation/security and performance evidence.
+M4 — Real sources: Shopify/Shopify Payments, easybill and DHL adapters, backfill/polling/reconciliation and supported direct callback setup, with mode/coverage and external-verification status per capability.
+M5 — Install and operate: release images, required Mac desktop local/remote experience, optional-use public webhook gateway, all connectivity/deployment profiles, verified workspace migration, backup/restore, upgrade rehearsal, observability, isolation/security and performance evidence. Complete the WEB/DESKTOP/SYNC/GATEWAY/DEPLOY acceptance gates.
 
-For the two-agent comparison, M0-M3 plus a working local installer is the first common checkpoint. Continue toward M4-M5 unless the owner explicitly requests a checkpoint stop. Do not merge another agent's implementation into yours during the independent build.
+For the two-agent comparison, M0-M3 plus a working local installer is the first common checkpoint. Native desktop packaging and the gateway may remain explicitly unfinished at this comparison checkpoint. Continue toward M4-M5 unless the owner explicitly requests a checkpoint stop. Do not merge another agent's implementation into yours during the independent build.
 
 A release is accepted only against the acceptance matrix and observed evidence. Do not equate 100% test coverage or green tests with freedom from defects. The owner needs an independent review and provider/account checks before accepting customer production data.
 
@@ -170,7 +174,7 @@ Keep SaaS platform subscription billing distinct from customers' order payments.
 Implement executable tests derived from ACCEPTANCE.json and the Golden Scenario, plus independently designed adversarial variations. Include:
 - Domain invariants and property-based variations for money, quantities, supersession and replay.
 - Integration tests against real PostgreSQL, actual RLS roles and actual worker/job paths.
-- Signed/invalid webhook, duplicate/concurrent delivery, late events, rate-limit, cursor resume and failure recovery tests.
+- Signed/invalid webhook, duplicate/concurrent delivery, late events, rate-limit, cursor resume and failure recovery tests. Add browser-only management, native local/remote lifecycle, NAT-isolated outbound gateway delivery, queue/commit/applied crash boundaries, mode-specific coverage and fenced deployment-migration tests from the new binding contracts.
 - Cross-tenant denial tests across every endpoint, MCP tool, exports, search, object storage and caches.
 - Fresh installation, restarts with retained data, migration/upgrade and complete backup/restore.
 - UI E2E for onboarding, source setup, recorder evidence, question result, MCP settings, and the six-group question catalog. Visual regression at desktop and mobile against the supplied design.

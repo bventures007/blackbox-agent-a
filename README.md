@@ -25,6 +25,9 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 | [AGENTS.md](AGENTS.md) | Working rules, reading order and boundaries |
 | [START-HERE.md](START-HERE.md) | Launch instructions, scope and handover |
 | [BUILD-PROMPT-EN.txt](BUILD-PROMPT-EN.txt) | Full implementation contract |
+| [specs/WEB-DESKTOP-AND-DEPLOYMENT.md](specs/WEB-DESKTOP-AND-DEPLOYMENT.md) | Complete web management, required Mac client, deployment profiles and workspace migration |
+| [specs/SOURCE-SYNCHRONIZATION.md](specs/SOURCE-SYNCHRONIZATION.md) | Per-capability import/polling/webhook/reconciliation lifecycle and freshness |
+| [specs/WEBHOOK-GATEWAY.md](specs/WEBHOOK-GATEWAY.md) | Optional public receiver, durable queue, outbound delivery and receipt boundaries |
 | [specs/JOURNAL-AND-MCP.md](specs/JOURNAL-AND-MCP.md) | Append-only data structure and full authorized MCP read contract |
 | [specs/PERFORMANCE-ARCHITECTURE.md](specs/PERFORMANCE-ARCHITECTURE.md) | Rust engine, memory limits, durable consistency and recovery |
 | [specs/QUESTION-DATA-COVERAGE.md](specs/QUESTION-DATA-COVERAGE.md) | All 24 questions mapped to inputs, journal families, RAM projections, queries and test examples |
@@ -33,7 +36,7 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 | [reports/question-coverage.json](reports/question-coverage.json) | Per-question implementation and verification register; all runtime proof pending |
 | [benchmarks/performance-contract.json](benchmarks/performance-contract.json) | Measurable 250k / 10m / 100m workload profiles |
 | [ARCHITECTURE-EN.txt](ARCHITECTURE-EN.txt) | Architecture and delivery approach |
-| [ACCEPTANCE.json](ACCEPTANCE.json) | 53 acceptance cases with release gates |
+| [ACCEPTANCE.json](ACCEPTANCE.json) | 67 acceptance cases with release gates |
 | [GOLDEN-ORDER-TO-CASH.json](GOLDEN-ORDER-TO-CASH.json) | Synthetic business cycle: 19 events, 11 checkpoints |
 | [reference/questions.json](reference/questions.json) | 24 questions in six Order-to-Cash groups |
 | [reference/prototype/](reference/prototype/) | Original visual and interaction reference |
@@ -47,7 +50,8 @@ For a Codex Goal, use the objective in [GOAL.txt](GOAL.txt). The exact workflow 
 ## Target product
 
 - One modular TypeScript/Rust product: web/API/connectors in TypeScript; canonical business reducers, compact RAM projections and fast queries in a Rust engine; PostgreSQL provides durability and indexed cold access.
-- Hosted multi-tenant SaaS, self-hosted Linux and local Mac through the same Docker Compose-based release.
+- Hosted multi-tenant SaaS, self-hosted Linux and local Mac through the same backend release; complete web management plus a required Mac desktop client.
+- Explicit local polling/import, optional public webhook gateway and direct server-webhook modes, with truthful per-capability coverage and synchronization health.
 - All engineering material in English; application UI and landing page in English by default, with complete German localization.
 - Order-to-Cash first, a database-enforced append-only journal, evidence-linked answers, actual tenant isolation and read-only MCP over all authorized business records and histories.
 - An offline synthetic workflow first; Shopify/Shopify Payments, easybill and DHL as the initial real connector scope, subject to actual provider access.
@@ -75,4 +79,4 @@ Start with the [visual reference catalogue](reference/screenshots/README.md): al
 
 ## Independent comparison
 
-Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v7`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).
+Both repositories share the same input commit. The current English engineering baseline is tagged `baseline-v8`; earlier baseline tags preserve the preparation history. Build only in your assigned repository. Do not inspect or import the other agent's implementation before the independent comparison. Use separate development databases, volumes, credentials and ports; never share writable runtime state. See [docs/comparison.md](docs/comparison.md).

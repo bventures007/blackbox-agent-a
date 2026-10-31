@@ -54,14 +54,44 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [shopify.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| shopify.orders | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify.stock | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify.allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify.fulfillments | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify.payments | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify.returns | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify.receipts | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify.orders / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify.stock / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify.allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify.fulfillments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify.payments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify.returns / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify.receipts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-shopify_payments"></a>
 ### Shopify Payments
@@ -74,12 +104,38 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [shopify_payments.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify_payments.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify_payments.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify_payments.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify_payments.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopify_payments.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopify_payments.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify_payments.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify_payments.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify_payments.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify_payments.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify_payments.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| shopify_payments.provider_ledger | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify_payments.positions | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify_payments.payouts | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify_payments.holds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify_payments.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopify_payments.disputes | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify_payments.provider_ledger / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify_payments.positions / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify_payments.payouts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify_payments.holds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify_payments.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify_payments.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-easybill"></a>
 ### easybill
@@ -92,9 +148,29 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [easybill.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [easybill.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [easybill.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [easybill.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [easybill.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [easybill.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| easybill.invoices | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| easybill.invoice_dispatch | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| easybill.payment_allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | easybill.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | easybill.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | easybill.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-dhl"></a>
 ### DHL Unified Tracking
@@ -107,7 +183,23 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [dhl.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [dhl.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| dhl.tracking | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | dhl.tracking / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-bank_csv"></a>
 ### Validated bank statement CSV
@@ -120,7 +212,23 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [bank_csv.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [bank_csv.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| bank_csv.bank | unverified — Verify authenticated file import, deduplication and explicit statement coverage. | unverified — Verify authenticated file import, deduplication and explicit statement coverage. | unverified — Verify authenticated file import, deduplication and explicit statement coverage. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | bank_csv.bank / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-generic"></a>
 ### Signed typed business-event API
@@ -133,31 +241,95 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [generic.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [generic.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [generic.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| generic.orders | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.stock | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.allocations | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.supply | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.promises | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.fulfillments | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.tracking | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.communications | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.invoices | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.invoice_dispatch | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.payments | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.payment_allocations | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.policy | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.cases | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.provider_ledger | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.positions | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.payouts | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.bank | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.holds | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.returns | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.receipts | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.entitlements | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.refunds | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.disputes | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+| generic.identity | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.orders / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.stock / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.supply / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.promises / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.fulfillments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.tracking / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.communications / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.payments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.policy / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.cases / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.provider_ledger / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.positions / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.payouts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.bank / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.holds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.returns / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.receipts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.entitlements / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.identity / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-replay"></a>
 ### Deterministic synthetic replay
@@ -170,31 +342,95 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [replay.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [replay.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [replay.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| replay.orders | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.stock | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.allocations | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.supply | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.promises | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.fulfillments | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.tracking | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.communications | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.invoices | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.invoice_dispatch | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.payments | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.payment_allocations | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.policy | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.cases | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.provider_ledger | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.positions | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.payouts | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.bank | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.holds | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.returns | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.receipts | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.entitlements | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.refunds | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.disputes | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| replay.identity | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.orders / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.stock / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.supply / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.promises / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.fulfillments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.tracking / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.communications / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.payments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.policy / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.cases / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.provider_ledger / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.positions / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.payouts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.bank / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.holds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.returns / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.receipts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.entitlements / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.identity / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-policy"></a>
 ### Versioned workspace rules
@@ -207,7 +443,23 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [policy.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [policy.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| policy.policy | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | policy.policy / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-shopware"></a>
 ### Shopware 6
@@ -222,14 +474,44 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [shopware.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopware.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopware.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopware.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopware.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopware.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopware.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [shopware.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [shopware.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopware.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopware.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopware.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopware.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopware.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopware.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopware.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| shopware.orders | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopware.stock | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopware.allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopware.fulfillments | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopware.payments | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopware.returns | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopware.receipts | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| shopware.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopware.orders / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopware.stock / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopware.allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopware.fulfillments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopware.payments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopware.returns / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopware.receipts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopware.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-woocommerce"></a>
 ### WooCommerce
@@ -244,12 +526,38 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [woocommerce.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [woocommerce.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [woocommerce.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [woocommerce.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [woocommerce.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [woocommerce.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [woocommerce.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [woocommerce.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [woocommerce.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [woocommerce.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [woocommerce.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [woocommerce.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| woocommerce.orders | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| woocommerce.stock | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| woocommerce.fulfillments | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| woocommerce.payments | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| woocommerce.returns | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| woocommerce.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | woocommerce.orders / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | woocommerce.stock / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | woocommerce.fulfillments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | woocommerce.payments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | woocommerce.returns / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | woocommerce.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-email"></a>
 ### Mailbox
@@ -264,9 +572,29 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [email.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [email.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [email.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [email.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [email.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [email.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| email.promises | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| email.communications | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| email.cases | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | email.promises / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | email.communications / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | email.cases / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-lexware"></a>
 ### Lexware Office
@@ -281,9 +609,29 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [lexware.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [lexware.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [lexware.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [lexware.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [lexware.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [lexware.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| lexware.invoices | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| lexware.invoice_dispatch | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| lexware.payment_allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | lexware.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | lexware.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | lexware.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-sevdesk"></a>
 ### sevdesk
@@ -298,9 +646,29 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [sevdesk.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [sevdesk.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [sevdesk.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [sevdesk.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [sevdesk.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [sevdesk.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| sevdesk.invoices | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| sevdesk.invoice_dispatch | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| sevdesk.payment_allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sevdesk.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sevdesk.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sevdesk.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-billbee"></a>
 ### Billbee
@@ -315,11 +683,35 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [billbee.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [billbee.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [billbee.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [billbee.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [billbee.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [billbee.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [billbee.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [billbee.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [billbee.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [billbee.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| billbee.orders | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| billbee.fulfillments | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| billbee.invoices | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| billbee.invoice_dispatch | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| billbee.payment_allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | billbee.orders / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | billbee.fulfillments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | billbee.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | billbee.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | billbee.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-sufio"></a>
 ### Sufio
@@ -334,9 +726,29 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [sufio.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [sufio.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [sufio.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [sufio.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [sufio.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [sufio.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| sufio.invoices | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| sufio.invoice_dispatch | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| sufio.payment_allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sufio.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sufio.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sufio.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-stripe"></a>
 ### Stripe standalone account
@@ -351,13 +763,41 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [stripe.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [stripe.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [stripe.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [stripe.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [stripe.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [stripe.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [stripe.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [stripe.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [stripe.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [stripe.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [stripe.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [stripe.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [stripe.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [stripe.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| stripe.payments | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| stripe.provider_ledger | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| stripe.positions | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| stripe.payouts | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| stripe.holds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| stripe.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| stripe.disputes | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | stripe.payments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | stripe.provider_ledger / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | stripe.positions / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | stripe.payouts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | stripe.holds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | stripe.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | stripe.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-paypal"></a>
 ### PayPal
@@ -372,13 +812,41 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [paypal.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [paypal.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [paypal.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [paypal.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [paypal.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [paypal.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [paypal.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [paypal.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [paypal.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [paypal.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [paypal.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [paypal.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [paypal.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [paypal.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| paypal.payments | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| paypal.provider_ledger | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| paypal.positions | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| paypal.payouts | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| paypal.holds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| paypal.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| paypal.disputes | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | paypal.payments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | paypal.provider_ledger / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | paypal.positions / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | paypal.payouts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | paypal.holds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | paypal.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | paypal.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-mollie"></a>
 ### Mollie
@@ -393,13 +861,41 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [mollie.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [mollie.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [mollie.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [mollie.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [mollie.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [mollie.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
-| [mollie.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [mollie.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [mollie.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [mollie.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [mollie.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [mollie.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [mollie.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [mollie.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| mollie.payments | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| mollie.provider_ledger | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| mollie.positions | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| mollie.payouts | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| mollie.holds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| mollie.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+| mollie.disputes | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | mollie.payments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | mollie.provider_ledger / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | mollie.positions / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | mollie.payouts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | mollie.holds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | mollie.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | mollie.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-dpd"></a>
 ### DPD
@@ -414,7 +910,23 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [dpd.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [dpd.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| dpd.tracking | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | dpd.tracking / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-ups"></a>
 ### UPS
@@ -429,7 +941,23 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [ups.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [ups.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| ups.tracking | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | ups.tracking / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-klaviyo"></a>
 ### Klaviyo
@@ -444,7 +972,23 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [klaviyo.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned |
+| [klaviyo.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| klaviyo.communications | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | klaviyo.communications / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 <a id="source-runtime"></a>
 ### Internal ingestion and identity services
@@ -457,8 +1001,26 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [runtime.coverage](#data-coverage) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
-| [runtime.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned |
+| [runtime.coverage](#data-coverage) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [runtime.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+
+#### Synchronization by capability
+
+Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.
+
+| Capability | Local standalone | Local + gateway | Public backend |
+| --- | --- | --- | --- |
+| runtime.coverage | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+| runtime.identity | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
+
+<details><summary>Who did what, when, and with which evidence</summary>
+
+| Time / actor | Capability / action | What changed / test | Evidence / commit |
+| --- | --- | --- | --- |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | runtime.coverage / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | runtime.identity / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+
+</details>
 
 ## What must enter each data contract
 

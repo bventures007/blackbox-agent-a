@@ -12,7 +12,7 @@ Repository preparation is complete. Product implementation has not started. The 
 - [ ] M3 — real MCP with full authorized journal/history reads, structured queries and 24 shared query contracts
 - [ ] Comparison checkpoint — M0–M3 plus local installation and report
 - [ ] M4 — first real connector adapters and capability verification
-- [ ] M5 — release profiles, recovery, upgrade and operation evidence
+- [ ] M5 — Mac local/remote client, public webhook gateway, deployment migration, release profiles and operation evidence
 
 ## Latest verification
 
@@ -30,7 +30,7 @@ The binding contract is specs/JOURNAL-AND-MCP.md. Runtime roles must be unable t
 
 ## Performance clarification
 
-Implement the Rust business/query engine with bounded hot state and durable journal/checkpoint recovery as specified in specs/PERFORMANCE-ARCHITECTURE.md. The benchmark contract defines 250k, 10m and 100m profiles with explicit scopes. No performance or memory target has been measured. Maintain reports/performance.json. The full acceptance register now contains 53 cases.
+Implement the Rust business/query engine with bounded hot state and durable journal/checkpoint recovery as specified in specs/PERFORMANCE-ARCHITECTURE.md. The benchmark contract defines 250k, 10m and 100m profiles with explicit scopes. No performance or memory target has been measured. Maintain reports/performance.json. The full acceptance register now contains 67 cases.
 
 ## Question-data audit
 
@@ -42,7 +42,7 @@ Catalogue consistency check: `python3 scripts/validate-question-catalogue.py` pa
 
 INTEGRATIONS.md now provides the central source/capability work list: 22 sources/internal producers and 127 rows, including 72 first-release/internal work rows and 55 unreviewed roadmap rows. It maps each row to the five applicable tracks and canonical inputs, PostgreSQL events, Rust projections and question contracts. All rows are unassigned and not started; no connector, provider account or product acceptance test has run.
 
-The register uses append-only actor/timestamp/evidence history, a generated overview, exact code/artifact hashes and independent confirmation. The supplied GitHub Actions workflow checks consistency, history and the validator regression tests. Local register/crosswalk checks and 19 synthetic control tests passed; these are tooling tests only. REGISTRY-01 is the new full-release acceptance gate and remains not_started. Repository branch protection has not been changed.
+The register uses append-only actor/timestamp/evidence history, a generated overview, exact code/artifact hashes and independent confirmation. The supplied GitHub Actions workflow checks consistency, history and the validator regression tests. At baseline v7, local register/crosswalk checks and 19 synthetic control tests passed; these are tooling tests only. REGISTRY-01 is the new full-release acceptance gate and remains not_started. Repository branch protection has not been changed.
 
 ## Next action
 
@@ -55,3 +55,9 @@ No credentials are required for the initial synthetic build. Later verify Shopif
 ## Update after each meaningful checkpoint
 
 Record: current task; files/commit; actual start/test commands; observed results; open failures; external blockers; next concrete action. Keep the complete per-case execution record in ../reports/acceptance.json.
+
+## Web/desktop and synchronization update (baseline v8)
+
+The binding contract now includes complete browser management, a required additional Mac desktop client, one backend journal per workspace, three explicit connectivity modes, an optional-use public gateway, resumable source synchronization, truthful receipt/freshness states and fenced workspace migration. The full acceptance contract contains 67 cases (14 added); every product case remains not_started. Native packaging and gateway work belong to M5 and do not silently expand the earlier comparison checkpoint.
+
+All 127 integration rows now carry mode investigation obligations, with append-only preparation records. Implemented mappings and tests must account for all three modes; no provider support or live connectivity has been certified. The generated human register exposes this distinction. Public hosting/DNS, provider access and real Mac/distribution verification remain explicit external prerequisites. Preparation checks passed: question-catalogue validator; integration-register check against the full baseline-v7 commit (including preserved history and generated view); 30 synthetic register-control regression tests; JSON/reference/count checks and git diff --check. These checks validate repository preparation, not product behavior. The --release register gate remains intentionally blocked because no connector capability has been implemented.

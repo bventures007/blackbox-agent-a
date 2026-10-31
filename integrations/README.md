@@ -8,7 +8,7 @@ The owner can give an agent this instruction:
 
 ## One authority for progress
 
-- `integrations/register.json`: stable `provider.dataset` work IDs and release scope. One provider has several independently tracked capabilities.
+- `integrations/register.json`: stable `provider.dataset` work IDs, release scope and per-mode transport investigation obligations (`transport_plan`). One provider has several independently tracked capabilities.
 - `integrations/history.jsonl`: authoritative append-only progress/evidence history. Every action includes a unique ID, UTC recorded timestamp, actor identity/type and an explanation. Correct a mistake by adding an invalidation or new record; never rewrite old history.
 - `INTEGRATIONS.md`: generated human-readable status, per-source work/evidence history and data requirements. Do not edit it by hand.
 - `specs/question-data-contracts.json`: canonical field requirements, provider candidate mappings, journal families, Rust projections and affected question contracts. These are design requirements, not runtime status. Implementation mappings add exact source paths and semantics for each capability.
@@ -43,7 +43,7 @@ Reuse shared infrastructure and tests. Each row must link the code and cases pro
 
 Tests have `passed`, `failed` or `blocked` outcomes. Failed/blocked evidence stays in history. Live access requires separate owner authorization under AGENTS.md; missing credentials must not prevent independent implementation and fixture/pipeline work. Record a blocker and next action. Never request customer secrets in a prompt or store them in this repository.
 
-An independent reviewer must inspect/reproduce evidence, cite the current tests, confirm the tested code revision and acknowledge the exact missing-field and unsupported-event lists. The reviewer ID must differ from all implementation contributors and test recorders. This can be another authorized agent or person; do not invent a reviewer or alternate identity to self-approve. A self-check remains test evidence, not independent confirmation.
+An independent reviewer must inspect/reproduce evidence, cite the current tests, confirm the tested code revision and acknowledge the exact missing-field, unsupported-event and unsupported-mode lists. The reviewer ID must differ from all implementation contributors and test recorders. This can be another authorized agent or person; do not invent a reviewer or alternate identity to self-approve. A self-check remains test evidence, not independent confirmation.
 
 An approval may validate a **partial** source capability, including correctly returning unknown for missing data. The overview keeps its missing fields visible. Full product release additionally requires all 24 positive question paths and all other acceptance gates; passing this register cannot waive those requirements. If a provider lacks necessary fields, a verified supplemental producer must supply them before a complete live answer is possible.
 
@@ -82,8 +82,8 @@ Supported actions:
 | `plan_changed` | `authorization_or_decision`: owner instruction or decision reference explaining changed scope/requirements or new row. Never remove or reuse an existing row ID. |
 | `invalidate` | Explains a correction or affected code change; clears current implementation/tests/approval while retaining all past records. |
 | `implementation` | `commit`: full Git SHA; `contributors`: actual contributor IDs; `work`: explanations for all six step IDs; `code`: array of artifact references; `mapping`: artifact reference included in `code`. Starts a new revision and resets its tests/review. |
-| `test` | `revision`: implementation event ID; `tested_commit`; `kind`; `result`; actual `command`, `environment`, `case_ids`, `observed`; immutable `artifact`. Live tests also need `authorized_scope` and `source_revision`. |
-| `review` | `revision`, `tested_commit`, `decision`: `approved` or `changes_requested`; `test_ids`; `acknowledged_missing_fields`; `acknowledged_unsupported_events`; immutable review `artifact`. Approval requires every applicable test kind to have passed and an independent actor. |
+| `test` | `revision`: implementation event ID; `tested_commit`; `kind`; `result`; actual `command`, `environment`, `case_ids`, `modes`, `observed`; immutable `artifact`. Live tests also need `authorized_scope` and `source_revision`. |
+| `review` | `revision`, `tested_commit`, `decision`: `approved` or `changes_requested`; `test_ids`; `acknowledged_missing_fields`; `acknowledged_unsupported_events`; `acknowledged_unsupported_modes`; immutable review `artifact`. Approval requires every applicable test kind to have passed and an independent actor. |
 
 Artifact references have the shape `{"path":"reports/integrations/RUN_ID/result.txt","sha256":"ACTUAL_64_CHARACTER_SHA256"}`. Paths are repository-relative and cannot escape the repository. Preserve test/review artifacts under unique run paths, sanitized of secrets and personal data, and commit them. If large evidence is held externally, commit a durable sanitized summary with exact CI/artifact URL, immutable digest, retention and access instructions; a transient URL alone is insufficient.
 
@@ -96,6 +96,7 @@ Create a JSON artifact with:
 - `row_id`, `source_revision`, `input_resources` (list), `grants` (list, explicitly empty for appropriate internal paths), `identity_rule`, `coverage_rule`.
 - `retention`: `decision` (`permitted`, `restricted`, `unresolved`) and `basis` with the actual permission/agreement/policy reference. Unresolved/restricted rights cannot produce a passed live verification. In particular, do not override the DHL retention obligation with a generic statement.
 - `fields`: exactly every `required_fields` name from the referenced dataset. Each has `status` (`source`, `derived`, `missing`), `normalization`, `missing_behavior`, and respectively `source_path`, `rule` or `reason`. A derived field must cite its actual versioned rule and evidence inputs. A missing field must disable complete-answer claims that require it.
+- `synchronization`: complete lifecycle rules and all three mode profiles as defined in specs/SOURCE-SYNCHRONIZATION.md and the connectivity-mode section below.
 - `event_rules`: exactly one item per journal event family, with `event`, `tracks` and `rule`. Unsupported events have an empty track list and an explicit `unsupported_reason`. Event-level rules must not fabricate a movement or commitment from mere observation.
 
 The data contracts give candidate paths and known caveats. The implementation agent must complete this artifact from actual schemas/fixtures and verify account coverage; copying a candidate field name is insufficient proof.
@@ -107,3 +108,11 @@ The supplied GitHub Actions workflow checks the catalogue, register, generated o
 Repository administrators must separately configure the `Integration register / validate` check as a required merge check and protect the branch if they want GitHub to prevent direct bypasses. This preparation does **not** change repository permissions or branch settings. Git history plus CI is an auditable engineering control, not an immutable database or a cryptographic guarantee of test execution. A repository administrator can change the controls; an independent review is still necessary.
 
 Future product source cards and connection-health screens should consume capability manifests derived from the verified implementation subset. The product's runtime connection state remains tenant/account-specific and must never be inferred merely from a green development-register row.
+
+## Connectivity-mode evidence (baseline v8)
+
+Every row has a `transport_plan` for `local_standalone`, `local_gateway` and `public_server`. These are investigation obligations, not verified transport support. INTEGRATIONS.md renders a mode matrix beneath each source. All 127 rows remain unimplemented at this baseline. Read specs/SOURCE-SYNCHRONIZATION.md for the exact `synchronization` object required in each committed mapping artifact: initial import/cursors/reconciliation/dedup/freshness rules plus a status, methods, schedule, history limit, authentication, recovery, limitations and reason for each mode. Field mapping and mode support are distinct.
+
+Test history records now require `modes`, a nonempty list of mode IDs actually exercised by that evidence. Contract tests cover all three, including truthful refusal for unsupported paths. Pipeline/recovery/tenant/live suites cover every supported or partial mode. Multiple runs can be summarized in one immutable record/artifact for that test kind; the latest record must preserve evidence for the whole required mode set, since it supersedes the prior current test record. Do not list a mode merely because shared code exists. Independent approval also includes `acknowledged_unsupported_modes`. The validator rejects direct webhooks in private modes, gateway webhooks outside gateway mode, missing mode declarations and approvals without required mode coverage.
+
+A plan change requires appended `plan_changed` history for each affected row. These preparation records do not assign an implementer, count an implementation step or certify provider support. Provider limitations, credentials and the existing launch/roadmap scope remain unchanged.

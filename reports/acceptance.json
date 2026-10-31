@@ -585,6 +585,160 @@
       "observed_result": null,
       "evidence_paths": [],
       "blocker": null
+    },
+    {
+      "id": "WEB-01",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "WEB-02",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "DESKTOP-01",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "DESKTOP-02",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "SYNC-01",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "SYNC-02",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "SYNC-03",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "SYNC-04",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "GATEWAY-01",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "GATEWAY-02",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "GATEWAY-03",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "GATEWAY-04",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "GATEWAY-05",
+      "stage": "external",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "DEPLOY-01",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
     }
   ]
 }

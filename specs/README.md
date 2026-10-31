@@ -11,3 +11,11 @@ Read [QUESTION-DATA-COVERAGE.md](QUESTION-DATA-COVERAGE.md), [CONNECTOR-CAPABILI
 Derive milestone and feature specifications from the authoritative root brief and acceptance inputs. Each spec should name its user behavior, affected module contracts, tenant/data rules, acceptance IDs and executable verification approach. Add unresolved assumptions and the selected decision.
 
 Keep specs short enough to implement; move immediately from the initial M0 contract to a working persisted slice. This folder is intentionally not populated with speculative application code. GitHub Spec Kit is optional and must not replace or weaken the supplied acceptance oracle.
+
+## Web, desktop and synchronization
+
+- [WEB-DESKTOP-AND-DEPLOYMENT.md](WEB-DESKTOP-AND-DEPLOYMENT.md): complete browser management, native Mac client, shared backend, profiles, installation and fenced workspace migration.
+- [SOURCE-SYNCHRONIZATION.md](SOURCE-SYNCHRONIZATION.md): per-capability initial import, cursors, polling, webhooks, reconciliation, mode coverage and freshness.
+- [WEBHOOK-GATEWAY.md](WEBHOOK-GATEWAY.md): optional-use public receiver, durable queue and backend-initiated delivery into private networks.
+
+These are binding full-release requirements. The native client and gateway may remain open at the earlier comparison checkpoint; no provider capability is verified by this specification.

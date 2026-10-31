@@ -10,3 +10,5 @@ Both repositories receive the same initial commit. Preserve that baseline and bu
 6. Select one primary foundation. Adopt specific reviewed improvements from the other later; do not automatically merge the two systems or their databases.
 
 Required comparison output: tested commits; install results; correctness and tenant-isolation findings; design fidelity; effort to add a source/question; restore/upgrade evidence when in scope; weighted score and release blockers. The owner chooses after this review.
+
+The v8 contract retains the same early checkpoint: complete core browser workflow plus local Compose installation. Native Mac packaging, the optional-use public gateway and deployment migration belong to M5 and may remain unfinished at the checkpoint. A full-release comparison must exercise those features and the per-capability connectivity evidence; do not compare one agent at the checkpoint with another at full scope.

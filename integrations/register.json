@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "created_at": "2026-10-31T11:30:02Z",
   "prepared_by": {
     "id": "codex-seed-preparation",
@@ -31,7 +31,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify.stock",
@@ -40,7 +45,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify.allocations",
@@ -49,7 +59,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify.fulfillments",
@@ -58,7 +73,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify.payments",
@@ -67,7 +87,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify.returns",
@@ -76,7 +101,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify.receipts",
@@ -85,7 +115,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify.refunds",
@@ -94,7 +129,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify_payments.provider_ledger",
@@ -103,7 +143,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify_payments.positions",
@@ -112,7 +157,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify_payments.payouts",
@@ -121,7 +171,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify_payments.holds",
@@ -130,7 +185,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify_payments.refunds",
@@ -139,7 +199,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopify_payments.disputes",
@@ -148,7 +213,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "easybill.invoices",
@@ -157,7 +227,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "easybill.invoice_dispatch",
@@ -166,7 +241,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "easybill.payment_allocations",
@@ -175,7 +255,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "dhl.tracking",
@@ -184,7 +269,12 @@
       "scope": "first_release",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "bank_csv.bank",
@@ -193,7 +283,12 @@
       "scope": "first_release",
       "live_evidence_mode": "real_file",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify authenticated file import, deduplication and explicit statement coverage.",
+        "local_gateway": "Verify authenticated file import, deduplication and explicit statement coverage.",
+        "public_server": "Verify authenticated file import, deduplication and explicit statement coverage."
+      }
     },
     {
       "id": "generic.orders",
@@ -202,7 +297,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.stock",
@@ -211,7 +311,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.allocations",
@@ -220,7 +325,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.supply",
@@ -229,7 +339,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.promises",
@@ -238,7 +353,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.fulfillments",
@@ -247,7 +367,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.tracking",
@@ -256,7 +381,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.communications",
@@ -265,7 +395,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.invoices",
@@ -274,7 +409,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.invoice_dispatch",
@@ -283,7 +423,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.payments",
@@ -292,7 +437,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.payment_allocations",
@@ -301,7 +451,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.policy",
@@ -310,7 +465,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.cases",
@@ -319,7 +479,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.provider_ledger",
@@ -328,7 +493,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.positions",
@@ -337,7 +507,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.payouts",
@@ -346,7 +521,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.bank",
@@ -355,7 +535,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.holds",
@@ -364,7 +549,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.returns",
@@ -373,7 +563,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.receipts",
@@ -382,7 +577,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.entitlements",
@@ -391,7 +591,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.refunds",
@@ -400,7 +605,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.disputes",
@@ -409,7 +619,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "generic.identity",
@@ -418,7 +633,12 @@
       "scope": "first_release",
       "live_evidence_mode": "authorized_producer",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
+        "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
+        "public_server": "Verify signed public backend submission and scoped producer credentials."
+      }
     },
     {
       "id": "replay.orders",
@@ -427,7 +647,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.stock",
@@ -436,7 +661,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.allocations",
@@ -445,7 +675,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.supply",
@@ -454,7 +689,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.promises",
@@ -463,7 +703,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.fulfillments",
@@ -472,7 +717,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.tracking",
@@ -481,7 +731,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.communications",
@@ -490,7 +745,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.invoices",
@@ -499,7 +759,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.invoice_dispatch",
@@ -508,7 +773,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.payments",
@@ -517,7 +787,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.payment_allocations",
@@ -526,7 +801,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.policy",
@@ -535,7 +815,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.cases",
@@ -544,7 +829,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.provider_ledger",
@@ -553,7 +843,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.positions",
@@ -562,7 +857,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.payouts",
@@ -571,7 +871,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.bank",
@@ -580,7 +885,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.holds",
@@ -589,7 +899,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.returns",
@@ -598,7 +913,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.receipts",
@@ -607,7 +927,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.entitlements",
@@ -616,7 +941,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.refunds",
@@ -625,7 +955,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.disputes",
@@ -634,7 +969,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "replay.identity",
@@ -643,7 +983,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "policy.policy",
@@ -652,7 +997,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "shopware.orders",
@@ -661,7 +1011,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopware.stock",
@@ -670,7 +1025,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopware.allocations",
@@ -679,7 +1039,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopware.fulfillments",
@@ -688,7 +1053,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopware.payments",
@@ -697,7 +1067,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopware.returns",
@@ -706,7 +1081,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopware.receipts",
@@ -715,7 +1095,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "shopware.refunds",
@@ -724,7 +1109,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "woocommerce.orders",
@@ -733,7 +1123,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "woocommerce.stock",
@@ -742,7 +1137,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "woocommerce.fulfillments",
@@ -751,7 +1151,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "woocommerce.payments",
@@ -760,7 +1165,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "woocommerce.returns",
@@ -769,7 +1179,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "woocommerce.refunds",
@@ -778,7 +1193,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "email.promises",
@@ -787,7 +1207,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "email.communications",
@@ -796,7 +1221,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "email.cases",
@@ -805,7 +1235,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "lexware.invoices",
@@ -814,7 +1249,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "lexware.invoice_dispatch",
@@ -823,7 +1263,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "lexware.payment_allocations",
@@ -832,7 +1277,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "sevdesk.invoices",
@@ -841,7 +1291,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "sevdesk.invoice_dispatch",
@@ -850,7 +1305,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "sevdesk.payment_allocations",
@@ -859,7 +1319,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "billbee.orders",
@@ -868,7 +1333,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "billbee.fulfillments",
@@ -877,7 +1347,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "billbee.invoices",
@@ -886,7 +1361,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "billbee.invoice_dispatch",
@@ -895,7 +1375,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "billbee.payment_allocations",
@@ -904,7 +1389,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "sufio.invoices",
@@ -913,7 +1403,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "sufio.invoice_dispatch",
@@ -922,7 +1417,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "sufio.payment_allocations",
@@ -931,7 +1431,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "stripe.payments",
@@ -940,7 +1445,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "stripe.provider_ledger",
@@ -949,7 +1459,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "stripe.positions",
@@ -958,7 +1473,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "stripe.payouts",
@@ -967,7 +1487,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "stripe.holds",
@@ -976,7 +1501,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "stripe.refunds",
@@ -985,7 +1515,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "stripe.disputes",
@@ -994,7 +1529,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "paypal.payments",
@@ -1003,7 +1543,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "paypal.provider_ledger",
@@ -1012,7 +1557,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "paypal.positions",
@@ -1021,7 +1571,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "paypal.payouts",
@@ -1030,7 +1585,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "paypal.holds",
@@ -1039,7 +1599,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "paypal.refunds",
@@ -1048,7 +1613,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "paypal.disputes",
@@ -1057,7 +1627,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "mollie.payments",
@@ -1066,7 +1641,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "mollie.provider_ledger",
@@ -1075,7 +1655,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "mollie.positions",
@@ -1084,7 +1669,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "mollie.payouts",
@@ -1093,7 +1683,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "mollie.holds",
@@ -1102,7 +1697,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "mollie.refunds",
@@ -1111,7 +1711,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "mollie.disputes",
@@ -1120,7 +1725,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "dpd.tracking",
@@ -1129,7 +1739,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "ups.tracking",
@@ -1138,7 +1753,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "klaviyo.communications",
@@ -1147,7 +1767,12 @@
       "scope": "roadmap",
       "live_evidence_mode": "provider_account",
       "mapping_basis": "planned_unreviewed",
-      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation."
+      "note": "Desired capability, not a claim that this provider exposes the necessary fields. Audit the current API, scope and semantics before implementation.",
+      "transport_plan": {
+        "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
+        "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
+        "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
+      }
     },
     {
       "id": "runtime.coverage",
@@ -1156,7 +1781,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     },
     {
       "id": "runtime.identity",
@@ -1165,7 +1795,12 @@
       "scope": "first_release",
       "live_evidence_mode": "internal",
       "mapping_basis": "candidate_contract",
-      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage."
+      "note": "Implement and prove the available field subset; missing inputs stay explicit. Synthetic tests do not prove merchant data coverage.",
+      "transport_plan": {
+        "local_standalone": "Verify scoped internal production and recovery in this profile.",
+        "local_gateway": "Verify scoped internal production and recovery in this profile.",
+        "public_server": "Verify scoped internal production and recovery in this profile."
+      }
     }
   ]
 }

@@ -37,5 +37,13 @@
     "history": "integrations/history.jsonl",
     "instructions": "integrations/README.md",
     "nature": "Implementation/evidence work register; not a running connector."
+  },
+  "deployment_and_sync_contracts": {
+    "specifications": [
+      "specs/WEB-DESKTOP-AND-DEPLOYMENT.md",
+      "specs/SOURCE-SYNCHRONIZATION.md",
+      "specs/WEBHOOK-GATEWAY.md"
+    ],
+    "nature": "Binding requirements, not implemented clients, gateway or provider connectivity."
   }
 }

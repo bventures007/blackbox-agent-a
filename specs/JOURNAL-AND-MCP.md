@@ -87,3 +87,7 @@ Agents may answer additional questions by composing these tools. They must still
 - MCP-05: paginate beyond several pages while entries commit concurrently, including reversed commit order and rollbacks. Prove no omission or duplication within a fixed snapshot, correct continuation for later entries, and no cross-tenant cursor reuse.
 
 These are core release gates. Record actual commands, tested commit, environment and evidence in reports/acceptance.json. Until executed, their status is not_started or implemented_unverified, never passed.
+
+## Deployment and transport boundaries
+
+Each workspace has one canonical writable backend journal. Browser and desktop use the same authorized services. An optional gateway queues source deliveries outside that journal; its mutable queue is not a sixth business track. Gateway transport receipt is distinct from backend journal commit and Rust applied cursor. Expose source gaps/backlog independently of engine consistency in UI/MCP. Follow SOURCE-SYNCHRONIZATION.md and WEBHOOK-GATEWAY.md; a gateway does not publish a local MCP server to cloud clients.

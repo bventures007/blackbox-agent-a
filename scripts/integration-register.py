@@ -17,6 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 TRACKS = ('source', 'fact', 'commitment', 'movement', 'reservation')
 STEPS = ('mapping', 'transport', 'postgres', 'rust', 'query_mcp', 'operations')
 TESTS = ('contract', 'pipeline', 'recovery', 'tenant_isolation')
+MODES = ('local_standalone', 'local_gateway', 'public_server')
+METHODS = {'polling', 'direct_webhook', 'gateway_webhook', 'import', 'internal', 'authenticated_push'}
 
 
 def require(condition, message):
@@ -68,6 +70,19 @@ def check_mapping(mapping, row, dataset):
     for rule in rules:
         require(set(rule['tracks']) <= set(dataset['journal_tracks']), 'Unexpected journal track')
         require(rule['rule'] and (rule['tracks'] or rule.get('unsupported_reason')), 'Explicit event mapping or unsupported reason required')
+    sync = mapping['synchronization']
+    for key in ('initial_import', 'cursor', 'reconciliation', 'deduplication', 'freshness'):
+        require(isinstance(sync.get(key), str) and sync[key].strip(), f'Synchronization requires {key}')
+    require(set(sync['modes']) == set(MODES), 'Declare all three synchronization modes')
+    for mode, profile in sync['modes'].items():
+        require(profile['status'] in ('supported', 'partial', 'unsupported'), 'Invalid mode status')
+        methods = profile['methods']
+        require(isinstance(methods, list) and len(methods) == len(set(methods)) and set(methods) <= METHODS, 'Invalid synchronization methods')
+        require(bool(methods) == (profile['status'] != 'unsupported'), 'Unsupported modes have no methods; supported/partial modes need methods')
+        for key in ('schedule', 'history_limit', 'authentication', 'recovery', 'limitations', 'reason'):
+            require(isinstance(profile.get(key), str) and profile[key].strip(), f'Mode {mode} requires {key}')
+        require('direct_webhook' not in methods or mode == 'public_server', 'Direct provider webhooks require public_server')
+        require('gateway_webhook' not in methods or mode == 'local_gateway', 'Gateway webhooks require local_gateway')
     return sorted(name for name, value in fields.items() if value['status'] == 'missing')
 
 
@@ -80,12 +95,24 @@ def required_tests(row):
     return set(TESTS) | ({'live'} if row['live_evidence_mode'] != 'internal' else set())
 
 
+def required_modes(mapping, kind):
+    return set(MODES) if kind == 'contract' else {
+        mode for mode, profile in mapping['synchronization']['modes'].items()
+        if profile['status'] != 'unsupported'
+    }
+
+
+def covers_modes(mapping, test):
+    return required_modes(mapping, test['kind']) <= set(test.get('modes', []))
+
+
 def approved(row, state):
     review = state['review']
     needed = required_tests(row)
     return bool(state['implementation'] and not state['blocker'] and review
                 and review['decision'] == 'approved'
                 and all(k in state['tests'] and state['tests'][k]['result'] == 'passed' for k in needed)
+                and all(covers_modes(state['mapping'], state['tests'][k]) for k in needed)
                 and {state['tests'][k]['id'] for k in needed} <= set(review['test_ids']))
 
 
@@ -107,6 +134,7 @@ def validate(root=ROOT, base=None, release=False):
                          'real_file' if row['provider'] == 'bank_csv' else
                          'authorized_producer' if row['provider'] == 'generic' else 'provider_account')
         require(row['live_evidence_mode'] == expected_mode, 'Live verification cannot be waived')
+        require(set(row['transport_plan']) == set(MODES) and all(isinstance(v, str) and v.strip() for v in row['transport_plan'].values()), 'Every row needs three mode investigation obligations')
     for dataset in datasets.values():
         for provider in dataset['provider_candidates']:
             require(provider + '.' + dataset['id'] in rows, 'Missing source/dataset obligation')
@@ -182,6 +210,8 @@ def validate(root=ROOT, base=None, release=False):
                 require(event['kind'] in set(TESTS) | {'live'}, 'Unknown test kind')
                 require(event['result'] in ('passed', 'failed', 'blocked'), 'Unknown test result')
                 require(event['command'] and event['environment'] and event['case_ids'] and event['observed'], 'Reproducible test details required')
+                modes = event.get('modes')
+                require(isinstance(modes, list) and modes and len(modes) == len(set(modes)) and set(modes) <= set(MODES), 'Test requires explicit valid modes')
                 if event['kind'] == 'live':
                     require(row['live_evidence_mode'] != 'internal', 'Internal execution is not provider verification')
                     require(event.get('authorized_scope') and event.get('source_revision'), 'Actual authorized source scope required')
@@ -195,11 +225,14 @@ def validate(root=ROOT, base=None, release=False):
                     require(not state['blocker'], 'Cannot approve blocked work')
                     require(all(k in state['tests'] and state['tests'][k]['result'] == 'passed' for k in need), 'Required tests have not passed')
                     tests = [state['tests'][k] for k in need]
+                    require(all(covers_modes(state['mapping'], t) for t in tests), 'Required synchronization modes lack test evidence')
                     require({t['id'] for t in tests} <= set(event['test_ids']), 'Approval must cite current test IDs')
                     require(actor['id'] not in set(impl['contributors']) | {t['actor']['id'] for t in tests}, 'Independent approval cannot be self-approval')
                     require(sorted(event['acknowledged_missing_fields']) == state['missing'], 'Reviewer must acknowledge all missing fields')
                     unsupported = sorted(r['event'] for r in state['mapping']['event_rules'] if not r['tracks'])
                     require(sorted(event['acknowledged_unsupported_events']) == unsupported, 'Reviewer must acknowledge all unsupported event families')
+                    unsupported_modes = sorted(m for m, p in state['mapping']['synchronization']['modes'].items() if p['status'] == 'unsupported')
+                    require(sorted(event['acknowledged_unsupported_modes']) == unsupported_modes, 'Reviewer must acknowledge all unsupported modes')
                 state['review'] = event
         else:
             raise ValueError(f'Unknown history action: {action}')
@@ -267,6 +300,20 @@ def render(register, contract, history, states):
                 owner += ' / ' + state['last']['at']
             values = [f"[{row['id']}](#data-{row['dataset']})", *flags, f'{build} ({len(state["steps"])}/6); {coverage}', f'{ntests}/4', live, confirmation, owner]
             lines.append('| ' + ' | '.join(cell(v) for v in values) + ' |')
+        lines += ['', '#### Synchronization by capability', '',
+                  'Mode plans are investigation obligations. Only committed implementation mappings declare support, and test/approval columns above remain the verification authority. Local standalone has no public webhook callback. Polling may recover current state without recovering every intermediate event.', '',
+                  '| Capability | Local standalone | Local + gateway | Public backend |',
+                  '| --- | --- | --- | --- |']
+        for row in (r for r in rows if r['provider'] == pid):
+            mapping = states[row['id']]['mapping']
+            values = [row['id']]
+            for mode in MODES:
+                if mapping:
+                    p = mapping['synchronization']['modes'][mode]
+                    values.append(f"{p['status']}: {', '.join(p['methods']) or 'none'}; schedule: {p['schedule']}; history: {p['history_limit']}; limits: {p['limitations']}; reason: {p['reason']}")
+                else:
+                    values.append('unverified — ' + row['transport_plan'][mode])
+            lines.append('| ' + ' | '.join(cell(v) for v in values) + ' |')
         relevant = [e for e in history if e.get('row', '').startswith(pid + '.')]
         if relevant:
             lines += ['', '<details><summary>Who did what, when, and with which evidence</summary>', '',
@@ -280,6 +327,7 @@ def render(register, contract, history, states):
                     details += '; ' + '; '.join(f'{key}: {value}' for key, value in e['work'].items())
                 if e.get('command'):
                     details += f"; command: {e['command']}; environment: {e['environment']}; cases: {', '.join(e['case_ids'])}"
+                    details += '; modes: ' + ', '.join(e.get('modes', []))
                     details += '; observed: ' + e['observed']
                 evidence = f"{link}; {e.get('tested_commit', e.get('commit', ''))}"
                 lines.append('| ' + ' | '.join(cell(x) for x in [e['at'] + ' / ' + e['actor']['name'], e.get('row', '') + ' / ' + e['action'], details, evidence]) + ' |')

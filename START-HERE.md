@@ -28,6 +28,8 @@ Use INTEGRATIONS.md as the central source/capability work list. Follow integrati
 
 The default scope is the full BUILD-PROMPT-EN.txt, milestones M0–M5. Preserve the checkpoint after M0–M3 plus local installation for comparison, then continue independent work on real adapters and operations. If a provider account is missing, build and contract-test what can be verified; document the missing live verification without presenting it as success. A complete release cannot be asserted while applicable release gates remain open.
 
+Read specs/WEB-DESKTOP-AND-DEPLOYMENT.md, specs/SOURCE-SYNCHRONIZATION.md and specs/WEBHOOK-GATEWAY.md. Full web management is mandatory; desktop is an additional required client. The optional-use gateway is part of M5 implementation, not automatically provisioned hosting. Every capability must declare and test supported/partial/unsupported connectivity modes.
+
 ## Milestones and visible results
 
 | Milestone | Concrete result |
@@ -38,7 +40,9 @@ The default scope is the full BUILD-PROMPT-EN.txt, milestones M0–M5. Preserve 
 | M3 | Real scoped MCP with full authorized journal/history traversal, bounded structured queries, all 24 query contracts, evidence links and explicit missing-data results |
 | Comparison checkpoint | M0–M3 plus a usable local installer, reproducible tests and a recorded commit |
 | M4 | Shopify/Shopify Payments, easybill and DHL adapter work, tests and honest live-access status |
-| M5 | Release artifacts, Linux/Mac/hosted profiles, recovery/upgrade/security, 10m benchmark evidence and a separate 100m capacity experiment |
+| M5 | Mac local/remote desktop client, optional-use gateway, release profiles, fenced workspace migration, recovery/upgrade/security, 10m benchmark evidence and a separate 100m capacity experiment |
+
+The comparison checkpoint requires the local Compose installer and complete core browser workflow; native packaging and the public gateway may still be explicitly unfinished. Full release requires both.
 
 At the checkpoint, create reports/checkpoint.md with exact commit, start/test commands, environment, screenshots, acceptance status and limitations. Do not conflate this checkpoint with customer-production readiness.
 
