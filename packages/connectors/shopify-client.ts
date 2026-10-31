@@ -109,6 +109,13 @@ export async function shopifyGraphql(
 }
 export const identityQuery =
   "query BlackboxIdentity { shop { id ianaTimezone } currentAppInstallation { accessScopes { handle } } }";
+export function requireCapabilityScopes(scopes: string[], capability: string) {
+  if (
+    capability === "stock" &&
+    !scopes.some((s) => ["read_inventory", "write_inventory"].includes(s))
+  )
+    throw new ProviderError("provider_read_inventory_required", 0, true);
+}
 export async function validateShopify(input: unknown, signal?: AbortSignal) {
   const credentials = await authorizeShopify(input, signal),
     data = await shopifyGraphql(credentials, identityQuery, {}, signal);

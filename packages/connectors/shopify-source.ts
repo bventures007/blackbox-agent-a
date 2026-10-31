@@ -90,7 +90,7 @@ function amount(value: z.infer<typeof money>, currency: string) {
     throw new ProviderError("provider_currency_conflict");
   return minor(value.shopMoney.amount, currency);
 }
-async function record(
+export async function record(
   connection: string,
   entity: string,
   sourceId: string,

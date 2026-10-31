@@ -3,8 +3,19 @@ export class ProviderError extends Error {
     public code: string,
     public retryAfterMs = 0,
     public reauthorization = false,
+    public terminal = false,
   ) {
     super(code);
+    // Do not overflow the scheduler or silently retry earlier than a provider's unusable delay.
+    if (
+      !Number.isFinite(retryAfterMs) ||
+      retryAfterMs > 7 * 86400000 ||
+      retryAfterMs < 0
+    ) {
+      this.code = "provider_retry_delay_out_of_range";
+      this.retryAfterMs = 0;
+      this.terminal = true;
+    }
   }
 }
 export async function boundedJson(

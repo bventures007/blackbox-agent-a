@@ -2,6 +2,7 @@ use super::*;
 fn stock(ctx: &mut Context<'_>) -> Result<BTreeMap<(String, String), i64>, String> {
     let mut totals = BTreeMap::new();
     let mut scopes = BTreeSet::new();
+    let coverage = ctx.rows("coverage");
     for r in ctx.rows("stock") {
         let d = &r.data;
         let item = s(d, "item_id");
@@ -10,6 +11,30 @@ fn stock(ctx: &mut Context<'_>) -> Result<BTreeMap<(String, String), i64>, Strin
             || ctx.request.unit.as_ref().is_some_and(|v| v != unit)
         {
             continue;
+        }
+        if let Some(snapshot) = d["snapshot_id"].as_str() {
+            let cohort = coverage
+                .iter()
+                .filter(|c| {
+                    c.connection_id == r.connection_id
+                        && s(&c.data, "capability") == "stock"
+                        && s(&c.data, "entity_scope") == item
+                        && c.data["stock_snapshot_id"].is_string()
+                })
+                .max_by_key(|c| (&c.occurred_at, &c.id));
+            if cohort.is_none() {
+                ctx.gap("stock.snapshot_cohort");
+                continue;
+            }
+            if s(&cohort.unwrap().data, "stock_snapshot_id") != snapshot {
+                continue;
+            }
+            // Actual missing fields block availability; scan limitations are returned separately.
+            for field in array(&cohort.unwrap().data, "missing_fields") {
+                if let Some(field) = field.as_str() {
+                    ctx.gap(field);
+                }
+            }
         }
         if !scopes.insert((
             item.to_owned(),

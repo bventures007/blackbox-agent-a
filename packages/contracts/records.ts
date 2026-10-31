@@ -85,6 +85,7 @@ export const datasetRecord = z.discriminatedUnion("dataset", [
     safety_stock: quantity.optional(),
     quality_control: quantity.optional(),
     incoming: quantity.optional(),
+    snapshot_id: id.optional(),
   }),
   record("allocations", {
     order_id: id,
@@ -329,6 +330,16 @@ export const datasetRecord = z.discriminatedUnion("dataset", [
     basis: z.literal("declared"),
     history_kind: z
       .enum(["event_history", "snapshot_only", "mixed"])
+      .optional(),
+    stock_snapshot_id: id.optional(),
+    limitations: z
+      .array(
+        z
+          .string()
+          .regex(/^[a-z_]+(?:\.[a-z_]+)*$/)
+          .max(160),
+      )
+      .max(20)
       .optional(),
   }),
   record("identity", {

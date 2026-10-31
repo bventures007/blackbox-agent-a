@@ -6,7 +6,9 @@ import { openSecret, sealSecret, opaqueIdentity } from "../auth/secrets.js";
 import {
   authorizeShopify,
   validateShopify,
+  requireCapabilityScopes,
 } from "../connectors/shopify-client.js";
+import { fetchStockPage, normalizeStock } from "../connectors/shopify-stock.js";
 import { ProviderError } from "../connectors/transport.js";
 import {
   fetchOrderPage,
@@ -221,11 +223,13 @@ async function finish(j: Job) {
       requested_from: j.parameters.requested_from,
       checked_from: j.checkpoint.from,
       checked_through: j.checkpoint.through,
-      history_kind: "mixed",
+      history_kind: j.capability === "stock" ? "snapshot_only" : "mixed",
       history_completeness: "partial",
       restrictions: j.parameters.restrictions ?? [],
       opening_state: j.parameters.include_opening_state
-        ? "not_provided_by_orders"
+        ? j.capability === "stock"
+          ? "current_state_only_not_historical_opening"
+          : "not_provided_by_orders"
         : "declined",
       related_context: j.parameters.include_related_records
         ? "accessible_only"
@@ -287,8 +291,8 @@ async function finish(j: Job) {
         ).toISOString(),
         latest = (
           await c.query(
-            "SELECT plan_id,parameters FROM bb.import_plans WHERE connection_id=$1 ORDER BY revision DESC LIMIT 1",
-            [j.connection_id],
+            "SELECT plan_id,parameters FROM bb.import_plans WHERE connection_id=$1 AND $2=ANY(capabilities) ORDER BY revision DESC LIMIT 1",
+            [j.connection_id, j.capability],
           )
         ).rows[0],
         from =
@@ -332,7 +336,7 @@ async function fail(j: Job, error: unknown) {
       e.retryAfterMs,
       Math.min(3600000, 1000 * 2 ** Math.min(j.attempts, 12)),
     ) + Math.floor(Math.random() * 1000);
-  const terminal = e.reauthorization || j.attempts >= 8,
+  const terminal = e.reauthorization || e.terminal || j.attempts >= 8,
     state = e.reauthorization
       ? "reauthorization_required"
       : terminal
@@ -396,7 +400,16 @@ export async function processSourceJob(j: Job) {
     const validated = await validateShopify(credentials);
     if (validated.account_id !== secret.account_id)
       throw new ProviderError("provider_account_changed", 0, true);
-    if (JSON.stringify(credentials) !== JSON.stringify(secret.credentials)) {
+    requireCapabilityScopes(validated.scopes, j.capability);
+    if (
+      j.capability !== "stock" &&
+      !validated.scopes.includes("read_all_orders") &&
+      !j.parameters.restrictions?.includes(
+        "older_orders_require_read_all_orders",
+      )
+    )
+      throw new ProviderError("provider_history_scope_lost", 0, true);
+    {
       const sealed = await sealSecret(j.tenant_id, j.connection_id, {
         ...secret,
         credentials,
@@ -409,24 +422,40 @@ export async function processSourceJob(j: Job) {
         );
       });
     }
-    const data = await fetchOrderPage(
-      credentials,
-      j.capability,
-      j.checkpoint,
-      j.parameters,
-      AbortSignal.timeout(45000),
-    );
+    const data =
+      j.capability === "stock"
+        ? await fetchStockPage(
+            credentials,
+            j.checkpoint,
+            AbortSignal.timeout(45000),
+          )
+        : await fetchOrderPage(
+            credentials,
+            j.capability,
+            j.checkpoint,
+            j.parameters,
+            AbortSignal.timeout(45000),
+          );
     for (const raw of data.nodes) {
       let objects: SourceObject[];
       try {
-        objects = await normalizeSourceOrder(
-          raw,
-          j.connection_id,
-          j.account_anchor,
-          j.capability,
-          j.parameters,
-          j.checkpoint.stage,
-        );
+        objects =
+          j.capability === "stock"
+            ? await normalizeStock(
+                raw,
+                j.connection_id,
+                j.parameters,
+                j.checkpoint.through!,
+                credentials.fixture,
+              )
+            : await normalizeSourceOrder(
+                raw,
+                j.connection_id,
+                j.account_anchor,
+                j.capability,
+                j.parameters,
+                j.checkpoint.stage,
+              );
       } catch (e) {
         const id = z.object({ id: z.string() }).parse(raw).id;
         objects = [
@@ -454,6 +483,7 @@ export async function processSourceJob(j: Job) {
         .object({ createdAt: z.iso.datetime({ offset: true }) })
         .safeParse(raw);
       if (
+        j.capability !== "stock" &&
         source.success &&
         !objects.some((o) => o.error_code || o.skipped) &&
         (!j.parameters.strict_from_now ||
@@ -504,6 +534,7 @@ export async function processSourceJob(j: Job) {
     }
     if (
       j.checkpoint.stage === "recent" &&
+      j.capability !== "stock" &&
       j.parameters.include_open_items &&
       j.kind !== "incremental"
     ) {

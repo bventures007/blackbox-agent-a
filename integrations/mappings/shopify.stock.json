@@ -1,0 +1,169 @@
+{
+  "row_id": "shopify.stock",
+  "source_revision": "Shopify Admin GraphQL 2026-10; stock-cohort-v1; questions-v6",
+  "input_resources": [
+    "inventoryItems(first:10,after)",
+    "InventoryItem.inventoryLevels(first:100,after,includeInactive:true)",
+    "InventoryLevel.quantities(names:[available,on_hand,committed,reserved,damaged,safety_stock,quality_control,incoming])",
+    "shop.id and currentAppInstallation.accessScopes"
+  ],
+  "grants": [
+    "read_orders or write_orders",
+    "read_inventory or write_inventory"
+  ],
+  "identity_rule": "Immutable shop account; keyed connection-scoped item/location/level UUIDs. Item cohort UUID includes fixed scan cutoff; stable level economic ID with a new snapshot observation per cutoff. A complete later item cohort retires omitted locations without synthetic stock movement.",
+  "coverage_rule": "Item-scoped declared point at fixed cutoff with all required quantity timestamps no later than cutoff; never a global completeness claim. Current quantity values plus independent identity scope. Exact business/effective point required; source limitations disclose non-atomic scan and unavailable historical openings. Invalid or declined item scope remains insufficient_data.",
+  "retention": {
+    "decision": "unresolved",
+    "basis": "No live store grant or merchant retention authorization is available. Synthetic fixtures only verified. Local evidence encryption and 90-day access expiry exist; complete purge/rotation/recovery retention operations remain open."
+  },
+  "fields": {
+    "item_id": {
+      "status": "derived",
+      "rule": "opaqueIdentity(connection, InventoryItem.id); stock-cohort-v1",
+      "normalization": "Connection-bound keyed UUID; same namespace as order line inventoryItem.id. No SKU matching.",
+      "missing_behavior": "Missing/invalid item ID fails the page without accepting its population."
+    },
+    "location_id": {
+      "status": "derived",
+      "rule": "opaqueIdentity(connection, InventoryLevel.location.id); stock-cohort-v1",
+      "normalization": "Connection-bound keyed UUID; duplicate locations reject the item.",
+      "missing_behavior": "Missing location ID quarantines the item."
+    },
+    "unit": {
+      "status": "derived",
+      "rule": "Shopify inventory integer count => piece; stock-cohort-v1",
+      "normalization": "Integer quantity strings; no conversion from product weight or unit-cost money.",
+      "missing_behavior": "Other units require a supplemental typed producer."
+    },
+    "observed_at": {
+      "status": "derived",
+      "rule": "Fixed source_jobs.checkpoint.through, retained in original evidence and canonical occurred_at; stock-cohort-v1",
+      "normalization": "All quantity updatedAt and level/item updatedAt must be at or before this cutoff. Point snapshot only; non-atomic scan limitation retained.",
+      "missing_behavior": "Missing quantity timestamps or values after cutoff quarantine the item; no historical point is invented."
+    },
+    "basis": {
+      "status": "derived",
+      "rule": "Shopify InventoryLevel.quantities(name=available) => provider_available; questions-v6",
+      "normalization": "Use provider available directly; do not subtract committed or reserved again.",
+      "missing_behavior": "Missing available or an unsupported basis blocks an availability answer."
+    },
+    "physical": {
+      "status": "source",
+      "source_path": "InventoryItem.inventoryLevels.nodes[].quantities[name=on_hand].quantity",
+      "normalization": "Exact nonnegative integer string; updatedAt is required. No inference from snapshot differences.",
+      "missing_behavior": "Any omitted, duplicate, negative or untimed quantity quarantines the item and emits stock.invalid_snapshot; no zero default."
+    },
+    "available": {
+      "status": "source",
+      "source_path": "InventoryItem.inventoryLevels.nodes[].quantities[name=available].quantity",
+      "normalization": "Exact nonnegative integer string; updatedAt is required. No inference from snapshot differences.",
+      "missing_behavior": "Any omitted, duplicate, negative or untimed quantity quarantines the item and emits stock.invalid_snapshot; no zero default."
+    },
+    "committed": {
+      "status": "source",
+      "source_path": "InventoryItem.inventoryLevels.nodes[].quantities[name=committed].quantity",
+      "normalization": "Exact nonnegative integer string; updatedAt is required. No inference from snapshot differences.",
+      "missing_behavior": "Any omitted, duplicate, negative or untimed quantity quarantines the item and emits stock.invalid_snapshot; no zero default."
+    },
+    "reserved": {
+      "status": "source",
+      "source_path": "InventoryItem.inventoryLevels.nodes[].quantities[name=reserved].quantity",
+      "normalization": "Exact nonnegative integer string; updatedAt is required. No inference from snapshot differences.",
+      "missing_behavior": "Any omitted, duplicate, negative or untimed quantity quarantines the item and emits stock.invalid_snapshot; no zero default."
+    },
+    "damaged": {
+      "status": "source",
+      "source_path": "InventoryItem.inventoryLevels.nodes[].quantities[name=damaged].quantity",
+      "normalization": "Exact nonnegative integer string; updatedAt is required. No inference from snapshot differences.",
+      "missing_behavior": "Any omitted, duplicate, negative or untimed quantity quarantines the item and emits stock.invalid_snapshot; no zero default."
+    },
+    "safety_stock": {
+      "status": "source",
+      "source_path": "InventoryItem.inventoryLevels.nodes[].quantities[name=safety_stock].quantity",
+      "normalization": "Exact nonnegative integer string; updatedAt is required. No inference from snapshot differences.",
+      "missing_behavior": "Any omitted, duplicate, negative or untimed quantity quarantines the item and emits stock.invalid_snapshot; no zero default."
+    },
+    "quality_control": {
+      "status": "source",
+      "source_path": "InventoryItem.inventoryLevels.nodes[].quantities[name=quality_control].quantity",
+      "normalization": "Exact nonnegative integer string; updatedAt is required. No inference from snapshot differences.",
+      "missing_behavior": "Any omitted, duplicate, negative or untimed quantity quarantines the item and emits stock.invalid_snapshot; no zero default."
+    },
+    "incoming": {
+      "status": "source",
+      "source_path": "InventoryItem.inventoryLevels.nodes[].quantities[name=incoming].quantity",
+      "normalization": "Exact nonnegative integer string; updatedAt is required. Incoming is retained but excluded from current availability.",
+      "missing_behavior": "Any omitted, duplicate, negative or untimed quantity quarantines the item and emits stock.invalid_snapshot; no zero default."
+    }
+  },
+  "event_rules": [
+    {
+      "event": "inventory.snapshot",
+      "tracks": [
+        "source",
+        "fact"
+      ],
+      "rule": "One typed observation for each active level plus item cohort/coverage. Preserve exact provider states; Rust queries use provider_available and current cohort membership; no goods movement inferred."
+    },
+    {
+      "event": "inventory.adjustment_observed",
+      "tracks": [],
+      "rule": "No cause-of-adjustment event is emitted from current snapshot differences.",
+      "unsupported_reason": "InventoryLevel quantities and their update timestamps do not establish the cause, document or lifecycle of a physical goods movement."
+    }
+  ],
+  "synchronization": {
+    "initial_import": "All accessible items and all nested levels within explicit bounds; no updatedAt item cursor assumption. Retain original selected time/context choice and fixed cutoff.",
+    "cursor": "Opaque outer item endCursor in fenced durable checkpoint; nested level pages complete before atomic item commit. Reject missing/repeated nested cursor, changed header, oversized populations.",
+    "reconciliation": "Full current enumeration; item cohort filters out locations omitted in a later successful item listing. Old journal facts remain immutable. No global absence inference for deleted items.",
+    "deduplication": "Stable connection/level/cutoff observation; replay the same fixed cohort without duplicate effects. Changed content at the same revision/cutoff is reviewed, not overwritten.",
+    "freshness": "Success, last new observation, reconciliation and current failure are separate. Permission loss stops jobs. Failed or quarantined scans never prove coverage.",
+    "modes": {
+      "local_standalone": {
+        "status": "partial",
+        "methods": [
+          "polling",
+          "import"
+        ],
+        "schedule": "One full item scan per incremental poll, default 120 seconds plus 0\u201310% jitter; reconciliation every six hours; independent background worker.",
+        "history_limit": "Current item/location snapshots only; no historical opening or intermediate quantity events; exact point scope and up to 100000 items/248 locations per item.",
+        "authentication": "Encrypted app token or permitted client credentials; strict myshopify.com outbound host; immutable shop identity; read_orders and read_inventory (or respective write grants); grants checked each page.",
+        "recovery": "Durable per-page cursor and atomic item cohort; same fixed scan is idempotent; lease/reconnect fencing; bounded retry; original retained-input retry; journal reconstruction after restart.",
+        "limitations": "No atomic cross-location read, source adjustment cause, global complete population, untracked-item availability or live-provider proof. Negative quantities remain unresolved.",
+        "reason": "Outbound-only local pilot. Point observations can answer narrow queries with declared limitations; other scopes remain partial/unknown."
+      },
+      "local_gateway": {
+        "status": "unsupported",
+        "methods": [],
+        "schedule": "No gateway/server scheduling in the pilot.",
+        "history_limit": "No history transport in this mode.",
+        "authentication": "No public callback, gateway credential or public binding is provisioned.",
+        "recovery": "No mode runtime to recover; use local_standalone.",
+        "limitations": "Deferred by baseline-v14 local pilot scope.",
+        "reason": "Explicit owner-approved P0\u2013P4 scope excludes gateway and public-server implementation."
+      },
+      "public_server": {
+        "status": "unsupported",
+        "methods": [],
+        "schedule": "No gateway/server scheduling in the pilot.",
+        "history_limit": "No history transport in this mode.",
+        "authentication": "No public callback, gateway credential or public binding is provisioned.",
+        "recovery": "No mode runtime to recover; use local_standalone.",
+        "limitations": "Deferred by baseline-v14 local pilot scope.",
+        "reason": "Explicit owner-approved P0\u2013P4 scope excludes gateway and public-server implementation."
+      }
+    }
+  },
+  "import_readiness": {
+    "time_selection": "Shared immutable timezone-aware 30-day/calendar/custom/from-now plans. Current snapshots only; selected history is not falsely certified.",
+    "historical_availability": "Provider exposes current quantities with last-updated timestamps; no event history or historical opening implied.",
+    "open_and_related_records": "Stock does not traverse the open-order stage. Item/location scan is its own population, not an order-reservation derivation.",
+    "opening_state": "Declined opening excludes any level with older quantity states. Default consent permits present snapshots, not a historical opening balance.",
+    "progress_accounting": "One logical item per cohort; committed/duplicate/skipped/quarantined and applied-cursor counts retained in PostgreSQL. No estimated total or percent.",
+    "readiness_rules": "Only fully enumerated, valid item at the exact declared point can supply available values, with explicit non-atomic limitations. Missing quantities, basis, scope, identity or cutoff coverage block an answer.",
+    "health_rules": "Per-page immutable account and inventory grant check, truthful successful-check/new-observation/reconciliation timestamps and unresolved-review health.",
+    "history_expansion": "Append-only plan; adding the stock capability schedules independent polling/reconciliation. New jobs select the latest plan that includes their capability.",
+    "data_handling": "No SKU, address, title or product description queried. Encrypted original evidence and minimal canonical fields; remaining required secret/retention operations are not certified by this mapping."
+  }
+}

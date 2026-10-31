@@ -3,7 +3,11 @@ import type { PoolClient } from "pg";
 import { z } from "zod";
 import { scoped } from "../database/index.js";
 import { sealSecret, opaqueIdentity } from "../auth/secrets.js";
-import { validateShopify, revision } from "../connectors/shopify-client.js";
+import {
+  validateShopify,
+  revision,
+  requireCapabilityScopes,
+} from "../connectors/shopify-client.js";
 import {
   importSelection,
   resolveImportSelection,
@@ -11,11 +15,16 @@ import {
 import type { Principal } from "../auth/index.js";
 
 // Each route uses this same capability declaration and never equates credentials with coverage.
-export const scheduledCapabilities = ["orders", "payments", "refunds"] as const;
+export const scheduledCapabilities = [
+  "orders",
+  "payments",
+  "refunds",
+  "stock",
+] as const;
 export const startImport = z
   .object({
     selection: importSelection,
-    capabilities: z.array(z.enum(scheduledCapabilities)).min(1).max(3),
+    capabilities: z.array(z.enum(scheduledCapabilities)).min(1).max(4),
     acknowledge_restrictions: z.boolean().default(false),
   })
   .strict();
@@ -148,15 +157,26 @@ export async function planPreview(
     ).rows[0];
     if (!source || source.provider !== "shopify")
       throw new SourceRequestError("missing_connection", 404);
+    for (const capability of body.capabilities)
+      requireCapabilityScopes(source.scopes, capability);
     return {
       parameters,
       capabilities: [...new Set(body.capabilities)],
       provider_revision: revision,
-      restrictions: restrictions(
-        source.scopes,
-        parameters.requested_from,
-        parameters.initial_cutoff,
-      ),
+      restrictions: [
+        ...restrictions(
+          source.scopes,
+          parameters.requested_from,
+          parameters.initial_cutoff,
+        ),
+        ...(body.capabilities.includes("stock")
+          ? [
+              "inventory_current_snapshot_only",
+              "inventory_non_atomic_locations",
+              "inventory_scan_bounded",
+            ]
+          : []),
+      ],
       available_from: source.scopes.includes("read_all_orders")
         ? null
         : new Date(
@@ -213,12 +233,21 @@ export async function beginImport(
       throw new SourceRequestError("source_requires_connection");
     const previous = (
       await c.query(
-        "SELECT revision,parameters FROM bb.import_plans WHERE connection_id=$1 ORDER BY revision DESC LIMIT 1",
+        "SELECT revision,parameters,capabilities FROM bb.import_plans WHERE connection_id=$1 ORDER BY revision DESC LIMIT 1",
         [connection],
       )
     ).rows[0];
+    const knownCapabilities = new Set(
+      (
+        await c.query(
+          "SELECT capability FROM bb.source_health WHERE connection_id=$1",
+          [connection],
+        )
+      ).rows.map((r) => r.capability),
+    );
     if (
       previous &&
+      preview.capabilities.every((cap) => knownCapabilities.has(cap)) &&
       Date.parse(preview.parameters.requested_from) >=
         Date.parse(previous.parameters.requested_from) &&
       ![
@@ -294,7 +323,7 @@ export async function beginImport(
           },
         ),
       );
-      if (!previous) {
+      if (!knownCapabilities.has(capability)) {
         jobs.push(
           await enqueueJob(
             c,

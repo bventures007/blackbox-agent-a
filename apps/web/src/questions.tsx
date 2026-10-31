@@ -371,6 +371,30 @@ export function Questions({
         >
           <Badge state={result.status} />
           <p className="notice">{t.notVerified}</p>
+          {result.coverage?.limitations?.length > 0 && (
+            <div className="notice">
+              <strong>
+                {locale === "de"
+                  ? "Einschränkungen der Quelle"
+                  : "Source limitations"}
+              </strong>
+              <ul>
+                {result.coverage.limitations.map((code: string) => (
+                  <li key={code}>
+                    {code === "stock.non_atomic_snapshot"
+                      ? locale === "de"
+                        ? "Die Standorte wurden nacheinander gelesen; dies ist keine gleichzeitige Bestandszählung."
+                        : "Locations were read in sequence; this is not an atomic inventory count."
+                      : code === "stock.no_historical_opening"
+                        ? locale === "de"
+                          ? "Die Bestandsaufnahme gilt nur am angegebenen Stichtag und liefert keinen historischen Anfangsbestand."
+                          : "The snapshot applies only at its declared cutoff and does not provide a historical opening balance."
+                        : code}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           {result.human_confirmed_inputs?.length > 0 && (
             <div className="notice">
               <strong>

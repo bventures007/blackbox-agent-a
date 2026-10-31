@@ -19,6 +19,7 @@ import {
   type ImportParameters,
 } from "../connectors/shopify-source.js";
 import type { PoolClient } from "pg";
+import { normalizeStock } from "../connectors/shopify-stock.js";
 
 const catalogue = JSON.parse(
   await readFile(
@@ -238,14 +239,25 @@ export async function decideReview(
               transactionsCount: { count: 1, precision: "EXACT" },
             }
           : raw;
-      const normalized = await normalizeSourceOrder(
-        replayRaw,
-        item.connection_id,
-        item.account_anchor,
-        item.capability,
-        item.parameters as ImportParameters,
-        item.checkpoint.stage === "open" ? "open" : "recent",
-      );
+      const normalized =
+        item.capability === "stock"
+          ? await normalizeStock(
+              raw.source_scope === "inventory_item_snapshot" ? raw.item : raw,
+              item.connection_id,
+              item.parameters as ImportParameters,
+              raw.source_scope === "inventory_item_snapshot"
+                ? raw.through
+                : item.checkpoint.through,
+              raw.synthetic === true,
+            )
+          : await normalizeSourceOrder(
+              replayRaw,
+              item.connection_id,
+              item.account_anchor,
+              item.capability,
+              item.parameters as ImportParameters,
+              item.checkpoint.stage === "open" ? "open" : "recent",
+            );
       const original = normalized.find((o) => o.object_id === item.object_id);
       const group = original
         ? [original]

@@ -62,6 +62,7 @@ const en = {
   orders: "Orders",
   payments: "Payments",
   refunds: "Refunds",
+  stock: "Inventory snapshots (requires inventory read access)",
   sourceHealth: "Collection and import progress",
   lastSuccess: "Last successful scoped check",
   lastNew: "Last new record",
@@ -111,7 +112,7 @@ const en = {
   close: "Close",
   changed: "Change scope",
   unsupported:
-    "Other selected Shopify capabilities are still being implemented; this flow currently imports orders, payments and refunds.",
+    "This flow imports orders, payments and refunds, with optional inventory snapshots. Other selected Shopify capabilities are still being implemented.",
 };
 const de: Record<keyof typeof en, string> = {
   needs_review: "Prüfung erforderlich",
@@ -166,6 +167,7 @@ const de: Record<keyof typeof en, string> = {
   orders: "Aufträge",
   payments: "Zahlungen",
   refunds: "Erstattungen",
+  stock: "Bestandsaufnahmen (Leseberechtigung für Lagerbestand erforderlich)",
   sourceHealth: "Erfassung und Importfortschritt",
   lastSuccess: "Letzte erfolgreiche Prüfung des Datenumfangs",
   lastNew: "Letzter neuer Datensatz",
@@ -215,9 +217,29 @@ const de: Record<keyof typeof en, string> = {
   close: "Schließen",
   changed: "Umfang ändern",
   unsupported:
-    "Weitere ausgewählte Shopify-Datenbereiche werden noch implementiert. Dieser Ablauf importiert derzeit Aufträge, Zahlungen und Erstattungen.",
+    "Dieser Ablauf importiert Aufträge, Zahlungen und Erstattungen sowie optional Bestandsaufnahmen. Weitere ausgewählte Shopify-Datenbereiche werden noch implementiert.",
 };
 const reasons: Record<string, [string, string]> = {
+  inventory_current_snapshot_only: [
+    "Inventory supplies current states, not historical opening balances or the causes of quantity changes.",
+    "Lagerdaten liefern aktuelle Zustände, keine historischen Anfangsbestände oder Ursachen von Mengenänderungen.",
+  ],
+  inventory_non_atomic_locations: [
+    "Locations are read in sequence. The result is not an atomic stock count; unknown or invalid quantities stay unresolved.",
+    "Standorte werden nacheinander gelesen. Das Ergebnis ist keine gleichzeitige Bestandszählung; unbekannte oder ungültige Mengen bleiben ungeklärt.",
+  ],
+  inventory_scan_bounded: [
+    "Inventory scans are bounded to 100,000 items and 248 locations per item. Exceeding a limit leaves an explicit gap.",
+    "Bestandsabfragen sind auf 100.000 Artikel und 248 Standorte je Artikel begrenzt. Beim Überschreiten bleibt eine sichtbare Lücke.",
+  ],
+  provider_read_inventory_required: [
+    "The installed app needs inventory read access for this selection.",
+    "Die installierte App benötigt für diese Auswahl eine Leseberechtigung für Lagerbestand.",
+  ],
+  provider_history_scope_lost: [
+    "Order-history access changed. Reconnect and review the available scope.",
+    "Die Berechtigung für die Auftragshistorie wurde geändert. Verbinde das Konto erneut und prüfe den verfügbaren Umfang.",
+  ],
   source_records_quarantined: [
     "Some records need review. A successful later check does not repair this gap.",
     "Einige Datensätze müssen geprüft werden. Eine spätere erfolgreiche Prüfung behebt diese Lücke nicht.",
@@ -441,6 +463,7 @@ export function ImportPlan({
   const { s } = useCopy(),
     r = useRemote("/v1/sources/readiness"),
     a = useAction(),
+    [includeStock, setIncludeStock] = useState(false),
     [preset, setPreset] = useState("last_30_days"),
     [zone, setZone] = useState(
       timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -475,7 +498,12 @@ export function ImportPlan({
       ...(preset === "custom" ? { custom_date: date } : {}),
       ...context,
     },
-    capabilities: ["orders", "payments", "refunds"],
+    capabilities: [
+      "orders",
+      "payments",
+      "refunds",
+      ...(includeStock ? ["stock"] : []),
+    ],
     acknowledge_restrictions: ack,
   };
   return (
@@ -582,6 +610,14 @@ export function ImportPlan({
             );
           }}
         >
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={includeStock}
+              onChange={(e) => setIncludeStock(e.target.checked)}
+            />
+            {s.stock}
+          </label>
           <label>
             {s.range}
             <select

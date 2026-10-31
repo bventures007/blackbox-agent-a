@@ -63,6 +63,45 @@ app.post("/admin/api/2026-10/graphql.json", async (req) => {
         },
       },
     };
+  if (body.query.includes("BlackboxStock")) {
+    const vars = body.variables as any;
+    const items = sourceScenario.stock_items ?? [];
+    sourceRequests.push({
+      query: body.query.includes("BlackboxStockLevels")
+        ? "stock_levels"
+        : "stock",
+      variables: vars,
+    });
+    if (body.query.includes("BlackboxStockLevels")) {
+      const item = items.find((i: any) => i.id === vars.id);
+      return {
+        data: {
+          inventoryItem: {
+            id: item.id,
+            updatedAt: item.updatedAt,
+            tracked: item.tracked,
+            inventoryLevels: {
+              nodes: item.extraLevels ?? [],
+              pageInfo: { hasNextPage: false, endCursor: null },
+            },
+          },
+        },
+      };
+    }
+    const index = vars.after ? Number(vars.after) : 0,
+      item = items[index];
+    return {
+      data: {
+        inventoryItems: {
+          nodes: item ? [item] : [],
+          pageInfo: {
+            hasNextPage: index + 1 < items.length,
+            endCursor: item ? String(index + 1) : null,
+          },
+        },
+      },
+    };
+  }
   if (body.query.includes("BlackboxSource")) {
     sourceRequests.push({
       query: body.query.includes("BlackboxSourceLines") ? "lines" : "orders",

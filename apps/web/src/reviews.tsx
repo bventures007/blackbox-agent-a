@@ -588,6 +588,7 @@ function ReviewDialog({
               <p>
                 {t(d.action)} · {t(d.reason_code)} ·{" "}
                 <DateText value={d.created_at} />
+                <br />
                 <small>
                   {t("ownerActor")}: {d.principal_id.slice(0, 8)}
                 </small>
