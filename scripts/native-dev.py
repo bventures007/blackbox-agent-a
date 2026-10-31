@@ -2,19 +2,17 @@
 """Development-only fallback using already-installed Postgres.app. Not DIST evidence."""
 import os,pathlib,subprocess,json,secrets,sys,time,signal,urllib.parse,urllib.request,urllib.error
 root=pathlib.Path(__file__).resolve().parents[1];runtime=root/'.runtime';pg=pathlib.Path('/Applications/Postgres.app/Contents/Versions/18/bin')
-runtime.mkdir(exist_ok=True,mode=0o700)
-config=runtime/'native.json'
-if not config.exists():
- data={'admin':secrets.token_hex(32),'api':secrets.token_hex(32),'worker':secrets.token_hex(32),'engine':secrets.token_hex(32),'socket':'/private/tmp/blackbox-a-'+secrets.token_hex(6)}
- with config.open('x')as f:os.chmod(config,0o600);json.dump(data,f)
-x=json.load(config.open());sock=pathlib.Path(x['socket']);sock.mkdir(exist_ok=True,mode=0o700)
-for d in ['secrets','evidence','logs']:(runtime/d).mkdir(exist_ok=True,mode=0o700)
-for n,data in [('data',secrets.token_bytes(32)),('internal',secrets.token_hex(32).encode())]:
- p=runtime/'secrets'/n
- if not p.exists():
-  with p.open('xb')as f:os.chmod(p,0o600);f.write(data)
+from host_runtime import native_config, protected_directory, RuntimeConfigError
+cmd=sys.argv[1]if len(sys.argv)>1 else 'help'
+# Stop/pause paths remain usable after losing an encryption key. They need no decryption.
+x={};sock=None
+if cmd not in ['down','pause-worker','resume-worker','help']:
+ try:
+  x=native_config(runtime,create=cmd=='up')
+  sock=pathlib.Path(x['socket']);protected_directory(sock,True)
+ except RuntimeConfigError as error:raise SystemExit(str(error))
 def url(role,key):return f'postgres://{role}:{key}@localhost/blackbox?host='+urllib.parse.quote(str(sock),safe='')
-env={**os.environ,'DATABASE_URL':url('bb_api',x['api']),'WORKER_DATABASE_URL':url('bb_worker',x['worker']),'ENGINE_DATABASE_URL':url('bb_engine',x['engine']),'ADMIN_DATABASE_URL':url('blackbox_migrate',x['admin']),'INTERNAL_KEY_FILE':str(runtime/'secrets/internal'),'DATA_KEY_FILE':str(runtime/'secrets/data'),'EVIDENCE_DIR':str(runtime/'evidence'),'LOG_DIR':str(runtime/'logs'),'ENGINE_URL':'http://127.0.0.1:19742','ENGINE_BIND':'127.0.0.1:19742','PORT':'19741','PUBLIC_PORT':'19741','FIXTURE_HOST':'127.0.0.1:19743','FIXTURE_PORT':'19743','ALLOW_SYNTHETIC_FIXTURE':'1','BLACKBOX_API_URL':'http://127.0.0.1:19741','TEST_RUNTIME_DIR':str(runtime),'PGPASSWORD':x['admin']}
+env={**os.environ,'DATABASE_URL':url('bb_api',x['api']),'WORKER_DATABASE_URL':url('bb_worker',x['worker']),'ENGINE_DATABASE_URL':url('bb_engine',x['engine']),'ADMIN_DATABASE_URL':url('blackbox_migrate',x['admin']),'INTERNAL_KEY_FILE':str(runtime/'secrets/internal'),'DATA_KEY_FILE':str(runtime/'secrets/data'),'EVIDENCE_DIR':str(runtime/'evidence'),'LOG_DIR':str(runtime/'logs'),'ENGINE_URL':'http://127.0.0.1:19742','ENGINE_BIND':'127.0.0.1:19742','PORT':'19741','PUBLIC_PORT':'19741','FIXTURE_HOST':'127.0.0.1:19743','FIXTURE_PORT':'19743','ALLOW_SYNTHETIC_FIXTURE':'1','BLACKBOX_API_URL':'http://127.0.0.1:19741','TEST_RUNTIME_DIR':str(runtime),'PGPASSWORD':x['admin']} if x else dict(os.environ)
 def run(args,**kw):return subprocess.run([str(a)for a in args],env=env,cwd=root,check=True,**kw)
 def database():
  if not (runtime/'pg/PG_VERSION').exists():

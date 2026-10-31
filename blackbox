@@ -3,30 +3,23 @@
 import os, pathlib, secrets, subprocess, sys, json, datetime, uuid
 root=pathlib.Path(__file__).resolve().parent
 runtime=root/'.runtime'
-def config():
- runtime.mkdir(mode=0o700,exist_ok=True)
- for name in ['secrets','evidence','logs']:(runtime/name).mkdir(mode=0o700,exist_ok=True)
- env=runtime/'compose.env'
- if not env.exists():
-  with env.open('x') as f:
-   os.chmod(env,0o600)
-   f.write(f'BB_UID={os.getuid()}\nBB_GID={os.getgid()}\n')
-   for key in ['BB_DB_PASSWORD','BB_API_PASSWORD','BB_WORKER_PASSWORD','BB_ENGINE_PASSWORD']:f.write(key+'='+secrets.token_hex(32)+'\n')
-  for name,data in [('data',secrets.token_bytes(32)),('internal',secrets.token_hex(32).encode())]:
-   p=runtime/'secrets'/name
-   with p.open('xb') as f:os.chmod(p,0o600);f.write(data)
- elif not all((runtime/'secrets'/n).exists() for n in ['data','internal']):raise SystemExit('Existing installation key missing. Restore its protected key; no replacement generated.')
- return ['docker','compose','--env-file',str(env),'-f',str(root/'infra/compose/compose.yaml')]
+sys.path.insert(0,str(root/'scripts'))
+from host_runtime import compose_config, protected_directory, RuntimeConfigError, _validate_file
+def config(create=False,port=None,require_keys=True):
+ compose_config(runtime,create=create,port=port,require_keys=require_keys)
+ return ['docker','compose','--env-file',str(runtime/'compose.env'),'-f',str(root/'infra/compose/compose.yaml')]
 def run(args):return subprocess.call(args,cwd=root)
 command=sys.argv[1] if len(sys.argv)>1 else 'help'
 try:
- logdir=runtime/'logs';logdir.mkdir(mode=0o700,parents=True,exist_ok=True);logfile=logdir/'wrapper.jsonl'
+ protected_directory(runtime,True)
+ logdir=runtime/'logs';protected_directory(logdir,True);logfile=logdir/'wrapper.jsonl'
  if logfile.exists()and logfile.stat().st_size>8*1024*1024:logfile.replace(logdir/'wrapper.jsonl.1')
  stamp=datetime.datetime.now(datetime.timezone.utc).isoformat()
  record={'schema_version':1,'record_id':str(uuid.uuid4()),'occurred_at':stamp,'observed_at':stamp,'level':'INFO','event_name':'wrapper.command','message':'Host command started','component':'wrapper','service_version':'0.1.0','instance_id':str(uuid.uuid4()),'scope':'installation'}
- fd=os.open(logfile,os.O_CREAT|os.O_APPEND|os.O_WRONLY,0o600)
- with os.fdopen(fd,'w')as f:f.write(json.dumps(record)+'\n')
-except OSError:print('setup_log_unavailable: log persistence failed',file=sys.stderr)
+ fd=os.open(logfile,os.O_CREAT|os.O_APPEND|os.O_WRONLY|os.O_NOFOLLOW,0o600)
+ with os.fdopen(fd,'w')as f:
+  _validate_file(os.fstat(f.fileno()),logfile.name);f.write(json.dumps(record)+'\n')
+except (OSError,RuntimeConfigError):print('setup_log_unavailable: log persistence failed',file=sys.stderr)
 
 if command=='logs':sys.exit(run(['python3',str(root/'scripts/diagnostics.py'),*sys.argv[2:]]))
 if command=='diagnostics' and len(sys.argv)>2 and sys.argv[2]=='export':sys.exit(run(['python3',str(root/'scripts/diagnostics.py'),*sys.argv[3:]]))
@@ -34,8 +27,15 @@ if command=='doctor':
  print('Blackbox local pilot developer runtime; Apple Silicon; loopback port 18741. Container runtime required.')
  sys.exit(run(['docker','version','--format','{{.Client.Version}} {{if .Server}}{{.Server.Version}}{{end}}']))
 if command in ['build','up','down','status','test','setup','reset-access']:
- c=config()
+ extra=sys.argv[2:];port=None
+ if '--port' in extra:
+  if command not in ['build','setup'] or len(extra)!=2 or extra[0]!='--port':raise SystemExit('--port is supported only by explicit build/setup.')
+  try:port=int(extra[1])
+  except ValueError:raise SystemExit('Invalid loopback port.')
+  extra=[]
+ try:c=config(create=command in ['build','setup'],port=port,require_keys=command not in ['down','status'])
+ except RuntimeConfigError as error:raise SystemExit(str(error))
  args={'build':['build'],'up':['up','-d','postgres','engine','api','worker'],'down':['stop'],'status':['ps'],'test':['--profile','test','up','-d','fixture'],'setup':['run','--rm','tooling','pnpm','exec','tsx','scripts/setup.ts'],'reset-access':['run','--rm','tooling','pnpm','exec','tsx','scripts/setup.ts','reset']}[command] if command!='build' else ['build','api','engine']
- sys.exit(run(c+args+sys.argv[2:]))
+ sys.exit(run(c+args+extra))
 print('Usage: ./blackbox doctor|build|setup|up|down|status|test|reset-access')
 print('Development slice: backup/restore/upgrade and release package are not yet implemented.')

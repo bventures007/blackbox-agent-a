@@ -79,3 +79,27 @@ Backup/restore/upgrade release commands are not yet delivered; no protection is
 claimed merely because this development runtime persists data.
 
 The React production UI must be built with `pnpm build:web` before starting the native developer stack. It is served by the existing loopback API, not a second runtime web server.
+
+## Protected bootstrap and separate installations
+
+Fresh explicit `./blackbox build` or `./blackbox setup` creates a random
+`blackbox-a-<12 hex digits>` Compose project, separate database passwords and
+installation data/internal keys. Use `./blackbox setup --port 18751` (or `build
+--port 18751` before setup) for a concurrent isolated install. The existing
+source-development installation retains project `blackbox-a` and port 18741.
+Normal `up`, `status` and `down` never create replacement credentials.
+
+The runtime directory and its `secrets`, `evidence` and `logs` directories must
+be owned by the current OS user and mode 0700. `compose.env`, `native.json` and
+key files are protected regular single-link files with no group/world access
+or executable bits. Bootstrap rejects symlinks, corrupt lengths/encoding,
+foreign ownership, dotenv injection and different requested existing ports.
+An older developer runtime created with mode 0755 requires an explicit
+`chmod 700 .runtime` before startup. Do not loosen permissions to repair errors.
+
+If configuration or a key is missing, stop and restore the original protected
+material; setup will not manufacture a replacement over existing state.
+Stopping/status remain available with a missing encryption key when the
+Compose configuration is intact. Native `down` also remains available without
+encryption keys. This fail-closed guard is not a substitute for the still-pending
+encrypted backup/restore and versioned key-rotation procedures.
