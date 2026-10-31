@@ -26,7 +26,8 @@ export async function runShopifyImport(d: Deps, tenantId: string, connectionId: 
   const runId = await sources.startRun(tenantId, connectionId, kind, { attempt });
   const rlog = log.child({ run_id: runId, attempt });
   const now = ctx.now();
-  const orderCaps = ['orders', 'payments', 'refunds', 'fulfillments', 'returns'].filter((c) => caps.some((k) => k.capability === c));
+  // allocations (reservations) and receipts (return receipts) are derived from the same orders/fulfillments/returns pages: one poll advances them all
+  const orderCaps = ['orders', 'payments', 'refunds', 'fulfillments', 'returns', 'allocations', 'receipts'].filter((c) => caps.some((k) => k.capability === c));
   const mark = async (patch: Record<string, unknown>) => { for (const c of orderCaps) await sources.touchCapability(tenantId, connectionId, c, patch); };
   try {
     // 1) check connection: account identity + granted scopes (a successful credential check is not an import)

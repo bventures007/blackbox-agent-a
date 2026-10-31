@@ -21,7 +21,7 @@ async function producerPost(events: Array<Record<string, unknown>>, coverage?: R
   const json = await res.json() as Record<string, unknown>; return { status: res.status, body: json };
 }
 const ev = (type: string, id: string, occurred: string, payload: Record<string, unknown>) => ({ event_id: id, event_type: type, occurred_at: occurred, payload });
-async function cover(capability: string, complete = true, missing: string[] = []) { const r = await producerPost([], { capability, backfill_complete: complete, complete_through: NOW, history_start: '2026-10-01T00:00:00Z', missing_fields: missing }).catch(() => null); return r; }
+async function cover(capability: string, complete = true, missing: string[] = []) { const r = await producerPost([], { capability, backfill_complete: complete, complete_through: NOW, history_start: '2026-10-01T00:00:00Z', missing_fields: missing }); expect(r.status, `cover ${capability}: ${JSON.stringify(r.body)}`).toBe(202); expect((r.body.rejected as unknown[]).length, `cover ${capability} rejected`).toBe(0); return r; }
 async function ask(intent: string, parameters: Record<string, unknown> = {}) { const r = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent, parameters }) }); expect(r.status, JSON.stringify(r.body)).toBe(200); return r.body as { status: string; result: Record<string, unknown>; missing_inputs: string[]; evidence_entry_ids: string[]; coverage: Array<{ capability: string; status: string }>; applied_cursor: number }; }
 async function settle(required: number) { await waitApplied(cookie, required, 120_000); }
 

@@ -53,8 +53,9 @@ export async function buildApp(config: ApiConfig): Promise<{ app: FastifyInstanc
     const bearer = req.headers.authorization?.startsWith('Bearer ') ? req.headers.authorization.slice(7) : undefined;
     let principal: Principal | null = null;
     if (opts.owner !== false && token) { principal = await auth.authenticateSession(token); if (principal) req.sessionToken = token; }
-    if (!principal && opts.agent && bearer) principal = await auth.authenticateKey(bearer, 'agent');
+    if (!principal && bearer) principal = await auth.authenticateKey(bearer, 'agent');
     if (!principal) { reply.code(401).send({ error: 'unauthenticated', message: 'sign in with your access key or supply an agent key' }); return null; }
+    if (!opts.agent && principal.kind !== 'owner') { reply.code(403).send({ error: 'owner_required', message: 'read-only agent keys cannot use this operation' }); return null; }
     if (opts.owner && principal.kind !== 'owner') { reply.code(403).send({ error: 'owner_required', message: 'read-only agent keys cannot use this operation' }); return null; }
     if (principal.kind === 'owner' && (opts.csrf ?? (req.method !== 'GET' && req.method !== 'HEAD'))) {
       if (!originAllowed(req.headers as Record<string, string | undefined>, config.origin) || req.headers['x-blackbox-request'] !== '1') { reply.code(403).send({ error: 'csrf_rejected', message: 'request origin not allowed' }); return null; }

@@ -1,0 +1,152 @@
+{
+ "row_id": "policy.policy",
+ "source_revision": "Owner-recorded versioned rules via POST /api/sources/:id/rules (apps/api/src/routes/sources.ts)",
+ "input_resources": [
+  "POST /api/sources/:id/rules"
+ ],
+ "grants": [],
+ "identity_rule": "provider identity scoped by connection/account namespace: dedup_key = <namespace>:<provider event id>; entity refs are tenant-scoped; no join by email or bare order number",
+ "coverage_rule": "coverage.observed per capability after a fully paginated/imported run; answers compare required datasets against coverage facts and return partial/insufficient_data otherwise",
+ "retention": {
+  "decision": "permitted",
+  "basis": "owner-recorded rules"
+ },
+ "fields": {
+  "rule_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "policy:policy.rule_id"
+  },
+  "rule_kind": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "policy:policy.rule_kind"
+  },
+  "version": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "policy:policy.version"
+  },
+  "effective_from": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "policy:policy.effective_from"
+  },
+  "scope": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "policy:policy.scope"
+  },
+  "priority_method": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "policy:policy.priority_method"
+  },
+  "invoicing_trigger": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "policy:policy.invoicing_trigger"
+  },
+  "tolerance": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "policy:policy.tolerance"
+  },
+  "currency": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "policy:policy.currency"
+  },
+  "timezone": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "policy:policy.timezone"
+  },
+  "reminder_policy": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "policy:policy.reminder_policy"
+  }
+ },
+ "event_rules": [
+  {
+   "event": "business.rule_recorded",
+   "tracks": [
+    "source",
+    "fact"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: business.rule_recorded -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  },
+  {
+   "event": "business.rule_revised",
+   "tracks": [
+    "source",
+    "fact"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: business.rule_revised -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  }
+ ],
+ "synchronization": {
+  "initial_import": "plan-driven fixed UTC window, cursor pagination, per-page durable commit (shopify); single envelope/import (generic, bank_csv); on-write (policy, runtime, replay)",
+  "cursor": "updated_since + page_cursor + complete_through per capability (capability_state.cursor)",
+  "reconciliation": "daily reconciliation of the last 48 h for polling capabilities; re-import for files; n/a for internal producers",
+  "deduplication": "journal_append rejects identical provider identity (inserted=false) and raises BBX02 for different content (review case)",
+  "freshness": "last_successful_sync_at (complete empty checks allowed) distinct from last_new_record_at; delayed after 3x poll interval",
+  "modes": {
+   "local_standalone": {
+    "status": "supported",
+    "methods": [
+     "internal"
+    ],
+    "schedule": "on write; no schedule",
+    "history_limit": "not applicable",
+    "authentication": "owner session or internal service",
+    "recovery": "durable per-page commit before checkpoint advance; restart resumes cursors; duplicates deduplicated by provider identity",
+    "limitations": "no webhooks (outbound only); intermediate provider states between polls are not observed",
+    "reason": "local pilot connectivity mode"
+   },
+   "local_gateway": {
+    "status": "unsupported",
+    "methods": [],
+    "schedule": "not applicable",
+    "history_limit": "not applicable",
+    "authentication": "not applicable",
+    "recovery": "not applicable",
+    "limitations": "not implemented",
+    "reason": "deferred by delivery-profile.json (no gateway is provisioned in the pilot)"
+   },
+   "public_server": {
+    "status": "unsupported",
+    "methods": [],
+    "schedule": "not applicable",
+    "history_limit": "not applicable",
+    "authentication": "not applicable",
+    "recovery": "not applicable",
+    "limitations": "not implemented",
+    "reason": "deferred by delivery-profile.json (no public server profile in the pilot)"
+   }
+  }
+ },
+ "import_readiness": {
+  "time_selection": "effective_from per rule version",
+  "historical_availability": "all recorded versions",
+  "open_and_related_records": "not applicable",
+  "opening_state": "not applicable",
+  "progress_accounting": "one entry per rule version",
+  "readiness_rules": "queries needing a rule return insufficient_data until the rule kind exists",
+  "health_rules": "owner-maintained; no poll",
+  "history_expansion": "new versions append",
+  "data_handling": "rules contain no personal data"
+ }
+}

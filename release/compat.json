@@ -1,0 +1,1 @@
+{ "app_version": "0.1.0-dev", "schema_version": 1, "reducer_version": "r1", "engine_rpc": 1, "mcp_bridge": 1, "journal_event_schema": 1, "backup_format": 1, "postgres_major": 17, "rollback": "binary rollback is not supported after a schema migration; use an isolated restore of the pre-upgrade generation" }

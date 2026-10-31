@@ -66,7 +66,7 @@ impl Engine {
                 }
             });
             if client.batch_execute("LISTEN journal_committed").await.is_err() { handle.abort(); tokio::time::sleep(Duration::from_secs(3)).await; continue; }
-            while let Some(payload) = rx.recv().await { if let Ok(id) = payload.parse::<Uuid>() { if let Some(rt) = self.tenants.read().await.get(&id) { rt.notify.notify_one(); } else { self.refresh_tenants().await; } } }
+            while let Some(payload) = rx.recv().await { if let Ok(id) = payload.parse::<Uuid>() { let known = self.tenants.read().await.get(&id).cloned(); match known { Some(rt) => rt.notify.notify_one(), None => self.refresh_tenants().await } } }
             handle.abort();
             tokio::time::sleep(Duration::from_secs(1)).await;
         }

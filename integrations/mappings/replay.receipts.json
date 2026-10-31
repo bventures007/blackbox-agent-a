@@ -1,0 +1,160 @@
+{
+ "row_id": "replay.receipts",
+ "source_revision": "Replay fixture mapping (packages/application/src/connectors/replay.ts) over GOLDEN-ORDER-TO-CASH.json v1.0",
+ "input_resources": [
+  "POST /api/sources/:id/replay (GOLDEN-ORDER-TO-CASH.json)"
+ ],
+ "grants": [],
+ "identity_rule": "provider identity scoped by connection/account namespace: dedup_key = <namespace>:<provider event id>; entity refs are tenant-scoped; no join by email or bare order number",
+ "coverage_rule": "coverage.observed per capability after a fully paginated/imported run; answers compare required datasets against coverage facts and return partial/insufficient_data otherwise",
+ "retention": {
+  "decision": "permitted",
+  "basis": "synthetic fixture"
+ },
+ "fields": {
+  "receipt_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "replay:receipts.receipt_id"
+  },
+  "return_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "replay:receipts.return_id"
+  },
+  "line_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "replay:receipts.line_id"
+  },
+  "location_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "replay:receipts.location_id"
+  },
+  "quantity": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "replay:receipts.quantity"
+  },
+  "unit": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "replay:receipts.unit"
+  },
+  "disposition": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "replay:receipts.disposition"
+  },
+  "physical_delta": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "replay:receipts.physical_delta"
+  },
+  "quarantine_delta": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "replay:receipts.quarantine_delta"
+  },
+  "occurred_at": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "replay:receipts.occurred_at"
+  }
+ },
+ "event_rules": [
+  {
+   "event": "return.received",
+   "tracks": [
+    "source",
+    "fact",
+    "movement",
+    "reservation"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: return.received -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  },
+  {
+   "event": "return.restocked",
+   "tracks": [
+    "source",
+    "fact",
+    "movement",
+    "reservation"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: return.restocked -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  },
+  {
+   "event": "return.disposition_observed",
+   "tracks": [
+    "source",
+    "fact",
+    "movement",
+    "reservation"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: return.disposition_observed -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  }
+ ],
+ "synchronization": {
+  "initial_import": "plan-driven fixed UTC window, cursor pagination, per-page durable commit (shopify); single envelope/import (generic, bank_csv); on-write (policy, runtime, replay)",
+  "cursor": "updated_since + page_cursor + complete_through per capability (capability_state.cursor)",
+  "reconciliation": "daily reconciliation of the last 48 h for polling capabilities; re-import for files; n/a for internal producers",
+  "deduplication": "journal_append rejects identical provider identity (inserted=false) and raises BBX02 for different content (review case)",
+  "freshness": "last_successful_sync_at (complete empty checks allowed) distinct from last_new_record_at; delayed after 3x poll interval",
+  "modes": {
+   "local_standalone": {
+    "status": "supported",
+    "methods": [
+     "internal"
+    ],
+    "schedule": "on write; no schedule",
+    "history_limit": "not applicable",
+    "authentication": "owner session or internal service",
+    "recovery": "durable per-page commit before checkpoint advance; restart resumes cursors; duplicates deduplicated by provider identity",
+    "limitations": "no webhooks (outbound only); intermediate provider states between polls are not observed",
+    "reason": "local pilot connectivity mode"
+   },
+   "local_gateway": {
+    "status": "unsupported",
+    "methods": [],
+    "schedule": "not applicable",
+    "history_limit": "not applicable",
+    "authentication": "not applicable",
+    "recovery": "not applicable",
+    "limitations": "not implemented",
+    "reason": "deferred by delivery-profile.json (no gateway is provisioned in the pilot)"
+   },
+   "public_server": {
+    "status": "unsupported",
+    "methods": [],
+    "schedule": "not applicable",
+    "history_limit": "not applicable",
+    "authentication": "not applicable",
+    "recovery": "not applicable",
+    "limitations": "not implemented",
+    "reason": "deferred by delivery-profile.json (no public server profile in the pilot)"
+   }
+  }
+ },
+ "import_readiness": {
+  "time_selection": "fixture occurred_at values",
+  "historical_availability": "complete synthetic fixture",
+  "open_and_related_records": "complete synthetic fixture",
+  "opening_state": "inventory.snapshot at G01 is the opening basis",
+  "progress_accounting": "fixture events/committed/duplicates/conflicts per run",
+  "readiness_rules": "coverage.observed per capability after replay (synthetic_fixture scope)",
+  "health_rules": "no poll; synthetic",
+  "history_expansion": "not applicable",
+  "data_handling": "synthetic data only; labelled synthetic in UI and coverage"
+ }
+}

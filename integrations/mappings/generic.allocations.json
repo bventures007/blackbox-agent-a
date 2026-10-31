@@ -1,0 +1,157 @@
+{
+ "row_id": "generic.allocations",
+ "source_revision": "Blackbox signed generic event envelope v1 (packages/application/src/connectors/generic.ts; payload schemas packages/contracts/src/journal.ts)",
+ "input_resources": [
+  "POST /api/ingest/generic envelope"
+ ],
+ "grants": [],
+ "identity_rule": "provider identity scoped by connection/account namespace: dedup_key = <namespace>:<provider event id>; entity refs are tenant-scoped; no join by email or bare order number",
+ "coverage_rule": "coverage.observed per capability after a fully paginated/imported run; answers compare required datasets against coverage facts and return partial/insufficient_data otherwise",
+ "retention": {
+  "decision": "permitted",
+  "basis": "producer authorized by the owner"
+ },
+ "fields": {
+  "allocation_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "generic:allocations.allocation_id"
+  },
+  "order_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "generic:allocations.order_id"
+  },
+  "line_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "generic:allocations.line_id"
+  },
+  "item_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "generic:allocations.item_id"
+  },
+  "location_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "generic:allocations.location_id"
+  },
+  "quantity": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "generic:allocations.quantity"
+  },
+  "unit": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "generic:allocations.unit"
+  },
+  "status": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "generic:allocations.status"
+  },
+  "policy_version": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "generic:allocations.policy_version"
+  },
+  "evidence_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "generic:allocations.evidence_id"
+  }
+ },
+ "event_rules": [
+  {
+   "event": "inventory.reserved",
+   "tracks": [
+    "source",
+    "fact",
+    "reservation"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: inventory.reserved -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  },
+  {
+   "event": "inventory.reservation_released",
+   "tracks": [
+    "source",
+    "fact",
+    "reservation"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: inventory.reservation_released -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  },
+  {
+   "event": "allocation.revised",
+   "tracks": [
+    "source",
+    "fact",
+    "reservation"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: allocation.revised -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  }
+ ],
+ "synchronization": {
+  "initial_import": "plan-driven fixed UTC window, cursor pagination, per-page durable commit (shopify); single envelope/import (generic, bank_csv); on-write (policy, runtime, replay)",
+  "cursor": "updated_since + page_cursor + complete_through per capability (capability_state.cursor)",
+  "reconciliation": "daily reconciliation of the last 48 h for polling capabilities; re-import for files; n/a for internal producers",
+  "deduplication": "journal_append rejects identical provider identity (inserted=false) and raises BBX02 for different content (review case)",
+  "freshness": "last_successful_sync_at (complete empty checks allowed) distinct from last_new_record_at; delayed after 3x poll interval",
+  "modes": {
+   "local_standalone": {
+    "status": "supported",
+    "methods": [
+     "authenticated_push"
+    ],
+    "schedule": "producer-driven; no schedule; recovery = re-send with the same idempotency key (deduplicated)",
+    "history_limit": "declared by the producer (labelled assertion)",
+    "authentication": "producer key (bearer) + HMAC-SHA256 body signature",
+    "recovery": "durable per-page commit before checkpoint advance; restart resumes cursors; duplicates deduplicated by provider identity",
+    "limitations": "no webhooks (outbound only); intermediate provider states between polls are not observed",
+    "reason": "local pilot connectivity mode"
+   },
+   "local_gateway": {
+    "status": "unsupported",
+    "methods": [],
+    "schedule": "not applicable",
+    "history_limit": "not applicable",
+    "authentication": "not applicable",
+    "recovery": "not applicable",
+    "limitations": "not implemented",
+    "reason": "deferred by delivery-profile.json (no gateway is provisioned in the pilot)"
+   },
+   "public_server": {
+    "status": "unsupported",
+    "methods": [],
+    "schedule": "not applicable",
+    "history_limit": "not applicable",
+    "authentication": "not applicable",
+    "recovery": "not applicable",
+    "limitations": "not implemented",
+    "reason": "deferred by delivery-profile.json (no public server profile in the pilot)"
+   }
+  }
+ },
+ "import_readiness": {
+  "time_selection": "producer supplies occurred_at per event",
+  "historical_availability": "declared_coverage from the producer is recorded as a labelled assertion",
+  "open_and_related_records": "producer responsibility; links are explicit ids",
+  "opening_state": "inventory.snapshot and provider.balance_observed are snapshots, not movements",
+  "progress_accounting": "received/committed/duplicates/conflicts/rejected per envelope",
+  "readiness_rules": "coverage.observed only when the producer declares it; otherwise partial",
+  "health_rules": "authenticated push: no scheduled poll; last received and last new record tracked",
+  "history_expansion": "producer re-sends; idempotency per event id",
+  "data_handling": "payloads validated against allowlisted schemas; unknown keys rejected"
+ }
+}

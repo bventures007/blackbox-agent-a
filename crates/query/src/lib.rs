@@ -537,7 +537,7 @@ pub fn entity_view(st: &mut TenantState, kind: EntityKind, id: &str) -> Result<O
     if st.is_known(&key) && !st.is_resident(&key) { return Err(NeedHydration(vec![key])); }
     let Some(s) = st.get(&key).cloned() else { return Ok(None) };
     let computed = match &s {
-        EntityState::Item(i) => json!(i.availability()),
+        EntityState::Item(i) => { let av = i.availability(); json!({"basis_known": av.basis_known, "basis": av.basis, "unit": av.unit, "physical": av.physical.map(qs), "quarantined": qs(av.quarantined), "damaged": qs(av.damaged), "safety_stock": qs(av.safety_stock), "quality_control": qs(av.quality_control), "reserved": qs(av.reserved), "available": av.available.map(qs), "incoming": av.incoming.map(qs)}) }
         EntityState::Order(o) => json!({"payment_state": o.payment_state(), "remaining_minor": o.remaining_minor(), "open": o.is_open()}),
         EntityState::Invoice(i) => json!({"net_minor": i.net_minor(), "credits_minor": i.credits_minor(), "reported_open_minor": i.reported_open_minor(), "allocated_minor": i.allocated_minor(), "refund_payable_from_credits_minor": i.refund_payable_from_credits()}),
         EntityState::Transaction(t) => json!({"status": t.status(), "refunded_minor": t.refunded_minor(), "pending_refund_minor": t.pending_refund_minor(), "net_collected_minor": t.captured_minor - t.refunded_minor()}),

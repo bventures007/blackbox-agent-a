@@ -1,0 +1,197 @@
+{
+ "row_id": "shopify.orders",
+ "source_revision": "Shopify GraphQL Admin API 2025-10 (pinned in packages/application/src/connectors/shopify.ts)",
+ "input_resources": [
+  "orders(query, sortKey: UPDATED_AT) with lineItems, transactions, fulfillments, refunds, returns",
+  "inventoryItems.inventoryLevels.quantities"
+ ],
+ "grants": [
+  "read_all_orders",
+  "read_orders"
+ ],
+ "identity_rule": "provider identity scoped by connection/account namespace: dedup_key = <namespace>:<provider event id>; entity refs are tenant-scoped; no join by email or bare order number",
+ "coverage_rule": "coverage.observed per capability after a fully paginated/imported run; answers compare required datasets against coverage facts and return partial/insufficient_data otherwise",
+ "retention": {
+  "decision": "permitted",
+  "basis": "merchant-owned data under the Shopify Partner Program Agreement for a merchant-installed custom app; raw payloads are not retained, only typed observations"
+ },
+ "fields": {
+  "order_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "orders.nodes[].name"
+  },
+  "line_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "lineItems.nodes[].id"
+  },
+  "customer_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "customer.id"
+  },
+  "item_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "lineItems.nodes[].sku (fallback variant id)"
+  },
+  "variant_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "lineItems.nodes[].variant.id"
+  },
+  "quantity": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "lineItems.nodes[].quantity"
+  },
+  "unit": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "shopify:orders.unit"
+  },
+  "currency": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "currencyCode"
+  },
+  "line_net_minor": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "shopify:orders.line_net_minor"
+  },
+  "line_tax_minor": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "taxLines[].priceSet"
+  },
+  "line_gross_minor": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "discountedTotalSet + taxLines"
+  },
+  "discount_minor": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "shopify:orders.discount_minor"
+  },
+  "shipping_minor": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "totalShippingPriceSet"
+  },
+  "agreed_version": {
+   "status": "derived",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "rule": "revision counter from order.accepted/order.revised (rule r1)"
+  },
+  "cancellation_state": {
+   "status": "derived",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "rule": "cancelledAt or currentQuantity<quantity per line (rule r1)"
+  },
+  "updated_at": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "updatedAt"
+  }
+ },
+ "event_rules": [
+  {
+   "event": "order.accepted",
+   "tracks": [
+    "source",
+    "fact",
+    "commitment"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: order.accepted -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  },
+  {
+   "event": "order.revised",
+   "tracks": [
+    "source",
+    "fact",
+    "commitment"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: order.revised -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  },
+  {
+   "event": "order.cancelled",
+   "tracks": [
+    "source",
+    "fact",
+    "commitment"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: order.cancelled -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  }
+ ],
+ "synchronization": {
+  "initial_import": "plan-driven fixed UTC window, cursor pagination, per-page durable commit (shopify); single envelope/import (generic, bank_csv); on-write (policy, runtime, replay)",
+  "cursor": "updated_since + page_cursor + complete_through per capability (capability_state.cursor)",
+  "reconciliation": "daily reconciliation of the last 48 h for polling capabilities; re-import for files; n/a for internal producers",
+  "deduplication": "journal_append rejects identical provider identity (inserted=false) and raises BBX02 for different content (review case)",
+  "freshness": "last_successful_sync_at (complete empty checks allowed) distinct from last_new_record_at; delayed after 3x poll interval",
+  "modes": {
+   "local_standalone": {
+    "status": "supported",
+    "methods": [
+     "polling"
+    ],
+    "schedule": "default 5 min incremental over updated_at with 10 min overlap (stock 15 min); daily reconciliation of the last 48 h; adjustable 1–60 min; Retry-After and cost throttle honoured",
+    "history_limit": "orders older than 60 days need read_all_orders; otherwise the accessible period is disclosed in coverage",
+    "authentication": "custom-app Admin API token stored AES-256-GCM encrypted",
+    "recovery": "durable per-page commit before checkpoint advance; restart resumes cursors; duplicates deduplicated by provider identity",
+    "limitations": "no webhooks (outbound only); intermediate provider states between polls are not observed",
+    "reason": "local pilot connectivity mode"
+   },
+   "local_gateway": {
+    "status": "unsupported",
+    "methods": [],
+    "schedule": "not applicable",
+    "history_limit": "not applicable",
+    "authentication": "not applicable",
+    "recovery": "not applicable",
+    "limitations": "not implemented",
+    "reason": "deferred by delivery-profile.json (no gateway is provisioned in the pilot)"
+   },
+   "public_server": {
+    "status": "unsupported",
+    "methods": [],
+    "schedule": "not applicable",
+    "history_limit": "not applicable",
+    "authentication": "not applicable",
+    "recovery": "not applicable",
+    "limitations": "not implemented",
+    "reason": "deferred by delivery-profile.json (no public server profile in the pilot)"
+   }
+  }
+ },
+ "import_readiness": {
+  "time_selection": "import plan presets resolve once to a fixed UTC interval in the workspace timezone (packages/application/src/sources/import-plan.ts); orders select on updated_at",
+  "historical_availability": "requested versus accessible period recorded in capability coverage; 60-day limit disclosed when read_all_orders is missing",
+  "open_and_related_records": "orders carry transactions, fulfillments, refunds and returns inline, so related records arrive with their parent; older open orders are included by the plan flag",
+  "opening_state": "inventory levels are snapshots (snapshot_only basis provider_available), never movements",
+  "progress_accounting": "import runs count pages, orders fetched, observations committed, duplicates and conflicts; totals are unknown (counts only, no percentage)",
+  "readiness_rules": "coverage.observed per capability after a fully paginated run; queries report partial until present",
+  "health_rules": "last_successful_sync_at advances on complete successful runs only; last_new_record_at only when new observations commit; delayed after 3x the poll interval",
+  "history_expansion": "a new plan revision enqueues a history_expansion run with overlap and deduplication",
+  "data_handling": "customer ids are opaque provider ids; no names/emails enter the journal; token encrypted at rest"
+ }
+}

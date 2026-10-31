@@ -17,10 +17,10 @@ async function replay(body: Record<string, unknown>) { const r = await apiFetch(
 
 /** Compare one golden checkpoint against engine state for the given id suffix/scale. */
 async function checkpoint(expected: Record<string, number | string>, sfx: string, scale: number) {
-  const item = await state('item', 'CUP-OLV'); const av = item.view.computed as Record<string, unknown>;
+  const item = await state('item', `CUP-OLV${sfx}`); const av = item.view.computed as Record<string, unknown>;
   const tx = await state('transaction', `TX-1001${sfx}`); const t = tx.view.state as Record<string, number>; const tc = tx.view.computed as Record<string, number>;
   const inv = await state('invoice', `INV-1001${sfx}`); const ic = inv.view.computed as Record<string, number>; const is = inv.view.state as Record<string, number>;
-  const acc = await state('account', 'default/EUR'); const ac = acc.view.computed as Record<string, number>; const as = acc.view.state as Record<string, number>;
+  const acc = await state('account', `default${sfx}/EUR`); const ac = acc.view.computed as Record<string, number>; const as = acc.view.state as Record<string, number>;
   const actual: Record<string, unknown> = {
     physical_stock: av.physical != null ? q(av.physical) : null, reserved_stock: q(av.reserved), quarantined_stock: q(av.quantity_control ?? av.quarantined), available_stock: av.available != null ? q(av.available) : null,
     authorized_minor: t.authorized_minor, captured_minor: t.captured_minor, fees_minor: as.fees_minor, refunded_minor: tc.refunded_minor, open_receivable_minor: ic.reported_open_minor,
@@ -56,7 +56,7 @@ describe('DOMAIN-01 Golden Scenario through ingestion, PostgreSQL, Rust and API'
     const a = actual as Record<string, number>;
     expect(a.captured_minor - a.fees_minor - a.refunded_minor).toBe(a.provider_balance_minor + a.in_transit_minor + a.bank_confirmed_minor);
     expect(a.available_stock).toBe(a.physical_stock - a.quarantined_stock - a.reserved_stock);
-    const evi = await state('account', 'default/EUR'); expect(evi.view.evidence_entry_ids.length).toBeGreaterThan(0);
+    const evi = await state('account', 'default-full/EUR'); expect(evi.view.evidence_entry_ids.length).toBeGreaterThan(0);
     const e = await apiFetch(`/api/journal/entries/${evi.view.evidence_entry_ids[0]}`, { cookie }); expect(e.status).toBe(200);
   }, 300_000);
 });
@@ -83,7 +83,7 @@ describe('DOMAIN-02 replay twice and mutated values', () => {
 describe('DOMAIN-03 / missing_bank variant / IMPORT-02 partial truth', () => {
   it('stopping at G18 leaves 9170 in transit and bank unknown rather than zero-confirmed', async () => {
     await replay({ id_suffix: '-nobank', stop_after: 'G18' });
-    const acc = await state('account', 'default/EUR'); void acc; // shared account; evaluate via payout entity instead
+    const acc = await state('account', 'default-nobank/EUR'); void acc; // isolated account of this variant; evaluate via payout entity
     const payout = await state('payout', 'OUT-1001-nobank'); expect((payout.view.state as { state: string; bank_confirmed: boolean }).state).toBe('sent'); expect((payout.view.state as { bank_confirmed: boolean }).bank_confirmed).toBe(false);
     const missing = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'payouts.missing_bank_confirmation' }) });
     ev.missing_bank = missing.body;

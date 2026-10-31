@@ -16,3 +16,4 @@ export * from './diagnostics/health.js';
 export * from './diagnostics/review.js';
 export * from './jobs.js';
 export * from './context.js';
+export type { Observation, IngestOutcome, IngestTarget } from './ingest/service.js';

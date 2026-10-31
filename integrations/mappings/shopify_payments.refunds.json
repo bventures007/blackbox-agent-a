@@ -1,0 +1,162 @@
+{
+ "row_id": "shopify_payments.refunds",
+ "source_revision": "Shopify GraphQL Admin API 2025-10 — ShopifyPaymentsAccount.balanceTransactions/payouts/disputes (adapter planned in worker; mapping declared, pipeline not yet exercised)",
+ "input_resources": [
+  "shopifyPaymentsAccount.balanceTransactions",
+  "shopifyPaymentsAccount.payouts",
+  "shopifyPaymentsAccount.disputes"
+ ],
+ "grants": [
+  "read_shopify_payments_payouts"
+ ],
+ "identity_rule": "provider identity scoped by connection/account namespace: dedup_key = <namespace>:<provider event id>; entity refs are tenant-scoped; no join by email or bare order number",
+ "coverage_rule": "coverage.observed per capability after a fully paginated/imported run; answers compare required datasets against coverage facts and return partial/insufficient_data otherwise",
+ "retention": {
+  "decision": "permitted",
+  "basis": "merchant-owned finance data of the connected account"
+ },
+ "fields": {
+  "refund_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "shopify_payments:refunds.refund_id"
+  },
+  "original_transaction_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "shopify_payments:refunds.original_transaction_id"
+  },
+  "order_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "shopify_payments:refunds.order_id"
+  },
+  "amount_minor": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "shopify_payments:refunds.amount_minor"
+  },
+  "currency": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "shopify_payments:refunds.currency"
+  },
+  "status": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "shopify_payments:refunds.status"
+  },
+  "destination": {
+   "status": "missing",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "reason": "balance transaction has no refund destination"
+  },
+  "economic_effect_id": {
+   "status": "source",
+   "normalization": "integer minor units / decimal quantity strings / UTC timestamps as implemented in the adapter",
+   "missing_behavior": "answers that require this field return partial or insufficient_data with the field named in missing_inputs",
+   "source_path": "shopify_payments:refunds.economic_effect_id"
+  }
+ },
+ "event_rules": [
+  {
+   "event": "refund.pending",
+   "tracks": [
+    "source",
+    "fact",
+    "movement",
+    "reservation"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: refund.pending -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  },
+  {
+   "event": "refund.completed",
+   "tracks": [
+    "source",
+    "fact",
+    "movement",
+    "reservation"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: refund.completed -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  },
+  {
+   "event": "refund.failed",
+   "tracks": [
+    "source",
+    "fact",
+    "movement",
+    "reservation"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: refund.failed -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  },
+  {
+   "event": "refund.reversed",
+   "tracks": [
+    "source",
+    "fact",
+    "movement",
+    "reservation"
+   ],
+   "rule": "crates/domain/src/derive.rs r1: refund.reversed -> facts plus commitments/movements/reservations as defined for this family; derived entries carry input_entry_ids and dedup key derived:<entry>:r1:<n>"
+  }
+ ],
+ "synchronization": {
+  "initial_import": "plan-driven fixed UTC window, cursor pagination, per-page durable commit (shopify); single envelope/import (generic, bank_csv); on-write (policy, runtime, replay)",
+  "cursor": "updated_since + page_cursor + complete_through per capability (capability_state.cursor)",
+  "reconciliation": "daily reconciliation of the last 48 h for polling capabilities; re-import for files; n/a for internal producers",
+  "deduplication": "journal_append rejects identical provider identity (inserted=false) and raises BBX02 for different content (review case)",
+  "freshness": "last_successful_sync_at (complete empty checks allowed) distinct from last_new_record_at; delayed after 3x poll interval",
+  "modes": {
+   "local_standalone": {
+    "status": "supported",
+    "methods": [
+     "polling"
+    ],
+    "schedule": "default 5 min incremental over updated_at with 10 min overlap (stock 15 min); daily reconciliation of the last 48 h; adjustable 1–60 min; Retry-After and cost throttle honoured",
+    "history_limit": "orders older than 60 days need read_all_orders; otherwise the accessible period is disclosed in coverage",
+    "authentication": "custom-app Admin API token stored AES-256-GCM encrypted",
+    "recovery": "durable per-page commit before checkpoint advance; restart resumes cursors; duplicates deduplicated by provider identity",
+    "limitations": "no webhooks (outbound only); intermediate provider states between polls are not observed",
+    "reason": "local pilot connectivity mode"
+   },
+   "local_gateway": {
+    "status": "unsupported",
+    "methods": [],
+    "schedule": "not applicable",
+    "history_limit": "not applicable",
+    "authentication": "not applicable",
+    "recovery": "not applicable",
+    "limitations": "not implemented",
+    "reason": "deferred by delivery-profile.json (no gateway is provisioned in the pilot)"
+   },
+   "public_server": {
+    "status": "unsupported",
+    "methods": [],
+    "schedule": "not applicable",
+    "history_limit": "not applicable",
+    "authentication": "not applicable",
+    "recovery": "not applicable",
+    "limitations": "not implemented",
+    "reason": "deferred by delivery-profile.json (no public server profile in the pilot)"
+   }
+  }
+ },
+ "import_readiness": {
+  "time_selection": "import plan presets resolve once to a fixed UTC interval in the workspace timezone (packages/application/src/sources/import-plan.ts); orders select on updated_at",
+  "historical_availability": "requested versus accessible period recorded in capability coverage; 60-day limit disclosed when read_all_orders is missing",
+  "open_and_related_records": "orders carry transactions, fulfillments, refunds and returns inline, so related records arrive with their parent; older open orders are included by the plan flag",
+  "opening_state": "inventory levels are snapshots (snapshot_only basis provider_available), never movements",
+  "progress_accounting": "import runs count pages, orders fetched, observations committed, duplicates and conflicts; totals are unknown (counts only, no percentage)",
+  "readiness_rules": "coverage.observed per capability after a fully paginated run; queries report partial until present",
+  "health_rules": "last_successful_sync_at advances on complete successful runs only; last_new_record_at only when new observations commit; delayed after 3x the poll interval",
+  "history_expansion": "a new plan revision enqueues a history_expansion run with overlap and deduplication",
+  "data_handling": "customer ids are opaque provider ids; no names/emails enter the journal; token encrypted at rest"
+ }
+}

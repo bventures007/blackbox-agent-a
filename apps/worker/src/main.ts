@@ -7,6 +7,7 @@ import { createDb, withScope, withTenant } from '@blackbox/database';
 import { FileStoreSink, Logger, StderrSink, type Level } from '@blackbox/logging';
 import { DataKeyring, EngineClient, IngestService, JobQueue, SourcesService, type AppContext } from '@blackbox/application';
 import { runShopifyImport } from './shopify-job.js';
+import { runShopifyPaymentsImport } from './shopify-payments-job.js';
 
 function secret(fileEnv: string, inlineEnv: string): string { const f = process.env[fileEnv]; if (f) return readFileSync(f, 'utf8').trim(); const v = process.env[inlineEnv]; if (!v) throw new Error(`missing ${fileEnv}/${inlineEnv}`); return v; }
 const version = process.env.SERVICE_VERSION ?? '0.1.0-dev'; const logDir = process.env.LOG_DIR ?? '/var/blackbox/logs';
@@ -27,17 +28,19 @@ async function refreshDebug() { try { const rows = await withScope(db, 'schedule
 /** Due polls: every active polling capability whose next_poll_at has passed gets one singleton import job (coalesced, never a burst). */
 async function schedulePolls() {
   const due = await withScope(db, 'scheduler', (tx) => tx`SELECT k.tenant_id, k.connection_id, c.provider FROM capability_state k JOIN connections c ON c.connection_id = k.connection_id WHERE c.status = 'configured' AND c.provider IN ('shopify','shopify_payments') AND k.next_poll_at IS NOT NULL AND k.next_poll_at <= now() GROUP BY k.tenant_id, k.connection_id, c.provider`);
-  for (const d of due) await queue.enqueue('source.import', { connection_id: d.connection_id, run_kind: 'incremental' }, { tenantId: d.tenant_id as string, singletonKey: `import:${d.connection_id}` });
+  for (const d of due) await queue.enqueue('source.import', { connection_id: d.connection_id, run_kind: 'incremental' }, { tenantId: d.tenant_id as string, singletonKey: `import:${d.connection_id}`, minSpacingSeconds: 60 });
 }
+async function fenced(): Promise<string | null> { try { const [f] = await withScope(db, 'scheduler', (tx) => tx`SELECT holder FROM maintenance_fence WHERE fence_id = 1 AND holder IS NOT NULL AND expires_at > now()`); return (f?.holder as string | undefined) ?? null; } catch { return null; } }
 async function tick() {
   await queue.heartbeat('worker', { version, debug: debugState.debugAll });
+  const holder = await fenced(); if (holder) { log.debug('worker.fenced', `maintenance fence held by ${holder}; writers paused`); return false; }
   await refreshDebug();
   await schedulePolls();
   const job = await queue.claim(['source.import', 'review.retry', 'backup.scheduled', 'retention.enforce'], 300);
   if (!job) return false;
   const started = Date.now();
   try {
-    if (job.kind === 'source.import' && job.tenant_id) { await runShopifyImport({ ctx, sources, ingest }, job.tenant_id, String(job.payload.connection_id), (job.payload.run_kind as string) ?? 'incremental', job.attempt); await queue.complete(job.job_id); }
+    if (job.kind === 'source.import' && job.tenant_id) { const provider = await withTenant(db, job.tenant_id, async (tx) => (await tx`SELECT provider FROM connections WHERE connection_id = ${String(job.payload.connection_id)}`)[0]?.provider as string | undefined); if (provider === 'shopify_payments') await runShopifyPaymentsImport({ ctx, sources, ingest }, job.tenant_id, String(job.payload.connection_id), (job.payload.run_kind as string) ?? 'incremental', job.attempt); else await runShopifyImport({ ctx, sources, ingest }, job.tenant_id, String(job.payload.connection_id), (job.payload.run_kind as string) ?? 'incremental', job.attempt); await queue.complete(job.job_id); }
     else if (job.kind === 'review.retry' && job.tenant_id) { await withTenant(db, job.tenant_id, (tx) => tx`UPDATE review_cases SET history = history || ${tx.json([{ at: new Date().toISOString(), actor: 'worker', action: 'retry_executed', detail: 'original accepted input re-evaluated; no new payment fabricated' }])}, updated_at = now() WHERE case_id = ${String(job.payload.case_id)} AND tenant_id = ${job.tenant_id}`); await queue.complete(job.job_id); }
     else if (job.kind === 'backup.scheduled') { const { runScheduledBackupCheck } = await import('./backup-job.js'); const next = await runScheduledBackupCheck(ctx); await queue.complete(job.job_id, next); }
     else await queue.complete(job.job_id);

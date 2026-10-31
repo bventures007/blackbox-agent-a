@@ -1,0 +1,614 @@
+{
+  "api": "http://127.0.0.1:19080",
+  "started_at": "2026-10-31T16:54:02.291Z",
+  "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+  "import_run": {
+    "run_id": "02bdc744-d2da-4695-a262-aa20f9eeb2d7",
+    "kind": "incremental",
+    "state": "complete",
+    "counters": {
+      "pages": 1,
+      "conflicts": 0,
+      "duplicates": 5,
+      "total_known": false,
+      "requested_to": "2026-10-31T16:28:13.865Z",
+      "orders_fetched": 1,
+      "requested_from": "2026-10-21T15:50:00.000Z",
+      "committed_cursor": 102,
+      "inventory_snapshots": 0,
+      "observations_committed": 0
+    }
+  },
+  "counts_after_import": {
+    "counts": {
+      "source": 403,
+      "fact": 399,
+      "commitment": 43,
+      "movement": 61,
+      "reservation": 25
+    },
+    "committed_cursor": 931
+  },
+  "engine_after_import": {
+    "version": "0.1.0-dev",
+    "uptime_seconds": 92,
+    "database": "reachable",
+    "phase": "current",
+    "applied_cursor": 931,
+    "committed_cursor": 931,
+    "lag_entries": 0,
+    "lag_ms": 0,
+    "resident_entities": 142,
+    "snapshot_sequence": 445,
+    "rss_bytes": 9338880,
+    "resident_bytes_total": 127032,
+    "log_dropped": 0,
+    "debug_active": false
+  },
+  "order_1001_api": {
+    "applied_cursor": 931,
+    "calculation": [
+      "collected = sum of successful captures; remaining = order gross - collected; authorizations, voids and failures are reported separately and never count as collected."
+    ],
+    "conflicts": [],
+    "coverage": [
+      {
+        "capability": "orders",
+        "complete_through": "2026-10-31T09:18:00Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "payments",
+        "complete_through": "2026-10-31T09:18:00Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "coverage",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "identity",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      }
+    ],
+    "evidence_entry_ids": [
+      "cd27d4e2-a428-4319-bac1-f96a98de409f",
+      "efa4ceb2-9347-4992-8d73-b150d7e89645",
+      "c8e324e4-bbc0-4a57-94f4-74169e3ca601",
+      "1323359b-f090-49c0-903c-e73e00137a5c",
+      "d04a29f0-5d38-42b4-86cd-3d517efce92c",
+      "8f5a9a85-51be-4eaa-ae08-7d650f3f1327"
+    ],
+    "hydration_rounds": 0,
+    "intent": "orders.payment_state",
+    "missing_inputs": [],
+    "pagination": {
+      "next_cursor": null,
+      "snapshot_cursor": 931,
+      "truncated": false
+    },
+    "required_cursor": 931,
+    "result": {
+      "orders": [
+        {
+          "authorization_is_capture": false,
+          "authorized_minor": 7720,
+          "collected_minor": 7720,
+          "currency": "EUR",
+          "failed_attempts": [
+            "500010"
+          ],
+          "order_gross_minor": 7720,
+          "order_id": "#1001",
+          "refunded_minor": 0,
+          "remaining_minor": 0,
+          "state": "paid",
+          "transactions": [
+            "500010",
+            "500011",
+            "500012"
+          ],
+          "voided_minor": 0
+        }
+      ]
+    },
+    "rule_version": "r1",
+    "status": "complete",
+    "timing_ms": 12,
+    "effective_at": null,
+    "recorded_cutoff": 931,
+    "readiness": [
+      {
+        "capability": "orders",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "delayed",
+            "last_successful_sync_at": "2026-10-31T16:28:13.975Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
+            "last_new_record_at": "2026-10-31T16:53:59.041Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T16:53:52.553Z",
+            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "payments",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "delayed",
+            "last_successful_sync_at": "2026-10-31T16:28:13.975Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
+            "last_new_record_at": "2026-10-31T16:53:59.041Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T16:53:51.681Z",
+            "last_new_record_at": "2026-10-31T16:53:51.681Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "coverage",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [],
+        "missing_source": true
+      },
+      {
+        "capability": "identity",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      }
+    ]
+  },
+  "order_1001_state": {
+    "applied_cursor": 931,
+    "required_cursor": 931,
+    "status": "complete",
+    "view": {
+      "computed": {
+        "open": true,
+        "payment_state": "paid",
+        "remaining_minor": 0
+      },
+      "entity_id": "#1001",
+      "entity_type": "order",
+      "evidence_entry_ids": [
+        "cd27d4e2-a428-4319-bac1-f96a98de409f",
+        "efa4ceb2-9347-4992-8d73-b150d7e89645",
+        "c8e324e4-bbc0-4a57-94f4-74169e3ca601",
+        "1323359b-f090-49c0-903c-e73e00137a5c",
+        "d04a29f0-5d38-42b4-86cd-3d517efce92c",
+        "8f5a9a85-51be-4eaa-ae08-7d650f3f1327"
+      ],
+      "last_sequence": 51,
+      "state": {
+        "accepted_at": "2026-10-20T13:00:00Z",
+        "agreed_version": 1,
+        "authorized_minor": 7720,
+        "cancelled": false,
+        "captured_minor": 7720,
+        "currency": "EUR",
+        "customer_id": "shopify:301",
+        "delivered_all": false,
+        "dispatched_all": false,
+        "disputes": [],
+        "entity": "order",
+        "failed_attempts": [
+          "500010"
+        ],
+        "gross_minor": 7720,
+        "invoices": [],
+        "lines": [
+          {
+            "cancelled": 0,
+            "delivered": 0,
+            "dispatched": 0,
+            "item_id": "SKU-101",
+            "line_gross_minor": 7720,
+            "line_id": "9001",
+            "quantity": 2000000,
+            "reserved": 0,
+            "returned_received": 0,
+            "returned_requested": 0,
+            "unit": "piece"
+          }
+        ],
+        "order_id": "#1001",
+        "pending_refund_minor": 0,
+        "prov": {
+          "entry_ids": [
+            "cd27d4e2-a428-4319-bac1-f96a98de409f",
+            "efa4ceb2-9347-4992-8d73-b150d7e89645",
+            "c8e324e4-bbc0-4a57-94f4-74169e3ca601",
+            "1323359b-f090-49c0-903c-e73e00137a5c",
+            "d04a29f0-5d38-42b4-86cd-3d517efce92c",
+            "8f5a9a85-51be-4eaa-ae08-7d650f3f1327"
+          ],
+          "last_occurred_at": "2026-10-20T13:10:00Z",
+          "last_sequence": 51
+        },
+        "refunded_minor": 0,
+        "refunds": [],
+        "reservations": [],
+        "returns": [],
+        "shipments": [],
+        "shipping_minor": 0,
+        "transactions": [
+          "500010",
+          "500011",
+          "500012"
+        ],
+        "voided_minor": 0
+      }
+    },
+    "recorded_cutoff": 931
+  },
+  "recovered": {
+    "recovered": [
+      {
+        "collected_minor": 7720,
+        "deficit_minor": 0,
+        "failed_history_retained": [
+          "500010"
+        ],
+        "order_id": "#1001",
+        "required_minor": 7720
+      },
+      {
+        "collected_minor": 4475,
+        "deficit_minor": 0,
+        "failed_history_retained": [
+          "500050"
+        ],
+        "order_id": "#1005",
+        "required_minor": 4475
+      },
+      {
+        "collected_minor": 600,
+        "deficit_minor": 0,
+        "failed_history_retained": [
+          "T-Q0"
+        ],
+        "order_id": "#QB",
+        "required_minor": 600
+      }
+    ],
+    "recovered_population_complete": true,
+    "still_open": []
+  },
+  "second_run": {
+    "pages": 1,
+    "conflicts": 0,
+    "duplicates": 5,
+    "total_known": false,
+    "requested_to": "2026-10-31T16:54:03.151Z",
+    "orders_fetched": 1,
+    "requested_from": "2026-10-21T15:50:00.000Z",
+    "committed_cursor": 931,
+    "inventory_snapshots": 0,
+    "observations_committed": 0
+  },
+  "mcp_tools": [
+    "describe_business_schema",
+    "query_business",
+    "get_business_state",
+    "list_journal_entries",
+    "get_journal_entry",
+    "get_entity_history",
+    "search_events",
+    "get_evidence",
+    "list_sources"
+  ],
+  "order_1001_mcp": {
+    "applied_cursor": 943,
+    "calculation": [
+      "collected = sum of successful captures; remaining = order gross - collected; authorizations, voids and failures are reported separately and never count as collected."
+    ],
+    "conflicts": [],
+    "coverage": [
+      {
+        "capability": "orders",
+        "complete_through": "2026-10-31T16:54:03.151Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "payments",
+        "complete_through": "2026-10-31T16:54:03.151Z",
+        "note": null,
+        "status": "complete_for_declared_scope"
+      },
+      {
+        "capability": "coverage",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      },
+      {
+        "capability": "identity",
+        "complete_through": null,
+        "note": "no coverage observation for this capability",
+        "status": "unavailable"
+      }
+    ],
+    "evidence_entry_ids": [
+      "cd27d4e2-a428-4319-bac1-f96a98de409f",
+      "efa4ceb2-9347-4992-8d73-b150d7e89645",
+      "c8e324e4-bbc0-4a57-94f4-74169e3ca601",
+      "1323359b-f090-49c0-903c-e73e00137a5c",
+      "d04a29f0-5d38-42b4-86cd-3d517efce92c",
+      "8f5a9a85-51be-4eaa-ae08-7d650f3f1327"
+    ],
+    "hydration_rounds": 0,
+    "intent": "orders.payment_state",
+    "missing_inputs": [],
+    "pagination": {
+      "next_cursor": null,
+      "snapshot_cursor": 943,
+      "truncated": false
+    },
+    "required_cursor": 943,
+    "result": {
+      "orders": [
+        {
+          "authorization_is_capture": false,
+          "authorized_minor": 7720,
+          "collected_minor": 7720,
+          "currency": "EUR",
+          "failed_attempts": [
+            "500010"
+          ],
+          "order_gross_minor": 7720,
+          "order_id": "#1001",
+          "refunded_minor": 0,
+          "remaining_minor": 0,
+          "state": "paid",
+          "transactions": [
+            "500010",
+            "500011",
+            "500012"
+          ],
+          "voided_minor": 0
+        }
+      ]
+    },
+    "rule_version": "r1",
+    "status": "complete",
+    "timing_ms": 8,
+    "effective_at": null,
+    "recorded_cutoff": 943,
+    "readiness": [
+      {
+        "capability": "orders",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T16:54:03.376Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
+            "last_new_record_at": "2026-10-31T16:53:59.041Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T16:53:52.553Z",
+            "last_new_record_at": "2026-10-31T16:53:52.553Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "payments",
+        "coverage_status": "complete_for_declared_scope",
+        "readiness": "ready",
+        "sources": [
+          {
+            "connection_id": "4f0cb7f4-7157-4e2d-931d-b83d9bf9fb24",
+            "provider": "shopify",
+            "display_name": "Fixture Store",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T16:54:03.376Z",
+            "last_new_record_at": "2026-10-31T16:19:50.941Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T16:54:01.109Z",
+            "last_new_record_at": "2026-10-31T16:53:59.041Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T16:53:51.681Z",
+            "last_new_record_at": "2026-10-31T16:53:51.681Z",
+            "collection_state": "ready"
+          }
+        ],
+        "missing_source": false
+      },
+      {
+        "capability": "coverage",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [],
+        "missing_source": true
+      },
+      {
+        "capability": "identity",
+        "coverage_status": "unavailable",
+        "readiness": "blocked",
+        "sources": [
+          {
+            "connection_id": "0055d027-afc0-495a-a8ed-56963d7842ca",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          },
+          {
+            "connection_id": "4ba682be-f690-4bd5-878b-879918ceb295",
+            "provider": "generic",
+            "display_name": "generic qa",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
+      }
+    ]
+  },
+  "revocation_denial_ms": 10,
+  "engine_before_restart": [
+    {
+      "applied_cursor": 0,
+      "committed_cursor": 0,
+      "known_entities": 0,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 0,
+      "snapshot_sequence": null,
+      "tenant_id": "8ae67b4f-c18d-4b2c-9dcf-6e141ded3227"
+    },
+    {
+      "applied_cursor": 943,
+      "committed_cursor": 943,
+      "known_entities": 142,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 142,
+      "snapshot_sequence": 931,
+      "tenant_id": "64edd3ba-385a-4462-bf62-19087a1b76ee"
+    },
+    {
+      "applied_cursor": 15,
+      "committed_cursor": 15,
+      "known_entities": 4,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 4,
+      "snapshot_sequence": 15,
+      "tenant_id": "6bf41cd3-dc0c-48a8-9479-b6e661b6adc7"
+    },
+    {
+      "applied_cursor": 3,
+      "committed_cursor": 3,
+      "known_entities": 2,
+      "lag_entries": 0,
+      "lag_ms": 0,
+      "last_error": null,
+      "phase": "current",
+      "ready": true,
+      "resident_entities": 2,
+      "snapshot_sequence": 3,
+      "tenant_id": "4fce5e42-116e-4238-8d54-3728fe05f4c7"
+    }
+  ],
+  "tenant_collision": {
+    "tenant_b": "11eaff15-e83f-4dae-834a-303e127e8c2b",
+    "visible_to_a": false
+  }
+}

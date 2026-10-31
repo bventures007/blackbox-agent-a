@@ -6,10 +6,19 @@ export interface Job { job_id: string; tenant_id: string | null; kind: string; p
 /** PostgreSQL-backed leased job queue (ADR-006). Claims use SKIP LOCKED; retries back off with jitter. */
 export class JobQueue {
   constructor(private readonly db: Db, private readonly owner: string = `worker-${randomUUID().slice(0, 8)}`) {}
-  async enqueue(kind: string, payload: Record<string, unknown>, opts: { tenantId?: string | null; runAt?: Date; singletonKey?: string; maxAttempts?: number } = {}): Promise<string | null> {
+  /** Enqueue; a singleton that is queued/running is coalesced, a finished/dead one is re-armed only after `minSpacingSeconds` since its last update. */
+  async enqueue(kind: string, payload: Record<string, unknown>, opts: { tenantId?: string | null; runAt?: Date; singletonKey?: string; maxAttempts?: number; minSpacingSeconds?: number } = {}): Promise<string | null> {
+    const spacing = opts.minSpacingSeconds ?? 0;
     return withScope(this.db, 'scheduler', async (tx) => {
       const rows = await tx`INSERT INTO jobs (tenant_id, kind, singleton_key, payload, run_at, max_attempts) VALUES (${opts.tenantId ?? null}, ${kind}, ${opts.singletonKey ?? null}, ${tx.json(payload as never)}, ${opts.runAt ?? new Date()}, ${opts.maxAttempts ?? 10})
-        ON CONFLICT (singleton_key) DO UPDATE SET run_at = LEAST(jobs.run_at, EXCLUDED.run_at), updated_at = now() WHERE jobs.state IN ('queued','running') RETURNING job_id`;
+        ON CONFLICT (singleton_key) DO UPDATE SET
+          run_at = CASE WHEN jobs.state IN ('queued','running') THEN LEAST(jobs.run_at, EXCLUDED.run_at) ELSE EXCLUDED.run_at END,
+          state = CASE WHEN jobs.state IN ('queued','running') THEN jobs.state ELSE 'queued' END,
+          attempt = CASE WHEN jobs.state IN ('queued','running') THEN jobs.attempt ELSE 0 END,
+          lease_until = CASE WHEN jobs.state = 'running' THEN jobs.lease_until ELSE NULL END, lease_owner = CASE WHEN jobs.state = 'running' THEN jobs.lease_owner ELSE NULL END,
+          payload = CASE WHEN jobs.state IN ('queued','running') THEN jobs.payload ELSE EXCLUDED.payload END, last_error_code = NULL, updated_at = now()
+        WHERE jobs.state IN ('queued','running') OR jobs.updated_at <= now() - make_interval(secs => ${spacing})
+        RETURNING job_id`; // a finished or dead singleton is re-armed by the next due poll (after the spacing); an active one is coalesced (never a burst)
       return (rows[0]?.job_id as string | undefined) ?? null;
     });
   }

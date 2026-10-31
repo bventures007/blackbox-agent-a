@@ -42,17 +42,17 @@ describe('SLICE-01 provider-shaped persisted path', () => {
   }, 180_000);
 
   it('answers order payment state and entity state via API with cutoff and evidence; evidence resolves', async () => {
-    const q = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', parameters: { order_id: '#1002' } }) });
+    const q = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', parameters: { order_id: '#1001' } }) });
     expect(q.status).toBe(200); expect(q.body.status).toBe('complete');
     const orders = (q.body.result as { orders: Array<Record<string, unknown>> }).orders; expect(orders.length).toBe(1);
-    const o = orders[0]!; ev.order_1002_api = q.body;
+    const o = orders[0]!; ev.order_1001_api = q.body;
     expect(o.state).toBe('paid'); expect(o.collected_minor).toBe(o.order_gross_minor); expect(o.remaining_minor).toBe(0); expect(o.authorization_is_capture).toBe(false);
     expect((q.body.evidence_entry_ids as string[]).length).toBeGreaterThan(0);
     const first = (q.body.evidence_entry_ids as string[])[0]!;
     const e = await apiFetch(`/api/journal/entries/${first}`, { cookie }); expect(e.status).toBe(200); expect((e.body.entry as { record_type: string }).record_type).not.toBe('source');
     expect(((e.body.links as { inputs: unknown[] }).inputs).length).toBeGreaterThan(0); // derived from a source observation
-    const st = await apiFetch('/api/state', { method: 'POST', cookie, body: JSON.stringify({ entity_type: 'order', entity_id: '#1002' }) });
-    expect(st.status).toBe(200); expect(st.body.status).toBe('complete'); ev.order_1002_state = st.body;
+    const st = await apiFetch('/api/state', { method: 'POST', cookie, body: JSON.stringify({ entity_type: 'order', entity_id: '#1001' }) });
+    expect(st.status).toBe(200); expect(st.body.status).toBe('complete'); ev.order_1001_state = st.body;
     // an order with a failed attempt before the successful capture keeps the failure in history (collection-02)
     const rec = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'payments.recovered_attempts' }) });
     expect(rec.body.status).toMatch(/complete|partial/); ev.recovered = rec.body.result;
@@ -61,8 +61,10 @@ describe('SLICE-01 provider-shaped persisted path', () => {
 
   it('duplicate/out-of-order pages produced no double effects (counts stable after a second incremental run)', async () => {
     const before = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state' }) });
+    const runsBefore = ((await apiFetch(`/api/sources/${connectionId}/runs`, { cookie })).body.runs as Array<Record<string, unknown>>).filter((x) => x.state === 'complete').length;
     const r = await apiFetch(`/api/sources/${connectionId}/actions`, { method: 'POST', cookie, body: JSON.stringify({ action: 'retry' }) }); expect(r.status).toBe(200);
-    await waitFor(async () => { const rr = await apiFetch(`/api/sources/${connectionId}/runs`, { cookie }); const runs = rr.body.runs as Array<Record<string, unknown>>; return runs.filter((x) => x.state === 'complete').length >= 2 ? true : null; }, 60_000);
+    // the retry must start a NEW run (a finished singleton job is re-armed, not ignored); the overlap window re-fetches the newest order(s)
+    await waitFor(async () => { const rr = await apiFetch(`/api/sources/${connectionId}/runs`, { cookie }); const runs = rr.body.runs as Array<Record<string, unknown>>; return runs.filter((x) => x.state === 'complete').length > runsBefore ? true : null; }, 90_000);
     const counts = await apiFetch('/api/journal/counts', { cookie }); await waitApplied(cookie, Number(counts.body.committed_cursor), 60_000);
     const after = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state' }) });
     expect(normalize((after.body.result as { orders: unknown[] }).orders)).toEqual(normalize((before.body.result as { orders: unknown[] }).orders));
@@ -78,10 +80,10 @@ describe('SLICE-01 provider-shaped persisted path', () => {
     await client.connect(transport);
     const tools = await client.listTools(); ev.mcp_tools = tools.tools.map((t) => t.name);
     expect(tools.tools.map((t) => t.name)).toEqual(expect.arrayContaining(['describe_business_schema', 'query_business', 'get_business_state', 'list_journal_entries', 'get_journal_entry', 'get_entity_history', 'search_events', 'get_evidence']));
-    const res = await client.callTool({ name: 'query_business', arguments: { intent: 'orders.payment_state', parameters: { order_id: '#1002' } } });
+    const res = await client.callTool({ name: 'query_business', arguments: { intent: 'orders.payment_state', parameters: { order_id: '#1001' } } });
     const text = (res.content as Array<{ type: string; text: string }>)[0]!.text; const body = JSON.parse(text);
-    ev.order_1002_mcp = body;
-    const apiRes = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', parameters: { order_id: '#1002' } }) });
+    ev.order_1001_mcp = body;
+    const apiRes = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', parameters: { order_id: '#1001' } }) });
     expect(normalize(body.result)).toEqual(normalize(apiRes.body.result)); expect(body.evidence_entry_ids).toEqual(apiRes.body.evidence_entry_ids);
     const schema = await client.callTool({ name: 'describe_business_schema', arguments: {} }); expect(JSON.parse((schema.content as Array<{ text: string }>)[0]!.text).intents.length).toBe(24);
     await client.close();
@@ -107,7 +109,7 @@ describe('SLICE-01 provider-shaped persisted path', () => {
   it('survives a full stack restart and a removed engine snapshot with identical fixed-cutoff answers', async () => {
     const counts = await apiFetch('/api/journal/counts', { cookie }); const cutoff = Number(counts.body.committed_cursor);
     const before = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', consistency: { mode: 'at_least_cursor', cursor: cutoff } }) });
-    const beforeState = await apiFetch('/api/state', { method: 'POST', cookie, body: JSON.stringify({ entity_type: 'order', entity_id: '#1002' }) });
+    const beforeState = await apiFetch('/api/state', { method: 'POST', cookie, body: JSON.stringify({ entity_type: 'order', entity_id: '#1001' }) });
     const h0 = await engineHealth(); ev.engine_before_restart = h0.tenants;
     execSync(`${COMPOSE} restart api worker engine`, { stdio: 'pipe', cwd: ROOT });
     await waitFor(async () => { try { const h = await engineHealth(); return h.tenants.every((t) => t.ready === true && Number(t.applied_cursor) >= cutoff) ? h : null; } catch { return null; } }, 120_000);
@@ -122,7 +124,7 @@ describe('SLICE-01 provider-shaped persisted path', () => {
     ev.engine_after_rebuild = h2.tenants;
     const rebuilt = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', consistency: { mode: 'at_least_cursor', cursor: cutoff } }) });
     expect(normalize(rebuilt.body.result)).toEqual(normalize(before.body.result));
-    const rebuiltState = await apiFetch('/api/state', { method: 'POST', cookie, body: JSON.stringify({ entity_type: 'order', entity_id: '#1002' }) });
+    const rebuiltState = await apiFetch('/api/state', { method: 'POST', cookie, body: JSON.stringify({ entity_type: 'order', entity_id: '#1001' }) });
     expect(normalize((rebuiltState.body.view as { state: unknown }).state)).toEqual(normalize((beforeState.body.view as { state: unknown }).state));
     const latest = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state' }) });
     expect(Number(latest.body.required_cursor)).toBeGreaterThanOrEqual(cutoff); ev.latest_committed_cursor = latest.body.required_cursor;
@@ -135,12 +137,12 @@ describe('TENANT-01 colliding external ids across two tenants', () => {
     try {
       const { randomUUID } = await import('node:crypto'); const tB = randomUUID();
       await migrator`INSERT INTO tenants (tenant_id, name, timezone, kind) VALUES (${tB}, 'Collision B', 'UTC', 'synthetic')`; await migrator`INSERT INTO tenant_sequences (tenant_id) VALUES (${tB})`;
-      await migrator.begin(async (tx) => { await tx`SELECT set_config('app.tenant_id', ${tB}, true)`; await tx`SELECT * FROM journal_append(${tB}::uuid, ${tx.json([{ record_type: 'source', record_id: 'order:#1002', event_type: 'order.accepted', schema_version: 1, provider_namespace: 'shopify:other', dedup_key: 'b-1002', occurred_at: '2026-10-30T10:00:00Z', entity_refs: [{ type: 'order', id: '#1002' }], payload: { order_id: '#1002', currency: 'EUR', gross_minor: 50000, lines: [{ line_id: 'L', item_id: 'X', quantity: '1', unit: 'piece', line_gross_minor: 50000 }] }, evidence_refs: [], input_entry_ids: [] }] as never)}::jsonb)`; });
+      await migrator.begin(async (tx) => { await tx`SELECT set_config('app.tenant_id', ${tB}, true)`; await tx`SELECT * FROM journal_append(${tB}::uuid, ${tx.json([{ record_type: 'source', record_id: 'order:#1001', event_type: 'order.accepted', schema_version: 1, provider_namespace: 'shopify:other', dedup_key: 'b-1002', occurred_at: '2026-10-30T10:00:00Z', entity_refs: [{ type: 'order', id: '#1001' }], payload: { order_id: '#1001', currency: 'EUR', gross_minor: 50000, lines: [{ line_id: 'L', item_id: 'X', quantity: '1', unit: 'piece', line_gross_minor: 50000 }] }, evidence_refs: [], input_entry_ids: [] }] as never)}::jsonb)`; });
       await fetch('http://127.0.0.1:19070/admin/refresh-tenants', { method: 'POST', headers: { 'x-engine-token': engineToken(), 'content-type': 'application/json' }, body: '{}' });
-      const list = await apiFetch('/api/journal/entries', { method: 'POST', cookie, body: JSON.stringify({ entity: { type: 'order', id: '#1002' }, page_size: 100 }) });
+      const list = await apiFetch('/api/journal/entries', { method: 'POST', cookie, body: JSON.stringify({ entity: { type: 'order', id: '#1001' }, page_size: 100 }) });
       const entries = list.body.entries as Array<{ provider_namespace: string; payload: { gross_minor?: number } }>;
       expect(entries.some((e) => e.provider_namespace === 'shopify:other')).toBe(false); expect(entries.some((e) => e.payload.gross_minor === 50000)).toBe(false);
-      const q = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', parameters: { order_id: '#1002' } }) });
+      const q = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', parameters: { order_id: '#1001' } }) });
       expect(((q.body.result as { orders: Array<{ order_gross_minor: number }> }).orders[0]!.order_gross_minor)).not.toBe(50000);
       const text = await apiFetch('/api/journal/entries', { method: 'POST', cookie, body: JSON.stringify({ text: 'other', page_size: 100 }) }); expect((text.body.entries as unknown[]).length).toBe(0);
       ev.tenant_collision = { tenant_b: tB, visible_to_a: false };

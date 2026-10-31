@@ -70,7 +70,9 @@ impl OrderState {
 
 // ------------------------------------------------------------------ item / stock
 #[derive(Clone, Debug, Serialize, Deserialize, Default, PartialEq)]
-pub struct LocationStock { pub basis: Option<String>, pub physical: Option<Qty>, pub provider_available: Option<Qty>, pub committed: Option<Qty>, pub snapshot_reserved: Option<Qty>, pub damaged: Qty, pub safety_stock: Qty, pub quality_control: Qty, pub quarantined: Qty, pub incoming: Option<Qty>, pub snapshot_sequence: i64 }
+pub struct LocationStock { pub basis: Option<String>, pub physical: Option<Qty>, pub provider_available: Option<Qty>, pub committed: Option<Qty>, pub snapshot_reserved: Option<Qty>, pub damaged: Qty, pub safety_stock: Qty, pub quality_control: Qty, pub quarantined: Qty, pub incoming: Option<Qty>, pub snapshot_sequence: i64,
+    /// effective time of the authoritative snapshot: movements effective at or before it are already included in the basis and are not applied twice
+    #[serde(default)] pub basis_effective_at: Option<chrono::DateTime<chrono::Utc>>, #[serde(default)] pub movements_before_basis_skipped: u64 }
 #[derive(Clone, Debug, Serialize, Deserialize, Default, PartialEq)]
 pub struct ItemState { pub item_id: String, pub unit: Option<String>, pub locations: BTreeMap<String, LocationStock>, pub active_reservations: BTreeMap<String, Qty>, pub open_orders: BTreeSet<String>, pub supply_promises: BTreeSet<String>, pub prov: Provenance }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
@@ -96,11 +98,13 @@ impl ItemState {
                 self.item_id = item_id.clone(); self.unit = Some(unit.clone());
                 let loc = self.locations.entry(location_id.clone()).or_default();
                 loc.basis = Some(basis.clone()); loc.physical = qo(physical); loc.provider_available = qo(available); loc.committed = qo(committed); loc.snapshot_reserved = qo(reserved);
-                loc.damaged = qo(damaged).unwrap_or(Qty::ZERO); loc.safety_stock = qo(safety_stock).unwrap_or(Qty::ZERO); loc.quality_control = qo(quality_control).unwrap_or(Qty::ZERO); loc.quarantined = loc.quality_control; loc.incoming = qo(incoming); loc.snapshot_sequence = m.sequence;
+                loc.damaged = qo(damaged).unwrap_or(Qty::ZERO); loc.safety_stock = qo(safety_stock).unwrap_or(Qty::ZERO); loc.quality_control = qo(quality_control).unwrap_or(Qty::ZERO); loc.quarantined = loc.quality_control; loc.incoming = qo(incoming); loc.snapshot_sequence = m.sequence; loc.basis_effective_at = Some(m.occurred_at);
             }
             Derived::StockMovement { item_id, location_id, unit, physical_delta, quarantine_delta, damaged_delta, .. } => {
                 self.item_id = item_id.clone(); if self.unit.is_none() { self.unit = Some(unit.clone()); }
                 let loc = self.locations.entry(location_id.clone()).or_default();
+                // a movement whose effective time is not after the snapshot's effective time is already part of the snapshot basis (bitemporal: late-recorded, earlier-effective)
+                if let Some(b) = loc.basis_effective_at { if m.occurred_at <= b { loc.movements_before_basis_skipped += 1; return; } }
                 if let Some(p) = loc.physical { loc.physical = Some(p.checked_add(q(physical_delta)).unwrap_or(p)); }
                 if let Some(a) = loc.provider_available { if loc.basis.as_deref() == Some("provider_available") { loc.provider_available = Some(a.checked_add(q(physical_delta)).unwrap_or(a)); } }
                 loc.quarantined = loc.quarantined.checked_add(q(quarantine_delta)).unwrap_or(loc.quarantined); loc.damaged = loc.damaged.checked_add(q(damaged_delta)).unwrap_or(loc.damaged);

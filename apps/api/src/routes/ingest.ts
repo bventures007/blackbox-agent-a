@@ -1,12 +1,18 @@
 import type { FastifyInstance } from 'fastify';
 import { readFileSync } from 'node:fs';
 import { z } from 'zod';
-import { withTenant } from '@blackbox/database';
+import { withScope, withTenant } from '@blackbox/database';
 import { GenericEnvelope, mapFixture, verifySignature, type FixtureEvent } from '@blackbox/application';
 import type { Services } from '../app.js';
 
 /** Ingestion entry points: signed generic producer events (producer key) and owner-triggered replay of synthetic fixtures. */
 export async function registerIngestRoutes(app: FastifyInstance, s: Services) {
+  // maintenance fence: ingestion is refused (503 + Retry-After) while a backup/upgrade holds the fence
+  app.addHook('preHandler', async (req, reply) => {
+    if (!(req.method === 'POST' && (req.url.startsWith('/api/ingest') || /\/(replay|bank-csv|rules)$/.test(req.url.split('?')[0]!)))) return;
+    const [f] = await withScope(s.ctx.db, 'scheduler', (tx) => tx`SELECT holder FROM maintenance_fence WHERE fence_id = 1 AND holder IS NOT NULL AND expires_at > now()`);
+    if (f) { reply.header('retry-after', '30').code(503).send({ error: 'maintenance_fence', message: `maintenance in progress (${f.holder}); ingestion resumes afterwards` }); return reply; }
+  });
   // raw body capture for HMAC verification on this route only
   app.addContentTypeParser('application/json', { parseAs: 'string' }, (req, body, done) => { (req as unknown as { rawBody: string }).rawBody = body as string; try { done(null, body ? JSON.parse(body as string) : {}); } catch (e) { done(e as Error, undefined); } });
 
@@ -27,7 +33,7 @@ export async function registerIngestRoutes(app: FastifyInstance, s: Services) {
     for (const c of capsFromEvents(env.data.events.map((e) => e.event_type))) await s.sources.touchCapability(producer.tenantId, connectionId, c, { collection_state: 'ready', last_attempt_at: now, last_successful_sync_at: now, last_received_at: now, last_new_record_at: out.accepted.length ? now : undefined, last_journal_commit_at: out.accepted.length ? now : undefined, next_poll_at: null, next_poll_reason: 'authenticated push from producer: no poll' });
     if (env.data.declared_coverage) {
       const dc = env.data.declared_coverage;
-      await s.ingest.ingest({ tenantId: producer.tenantId, connectionId, providerNamespace: 'runtime', runId }, [{ event_type: 'coverage.observed', provider_event_id: `coverage:${dc.capability}:${connectionId}:${env.data.idempotency_key}`, occurred_at: now.toISOString(), payload: { capability: dc.capability, entity_scope: dc.entity_scope, history_start: dc.history_start, complete_through: dc.complete_through, backfill_complete: dc.backfill_complete, coverage_basis: `producer ${env.data.producer} declared coverage (labelled assertion, not independently verified)`, missing_fields: dc.missing_fields } }]);
+      await s.ingest.ingest({ tenantId: producer.tenantId, connectionId, providerNamespace: 'runtime', runId }, [{ event_type: 'coverage.observed', provider_event_id: `coverage:${dc.capability}:${connectionId}:${env.data.idempotency_key}`, occurred_at: now.toISOString(), payload: { capability: dc.capability, entity_scope: dc.entity_scope, history_start: dc.history_start ? new Date(dc.history_start).toISOString() : null, complete_through: dc.complete_through ? new Date(dc.complete_through).toISOString() : null, backfill_complete: dc.backfill_complete, coverage_basis: `producer ${env.data.producer} declared coverage (labelled assertion, not independently verified)`, missing_fields: dc.missing_fields } }]);
     }
     await s.sources.updateRun(producer.tenantId, runId, { state: out.rejected.length || out.conflicts.length ? 'complete_with_gaps' : 'complete', phase: 'ready', outcome: `${out.accepted.length} committed, ${out.duplicates} duplicates, ${out.conflicts.length} conflicts, ${out.rejected.length} rejected`, counters: { received: env.data.events.length, committed: out.accepted.length, duplicates: out.duplicates, conflicts: out.conflicts.length, rejected: out.rejected.length } });
     void caps;
