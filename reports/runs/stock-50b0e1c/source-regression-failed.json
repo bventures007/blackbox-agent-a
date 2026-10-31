@@ -1,0 +1,29 @@
+{
+  "kind": "synthetic_source_operations",
+  "status": "failed",
+  "tested_commit": "50b0e1c50bbca8a77a045986d9b921d3ab9e97d1",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T15:10:33.522697+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Isolated native Postgres.app 18.4 / Node 25.9.0 / Rust 1.90.0 / Chrome 156"
+  },
+  "commands": [
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/source-operations.ts",
+      "exit_code": 1,
+      "observed": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '[encrypted credential envelope omitted]'\n- '[encrypted credential envelope omitted]'\n\n    at <anonymous> (/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/tests/source-operations.ts:374:10)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: '[encrypted credential envelope omitted]',\n  expected: '[encrypted credential envelope omitted]',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v25.9.0\nTraceback (most recent call last):\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/scripts/native-dev.py\", line 82, in <module>\n    elif cmd=='exec':run(sys.argv[2:])\n                     ~~~^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/scripts/native-dev.py\", line 18, in run\n    def run(args,**kw):return subprocess.run([str(a)for a in args],env=env,cwd=root,check=True,**kw)\n                              ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py\", line 577, in run\n    raise CalledProcessError(retcode, process.args,\n                             output=stdout, stderr=stderr)\nsubprocess.CalledProcessError: Command '['node', '--import', 'tsx', 'tests/source-operations.ts']' returned non-zero exit status 1.\n"
+    }
+  ],
+  "limitations": [
+    "Synthetic provider fixtures, not authorized live merchant coverage",
+    "Current source flow covers orders/payments/refunds; other selected Shopify capabilities remain in implementation",
+    "No independent review, full source-health acceptance, distribution or performance certification"
+  ],
+  "sanitization": "Long encrypted credential envelopes removed from assertion output; failure and execution context preserved."
+}

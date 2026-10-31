@@ -410,10 +410,13 @@ export async function processSourceJob(j: Job) {
     )
       throw new ProviderError("provider_history_scope_lost", 0, true);
     {
-      const sealed = await sealSecret(j.tenant_id, j.connection_id, {
-        ...secret,
-        credentials,
-      });
+      const sealed =
+        JSON.stringify(credentials) === JSON.stringify(secret.credentials)
+          ? j.sealed
+          : await sealSecret(j.tenant_id, j.connection_id, {
+              ...secret,
+              credentials,
+            });
       await scoped(j.tenant_id, async (c) => {
         await assertLease(c, j);
         await c.query(

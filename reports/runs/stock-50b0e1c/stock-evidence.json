@@ -1,0 +1,82 @@
+{
+  "kind": "synthetic_shopify_inventory",
+  "status": "passed",
+  "tested_commit": "50b0e1c50bbca8a77a045986d9b921d3ab9e97d1",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T15:10:20.114574+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Isolated native PostgreSQL 18.4 / Node 25.9.0 / Rust 1.90.0"
+  },
+  "commands": [
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/stock-source.ts seed",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-stock-v1\",\"phase\":\"seed\",\"result\":\"passed\",\"checks\":[\"paginated_HTTP_inventory_atomic_item_cohort_PostgreSQL_Rust_API_actual_SDK_MCP\",\"provider_available_not_double_subtracted_incoming_inactive_excluded\",\"same_fixed_scan_replay_is_idempotent\",\"new_capability_gets_independent_poll_and_reconciliation\",\"disappeared_location_retires_without_fabricated_zero_or_old_location_double_count\",\"historical_fixed_cutoff_retains_original_snapshot\",\"two_workspace_same_provider_ID_and_evidence_isolation\",\"strict_from_now_does_not_import_declined_opening_states\",\"negative_quantity_quarantine_invalidates_current_item_cohort_without_clamping_to_zero\",\"unrelated_millisecond_does_not_claim_snapshot_coverage\",\"lost_inventory_scope_stops_collection_and_requires_reauthorization\"],\"synthetic\":true,\"limitations\":[\"No live Shopify grants or account\",\"Non-atomic snapshots; no historical opening balance, movement cause or global completeness claimed\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/stock-browser.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-stock-browser-v1\",\"result\":\"passed\",\"checks\":[\"actual_EN_DE_inventory_selection_and_scope_preview\",\"restrictions_acknowledgement_required\",\"DE_mobile_no_overflow\",\"no_browser_exceptions_external_requests_or_localStorage_secrets\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/stock-source.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-stock-v1\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"restart_with_unapplied_item_and_saved_page_cursor_finishes_without_duplicate_location_effects\",\"restart_and_deleted_projection_recovery_of_both_snapshot_cohorts_API_MCP_values_and_evidence\"],\"synthetic\":true,\"limitations\":[\"No live Shopify grants or account\",\"Non-atomic snapshots; no historical opening balance, movement cause or global completeness claimed\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/stock-source.ts remove",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-stock-v1\",\"phase\":\"remove\",\"result\":\"passed\",\"checks\":[\"own_projections_removed_for_cold_recovery\"],\"synthetic\":true,\"limitations\":[\"No live Shopify grants or account\",\"Non-atomic snapshots; no historical opening balance, movement cause or global completeness claimed\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/stock-source.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-stock-v1\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"restart_and_deleted_projection_recovery_of_both_snapshot_cohorts_API_MCP_values_and_evidence\"],\"synthetic\":true,\"limitations\":[\"No live Shopify grants or account\",\"Non-atomic snapshots; no historical opening balance, movement cause or global completeness claimed\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py resume-worker",
+      "exit_code": 0,
+      "observed": "resume-worker\n"
+    }
+  ],
+  "limitations": [
+    "No live provider, independent review, Compose distribution or performance certification",
+    "Current non-atomic inventory snapshots, not historical openings or cause-of-change events"
+  ]
+}
