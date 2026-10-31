@@ -1,0 +1,16 @@
+{
+  "tested_commit": "113ea876e5139d2b5d266be7955d547132e42724",
+  "status": "passed_for_named_synthetic_suites",
+  "executed_at": "2026-10-31T14:27:23.130509+00:00",
+  "checks": {
+    "pnpm typecheck": "passed",
+    "pnpm test": "9 passed",
+    "cargo test --locked --offline": "5 passed",
+    "pnpm build:web": "passed"
+  },
+  "limitations": [
+    "No authorized live Shopify/Payments access or independent review",
+    "Other selected provider adapters and shared per-answer health remain implementation work",
+    "A no-network/no-mount own Docker probe stayed Created and was removed; Compose, package installation and performance gates remain unverified"
+  ]
+}

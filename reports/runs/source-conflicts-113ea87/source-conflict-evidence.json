@@ -1,0 +1,17 @@
+{
+  "suite": "source-provider-conflict-v1",
+  "commit": "113ea876e5139d2b5d266be7955d547132e42724",
+  "dirty": false,
+  "at": "2026-10-31T14:24:26.988Z",
+  "checks": [
+    "old_content_addressed_source_identity_replayed_without_duplicate_business_record",
+    "changed_order_and_payment_same_provider_revision_quarantined",
+    "both_claims_have_scoped_encrypted_evidence",
+    "quarantine_does_not_advance_successful_check_or_reconciliation",
+    "later_empty_success_preserves_unresolved_health_gap",
+    "old_payloads_and_fixed_cutoff_answers_unchanged",
+    "current_API_and_actual_SDK_MCP_answers_expose_conflict"
+  ],
+  "synthetic": true,
+  "result": "passed"
+}
