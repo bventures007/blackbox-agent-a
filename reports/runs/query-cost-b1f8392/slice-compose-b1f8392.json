@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "synthetic_first_persisted_slice",
+  "status": "failed",
+  "tested_commit": "b1f839235c08182ae57ffd002e995af882f0f024",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T16:05:29.789588+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Docker Compose pinned PostgreSQL 17, Node 24, Rust 1.90.0"
+  },
+  "limitations": [
+    "Synthetic HTTP source; no authorized Shopify store",
+    "P1 payment subset; not full Golden/24-question coverage",
+    "No independent review or release claim"
+  ],
+  "commands": [
+    {
+      "command": "node --import tsx --test tests/contracts.test.ts",
+      "exit_code": 0,
+      "observed": "\u2714 money syntax preserves exact units, does not round or mix unknown currencies (1.995958ms)\n\u2714 canonical observations reject caller tenant and personal-content fields (5.464708ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 1298.319916\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml run --rm tooling node --import tsx tests/slice.ts seed",
+      "exit_code": 1,
+      "observed": " Container blackbox-a-postgres-1  Running\n/app/tests/slice.ts:31\n  throw Error(\"projection did not catch up\");\n        ^\n\nError: projection did not catch up\n    at ready (/app/tests/slice.ts:31:9)\n    at async <anonymous> (/app/tests/slice.ts:123:17)\n\nNode.js v24.22.2\n"
+    }
+  ]
+}

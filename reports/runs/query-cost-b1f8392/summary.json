@@ -1,0 +1,27 @@
+{
+  "tested_commit": "b1f839235c08182ae57ffd002e995af882f0f024",
+  "executed_at": "2026-10-31T16:06:22.435727+00:00",
+  "status": "native_suites_passed_compose_slice_failed",
+  "checks": {
+    "native_affected_persisted_suites": "5 passed",
+    "pnpm typecheck": "passed",
+    "pnpm test": "13 passed",
+    "pnpm build:web": "passed",
+    "docker_image_build": "api and engine succeeded; all five own services running",
+    "compose_slice": "failed: Host guard denied Node24 fetch header override; source/reducer writes committed but API requests returned403"
+  },
+  "evidence": [
+    "allocations-cost-evidence.json",
+    "sources-cost-evidence.json",
+    "stock-cost-evidence.json",
+    "fulfillments-cost-evidence.json",
+    "slice-cost-evidence.json",
+    "slice-compose-b1f8392.json"
+  ],
+  "follow_up": "Preserve strict public Host validation; use explicit bounded Node HTTP transport for local MCP and container proof. No Compose slice pass asserted.",
+  "limitations": [
+    "Synthetic provider only; live Shopify/Payments credentials unavailable",
+    "No independent approval",
+    "Installation/distribution/operations/performance and remaining source work incomplete"
+  ]
+}

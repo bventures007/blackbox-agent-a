@@ -1,0 +1,68 @@
+{
+  "kind": "synthetic_source_operations",
+  "status": "passed",
+  "tested_commit": "b1f839235c08182ae57ffd002e995af882f0f024",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T16:00:53.288858+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Isolated native Postgres.app 18.4 / Node 25.9.0 / Rust 1.90.0 / Chrome 156"
+  },
+  "commands": [
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/source-operations.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"source-operations-v1\",\"commit\":\"b1f839235c08182ae57ffd002e995af882f0f024\",\"dirty\":false,\"at\":\"2026-10-31T16:00:12.482Z\",\"checks\":[\"credential_ciphertext_bound_to_workspace_and_connection\",\"fixed_30_day_plan_scope_preview_owner_csrf_tenant_and_agent_denials\",\"history_pause_does_not_pause_new_activity\",\"expired_lease_cannot_commit_and_capability_has_one_running_job\",\"nested_line_pages_open_older_context_three_logical_cohorts_pg_rust_processing_and_rate_limit_resume\",\"empty_poll_updates_success_without_new_data_or_duplicate_business_effects\",\"different_account_reconnect_rejected_without_replacing_credentials\",\"append_only_plan_expansion_preserves_workspace_suggestion_and_deduplicates_overlap\",\"strict_from_now_does_not_fetch_old_context_or_opening_state\"],\"synthetic\":true,\"live_shopify\":\"blocked_no_authorized_account\",\"result\":\"passed\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/source-recovery.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"source-recovery-v1\",\"commit\":\"b1f839235c08182ae57ffd002e995af882f0f024\",\"dirty\":false,\"at\":\"2026-10-31T16:00:19.866Z\",\"checks\":[\"actual_sdk_stdio_mcp_matches_persisted_api_fixed_cutoff_after_process_restart\",\"snapshot_scope_rejects_other_milliseconds_and_historical_window\",\"interrupted_page_checkpoint_survives_restart_and_finishes_without_duplicate_money\"],\"synthetic\":true,\"result\":\"passed\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/source-conflicts.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"source-provider-conflict-v1\",\"commit\":\"b1f839235c08182ae57ffd002e995af882f0f024\",\"dirty\":false,\"at\":\"2026-10-31T16:00:30.481Z\",\"checks\":[\"old_content_addressed_source_identity_replayed_without_duplicate_business_record\",\"changed_order_and_payment_same_provider_revision_quarantined\",\"both_claims_have_scoped_encrypted_evidence\",\"quarantine_does_not_advance_successful_check_or_reconciliation\",\"later_empty_success_preserves_unresolved_health_gap\",\"old_payloads_and_fixed_cutoff_answers_unchanged\",\"current_API_and_actual_SDK_MCP_answers_expose_conflict\"],\"synthetic\":true,\"result\":\"passed\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/source-browser.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"source-browser-v1\",\"commit\":\"b1f839235c08182ae57ffd002e995af882f0f024\",\"dirty\":false,\"at\":\"2026-10-31T16:00:37.810Z\",\"checks\":[\"actual_browser_EN_scope_preview_acknowledgement_fixed_dates_durable_plan_and_job_pause\",\"actual_browser_DE_mobile_strict_from_now_choices_secret_fields_cleared_on_close_no_overflow\"],\"js_errors\":[],\"external_requests\":[],\"credential_validation\":\"synthetic_HTTP_API_test; no live credentials\",\"result\":\"passed\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py resume-worker",
+      "exit_code": 0,
+      "observed": "resume-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/source-auto.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"source-background-worker-v1\",\"commit\":\"b1f839235c08182ae57ffd002e995af882f0f024\",\"dirty\":false,\"at\":\"2026-10-31T16:00:53.255Z\",\"checks\":[\"real_background_worker_imports_all_pages_and_processes_three_cohorts_after_browser_is_closed\",\"durable_journal_has_exactly_three_orders_three_payments_and_three_refunds\"],\"synthetic\":true,\"result\":\"passed\"}\n"
+    }
+  ],
+  "limitations": [
+    "Synthetic provider fixtures, not authorized live merchant coverage",
+    "Current source flow covers orders/payments/refunds; other selected Shopify capabilities remain in implementation",
+    "No independent review, full source-health acceptance, distribution or performance certification"
+  ]
+}
