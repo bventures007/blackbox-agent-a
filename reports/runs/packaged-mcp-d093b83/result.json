@@ -1,0 +1,61 @@
+{
+  "kind": "actual_packaged_readonly_MCP_client",
+  "status": "passed",
+  "tested_commit": "d093b83e6e19a754e694a352c7ee91042fca5efd",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T17:12:58.020026+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/mcp-bridge-872b29517941",
+    "port": 18763,
+    "node_image_source_commit": "d093b83",
+    "engine_image_source_commit": "b1f8392",
+    "node_image": "sha256:7158ec6c69dbf3060175bcb810dda774628978905be4b2e61a302a7b8bc6383d",
+    "client": "Actual MCP TypeScript SDK1.32.2 stdio Client",
+    "bridge_host_PATH": "Only Python3 and Docker; no Node/Rust tools available on bridge PATH"
+  },
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18763",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 2/0\r\n \u2714 Network blackbox-a-e08eff23e9a4_default       Created0.0s \r\n \u2714 Volume \"blackbox-a-e08eff23e9a4_postgres\"     Created0.0s \r\n \u280b Container blackbox-a-e08eff23e9a4-postgres-1  Creating0.0s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Creating 2/3\r\n \u2714 Network blackbox-a-e08eff23e9a4_default       Created0.0s \r\n \u2714 Volume \"blackbox-a-e08eff23e9a4_postgres\"     Created0.0s \r\n \u2819 Container blackbox-a-e08eff23e9a4-postgres-1  Creating0.1s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Creating 3/3\r\n \u2714 Network blackbox-a-e08eff23e9a4_default       Created0.0s \r\n \u2714 Volume \"blackbox-a-e08eff23e9a4_postgres\"     Created0.0s \r\n \u2714 Container blackbox-a-e08eff23e9a4-postgres-1  Created0.1s \r\n\u001b[?25h\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\r\n \u280b Container blackbox-a-e08eff23e9a4-postgres-1  Starting0.1s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u2819 Container blackbox-a-e08eff23e9a4-postgres-1  Starting0.1s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u2839 Container blackbox-a-e08eff23e9a4-postgres-1  Starting0.3s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u2838 Container blackbox-a-e08eff23e9a4-postgres-1  Starting0.3s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u283c Container blackbox-a-e08eff23e9a4-postgres-1  Starting0.4s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u2834 Container blackbox-a-e08eff23e9a4-postgres-1  Starting0.5s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u2826 Container blackbox-a-e08eff23e9a4-postgres-1  Starting0.6s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 1/1\r\n \u2714 Container blackbox-a-e08eff23e9a4-postgres-1  Started0.7s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-e08eff23e9a4-postgres-1  Running\n Container blackbox-a-e08eff23e9a4-engine-1  Creating\n Container blackbox-a-e08eff23e9a4-api-1  Creating\n Container blackbox-a-e08eff23e9a4-worker-1  Creating\n Container blackbox-a-e08eff23e9a4-api-1  Created\n Container blackbox-a-e08eff23e9a4-engine-1  Created\n Container blackbox-a-e08eff23e9a4-worker-1  Created\n Container blackbox-a-e08eff23e9a4-postgres-1  Waiting\n Container blackbox-a-e08eff23e9a4-postgres-1  Waiting\n Container blackbox-a-e08eff23e9a4-postgres-1  Waiting\n Container blackbox-a-e08eff23e9a4-postgres-1  Healthy\n Container blackbox-a-e08eff23e9a4-engine-1  Starting\n Container blackbox-a-e08eff23e9a4-postgres-1  Healthy\n Container blackbox-a-e08eff23e9a4-api-1  Starting\n Container blackbox-a-e08eff23e9a4-postgres-1  Healthy\n Container blackbox-a-e08eff23e9a4-worker-1  Starting\n Container blackbox-a-e08eff23e9a4-worker-1  Started\n Container blackbox-a-e08eff23e9a4-api-1  Started\n Container blackbox-a-e08eff23e9a4-engine-1  Started\n"
+    },
+    {
+      "command": "node --import tsx tests/packaged-mcp.ts [protected synthetic test environment]",
+      "exit_code": 0,
+      "observed": "{\"status\":\"passed\",\"checks\":[\"actual_wrapper_SDK_MCP_returns_persisted_answer_without_host_Node_or_Rust_on_PATH\",\"exact_own_project_ignores_ambient_project_port_and_profile_overrides\",\"actual_unprivileged_readonly_container_has_only_agent_key_no_DB_or_installation_material\",\"owner_key_and_unsupported_write_tools_denied\",\"existing_stdio_connection_denies_revoked_agent_within_five_seconds\",\"separate_agent_survives_and_protected_key_file_works_while_unsafe_mode_is_denied\"],\"container_environment_names\":[\"BLACKBOX_AGENT_KEY\",\"BLACKBOX_API_URL\",\"CONTAINER_MCP_BRIDGE\",\"NODE_DISABLE_COMPILE_CACHE\",\"NODE_VERSION\",\"PATH\",\"PUBLIC_PORT\",\"YARN_VERSION\"],\"bridge_memory_limit_bytes\":268435456}\n"
+    }
+  ],
+  "sdk": {
+    "status": "passed",
+    "checks": [
+      "actual_wrapper_SDK_MCP_returns_persisted_answer_without_host_Node_or_Rust_on_PATH",
+      "exact_own_project_ignores_ambient_project_port_and_profile_overrides",
+      "actual_unprivileged_readonly_container_has_only_agent_key_no_DB_or_installation_material",
+      "owner_key_and_unsupported_write_tools_denied",
+      "existing_stdio_connection_denies_revoked_agent_within_five_seconds",
+      "separate_agent_survives_and_protected_key_file_works_while_unsafe_mode_is_denied"
+    ],
+    "container_environment_names": [
+      "BLACKBOX_AGENT_KEY",
+      "BLACKBOX_API_URL",
+      "CONTAINER_MCP_BRIDGE",
+      "NODE_DISABLE_COMPILE_CACHE",
+      "NODE_VERSION",
+      "PATH",
+      "PUBLIC_PORT",
+      "YARN_VERSION"
+    ],
+    "bridge_memory_limit_bytes": 268435456
+  },
+  "limitations": [
+    "Same physical Mac, fresh synthetic isolated copied runtime with prebuilt development images",
+    "Host Node runs only the independent SDK test client; this is not a clean-Mac or browser-downloaded distribution proof",
+    "No third-party model wording, live provider access, full performance/operations gate or independent reviewer approval"
+  ]
+}
