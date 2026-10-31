@@ -1,10 +1,46 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import http from "node:http";
-import { localApiRequest } from "../packages/transport/local-api.js";
+import {
+  localApiRequest,
+  localApiBase,
+} from "../packages/transport/local-api.js";
+
+test("container MCP permits only the exact internal API origin", () => {
+  const prior = process.env.CONTAINER_MCP_BRIDGE,
+    fixture = process.env.ALLOW_SYNTHETIC_FIXTURE;
+  try {
+    delete process.env.ALLOW_SYNTHETIC_FIXTURE;
+    delete process.env.CONTAINER_MCP_BRIDGE;
+    assert.throws(
+      () => localApiBase("http://api:8080"),
+      /loopback_api_required/,
+    );
+    process.env.CONTAINER_MCP_BRIDGE = "1";
+    assert.equal(localApiBase("http://api:8080").container, true);
+    for (const invalid of [
+      "http://api:8081",
+      "https://api:8080",
+      "http://postgres:5432",
+      "http://api:8080/other",
+      "http://secret@api:8080",
+      "http://example.test:8080",
+    ])
+      assert.throws(() => localApiBase(invalid), /loopback_api_required/);
+  } finally {
+    if (prior === undefined) delete process.env.CONTAINER_MCP_BRIDGE;
+    else process.env.CONTAINER_MCP_BRIDGE = prior;
+    if (fixture === undefined) delete process.env.ALLOW_SYNTHETIC_FIXTURE;
+    else process.env.ALLOW_SYNTHETIC_FIXTURE = fixture;
+  }
+});
 
 test("local HTTP transport retains explicit loopback authority and bounds errors/redirects", async () => {
   const seen: string[] = [];
+  let markWaiting: () => void = () => {};
+  const waitingArrived = new Promise<void>((resolve) => {
+    markWaiting = resolve;
+  });
   const server = http.createServer((req, res) => {
     seen.push(req.headers.host!);
     if (req.url === "/v1/large") {
@@ -16,7 +52,10 @@ test("local HTTP transport retains explicit loopback authority and bounds errors
       res.end();
       return;
     }
-    if (req.url === "/v1/wait") return;
+    if (req.url === "/v1/wait") {
+      markWaiting();
+      return;
+    }
     res.end(JSON.stringify({ host: req.headers.host }));
   });
   await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
@@ -39,10 +78,28 @@ test("local HTTP transport retains explicit loopback authority and bounds errors
       localApiRequest(base, "/v1/large"),
       /response_too_large/,
     );
-    await assert.rejects(
-      localApiRequest(base, "/v1/wait", { signal: AbortSignal.timeout(20) }),
+    const controller = new AbortController();
+    const cancelled = assert.rejects(
+      localApiRequest(base, "/v1/wait", { signal: controller.signal }),
       /aborted/i,
     );
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    try {
+      await Promise.race([
+        waitingArrived,
+        new Promise<never>((_, reject) => {
+          timer = setTimeout(
+            () => reject(Error("test_listener_not_reached")),
+            3000,
+          );
+        }),
+      ]);
+      controller.abort();
+      await cancelled;
+    } finally {
+      clearTimeout(timer);
+      controller.abort();
+    }
     for (const invalid of [
       "https://127.0.0.1",
       "http://example.test",

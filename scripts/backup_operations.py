@@ -2,7 +2,7 @@
 from contextlib import contextmanager
 import datetime,fcntl,hashlib,json,os,pathlib,re,secrets,stat,subprocess,time,uuid,threading
 from backup_codec import ArchiveWriter,BackupFormatError,encrypt,decrypt,new_recovery,MAX_MEMBERS
-from host_runtime import RuntimeConfigError,compose_config,protected_directory,protected_read,create_file,_validate_file
+from host_runtime import RuntimeConfigError,compose_config,compose_environment,read_compose,protected_directory,protected_read,create_file,_validate_file
 
 
 def stamp():return datetime.datetime.now(datetime.timezone.utc).isoformat()
@@ -46,11 +46,12 @@ def operation_lock(runtime):
 
 
 def compose(root,*args):
- return ['docker','compose','--env-file',str(root/'.runtime/compose.env'),'-f',str(root/'infra/compose/compose.yaml'),*args]
+ project=read_compose(root/'.runtime').get('BB_PROJECT','blackbox-a')
+ return ['docker','compose','--project-name',project,'--env-file',str(root/'.runtime/compose.env'),'-f',str(root/'infra/compose/compose.yaml'),*args]
 
 
 def run(root,*args,input=None,timeout=120):
- result=subprocess.run(compose(root,*args),input=input,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,timeout=timeout)
+ result=subprocess.run(compose(root,*args),env=compose_environment(root/'.runtime'),input=input,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,timeout=timeout)
  if result.returncode:raise RuntimeConfigError('Host container operation failed; inspect local diagnostics.')
  return result.stdout
 
@@ -184,7 +185,7 @@ def generation(root):
     with os.fdopen(fd,'w+b',closefd=False)as output:
      with encrypt(root,config['recipient'],output)as encrypted:
       archive=ArchiveWriter(encrypted)
-      dump=subprocess.Popen(compose(root,'exec','-T','-e','PGOPTIONS=-c statement_timeout=300000 -c lock_timeout=5000','postgres','pg_dump','-U','blackbox_migrate','-d','blackbox','--format=custom','--no-owner'),stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
+      dump=subprocess.Popen(compose(root,'exec','-T','-e','PGOPTIONS=-c statement_timeout=300000 -c lock_timeout=5000','postgres','pg_dump','-U','blackbox_migrate','-d','blackbox','--format=custom','--no-owner'),env=compose_environment(runtime),stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
       dump_timer=threading.Timer(330,dump.kill);dump_timer.start()
       try:
        index=0;dump_hash=hashlib.sha256();dump_bytes=0

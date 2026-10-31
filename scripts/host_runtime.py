@@ -168,6 +168,16 @@ def read_compose(runtime: Path) -> dict:
     return values
 
 
+def compose_environment(runtime: Path) -> dict:
+    """Ambient shell variables cannot redirect this installation or activate profiles."""
+    values = read_compose(runtime)
+    environment = {name: value for name, value in os.environ.items()
+                   if not name.startswith(('BB_', 'COMPOSE_')) and name not in ['BLACKBOX_AGENT_KEY', 'BLACKBOX_AGENT_KEY_FILE']}
+    environment.update({'BB_PROJECT': 'blackbox-a', 'BB_PORT': '18741', 'BB_UID': str(os.getuid()), 'BB_GID': str(os.getgid())})
+    environment.update(values)
+    return environment
+
+
 def compose_config(runtime: Path, create: bool = False, port: int | None = None, require_keys: bool = True) -> dict:
     with bootstrap_lock(runtime, create):
         path = runtime / 'compose.env'

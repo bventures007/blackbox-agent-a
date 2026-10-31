@@ -175,7 +175,7 @@ export const en = {
   lastUsed: "Last used",
   clientGuide: "Connect your local client",
   clientText:
-    "Run the bundled stdio bridge with BLACKBOX_API_URL and a separate BLACKBOX_AGENT_KEY in the client’s protected environment. A cloud-only client cannot reach this Mac’s loopback address.",
+    "Start the backend with the host wrapper, then use ./blackbox mcp as your local client command. Supply a separate BLACKBOX_AGENT_KEY in the client’s protected environment, or BLACKBOX_AGENT_KEY_FILE pointing to an owned mode-0600 key file. The bridge needs no host Node or Rust and receives no database or installation keys. A cloud-only client cannot reach this Mac’s loopback address.",
   copy: "Copy",
   copied: "Copied",
   tools: "Read-only business tools",
@@ -481,7 +481,7 @@ export const de: Record<keyof typeof en, string> = {
   lastUsed: "Zuletzt verwendet",
   clientGuide: "Lokalen Client verbinden",
   clientText:
-    "Starte die mitgelieferte stdio-Brücke mit BLACKBOX_API_URL und einem eigenen BLACKBOX_AGENT_KEY in der geschützten Umgebung des Clients. Ein reiner Cloud-Client kann die Loopback-Adresse dieses Macs nicht erreichen.",
+    "Starte das Backend mit dem Host-Werkzeug und verwende ./blackbox mcp als Befehl deines lokalen Clients. Hinterlege einen eigenen BLACKBOX_AGENT_KEY in dessen geschützter Umgebung oder verwende BLACKBOX_AGENT_KEY_FILE für eine eigene Schlüsseldatei mit Modus 0600. Die Brücke benötigt kein Node oder Rust auf dem Host und erhält keine Datenbank- oder Installationsschlüssel. Ein reiner Cloud-Client kann die Loopback-Adresse dieses Macs nicht erreichen.",
   copy: "Kopieren",
   copied: "Kopiert",
   tools: "Geschäftswerkzeuge mit Lesezugriff",

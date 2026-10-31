@@ -6,13 +6,20 @@ import sys
 import tempfile
 import unittest
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from host_runtime import compose_config,native_config,protected_read,RuntimeConfigError
+from host_runtime import compose_config,compose_environment,native_config,protected_read,RuntimeConfigError
+from unittest.mock import patch
 
 
 class HostRuntimeTest(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name);self.runtime=self.root/'runtime'
     def tearDown(self):self.tmp.cleanup()
+    def test_ambient_shell_cannot_replace_project_ports_credentials_or_profiles(self):
+        config=compose_config(self.runtime,True,18763)
+        with patch.dict(os.environ,{'BB_PROJECT':'unrelated','BB_PORT':'19000','BB_DB_PASSWORD':'untrusted','COMPOSE_PROJECT_NAME':'unrelated','COMPOSE_PROFILES':'test,mcp','COMPOSE_FILE':'/unrelated','BLACKBOX_AGENT_KEY':'do-not-pass-to-ordinary-services'}):
+            environment=compose_environment(self.runtime)
+        self.assertEqual(environment['BB_PROJECT'],config['BB_PROJECT']);self.assertEqual(environment['BB_PORT'],'18763');self.assertEqual(environment['BB_DB_PASSWORD'],config['BB_DB_PASSWORD'])
+        self.assertFalse(any(name.startswith('COMPOSE_')for name in environment));self.assertNotIn('BLACKBOX_AGENT_KEY',environment)
     def test_native_existing_missing_key_never_regenerated(self):
         value=native_config(self.runtime,True);original=(self.runtime/'native.json').read_bytes()
         for key in ['data','internal']:

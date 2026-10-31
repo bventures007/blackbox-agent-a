@@ -1,4 +1,4 @@
-import { localApiRequest } from "../transport/local-api.js";
+import { localApiRequest, localApiBase } from "../transport/local-api.js";
 import { intents } from "../contracts/questions.js";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -6,17 +6,40 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { readFile } from "node:fs/promises";
+import { open } from "node:fs/promises";
+import { constants } from "node:fs";
 const api = process.env.BLACKBOX_API_URL ?? "http://127.0.0.1:18741";
-const url = new URL(api);
-if (
-  !["127.0.0.1", "localhost"].includes(url.hostname) &&
-  !(process.env.ALLOW_SYNTHETIC_FIXTURE === "1" && url.hostname === "api")
-)
-  throw new Error("loopback_api_required");
-const key =
-  process.env.BLACKBOX_AGENT_KEY ??
-  (await readFile(process.env.BLACKBOX_AGENT_KEY_FILE!, "utf8"));
+localApiBase(api);
+async function agentKey() {
+  if (process.env.BLACKBOX_AGENT_KEY)
+    return process.env.BLACKBOX_AGENT_KEY.trim();
+  if (!process.env.BLACKBOX_AGENT_KEY_FILE)
+    throw Error("protected_agent_key_required");
+  const file = await open(
+    process.env.BLACKBOX_AGENT_KEY_FILE,
+    constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
+  );
+  try {
+    const info = await file.stat();
+    if (
+      !info.isFile() ||
+      info.nlink !== 1 ||
+      (info.mode & 0o077) !== 0 ||
+      (process.getuid && info.uid !== process.getuid()) ||
+      info.size > 256
+    )
+      throw Error("protected_agent_key_required");
+    const bytes = Buffer.alloc(257),
+      result = await file.read(bytes, 0, bytes.length, 0);
+    if (result.bytesRead > 256) throw Error("protected_agent_key_required");
+    return bytes.subarray(0, result.bytesRead).toString("utf8").trim();
+  } finally {
+    await file.close();
+  }
+}
+const key = await agentKey();
+if (!/^bb_agent_[A-Za-z0-9_-]{43}$/.test(key))
+  throw Error("named_read_only_agent_key_required");
 const names = [
   "query_business",
   "describe_business_schema",

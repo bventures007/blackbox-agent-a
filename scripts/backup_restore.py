@@ -3,7 +3,7 @@ from contextlib import contextmanager
 import hashlib,json,os,pathlib,re,shutil,stat,subprocess,time,uuid,threading
 from backup_codec import decrypt,inspect_archive,BackupFormatError,MAX_ARCHIVE,MAX_MANIFEST,decode_json
 from backup_operations import atomic_json,compose,run,sql,cutoffs,stamp,operation_lock
-from host_runtime import compose_config,protected_directory,create_file,protected_read,RuntimeConfigError
+from host_runtime import compose_config,compose_environment,protected_directory,create_file,protected_read,RuntimeConfigError
 
 
 def digest_file(file):
@@ -81,7 +81,7 @@ def restore(root,backup,destination,secret,port=18755):
     if int(sql(destination,'SELECT count(*) FROM bb.journal;'))or int(sql(destination,'SELECT count(*) FROM bb.workspaces;')):raise RuntimeConfigError('Fresh restore database unexpectedly contains data.')
     sql(destination,'DROP SCHEMA bb CASCADE;')
     marker['phase']='restoring_database_and_files';atomic_json(runtime/'maintenance.json',marker)
-    process=subprocess.Popen(compose(destination,'exec','-T','-e','PGOPTIONS=-c statement_timeout=300000 -c lock_timeout=5000','postgres','pg_restore','-U','blackbox_migrate','-d','blackbox','--no-owner','--single-transaction','--exit-on-error'),stdin=subprocess.PIPE,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+    process=subprocess.Popen(compose(destination,'exec','-T','-e','PGOPTIONS=-c statement_timeout=300000 -c lock_timeout=5000','postgres','pg_restore','-U','blackbox_migrate','-d','blackbox','--no-owner','--single-transaction','--exit-on-error'),env=compose_environment(runtime),stdin=subprocess.PIPE,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     timer=threading.Timer(330,process.kill);timer.start();chunks=0
     try:
      def write(name,value):
@@ -152,7 +152,7 @@ def finish_restore(root):
    marker['phase']='issuing_owner_key';atomic_json(runtime/'maintenance.json',marker)
    print('Restore validated. Save the newly issued owner key; old owner, agent and browser access has been revoked.',flush=True)
    print('Wiederherstellung geprüft. Speichere den neuen Eigentümerschlüssel; alte Eigentümer-, Agenten- und Browserzugriffe sind widerrufen.',flush=True)
-   if subprocess.call(compose(root,'run','--rm','tooling','node','--import','tsx','scripts/setup.ts','reset')):raise RuntimeConfigError('Restored owner issuance failed; services remain fenced.')
+   if subprocess.call(compose(root,'run','--rm','tooling','node','--import','tsx','scripts/setup.ts','reset'),env=compose_environment(runtime)):raise RuntimeConfigError('Restored owner issuance failed; services remain fenced.')
    from backup_supervisor import bind_owner_workspace,publish_status
    bind_owner_workspace(root);publish_status(root)
    marker['phase']='starting_restricted_runtime';atomic_json(runtime/'maintenance.json',marker)

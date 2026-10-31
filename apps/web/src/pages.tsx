@@ -700,7 +700,7 @@ export function Agents() {
         </Panel>
         <Panel title={t.clientGuide}>
           <p>{t.clientText}</p>
-          <pre>node --import tsx packages/mcp/main.ts</pre>
+          <pre>./blackbox mcp</pre>
           <p className="notice">{t.clientPrivacy}</p>
         </Panel>
       </div>

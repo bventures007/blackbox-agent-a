@@ -104,6 +104,29 @@ services:
       - ../../.runtime/secrets:/run/blackbox:ro
       - ../../.runtime/evidence:/var/lib/blackbox/evidence
       - ../../.runtime/logs:/var/log/blackbox
+  mcp:
+    image: blackbox-a-node:0.1.0-dev
+    profiles: [mcp]
+    user: "${BB_UID:-501}:${BB_GID:-20}"
+    command: [node, --import, tsx, packages/mcp/main.ts]
+    restart: "no"
+    read_only: true
+    mem_limit: 256m
+    pids_limit: 64
+    cpus: 1
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16777216,mode=1777
+    logging:
+      driver: none
+    environment:
+      - BLACKBOX_AGENT_KEY
+      - BLACKBOX_API_URL=http://api:8080
+      - CONTAINER_MCP_BRIDGE=1
+      - PUBLIC_PORT=${BB_PORT:-18741}
+      - NODE_DISABLE_COMPILE_CACHE=1
+    stdin_open: true
   fixture:
     <<: *node
     profiles: [test]

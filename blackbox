@@ -4,11 +4,11 @@ import os, pathlib, secrets, subprocess, sys, json, datetime, uuid
 root=pathlib.Path(__file__).resolve().parent
 runtime=root/'.runtime'
 sys.path.insert(0,str(root/'scripts'))
-from host_runtime import compose_config, protected_directory, RuntimeConfigError, _validate_file
+from host_runtime import compose_config, compose_environment, protected_directory, RuntimeConfigError, _validate_file
 def config(create=False,port=None,require_keys=True):
- compose_config(runtime,create=create,port=port,require_keys=require_keys)
- return ['docker','compose','--env-file',str(runtime/'compose.env'),'-f',str(root/'infra/compose/compose.yaml')]
-def run(args):return subprocess.call(args,cwd=root)
+ values=compose_config(runtime,create=create,port=port,require_keys=require_keys)
+ return ['docker','compose','--project-name',values.get('BB_PROJECT','blackbox-a'),'--env-file',str(runtime/'compose.env'),'-f',str(root/'infra/compose/compose.yaml')]
+def run(args):return subprocess.call(args,cwd=root,env=compose_environment(runtime)if args[:2]==['docker','compose']else None)
 command=sys.argv[1] if len(sys.argv)>1 else 'help'
 try:
  protected_directory(runtime,True)
@@ -23,6 +23,25 @@ except (OSError,RuntimeConfigError):print('setup_log_unavailable: log persistenc
 
 if command=='logs':sys.exit(run(['python3',str(root/'scripts/diagnostics.py'),*sys.argv[2:]]))
 if command=='diagnostics' and len(sys.argv)>2 and sys.argv[2]=='export':sys.exit(run(['python3',str(root/'scripts/diagnostics.py'),*sys.argv[3:]]))
+if command=='mcp':
+ import re
+ from host_runtime import protected_read
+ try:
+  if len(sys.argv)!=2:raise RuntimeConfigError('Usage: ./blackbox mcp; supply a named read-only agent key in protected environment/configuration.')
+  key=os.environ.get('BLACKBOX_AGENT_KEY')
+  if not key:
+   path=os.environ.get('BLACKBOX_AGENT_KEY_FILE')
+   if not path:raise RuntimeConfigError('Set BLACKBOX_AGENT_KEY_FILE to an owned mode-0600 agent key file, or use the client protected environment.')
+   key=protected_read(pathlib.Path(path).expanduser(),256).decode('ascii')
+  key=key.strip()
+  if not re.fullmatch(r'bb_agent_[A-Za-z0-9_-]{43}',key):raise RuntimeConfigError('A named read-only agent key is required. Never use the personal owner key for MCP.')
+  c=config(require_keys=False)
+  if(runtime/'maintenance.json').exists():raise RuntimeConfigError('Host maintenance is active. Retry the MCP connection after recovery completes.')
+  environment={**compose_environment(runtime),'BLACKBOX_AGENT_KEY':key}
+  # Only this service receives the token. No key bytes in command arguments.
+  os.chdir(root)
+  os.execvpe(c[0],c+['run','--rm','--no-deps','--interactive','-T','mcp'],environment)
+ except (RuntimeConfigError,OSError,UnicodeError)as error:raise SystemExit(str(error))
 if command=='restore':
  import argparse,getpass
  from backup_restore import restore,finish_restore
@@ -98,5 +117,5 @@ if command in ['build','up','down','status','test','setup','reset-access']:
   except RuntimeConfigError as error:raise SystemExit(str(error))
   sys.exit(result)
  sys.exit(run(c+args+extra))
-print('Usage: ./blackbox doctor|build|setup|up|down|status|test|reset-access|backup|restore')
+print('Usage: ./blackbox doctor|build|setup|up|down|status|test|reset-access|backup|restore|mcp')
 print('Development preview: encrypted backup, scheduling, retention and fenced restore are implemented; policy reconciliation, upgrade and the release package remain in progress.')

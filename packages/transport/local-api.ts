@@ -1,5 +1,24 @@
 import http from "node:http";
 
+export function localApiBase(base: string) {
+  const url = new URL(base);
+  const container =
+    (process.env.ALLOW_SYNTHETIC_FIXTURE === "1" && url.hostname === "api") ||
+    (process.env.CONTAINER_MCP_BRIDGE === "1" &&
+      url.origin === "http://api:8080");
+  if (
+    url.protocol !== "http:" ||
+    url.username ||
+    url.password ||
+    url.search ||
+    url.hash ||
+    url.pathname !== "/" ||
+    (!["127.0.0.1", "localhost"].includes(url.hostname) && !container)
+  )
+    throw Error("loopback_api_required");
+  return { url, container };
+}
+
 /** Local API transport; Node fetch can discard a caller-supplied Host header.
  * Keep authority validation at the API and send its exact public loopback Host.
  * No redirect following, remote endpoints, unbounded response or infinite wait.
@@ -14,22 +33,11 @@ export function localApiRequest(
     signal?: AbortSignal;
   } = {},
 ): Promise<Response> {
-  const url = new URL(base);
-  const fixture =
-    process.env.ALLOW_SYNTHETIC_FIXTURE === "1" && url.hostname === "api";
-  if (
-    url.protocol !== "http:" ||
-    url.username ||
-    url.password ||
-    url.search ||
-    url.hash ||
-    url.pathname !== "/" ||
-    (!["127.0.0.1", "localhost"].includes(url.hostname) && !fixture) ||
-    !/^\/v1\/[a-zA-Z0-9_/-]+$/.test(path)
-  )
+  const { url, container } = localApiBase(base);
+  if (!/^\/v1\/[a-zA-Z0-9_/-]+$/.test(path))
     throw Error("loopback_api_required");
   const port =
-    process.env.PUBLIC_PORT ?? (fixture ? "18741" : url.port || "80");
+    process.env.PUBLIC_PORT ?? (container ? "18741" : url.port || "80");
   if (!/^\d{1,5}$/.test(port) || Number(port) < 1 || Number(port) > 65535)
     throw Error("invalid_public_port");
   if (Buffer.byteLength(options.body ?? "") > 2 * 1024 * 1024)
