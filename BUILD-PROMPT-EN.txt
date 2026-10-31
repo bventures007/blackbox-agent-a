@@ -1,10 +1,10 @@
 BLACKBOX — INDEPENDENT IMPLEMENTATION BRIEF
-Version 1.2 · 2026-10-31 · Product owner: the person providing this package
+Version 1.3 · 2026-10-31 · Product owner: the person providing this package
 
 GO. Build the product described here. This is an implementation assignment, not a request for another mockup or a plan-only response. Work in the assigned repository. Use the supplied local prototype as the visual and interaction reference. Continue through implementation, verification and reproducible packaging. Do not claim external validation that you could not perform.
 
 0. READ FIRST AND WORK AUTONOMOUSLY
-Read this brief, specs/JOURNAL-AND-MCP.md, ACCEPTANCE.json, GOLDEN-ORDER-TO-CASH.json, ARCHITECTURE-EN.txt and reference/prototype/. Inspect the reference in a browser when possible. The hosted URL is https://blackbox-business-flugschreiber.bene007.chatgpt.site/#app/agents, but it may require the owner's account; the local reference is authoritative for appearance.
+Read this brief, specs/JOURNAL-AND-MCP.md, specs/PERFORMANCE-ARCHITECTURE.md, benchmarks/performance-contract.json, ACCEPTANCE.json, GOLDEN-ORDER-TO-CASH.json, ARCHITECTURE-EN.txt and reference/prototype/. Inspect the reference in a browser when possible. The hosted URL is https://blackbox-business-flugschreiber.bene007.chatgpt.site/#app/agents, but it may require the owner's account; the local reference is authoritative for appearance.
 
 Create AGENTS.md, docs/product.md, docs/architecture.md, docs/decisions/, specs/, docs/status.md and a machine-readable acceptance report. The templates are starting points, not implemented application code. Preserve this package as an input reference.
 
@@ -34,26 +34,32 @@ Self-hosted mode may start with one workspace, but must not bypass tenant isolat
 Local installation means a browser application running locally through Docker Compose, not a required native Mac app. A native wrapper can be a later product. Remote webhooks cannot reach localhost by magic: document polling where supported and opt-in HTTPS forwarding for development. A sleeping Mac cannot continuously collect events; catch-up after restart must work and freshness must be visible.
 
 3. DEFAULT ARCHITECTURE
-Use a TypeScript monorepo with pnpm workspaces. Default stack:
+Use a TypeScript/Rust monorepo: pnpm workspaces for the web/API/connector layer and a Cargo workspace for the deterministic business/query engine. specs/PERFORMANCE-ARCHITECTURE.md is the binding performance, consistency, memory and recovery contract. Default stack:
 - React + Vite for the application and a static/prerendered landing page.
 - Fastify for the HTTP API and production static-asset serving.
-- A separate worker entrypoint using the same domain packages.
-- PostgreSQL as the authoritative persistent store; Drizzle plus reviewed SQL migrations.
+- A separate TypeScript worker entrypoint for source transport/orchestration.
+- A Rust engine owning canonical business reducers, incremental projections, compact bounded in-memory indexes and business queries; API/MCP share its versioned authorized service contract. No duplicate financial reducers in TypeScript.
+- PostgreSQL as the authoritative durable journal and transaction store, with persistent projections/checkpoints and indexed cold-history access; Drizzle plus reviewed SQL migrations. RAM is rebuildable acceleration, never an independent source of truth.
 - PostgreSQL-backed jobs, preferably pg-boss, with transactional inbox/outbox boundaries and idempotent handlers.
 - Official maintained MCP SDK for a read-only server mounted in the API and an optional local stdio entrypoint using the same application services.
 - An established maintained authentication implementation supporting local accounts and an OIDC adapter. Select and pin it in an ADR. Verify remote MCP OAuth interoperability separately; ordinary web login alone is not sufficient. Use supported OAuth/resource-server libraries, not custom cryptographic protocols.
 - ObjectStore interface: local persistent volume by default, S3-compatible storage for hosted installations or multiple API replicas.
-- Vitest for domain/service checks, real PostgreSQL integration tests, Playwright for browser acceptance, and a repeatable load-test tool.
+- Rust unit/property tests for canonical reducers/query behavior; Vitest for TypeScript services/contracts; real PostgreSQL integration tests, Playwright for browser acceptance and the required performance harness.
 
-Use supported stable dependency versions at implementation time and commit the lockfile. Record versions and licenses. A change to the default stack needs a short ADR explaining measurable benefit for both SaaS and self-hosting, not a cosmetic preference.
+Use supported stable dependency versions at implementation time and commit pnpm and Cargo lockfiles. Record versions and licenses. A change to the default stack needs a short ADR explaining measurable benefit for both SaaS and self-hosting, not a cosmetic preference.
 
-Build a modular monolith: shared business modules, explicit interfaces, one logical system, API and worker independently runnable. Initial deployment should require only API/web, worker and PostgreSQL; include a maintained auth service only if the selected implementation needs it. A reverse proxy is part of the public-server profile. Do not require Kubernetes, Kafka, Redis, a vector database or a proprietary SaaS control plane for the first release.
+Build one logical modular product with explicit interfaces, independently runnable API, worker and Rust engine. Initial deployment should require API/web, worker, the engine and PostgreSQL; include a maintained auth service only if the selected implementation needs it. A reverse proxy is part of the public-server profile. Do not require Kubernetes, Kafka, Redis, a vector database or a proprietary SaaS control plane for the first release.
 
 Recommended layout (minor changes allowed with explanation):
 apps/web/                  UI and landing page
 apps/api/                  HTTP routes, auth, MCP mount, static serving
-apps/worker/               ingestion, reconciliation, projections, scheduled jobs
-packages/domain/           pure business rules and value types
+apps/worker/               source transport, reconciliation orchestration, scheduled jobs
+apps/engine/               internal Rust projection/query service
+crates/domain/             canonical pure business reducers and value types
+crates/projections/        incremental state, snapshots and replay
+crates/query/              indexed point queries and bounded aggregates
+crates/storage/            durable journal/projection adapters
+packages/domain/           optional typed facade only; no duplicate money/stock reducers
 packages/application/      authorized use cases and ports
 packages/database/         schema, RLS, migrations, tenant transaction helpers
 packages/contracts/        versioned DTOs, event and connector schemas
@@ -68,6 +74,7 @@ fixtures/                  versioned synthetic and sanitized provider fixtures
 experiments/               disabled-by-default isolated experiments
 infra/compose/             local, self-hosted and hosted configuration
 scripts/                   installer, doctor, migrate, replay, backup, restore
+benchmarks/               reproducible datasets, load harness and performance contract
 tests/                    integration, security, E2E, compatibility, performance
  docs/                     decisions, operations, extension guides, release evidence
 .github/workflows/         CI, release, dependency/security checks
@@ -126,8 +133,8 @@ An external agent may summarize returned facts or draft a response. Core balance
 
 8. DELIVERY MILESTONES AND DONE GATES
 M0 — Contract: map prototype behavior, record ADRs/threat model, define schema and acceptance mapping. Then implement; do not wait for approval of routine choices.
-M1 — Foundation: real authentication, two tenants, authorization, database/migrations, durable ingestion, jobs, source setup, recorder and evidence UI.
-M2 — Golden path: the entire synthetic Order-to-Cash cycle, restart/replay, late/duplicate events, conflicting evidence and correct query results. English-default UI and landing page with complete German localization.
+M1 — Foundation: real authentication, two tenants, authorization, database/migrations, durable ingestion, jobs, Rust engine vertical slice, source setup, recorder and evidence UI.
+M2 — Golden path: the entire synthetic Order-to-Cash cycle through the canonical Rust reducers, bounded RAM state, durable checkpoints, restart/replay, late/duplicate events, conflicting evidence and correct query results. English-default UI and landing page with complete German localization.
 M3 — Agent access: real scoped MCP, complete authorized journal/history/schema read access, bounded structured queries, shared query services, all 24 question contracts, evidence and missing-data behavior.
 M4 — Real sources: Shopify/Shopify Payments, easybill and DHL adapter work and tests, with explicit external-verification status per capability.
 M5 — Install and operate: release images, self-host/local/hosted profiles, backup/restore, upgrade rehearsal, observability, isolation/security and performance evidence.
@@ -143,7 +150,7 @@ Provide an actual ./blackbox command wrapper with documented commands: doctor, s
 
 A first-time user should be able to install prerequisites, run ./blackbox setup and ./blackbox up, open the printed local URL, create the first admin and start the example workspace. This is a target acceptance experience, not an existing command in the supplied reference.
 
-Provide Linux server deployment instructions, environment variable schema, external PostgreSQL and object-store configuration, tenant onboarding, per-tenant ingestion quotas, liveness/readiness, structured redacted logs, queue lag/dead-letter and sync-staleness metrics, database/migration status, graceful shutdown and credential rotation. Hosted scaling uses stateless API replicas, shared storage and workers with tenant-aware concurrency. Scale based on measurements and indexes, not a claim that containers imply unlimited capacity.
+Provide Linux server deployment instructions, environment variable schema, external PostgreSQL and object-store configuration, tenant onboarding, per-tenant ingestion quotas, liveness/readiness, structured redacted logs, queue lag/dead-letter and sync-staleness metrics, database/migration status, graceful shutdown and credential rotation. Hosted scaling uses stateless API replicas, shared storage, tenant-aware workers and partitioned Rust engines with explicit ownership, applied-cursor routing and failover. Do not load every tenant into every API/engine replica. Scale based on measurements and indexes, not a claim that containers imply unlimited capacity.
 
 Backups include database, evidence objects and recovery of encryption keys/configuration. Implement and actually rehearse restoration into an isolated environment. Rehearse upgrading one prior schema version with populated data; use a documented compatible rollback or forward-recovery path. Do not assume a down-migration is safe. Document maintenance windows and measured recovery time/data-loss window; do not promise high availability from a single VM.
 
@@ -161,7 +168,7 @@ Implement executable tests derived from ACCEPTANCE.json and the Golden Scenario,
 - Optional extraction prompt-injection tests if AI extraction is implemented.
 - Dependency/secret checks and a reproducible benchmark with hardware, dataset, concurrency and latency/lag measurements.
 
-Proposed comparison benchmark: 50 tenants, 250,000 events, 20 incoming events/second for five minutes, and 20 concurrent simple state queries on a documented 4-vCPU/8-GB Linux baseline. Targets: p95 durable acknowledgement below 500 ms, p95 simple state query below 2 s, p95 processing lag below 10 s after warm-up, and no cross-tenant leakage or lost accepted input. These are initial engineering targets, not proven capacity claims. If that hardware or test is unavailable, label it not run; report a separate result on available hardware. Never change targets silently to declare success.
+The earlier 50-tenant/250,000-entry workload remains a development smoke profile. The binding performance contract now includes a required 10-million-entry release benchmark and a separate 100-million-entry capacity experiment: benchmarks/performance-contract.json and specs/PERFORMANCE-ARCHITECTURE.md. Proposed reference targets include p95 hot order-state API latency <= 50 ms and p95 hot MCP tool latency <= 150 ms under the specified load, with correct committed-cutoff semantics and bounded memory. Measure cold reads, history, aggregate queries, durable acknowledgement, lag and restart separately. These are engineering acceptance targets, not achieved performance claims. Unavailable reference hardware means not run/blocked, not passed; a smaller validated release must not claim 100-million-entry capacity without that experiment. Keep reports/performance.json with raw evidence. Never weaken durability, authorization, accuracy or data shape to obtain a faster result.
 
 Provide a local aggregate verification command and GitHub Actions. Run meaningful checks and fix failures. For unexecutable checks, record precise reasons and instructions to reproduce. Do not disable tests, weaken tenant policies, or edit the acceptance oracle to turn a failing result green.
 

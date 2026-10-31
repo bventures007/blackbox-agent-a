@@ -1,27 +1,30 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "use": "Independent comparison after the same checkpoint, inputs and resource budget; a score never overrides a failed release gate.",
   "weights_percent": {
     "domain_correctness_and_evidence": 25,
     "tenant_isolation_and_authorization": 20,
-    "installation_recovery_and_operations": 15,
-    "design_usability_and_localization": 15,
-    "modularity_and_extension_cost": 15,
-    "connector_contracts_and_live_verification": 10
+    "measured_performance_memory_and_freshness": 20,
+    "installation_recovery_and_operations": 10,
+    "design_usability_and_localization": 10,
+    "modularity_and_extension_cost": 10,
+    "connector_contracts_and_live_verification": 5
   },
   "disqualifiers": [
     "Any demonstrated cross-tenant leak",
     "Lost durably acknowledged input or duplicate cash/stock effect",
     "Hardcoded answers presented as computed business state",
     "Committed secrets or default publicly accessible administrator",
-    "Claimed successful tests/provider access/platform validation that did not occur"
+    "Claimed successful tests/provider access/platform validation that did not occur",
+    "Serving stale/partially applied state as satisfying a required committed cursor, or hiding durability/authorization changes to improve speed"
   ],
   "review_method": [
     "Install from a fresh checkout.",
     "Run the supplied acceptance suite and independent hidden variations.",
     "Inspect import boundaries and one new connector/question change.",
     "Rehearse backup restore and inspect actual database roles.",
-    "Cross-review after independent implementation; have an experienced reviewer check release-critical areas."
+    "Cross-review after independent implementation; have an experienced reviewer check release-critical areas.",
+    "Compare the same benchmark profile, dataset, hardware and freshness mode. Pending 10m/100m runs do not earn inferred performance points; report evidence available at the current checkpoint separately."
   ],
   "checkpoint": "First compare M0-M3 plus local installation. Mark untested external capabilities separately; full customer launch also needs applicable M4-M5 gates."
 }

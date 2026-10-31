@@ -519,6 +519,61 @@
       "observed_result": null,
       "evidence_paths": [],
       "blocker": null
+    },
+    {
+      "id": "PERF-01",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "PERF-02",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "PERF-03",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "PERF-04",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "PERF-05",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
     }
   ]
 }

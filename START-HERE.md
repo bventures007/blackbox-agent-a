@@ -18,7 +18,7 @@ Use English for all requirements, documentation, architecture decisions, feature
 
 ## Agent: first actions
 
-Read the files in AGENTS.md's order, including the binding specs/JOURNAL-AND-MCP.md contract, inspect the local visual reference, and check the environment. Record versions and available Docker/database/browser capabilities in docs/build-environment.md. Make the milestone/task checklist concrete in docs/status.md, document necessary ADRs, then immediately start implementing the smallest complete persisted path.
+Read the files in AGENTS.md's order, including the binding specs/JOURNAL-AND-MCP.md and specs/PERFORMANCE-ARCHITECTURE.md contracts, inspect the local visual reference, and check the environment. Record versions and available Docker/database/browser capabilities in docs/build-environment.md. Make the milestone/task checklist concrete in docs/status.md, document necessary ADRs, then immediately start implementing the smallest complete persisted path.
 
 The default scope is the full BUILD-PROMPT-EN.txt, milestones M0–M5. Preserve the checkpoint after M0–M3 plus local installation for comparison, then continue independent work on real adapters and operations. If a provider account is missing, build and contract-test what can be verified; document the missing live verification without presenting it as success. A complete release cannot be asserted while applicable release gates remain open.
 
@@ -27,12 +27,12 @@ The default scope is the full BUILD-PROMPT-EN.txt, milestones M0–M5. Preserve 
 | Milestone | Concrete result |
 | --- | --- |
 | M0 | Written product/architecture contract, ADRs, threat model and acceptance mapping; implementation begins |
-| M1 | Real auth, two isolated tenants, PostgreSQL, durable ingestion, workers and the core UI |
-| M2 | Full Golden Scenario, duplicates/reordering/restarts and English/German UI and landing page |
+| M1 | Real auth, two isolated tenants, PostgreSQL, durable ingestion, workers, Rust engine vertical slice and the core UI |
+| M2 | Full Golden Scenario through Rust reducers, bounded RAM state, snapshots/restarts and English/German UI and landing page |
 | M3 | Real scoped MCP with full authorized journal/history traversal, bounded structured queries, all 24 query contracts, evidence links and explicit missing-data results |
 | Comparison checkpoint | M0–M3 plus a usable local installer, reproducible tests and a recorded commit |
 | M4 | Shopify/Shopify Payments, easybill and DHL adapter work, tests and honest live-access status |
-| M5 | Release artifacts, Linux/Mac/hosted profiles, recovery/upgrade/security/performance evidence |
+| M5 | Release artifacts, Linux/Mac/hosted profiles, recovery/upgrade/security, 10m benchmark evidence and a separate 100m capacity experiment |
 
 At the checkpoint, create reports/checkpoint.md with exact commit, start/test commands, environment, screenshots, acceptance status and limitations. Do not conflate this checkpoint with customer-production readiness.
 

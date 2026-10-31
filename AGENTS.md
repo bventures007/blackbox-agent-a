@@ -4,7 +4,7 @@
 
 1. START-HERE.md — scope, first actions and completion contract.
 2. BUILD-PROMPT-EN.txt — authoritative product and engineering assignment.
-3. specs/JOURNAL-AND-MCP.md, ACCEPTANCE.json, GOLDEN-ORDER-TO-CASH.json, reference/questions.json — mandatory journal/MCP contract, behavior and evidence requirements.
+3. specs/JOURNAL-AND-MCP.md, specs/PERFORMANCE-ARCHITECTURE.md, benchmarks/performance-contract.json, ACCEPTANCE.json, GOLDEN-ORDER-TO-CASH.json, reference/questions.json — mandatory journal/MCP contract, behavior and evidence requirements.
 4. ARCHITECTURE-EN.txt and reference/manifest.json — rationale and provenance.
 5. reference/prototype/ and reference/screenshots/ — inspect the visual reference in a browser.
 6. docs/status.md and reports/acceptance.json — actual progress, then the relevant specs and module contracts as they are created.
@@ -17,6 +17,7 @@ These instructions support the owner's current request. Direct owner instruction
 - Make routine reversible technical decisions independently and document significant tradeoffs in docs/decisions/. Continue implementation after the initial contract; a plan or scaffold alone does not satisfy the assignment.
 - Keep the supplied brief, acceptance specifications, Golden Scenario, scorecard and reference snapshot intact. Add derived executable tests and adversarial fixtures elsewhere. Do not weaken the oracle to obtain a pass. Surface genuine contradictions with a proposed correction.
 - Maintain this existing AGENTS.md; when the brief says to create it, that bootstrap step is already complete. Create docs/product.md, docs/architecture.md, specs and actual module contracts as implementation begins.
+- Follow the Rust engine / TypeScript orchestration boundary in specs/PERFORMANCE-ARCHITECTURE.md. Canonical financial/stock rules have one implementation in Rust; shared schemas must agree across languages. Benchmark the real authorized API/MCP path and keep reports/performance.json honest.
 - Enforce dependency direction: domain <- application <- adapters/entrypoints. Business calculations never belong in components or routes.
 - A tenant-owned operation requires validated server-side scope. Test real PostgreSQL application/worker roles, including RLS and connection-pool reuse.
 - Enforce the canonical journal as append-only at the database boundary, including immutable payloads and links. Corrections and reversals append new entries. Keep mutable projections/operational state separate. MCP must cover all authorized business records and histories as specified in specs/JOURNAL-AND-MCP.md, beyond the 24 example question intents.
@@ -33,7 +34,7 @@ These instructions support the owner's current request. Direct owner instruction
 ## Durable progress and handover
 
 - Keep docs/status.md updated with milestone, last passing command, failures, next action and exact external blockers.
-- Maintain reports/acceptance.json for all 47 acceptance IDs. A pass needs the tested commit, actual command, environment, result and evidence path. Missing provider access or an untested platform is not a pass.
+- Maintain reports/acceptance.json for all 52 acceptance IDs. A pass needs the tested commit, actual command, environment, result and evidence path. Missing provider access or an untested platform is not a pass.
 - Record model/agent, relevant version, platform and resource conditions in docs/build-environment.md without secrets. Do not assume unlimited execution budget or invent one for the owner.
 - At M0–M3 plus local installation, write reports/checkpoint.md and preserve the tested commit so both implementations can be compared at the same point. Continue M4–M5 unless the owner explicitly requests a checkpoint stop.
 - End with exact start/test commands, fresh-checkout verification, screenshots, remaining release blockers and independent-review instructions. Distinguish local tests, real Mac/Linux tests, provider verification, blocked and not-run checks.

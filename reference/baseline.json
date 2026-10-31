@@ -1,14 +1,15 @@
 {
-  "version": "1.2",
+  "version": "1.3",
   "prepared_date": "2026-10-31",
   "purpose": "Identical input contract and reference snapshot for both independent implementations. This is not product-test evidence.",
   "files": {
-    "ACCEPTANCE.json": "436b2911627669fa8689578dc98aa85a29bd401352fbb4acd59fc1ee0db931c5",
-    "ARCHITECTURE-EN.txt": "b44fa0b0eb7df8dc6bc57425bd7901ac12e6238624b3756cbb5f8f33698fc714",
-    "BUILD-PROMPT-EN.txt": "b9e5d6789fdf130b6f7670188ce3d2e7d9fd39b2640347cf510134247c010fb0",
+    "ACCEPTANCE.json": "0024811aed4571319a764f5da078471e5b0e1422d06ad879ed4b4845b7e316b4",
+    "ARCHITECTURE-EN.txt": "724e13b8fe10ea28f5e30ea73b35cc1fc5146958036fbd6eb6d3015b90cbd64c",
+    "BUILD-PROMPT-EN.txt": "40ce08ba91e6905ecbcf5aa30eea0aaf03b786c6b4e17db3f65cad071111b63f",
     "GOLDEN-ORDER-TO-CASH.json": "d5e237974e9d5265e0b1921ca969fafa027dc82cfd6fc017a3139531be969a17",
-    "REVIEW-PROMPT-EN.txt": "fe86639e1bc64653a770b263daa7614072b7eaed5f00ba25f24dcbc7d7398eac",
-    "SCORECARD.json": "680b6430e9967445a7871dcc536ee2421743719358fb2bc0c78c404f9bc8625d",
+    "REVIEW-PROMPT-EN.txt": "30260fc154a975933956ce0304f1e730987546c5c32d775d2e2dc0cec3fe51be",
+    "SCORECARD.json": "e185355439b9517539200ba6a399cac58441fce83e880e2506643d444d0ede2c",
+    "benchmarks/performance-contract.json": "1a24c4efc328a6214d64d589a640d8d377d26dc95d3a50d6870c1283f75f6b8c",
     "reference/manifest.json": "cfa01296250f90ca0d9d537aa54b93d7adc82bcd165d09b0a90ad4cb6e92a24d",
     "reference/prototype/app.js": "aae5821e1fb3bbb9781b3449e53b48a661b749fe3cf3d2cec4e29f899b5c0b6c",
     "reference/prototype/billing.js": "baadb2d65afa06a7fa4856fb77157a7b6596c3100b8e249b5eed5ec4257819b6",
@@ -21,9 +22,10 @@
     "reference/screenshots/blackbox-order-to-cash-agents.jpg": "139176ec9c3498188dd61bcdfc1d52d96183751a7116110d6189913a26611d41",
     "reference/screenshots/blackbox-sources-without-xentral.jpg": "e14ac373837228613075ef80280162667a39fe71de10b271df37574c2b75097e",
     "specs/JOURNAL-AND-MCP.md": "31e82d2d306f262b7ba4cdead49248a55cc744c4e053fed750a558a23e01a967",
-    "templates/AGENTS.template.txt": "a268dc921c279f9cb4738f7cf5fa4bcda679d90d536084965c94963fbce5de79",
+    "specs/PERFORMANCE-ARCHITECTURE.md": "a84777db017cc13669ed85ad8ccdc7f6760600db2fe6048e86f022c1be6cf5f7",
+    "templates/AGENTS.template.txt": "2ec43795cff1609d27dc64da3ee71616e5bcd0245b6785ab56658b19bbd8480a",
     "templates/FEATURE-BRIEF.txt": "20f4dc3a960c18b559964a46799547e90fc61235c5b89ed7848396df9328ad1f"
   },
-  "previous_baseline_tag": "baseline-v2",
-  "change_note": "Owner clarification: database-enforced append-only journal with explicit immutable fields and correction semantics; read-only MCP coverage of all authorized business records/history, beyond 24 example intents; four new core acceptance gates. Engineering material remains English; UI and landing page require English/German."
+  "previous_baseline_tag": "baseline-v3",
+  "change_note": "Owner-requested performance architecture: default Rust reducer/query engine with compact bounded RAM state, durable PostgreSQL journal and cold access, consistency cursors, snapshot-plus-tail recovery, explicit 10m/100m benchmark scopes and five additional acceptance cases. Targets are unmeasured."
 }

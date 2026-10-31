@@ -1,0 +1,144 @@
+{
+  "version": "1.0",
+  "status": "Proposed acceptance targets; no application benchmark has run.",
+  "specification": "specs/PERFORMANCE-ARCHITECTURE.md",
+  "units": {
+    "journal_entries": "All canonical source and derived journal entries; report these separately from deliveries, orders and projection rows.",
+    "memory": "MiB; measure process RSS, allocator and mapped memory, container/cgroup memory and total host/stack usage.",
+    "latency": "Milliseconds, including authorization, serialization, consistency barrier, internal RPC and response decoding; excluding LLM generation and public-internet transit."
+  },
+  "requirements": [
+    "Keep PostgreSQL durable writes and all tenant/authorization/integrity checks enabled.",
+    "Use latest_committed or a documented equal-or-stronger cutoff for measured current-state reads; stale, behind, failed, timed-out and truncated responses are not successful queries.",
+    "Measure direct API and MCP separately. MCP steady-state tests use established authorized sessions; record authentication/connection startup separately.",
+    "Report p50/p95/p99, success/error/retry/timeout rates, achieved throughput, engine lag, database waits, CPU, disk I/O and memory, including snapshot/rebuild peaks.",
+    "Use seeded synthetic data through valid domain rules and compare answers against an independent correctness oracle. Optimized seeding must not omit schema indexes, evidence references or derived records present in production.",
+    "All five tracks, high-cardinality IDs and strings, late/duplicate/correcting events, uneven tenant sizes, cold reads and realistic long histories must be present.",
+    "Declare payload distributions and evidence-store bytes. Do not substitute tiny repeated rows for full business records without labeling the experiment.",
+    "Record exact commit, dependency versions, hardware, filesystem, engine/database configuration, dataset seed/manifest, commands, warm-up time and raw measurements.",
+    "Report reference-hardware unavailability as not run/blocked; do not silently change targets or provision paid infrastructure.",
+    "Include an indexed PostgreSQL reference read path using identical business outputs; compare complete request latency, not just an isolated Rust function.",
+    "Large historical scans and evidence downloads have separate measurements and resource budgets; they are not covered by the point-lookup SLO.",
+    "For A/B comparison, use the same frozen generated corpus/dataset manifest and workload schedule, or explicitly mark results as non-comparable. A shared numeric seed alone is insufficient if generator algorithms differ."
+  ],
+  "profiles": {
+    "smoke": {
+      "purpose": "Development/regression profile; preserves the earlier baseline and is not proof of million-entry capacity.",
+      "reference_host": {
+        "os": "Linux",
+        "vcpus": 4,
+        "ram_mib": 8192,
+        "storage": "Document actual persistent storage and durability settings."
+      },
+      "dataset": {
+        "tenants": 50,
+        "minimum_journal_entries": 250000
+      },
+      "load": {
+        "ingested_journal_entries_per_second": 20,
+        "duration_seconds": 300,
+        "concurrent_query_clients": 20
+      },
+      "targets": {
+        "durable_ack_p95_ms": 500,
+        "current_state_api_p95_ms": 2000,
+        "projection_lag_p95_ms": 10000
+      },
+      "required_for": "Core comparison smoke test; real Mac/Linux coverage is separately reported."
+    },
+    "reference_10m": {
+      "purpose": "Required performance release gate; targets are not measured claims.",
+      "reference_host": {
+        "os": "Linux",
+        "vcpus": 8,
+        "ram_mib": 16384,
+        "storage": "Local NVMe; disclose model/capacity and fsync behavior. API, engine and PostgreSQL run on the same host; test driver is separately accounted for."
+      },
+      "dataset": {
+        "tenants": 20,
+        "minimum_journal_entries": 10000000,
+        "minimum_distinct_orders": 500000,
+        "hot_active_orders": 50000,
+        "largest_tenant_fraction": 0.5,
+        "order_history_entries_p95_minimum": 100,
+        "note": "Include a long-tail order-history distribution. Declare actual order/event expansion; minimum counts are independently checked."
+      },
+      "load": {
+        "warmup_seconds_maximum": 120,
+        "steady_duration_seconds": 900,
+        "ingested_journal_entries_per_second": 100,
+        "concurrent_query_clients": 20,
+        "additional_fixed_arrival_read_requests_per_second": 200,
+        "burst_journal_entries_per_second": 1000,
+        "burst_duration_seconds": 60,
+        "latency_accounting": "Record scheduled-arrival-to-completion latency in the fixed-arrival run, including queueing and overload. Keep the same query mix and correctness checks."
+      },
+      "query_mix_percent": {
+        "hot_current_state": 50,
+        "entity_history_first_100_entries": 20,
+        "cold_order_state": 10,
+        "bounded_30_day_summary": 10,
+        "structured_filtered_business_records": 10
+      },
+      "targets": {
+        "hot_current_state_api_p95_ms": 50,
+        "hot_current_state_api_p99_ms": 150,
+        "hot_current_state_mcp_p95_ms": 150,
+        "hot_current_state_mcp_p99_ms": 400,
+        "entity_history_100_entries_p95_ms": 200,
+        "cold_order_state_p95_ms": 750,
+        "bounded_30_day_summary_p95_ms": 1000,
+        "structured_filtered_first_100_records_p95_ms": 500,
+        "durable_ack_p95_ms": 250,
+        "durable_ack_p99_ms": 1000,
+        "steady_projection_lag_p95_ms": 1000,
+        "burst_backlog_caught_up_within_seconds": 60,
+        "successful_query_fraction_minimum": 0.999,
+        "engine_steady_rss_mib_maximum": 4096,
+        "engine_peak_rss_mib_maximum": 6144,
+        "total_stack_peak_memory_mib_maximum": 12288,
+        "snapshot_restart_ready_seconds_maximum": 60,
+        "restart_unapplied_tail_entries": 10000
+      },
+      "notes": [
+        "Query latency targets apply under the steady load and fixed-arrival read run. Report burst-period latency separately; backlog recovery and correctness remain mandatory.",
+        "Each query-class target includes the common authorized service path. The additional MCP current-state targets include MCP framing/transport/decoding.",
+        "Enforce total cgroup/host memory limits as well as RSS; memory mapping/page cache must not hide use outside the budget.",
+        "Full replay duration and no-snapshot/corrupt-snapshot recovery are measured separately. Do not require all history in RAM before scoped cold reads work."
+      ]
+    },
+    "scale_100m": {
+      "purpose": "Capacity-claim gate and required runnable experiment. An unexecuted run does not block a smaller validated release but forbids a 100-million-entry capacity claim.",
+      "reference_host": {
+        "os": "Linux",
+        "vcpus": 16,
+        "ram_mib": 65536,
+        "storage": "Local NVMe with measured capacity sufficient for journal, indexes, projections, snapshots and evidence; record actual bytes."
+      },
+      "dataset": {
+        "tenants": 50,
+        "minimum_journal_entries": 100000000,
+        "minimum_distinct_orders": 5000000,
+        "hot_active_orders": 200000,
+        "largest_tenant_fraction": 0.5
+      },
+      "load": "Use the reference_10m steady/burst and query-mix definitions; disclose any inability to sustain them.",
+      "targets": {
+        "hot_current_state_api_p95_ms": 50,
+        "hot_current_state_mcp_p95_ms": 150,
+        "cold_order_state_p95_ms": 1000,
+        "steady_projection_lag_p95_ms": 1000,
+        "engine_steady_rss_mib_maximum": 8192,
+        "engine_peak_rss_mib_maximum": 12288,
+        "total_stack_peak_memory_mib_maximum": 49152,
+        "successful_query_fraction_minimum": 0.999
+      },
+      "required_reports": [
+        "Complete durable 100-million-entry dataset with a bounded hot set, cold-history access, isolation and business correctness.",
+        "Separate optional compact-RAM experiment: exact resident fields/rows/indexes, omitted evidence, bytes/value, high-cardinality behavior, total/peak memory, ingest cost and restart time. Never label narrow projected columns as complete in-memory business records."
+      ]
+    }
+  },
+  "report_path": "reports/performance.json",
+  "correctness_overrides_speed": true
+}

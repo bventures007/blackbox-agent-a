@@ -24,7 +24,11 @@ All engineering material is English. The UI and landing page default to English 
 
 ## Journal and MCP clarification
 
-The binding contract is specs/JOURNAL-AND-MCP.md. Runtime roles must be unable to update/delete/truncate canonical journal data. MCP covers all authorized business records and histories, beyond the 24 example questions. Four additional core acceptance cases bring the total to 47. These are requirements, not implemented or executed capabilities.
+The binding contract is specs/JOURNAL-AND-MCP.md. Runtime roles must be unable to update/delete/truncate canonical journal data. MCP covers all authorized business records and histories, beyond the 24 example questions. Journal/MCP coverage has four dedicated core acceptance cases. These are requirements, not implemented or executed capabilities.
+
+## Performance clarification
+
+Implement the Rust business/query engine with bounded hot state and durable journal/checkpoint recovery as specified in specs/PERFORMANCE-ARCHITECTURE.md. The benchmark contract defines 250k, 10m and 100m profiles with explicit scopes. No performance or memory target has been measured. Maintain reports/performance.json. The full acceptance register now contains 52 cases.
 
 ## Next action
 

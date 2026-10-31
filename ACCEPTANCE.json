@@ -1,5 +1,5 @@
 {
-  "version": "1.2",
+  "version": "1.3",
   "date": "2026-10-31",
   "note": "Specification for tests to be implemented; not an already executable or executed suite. A reviewer must add independent variations.",
   "status_enum": [
@@ -393,6 +393,47 @@
       "expected": "Stable snapshot pagination has no omissions or duplicates, does not skip late commits, and clearly exposes continuation for newer records. Cutoffs are consistent across related reads; cross-tenant cursors are denied without leaking data.",
       "stage": "core",
       "release_gate": true
+    },
+    {
+      "id": "PERF-01",
+      "category": "performance",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Profile hot order/state queries through API and MCP using the Rust engine, shared reducers, realistic tenant/entity keys and the smoke profile. Compare an indexed PostgreSQL reference path and inspect actual execution plans.",
+      "expected": "Canonical money/stock rules have one implementation; API/MCP results agree; hot queries use direct indexes/working state without full-journal scans or N+1 reads. Report full request latency and the measured benefit/overhead of the engine, not just a Rust microbenchmark."
+    },
+    {
+      "id": "PERF-02",
+      "category": "consistency",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Terminate processes before/after durable journal commit, projection/checkpoint commit and RAM publication. Retry events, route to a lagging replica, then request at_least_cursor and latest_committed reads, including all five tracks and changed/revoked permissions.",
+      "expected": "No lost acknowledged input, duplicate business effect, false applied cursor, partial state or unauthorized cached response. Required cutoffs are satisfied or explicitly reported behind/unavailable. Durable-to-RAM recovery and domain replay agree."
+    },
+    {
+      "id": "PERF-03",
+      "category": "performance",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "Execute the reference_10m profile from benchmarks/performance-contract.json on the specified or explicitly comparable documented hardware, with concurrent ingestion and both closed-loop/fixed-arrival reads.",
+      "expected": "Meet the specified API/MCP query-class, acknowledgement, lag, correctness, success-rate and memory targets. Keep commands, data manifest, p50/p95/p99 and raw evidence. Unavailable hardware is blocked/not run; a target miss is a failure, not a capacity claim."
+    },
+    {
+      "id": "PERF-04",
+      "category": "performance",
+      "stage": "operations",
+      "release_gate": true,
+      "check": "Exercise per-tenant/global memory limits, hot/cold eviction and hydration, high-cardinality data, long histories, snapshot/rebuild peaks, corrupt/lost snapshots, engine restart with an unapplied tail and one overloaded tenant.",
+      "expected": "Bounded memory without hidden mapped/page-cache overuse or OOM; correct cold access and current authorization; independent tenants remain serviceable. Normal restart uses a compatible snapshot/projection plus tail within the reference-profile target; full rebuild remains correct and separately measured."
+    },
+    {
+      "id": "PERF-05",
+      "category": "performance",
+      "stage": "operations",
+      "release_gate": false,
+      "capacity_claim_gate": "100-million-entry operation",
+      "check": "Provide a runnable scale_100m experiment and run it when reference resources are available. Separately report complete durable records with a bounded hot set and any optional narrow compact-RAM experiment.",
+      "expected": "A 100-million-entry claim requires observed scale-profile correctness, latency, memory and recovery evidence with exact resident/excluded fields and index/raw-evidence costs. If unexecuted, report not run/blocked and make no such capacity claim; a smaller validated release remains distinguishable."
     }
   ]
 }

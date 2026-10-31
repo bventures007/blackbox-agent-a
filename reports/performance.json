@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "note": "No engine or application benchmark has run. All values remain unmeasured.",
+  "contract": "benchmarks/performance-contract.json",
+  "profiles": {
+    "smoke": {
+      "status": "not_started",
+      "tested_commit": null,
+      "environment": null,
+      "commands": [],
+      "dataset_manifest": null,
+      "measurements": null,
+      "evidence_paths": [],
+      "limitations": []
+    },
+    "reference_10m": {
+      "status": "not_started",
+      "tested_commit": null,
+      "environment": null,
+      "commands": [],
+      "dataset_manifest": null,
+      "measurements": null,
+      "evidence_paths": [],
+      "limitations": []
+    },
+    "scale_100m": {
+      "status": "not_started",
+      "tested_commit": null,
+      "environment": null,
+      "commands": [],
+      "dataset_manifest": null,
+      "measurements": null,
+      "evidence_paths": [],
+      "limitations": []
+    }
+  }
+}

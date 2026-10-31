@@ -9,9 +9,9 @@ The existing prototype is the visual and interaction reference. It currently sto
 All engineering material is English: requirements, architecture, documentation, feature briefs, agent instructions, code identifiers, comments, tests, logs, API/MCP contracts and handover reports. The application UI and landing page are English by default and also fully available in German. Translate product-facing text through locale resources, not business identifiers or contracts. Existing German prototype screens are visual/copy references only.
 
 2. Technical recommendation
-Use TypeScript throughout. React/Vite provides the UI and landing page. Fastify provides the API and serves the production frontend build. A separate worker processes events. PostgreSQL stores events, relationships, current state and background jobs. Use Drizzle with explicit SQL migrations and pg-boss as the proposed job library. MCP calls the same business services as the UI.
+Use TypeScript for React/Vite, Fastify, authentication, connector transport and MCP transport. Add a Rust engine for canonical business reducers, incremental projections, compact bounded in-memory indexes and fast queries. PostgreSQL stores the durable journal, relationships, checkpoints, persistent projections and jobs; indexed historical reads remain available. Use Drizzle with explicit SQL migrations and pg-boss as the proposed job library. UI and MCP call the same authorized application services and Rust engine. See specs/PERFORMANCE-ARCHITECTURE.md and benchmarks/performance-contract.json for the binding contract and unproven performance targets.
 
-This is a modular monolith: clearly separated business modules within one coherent application. API and worker processes can later run in multiple replicas. Keep the initial operating footprint small. Store objects and evidence through a storage interface: a persistent local volume by default, optionally S3-compatible storage for SaaS. Choose and document an established authentication solution; validate web-login support and MCP OAuth support separately.
+This is one modular product with clearly separated business modules. API, worker and internal Rust engine are separate processes; API/worker replicas and tenant-partitioned engines can be added as measured load requires. Keep the initial operating footprint small. Store objects and evidence through a storage interface: a persistent local volume by default, optionally S3-compatible storage for SaaS. Choose and document an established authentication solution; validate web-login support and MCP OAuth support separately.
 
 Vite output is a production build; the Vite preview server is not a production server. Source: https://vite.dev/guide/static-deploy.html
 pg-boss provides PostgreSQL-backed jobs. Handlers may run repeatedly; business idempotency remains an application responsibility. Source: https://pgboss.io/introduction
@@ -38,7 +38,8 @@ Start with a shared database using tenant_id and RLS. A separate database per la
 
 5. Easy extension
 apps/ contains entrypoints and the UI.
-packages/domain/ contains pure business rules.
+crates/domain/ contains the canonical pure Rust business rules; crates/projections/, crates/query/ and crates/storage/ support the engine.
+packages/domain/ may contain a typed facade but must not duplicate financial or stock calculations.
 packages/application/ contains authorized use cases.
 packages/connectors/ contains isolated source adapters.
 packages/contracts/ contains shared versioned data contracts.
@@ -56,10 +57,10 @@ The founder describes an idea using the feature template, and the agent turns it
 6. Implementation sequence
 M0: product contract, fixed boundaries, architecture decisions and acceptance matrix.
 M1: login, two tenants, real persistence, job processing, source health and recorder.
-M2: complete synthetic Order-to-Cash cycle, evidence, recovery, replay and English/German UI and landing page.
+M2: complete synthetic Order-to-Cash cycle through Rust reducers, evidence, bounded RAM state, snapshot/tail recovery, replay and English/German UI and landing page.
 M3: real read-only MCP with full authorized journal/history access and bounded structured queries; all 24 questions have a defined data contract and return either evidence-backed results or explicit missing-data explanations.
 M4: real sources for the initial Shopify pilot: Shopify and Shopify Payments, one invoice provider (proposed: easybill), and one carrier (proposed: DHL). Verify API access, merchant agreements, permissions and test accounts.
-M5: installation packages, Linux/Mac verification, backups and restore, upgrade rehearsal, load test and independent acceptance.
+M5: installation packages, Linux/Mac verification, backups and restore, upgrade rehearsal, required 10-million-entry performance validation, separately labeled 100-million-entry experiment and independent acceptance.
 
 For two agents, M0–M3 plus local installation is the first fair comparison point. Both can then continue M4–M5. Select and improve one foundation after comparison; do not blindly merge the implementations.
 
