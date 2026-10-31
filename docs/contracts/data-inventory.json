@@ -10812,6 +10812,28 @@
       ]
     },
     {
+      "path": "host.failed_projection_retry_pairs",
+      "purpose": "Up to64 exact workspace/failed-build UUID pairs authorized by an explicit fenced host retry. A replacement grant and immutable audit consume each pair; later failures cannot reuse it.",
+      "classification": "confidential_operational_metadata",
+      "placement": "protected_host_material",
+      "retention": "installation_operational",
+      "authorized_readers": "host_only",
+      "derivation_dependencies": [
+        "Fenced host maintenance and exact failed-build retry authorization; no independent business assertion."
+      ]
+    },
+    {
+      "path": "host.failed_projection_retry_requested_at",
+      "purpose": "Timestamp of explicit retry authorization in the protected maintenance marker; it is not a business event time or authority to retry a different build.",
+      "classification": "confidential_operational_metadata",
+      "placement": "protected_host_material",
+      "retention": "installation_operational",
+      "authorized_readers": "host_only",
+      "derivation_dependencies": [
+        "Fenced host maintenance and exact failed-build retry authorization; no independent business assertion."
+      ]
+    },
+    {
       "path": "host.identity_key",
       "purpose": "Independent stable 32-byte identity/HMAC key; data-key rotation preserves anchors and ledger authentication.",
       "classification": "secret_material",

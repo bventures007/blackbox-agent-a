@@ -4,7 +4,27 @@ import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { pathToFileURL } from "node:url";
 
-export async function rebuildAll(db, call) {
+export async function rebuildAll(db, call, retries = []) {
+  if (
+    !Array.isArray(retries) ||
+    retries.length > 64 ||
+    retries.some(
+      (x) =>
+        !x ||
+        Object.keys(x).sort().join() !== "build_id,tenant_id" ||
+        ![x.build_id, x.tenant_id].every(
+          (v) =>
+            typeof v === "string" &&
+            /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(
+              v,
+            ),
+        ),
+    )
+  )
+    throw Error("invalid_retry_authorization");
+  const authorized = new Set(
+    retries.map((x) => x.tenant_id + ":" + x.build_id),
+  );
   const tenants = (
     await db.query("SELECT tenant_id FROM bb.heads ORDER BY tenant_id LIMIT 65")
   ).rows;
@@ -36,11 +56,17 @@ export async function rebuildAll(db, call) {
         // required before retrying a failed build; the old generation stays live.
         const previous = (
           await db.query(
-            "SELECT state FROM bb.projection_builds WHERE tenant_id=$1 ORDER BY created_at DESC LIMIT 8",
+            "SELECT b.build_id,b.state,EXISTS(SELECT 1 FROM bb.security_audit a WHERE a.tenant_id=b.tenant_id AND a.principal_id=b.build_id AND a.action='projection.failed_build_retried') AS retry_used FROM bb.projection_builds b WHERE tenant_id=$1 ORDER BY created_at DESC,build_id DESC LIMIT 8",
             [tenant_id],
           )
         ).rows;
-        if (previous[0]?.state === "failed")
+        const failed = previous.find(
+          (x) => x.state === "failed" && !x.retry_used,
+        );
+        if (
+          previous.length &&
+          (!failed || !authorized.has(tenant_id + ":" + failed.build_id))
+        )
           throw Error("rebuild_requires_explicit_repair");
         if (previous.length >= 8)
           throw Error("rebuild_retained_generation_budget");
@@ -55,6 +81,11 @@ export async function rebuildAll(db, call) {
             head.committed,
           ],
         );
+        if (failed)
+          await db.query(
+            "INSERT INTO bb.security_audit(tenant_id,audit_id,principal_id,action)VALUES($1,$2,$3,'projection.failed_build_retried')",
+            [tenant_id, build.build_id, failed.build_id],
+          );
       }
       await db.query("COMMIT");
     } catch (error) {
@@ -125,7 +156,21 @@ if (
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
     if (!ready) throw Error("rebuild_engine_not_ready");
-    console.log(JSON.stringify(await rebuildAll(db, call)));
+    let retries = [];
+    if (process.argv.length > 2) {
+      if (process.argv.length !== 4 || process.argv[2] !== "--host-operation")
+        throw Error("unsupported_rebuild_arguments");
+      const raw = await readFile("/runtime/maintenance.json", "utf8");
+      if (raw.length > 65536) throw Error("host_marker_budget");
+      const marker = JSON.parse(raw);
+      if (
+        marker.operation !== "restore" ||
+        marker.operation_id !== process.argv[3]
+      )
+        throw Error("host_operation_mismatch");
+      retries = marker.retry_builds ?? [];
+    }
+    console.log(JSON.stringify(await rebuildAll(db, call, retries)));
   } catch {
     console.error("projection_rebuild_incomplete");
     process.exitCode = 1;

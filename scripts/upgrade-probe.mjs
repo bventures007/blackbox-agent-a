@@ -101,7 +101,7 @@ try {
     mode === "compare"
       ? await (
           await import("/app/scripts/projection-rebuild.mjs")
-        ).rebuildAll(db, call)
+        ).rebuildAll(db, call, marker.retry_builds ?? [])
       : null;
   const cases = [],
     asOf = saved?.as_of ?? new Date().toISOString();

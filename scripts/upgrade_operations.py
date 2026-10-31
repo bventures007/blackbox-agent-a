@@ -36,6 +36,25 @@ def read_marker(root):
  validate(value['source_images']);validate(value['target_images'])
  return value
 
+def authorize_failed_build_retries(root,marker):
+ """Called under the host maintenance lease after all writers are stopped.
+
+ Authorization names only the failed builds visible at this explicit request.
+ A new failure gets a new ID and cannot reuse this authorization on resume.
+ """
+ if marker.get('operation')not in ['upgrade','restore']or set(services(root))-{'postgres'}:
+  raise RuntimeConfigError('Projection retry authorization requires fenced host maintenance.')
+ values=json.loads(sql(root,"SELECT coalesce(json_agg(x),'[]'::json) FROM (SELECT h.tenant_id,b.build_id FROM bb.heads h JOIN LATERAL(SELECT build_id,state FROM bb.projection_builds b WHERE tenant_id=h.tenant_id AND NOT EXISTS(SELECT 1 FROM bb.security_audit a WHERE a.tenant_id=b.tenant_id AND a.principal_id=b.build_id AND a.action='projection.failed_build_retried') ORDER BY created_at DESC,build_id DESC LIMIT 1)b ON true WHERE h.projection_rule='lifecycle-v2' AND b.state='failed' ORDER BY h.tenant_id LIMIT 65)x;"))
+ if not values:raise RuntimeConfigError('No failed lifecycle candidate requires a retry. Resume normally.')
+ if len(values)>64:raise RuntimeConfigError('Projection retry exceeds the workspace budget.')
+ for value in values:
+  if set(value)!={'tenant_id','build_id'}:raise RuntimeConfigError('Invalid failed-build metadata.')
+  for item in value.values():uuid.UUID(item)
+ marker['retry_builds']=values;marker['retry_requested_at']=stamp()
+ atomic_json(root/'.runtime/maintenance.json',marker)
+ return values
+
+
 def fingerprint_files(root):
  # Keep a concrete recovery copy of every executable host file/migration used.
  from backup_restore import runtime_bundle_files
@@ -173,13 +192,15 @@ def upgrade_lease(root):
    except (OSError,RuntimeConfigError,ValueError,KeyError):pass
    raise
 
-def upgrade(root,secret,*,node_image=None,engine_image=None,resume=False):
+def upgrade(root,secret,*,node_image=None,engine_image=None,resume=False,retry_failed_builds=False):
+ if retry_failed_builds and not resume:raise RuntimeConfigError('--retry-failed-builds requires --resume.')
  runtime=root/'.runtime';compose_config(runtime);manifest=read_manifest(root)
  if(runtime/'native-pids.json').exists():raise RuntimeConfigError('Stop the native developer runtime before a Compose upgrade.')
  if shutil.disk_usage(runtime).free<max(1024**3,int(shutil.disk_usage(runtime).total*.02)):raise RuntimeConfigError('Critical host free space; upgrade not started.')
  with upgrade_lease(root)as lease:
   if resume:
    marker=read_marker(root);verify_bundle(root,marker)
+   if retry_failed_builds and marker['phase']!='verifying':raise RuntimeConfigError('Failed-build retry is only available during upgrade verification.')
    stop_interrupted_probe(root,marker)
   else:
    if(runtime/'maintenance.json').exists():raise RuntimeConfigError('Unfinished host maintenance; resume it first.')
@@ -222,6 +243,9 @@ def upgrade(root,secret,*,node_image=None,engine_image=None,resume=False):
   if marker['phase']=='verifying':
    check_migration_progress(root,marker,manifest)
    require_prefix(migration_rows(root),manifest,complete=True)
+   if retry_failed_builds:
+    verify_generation(root,marker,secret)
+    authorize_failed_build_retries(root,marker)
    # API/MCP and worker remain stopped. Only the private engine is started for
    # validation; its normal runtime checks still apply without a bypass mode.
    sql(root,"UPDATE bb.runtime_contract SET state='active',changed_at=now();")

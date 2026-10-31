@@ -5,7 +5,7 @@ sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]))
 from host_runtime import RuntimeConfigError
 from backup_operations import atomic_json,operation_lock,compose
 from release_images import pins,validate,override,verify_target
-from upgrade_operations import check_migration_progress,require_backup_context,upgrade_lease,log_phase
+from upgrade_operations import check_migration_progress,require_backup_context,upgrade_lease,log_phase,authorize_failed_build_retries
 from release_compatibility import read_manifest
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 
@@ -51,5 +51,15 @@ class UpgradeBoundaryTests(unittest.TestCase):
   value=json.loads((self.runtime/'maintenance.json').read_text());self.assertEqual(value['phase'],'migrating');self.assertEqual(value['error_code'],'upgrade_incomplete')
   lines=(self.runtime/'logs/wrapper.jsonl').read_text();self.assertNotIn('private@',lines);self.assertNotIn('canary',lines)
   row=json.loads(lines);self.assertEqual(row['event_name'],'wrapper.upgrade.failed');self.assertEqual(row['operation_id'],marker['operation_id']);self.assertEqual(row['level'],'ERROR')
+
+ def test_retry_snapshot_requires_fenced_host_and_names_exact_failed_builds(self):
+  marker=self.marker('verifying');pair={'tenant_id':str(uuid.uuid4()),'build_id':str(uuid.uuid4())}
+  with patch('upgrade_operations.services',return_value=['postgres','engine']),patch('upgrade_operations.sql')as sql,self.assertRaisesRegex(RuntimeConfigError,'fenced host'):authorize_failed_build_retries(self.root,marker)
+  sql.assert_not_called()
+  with patch('upgrade_operations.services',return_value=['postgres']),patch('upgrade_operations.sql',return_value=json.dumps([pair]).encode()):self.assertEqual(authorize_failed_build_retries(self.root,marker),[pair])
+  saved=json.loads((self.runtime/'maintenance.json').read_text());self.assertEqual(saved['retry_builds'],[pair]);self.assertIn('retry_requested_at',saved)
+  for rows,message in [([], 'No failed'),([pair]*65,'workspace budget')]:
+   with patch('upgrade_operations.services',return_value=['postgres']),patch('upgrade_operations.sql',return_value=json.dumps(rows).encode()),self.assertRaisesRegex(RuntimeConfigError,message):authorize_failed_build_retries(self.root,marker)
+  self.assertEqual(json.loads((self.runtime/'maintenance.json').read_text())['retry_builds'],[pair])
 
 if __name__=='__main__':unittest.main()

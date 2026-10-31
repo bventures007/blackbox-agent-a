@@ -168,7 +168,7 @@ def restore(root,backup,destination,secret,port=18755):
     raise
 
 
-def finish_restore(root):
+def finish_restore(root,*,retry_failed_builds=False):
  """Protected host-only owner issuance. Never revives credentials from the archive."""
  import sys,urllib.request,urllib.error,http.client
  if not sys.stdout.isatty():raise RuntimeConfigError('Protected interactive terminal required to issue the restored owner key.')
@@ -185,8 +185,11 @@ def finish_restore(root):
    check_database(root)
    if int(sql(root,"SELECT count(*) FROM bb.workspaces w LEFT JOIN bb.recovery_guards g USING(tenant_id) WHERE g.tenant_id IS NULL OR NOT g.evidence_blocked OR NOT g.sources_blocked;")):raise RuntimeConfigError('Restore policy guards are incomplete.')
    sql(root,'UPDATE bb.credentials SET revoked_at=now();')
+   if retry_failed_builds:
+    from upgrade_operations import authorize_failed_build_retries
+    authorize_failed_build_retries(root,marker)
    run(root,'up','-d','engine')
-   run(root,'run','--rm','--no-deps','tooling','node','--import','tsx','scripts/projection-rebuild.mjs',timeout=330)
+   run(root,'run','--rm','--no-deps','tooling','node','--import','tsx','scripts/projection-rebuild.mjs','--host-operation',marker['operation_id'],timeout=330)
    marker['phase']='issuing_owner_key';atomic_json(runtime/'maintenance.json',marker)
    print('Restore validated. Save the newly issued owner key; old owner, agent and browser access has been revoked.',flush=True)
    print('Wiederherstellung geprüft. Speichere den neuen Eigentümerschlüssel; alte Eigentümer-, Agenten- und Browserzugriffe sind widerrufen.',flush=True)

@@ -77,11 +77,12 @@ if command=='restore':
  from backup_restore import restore,finish_restore
  from backup_codec import BackupFormatError
  parser=argparse.ArgumentParser(prog='./blackbox restore')
- parser.add_argument('backup');parser.add_argument('--to',required=True,type=pathlib.Path);parser.add_argument('--port',type=int,default=18755)
+ parser.add_argument('backup');parser.add_argument('--to',required=True,type=pathlib.Path);parser.add_argument('--port',type=int,default=18755);parser.add_argument('--retry-failed-builds',action='store_true')
  options=parser.parse_args(sys.argv[2:])
  try:
   if not sys.stdout.isatty():raise RuntimeConfigError('Protected interactive terminal required for restore and owner-key issuance.')
-  if options.backup=='resume':finish_restore(options.to.expanduser().absolute())
+  if options.retry_failed_builds and options.backup!='resume':raise RuntimeConfigError('--retry-failed-builds is only available with restore resume.')
+  if options.backup=='resume':finish_restore(options.to.expanduser().absolute(),retry_failed_builds=options.retry_failed_builds)
   else:
    secret=getpass.getpass('Backup recovery key / Wiederherstellungsschlüssel: ').encode()
    restore(root,pathlib.Path(options.backup).expanduser(),options.to,secret,options.port)
@@ -93,11 +94,11 @@ if command=='upgrade':
  from upgrade_operations import upgrade
  from backup_codec import BackupFormatError
  parser=argparse.ArgumentParser(prog='./blackbox upgrade')
- parser.add_argument('--resume',action='store_true');parser.add_argument('--status',action='store_true');parser.add_argument('--node-image');parser.add_argument('--engine-image')
+ parser.add_argument('--resume',action='store_true');parser.add_argument('--status',action='store_true');parser.add_argument('--node-image');parser.add_argument('--engine-image');parser.add_argument('--retry-failed-builds',action='store_true')
  options=parser.parse_args(sys.argv[2:])
  try:
   if options.status:
-   if options.resume or options.node_image or options.engine_image:raise RuntimeConfigError('--status cannot be combined with an upgrade action.')
+   if options.resume or options.node_image or options.engine_image or options.retry_failed_builds:raise RuntimeConfigError('--status cannot be combined with an upgrade action.')
    from host_runtime import protected_read
    path=runtime/('maintenance.json'if(runtime/'maintenance.json').exists()else'upgrade-status.json')
    if not path.exists():print('No recorded upgrade. Keine Aktualisierung aufgezeichnet.');sys.exit(0)
@@ -105,10 +106,11 @@ if command=='upgrade':
    if value.get('operation','upgrade')!='upgrade':raise RuntimeConfigError('A different host maintenance operation is active.')
    print(json.dumps({k:value[k]for k in ['state','phase','operation_id','started_at','updated_at','completed_at','last_migration','source_schema','target_schema','last_failure_at','error_code']if k in value},indent=2));sys.exit(0)
   if not sys.stdout.isatty():raise RuntimeConfigError('Protected interactive terminal required to verify the pre-upgrade recovery key.')
+  if options.retry_failed_builds and not options.resume:raise RuntimeConfigError('--retry-failed-builds requires --resume.')
   if options.resume and (options.node_image or options.engine_image):raise RuntimeConfigError('Resume uses only the pinned images in the saved checkpoint.')
   if not options.resume and not(options.node_image and options.engine_image):raise RuntimeConfigError('Supply the exact sha256 Node and engine image identities from the versioned release.')
   secret=getpass.getpass('Backup recovery key / Wiederherstellungsschlüssel: ').encode()
-  result=upgrade(root,secret,node_image=options.node_image,engine_image=options.engine_image,resume=options.resume)
+  result=upgrade(root,secret,node_image=options.node_image,engine_image=options.engine_image,resume=options.resume,retry_failed_builds=options.retry_failed_builds)
   del secret
   print(json.dumps(result,indent=2))
   print('Upgrade verified. Rollback requires an isolated restore of the recorded pre-upgrade backup; its cutoff excludes later work.')

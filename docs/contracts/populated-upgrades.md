@@ -41,3 +41,16 @@ The privileged host creates a bounded build grant; API/worker roles cannot creat
 Cache keys contain workspace, entity, generation, rule and cutoff. Normal writes target only the active generation under the same publication lock. `get_business_state` accepts optional `interpretation_version` (`lifecycle-v2` or `lifecycle-v3`) and returns the selected rule, active rule and generation. Prior interpretations replay original source inputs even after publication. Missing/corrupt disposable projections fall back to the selected retained reader.
 
 The upgrade probe retains equality checks for the original interpretation and typed questions; it does not excuse arbitrary changed answers. Candidate verification compares all entities to Rust cold replay. Independent adversarial fixtures also assert exact v2-to-v3 changes through PostgreSQL, API and SDK MCP. The complete journal digest and committed/applied positions must remain unchanged. The standalone native suite is `tests/projection-generations.ts seed`, then a real runtime restart, `verify`, another restart and `restart`; invoke through `scripts/native-dev.py exec node --import tsx` using only the isolated development runtime. It does not certify smoke performance or independent acceptance.
+
+## Retrying a failed candidate
+
+An interrupted build resumes with the ordinary command. A terminally failed candidate needs a new explicit host request:
+
+```sh
+./blackbox upgrade --resume --retry-failed-builds
+./blackbox restore resume --to /absolute/restored-installation --retry-failed-builds
+```
+
+The upgrade flag is accepted only in verification, after the saved release bundle and independently encrypted backup are verified. Restore accepts it only while resuming an already authenticated, isolated restore. All application writers are stopped and the installation maintenance lease is held. The host snapshots the exact failed workspace/build pairs. The replacement gets a new ID; the failed candidate and journal stay intact. An immutable operational audit links the consumed failed-build ID to the replacement. These audit IDs identify host build operations, not a human business confirmation.
+
+If interrupted after granting a replacement, ordinary resume uses that grant. If the replacement also fails, the previous authorization cannot create another candidate, including when creation timestamps move backwards. Another explicit request is necessary. Eight retained builds per workspace remain the hard budget; retry does not bypass the reducer, completeness checks, source cutoff, image contract or publication verification. Unsupported data may still need a compatible forward fix or isolated recovery. The runtime does not erase failed candidates to create capacity automatically.
