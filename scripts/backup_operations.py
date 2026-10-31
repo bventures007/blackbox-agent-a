@@ -123,29 +123,24 @@ def fence(root,operation):
  prior=services(root)
  marker={'schema_version':1,'operation':operation,'operation_id':str(uuid.uuid4()),'started_at':stamp(),'phase':'pausing','prior_running':prior}
  atomic_json(path,marker)
- resumed=False
+ resumed=False;verified_database=False
  try:
   run(root,'stop','api','worker','engine')
-  run(root,'up','-d','postgres')
-  # pg_dump uses an ordinary consistent snapshot after every application writer stops.
-  deadline=time.monotonic()+60
-  while True:
-   try:
-    run(root,'exec','-T','postgres','pg_isready','-h','127.0.0.1','-U','blackbox_migrate','-d','blackbox')
-    sql(root,'SELECT 1;');break
-   except RuntimeConfigError:
-    if time.monotonic()>deadline:raise
-    time.sleep(.2)
+  from database_identity import prepare
+  prepare(root);verified_database=True
   marker['phase']='fenced';atomic_json(path,marker)
   yield marker
  finally:
-  marker['phase']='resuming';atomic_json(path,marker)
-  try:
-   if prior:run(root,'up','-d',*prior)
-   if 'postgres'not in prior:run(root,'stop','postgres')
-   resumed=True
-  finally:
-   if resumed:path.unlink()
+  if not verified_database:
+   marker['phase']='database_verification_failed';atomic_json(path,marker)
+  else:
+   marker['phase']='resuming';atomic_json(path,marker)
+   try:
+    if prior:run(root,'up','-d',*prior)
+    if 'postgres'not in prior:run(root,'stop','postgres')
+    resumed=True
+   finally:
+    if resumed:path.unlink()
 
 
 def cutoffs(root):

@@ -63,14 +63,9 @@ def rotate(root,resume=False):
   old,new=marker['old'],marker['new']
   if ring['active']not in [old,new]or not set(ring['keys'])<=set([old,new]):raise RuntimeConfigError('Rotation checkpoint disagrees with the current keyring.')
   # Reassert fencing on every resume, including interruption during service restart.
-  run(root,'stop','api','worker','engine');run(root,'up','-d','postgres')
-  deadline=time.monotonic()+60
-  while True:
-   try:
-    run(root,'exec','-T','postgres','pg_isready','-h','127.0.0.1','-U','blackbox_migrate','-d','blackbox');sql(root,'SELECT 1;');break
-   except RuntimeConfigError:
-    if time.monotonic()>deadline:raise
-    time.sleep(.2)
+  run(root,'stop','api','worker','engine')
+  from database_identity import prepare
+  prepare(root)
   if marker['phase']=='resuming':
    # Services may have accepted work after the verified switch but before fence unlink.
    # Re-fence and verify their new-key writes; do not require the old business cutoff.

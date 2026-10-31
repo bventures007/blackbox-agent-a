@@ -4,7 +4,7 @@ import argparse,datetime,hashlib,http.cookiejar,json,os,pathlib,platform,pty,re,
 p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--port',type=int,default=18751);p.add_argument('--node-image-commit',default='unrecorded');p.add_argument('--engine-image-commit',default='unrecorded');a=p.parse_args()
 root=pathlib.Path(__file__).resolve().parents[1]
 stage=root/'work'/('bootstrap-'+uuid.uuid4().hex[:12]);stage.mkdir(parents=True)
-for name in ['blackbox','scripts/host_runtime.py','scripts/key_rotation.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_codec.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh']:
+for name in ['blackbox','scripts/host_runtime.py','scripts/database_identity.py','scripts/key_rotation.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_codec.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh']:
  target=stage/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(root/name,target)
 shutil.copytree(root/'packages/database/migrations',stage/'packages/database/migrations')
 base=f'http://127.0.0.1:{a.port}';checks=[];commands=[];status='failed';started=time.monotonic()
@@ -72,7 +72,7 @@ try:
  assert not (stage/'.runtime/compose.env').exists();checks.append('ordinary_start_never_creates_configuration')
  output=command(['./blackbox','setup','--port',str(a.port)],interactive=True)
  keys=re.findall(r'bb_owner_[A-Za-z0-9_-]{43}',output);assert len(keys)==1;owner=keys[0]
- files={name:(stage/'.runtime'/name).read_bytes()for name in ['compose.env','secrets/data','secrets/internal','secrets/identity','secrets/keyring.json']}
+ files={name:(stage/'.runtime'/name).read_bytes()for name in ['compose.env','secrets/data','secrets/internal','secrets/identity','secrets/keyring.json','database-identity.json']}
  assert files['secrets/data']!=files['secrets/identity'] and len(files['secrets/identity'])==32
  checks.append('fresh_identity_and_data_material_are_independent')
  command(['./blackbox','up']);ready();login(owner)
@@ -84,6 +84,23 @@ try:
  checks.append('repeated_setup_preserves_credentials_and_business_data')
  command(['./blackbox','down']);command(['./blackbox','up']);ready()
  assert state(sample['entity_id'])['result']==before['result'];checks.append('normal_stop_start_preserves_session_and_answer')
+ marker=stage/'.runtime/database-identity.json';original_marker=marker.read_bytes();identity=json.loads(original_marker)
+ assert marker.stat().st_mode&0o777==0o600 and identity['postgres_major']==17
+ command(['./blackbox','down'])
+ for field,replacement,message in [('system_identifier','9999999999999999999','cluster identity changed'),('database_oid',99999,'Live database identity')]:
+  marker.write_text(json.dumps({**identity,field:replacement}))
+  try:
+   failed=command(['./blackbox','up'],expect=1);assert message in failed
+   running=command(compose('ps','--services','--status','running')).splitlines();assert not set(running)&{'api','worker','engine'}
+  finally:marker.write_bytes(original_marker)
+ held_marker=marker.with_name('database-identity-suspended.json');marker.rename(held_marker)
+ try:
+  failed=command(['./blackbox','up'],expect=1);assert 'identity is missing'in failed
+  failed=command(['./blackbox','setup'],expect=1);assert 'Existing installation state'in failed
+  assert not marker.exists()
+ finally:held_marker.rename(marker)
+ command(['./blackbox','up']);ready();assert state(sample['entity_id'])['result']==before['result']
+ checks.append('changed_cluster_or_database_identity_and_lost_marker_deny_traffic_original_marker_recovers')
  key=stage/'.runtime/secrets/data';held=stage/'.runtime/secrets/data-suspended';key.rename(held)
  try:
   failed=command(['./blackbox','up'],expect=1);assert 'no replacement generated' in failed;assert not key.exists()

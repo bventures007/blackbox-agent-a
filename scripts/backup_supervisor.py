@@ -141,11 +141,13 @@ def recover_backup(root):
  runtime=root/'.runtime';compose_config(runtime)
  with operation_lock(runtime):
   marker=load_json(runtime/'maintenance.json')
-  if marker.get('operation')!='backup'or marker.get('phase')not in ['pausing','fenced','resuming']:raise RuntimeConfigError('Only an interrupted backup fence can use this recovery command.')
+  if marker.get('operation')!='backup'or marker.get('phase')not in ['pausing','fenced','resuming','database_verification_failed']:raise RuntimeConfigError('Only an interrupted backup fence can use this recovery command.')
   prior=marker.get('prior_running')
   if not isinstance(prior,list)or len(set(prior))!=len(prior)or any(x not in ['postgres','api','worker','engine']for x in prior):raise RuntimeConfigError('Invalid maintenance service state; inspect the protected checkpoint.')
   # Backup creation never mutates canonical data or live encryption keys.
   run(root,'stop','api','worker','engine')
+  from database_identity import prepare
+  prepare(root)
   if prior:run(root,'up','-d',*prior)
   if 'postgres'not in prior:run(root,'stop','postgres')
   last=load_json(runtime/'backup-status.json');atomic_json(runtime/'backup-status.json',{**last,'state':'failed','error':'interrupted_backup_recovered'})

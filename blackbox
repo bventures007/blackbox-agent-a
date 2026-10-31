@@ -37,6 +37,8 @@ if command=='mcp':
   if not re.fullmatch(r'bb_agent_[A-Za-z0-9_-]{43}',key):raise RuntimeConfigError('A named read-only agent key is required. Never use the personal owner key for MCP.')
   c=config(require_keys=False)
   if(runtime/'maintenance.json').exists():raise RuntimeConfigError('Host maintenance is active. Retry the MCP connection after recovery completes.')
+  from database_identity import assert_existing
+  assert_existing(root)
   environment={**compose_environment(runtime),'BLACKBOX_AGENT_KEY':key}
   # Only this service receives the token. No key bytes in command arguments.
   os.chdir(root)
@@ -115,6 +117,9 @@ if command in ['build','up','down','status','test','setup','reset-access']:
     if (runtime/'maintenance.json').exists():raise RuntimeConfigError('Unfinished host maintenance. Recover it before changing service state.')
     from backup_supervisor import start as start_supervisor,stop as stop_supervisor,publish_status,bind_owner_workspace
     if command=='down':stop_supervisor(root)
+    else:
+     from database_identity import prepare
+     prepare(root,initialize=command=='setup')
     result=run(c+args+extra)
     if result==0 and command=='up':start_supervisor(root)
     elif result==0:

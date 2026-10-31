@@ -64,7 +64,7 @@ def verified_backup(root,path,secret):
 
 
 def copy_runtime_bundle(root,destination):
- files=['blackbox','scripts/host_runtime.py','scripts/key_rotation.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
+ files=['blackbox','scripts/host_runtime.py','scripts/database_identity.py','scripts/key_rotation.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
  for name in files:
   target=destination/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(root/name,target)
  shutil.copytree(root/'packages/database/migrations',destination/'packages/database/migrations')
@@ -84,14 +84,8 @@ def restore(root,backup,destination,secret,port=18755):
    marker={'schema_version':1,'operation':'restore','phase':'preparing_database','started_at':stamp(),'operation_id':str(uuid.uuid4()),'prior_running':[]}
    atomic_json(runtime/'maintenance.json',marker)
    try:
-    run(destination,'up','-d','postgres');deadline=time.monotonic()+60
-    while True:
-     try:
-      run(destination,'exec','-T','postgres','pg_isready','-h','127.0.0.1','-U','blackbox_migrate','-d','blackbox')
-      sql(destination,'SELECT 1;');break
-     except RuntimeConfigError:
-      if time.monotonic()>deadline:raise
-      time.sleep(.2)
+    from database_identity import prepare
+    prepare(destination,initialize=True)
     # Only the newly created, empty database may have its initialization schema removed.
     if int(sql(destination,'SELECT count(*) FROM bb.journal;'))or int(sql(destination,'SELECT count(*) FROM bb.workspaces;')):raise RuntimeConfigError('Fresh restore database unexpectedly contains data.')
     sql(destination,'DROP SCHEMA bb CASCADE;')
@@ -175,6 +169,8 @@ def finish_restore(root):
   if marker.get('operation')!='restore':raise RuntimeConfigError('This installation has no resumable restore.')
   try:
    run(root,'stop','api','worker','engine')
+   from database_identity import prepare
+   prepare(root)
    if int(sql(root,"SELECT count(*) FROM bb.workspaces w LEFT JOIN bb.recovery_guards g USING(tenant_id) WHERE g.tenant_id IS NULL OR NOT g.evidence_blocked OR NOT g.sources_blocked;")):raise RuntimeConfigError('Restore policy guards are incomplete.')
    sql(root,'UPDATE bb.credentials SET revoked_at=now();')
    marker['phase']='issuing_owner_key';atomic_json(runtime/'maintenance.json',marker)

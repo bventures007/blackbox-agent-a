@@ -18,7 +18,7 @@ rotation_proof=None;status='failed';checks=[];commands=[];source=None;removed=Fa
 
 def redact(value):return re.sub(r'bb_(?:owner|agent|session|producer)_[A-Za-z0-9_-]+','[REDACTED]',value)
 
-def command(directory,args,interactive=False,timeout=180):
+def command(directory,args,interactive=False,timeout=180,expect=0):
  if interactive:
   master,slave=pty.openpty();process=subprocess.Popen(args,cwd=directory,stdin=slave,stdout=slave,stderr=slave,start_new_session=True);os.close(slave);buffer=bytearray();deadline=time.monotonic()+timeout
   try:
@@ -37,7 +37,7 @@ def command(directory,args,interactive=False,timeout=180):
  else:
   result=subprocess.run(args,cwd=directory,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=timeout);code=result.returncode;output=result.stdout
  commands.append({'command':redact(' '.join(args)),'exit_code':code,'observed':redact(output)})
- if code:raise RuntimeError('Test command failed: '+redact(output[-1600:]))
+ if code!=expect:raise RuntimeError('Test command failed: '+redact(output[-1600:]))
  return output
 
 def owner_from(output):
@@ -162,15 +162,23 @@ try:
  assert int(sql(source,'SELECT count(*) FROM bb.workspaces;'))==(2 if a.rotate_data_key else 1)
  assert sql(source,"SELECT count(*) FROM bb.connections WHERE provider<>'replay'"+(" AND NOT(provider='shopify' AND state='paused' AND config->>'rotation_test'='true')"if a.rotate_data_key else '')+";").strip()==b'0'
  assert not keyfile.is_relative_to(source)and not cipher.is_relative_to(source)
+ original_database_identity=json.loads((source/'.runtime/database-identity.json').read_text())
  recovery_started=time.monotonic()
  command(source,compose(source,'down','--volumes','--remove-orphans'))
  volume_check=subprocess.run(['docker','volume','ls','--filter','label=com.docker.compose.project='+project,'--format','{{.Name}}'],check=True,text=True,stdout=subprocess.PIPE);assert not volume_check.stdout.strip()
+ for action in ['up','setup','reset-access']:
+  failed=command(source,['./blackbox',action],expect=1);assert 'volume is missing'in failed
+  volume_check=subprocess.run(['docker','volume','ls','--filter','label=com.docker.compose.project='+project,'--format','{{.Name}}'],check=True,text=True,stdout=subprocess.PIPE);assert not volume_check.stdout.strip()
+ mark('missing_database_volume_blocks_start_setup_and_access_reset_without_replacement')
  shutil.rmtree(source);removed=True;assert not source.exists()
  del secret,wrong
  mark('original_synthetic_installation_volume_and_local_keys_removed')
  # Only the external vault and ciphertext remain available to recovery.
  secret=keyfile.read_bytes();restore_result=restore(ROOT,cipher,destination,secret,a.restore_port);del secret
  assert restore_result['state']=='awaiting_owner_key'
+ restored_database_identity=json.loads((destination/'.runtime/database-identity.json').read_text())
+ assert restored_database_identity['system_identifier']!=original_database_identity['system_identifier'] and restored_database_identity['volume']!=original_database_identity['volume']
+ mark('restore_binds_new_cluster_identity_without_copying_original_volume_marker')
  assert set(services(destination))=={'postgres'}
  assert int(sql(destination,'SELECT count(*) FROM bb.credentials WHERE revoked_at IS NULL;'))==0
  assert hashlib.sha256((destination/'.runtime/secrets'/keyname).read_bytes()).hexdigest()==key_hash

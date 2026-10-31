@@ -15,7 +15,7 @@ class RotationTests(unittest.TestCase):
   return b''
  def contexts(self,side_effect=None):
   from contextlib import ExitStack
-  stack=ExitStack();stack.enter_context(patch('key_rotation.stop_interrupted_tool'));stack.enter_context(patch('key_rotation.services',return_value=['postgres','api','worker','engine']));stack.enter_context(patch('key_rotation.cutoffs',return_value={'journal_count':55}));stack.enter_context(patch('key_rotation.sql',return_value=b'1'));stack.enter_context(patch('key_rotation.run',side_effect=side_effect or self.fake_run));return stack
+  stack=ExitStack();stack.enter_context(patch('database_identity.prepare'));stack.enter_context(patch('key_rotation.stop_interrupted_tool'));stack.enter_context(patch('key_rotation.services',return_value=['postgres','api','worker','engine']));stack.enter_context(patch('key_rotation.cutoffs',return_value={'journal_count':55}));stack.enter_context(patch('key_rotation.sql',return_value=b'1'));stack.enter_context(patch('key_rotation.run',side_effect=side_effect or self.fake_run));return stack
  def test_failed_transform_preserves_both_keys_and_fence_then_resume_retires_old_only(self):
   def failing(root,*args,**kw):
    if args[-2:-1]==('transform',):raise RuntimeConfigError('injected maintenance failure')
