@@ -6,7 +6,11 @@ const runtime = process.env.TEST_RUNTIME_DIR ?? resolve(".runtime");
 const { b } = JSON.parse(
   await readFile(join(runtime, "slice-case.json"), "utf8"),
 );
-const browser = await chromium.launch({ channel: "chrome", headless: true });
+const browser = await chromium.launch({
+  ...(process.env.PLAYWRIGHT_BROWSERS_PATH ? {} : { channel: "chrome" }),
+  args: ["--disable-gpu"],
+  headless: true,
+});
 try {
   const context = await browser.newContext({
     viewport: { width: 1440, height: 1000 },

@@ -42,7 +42,11 @@ async function drain() {
   }
 }
 const logger = pino(
-  { base: undefined, timestamp: false, formatters: { level: () => ({}) } },
+  {
+    base: undefined,
+    timestamp: false,
+    formatters: { level: (_label, number) => ({ severity_number: number }) },
+  },
   {
     write(line: string) {
       if (queue.length >= 1024) {
@@ -56,6 +60,7 @@ const logger = pino(
   },
 );
 export function log(event: string, metadata: Record<string, unknown> = {}) {
+  if (!Object.hasOwn(messages, event)) event = "access.denied";
   const record: Record<string, unknown> = {
     schema_version: 1,
     record_id: randomUUID(),
@@ -90,5 +95,6 @@ export function log(event: string, metadata: Record<string, unknown> = {}) {
     if (typeof metadata[k] === "number" && Number.isFinite(metadata[k]))
       record[k] = metadata[k];
   if (record.tenant_id) record.scope = "workspace";
-  logger.info(record);
+  if (record.level === "ERROR") logger.error(record);
+  else logger.info(record);
 }
