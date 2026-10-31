@@ -19,3 +19,5 @@ Tested commit `2e8094402f642e534e432fb386e966912023b69c` passes the complete Gol
 The 24-question checkpoint passed on clean `3ced26bb56543703e1d05e8719e35f2d537f2b45`: `python3 scripts/verify-questions.py --output .runtime/questions-evidence.json`, followed by Golden and first-slice regressions. Evidence: reports/runs/questions-3ced26b. This is still an in-progress implementation checkpoint, not the P4 handover.
 
 React/Vite browser increment: clean `fcd72d055ab9211369decc96c2c7cbb0e04e915a`; commands, runtime, actual browser/MCP results and screenshots in reports/runs/ui-fcd72d0. All 24 browser template answers matched the persisted query result. This remains an in-progress checkpoint.
+
+The questions-v2 scope refinements passed at `4e9edcffbfd6716d568cd618e69feea8f7beea5f`; persisted recovery evidence is in reports/runs/questions-4e9edcf. Source and operational workflows remain active implementation work.

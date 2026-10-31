@@ -23,3 +23,7 @@ At `3ced26bb56543703e1d05e8719e35f2d537f2b45`, all 24 positive and missing-data 
 ## React browser increment
 
 At `fcd72d055ab9211369decc96c2c7cbb0e04e915a`, the reference-styled React/Vite interface passed all 24 template/API-result comparisons in English and German, persisted evidence access, bundled example ingestion, agent creation/revocation, owner endpoint/CSRF/tenant/cursor denials, explicit sanitized diagnostic export, no browser exceptions or external network requests, German mobile navigation and logout. Existing P1 browser checks and the actual official MCP Inspector client passed. See reports/runs/ui-fcd72d0/result.json and screenshots. Source lifecycle/onboarding, repairs, complete diagnostics, backup/restore/upgrade, release packaging and performance remain open. No full UI/DIAG/PILOT acceptance has been marked passed.
+
+## Settlement scope correction
+
+At `4e9edcffbfd6716d568cd618e69feea8f7beea5f`, questions-v2 passed the full 24 positive/missing/varied suite plus five new persisted scope adversaries, including restart and corrupted/deleted projections. Shared-capture refunds are subtracted once; unrelated receipts cannot close a cancellation; unknown refund populations remain unknown; impossible reversals/releases produce conflicts. Golden and first-slice regressions passed. See reports/runs/questions-4e9edcf. The 45 preparation regression tests and ordinary profile/catalogue/register validators also pass; none substitute for remaining release gates.

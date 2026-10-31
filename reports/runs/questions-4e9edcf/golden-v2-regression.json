@@ -1,0 +1,98 @@
+{
+  "kind": "synthetic_golden_persisted",
+  "status": "passed",
+  "tested_commit": "4e9edcffbfd6716d568cd618e69feea8f7beea5f",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T13:51:34.151379+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Native Postgres.app 18.4 / Node 25.9.0 / Rust 1.90.0; isolated loopback developer stack"
+  },
+  "commands": [
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts seed",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"seed\",\"result\":\"passed\",\"scenarios\":2,\"checkpoints\":22,\"checks\":[\"owner_provisioned_connection_bound_producer\",\"signed_HTTP_ingestion\",\"immutable_source_outbox\",\"all_five_tracks\",\"all_original_Golden_checkpoints\",\"varied_USD_money_and_quantity\",\"Rust_only_effects\",\"API_MCP_provenance_parity\",\"concurrent_duplicate_no_double_effect\",\"stock_and_money_conservation\",\"evidence_resolves_through_MCP\",\"durable_nonce_and_signature_body_connection_role_denials\"],\"limitations\":[\"Synthetic producer; no external provider claim\",\"No complete population coverage asserted\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"22_fixed_cutoffs_values_and_provenance_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts corrupt",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"corrupt\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"22_fixed_cutoffs_values_and_provenance_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts remove",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"remove\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"22_fixed_cutoffs_values_and_provenance_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts remove",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"remove\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"22_fixed_cutoffs_values_and_provenance_API_MCP\"]}\n"
+    }
+  ],
+  "limitations": [
+    "Synthetic producer, not merchant evidence",
+    "No full question/coverage/performance certification",
+    "Native developer path, not Compose installation certification"
+  ]
+}
