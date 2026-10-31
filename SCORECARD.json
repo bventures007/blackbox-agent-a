@@ -1,5 +1,5 @@
 {
-  "version": "2.1",
+  "version": "2.2",
   "use": "Compare the same P0–P4 local pilot, inputs and resource budgets; active failed release gates override score. Deferred features earn no extra completion credit.",
   "weights_percent": {
     "domain_correctness_and_evidence": 25,
@@ -25,7 +25,8 @@
     "Rehearse backup restore and inspect actual database roles.",
     "Cross-review after independent implementation; have an experienced reviewer check release-critical areas.",
     "Compare the same benchmark profile, dataset, hardware and freshness mode. Pending 10m/100m runs do not earn inferred performance points; report evidence available at the current checkpoint separately.",
-    "Verify DIAG-01–08 with the same bounded retained-log corpus and smoke workload: actual filtered EN/DE UI, stale health, local outage fallback, debug/retention, cross-tenant/redaction and failure/overhead evidence."
+    "Verify DIAG-01–08 with the same bounded retained-log corpus and smoke workload: actual filtered EN/DE UI, stale health, local outage fallback, debug/retention, cross-tenant/redaction and failure/overhead evidence.",
+    "Start DIST-01–03 at the landing page, download the linked versioned archive and verify fresh real-Mac install, checksum, image access and honest unsupported/private-release states without a developer checkout."
   ],
   "checkpoint": "P4 local pilot handover and stop. Distinguish actual Mac, provider and local-client proof; no automatic continuation to the former M4–M5 platform roadmap.",
   "active_profile": "local_pilot"

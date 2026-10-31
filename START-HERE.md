@@ -16,7 +16,7 @@ For a Goal-capable coding tool use GOAL.txt as the objective. This seed does not
 
 Follow AGENTS.md's reading order. Read specs/LOCAL-PILOT.md, specs/IDENTITY-ACCESS-AND-RECOVERY.md and specs/SYSTEM-AND-DIAGNOSTICS.md before copying any earlier authentication or platform assumption. Inspect reference/screenshots/README.md and reference/prototype/. Record available tools/platforms in docs/build-environment.md, choose the minimum ADRs, and start a persisted slice. Use English for engineering; UI and landing page use English by default plus complete German.
 
-The first user experience is: install prerequisites, start locally, save one personal access key, open the browser, connect a source or run the example, and ask an evidence-backed question. One owner/workspace is automatic. Separate agent keys grant business read access. No Passkey, email signup, domain, employee management or native shell is required.
+The first user experience is: open the landing page, download the versioned Mac installation package, follow the EN/DE guide and install prerequisites, start locally, save one personal access key, open the browser, connect a source or run the example, and ask an evidence-backed question. One owner/workspace is automatic. Separate agent keys grant business read access. No Passkey, email signup, domain, employee management or native shell is required.
 
 ## Milestones
 
@@ -26,7 +26,7 @@ The first user experience is: install prerequisites, start locally, save one per
 | P1 | Local setup/key/session, workspace, PostgreSQL/outbox/worker/Rust, basic recorder and structured logs/CLI fallback |
 | P2 | Golden Scenario, 24 question paths, evidence, EN/DE UI/landing, import/readiness, System & Diagnostics and RAM/restart correctness |
 | P3 | Shopify/Shopify Payments local import/poll/reconcile, supplemental producers and local read-only MCP |
-| P4 | Fresh real-Mac install, backup/restore/upgrade, smoke/memory tests, DIAG-01–08 proof, safe diagnostics, tester guide and evidence-backed handover |
+| P4 | Real landing download and fresh Mac install (DIST-01–03), backup/restore/upgrade, smoke/memory tests, DIAG-01–08 proof, safe diagnostics, tester guide and evidence-backed handover |
 
 The required capability IDs and acceptance IDs are explicit in delivery-profile.json. The old `first_release` labels in the broad source catalogue do not expand this selection. Keep all future rows and gates visible and unstarted; do not mark them passed or proceed automatically. Missing account/platform access blocks the affected proof, not unrelated development. A restricted preview with pending live tests must be labelled accordingly.
 

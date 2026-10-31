@@ -1262,6 +1262,42 @@
       "evidence_paths": [],
       "blocker": null,
       "delivery_scope": "local_pilot"
+    },
+    {
+      "id": "DIST-01",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "local_pilot"
+    },
+    {
+      "id": "DIST-02",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "local_pilot"
+    },
+    {
+      "id": "DIST-03",
+      "stage": "operations",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null,
+      "delivery_scope": "local_pilot"
     }
   ],
   "active_profile": "local_pilot"

@@ -1,5 +1,5 @@
 {
-  "version": "2.1",
+  "version": "2.2",
   "date": "2026-10-31",
   "note": "Test specifications, not executed tests. Only delivery_scope=local_pilot cases gate the current P0–P4 assignment. Deferred_future cases preserve prior requirements for later review; their release_gate flag is not active in the pilot.",
   "status_enum": [
@@ -17,7 +17,8 @@
     "Conditional extraction check is not applicable only if that optional feature is absent.",
     "Never modify expected business values merely to match an implementation.",
     "Source-capability completion must be backed by the central integration register, current immutable test evidence and independent confirmation; register validation alone is not provider or product proof.",
-    "DIAG-01 through DIAG-08 are mandatory local pilot gates governed by specs/SYSTEM-AND-DIAGNOSTICS.md; preparation checks are not diagnostics implementation evidence."
+    "DIAG-01 through DIAG-08 are mandatory local pilot gates governed by specs/SYSTEM-AND-DIAGNOSTICS.md; preparation checks are not diagnostics implementation evidence.",
+    "DIST-01 through DIST-03 require a real landing-page-to-download-to-install journey as specified in specs/WEB-DESKTOP-AND-DEPLOYMENT.md, not merely a checkout install or placeholder link."
   ],
   "cases": [
     {
@@ -965,6 +966,33 @@
       "release_gate": true,
       "check": "Preview and explicitly export diagnostics through UI and host CLI after an import/query failure and while services are down. Include older log schemas, oversized excerpts, unsafe paths and synthetic customer/secret canaries; inspect bundles/temp cleanup and network traffic. Follow the tester troubleshooting guide.",
       "expected": "Export remains local and explicit, with selected categories/time range, size/truncation/unavailable notices and a 10-MiB bundle cap. Allowlisted versions/runtime/health/error counts and sanitized excerpts preserve correlation through consistent per-bundle pseudonyms, excluding credentials/PII/raw orders/emails/evidence dumps and personal paths. Bounded temporary files expire/clean up; user-selected saved files are distinct. No automatic upload/telemetry. The guide and real observations are accurate; fabricated user-test evidence cannot pass."
+    },
+    {
+      "id": "DIST-01",
+      "category": "download_and_distribution",
+      "stage": "core",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Serve the static landing build and installation guide independently of any Blackbox API/database/local installation. In English and German, use hero/navigation/closing download actions, guide/demo links and keyboard/narrow layouts; exercise no release, preview, unsupported platform, invalid metadata and failed download states.",
+      "expected": "All download actions resolve from the same versioned manifest to the actual supported Mac artifact or show a truthful unavailable state. Version/date/architecture/format/size, prerequisites and EN/DE installation steps are clear before download; no Blackbox signup, implicit demo substitution or unsupported-platform claim. The landing works before installation, contains no embedded private-repo credentials and distinguishes private pilot access from public availability. A disabled preview does not satisfy DIST-02."
+    },
+    {
+      "id": "DIST-02",
+      "category": "download_and_distribution",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "On a fresh real supported Apple Silicon Mac, open the independently served landing page and download the exact advertised release archive through a browser. Verify checksum, extract and follow its localized guide through prerequisite checks, bundled doctor/setup/start, save-key/login and first example answer. Exercise missing prerequisites, restart and an existing-install collision.",
+      "expected": "The downloaded archive works with its pinned accessible prebuilt release images without a Git clone, Rust/Node toolchain or application build. Actual distribution/registry permissions, OS/runtime, artifact hash, image versions and security prompts are recorded. Prerequisites/format are honestly disclosed; no global security bypass, silent prerequisite installation, credential leakage or overwrite/reseed of existing data. The artifact is the version linked by the landing, not a developer checkout or mock. LOCAL-08 and existing recovery/upgrade gates remain required."
+    },
+    {
+      "id": "DIST-03",
+      "category": "download_and_distribution",
+      "stage": "operations",
+      "delivery_scope": "local_pilot",
+      "release_gate": true,
+      "check": "Build and validate the release manifest, archive, checksums, image references and release workflow. Test missing/404/unauthorized assets, incompatible architecture, wrong size/hash/version, corrupt archives, inaccessible image registry and latest-alias promotion before successful download/install evidence. Scan package, landing bundle and logs for credentials/runtime data.",
+      "expected": "The documented WEB-DESKTOP-AND-DEPLOYMENT.md download contract is enforced: immutable versioned assets and manifest/image/guide metadata agree, all CTA destinations are tested and latest promotion waits for matching evidence. Integrity/access/support failures block release promotion and produce honest user guidance; no fake success based on HEAD/build alone, substituted source archive or bundled secrets. Shared asset delivery is HTTPS or explicit isolated localhost testing; public publication remains separately authorized."
     }
   ],
   "active_profile": "local_pilot",

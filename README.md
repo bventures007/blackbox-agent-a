@@ -16,7 +16,7 @@ Use [GOAL.txt](GOAL.txt) as the objective in a Goal-capable agent. [START-HERE.m
 
 ## Pilot experience
 
-- Start the local backend and open the browser; no domain, email signup or external identity service.
+- Download the versioned Mac installation archive from the landing page, follow its English/German guide, start the local backend and open the browser; no domain, email signup or external identity service.
 - Save one generated personal access key. Remembered protected sessions avoid repeated entry; host-only reset preserves business data.
 - One owner/workspace is automatic. Agents get separate named, revocable read-only keys and a local MCP connection.
 - Connect Shopify/Shopify Payments through supported outbound import/polling/reconciliation; run the full synthetic scenario through replay/generic/bank/policy/runtime inputs.
@@ -31,13 +31,14 @@ The TypeScript/Rust/PostgreSQL architecture, append-only journal, exact business
 | File | Purpose |
 | --- | --- |
 | [specs/LOCAL-PILOT.md](specs/LOCAL-PILOT.md) | Current scope, P0–P4, sources, acceptance and stop condition |
-| [delivery-profile.json](delivery-profile.json) | Machine-readable 68 active cases, 37 deferred cases and 68 required capability rows |
+| [delivery-profile.json](delivery-profile.json) | Machine-readable 71 active cases, 37 deferred cases and 68 required capability rows |
 | [BUILD-PROMPT-EN.txt](BUILD-PROMPT-EN.txt) / [AGENTS.md](AGENTS.md) | Implementation assignment and agent rules |
 | [specs/IDENTITY-ACCESS-AND-RECOVERY.md](specs/IDENTITY-ACCESS-AND-RECOVERY.md) | Personal login key, sessions, host reset and separate read-only agents |
+| [specs/WEB-DESKTOP-AND-DEPLOYMENT.md](specs/WEB-DESKTOP-AND-DEPLOYMENT.md#landing-page-download-and-first-install) | Landing download, versioned Mac installation archive, release metadata and actual first-install proof |
 | [specs/SYSTEM-AND-DIAGNOSTICS.md](specs/SYSTEM-AND-DIAGNOSTICS.md) | Measured health, filterable logs, bounded debug/retention, outage CLI and explicit sanitized export |
 | [INTEGRATIONS.md](INTEGRATIONS.md) / [integrations/README.md](integrations/README.md) | Central 127-row source/capability register, work history and independent evidence; current selection comes from the delivery profile |
 | [specs/README.md](specs/README.md) | Journal, performance, source mapping, synchronization and import/readiness contracts |
-| [ACCEPTANCE.json](ACCEPTANCE.json) / [reports/acceptance.json](reports/acceptance.json) | 105 specifications/results, explicitly split into active pilot and deferred future work; no product case has run |
+| [ACCEPTANCE.json](ACCEPTANCE.json) / [reports/acceptance.json](reports/acceptance.json) | 108 specifications/results, explicitly split into active pilot and deferred future work; no product case has run |
 | [GOLDEN-ORDER-TO-CASH.json](GOLDEN-ORDER-TO-CASH.json) / [reference/questions.json](reference/questions.json) | Preserved business oracle and 24 questions |
 | [ARCHITECTURE-EN.txt](ARCHITECTURE-EN.txt) | Local modular foundation and future extension boundaries |
 | [docs/status.md](docs/status.md) / [docs/comparison.md](docs/comparison.md) | Actual progress and fair comparison protocol |
@@ -65,4 +66,4 @@ python3 -m http.server 4173 --bind 127.0.0.1 --directory reference/prototype
 
 Open `http://127.0.0.1:4173/` or `http://127.0.0.1:4173/#app/agents`. This serves the unchanged static reference only. The production `./blackbox` wrapper/access-key login is not implemented yet. Inspect the screenshot catalogue for all pages/states and missing product views; screenshots are not acceptance proof.
 
-The shared input tag is `baseline-v12`; older tags preserve earlier decisions. Compare both builds at the local pilot scope using [REVIEW-PROMPT-EN.txt](REVIEW-PROMPT-EN.txt) and [SCORECARD.json](SCORECARD.json). GitHub Spec Kit is optional and must not delay implementation.
+The shared input tag is `baseline-v13`; older tags preserve earlier decisions. Compare both builds at the local pilot scope using [REVIEW-PROMPT-EN.txt](REVIEW-PROMPT-EN.txt) and [SCORECARD.json](SCORECARD.json). GitHub Spec Kit is optional and must not delay implementation.

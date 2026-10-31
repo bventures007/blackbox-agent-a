@@ -8,7 +8,7 @@ Read [LOCAL-PILOT.md](LOCAL-PILOT.md) and [delivery-profile.json](../delivery-pr
 | [JOURNAL-AND-MCP.md](JOURNAL-AND-MCP.md) | Database append-only journal, five tracks and full authorized business-history reads via local MCP |
 | [PERFORMANCE-ARCHITECTURE.md](PERFORMANCE-ARCHITECTURE.md) / [benchmark contract](../benchmarks/performance-contract.json) | Rust/TypeScript boundary, durable consistency, bounded memory/cold reads and required smoke profile; 10m/100m deferred |
 | [QUESTION-DATA-COVERAGE.md](QUESTION-DATA-COVERAGE.md), [CONNECTOR-CAPABILITIES.md](CONNECTOR-CAPABILITIES.md), [question-data-contracts.json](question-data-contracts.json) | Preserved 24 input/journal/RAM/query contracts and provider research; active source work is selected by the delivery profile |
-| [WEB-DESKTOP-AND-DEPLOYMENT.md](WEB-DESKTOP-AND-DEPLOYMENT.md) | Complete local browser/Compose product and real Mac install; native/public/remote delivery deferred |
+| [WEB-DESKTOP-AND-DEPLOYMENT.md](WEB-DESKTOP-AND-DEPLOYMENT.md) | Local browser/Compose product, landing-page archive download/guide and real Mac install; native/public/remote delivery deferred |
 | [SOURCE-SYNCHRONIZATION.md](SOURCE-SYNCHRONIZATION.md) | local_standalone backfill/poll/reconcile; other modes declared unsupported/deferred |
 | [IMPORT-ONBOARDING-AND-DATA-READINESS.md](IMPORT-ONBOARDING-AND-DATA-READINESS.md) | Date selection, older open/related context, real counters and central Sources/answer readiness |
 | [SYSTEM-AND-DIAGNOSTICS.md](SYSTEM-AND-DIAGNOSTICS.md) | Owner-only health/live log UI, filters/correlation, bounded retention/debug, outage CLI, safe export and DIAG-01–08 pilot gates |

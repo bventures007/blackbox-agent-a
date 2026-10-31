@@ -1,9 +1,9 @@
 BLACKBOX — LOCAL PILOT ARCHITECTURE
-Version 2.1 · Owner-approved local-first delivery. No production app has been implemented by this seed.
+Version 2.2 · Owner-approved local-first delivery. No production app has been implemented by this seed.
 
 The current scope is specs/LOCAL-PILOT.md and delivery-profile.json: P0–P4, then handover and stop for feedback. Future hosting, SaaS, native clients and Passkeys are options, not automatic next milestones. Preserve a modular foundation without implementing their infrastructure now.
 
-One local release contains React/Vite UI and landing page served by Fastify, a TypeScript API/auth/MCP layer and connector worker, a Rust business/query engine, PostgreSQL and local evidence storage. Compose/wrapper commands start it on the user's Mac. Only the authenticated web/API loopback port is exposed. Native packaging is not needed for the pilot. Document prerequisites and prove an actual Apple Silicon install, not just image compilation.
+One local release contains React/Vite UI and landing page served by Fastify, a TypeScript API/auth/MCP layer and connector worker, a Rust business/query engine, PostgreSQL and local evidence storage. Compose/wrapper commands start it on the user's Mac. Only the authenticated web/API loopback port is exposed. Native packaging is not needed for the pilot. Document prerequisites and prove an actual Apple Silicon install, not just image compilation. The independently servable EN/DE landing links a versioned installation archive/guide via shared release metadata. DIST-01–03 verify the actual browser download, hash, pinned image access and fresh first start without a developer checkout; native packaging/public publication remain separate decisions.
 
 One automatic workspace/owner uses a CSPRNG-generated personal bearer login key. A normal browser session avoids repeated key entry. Authentication is not data encryption; a protected host-only reset replaces lost access without deleting business data. Read-only agents have distinct named keys/principals. Use maintained random/verifier/session components and a replaceable authentication boundary. Defer passkeys, employee invites, remote OAuth and fine-grained permission editors. See specs/IDENTITY-ACCESS-AND-RECOVERY.md for exact bootstrap/session/revocation/reset tests.
 

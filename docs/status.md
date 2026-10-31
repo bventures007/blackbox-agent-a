@@ -2,9 +2,9 @@
 
 ## Current assignment
 
-Baseline-v12 / brief 2.1: P0–P4 local pilot, then handover and stop. The owner approved a personal saved access key and local testing before deciding later product/hosting scope. Passkeys, invitations, public SaaS/servers, gateways, native packaging and large capacity certification are deferred. Read delivery-profile.json and specs/LOCAL-PILOT.md.
+Baseline-v13 / brief 2.2: P0–P4 local pilot, then handover and stop. The owner approved a personal saved access key and local testing before deciding later product/hosting scope. Passkeys, invitations, public SaaS/servers, gateways, native packaging and large capacity certification are deferred. Read delivery-profile.json and specs/LOCAL-PILOT.md.
 
-Product implementation has not started. The prototype is static/simulated. No production login, importer, database/engine, local MCP bridge or installer exists yet. All 105 acceptance records remain not_started: 68 active pilot cases and 37 deferred cases. The exact previous 86 case descriptions remain preserved; 11 local cases define the simpler delivery and eight DIAG cases make operational visibility a required part of it. No diagnostics implementation exists yet.
+Product implementation has not started. The prototype is static/simulated. No production login, importer, database/engine, local MCP bridge or installer exists yet. All 108 acceptance records remain not_started: 71 active pilot cases and 37 deferred cases. The exact previous 86 case descriptions remain preserved; 11 local cases define the simpler delivery and eight DIAG cases make operational visibility a required part of it. Three DIST cases additionally require the landing-page download-to-install journey. No diagnostics implementation or actual download artifact exists yet.
 
 ## Milestones
 
@@ -12,7 +12,7 @@ Product implementation has not started. The prototype is static/simulated. No pr
 - [ ] P1 — local key/session, automatic owner/workspace and persisted Rust/journal slice, structured logging and CLI fallback
 - [ ] P2 — Golden Scenario, all 24 query contracts, UI/locales, import/readiness, System & Diagnostics and restart
 - [ ] P3 — Shopify/Shopify Payments and supplemental producers; local agent keys/MCP
-- [ ] P4 — real Mac install, local performance/memory, backup/restore/upgrade, DIAG-01–08 evidence, feedback guide and handover
+- [ ] P4 — real landing download/archive Mac install (DIST-01–03), local performance/memory, backup/restore/upgrade, DIAG-01–08 evidence, feedback guide and handover
 
 ## Preserved foundation
 
@@ -35,3 +35,9 @@ Previous preparation findings and decisions are preserved in docs/history/baseli
 The owner approved a central System & Diagnostics view with source/run links, measured/stale health, common correlated structured logs, filters/live/history, local setup/outage access, bounded seven-day/100-MiB technical retention, 15-minute scoped debug and explicit sanitized export. The new specification defines permissions, redaction, failure behavior, performance bounds and P1–P4 implementation order. DIAG-01–08 are selected release gates; reports remain not_started. Start/Goal/build/review instructions include the new contract. Source capability selection, all previous acceptance semantics, journal/data contracts, integration history and visual references are unchanged.
 
 The question catalogue validator, integration register check against 8d67454b4a8fd3556312bf5160ecbb0655ab0e13, delivery-profile validator and all 45 existing tooling regression tests passed. An additional consistency check confirms all 97 previous acceptance cases are byte-equivalent as parsed records, all 105 results remain not_started, and integration history/source selection, golden data and visual assets are unchanged. These checks verify specification/control consistency only; no runtime, diagnostic feature or product result is claimed.
+
+## Landing download addition for baseline-v13
+
+The owner required installation access directly from the landing page. The local deployment contract now defines prominent consistent EN/DE download actions, independent static landing/guide delivery before backend setup, actual versioned Mac archives with pinned prebuilt images, prerequisites, release metadata/checksums, truthful pending/unsupported/private access states and a tested browser-download-to-first-start journey. DIST-01–03 are active release gates; build/Goal/review entry points include them. This does not authorize public publication or require a native DMG. All 105 previous case definitions, source history and visual/business references are unchanged. All product evidence remains not_started.
+
+The question catalogue validator, integration register check against 1b9de2522960cb48c5499b26d3ade28e81921f5c, delivery-profile validator and all 45 existing tooling regression tests passed. A consistency check confirms all 105 previous case definitions are unchanged, all 108 results remain not_started, and source history/business/reference assets are unchanged. These are preparation checks only; no actual downloadable product or installation proof is claimed.
