@@ -47,7 +47,7 @@ Baseline-v14 / brief 2.3: P0–P4 local pilot, then handover and stop. Implement
 - Acceptance: 62 passed, 16 implemented_unverified, 3 blocked_external, 1 failed (PILOT-09), 1 not_applicable of 83 active cases (`reports/acceptance.json`).
 - Browser journeys: 10/10 passed, desktop and mobile, EN and DE (`tests/evidence/current/playwright.json`, 40 screenshots).
 - Backup, tamper rejection and isolated restore: passed, restore 30 s machine time (`tests/evidence/current/ops-backup-restore.txt`).
-- Release archive 281,854,930 bytes with verified manifest/checksum/landing links; fresh-folder installation from the archive answered the first question with evidence (`tests/evidence/current/dist-*.json`).
+- Release archive 281,859,262 bytes with verified manifest/checksum/landing links; fresh-folder installation from the archive answered the first question with evidence (`tests/evidence/current/dist-*.json`).
 - Integration register: 68 pilot rows with claim, implementation and four passed test kinds each; 40 live tests blocked (no provider access); 0 independent approvals (`INTEGRATIONS.md`).
 - Question coverage: 24/24 positive paths, 24/24 explicit missing-data paths, API/MCP parity for 5 intents (`reports/question-coverage.json`).
 - Performance smoke profile: 15 of 18 measured targets hold; hot-path p99 (API/MCP) and the MCP success fraction miss under the per-workspace concurrency cap — recorded as failed in `reports/performance.json`, not waived.
