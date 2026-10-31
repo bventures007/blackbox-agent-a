@@ -153,7 +153,7 @@ impl Engine {
         for k in keys {
             let needed = { let st = rt.state.read().await; st.is_known(k) && !st.is_resident(k) };
             if !needed { continue; }
-            match self.store.entity_history(tenant, k.0, &k.1, max_sequence, true).await {
+            match self.store.entity_history(tenant, k.0, &k.1, max_sequence, true, true).await {
                 Ok(entries) => { let st = fold_entity(k.0, &k.1, &entries, None); rt.state.write().await.insert_hydrated(k.clone(), st); }
                 Err(e) => self.log.warn("engine.hydration_failed", &format!("{e}"), Fields { tenant_id: Some(tenant.to_string()), error_code: Some("hydration_failed".into()), retryable: Some(true), ..Default::default() }),
             }
@@ -214,7 +214,7 @@ impl Engine {
         if recorded_cutoff.is_some() || effective_at.is_some() {
             // historical as-of answer: bounded replay of the entity's own history, never a reinterpreted cache
             let cutoff = recorded_cutoff.unwrap_or(applied).min(applied);
-            let entries = self.store.entity_history(tenant, kind, entity_id, cutoff, true).await.map_err(|e| (500, e.to_string()))?;
+            let entries = self.store.entity_history(tenant, kind, entity_id, cutoff, true, false).await.map_err(|e| (500, e.to_string()))?;
             if entries.is_empty() { return Ok(json!({"status": "insufficient_data", "entity_type": entity_type, "entity_id": entity_id, "recorded_cutoff": cutoff, "effective_at": effective_at, "state": null})); }
             let st = fold_entity(kind, entity_id, &entries, effective_at);
             let mut tmp = TenantState::new(tenant, 1 << 20); tmp.insert_hydrated((kind, entity_id.to_string()), st);

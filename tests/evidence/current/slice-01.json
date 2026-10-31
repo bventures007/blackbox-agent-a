@@ -1,9 +1,9 @@
 {
   "api": "http://127.0.0.1:19080",
-  "started_at": "2026-10-31T17:48:15.071Z",
-  "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
+  "started_at": "2026-10-31T17:59:00.741Z",
+  "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
   "import_run": {
-    "run_id": "c9644cab-05a3-408b-854c-21f67f1ec593",
+    "run_id": "d9b2f7ef-5238-493a-be74-451961ff1f1a",
     "kind": "initial",
     "state": "complete",
     "counters": {
@@ -11,9 +11,9 @@
       "conflicts": 0,
       "duplicates": 0,
       "total_known": false,
-      "requested_to": "2026-10-31T17:48:15.532Z",
+      "requested_to": "2026-10-31T17:59:00.955Z",
       "orders_fetched": 7,
-      "requested_from": "2026-10-01T17:48:15.532Z",
+      "requested_from": "2026-10-01T17:59:00.955Z",
       "committed_cursor": 88,
       "inventory_snapshots": 3,
       "observations_committed": 31
@@ -31,7 +31,7 @@
   },
   "engine_after_import": {
     "version": "0.1.0-dev",
-    "uptime_seconds": 9,
+    "uptime_seconds": 5,
     "database": "reachable",
     "phase": "current",
     "applied_cursor": 104,
@@ -40,7 +40,7 @@
     "lag_ms": 0,
     "resident_entities": 46,
     "snapshot_sequence": null,
-    "rss_bytes": 7626752,
+    "rss_bytes": 7622656,
     "resident_bytes_total": 23288,
     "log_dropped": 0,
     "debug_active": false
@@ -54,13 +54,13 @@
     "coverage": [
       {
         "capability": "orders",
-        "complete_through": "2026-10-31T17:48:15.532Z",
+        "complete_through": "2026-10-31T17:59:00.955Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "payments",
-        "complete_through": "2026-10-31T17:48:15.532Z",
+        "complete_through": "2026-10-31T17:59:00.955Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -78,12 +78,12 @@
       }
     ],
     "evidence_entry_ids": [
-      "d48bb990-ec36-45d2-8307-96eb8aeaa30a",
-      "721bdaf6-d26c-4bdd-9bbf-7713752bff05",
-      "5d69007e-438c-4f09-8708-24116f46a1b4",
-      "7e92d011-78ec-49f6-b050-9942af74d7a5",
-      "c9b4ae6a-ee01-4576-a5e2-279a0e05f4c7",
-      "a0d79b37-0de1-46ec-95d1-5c2bc7aa3c80"
+      "72caf6e9-e084-4c60-bd5f-040f7b72b7d5",
+      "d8245025-8905-4421-a91d-91aa45f5757b",
+      "ce046986-9c71-4097-9fb7-163f1894a4da",
+      "eb21c488-0ac1-4a6f-b58a-771232a76e56",
+      "b59fb4d8-e38d-40fc-b9de-1502685af724",
+      "d0636a56-7e28-4fb9-b05e-fe94447917c1"
     ],
     "hydration_rounds": 0,
     "intent": "orders.payment_state",
@@ -120,7 +120,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 17,
+    "timing_ms": 6,
     "effective_at": null,
     "recorded_cutoff": 104,
     "readiness": [
@@ -130,12 +130,12 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
+            "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:48:16.959Z",
-            "last_new_record_at": "2026-10-31T17:48:16.805Z",
+            "last_successful_sync_at": "2026-10-31T17:59:01.586Z",
+            "last_new_record_at": "2026-10-31T17:59:01.545Z",
             "collection_state": "ready"
           }
         ],
@@ -147,12 +147,12 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
+            "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:48:16.959Z",
-            "last_new_record_at": "2026-10-31T17:48:16.805Z",
+            "last_successful_sync_at": "2026-10-31T17:59:01.586Z",
+            "last_new_record_at": "2026-10-31T17:59:01.545Z",
             "collection_state": "ready"
           }
         ],
@@ -187,12 +187,12 @@
       "entity_id": "#1001",
       "entity_type": "order",
       "evidence_entry_ids": [
-        "d48bb990-ec36-45d2-8307-96eb8aeaa30a",
-        "721bdaf6-d26c-4bdd-9bbf-7713752bff05",
-        "5d69007e-438c-4f09-8708-24116f46a1b4",
-        "7e92d011-78ec-49f6-b050-9942af74d7a5",
-        "c9b4ae6a-ee01-4576-a5e2-279a0e05f4c7",
-        "a0d79b37-0de1-46ec-95d1-5c2bc7aa3c80"
+        "72caf6e9-e084-4c60-bd5f-040f7b72b7d5",
+        "d8245025-8905-4421-a91d-91aa45f5757b",
+        "ce046986-9c71-4097-9fb7-163f1894a4da",
+        "eb21c488-0ac1-4a6f-b58a-771232a76e56",
+        "b59fb4d8-e38d-40fc-b9de-1502685af724",
+        "d0636a56-7e28-4fb9-b05e-fe94447917c1"
       ],
       "last_sequence": 37,
       "state": {
@@ -231,12 +231,12 @@
         "pending_refund_minor": 0,
         "prov": {
           "entry_ids": [
-            "d48bb990-ec36-45d2-8307-96eb8aeaa30a",
-            "721bdaf6-d26c-4bdd-9bbf-7713752bff05",
-            "5d69007e-438c-4f09-8708-24116f46a1b4",
-            "7e92d011-78ec-49f6-b050-9942af74d7a5",
-            "c9b4ae6a-ee01-4576-a5e2-279a0e05f4c7",
-            "a0d79b37-0de1-46ec-95d1-5c2bc7aa3c80"
+            "72caf6e9-e084-4c60-bd5f-040f7b72b7d5",
+            "d8245025-8905-4421-a91d-91aa45f5757b",
+            "ce046986-9c71-4097-9fb7-163f1894a4da",
+            "eb21c488-0ac1-4a6f-b58a-771232a76e56",
+            "b59fb4d8-e38d-40fc-b9de-1502685af724",
+            "d0636a56-7e28-4fb9-b05e-fe94447917c1"
           ],
           "last_occurred_at": "2026-10-20T13:10:00Z",
           "last_sequence": 37
@@ -284,14 +284,14 @@
   "second_run": {
     "pages": 1,
     "conflicts": 0,
-    "duplicates": 0,
+    "duplicates": 5,
     "total_known": false,
-    "requested_to": "2026-10-31T17:48:15.532Z",
-    "orders_fetched": 7,
-    "requested_from": "2026-10-01T17:48:15.532Z",
-    "committed_cursor": 88,
-    "inventory_snapshots": 3,
-    "observations_committed": 31
+    "requested_to": "2026-10-31T17:59:03.127Z",
+    "orders_fetched": 1,
+    "requested_from": "2026-10-21T15:50:00.000Z",
+    "committed_cursor": 104,
+    "inventory_snapshots": 0,
+    "observations_committed": 0
   },
   "mcp_tools": [
     "describe_business_schema",
@@ -305,7 +305,7 @@
     "list_sources"
   ],
   "order_1001_mcp": {
-    "applied_cursor": 104,
+    "applied_cursor": 120,
     "calculation": [
       "collected = sum of successful captures; remaining = order gross - collected; authorizations, voids and failures are reported separately and never count as collected."
     ],
@@ -313,13 +313,13 @@
     "coverage": [
       {
         "capability": "orders",
-        "complete_through": "2026-10-31T17:48:15.532Z",
+        "complete_through": "2026-10-31T17:59:03.127Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "payments",
-        "complete_through": "2026-10-31T17:48:15.532Z",
+        "complete_through": "2026-10-31T17:59:03.127Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -337,22 +337,22 @@
       }
     ],
     "evidence_entry_ids": [
-      "d48bb990-ec36-45d2-8307-96eb8aeaa30a",
-      "721bdaf6-d26c-4bdd-9bbf-7713752bff05",
-      "5d69007e-438c-4f09-8708-24116f46a1b4",
-      "7e92d011-78ec-49f6-b050-9942af74d7a5",
-      "c9b4ae6a-ee01-4576-a5e2-279a0e05f4c7",
-      "a0d79b37-0de1-46ec-95d1-5c2bc7aa3c80"
+      "72caf6e9-e084-4c60-bd5f-040f7b72b7d5",
+      "d8245025-8905-4421-a91d-91aa45f5757b",
+      "ce046986-9c71-4097-9fb7-163f1894a4da",
+      "eb21c488-0ac1-4a6f-b58a-771232a76e56",
+      "b59fb4d8-e38d-40fc-b9de-1502685af724",
+      "d0636a56-7e28-4fb9-b05e-fe94447917c1"
     ],
     "hydration_rounds": 0,
     "intent": "orders.payment_state",
     "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 104,
+      "snapshot_cursor": 120,
       "truncated": false
     },
-    "required_cursor": 104,
+    "required_cursor": 120,
     "result": {
       "orders": [
         {
@@ -379,9 +379,9 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 23,
+    "timing_ms": 9,
     "effective_at": null,
-    "recorded_cutoff": 104,
+    "recorded_cutoff": 120,
     "readiness": [
       {
         "capability": "orders",
@@ -389,12 +389,12 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
+            "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:48:16.959Z",
-            "last_new_record_at": "2026-10-31T17:48:16.805Z",
+            "last_successful_sync_at": "2026-10-31T17:59:03.159Z",
+            "last_new_record_at": "2026-10-31T17:59:01.545Z",
             "collection_state": "ready"
           }
         ],
@@ -406,12 +406,12 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
+            "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:48:16.959Z",
-            "last_new_record_at": "2026-10-31T17:48:16.805Z",
+            "last_successful_sync_at": "2026-10-31T17:59:03.159Z",
+            "last_new_record_at": "2026-10-31T17:59:01.545Z",
             "collection_state": "ready"
           }
         ],
@@ -433,11 +433,11 @@
       }
     ]
   },
-  "revocation_denial_ms": 9,
+  "revocation_denial_ms": 2,
   "engine_before_restart": [
     {
-      "applied_cursor": 104,
-      "committed_cursor": 104,
+      "applied_cursor": 120,
+      "committed_cursor": 120,
       "known_entities": 46,
       "lag_entries": 0,
       "lag_ms": 0,
@@ -446,7 +446,7 @@
       "ready": true,
       "resident_entities": 46,
       "snapshot_sequence": null,
-      "tenant_id": "5f35b327-9f17-45f1-9e40-c20d89432261"
+      "tenant_id": "f3d8c8d1-ae09-487a-9fe9-ddcb0168e487"
     }
   ],
   "snapshot_removed": "removed",
@@ -462,12 +462,12 @@
       "ready": true,
       "resident_entities": 46,
       "snapshot_sequence": null,
-      "tenant_id": "5f35b327-9f17-45f1-9e40-c20d89432261"
+      "tenant_id": "f3d8c8d1-ae09-487a-9fe9-ddcb0168e487"
     }
   ],
   "latest_committed_cursor": 120,
   "tenant_collision": {
-    "tenant_b": "d02ddcfa-32ea-4323-b0da-59e3b243af65",
+    "tenant_b": "cf92a9ec-33af-4fea-89be-4234d74d233d",
     "visible_to_a": false
   }
 }

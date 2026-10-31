@@ -1,5 +1,5 @@
 {
-  "run_suffix": "6nty",
+  "run_suffix": "o41x",
   "stepwise": [
     {
       "after": "G05",
@@ -47,11 +47,11 @@
     }
   ],
   "full_replay": {
-    "run_id": "745da985-553f-488a-9264-f441866c0ab9",
+    "run_id": "d68a896a-5f57-4cb9-a87e-eed2c66b6176",
     "accepted": 19,
     "duplicates": 0,
     "conflicts": 0,
-    "required_cursor": 422,
+    "required_cursor": 420,
     "synthetic": true
   },
   "final_actual": {
@@ -77,7 +77,7 @@
     "customer_net_paid_minor": 9520
   },
   "second_replay": {
-    "run_id": "25caa933-0c02-4514-a44d-2d4192d69074",
+    "run_id": "e4663194-4dfa-4fab-ba0b-961a2c5ffd75",
     "accepted": 0,
     "duplicates": 19,
     "conflicts": 0,
@@ -85,11 +85,11 @@
     "synthetic": true
   },
   "dup_replay": {
-    "run_id": "382aa6a9-085f-4701-83eb-39d4e2fa9145",
+    "run_id": "c27d3adc-e498-469a-9538-e42b9ed6d300",
     "accepted": 19,
     "duplicates": 38,
     "conflicts": 0,
-    "required_cursor": 522,
+    "required_cursor": 524,
     "synthetic": true
   },
   "scaled_actual": {
@@ -147,10 +147,10 @@
       }
     ],
     "evidence_entry_ids": [
-      "27109620-0e74-4218-a4c4-d2e9f0133c3a",
-      "3220fa94-b393-4176-8b8b-bc51fb4ec1fa",
-      "3699aab0-13b3-4939-b554-35caa87d8820",
-      "e7daf95d-5e23-4758-a8bf-4465d8981481"
+      "4e5d49f1-92c1-410a-b561-fe80529fc10f",
+      "9a1e22b3-30b4-4e20-94bd-0aa3b98d9568",
+      "d13a0231-acd0-4f6f-a12d-486868a5b080",
+      "d1e64c4f-b20b-4d78-bfbf-d5bcda4bd5fe"
     ],
     "hydration_rounds": 0,
     "intent": "payouts.missing_bank_confirmation",
@@ -171,7 +171,7 @@
           "conclusion": "no_evidence_in_imported_interval",
           "currency": "EUR",
           "issued_at": "2026-10-31T09:18:00+00:00",
-          "payout_id": "OUT-1001-nobank6nty",
+          "payout_id": "OUT-1001-nobanko41x",
           "state": "sent",
           "trace_reference": null
         }
@@ -185,7 +185,7 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 8,
+    "timing_ms": 7,
     "effective_at": null,
     "recorded_cutoff": 703,
     "readiness": [
@@ -195,12 +195,12 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "connection_id": "9649263a-9dff-4b45-9e12-7fe97ac925cd",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
-            "last_new_record_at": "2026-10-31T17:48:34.399Z",
+            "last_successful_sync_at": "2026-10-31T17:59:13.425Z",
+            "last_new_record_at": "2026-10-31T17:59:13.425Z",
             "collection_state": "ready"
           }
         ],
@@ -212,12 +212,12 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "connection_id": "9649263a-9dff-4b45-9e12-7fe97ac925cd",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:48:34.101Z",
-            "last_new_record_at": "2026-10-31T17:48:34.101Z",
+            "last_successful_sync_at": "2026-10-31T17:59:13.087Z",
+            "last_new_record_at": "2026-10-31T17:59:13.087Z",
             "collection_state": "ready"
           }
         ],
@@ -236,7 +236,7 @@
         "readiness": "blocked",
         "sources": [
           {
-            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "connection_id": "9649263a-9dff-4b45-9e12-7fe97ac925cd",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -294,31 +294,31 @@
       }
     ],
     "evidence_entry_ids": [
-      "35b29cb4-28da-4b64-9775-2fed937a4607",
-      "571d4c0a-ed73-42e8-8973-098a936be3f4",
-      "f3b0e77a-1895-44a2-851d-25fce278166f",
-      "03c7eb42-5521-4827-b740-a68a5b103756",
-      "ab1a9c0b-07ae-471d-a7ba-5252d32017f6",
-      "4e9a98a3-ac7b-4ca7-8a92-7c2560d91d1d",
-      "0f115678-d85b-44ec-9ca5-5efcc77627c8",
-      "c89d01fe-f08a-46f0-8310-5d6e7b06b74a",
-      "1a8db786-f3a0-4f81-95a2-b0dabac77834",
-      "d1c20fd5-97e2-4a13-9016-c8b7ae15a186",
-      "125d54c5-d346-4bc9-a126-57351a7771f0",
-      "bf4b6d7a-333e-4da3-b29f-796c7911aa54",
-      "1d5c3ba3-6754-4a41-be92-e53bed72636e",
-      "d44fdf4e-9aee-4f40-ac15-c55ec89b4698",
-      "d9ef773f-37b2-4610-ad1e-b48d89f51afe",
-      "fc39c367-063d-4a6e-b295-0cb37ad41b03",
-      "8667c667-75e0-4c1f-91a1-6179e85af926",
-      "759379cc-9755-437b-90e1-9801838a9b66",
-      "50eb9c4c-0fc3-4815-8644-1cc56fa4b500",
-      "bb5b2491-066e-48cf-bc83-ae0b37e9f0d3",
-      "e359e80a-9361-4f0c-ae5c-9b49c1b4ba8e",
-      "e7981eaa-8ccd-4307-8375-d361210cf84b",
-      "dddf5532-2927-47cb-b214-509d2d93cc45",
-      "23f16c10-ac55-4b0d-a033-19ab60d0bc04",
-      "34ebb685-7889-4447-a00f-3ab375846cb9"
+      "cc3cfdf8-7dbb-4dff-8bd2-7c697d469716",
+      "fc761943-dcc6-48a0-aa49-5fff3fbfa86f",
+      "bb2efd8f-7444-4e49-beb4-eaa5e3cc420c",
+      "7419926f-672e-40f1-939a-16aa2e090a23",
+      "26e67d04-02a8-4e65-885b-7c30c0b4de6c",
+      "76d2ce22-031f-4902-9abf-a726ac80e359",
+      "ffdb6dee-d03d-44f7-91fe-c15c5b45294d",
+      "eb151279-4bf4-427f-abb2-d5bf44f5cbda",
+      "0012d42f-3295-4e11-984a-40b8b3bcaf1d",
+      "e5116b34-31c1-4da3-9703-3b0b20857a51",
+      "fddafb7b-455a-4ceb-8055-42baa194a324",
+      "b896123a-1711-4838-aaab-b67d1fcadb9c",
+      "43f2dad9-3e59-4128-9e90-9978b63215ac",
+      "d066ea30-6eea-44b4-aa9e-1d904ed318f4",
+      "8c7e62c4-f3e4-4cc6-a15a-462a191401b3",
+      "e5d7fa38-1ab8-4420-b4ac-ae36bada0e48",
+      "f67cc30f-6dd6-45b8-8c59-20586bd0985e",
+      "2ea5e8af-c123-4a65-ba90-3c30c7cdd236",
+      "0a0801d5-fef4-439d-bdf4-0a0fa9f8cfc8",
+      "f1139c59-a382-4632-a2fe-073ef28ea277",
+      "3e896f45-33db-48fb-8900-1639e990e069",
+      "9b85554f-4c4a-4569-87d4-ff242f986215",
+      "46acc7d7-2ae3-42fd-bccc-2350098a5886",
+      "64394d31-e10a-4a9f-aa29-1c540a21bbfd",
+      "0d77d09c-fdde-40e1-84d1-fc50427d9be8"
     ],
     "hydration_rounds": 0,
     "intent": "credits.refund_gaps",
@@ -341,7 +341,7 @@
           "completed_cash_refund_minor": 2380,
           "credit_minor": 2380,
           "currency": "EUR",
-          "invoice_id": "INV-1001-dup6nty",
+          "invoice_id": "INV-1001-dupo41x",
           "original_capture_minor": 11900
         },
         {
@@ -351,7 +351,7 @@
           "completed_cash_refund_minor": 2380,
           "credit_minor": 2380,
           "currency": "EUR",
-          "invoice_id": "INV-1001-full6nty",
+          "invoice_id": "INV-1001-fullo41x",
           "original_capture_minor": 11900
         },
         {
@@ -361,7 +361,7 @@
           "completed_cash_refund_minor": 2380,
           "credit_minor": 2380,
           "currency": "EUR",
-          "invoice_id": "INV-1001-nobank6nty",
+          "invoice_id": "INV-1001-nobanko41x",
           "original_capture_minor": 11900
         },
         {
@@ -371,7 +371,7 @@
           "completed_cash_refund_minor": 2380,
           "credit_minor": 2380,
           "currency": "EUR",
-          "invoice_id": "INV-1001-step6nty",
+          "invoice_id": "INV-1001-stepo41x",
           "original_capture_minor": 11900
         },
         {
@@ -381,14 +381,14 @@
           "completed_cash_refund_minor": 7140,
           "credit_minor": 7140,
           "currency": "EUR",
-          "invoice_id": "INV-1001-x36nty",
+          "invoice_id": "INV-1001-x3o41x",
           "original_capture_minor": 35700
         }
       ]
     },
     "rule_version": "r1",
     "status": "partial",
-    "timing_ms": 6,
+    "timing_ms": 5,
     "effective_at": null,
     "recorded_cutoff": 703,
     "readiness": [
@@ -398,12 +398,12 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "connection_id": "9649263a-9dff-4b45-9e12-7fe97ac925cd",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
-            "last_new_record_at": "2026-10-31T17:48:34.399Z",
+            "last_successful_sync_at": "2026-10-31T17:59:13.425Z",
+            "last_new_record_at": "2026-10-31T17:59:13.425Z",
             "collection_state": "ready"
           }
         ],
@@ -415,21 +415,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
+            "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
-            "last_new_record_at": "2026-10-31T17:48:16.805Z",
+            "last_successful_sync_at": "2026-10-31T17:59:03.159Z",
+            "last_new_record_at": "2026-10-31T17:59:01.545Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "connection_id": "9649263a-9dff-4b45-9e12-7fe97ac925cd",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
-            "last_new_record_at": "2026-10-31T17:48:34.399Z",
+            "last_successful_sync_at": "2026-10-31T17:59:13.425Z",
+            "last_new_record_at": "2026-10-31T17:59:13.425Z",
             "collection_state": "ready"
           }
         ],
@@ -441,7 +441,7 @@
         "readiness": "blocked",
         "sources": [
           {
-            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "connection_id": "9649263a-9dff-4b45-9e12-7fe97ac925cd",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -458,21 +458,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "361b6be8-ffdb-481d-9013-79268a35fa3c",
+            "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:48:18.781Z",
-            "last_new_record_at": "2026-10-31T17:48:16.805Z",
+            "last_successful_sync_at": "2026-10-31T17:59:03.159Z",
+            "last_new_record_at": "2026-10-31T17:59:01.545Z",
             "collection_state": "ready"
           },
           {
-            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "connection_id": "9649263a-9dff-4b45-9e12-7fe97ac925cd",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:48:34.399Z",
-            "last_new_record_at": "2026-10-31T17:48:34.399Z",
+            "last_successful_sync_at": "2026-10-31T17:59:13.425Z",
+            "last_new_record_at": "2026-10-31T17:59:13.425Z",
             "collection_state": "ready"
           }
         ],
@@ -491,7 +491,7 @@
         "readiness": "blocked",
         "sources": [
           {
-            "connection_id": "72586c4e-c9ac-43d3-8707-d53dd270a9de",
+            "connection_id": "9649263a-9dff-4b45-9e12-7fe97ac925cd",
             "provider": "replay",
             "display_name": "Golden example",
             "health": "configured",
@@ -505,12 +505,12 @@
     ]
   },
   "bitemporal": {
-    "cutoff": 410,
+    "cutoff": 409,
     "before": {
       "allocated_minor": 0,
-      "credits_minor": 0,
-      "net_minor": 11900,
-      "refund_payable_from_credits_minor": 0,
+      "credits_minor": 2380,
+      "net_minor": 9520,
+      "refund_payable_from_credits_minor": 2380,
       "reported_open_minor": 0
     },
     "after": {
