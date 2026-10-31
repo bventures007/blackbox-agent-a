@@ -1,0 +1,77 @@
+{
+  "kind": "fenced_evidence_disposal_and_older_backup_policy",
+  "status": "passed",
+  "tested_commit": "74463df6de343f832cc2a02a127d47b8c56edfdc",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T18:53:01.815242+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stages": [
+      "work/policy-source-031c1ea54344",
+      "work/policy-restored-031c1ea54344",
+      "work/policy-no-ledger-031c1ea54344"
+    ],
+    "ports": [
+      18781,
+      18783,
+      18785
+    ],
+    "node_image_source_commit": "4850531",
+    "engine_image_source_commit": "4850531",
+    "node_image": "sha256:2d8acb446f79d907e04a6b3360c14bb921cbd175792d1cd964b1f1e4ef91a91d",
+    "engine_image": "sha256:78f628a59d38db420d932b915f41db8b72f52ae2b0c64334f49ef7c66ce8fb6f"
+  },
+  "checks": [
+    "restriction_is_durable_before_removal_and_unsafe_file_leaves_persistent_fence",
+    "explicit_resume_removes_only_restricted_owned_file_and_preserves_business_cutoff",
+    "older_restore_blocks_raw_and_wrong_MAC_or_stale_ledgers_cannot_open_it",
+    "newer_authenticated_ledger_merges_purges_before_raw_guard_release_and_survives_restart_API_MCP",
+    "no_newer_ledger_keeps_raw_blocked_until_explicit_exact_owner_cutoff_reconciliation_sources_stay_blocked"
+  ],
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18781",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-6d75c41489ef-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-6d75c41489ef-postgres-1  Running\n Container blackbox-a-6d75c41489ef-api-1  Creating\n Container blackbox-a-6d75c41489ef-worker-1  Creating\n Container blackbox-a-6d75c41489ef-engine-1  Creating\n Container blackbox-a-6d75c41489ef-engine-1  Created\n Container blackbox-a-6d75c41489ef-worker-1  Created\n Container blackbox-a-6d75c41489ef-api-1  Created\n Container blackbox-a-6d75c41489ef-postgres-1  Waiting\n Container blackbox-a-6d75c41489ef-postgres-1  Waiting\n Container blackbox-a-6d75c41489ef-postgres-1  Waiting\n Container blackbox-a-6d75c41489ef-postgres-1  Healthy\n Container blackbox-a-6d75c41489ef-engine-1  Starting\n Container blackbox-a-6d75c41489ef-postgres-1  Healthy\n Container blackbox-a-6d75c41489ef-worker-1  Starting\n Container blackbox-a-6d75c41489ef-postgres-1  Healthy\n Container blackbox-a-6d75c41489ef-api-1  Starting\n Container blackbox-a-6d75c41489ef-engine-1  Started\n Container blackbox-a-6d75c41489ef-api-1  Started\n Container blackbox-a-6d75c41489ef-worker-1  Started\n"
+    },
+    {
+      "command": "/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/blackbox restore resume --to /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/policy-restored-031c1ea54344",
+      "exit_code": 0,
+      "observed": "Restore validated. Save the newly issued owner key; old owner, agent and browser access has been revoked.\r\nWiederherstellung gepr\u00fcft. Speichere den neuen Eigent\u00fcmerschl\u00fcssel; alte Eigent\u00fcmer-, Agenten- und Browserzugriffe sind widerrufen.\r\n\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-e1b4671dacc2-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nRestored local application: http://127.0.0.1:18783\r\nRaw evidence and provider collection remain blocked until host policy/account reconciliation.\r\nOriginalbelege und Anbieterabrufe bleiben bis zur Richtlinien- und Kontenpr\u00fcfung am Host gesperrt.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-e1b4671dacc2-postgres-1  Running\n Container blackbox-a-e1b4671dacc2-engine-1  Created\n Container blackbox-a-e1b4671dacc2-worker-1  Created\n Container blackbox-a-e1b4671dacc2-api-1  Created\n Container blackbox-a-e1b4671dacc2-postgres-1  Waiting\n Container blackbox-a-e1b4671dacc2-postgres-1  Waiting\n Container blackbox-a-e1b4671dacc2-postgres-1  Waiting\n Container blackbox-a-e1b4671dacc2-postgres-1  Healthy\n Container blackbox-a-e1b4671dacc2-postgres-1  Healthy\n Container blackbox-a-e1b4671dacc2-worker-1  Starting\n Container blackbox-a-e1b4671dacc2-postgres-1  Healthy\n Container blackbox-a-e1b4671dacc2-api-1  Starting\n Container blackbox-a-e1b4671dacc2-engine-1  Starting\n Container blackbox-a-e1b4671dacc2-worker-1  Started\n Container blackbox-a-e1b4671dacc2-engine-1  Started\n Container blackbox-a-e1b4671dacc2-api-1  Started\n"
+    },
+    {
+      "command": "/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/blackbox restore resume --to /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/policy-no-ledger-031c1ea54344",
+      "exit_code": 0,
+      "observed": "Restore validated. Save the newly issued owner key; old owner, agent and browser access has been revoked.\r\nWiederherstellung gepr\u00fcft. Speichere den neuen Eigent\u00fcmerschl\u00fcssel; alte Eigent\u00fcmer-, Agenten- und Browserzugriffe sind widerrufen.\r\n\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-4d51fddf1942-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nRestored local application: http://127.0.0.1:18785\r\nRaw evidence and provider collection remain blocked until host policy/account reconciliation.\r\nOriginalbelege und Anbieterabrufe bleiben bis zur Richtlinien- und Kontenpr\u00fcfung am Host gesperrt.\r\n"
+    }
+  ],
+  "snapshot": {
+    "postgres_major": 17,
+    "heads": [
+      {
+        "tenant_id": "da0f6fd1-f3d7-4b09-a650-e492a219aedd",
+        "committed": 55,
+        "applied": 55,
+        "record_count": 0
+      }
+    ],
+    "journal_count": 55
+  },
+  "elapsed_seconds": 435.863,
+  "limitations": [
+    "Synthetic small corpus, not the performance smoke or real-provider retention certification",
+    "Same Mac with fresh isolated volumes; no distribution archive or second machine claim",
+    "No external-copy erasure guarantee; explicit no-ledger reconciliation cannot recover unknown later restrictions",
+    "Periodic automatic purge, full field inventory/provider mapping audit and independent acceptance remain separate work"
+  ]
+}

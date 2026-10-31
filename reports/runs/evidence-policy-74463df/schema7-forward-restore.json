@@ -1,0 +1,25 @@
+{
+  "kind": "known_schema7_to_schema8_isolated_backup_restore",
+  "status": "passed",
+  "tested_commit": "74463df6de343f832cc2a02a127d47b8c56edfdc",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T18:52:33.243326+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/schema7-forward-adca8684cf30",
+    "port": 18787,
+    "node_image_source_commit": "4850531",
+    "engine_image_source_commit": "4850531"
+  },
+  "checks": [
+    "exact_schema7_archive_metadata_accepted_before_target_creation",
+    "complete_known_migration_prefix_plus_runtime_then_additive_schema8",
+    "existing_source_context_backfilled_without_journal_rewrite",
+    "new_owner_API_and_actual_SDK_MCP_preserve_11900_capture_2380_refund_with_raw_provider_guards"
+  ],
+  "elapsed_seconds": 79.822,
+  "limitations": [
+    "Prior synthetic 55-row archive only; no populated in-place upgrade, distribution, performance or independent acceptance claim",
+    "Probe source is preserved with its evidence; separate private recovery key is never included"
+  ]
+}
