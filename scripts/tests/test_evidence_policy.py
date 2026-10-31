@@ -1,7 +1,7 @@
 import datetime,hashlib,hmac,json,os,pathlib,sys,tempfile,unittest,uuid
 from unittest.mock import patch
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]))
-from evidence_policy import canonical,verified_ledger,remove_owned_file,merge_ledger,purge_fenced,combine_ledgers,known_ledgers,assert_known_ledgers_applied,ZERO
+from evidence_policy import canonical,verified_ledger,remove_owned_file,merge_ledger,purge_fenced,combine_ledgers,known_ledgers,assert_known_ledgers_applied,envelope as sign_envelope,ZERO
 from host_runtime import RuntimeConfigError
 
 class EvidencePolicyTests(unittest.TestCase):
@@ -48,6 +48,12 @@ class EvidencePolicyTests(unittest.TestCase):
   result=combine_ledgers([a,b]);self.assertEqual({r['evidence_id']for r in result['restrictions']},{row['evidence_id'],other['evidence_id']})
   policy={'tenant_id':tenant,'policy_id':str(uuid.uuid4()),'connection_id':None,'evidence_class':None,'days':7,'principal_id':ZERO,'reason':'minimize_content','created_at':self.payload['exported_at']}
   with self.assertRaisesRegex(RuntimeConfigError,'record conflict'):combine_ledgers([{**self.payload,'policies':[policy]},{**self.payload,'policies':[{**policy,'days':90}]}])
+ def test_signed_checkpoint_budget_uses_exact_durable_json_not_only_compact_bytes(self):
+  with patch('evidence_policy.identity',return_value=self.key):
+   signed=sign_envelope(self.root,self.payload)
+   compact=len(canonical(signed));durable=len(json.dumps(signed,sort_keys=True).encode())+1;self.assertGreater(durable,compact)
+   with patch('evidence_policy.MAX_LEDGER',compact),self.assertRaisesRegex(RuntimeConfigError,'durable-file budget'):sign_envelope(self.root,self.payload)
+   with patch('evidence_policy.MAX_LEDGER',durable):self.assertEqual(sign_envelope(self.root,self.payload),signed)
  def test_purge_commits_intent_before_unlink_and_resumes_absent_file(self):
   tenant=str(uuid.uuid4());evidence=str(uuid.uuid4());directory=self.root/'.runtime/evidence'/tenant;directory.mkdir(parents=True,mode=0o700);directory.parent.chmod(0o700);file=directory/evidence;file.write_bytes(b'encrypted');file.chmod(0o600)
   events=[]

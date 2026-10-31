@@ -50,7 +50,11 @@ def combine_ledgers(payloads):
  return value
 
 def envelope(root,payload):
- return {'payload':payload,'mac':hmac.new(identity(root),b'blackbox-evidence-ledger-v1\0'+canonical(payload),hashlib.sha256).hexdigest()}
+ value={'payload':payload,'mac':hmac.new(identity(root),b'blackbox-evidence-ledger-v1\0'+canonical(payload),hashlib.sha256).hexdigest()}
+ # atomic_json's durable representation includes spaces and a newline. Bound
+ # that exact representation too, so a saved checkpoint is always readable.
+ if len(json.dumps(value,sort_keys=True).encode())+1>MAX_LEDGER:raise RuntimeConfigError('Policy ledger durable-file budget exceeded.')
+ return value
 
 def assert_known_ledgers_applied(root):
  # Backup/export cannot publish old policy state over known later restrictions.
