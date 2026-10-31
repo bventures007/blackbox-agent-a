@@ -25,6 +25,8 @@ export const recordGermanFields: Record<string, string> = {
   incoming: "Erwarteter Eingang",
   snapshot_id: "Momentaufnahme-ID",
   stock_snapshot_id: "Bestandsaufnahme-ID",
+  snapshot_scope: "Umfang der Momentaufnahme",
+  allocation_ids: "Enthaltene Zuordnungen",
   limitations: "Einschränkungen",
   order_id: "Auftrags-ID",
   supply_id: "Zulieferungs-ID",

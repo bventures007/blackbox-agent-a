@@ -13,6 +13,7 @@ import { minor } from "./shopify.js";
 import type { resolveImportSelection } from "../contracts/import-plan.js";
 export type ImportParameters = ReturnType<typeof resolveImportSelection> & {
   restrictions?: string[];
+  allocation_scope_categories?: string[];
 };
 export type Checkpoint = {
   from: string;

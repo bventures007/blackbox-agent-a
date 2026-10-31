@@ -7,6 +7,7 @@ import {
   validateShopify,
   revision,
   requireCapabilityScopes,
+  allocationScopeCategories,
 } from "../connectors/shopify-client.js";
 import {
   importSelection,
@@ -21,11 +22,12 @@ export const scheduledCapabilities = [
   "refunds",
   "stock",
   "fulfillments",
+  "allocations",
 ] as const;
 export const startImport = z
   .object({
     selection: importSelection,
-    capabilities: z.array(z.enum(scheduledCapabilities)).min(1).max(5),
+    capabilities: z.array(z.enum(scheduledCapabilities)).min(1).max(6),
     acknowledge_restrictions: z.boolean().default(false),
   })
   .strict();
@@ -161,7 +163,10 @@ export async function planPreview(
     for (const capability of body.capabilities)
       requireCapabilityScopes(source.scopes, capability);
     return {
-      parameters,
+      parameters: {
+        ...parameters,
+        allocation_scope_categories: allocationScopeCategories(source.scopes),
+      },
       capabilities: [...new Set(body.capabilities)],
       provider_revision: revision,
       restrictions: [
@@ -175,6 +180,12 @@ export async function planPreview(
               "inventory_current_snapshot_only",
               "inventory_non_atomic_locations",
               "inventory_scan_bounded",
+            ]
+          : []),
+        ...(body.capabilities.includes("allocations")
+          ? [
+              "allocation_assignments_not_reservations",
+              "allocation_accessible_subset",
             ]
           : []),
         ...(body.capabilities.includes("fulfillments")

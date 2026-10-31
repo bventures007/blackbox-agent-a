@@ -638,6 +638,10 @@ export const semanticNames: Record<string, [string, string]> = {
     "Amount due; case context is unknown",
     "Betrag fällig; Fallkontext unbekannt",
   ],
+  cancel_assignment: [
+    "Cancel fulfillment assignment",
+    "Zuordnung zur Auslieferung aufheben",
+  ],
   release_reservation: ["Release reservation", "Reservierung freigeben"],
   verify_return_receipt: ["Verify return receipt", "Retoureneingang prüfen"],
   verify_handover: ["Verify physical handover", "Physische Übergabe prüfen"],

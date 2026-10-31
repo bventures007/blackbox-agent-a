@@ -247,6 +247,7 @@ mod tests {
 pub fn record_tracks(record: &serde_json::Value) -> &'static [&'static str] {
     match record["dataset"].as_str().unwrap_or("") {
         "orders" | "invoices" | "supply" | "promises" | "entitlements" => &["fact", "commitment"],
+        "allocations" if record["basis"] == "derived_plan" => &["fact"],
         "allocations" | "holds" => &["fact", "reservation"],
         "payments" if record["status"] == "captured" => &["fact", "movement"],
         "refunds" if record["status"] == "completed" && record["destination"] == "cash" => {
@@ -273,6 +274,14 @@ mod record_track_tests {
     use serde_json::json;
     #[test]
     fn fulfillment_preparation_has_no_physical_tracks() {
+        assert_eq!(
+            record_tracks(&json!({"dataset":"allocations","basis":"derived_plan"})),
+            &["fact"]
+        );
+        assert_eq!(
+            record_tracks(&json!({"dataset":"allocations","basis":"observed_reservation"})),
+            &["fact", "reservation"]
+        );
         for state in ["prepared", "label", "failed", "cancelled"] {
             assert_eq!(
                 record_tracks(&json!({"dataset":"fulfillments","state":state})),

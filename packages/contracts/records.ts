@@ -97,6 +97,7 @@ export const datasetRecord = z.discriminatedUnion("dataset", [
     status: z.enum(["active", "released"]),
     supply_id: id.optional(),
     basis: z.enum(["observed_reservation", "derived_plan"]),
+    snapshot_scope: id.optional(),
     policy_id: id.optional(),
   }),
   record("supply", {
@@ -342,6 +343,7 @@ export const datasetRecord = z.discriminatedUnion("dataset", [
       .enum(["event_history", "snapshot_only", "mixed"])
       .optional(),
     stock_snapshot_id: id.optional(),
+    allocation_ids: z.array(id).max(248).optional(),
     limitations: z
       .array(
         z

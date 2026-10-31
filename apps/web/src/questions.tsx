@@ -389,7 +389,16 @@ export function Questions({
                         ? locale === "de"
                           ? "Die Bestandsaufnahme gilt nur am angegebenen Stichtag und liefert keinen historischen Anfangsbestand."
                           : "The snapshot applies only at its declared cutoff and does not provide a historical opening balance."
-                        : code}
+                        : code ===
+                            "allocations.assignments_not_stock_reservations"
+                          ? locale === "de"
+                            ? "Standortzuordnungen belegen keine tatsächlichen Bestandsreservierungen."
+                            : "Location assignments do not prove actual stock reservations."
+                          : code === "allocations.accessible_subset_only"
+                            ? locale === "de"
+                              ? "Nur durch die erteilten Berechtigungen zugängliche Auslieferungsaufträge sind enthalten."
+                              : "Only fulfillment orders accessible under the granted permissions are included."
+                            : code}
                   </li>
                 ))}
               </ul>

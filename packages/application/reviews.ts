@@ -20,6 +20,7 @@ import {
 } from "../connectors/shopify-source.js";
 import type { PoolClient } from "pg";
 import { normalizeStock } from "../connectors/shopify-stock.js";
+import { normalizeAllocations } from "../connectors/shopify-allocations.js";
 import { normalizeFulfillments } from "../connectors/shopify-fulfillments.js";
 
 const catalogue = JSON.parse(
@@ -250,32 +251,43 @@ export async function decideReview(
               }
             : raw;
       const normalized =
-        item.capability === "stock"
-          ? await normalizeStock(
-              raw.source_scope === "inventory_item_snapshot" ? raw.item : raw,
+        item.capability === "allocations"
+          ? await normalizeAllocations(
+              raw.source_scope === "allocation_order_snapshot" &&
+                !raw.openingAssignmentsDeclined
+                ? raw.order
+                : raw,
               item.connection_id,
               item.parameters as ImportParameters,
-              raw.source_scope === "inventory_item_snapshot"
-                ? raw.through
-                : item.checkpoint.through,
-              raw.synthetic === true,
+              item.checkpoint.stage,
+              raw.through ?? item.checkpoint.through,
             )
-          : item.capability === "fulfillments"
-            ? await normalizeFulfillments(
-                replayRaw,
+          : item.capability === "stock"
+            ? await normalizeStock(
+                raw.source_scope === "inventory_item_snapshot" ? raw.item : raw,
                 item.connection_id,
                 item.parameters as ImportParameters,
-                item.checkpoint.stage,
-                item.checkpoint.through,
+                raw.source_scope === "inventory_item_snapshot"
+                  ? raw.through
+                  : item.checkpoint.through,
+                raw.synthetic === true,
               )
-            : await normalizeSourceOrder(
-                replayRaw,
-                item.connection_id,
-                item.account_anchor,
-                item.capability,
-                item.parameters as ImportParameters,
-                item.checkpoint.stage === "open" ? "open" : "recent",
-              );
+            : item.capability === "fulfillments"
+              ? await normalizeFulfillments(
+                  replayRaw,
+                  item.connection_id,
+                  item.parameters as ImportParameters,
+                  item.checkpoint.stage,
+                  item.checkpoint.through,
+                )
+              : await normalizeSourceOrder(
+                  replayRaw,
+                  item.connection_id,
+                  item.account_anchor,
+                  item.capability,
+                  item.parameters as ImportParameters,
+                  item.checkpoint.stage === "open" ? "open" : "recent",
+                );
       const original = normalized.find((o) => o.object_id === item.object_id);
       const group = original
         ? [original]

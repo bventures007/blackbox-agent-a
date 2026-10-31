@@ -109,12 +109,27 @@ export async function shopifyGraphql(
 }
 export const identityQuery =
   "query BlackboxIdentity { shop { id ianaTimezone } currentAppInstallation { accessScopes { handle } } }";
+export function allocationScopeCategories(scopes: string[]) {
+  return ["assigned", "merchant_managed", "third_party"].filter((category) =>
+    scopes.some((s) =>
+      ["read_", "write_"].some(
+        (prefix) => s === prefix + category + "_fulfillment_orders",
+      ),
+    ),
+  );
+}
 export function requireCapabilityScopes(scopes: string[], capability: string) {
   if (
     capability === "stock" &&
     !scopes.some((s) => ["read_inventory", "write_inventory"].includes(s))
   )
     throw new ProviderError("provider_read_inventory_required", 0, true);
+  if (capability === "allocations" && !allocationScopeCategories(scopes).length)
+    throw new ProviderError(
+      "provider_read_fulfillment_orders_required",
+      0,
+      true,
+    );
 }
 export async function validateShopify(input: unknown, signal?: AbortSignal) {
   const credentials = await authorizeShopify(input, signal),

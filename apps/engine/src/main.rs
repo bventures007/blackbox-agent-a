@@ -139,7 +139,7 @@ async fn apply(
         {
             end += 1;
             sqlx::query("INSERT INTO bb.journal(tenant_id,sequence,entry_id,record_type,record_id,event_type,schema_version,connection_id,entity_id,provider_identity,occurred_at,payload,payload_hash,evidence_id,input_entry_id,rule_version,correlation_id) SELECT tenant_id,$1,$2,$3,record_id,event_type,schema_version,connection_id,entity_id,provider_identity,occurred_at,payload,payload_hash,evidence_id,entry_id,$4,correlation_id FROM bb.journal WHERE entry_id=$5")
-    .bind(end).bind(Uuid::new_v4()).bind(track).bind(if obs.record.is_some() { "records-v2" } else { RULE_VERSION }).bind(r.get::<Uuid,_>("entry_id")).execute(&mut *tx).await.map_err(|_|error("derivation_failed"))?;
+    .bind(end).bind(Uuid::new_v4()).bind(track).bind(if obs.record.is_some() { "records-v3" } else { RULE_VERSION }).bind(r.get::<Uuid,_>("entry_id")).execute(&mut *tx).await.map_err(|_|error("derivation_failed"))?;
         }
         if let Some(record) = &obs.record {
             let dataset = record["dataset"]

@@ -104,16 +104,23 @@ app.post("/admin/api/2026-10/graphql.json", async (req) => {
   }
   if (
     body.query.includes("BlackboxSource") ||
-    body.query.includes("BlackboxFulfillment")
+    body.query.includes("BlackboxFulfillment") ||
+    body.query.includes("BlackboxAllocation")
   ) {
     sourceRequests.push({
-      query: body.query.includes("BlackboxSourceLines")
-        ? "lines"
-        : body.query.includes("BlackboxFulfillmentLines")
-          ? "fulfillment_lines"
-          : body.query.includes("BlackboxFulfillments")
-            ? "fulfillments"
-            : "orders",
+      query: body.query.includes("BlackboxAllocationLines")
+        ? "allocation_lines"
+        : body.query.includes("BlackboxAllocationGroups")
+          ? "allocation_groups"
+          : body.query.includes("BlackboxAllocations")
+            ? "allocations"
+            : body.query.includes("BlackboxSourceLines")
+              ? "lines"
+              : body.query.includes("BlackboxFulfillmentLines")
+                ? "fulfillment_lines"
+                : body.query.includes("BlackboxFulfillments")
+                  ? "fulfillments"
+                  : "orders",
       variables: body.variables,
     });
     if (sourceScenario.rate_limit) {
@@ -129,6 +136,41 @@ app.post("/admin/api/2026-10/graphql.json", async (req) => {
       };
     }
     const orders = sourceScenario.orders ?? [];
+    if (body.query.includes("BlackboxAllocationLines")) {
+      const group = orders
+        .flatMap((o: any) => [
+          ...(o.fulfillmentOrders?.nodes ?? []),
+          ...(o.extraGroups ?? []),
+        ])
+        .find((g: any) => g.id === (body.variables as any).id);
+      return {
+        data: {
+          fulfillmentOrder: {
+            updatedAt: group.updatedAt,
+            lineItems: {
+              nodes: group.extraLines ?? [],
+              pageInfo: { hasNextPage: false, endCursor: null },
+            },
+          },
+        },
+      };
+    }
+    if (body.query.includes("BlackboxAllocationGroups")) {
+      const order = orders.find(
+        (o: any) => o.id === (body.variables as any).id,
+      );
+      return {
+        data: {
+          order: {
+            updatedAt: order.updatedAt,
+            fulfillmentOrders: {
+              nodes: order.extraGroups ?? [],
+              pageInfo: { hasNextPage: false, endCursor: null },
+            },
+          },
+        },
+      };
+    }
     if (body.query.includes("BlackboxFulfillmentLines")) {
       const vars = body.variables as any,
         shipment = orders

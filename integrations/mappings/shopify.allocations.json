@@ -1,0 +1,159 @@
+{
+  "row_id": "shopify.allocations",
+  "source_revision": "Shopify Admin GraphQL 2026-10; assignments-v1; records-v3; questions-v9",
+  "input_resources": [
+    "Order.fulfillmentOrders(first:100,after)",
+    "order(id).updatedAt",
+    "FulfillmentOrder.lineItems(first:100,after)",
+    "fulfillmentOrder(id).updatedAt",
+    "shop.id and currentAppInstallation.accessScopes"
+  ],
+  "grants": [
+    "read_orders or write_orders",
+    "read_all_orders for older accessible history",
+    "read/write_assigned_fulfillment_orders, read/write_merchant_managed_fulfillment_orders or read/write_third_party_fulfillment_orders"
+  ],
+  "identity_rule": "Stable keyed connection-scoped fulfillment-order line identity; group updatedAt revision; immutable verified shop. Same-revision changed content is quarantined.",
+  "coverage_rule": "Bounded per-order accessible member cohort at an exact cutoff. Always incomplete for actual reservations and policy; no global population or event-history claim.",
+  "retention": {
+    "decision": "unresolved",
+    "basis": "No live store grant or merchant retention authorization is available. Synthetic fixtures only verified. Local evidence encryption and 90-day access expiry exist; complete purge/rotation/recovery retention operations remain open."
+  },
+  "fields": {
+    "allocation_id": {
+      "status": "derived",
+      "rule": "assignments-v1 keyed connection identity from FulfillmentOrderLineItem.id",
+      "normalization": "Stable UUID; explicit provider identity only, no name or text matching.",
+      "missing_behavior": "Missing required link invalidates the order cohort and creates review; no fabricated link."
+    },
+    "order_id": {
+      "status": "derived",
+      "rule": "assignments-v1 keyed connection identity from Order.id",
+      "normalization": "Stable UUID; explicit provider identity only, no name or text matching.",
+      "missing_behavior": "Missing required link invalidates the order cohort and creates review; no fabricated link."
+    },
+    "line_id": {
+      "status": "derived",
+      "rule": "assignments-v1 keyed connection identity from FulfillmentOrderLineItem.lineItem.id",
+      "normalization": "Stable UUID; explicit provider identity only, no name or text matching.",
+      "missing_behavior": "Missing required link invalidates the order cohort and creates review; no fabricated link."
+    },
+    "item_id": {
+      "status": "derived",
+      "rule": "assignments-v1 keyed connection identity from FulfillmentOrderLineItem.inventoryItemId",
+      "normalization": "Stable UUID; explicit provider identity only, no name or text matching.",
+      "missing_behavior": "Missing required link invalidates the order cohort and creates review; no fabricated link."
+    },
+    "location_id": {
+      "status": "derived",
+      "rule": "assignments-v1 keyed connection identity from FulfillmentOrder.assignedLocation.location.id",
+      "normalization": "Stable UUID; explicit provider identity only, no name or text matching.",
+      "missing_behavior": "Missing required link invalidates the order cohort and creates review; no fabricated link."
+    },
+    "quantity": {
+      "status": "source",
+      "source_path": "FulfillmentOrderLineItem.remainingQuantity",
+      "normalization": "Exact integer string; must be nonnegative and no greater than totalQuantity.",
+      "missing_behavior": "Invalid/null/negative/contradictory input cannot become zero or complete coverage."
+    },
+    "unit": {
+      "status": "derived",
+      "rule": "assignments-v1: integer shipping line count is piece",
+      "normalization": "No conversion to weight, volume or length.",
+      "missing_behavior": "Other unit semantics require supplemental input."
+    },
+    "status": {
+      "status": "derived",
+      "rule": "assignments-v1: CLOSED/CANCELLED or remainingQuantity=0 => released assignment; otherwise active derived plan",
+      "normalization": "Source/fact only; neither actual reservation nor physical stock release is implied.",
+      "missing_behavior": "Unsupported source status rejects the page; no default state."
+    },
+    "policy_version": {
+      "status": "missing",
+      "reason": "Shopify assignment resources do not provide the owner-selected reservation/priority policy used by Blackbox.",
+      "normalization": "No provider-generated assignment is presented as an owner policy.",
+      "missing_behavior": "Policy-dependent answers require explicit supplemental owner policy; reservation_basis remains unknown."
+    },
+    "evidence_id": {
+      "status": "derived",
+      "rule": "Shared ingest persists encrypted raw order cohort and binds generated evidence UUID before journal commit.",
+      "normalization": "Tenant-scoped evidence foreign key; no personal fields requested.",
+      "missing_behavior": "Unavailable or expired evidence is returned as unavailable, never reconstructed as original."
+    }
+  },
+  "event_rules": [
+    {
+      "event": "inventory.reserved",
+      "tracks": [],
+      "rule": "No observed physical reservation event inferred from assignment snapshots.",
+      "unsupported_reason": "The source supplies assignment plans, not observed reservation/release effects."
+    },
+    {
+      "event": "inventory.reservation_released",
+      "tracks": [],
+      "rule": "No observed physical reservation event inferred from assignment snapshots.",
+      "unsupported_reason": "The source supplies assignment plans, not observed reservation/release effects."
+    },
+    {
+      "event": "allocation.revised",
+      "tracks": [
+        "source",
+        "fact"
+      ],
+      "rule": "Versioned assignment assertion with basis derived_plan. Exact membership cohort controls current query inclusion; no physical reservation or movement."
+    }
+  ],
+  "synchronization": {
+    "initial_import": "Immutable date selection and selected older open/related context; nested groups and line pages complete before committing an order cohort.",
+    "cursor": "Fenced durable outer order cursor; stable updatedAt across nested reads; repeated cursors and bounds fail explicitly.",
+    "reconciliation": "Six-hour bounded re-enumeration of selected accessible orders. Omitted assignments leave current answers through cohort membership; no inferred physical release.",
+    "deduplication": "Connection-scoped line identity plus group updatedAt; unchanged revision is idempotent, changed content conflicts.",
+    "freshness": "Every page rechecks shop and grant categories; loss of any originally used fulfillment scope category requires reauthorization.",
+    "modes": {
+      "local_standalone": {
+        "status": "partial",
+        "methods": [
+          "polling",
+          "import"
+        ],
+        "schedule": "Default incremental 120 seconds plus 0\u201310% jitter; reconciliation every six hours.",
+        "history_limit": "At most 100000 orders, 200 groups/order, 500 lines/group, 10000 lines/page, 248 shipping assignments/order, 2 MiB response; incomplete accessible snapshot only.",
+        "authentication": "Existing encrypted Shopify token or permitted client credentials; order and fulfillment-order grants required. Marketplace-only fulfillment grants unsupported.",
+        "recovery": "Durable outer cursor, provider revision idempotence, bounded retries, original-input review retry, journal reconstruction after process restart.",
+        "limitations": "No actual reservations, allocation policy or complete provider scope; non-atomic reads; nested updates may await reconciliation; no live proof.",
+        "reason": "Local outbound assignment facts retain explicit supplemental-data requirements."
+      },
+      "local_gateway": {
+        "status": "unsupported",
+        "methods": [],
+        "schedule": "No gateway/server scheduling in the pilot.",
+        "history_limit": "No history transport in this mode.",
+        "authentication": "No public callback, gateway credential or public binding is provisioned.",
+        "recovery": "No mode runtime to recover; use local_standalone.",
+        "limitations": "Deferred by baseline-v14 local pilot scope.",
+        "reason": "Explicit owner-approved P0\u2013P4 scope excludes gateway and public-server implementation."
+      },
+      "public_server": {
+        "status": "unsupported",
+        "methods": [],
+        "schedule": "No gateway/server scheduling in the pilot.",
+        "history_limit": "No history transport in this mode.",
+        "authentication": "No public callback, gateway credential or public binding is provisioned.",
+        "recovery": "No mode runtime to recover; use local_standalone.",
+        "limitations": "Deferred by baseline-v14 local pilot scope.",
+        "reason": "Explicit owner-approved P0\u2013P4 scope excludes gateway and public-server implementation."
+      }
+    }
+  },
+  "import_readiness": {
+    "time_selection": "Shared immutable timezone-aware 30-day/calendar/custom/from-now plan and exact fixed cutoff.",
+    "historical_availability": "Current accessible assignment snapshots; no intermediate event history or historical opening proof.",
+    "open_and_related_records": "Explicitly selected older accessible open context; any declined older assignment drops the entire order quantity cohort.",
+    "opening_state": "No historical stock/reservation opening inferred. Strict decline retains only minimal header and marker without quantities.",
+    "progress_accounting": "One order cohort per logical object, durable committed/duplicate/quarantined counts; no invented percentages.",
+    "readiness_rules": "Always reservation_basis gap and accessible_subset_only limitation. Cohort membership retires omitted assignments without declaring reservation completeness.",
+    "health_rules": "Per-page grant category validation, fenced credential revision and unresolved review keep health honest.",
+    "history_expansion": "New wider immutable plan; stable revisions replay idempotently; independent incremental/reconciliation chain.",
+    "data_handling": "Only order/group/line/item/location identifiers, counts, status and timestamps; no names/addresses. Encrypted retained input and original-plan retry; full retention/rotation certification remains open."
+  }
+}

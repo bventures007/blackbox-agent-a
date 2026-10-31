@@ -239,11 +239,46 @@ pub(crate) struct Context<'a> {
 }
 impl<'a> Context<'a> {
     pub fn rows(&mut self, dataset: &str) -> Vec<&'a Record> {
+        let mut cohorts: BTreeMap<(&str, &str), &Record> = BTreeMap::new();
+        if dataset == "allocations" {
+            for c in self.records.iter().filter(|c| {
+                s(&c.data, "dataset") == "coverage"
+                    && s(&c.data, "capability") == "allocations"
+                    && c.data["allocation_ids"].is_array()
+            }) {
+                let key = (c.connection_id.as_str(), s(&c.data, "entity_scope"));
+                if cohorts
+                    .get(&key)
+                    .is_none_or(|old| (&old.occurred_at, &old.id) < (&c.occurred_at, &c.id))
+                {
+                    cohorts.insert(key, c);
+                }
+            }
+        }
+        let mut missing_cohort = false;
         let found: Vec<_> = self
             .records
             .iter()
             .filter(|r| s(&r.data, "dataset") == dataset)
+            .filter(|r| {
+                if dataset != "allocations" || !r.data["snapshot_scope"].is_string() {
+                    return true;
+                }
+                if let Some(c) =
+                    cohorts.get(&(r.connection_id.as_str(), s(&r.data, "snapshot_scope")))
+                {
+                    array(&c.data, "allocation_ids")
+                        .iter()
+                        .any(|id| id.as_str() == Some(&r.id))
+                } else {
+                    missing_cohort |= self.scoped(r);
+                    false
+                }
+            })
             .collect();
+        if missing_cohort {
+            self.gap("allocations.snapshot_cohort");
+        }
         for r in &found {
             self.evidence.insert(r.evidence_id.clone());
             self.inputs.insert(r.entry_id.clone());
@@ -487,6 +522,6 @@ pub fn execute(records: &[Record], request: &Question) -> Result<Value, String> 
         .take(request.limit)
         .collect();
     Ok(
-        json!({"status":status,"intent":request.intent,"result":if status=="insufficient_data"{Value::Null}else{json!({"rows":page,"count_in_scope":total})},"missing_inputs":ctx.missing,"conflicts":ctx.conflicts,"evidence":ctx.evidence,"input_entries":ctx.inputs,"coverage":{"basis":"declared_source_intervals","independently_verified":false,"limitations":limitations},"rule_version":"questions-v8","as_of":request.as_of,"next_offset":if request.offset+request.limit<total{Some(request.offset+request.limit)}else{None},"truncated":false}),
+        json!({"status":status,"intent":request.intent,"result":if status=="insufficient_data"{Value::Null}else{json!({"rows":page,"count_in_scope":total})},"missing_inputs":ctx.missing,"conflicts":ctx.conflicts,"evidence":ctx.evidence,"input_entries":ctx.inputs,"coverage":{"basis":"declared_source_intervals","independently_verified":false,"limitations":limitations},"rule_version":"questions-v9","as_of":request.as_of,"next_offset":if request.offset+request.limit<total{Some(request.offset+request.limit)}else{None},"truncated":false}),
     )
 }

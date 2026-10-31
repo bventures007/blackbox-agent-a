@@ -7,12 +7,17 @@ import {
   authorizeShopify,
   validateShopify,
   requireCapabilityScopes,
+  allocationScopeCategories,
 } from "../connectors/shopify-client.js";
 import { fetchStockPage, normalizeStock } from "../connectors/shopify-stock.js";
 import {
   fetchFulfillmentPage,
   normalizeFulfillments,
 } from "../connectors/shopify-fulfillments.js";
+import {
+  fetchAllocationPage,
+  normalizeAllocations,
+} from "../connectors/shopify-allocations.js";
 import { ProviderError } from "../connectors/transport.js";
 import {
   fetchOrderPage,
@@ -227,7 +232,9 @@ async function finish(j: Job) {
       requested_from: j.parameters.requested_from,
       checked_from: j.checkpoint.from,
       checked_through: j.checkpoint.through,
-      history_kind: j.capability === "stock" ? "snapshot_only" : "mixed",
+      history_kind: ["stock", "allocations"].includes(j.capability)
+        ? "snapshot_only"
+        : "mixed",
       history_completeness: "partial",
       restrictions: j.parameters.restrictions ?? [],
       opening_state: j.parameters.include_opening_state
@@ -406,6 +413,14 @@ export async function processSourceJob(j: Job) {
       throw new ProviderError("provider_account_changed", 0, true);
     requireCapabilityScopes(validated.scopes, j.capability);
     if (
+      j.capability === "allocations" &&
+      (j.parameters.allocation_scope_categories ?? []).some(
+        (category) =>
+          !allocationScopeCategories(validated.scopes).includes(category),
+      )
+    )
+      throw new ProviderError("provider_allocation_scope_lost", 0, true);
+    if (
       j.capability !== "stock" &&
       !validated.scopes.includes("read_all_orders") &&
       !j.parameters.restrictions?.includes(
@@ -430,54 +445,69 @@ export async function processSourceJob(j: Job) {
       });
     }
     const data =
-      j.capability === "stock"
-        ? await fetchStockPage(
+      j.capability === "allocations"
+        ? await fetchAllocationPage(
             credentials,
             j.checkpoint,
+            j.parameters,
             AbortSignal.timeout(45000),
           )
-        : j.capability === "fulfillments"
-          ? await fetchFulfillmentPage(
+        : j.capability === "stock"
+          ? await fetchStockPage(
               credentials,
               j.checkpoint,
-              j.parameters,
               AbortSignal.timeout(45000),
             )
-          : await fetchOrderPage(
-              credentials,
-              j.capability,
-              j.checkpoint,
-              j.parameters,
-              AbortSignal.timeout(45000),
-            );
+          : j.capability === "fulfillments"
+            ? await fetchFulfillmentPage(
+                credentials,
+                j.checkpoint,
+                j.parameters,
+                AbortSignal.timeout(45000),
+              )
+            : await fetchOrderPage(
+                credentials,
+                j.capability,
+                j.checkpoint,
+                j.parameters,
+                AbortSignal.timeout(45000),
+              );
     for (const raw of data.nodes) {
       let objects: SourceObject[];
       try {
         objects =
-          j.capability === "stock"
-            ? await normalizeStock(
+          j.capability === "allocations"
+            ? await normalizeAllocations(
                 raw,
                 j.connection_id,
                 j.parameters,
+                j.checkpoint.stage,
                 j.checkpoint.through!,
-                credentials.fixture,
               )
-            : j.capability === "fulfillments"
-              ? await normalizeFulfillments(
+            : j.capability === "stock"
+              ? await normalizeStock(
                   raw,
                   j.connection_id,
                   j.parameters,
-                  j.checkpoint.stage,
                   j.checkpoint.through!,
+                  credentials.fixture,
                 )
-              : await normalizeSourceOrder(
-                  raw,
-                  j.connection_id,
-                  j.account_anchor,
-                  j.capability,
-                  j.parameters,
-                  j.checkpoint.stage,
-                );
+              : j.capability === "fulfillments"
+                ? await normalizeFulfillments(
+                    raw,
+                    j.connection_id,
+                    j.parameters,
+                    j.checkpoint.stage,
+                    j.checkpoint.through!,
+                  )
+                : await normalizeSourceOrder(
+                    raw,
+                    j.connection_id,
+                    j.account_anchor,
+                    j.capability,
+                    j.parameters,
+                    j.checkpoint.stage,
+                  );
       } catch (e) {
         const id = z.object({ id: z.string() }).parse(raw).id;
         objects = [
@@ -505,7 +535,7 @@ export async function processSourceJob(j: Job) {
         .object({ createdAt: z.iso.datetime({ offset: true }) })
         .safeParse(raw);
       if (
-        j.capability !== "stock" &&
+        !["stock", "allocations"].includes(j.capability) &&
         source.success &&
         !objects.some((o) => o.error_code || o.skipped) &&
         (!j.parameters.strict_from_now ||

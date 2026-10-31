@@ -64,6 +64,8 @@ const en = {
   refunds: "Refunds",
   stock: "Inventory snapshots (requires inventory read access)",
   fulfillments: "Fulfillments and recorded handover milestones",
+  allocations:
+    "Fulfillment assignments (separate fulfillment-order access required)",
   sourceHealth: "Collection and import progress",
   lastSuccess: "Last successful scoped check",
   lastNew: "Last new record",
@@ -113,7 +115,7 @@ const en = {
   close: "Close",
   changed: "Change scope",
   unsupported:
-    "This flow imports orders, payments and refunds, with optional inventory snapshots and fulfillments. Other selected Shopify capabilities are still being implemented.",
+    "This flow imports orders, payments and refunds, with optional inventory snapshots, fulfillments and location assignments. Other selected Shopify capabilities are still being implemented.",
 };
 const de: Record<keyof typeof en, string> = {
   needs_review: "Prüfung erforderlich",
@@ -170,6 +172,8 @@ const de: Record<keyof typeof en, string> = {
   refunds: "Erstattungen",
   stock: "Bestandsaufnahmen (Leseberechtigung für Lagerbestand erforderlich)",
   fulfillments: "Auslieferungen und erfasste Übergabezeitpunkte",
+  allocations:
+    "Zuordnungen zur Auslieferung (separate Leseberechtigung erforderlich)",
   sourceHealth: "Erfassung und Importfortschritt",
   lastSuccess: "Letzte erfolgreiche Prüfung des Datenumfangs",
   lastNew: "Letzter neuer Datensatz",
@@ -219,9 +223,25 @@ const de: Record<keyof typeof en, string> = {
   close: "Schließen",
   changed: "Umfang ändern",
   unsupported:
-    "Dieser Ablauf importiert Aufträge, Zahlungen und Erstattungen sowie optional Bestandsaufnahmen und Auslieferungen. Weitere ausgewählte Shopify-Datenbereiche werden noch implementiert.",
+    "Dieser Ablauf importiert Aufträge, Zahlungen und Erstattungen sowie optional Bestandsaufnahmen, Auslieferungen und Standortzuordnungen. Weitere ausgewählte Shopify-Datenbereiche werden noch implementiert.",
 };
 const reasons: Record<string, [string, string]> = {
+  allocation_assignments_not_reservations: [
+    "Assignments show which location should fulfill an order. They do not prove reserved stock or a priority policy.",
+    "Zuordnungen zeigen, welcher Standort einen Auftrag ausliefern soll. Sie belegen keinen reservierten Bestand und keine Prioritätsregel.",
+  ],
+  allocation_accessible_subset: [
+    "Shopify exposes only fulfillment orders permitted by the granted access. Complete reservation coverage needs additional evidence.",
+    "Shopify liefert nur Auslieferungsaufträge innerhalb der erteilten Berechtigungen. Vollständige Reservierungsdaten benötigen zusätzliche Belege.",
+  ],
+  provider_read_fulfillment_orders_required: [
+    "The installed app needs fulfillment-order read access for assignments.",
+    "Die installierte App benötigt für Zuordnungen eine Leseberechtigung für Auslieferungsaufträge.",
+  ],
+  provider_allocation_scope_lost: [
+    "Fulfillment-order access narrowed. Reconnect and review the available categories.",
+    "Der Zugriff auf Auslieferungsaufträge wurde eingeschränkt. Verbinde das Konto erneut und prüfe die verfügbaren Kategorien.",
+  ],
   fulfillment_preparation_is_not_handover: [
     "A prepared fulfillment is not proof of courier handover. Missing milestone timestamps leave delivery answers incomplete.",
     "Eine vorbereitete Auslieferung belegt keine Übergabe an den Transportdienst. Fehlende Zeitpunkte lassen Lieferantworten unvollständig.",
@@ -471,6 +491,7 @@ export function ImportPlan({
     a = useAction(),
     [includeStock, setIncludeStock] = useState(false),
     [includeFulfillments, setIncludeFulfillments] = useState(false),
+    [includeAllocations, setIncludeAllocations] = useState(false),
     [preset, setPreset] = useState("last_30_days"),
     [zone, setZone] = useState(
       timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -511,6 +532,7 @@ export function ImportPlan({
       "refunds",
       ...(includeStock ? ["stock"] : []),
       ...(includeFulfillments ? ["fulfillments"] : []),
+      ...(includeAllocations ? ["allocations"] : []),
     ],
     acknowledge_restrictions: ack,
   };
@@ -633,6 +655,14 @@ export function ImportPlan({
               onChange={(e) => setIncludeFulfillments(e.target.checked)}
             />
             {s.fulfillments}
+          </label>
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={includeAllocations}
+              onChange={(e) => setIncludeAllocations(e.target.checked)}
+            />
+            {s.allocations}
           </label>
           <label>
             {s.range}

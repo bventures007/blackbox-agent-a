@@ -314,9 +314,18 @@ pub fn query(ctx: &mut Context<'_>) -> Result<Vec<Value>, String> {
                 if allocations.iter().any(|a| {
                     s(&a.data, "order_id") == order.id
                         && s(&a.data, "status") == "active"
+                        && s(&a.data, "basis") == "observed_reservation"
                         && q(&a.data, "quantity").is_ok_and(|n| n > 0)
                 }) {
                     steps.push("release_reservation");
+                }
+                if allocations.iter().any(|a| {
+                    s(&a.data, "order_id") == order.id
+                        && s(&a.data, "status") == "active"
+                        && s(&a.data, "basis") == "derived_plan"
+                        && q(&a.data, "quantity").is_ok_and(|n| n > 0)
+                }) {
+                    steps.push("cancel_assignment");
                 }
                 for invoice in docs.iter().filter(|i| {
                     s(&i.data, "order_id") == order.id

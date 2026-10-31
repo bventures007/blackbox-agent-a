@@ -1,6 +1,6 @@
 {
   "row_id": "shopify.fulfillments",
-  "source_revision": "Shopify Admin GraphQL 2026-10; fulfillment-v1; records-v2; questions-v8",
+  "source_revision": "Shopify Admin GraphQL 2026-10; fulfillment-v1; records-v3; questions-v9",
   "input_resources": [
     "orders(first:10,after,query:updated_at ranges)",
     "Order.fulfillments (full array without first truncation)",
@@ -96,7 +96,7 @@
         "movement",
         "reservation"
       ],
-      "rule": "Versioned current fulfillment assertion. Rust records-v2 emits fact for every valid state; movement/reservation only for handed_over or delivered. Stable economic record counted once; no additive stock delta."
+      "rule": "Versioned current fulfillment assertion. Rust records-v3 emits fact for every valid state; movement/reservation only for handed_over or delivered. Stable economic record counted once; no additive stock delta."
     },
     {
       "event": "shipment.dispatched",
