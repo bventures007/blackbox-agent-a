@@ -56,7 +56,7 @@ export async function rebuildAll(db, call, retries = []) {
         // required before retrying a failed build; the old generation stays live.
         const previous = (
           await db.query(
-            "SELECT b.build_id,b.state,EXISTS(SELECT 1 FROM bb.security_audit a WHERE a.tenant_id=b.tenant_id AND a.principal_id=b.build_id AND a.action='projection.failed_build_retried') AS retry_used FROM bb.projection_builds b WHERE tenant_id=$1 ORDER BY created_at DESC,build_id DESC LIMIT 8",
+            "SELECT b.build_id,b.state,EXISTS(SELECT 1 FROM bb.security_audit a WHERE a.tenant_id=b.tenant_id AND a.principal_id=b.build_id AND (a.action='projection.failed_build_retried' OR a.action LIKE 'projection.failed_build_retried.%')) AS retry_used FROM bb.projection_builds b WHERE tenant_id=$1 ORDER BY created_at DESC,build_id DESC LIMIT 8",
             [tenant_id],
           )
         ).rows;
@@ -83,8 +83,13 @@ export async function rebuildAll(db, call, retries = []) {
         );
         if (failed)
           await db.query(
-            "INSERT INTO bb.security_audit(tenant_id,audit_id,principal_id,action)VALUES($1,$2,$3,'projection.failed_build_retried')",
-            [tenant_id, build.build_id, failed.build_id],
+            "INSERT INTO bb.security_audit(tenant_id,audit_id,principal_id,action)VALUES($1,$2,$3,$4)",
+            [
+              tenant_id,
+              randomUUID(),
+              failed.build_id,
+              "projection.failed_build_retried." + build.build_id,
+            ],
           );
       }
       await db.query("COMMIT");

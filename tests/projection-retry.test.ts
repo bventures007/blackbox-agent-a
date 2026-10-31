@@ -52,6 +52,11 @@ function fixture() {
       if (sql.startsWith("INSERT INTO bb.security_audit")) {
         if (auditFailure) throw Error("synthetic_audit_failure");
         assert.equal(args[2], failed);
+        assert.notEqual(args[1], open.build_id);
+        assert.equal(
+          args[3],
+          "projection.failed_build_retried." + open.build_id,
+        );
         previous[0].retry_used = true;
         return { rows: [] };
       }

@@ -1,0 +1,43 @@
+{
+  "tested_commit": "eb94ed8df4ad9aa44ff16c8a9f7785be76379798",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T20:34:22.353362+00:00",
+  "commands": [
+    {
+      "command": "python3 -m unittest discover -s scripts/tests",
+      "exit_code": 0,
+      "observed": "........................................................................................................................\n----------------------------------------------------------------------\nRan 120 tests in 5.782s\n\nOK\n"
+    },
+    {
+      "command": "npm run typecheck",
+      "exit_code": 0,
+      "observed": "\n> blackbox-local-pilot@0.1.0 typecheck\n> tsc\n\n"
+    },
+    {
+      "command": "npm test",
+      "exit_code": 0,
+      "observed": "\n> blackbox-local-pilot@0.1.0 test\n> node --import tsx --test tests/*.test.ts\n\n\u2714 host backup status never exposes unvalidated paths or keys (20.612458ms)\n\u2714 concurrent owner backup requests produce one bounded action without a path or command (44.785041ms)\n\u2714 an interrupted temporary request is never acknowledged as durably queued (6.279667ms)\n\u2714 money syntax preserves exact units, does not round or mix unknown currencies (0.888958ms)\n\u2714 canonical observations reject caller tenant and personal-content fields (8.16275ms)\n\u2714 coverage diagnostics reject free-text canaries while preserving every question fixture (58.046209ms)\n\u2714 inventory drift denies missing canonical fields, unknown privacy policies and unmapped provider selections (113.245583ms)\n\u2714 emitted diagnostic lines are valid JSON and strip secret/PII canaries before storage (217.231292ms)\n\u2714 evidence cleanup status is private, bounded and bound to the installation owner (49.327584ms)\n\u2714 30-day import is 720 hours across daylight saving, with a fixed cutoff (6.785375ms)\n\u2714 calendar year and 12 months preserve local semantics and clamp leap days (13.395042ms)\n\u2714 custom dates resolve at local midnight and reject future or skipped local dates (2.393334ms)\n\u2714 from-now never silently widens into opening or related history (0.860209ms)\n\u2714 versioned material preserves legacy decryption and identity, rejects tamper, then retires only the old data key (231.362ms)\n\u2714 container MCP permits only the exact internal API origin (1.02125ms)\n\u2714 local HTTP transport retains explicit loopback authority and bounds errors/redirects (69.781833ms)\n\u2714 host retry authorizes one failed workspace/build pair, never an arbitrary retry (1.581167ms)\n\u2714 committed retry resumes after interruption but cannot authorize the next failed candidate (0.34825ms)\n\u2714 retry budget and failed audit prevent engine work (0.179709ms)\n\u2714 runtime preflight rejects changed, future, partial or fenced installations (1.436041ms)\n\u2714 runtime comparison ignores key order but preserves values and protocol arrays (0.084833ms)\n\u2714 actual MCP rejects missing or unknown API contracts with an explicit safe error (772.568708ms)\n\u2714 Shopify assignments retain incomplete reservation basis, exact quantities and strict context consent (66.593708ms)\n\u2714 Shopify requested-cost reduction is bounded, keeps cursor/cutoff and does not immediately retry throttling (69.813708ms)\n\u2714 fulfillment preparation is not handover and cancellation cannot erase physical evidence (46.4875ms)\n\u2714 bounded provider transport rejects oversized JSON and never accepts arbitrary token destinations (31.975917ms)\n\u2714 Shopify normalization preserves refund links, unknown transitions and strict context consent (23.804291ms)\n\u2714 inventory preserves supplied available state and rejects missing, negative, future and declined opening quantities (22.715458ms)\n\u2714 opaque provider cursor is encrypted and tenant/connection/job bound, with strict control metadata (44.362333ms)\n\u2139 tests 29\n\u2139 suites 0\n\u2139 pass 29\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 1699.045792\n"
+    },
+    {
+      "command": "npm run validate:inventory",
+      "exit_code": 0,
+      "observed": "\n> blackbox-local-pilot@0.1.0 validate:inventory\n> node --import tsx scripts/data-inventory.ts\n\n{\"status\":\"passed\",\"fields\":821,\"canonical_fields\":260,\"provider_selected_fields\":117,\"database_columns\":289,\"limitation\":\"Inventory drift validation only; not live-provider permission or independent acceptance.\"}\n"
+    },
+    {
+      "command": "python3 scripts/integration-register.py check",
+      "exit_code": 0,
+      "observed": "Register valid: 127 rows, 559 history records. This is not connector-test evidence.\n"
+    },
+    {
+      "command": "python3 scripts/validate-delivery-profile.py",
+      "exit_code": 0,
+      "observed": "Profile valid: 83 active pilot cases, 37 deferred cases, 68 required capability rows.\nThis validates scope/evidence records; it does not execute or certify product tests.\n"
+    },
+    {
+      "command": "python3 scripts/validate-delivery-profile.py --release",
+      "exit_code": 1,
+      "observed": "ERROR: Pilot blocked: INSTALL-01 is not_started\n"
+    }
+  ],
+  "release_gate": "failed"
+}

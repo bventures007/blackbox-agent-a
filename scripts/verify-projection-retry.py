@@ -61,7 +61,7 @@ u.upgrade(r,pathlib.Path(sys.argv[1]).read_bytes(),resume=True,retry_failed_buil
    if time.monotonic()>deadline:raise RuntimeError('Retry interruption checkpoint deadline exceeded.')
    time.sleep(.1)
   process.kill();assert process.wait()==-9;process=None
- assert sql(stage,'SELECT count(*) FROM bb.projection_builds;').strip()==b'2';assert sql(stage,"SELECT count(*) FROM bb.security_audit WHERE action='projection.failed_build_retried';").strip()==b'1'
+ assert sql(stage,'SELECT count(*) FROM bb.projection_builds;').strip()==b'2';assert sql(stage,"SELECT count(*) FROM bb.security_audit WHERE action LIKE 'projection.failed_build_retried%';").strip()==b'1'
  replacement=sql(stage,"SELECT build_id FROM bb.projection_builds WHERE state='scanning';").decode().strip();assert replacement!=original_failed
  checks.append('actual_SIGKILL_after_retry_grant_and_immutable_audit_preserves_old_failed_candidate')
  # Make the replacement fail as well, with a deliberately older creation clock.
@@ -73,7 +73,7 @@ u.upgrade(r,pathlib.Path(sys.argv[1]).read_bytes(),resume=True,retry_failed_buil
  assert sql(stage,'SELECT count(*) FROM bb.projection_builds;').strip()==b'2';assert journal_digest(stage)==before
  checks.append('replacement_failure_cannot_reuse_old_authorization_even_after_backward_creation_clock')
  command(stage,['python3','-c',resume,str(vault/'recovery.key'),'retry'],timeout=330)
- assert sql(stage,"SELECT count(*) FROM bb.projection_builds WHERE state='failed';").strip()==b'2';assert sql(stage,"SELECT count(*) FROM bb.projection_builds WHERE state='published';").strip()==b'1';assert sql(stage,"SELECT count(*) FROM bb.security_audit WHERE action='projection.failed_build_retried';").strip()==b'2';assert journal_digest(stage)==before
+ assert sql(stage,"SELECT count(*) FROM bb.projection_builds WHERE state='failed';").strip()==b'2';assert sql(stage,"SELECT count(*) FROM bb.projection_builds WHERE state='published';").strip()==b'1';assert sql(stage,"SELECT count(*) FROM bb.security_audit WHERE action LIKE 'projection.failed_build_retried%';").strip()==b'2';assert journal_digest(stage)==before
  api.ready();api.login(owner);assert api.state({'entity_id':entity,'interpretation_version':'lifecycle-v2'})['result']==answer['result'];code,agent=api.call('/v1/agents',{'name':'Repaired candidate reader'});assert code==200;assert mcp(18817,agent['key'],{'entity_id':entity})['rule_version']=='lifecycle-v3'
  checks.append('new_explicit_retry_publishes_fresh_generation_preserves_both_failed_candidates_and_API_SDK_MCP')
  # A current-format backup may retain a different workspace's failed candidate.

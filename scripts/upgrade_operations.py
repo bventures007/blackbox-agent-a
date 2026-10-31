@@ -44,7 +44,7 @@ def authorize_failed_build_retries(root,marker):
  """
  if marker.get('operation')not in ['upgrade','restore']or set(services(root))-{'postgres'}:
   raise RuntimeConfigError('Projection retry authorization requires fenced host maintenance.')
- values=json.loads(sql(root,"SELECT coalesce(json_agg(x),'[]'::json) FROM (SELECT h.tenant_id,b.build_id FROM bb.heads h JOIN LATERAL(SELECT build_id,state FROM bb.projection_builds b WHERE tenant_id=h.tenant_id AND NOT EXISTS(SELECT 1 FROM bb.security_audit a WHERE a.tenant_id=b.tenant_id AND a.principal_id=b.build_id AND a.action='projection.failed_build_retried') ORDER BY created_at DESC,build_id DESC LIMIT 1)b ON true WHERE h.projection_rule='lifecycle-v2' AND b.state='failed' ORDER BY h.tenant_id LIMIT 65)x;"))
+ values=json.loads(sql(root,"SELECT coalesce(json_agg(x),'[]'::json) FROM (SELECT h.tenant_id,b.build_id FROM bb.heads h JOIN LATERAL(SELECT build_id,state FROM bb.projection_builds b WHERE tenant_id=h.tenant_id AND NOT EXISTS(SELECT 1 FROM bb.security_audit a WHERE a.tenant_id=b.tenant_id AND a.principal_id=b.build_id AND (a.action='projection.failed_build_retried' OR a.action LIKE 'projection.failed_build_retried.%')) ORDER BY created_at DESC,build_id DESC LIMIT 1)b ON true WHERE h.projection_rule='lifecycle-v2' AND b.state='failed' ORDER BY h.tenant_id LIMIT 65)x;"))
  if not values:raise RuntimeConfigError('No failed lifecycle candidate requires a retry. Resume normally.')
  if len(values)>64:raise RuntimeConfigError('Projection retry exceeds the workspace budget.')
  for value in values:
