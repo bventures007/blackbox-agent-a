@@ -1,0 +1,82 @@
+{
+  "kind": "synthetic_shopify_allocations",
+  "status": "passed",
+  "tested_commit": "618fb68f48332e26278b9b313ea64110f2299ead",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T15:51:28.740600+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Isolated native PostgreSQL 18.4 / Node 25.9.0 / Rust 1.90.0"
+  },
+  "commands": [
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/allocation-source.ts seed",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-allocations-v1\",\"phase\":\"seed\",\"result\":\"passed\",\"checks\":[\"bounded_outer_group_and_line_HTTP_pagination_persisted_exact_assignments\",\"derived_assignments_remain_facts_without_stock_reservation_movement_or_promise\",\"actual_API_SDK_MCP_unknown_reservation_basis_and_distinct_cancellation_step\",\"same_snapshot_replay_has_no_extra_canonical_effect\",\"omitted_assignments_retired_by_persisted_cohort_without_fabricated_reservation_release\",\"fixed_old_cutoff_preserves_prior_assignment\",\"cross_tenant_source_query_and_evidence_denied\",\"new_revision_location_move_preserves_identity_and_exact_remaining_quantity\",\"same_provider_revision_changed_assignment_quantity_is_quarantined_with_original_preserved\",\"invalid_remaining_quantity_quarantines_entire_order_cohort_and_retained_retry_stays_invalid\",\"strict_from_now_drops_declined_quantity_payloads_even_when_provider_returns_older_context\",\"loss_of_one_granted_fulfillment_category_requires_reauthorization\"],\"limitations\":[\"Synthetic provider only; no live grant or independent review\",\"Shopify assignments do not prove actual stock reservations or complete scope\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/allocation-browser.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-allocation-browser-v1\",\"result\":\"passed\",\"checks\":[\"actual_EN_DE_allocation_selection_and_scope_preview\",\"restrictions_acknowledgement_required\",\"DE_mobile_no_overflow\",\"no_browser_exceptions_external_requests_or_localStorage_secrets\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/allocation-source.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-allocations-v1\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"unapplied_page_and_provider_cursor_survive_process_restart\",\"frozen_API_MCP_answers_and_evidence_survive_restart_and_deleted_projections\"],\"limitations\":[\"Synthetic provider only; no live grant or independent review\",\"Shopify assignments do not prove actual stock reservations or complete scope\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/allocation-source.ts remove",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-allocations-v1\",\"phase\":\"remove\",\"result\":\"passed\",\"checks\":[\"own_projections_removed_for_cold_recovery\"],\"limitations\":[\"Synthetic provider only; no live grant or independent review\",\"Shopify assignments do not prove actual stock reservations or complete scope\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/allocation-source.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-allocations-v1\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"frozen_API_MCP_answers_and_evidence_survive_restart_and_deleted_projections\"],\"limitations\":[\"Synthetic provider only; no live grant or independent review\",\"Shopify assignments do not prove actual stock reservations or complete scope\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py resume-worker",
+      "exit_code": 0,
+      "observed": "resume-worker\n"
+    }
+  ],
+  "limitations": [
+    "No live provider, independent review, Compose distribution or performance certification",
+    "Assignment plans do not establish observed stock reservations or complete allocation scope"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "tested_commit": "618fb68f48332e26278b9b313ea64110f2299ead",
+  "status": "passed_for_named_synthetic_suites",
+  "executed_at": "2026-10-31T15:56:33.166833+00:00",
+  "checks": {
+    "pnpm typecheck": "passed",
+    "pnpm test": "12 passed",
+    "cargo test --locked --offline": "6 passed",
+    "pnpm build:web": "passed",
+    "preparation_regressions": "45 passed",
+    "ordinary_profile_catalogue_register_validators": "passed",
+    "mapping_validator": "passed; policy_version explicitly missing",
+    "visual_inspection": "EN desktop and DE mobile preview inspected; visible controls and no overflow"
+  },
+  "evidence": [
+    "allocations-evidence.json",
+    "sources-allocation-regression.json",
+    "stock-allocation-regression.json",
+    "fulfillments-allocation-regression.json",
+    "reviews-allocation-regression.json",
+    "questions-v9-evidence.json",
+    "golden-allocation-regression.json",
+    "slice-allocation-regression.json"
+  ],
+  "development_failures": [
+    "Verifier initially used wrong projection economic_id/payload nesting and a foreign workspace recorded cutoff; fixed to actual schema and caller-specific cutoff.",
+    "A test edit script syntax error was corrected before applying changes."
+  ],
+  "known_follow_up": [
+    "Official Shopify requested-cost limit review identified oversized nested pages; smaller bounded connection pages and explicit cost-limit recovery follow. No actual provider cost has been measured."
+  ],
+  "limitations": [
+    "Synthetic provider only; no live Shopify/Payments access or independent review",
+    "Assignments are facts, not observed physical reservations; policy remains supplemental",
+    "Release validator exits1 at INSTALL-01 not_started; full operational/distribution/performance and other selected sources remain work"
+  ]
+}

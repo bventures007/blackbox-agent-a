@@ -1,0 +1,8 @@
+{
+  "tested_commit": "618fb68f48332e26278b9b313ea64110f2299ead",
+  "command": "python3 scripts/validate-delivery-profile.py --release",
+  "executed_at": "2026-10-31T15:56:20.086229+00:00",
+  "exit_code": 1,
+  "observed": "ERROR: Pilot blocked: INSTALL-01 is not_started\n",
+  "status": "blocked_incomplete_implementation_and_external_proof"
+}

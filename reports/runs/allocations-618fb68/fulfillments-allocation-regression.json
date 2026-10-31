@@ -1,0 +1,82 @@
+{
+  "kind": "synthetic_shopify_fulfillments",
+  "status": "passed",
+  "tested_commit": "618fb68f48332e26278b9b313ea64110f2299ead",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T15:53:15.735502+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Isolated native PostgreSQL 18.4 / Node 25.9.0 / Rust 1.90.0"
+  },
+  "commands": [
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/fulfillment-source.ts seed",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-fulfillments-v1\",\"phase\":\"seed\",\"result\":\"passed\",\"checks\":[\"paginated_provider_shaped_HTTP_through_PostgreSQL_Rust_API_actual_SDK_MCP\",\"preparation_is_not_goods_handover_and_missing_timestamp_blocks_physical_answer\",\"delivered_first_observation_carries_movement_assertion_without_invented_handover_time\",\"replayed_fixed_provider_revision_has_no_duplicate_canonical_or_movement_effect\",\"empty_later_population_does_not_erase_unresolved_preparation_evidence\",\"administrative_cancel_keeps_physical_delivery_and_does_not_duplicate_quantities\",\"later_handover_resolves_preparation_gap_and_fixed_past_answers_remain_reproducible\",\"null_quantity_is_quarantined_without_zero_default_or_population_coverage\",\"two_workspace_identity_query_and_evidence_isolation\",\"later_cancellation_cannot_erase_previously_recorded_physical_delivery\",\"strict_new_only_import_excludes_old_fulfillment_context\"],\"synthetic\":true,\"limitations\":[\"No live account/grant or independent review\",\"Tracking scope is separately supplied by an explicit synthetic generic producer; no Shopify carrier tracking certification\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/fulfillment-browser.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-fulfillment-browser-v1\",\"result\":\"passed\",\"checks\":[\"actual_EN_DE_fulfillment_selection_and_scope_preview\",\"restrictions_acknowledgement_required\",\"DE_mobile_no_overflow\",\"no_browser_exceptions_external_requests_or_localStorage_secrets\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/fulfillment-source.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-fulfillments-v1\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"unapplied_page_and_provider_cursor_survive_process_restart\",\"all_frozen_answers_and_evidence_recover_through_API_MCP_after_restart_and_projection_deletion\"],\"synthetic\":true,\"limitations\":[\"No live account/grant or independent review\",\"Tracking scope is separately supplied by an explicit synthetic generic producer; no Shopify carrier tracking certification\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/fulfillment-source.ts remove",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-fulfillments-v1\",\"phase\":\"remove\",\"result\":\"passed\",\"checks\":[\"own_projections_removed_for_cold_recovery\"],\"synthetic\":true,\"limitations\":[\"No live account/grant or independent review\",\"Tracking scope is separately supplied by an explicit synthetic generic producer; no Shopify carrier tracking certification\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/fulfillment-source.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"shopify-fulfillments-v1\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"all_frozen_answers_and_evidence_recover_through_API_MCP_after_restart_and_projection_deletion\"],\"synthetic\":true,\"limitations\":[\"No live account/grant or independent review\",\"Tracking scope is separately supplied by an explicit synthetic generic producer; no Shopify carrier tracking certification\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py resume-worker",
+      "exit_code": 0,
+      "observed": "resume-worker\n"
+    }
+  ],
+  "limitations": [
+    "No live provider, independent review, Compose distribution or performance certification",
+    "Fulfillment preparation is not physical handover; carrier tracking requires a separate source"
+  ]
+}
