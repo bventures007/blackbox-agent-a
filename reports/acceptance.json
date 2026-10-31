@@ -1378,16 +1378,18 @@
       "id": "PILOT-03",
       "stage": "operations",
       "status": "implemented_unverified",
-      "tested_commit": "c5d9ba974531b446b4448c2cc39775db4da19226",
-      "command": "python3 scripts/verify-release-compatibility.py --stage-record .runtime/compatibility-mcp-rerun-c5d9ba9.json --output .runtime/compatibility-gates-c5d9ba9.json",
-      "environment": "Apple Silicon macOS27.2, separate PostgreSQL17 Compose stage and exact c5d9ba9 Node/Rust images; synthetic fixtures",
-      "observed_result": "Clean c5d9ba974531b446b4448c2cc39775db4da19226 passed persisted compatibility denials for altered checksums, newer migration history, a persistent fence and unknown protocol across host/API/worker/Rust, with unchanged journal cutoffs. Runtime roles cannot mutate metadata; Rust rejects missing/unknown RPC contracts even with the correct internal secret. Packaged actual SDK MCP, schema5/schema6 legacy recovery, native first-slice, all24 positive/missing/varied questions and adversaries, Golden and EN/DE owner-review/restart/cold regressions passed. Evidence: reports/runs/compatibility-c5d9ba9. Earlier fresh MCP/schema5 attempts failed before PostgreSQL because Docker address pools were exhausted; only own stopped test containers/networks were removed, preserving volumes/files, and clean reruns passed. The current-format original-loss suite timed out in its 240-second multi-scenario bootstrap harness before any backup or removal, and that installation was stopped with data intact. The failed reports remain preserved. The broader harness timeout and scoped test-network cleanup are corrected next; no restore-time acceptance target changes. Fenced populated upgrade, interrupted migration, changed-rule rebuild and remaining P4 work are still open.",
+      "tested_commit": "828355916add4585addf6a1d2788d9a39d01f3d1",
+      "command": "python3 scripts/verify-populated-upgrade.py --prior-bundle work/release-fixtures/pilot2-rebuilt-4da9fc9 --node-image sha256:0825713809999e1da9d131dafc4e247650ad80a8495fa5928ff00ff117f95383 --engine-image sha256:f94e4b847432b6f403d2686dd8ec4852ffdf7ea892913b608bc4c4e7a05385c2 --output work/upgrade-8283559.json",
+      "environment": "Apple Silicon macOS; isolated PostgreSQL17 Compose projects, ports18811/18813, exact images from8283559 and hashed prior schema8 fixture.",
+      "observed_result": "Clean 828355916add4585addf6a1d2788d9a39d01f3d1 passed the populated schema8-to10 upgrade: mismatched target-image refusal before migration, wrong valid recovery identity refusal, actual SIGKILL after committed migration009, changed-bundle refusal, durable resume, unchanged complete 55-entry journal digest and four sampled Rust answers, owner API/actual SDK MCP and restart parity. The recorded pre-upgrade generation restored into a separate installation and rejected stale owner access. Ordinary schema10 backup after upgrade and offline CLI upgrade diagnostics also passed. The complete multi-scenario suite took 124.792 seconds; this small fixture is not a smoke performance or restore-RTO result. Typecheck, 26 Node, 119 Python, six Rust and inventory checks passed on the clean commit. Evidence: reports/runs/upgrade-8283559, including exact image identities. Release validation still fails INSTALL-01. Changed-rule atomic projection publication, remaining selected sources, full diagnostics/storage/lifecycle, distribution, smoke performance, external provider access and independent review remain open.",
       "evidence_paths": [
-        "reports/runs/compatibility-c5d9ba9/gates.json",
-        "reports/runs/compatibility-c5d9ba9/legacy-v5.json",
-        "reports/runs/compatibility-c5d9ba9/legacy-v6.json"
+        "reports/runs/upgrade-8283559/upgrade.json",
+        "reports/runs/upgrade-8283559/ordinary-backup.json",
+        "reports/runs/upgrade-8283559/validation.json",
+        "reports/runs/upgrade-8283559/node-validation.json",
+        "reports/runs/upgrade-8283559/outage-logs.json"
       ],
-      "blocker": "Populated upgrade is implemented with a development interruption/resume proof; clean expanded execution, changed-rule atomic rebuild, exact distribution artifacts and independent review remain incomplete.",
+      "blocker": "Changed-rule atomic projection build/publication, exact distribution artifacts and independent review remain incomplete. Populated unchanged-rule upgrade and interrupted migration are verified only at the recorded small synthetic corpus.",
       "delivery_scope": "local_pilot"
     },
     {

@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "kind": "ordinary_backup_after_populated_upgrade",
+  "tested_commit": "828355916add4585addf6a1d2788d9a39d01f3d1",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T20:05:52.337996+00:00",
+  "stage": "work/upgrade-7b9d5aec151d",
+  "checks": [
+    "ordinary_generation_after_upgrade_authenticates_exact_schema10_archive",
+    "service_fence_released_after_matching_API_readiness",
+    "journal_cutoffs_preserved"
+  ],
+  "commands": [
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-a9a87d356ec9-postgres-1  Running\n Container blackbox-a-a9a87d356ec9-worker-1  Creating\n Container blackbox-a-a9a87d356ec9-engine-1  Creating\n Container blackbox-a-a9a87d356ec9-api-1  Creating\n Container blackbox-a-a9a87d356ec9-engine-1  Created\n Container blackbox-a-a9a87d356ec9-worker-1  Created\n Container blackbox-a-a9a87d356ec9-api-1  Created\n Container blackbox-a-a9a87d356ec9-postgres-1  Waiting\n Container blackbox-a-a9a87d356ec9-postgres-1  Waiting\n Container blackbox-a-a9a87d356ec9-postgres-1  Waiting\n Container blackbox-a-a9a87d356ec9-postgres-1  Healthy\n Container blackbox-a-a9a87d356ec9-engine-1  Starting\n Container blackbox-a-a9a87d356ec9-postgres-1  Healthy\n Container blackbox-a-a9a87d356ec9-api-1  Starting\n Container blackbox-a-a9a87d356ec9-postgres-1  Healthy\n Container blackbox-a-a9a87d356ec9-worker-1  Starting\n Container blackbox-a-a9a87d356ec9-worker-1  Started\n Container blackbox-a-a9a87d356ec9-engine-1  Started\n Container blackbox-a-a9a87d356ec9-api-1  Started\n"
+    }
+  ],
+  "backup": {
+    "state": "completed",
+    "installation_id": "478c7b7c-4b3a-4464-a724-f2a4d72fb1ef",
+    "last_attempt": "2026-10-31T20:05:24.013001+00:00",
+    "last_completed": "2026-10-31T20:05:38.889147+00:00",
+    "recoverable_cutoff": "2026-10-31T20:05:36.973654+00:00",
+    "generation": "6310e28e4c214145a6e0811d66a9c9e2.bb.age",
+    "ciphertext_sha256": "ce265c3d2c85e61760120e4ea6728b00da7271ca910e7b7009cd3c7009ac502b",
+    "bytes": 155291,
+    "protected": true,
+    "same_device": true,
+    "last_restore_test": null,
+    "retention": {
+      "deleted": 1,
+      "retained": 1
+    }
+  },
+  "limitations": [
+    "Small synthetic fixture, not smoke restore RTO or independent acceptance"
+  ]
+}

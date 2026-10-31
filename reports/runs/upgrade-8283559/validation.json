@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "tested_commit": "828355916add4585addf6a1d2788d9a39d01f3d1",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T20:01:55.424658+00:00",
+  "checks": [
+    {
+      "command": "npm run typecheck",
+      "exit_code": 0,
+      "observed": "\n> blackbox-local-pilot@0.1.0 typecheck\n> tsc\n\n"
+    },
+    {
+      "command": "npm run validate:inventory",
+      "exit_code": 0,
+      "observed": "\n> blackbox-local-pilot@0.1.0 validate:inventory\n> node --import tsx scripts/data-inventory.ts\n\n{\"status\":\"passed\",\"fields\":799,\"canonical_fields\":260,\"provider_selected_fields\":117,\"database_columns\":269,\"limitation\":\"Inventory drift validation only; not live-provider permission or independent acceptance.\"}\n"
+    },
+    {
+      "command": "python3 -m unittest discover -s scripts/tests -p test_*.py",
+      "exit_code": 0,
+      "observed": ".......................................................................................................................\n----------------------------------------------------------------------\nRan 119 tests in 4.644s\n\nOK\n"
+    },
+    {
+      "command": "cargo test --locked --offline",
+      "exit_code": 0,
+      "observed": "    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s\n     Running unittests src/lib.rs (target/debug/deps/blackbox_domain-5501916e8323f05c)\n\nrunning 6 tests\ntest lifecycle::tests::exact_quantities ... ok\ntest record_track_tests::fulfillment_preparation_has_no_physical_tracks ... ok\ntest tests::currencies_are_never_added ... ok\ntest tests::authorization_is_not_cash ... ok\ntest tests::correction_and_duplicate ... ok\ntest tests::generalized_partial_refund ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n     Running unittests src/main.rs (target/debug/deps/blackbox_engine-01f656db493bd64c)\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n   Doc-tests blackbox_domain\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n"
+    }
+  ]
+}

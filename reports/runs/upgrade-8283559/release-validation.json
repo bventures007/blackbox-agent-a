@@ -1,0 +1,21 @@
+{
+  "tested_commit": "828355916add4585addf6a1d2788d9a39d01f3d1",
+  "executed_at": "2026-10-31T20:05:19.985105+00:00",
+  "checks": [
+    {
+      "command": "python3 scripts/integration-register.py check",
+      "exit_code": 0,
+      "observed": "Register valid: 127 rows, 554 history records. This is not connector-test evidence.\n"
+    },
+    {
+      "command": "python3 scripts/validate-delivery-profile.py",
+      "exit_code": 0,
+      "observed": "Profile valid: 83 active pilot cases, 37 deferred cases, 68 required capability rows.\nThis validates scope/evidence records; it does not execute or certify product tests.\n"
+    },
+    {
+      "command": "python3 scripts/validate-delivery-profile.py --release",
+      "exit_code": 1,
+      "observed": "ERROR: Pilot blocked: INSTALL-01 is not_started\n"
+    }
+  ]
+}
