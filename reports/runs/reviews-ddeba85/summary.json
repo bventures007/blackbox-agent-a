@@ -1,0 +1,25 @@
+{
+  "tested_commit": "ddeba85dcbc272b4b752de8a8ba9f9f907c96b56",
+  "status": "passed_for_named_synthetic_suites",
+  "executed_at": "2026-10-31T14:55:47.294699+00:00",
+  "checks": {
+    "pnpm typecheck": "passed",
+    "pnpm test": "9 passed",
+    "cargo test --locked --offline": "5 passed",
+    "pnpm build:web": "passed",
+    "visual_inspection": "EN desktop and DE mobile review dialog inspected; actor line needs cosmetic spacing follow-up"
+  },
+  "evidence": [
+    "reviews-evidence.json",
+    "sources-review-regression.json",
+    "questions-v5-evidence.json",
+    "golden-review-regression.json",
+    "slice-review-regression.json"
+  ],
+  "limitations": [
+    "Synthetic provider and injected parser failure, no authorized live Shopify/Payments account",
+    "Legacy lifecycle and failed-derivation repair remain open; no full PILOT-04 pass",
+    "No independent reviewer approval",
+    "Compose distribution, backup/restore/upgrade and required resource-constrained performance gates remain unverified"
+  ]
+}
