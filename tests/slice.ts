@@ -124,6 +124,40 @@ try {
       assert.equal(r.result.payment_status, "paid");
       states.push(r);
     }
+    await fetch(`http://${process.env.FIXTURE_HOST}/revision`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: '{"revision":2}',
+    });
+    const c = await seed("Synthetic refund and missing payment");
+    const edgeStates = [];
+    for (const entity of c.entities) {
+      const result = await ready(c.agent, entity);
+      const state = result.result;
+      if (state.agreed_minor === 11900) {
+        assert.equal(state.captured_minor, 11900);
+        assert.equal(state.refunded_minor, 2380);
+        assert.equal(state.customer_net_paid_minor, 9520);
+        assert.equal(state.outstanding_minor, 2380);
+      } else {
+        assert.equal(state.agreed_minor, 5573);
+        assert.equal(state.captured_minor, 0);
+        assert.equal(result.status, "partial");
+        assert.ok(
+          result.missing_inputs.includes(
+            "verified_payment_population_coverage",
+          ),
+        );
+      }
+      const protocol = await mcp(c.agent, entity, result.recorded_cutoff);
+      assert.deepEqual(protocol.result, state);
+      edgeStates.push(result);
+    }
+    await fetch(`http://${process.env.FIXTURE_HOST}/revision`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: '{"revision":0}',
+    });
     const before = Number(
       (
         await admin.query("SELECT committed FROM bb.heads WHERE tenant_id=$1", [
@@ -304,7 +338,7 @@ try {
     }
     await writeFile(
       `${process.env.TEST_RUNTIME_DIR ?? "/runtime"}/slice-case.json`,
-      JSON.stringify({ a, b, states }),
+      JSON.stringify({ a, b, c, states, edgeStates }),
       { mode: 0o600 },
     );
     console.log(
@@ -314,6 +348,7 @@ try {
         checks: [
           "provider_HTTP_two_pages",
           "exact_varied_money",
+          "refund_and_missing_payment_HTTP_API_MCP",
           "authorization_not_extra_cash",
           "duplicate_idempotency",
           "conflicting_identity_preserved_and_reviewed",
@@ -331,7 +366,7 @@ try {
       }),
     );
   } else {
-    const { a, b, states } = JSON.parse(
+    const { a, b, c, states, edgeStates } = JSON.parse(
       await readFile(
         `${process.env.TEST_RUNTIME_DIR ?? "/runtime"}/slice-case.json`,
         "utf8",
@@ -358,6 +393,18 @@ try {
         assert.deepEqual(r.body.result, states[i].result);
         const m = await mcp(a.agent, a.entities[i], states[i].recorded_cutoff);
         assert.deepEqual(m.result, states[i].result);
+      }
+      for (let i = 0; i < c.entities.length; i++) {
+        const r = await call(c.agent, "get_business_state", {
+          entity_id: c.entities[i],
+          recorded_cutoff: edgeStates[i].recorded_cutoff,
+        });
+        assert.deepEqual(r.body.result, edgeStates[i].result);
+        assert.deepEqual(
+          (await mcp(c.agent, c.entities[i], edgeStates[i].recorded_cutoff))
+            .result,
+          edgeStates[i].result,
+        );
       }
       console.log(
         JSON.stringify({

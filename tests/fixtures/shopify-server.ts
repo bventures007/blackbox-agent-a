@@ -4,15 +4,15 @@ let revision = 0;
 export function fixtureOrder(n: number, amount: string) {
   return {
     id: `gid://shopify/Order/${n}`,
-    updatedAt:
-      revision && revision !== 3
-        ? "2026-10-31T10:30:00Z"
-        : "2026-10-31T10:00:00Z",
+    updatedAt: revision === 1 ? "2026-10-31T10:30:00Z" : "2026-10-31T10:00:00Z",
     createdAt: "2026-10-30T09:00:00Z",
     test: true,
     currencyCode: "EUR",
     currentTotalPriceSet: {
-      shopMoney: { amount: revision ? "130.00" : amount, currencyCode: "EUR" },
+      shopMoney: {
+        amount: [1, 3].includes(revision) ? "130.00" : amount,
+        currencyCode: "EUR",
+      },
     },
     lineItems: {
       nodes: [{ id: `gid://shopify/LineItem/${n}`, quantity: 2 }],
@@ -53,7 +53,32 @@ app.post("/admin/api/2026-10/graphql.json", async (req) => {
   return {
     data: {
       orders: {
-        nodes: [fixtureOrder(second ? 202 : 101, second ? "55.73" : "119.00")],
+        nodes: [
+          (() => {
+            const order = fixtureOrder(
+              second ? 202 : 101,
+              second ? "55.73" : "119.00",
+            );
+            if (revision === 2) {
+              if (second) order.transactions = [];
+              else
+                order.transactions.unshift({
+                  id: "gid://shopify/OrderTransaction/999",
+                  kind: "REFUND",
+                  status: "SUCCESS",
+                  processedAt: "2026-10-31T09:09:00Z",
+                  test: true,
+                  amountSet: {
+                    shopMoney: { amount: "23.80", currencyCode: "EUR" },
+                  },
+                  parentTransaction: {
+                    id: "gid://shopify/OrderTransaction/201",
+                  },
+                });
+            }
+            return order;
+          })(),
+        ],
         pageInfo: {
           hasNextPage: !second,
           endCursor: second ? "page-2" : "page-1",
