@@ -1,0 +1,47 @@
+{
+  "kind": "isolated_backup_recovery_after_original_removal",
+  "status": "failed",
+  "tested_commit": "a63fde14f05bf82745979bcf5306cbcb204dbcc1",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T17:23:41.782838+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "source_port": 18765,
+    "restore_port": 18769,
+    "source_stage": null,
+    "restore_stage": "work/recovered-43995fd5faf9",
+    "node_image_source_commit": "a63fde1",
+    "engine_image_source_commit": "b1f8392",
+    "node_image": "sha256:214c2f1ee4207124de5f641308c55f5b26d3d425d0153c55d5e0beddd0966406",
+    "database": "PostgreSQL17 Compose; synthetic isolated test workspaces"
+  },
+  "original_removed": false,
+  "rotation_proof": null,
+  "checks": [],
+  "commands": [
+    {
+      "command": "python3 scripts/verify-bootstrap.py --port 18765 --node-image-commit a63fde1 --engine-image-commit b1f8392 --output /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/.runtime/recovery-bootstrap-43995fd5faf9.json",
+      "exit_code": 1,
+      "observed": "Traceback (most recent call last):\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/scripts/verify-bootstrap.py\", line 73, in <module>\n    output=command(['./blackbox','setup','--port',str(a.port)],interactive=True)\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/scripts/verify-bootstrap.py\", line 33, in command\n    if code!=expect:raise RuntimeError(f'Host command failed (exit {code}): '+redact(out[-1200:]))\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Host command failed (exit 1): ntainer blackbox-a-65d77284c404-postgres-1  Created0.9s \n\u001b[?25h\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\n \u280b Container blackbox-a-65d77284c404-postgres-1  Starting0.1s \n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\n \u2819 Container blackbox-a-65d77284c404-postgres-1  Starting0.2s \n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\n \u2839 Container blackbox-a-65d77284c404-postgres-1  Starting0.3s \n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\n \u2838 Container blackbox-a-65d77284c404-postgres-1  Starting0.4s \n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\n \u283c Container blackbox-a-65d77284c404-postgres-1  Starting0.5s \n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\n \u2834 Container blackbox-a-65d77284c404-postgres-1  Starting0.6s \n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\n \u2826 Container blackbox-a-65d77284c404-postgres-1  Starting0.7s \n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\n \u2827 Container blackbox-a-65d77284c404-postgres-1  Starting0.8s \n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\n \u2807 Container blackbox-a-65d77284c404-postgres-1  Starting0.9s \n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 1/1\n \u2714 Container blackbox-a-65d77284c404-postgres-1  Started0.9s \n\u001b[?25hdependency failed to start: container blackbox-a-65d77284c404-postgres-1 is unhealthy\n\n"
+    }
+  ],
+  "corpus": {
+    "journal_entries": null,
+    "retained_evidence_objects": null,
+    "encrypted_bytes": null
+  },
+  "timing": {
+    "total_test_seconds": 9.59,
+    "bootstrap_seconds": null,
+    "loss_to_authorized_API_and_MCP_seconds": null,
+    "operator_wait_seconds": 0.0,
+    "automated_operator": true
+  },
+  "restore_state": null,
+  "limitations": [
+    "Small synthetic corpus; not the required 250-MiB smoke corpus or recovery-time acceptance",
+    "Same physical Apple Silicon Mac with new isolated Compose resources; not a second machine",
+    "Copied host runtime and prebuilt development images; not the browser-downloaded distribution artifact",
+    "Current policy reconciliation, source revalidation, full operational acceptance, upgrade and independent review remain outside this proof"
+  ]
+}

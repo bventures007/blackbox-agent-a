@@ -121,15 +121,21 @@ try:
  run(source,'stop','api','worker','engine');prior=services(source)
  ring=read_keyring(source/'.runtime');keyname=key_filename(ring['active'])if ring else 'data';keypath=source/'.runtime/secrets'/keyname;correct_key=keypath.read_bytes();key_hash=hashlib.sha256(correct_key).hexdigest();internal_hash=hashlib.sha256((source/'.runtime/secrets/internal').read_bytes()).hexdigest()
  tenant=primary_tenant;blob=source/'.runtime/evidence'/tenant/evidence_id;original_blob=blob.read_bytes()
- for kind in ['wrong_data_key','tampered_retained_evidence']:
+ provider_secret=None
+ if a.rotate_data_key:
+  provider_secret=json.loads(sql(source,"SELECT json_build_object('tenant',tenant_id,'connection',connection_id,'sealed',sealed) FROM bb.source_secrets ORDER BY tenant_id,connection_id LIMIT 1;"))
+ for kind in ['wrong_data_key','tampered_retained_evidence']+(['tampered_provider_credential']if a.rotate_data_key else []):
   if kind=='wrong_data_key':keypath.write_bytes(os.urandom(32))
-  else:blob.write_bytes(original_blob[:-1]+bytes([original_blob[-1]^1]))
+  elif kind=='tampered_retained_evidence':blob.write_bytes(original_blob[:-1]+bytes([original_blob[-1]^1]))
+  else:sql(source,"UPDATE bb.source_secrets SET sealed=jsonb_set(sealed,'{tag}','\"AAAAAAAAAAAAAAAAAAAAAA==\"') WHERE tenant_id='"+provider_secret['tenant']+"' AND connection_id='"+provider_secret['connection']+"';")
   try:
    try:generation(source);raise AssertionError('Invalid evidence material accepted')
    except RuntimeConfigError:pass
    assert set(managed.glob('*.bb.age'))==prior_generations and services(source)==prior
    assert json.loads((source/'.runtime/backup-status.json').read_text())['state']=='failed'
-  finally:keypath.write_bytes(correct_key);blob.write_bytes(original_blob)
+  finally:
+   keypath.write_bytes(correct_key);blob.write_bytes(original_blob)
+   if provider_secret:sql(source,"UPDATE bb.source_secrets SET sealed='"+json.dumps(provider_secret['sealed']).replace("'","''")+"'::jsonb WHERE tenant_id='"+provider_secret['tenant']+"' AND connection_id='"+provider_secret['connection']+"';")
   mark(kind+'_prevents_backup_publication')
  del correct_key,original_blob
  run(source,'up','-d','postgres','engine','api','worker');api.ready();prior=services(source)

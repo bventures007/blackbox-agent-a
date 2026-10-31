@@ -1,3 +1,4 @@
+import { openSecret, secretKeyVersion } from "../packages/auth/secrets.js";
 import {
   dataKey,
   decryptEvidence,
@@ -62,10 +63,30 @@ try {
       id = row.evidence_id;
     }
   }
+  tenant = "00000000-0000-0000-0000-000000000000";
+  id = tenant;
+  let credentials = 0;
+  while (true) {
+    const { rows } = await pool.query(
+      "SELECT tenant_id,connection_id,key_version,sealed FROM bb.source_secrets WHERE (tenant_id,connection_id)>($1::uuid,$2::uuid) ORDER BY tenant_id,connection_id LIMIT 256",
+      [tenant, id],
+    );
+    if (!rows.length) break;
+    for (const row of rows) {
+      if (++credentials > 100000)
+        throw Error("credential_verification_budget_exceeded");
+      if (secretKeyVersion(row.sealed) !== row.key_version)
+        throw Error("credential_key_metadata_mismatch");
+      await openSecret(row.tenant_id, row.connection_id, row.sealed);
+      tenant = row.tenant_id;
+      id = row.connection_id;
+    }
+  }
   console.log(
     JSON.stringify({
       status: "passed",
       checked_retained_evidence: count,
+      checked_provider_credentials: credentials,
       key_binding: "tenant_and_evidence_AAD",
       content_exposed: false,
     }),

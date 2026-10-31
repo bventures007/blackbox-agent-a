@@ -1,0 +1,37 @@
+[
+  {
+    "project": "blackbox-a-e08eff23e9a4",
+    "removed_at": "2026-10-31T17:26:25.490733+00:00",
+    "reason": "Completed disposable synthetic tests; Docker filesystem full; host backups and proof artifacts retained"
+  },
+  {
+    "project": "blackbox-a-f44e144cbb07",
+    "removed_at": "2026-10-31T17:26:27.551119+00:00",
+    "reason": "Completed disposable synthetic tests; Docker filesystem full; host backups and proof artifacts retained"
+  },
+  {
+    "project": "blackbox-a-9d6da6e38fa7",
+    "removed_at": "2026-10-31T17:26:29.746558+00:00",
+    "reason": "Completed disposable synthetic tests; Docker filesystem full; host backups and proof artifacts retained"
+  },
+  {
+    "project": "blackbox-a-eb951cebad61",
+    "removed_at": "2026-10-31T17:26:31.872937+00:00",
+    "reason": "Completed disposable synthetic tests; Docker filesystem full; host backups and proof artifacts retained"
+  },
+  {
+    "project": "blackbox-a-a21d7a268e05",
+    "removed_at": "2026-10-31T17:26:35.006075+00:00",
+    "reason": "Completed disposable synthetic tests; Docker filesystem full; host backups and proof artifacts retained"
+  },
+  {
+    "project": "blackbox-a-337191e852e3",
+    "removed_at": "2026-10-31T17:26:37.549840+00:00",
+    "reason": "Completed disposable synthetic tests; Docker filesystem full; host backups and proof artifacts retained"
+  },
+  {
+    "project": "blackbox-a-56e6974cb34f",
+    "removed_at": "2026-10-31T17:26:40.152989+00:00",
+    "reason": "Completed disposable synthetic tests; Docker filesystem full; host backups and proof artifacts retained"
+  }
+]
