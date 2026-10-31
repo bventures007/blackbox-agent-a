@@ -1,0 +1,71 @@
+{
+  "kind": "persisted_backup_schedule_owner_UI_retention_and_interruption",
+  "status": "passed",
+  "tested_commit": "d045f034b704e2392ad37d4b7800d2e7c9f4aaa0",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T16:59:03.943717+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/backup-schedule-3626c08aa638",
+    "port": 18761,
+    "node_image_source_commit": "d045f03",
+    "engine_image_source_commit": "b1f8392",
+    "node_image": "sha256:8438cddae2d911d7df35f7911b8dbf4b56d90f992aedfe84c804f8c6d161217c"
+  },
+  "machine_seconds": 163.71,
+  "checks": [
+    "owner_only_CSRF_protected_narrow_request_denies_agents_unenrolled_and_arbitrary_parameters",
+    "running_host_supervisor_creates_first_real_encrypted_generation_without_login_or_recovery_secret",
+    "second_workspace_owner_cannot_read_installation_backup_metadata_or_request_host_backup",
+    "actual_EN_DE_browser_action_creates_new_generation_then_retention_removes_superseded_same_day_generation",
+    "unmounted_destination_failure_preserves_last_success_and_never_uses_empty_mountpoint",
+    "actual_host_backup_process_kill_blocks_start_until_explicit_recovery_and_preserves_answer_and_last_backup"
+  ],
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18761",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 0/0\r\n \u280b Network blackbox-a-337191e852e3_default  Creating0.0s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Creating 2/1\r\n \u2714 Network blackbox-a-337191e852e3_default       Created0.0s \r\n \u2714 Volume \"blackbox-a-337191e852e3_postgres\"     Created0.0s \r\n \u280b Container blackbox-a-337191e852e3-postgres-1  Creating0.1s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Creating 3/3\r\n \u2714 Network blackbox-a-337191e852e3_default       Created0.0s \r\n \u2714 Volume \"blackbox-a-337191e852e3_postgres\"     Created0.0s \r\n \u2714 Container blackbox-a-337191e852e3-postgres-1  Created0.1s \r\n\u001b[?25h\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\r\n \u280b Container blackbox-a-337191e852e3-postgres-1  Starting0.1s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u2819 Container blackbox-a-337191e852e3-postgres-1  Starting0.2s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 1/1\r\n \u2714 Container blackbox-a-337191e852e3-postgres-1  Started0.2s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-337191e852e3-postgres-1  Running\n Container blackbox-a-337191e852e3-engine-1  Creating\n Container blackbox-a-337191e852e3-api-1  Creating\n Container blackbox-a-337191e852e3-worker-1  Creating\n Container blackbox-a-337191e852e3-engine-1  Created\n Container blackbox-a-337191e852e3-api-1  Created\n Container blackbox-a-337191e852e3-worker-1  Created\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n Container blackbox-a-337191e852e3-api-1  Starting\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n Container blackbox-a-337191e852e3-engine-1  Starting\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n Container blackbox-a-337191e852e3-worker-1  Starting\n Container blackbox-a-337191e852e3-worker-1  Started\n Container blackbox-a-337191e852e3-api-1  Started\n Container blackbox-a-337191e852e3-engine-1  Started\n"
+    },
+    {
+      "command": "node --import tsx tests/backup-ui.ts [protected test environment]",
+      "exit_code": 0,
+      "observed": "{\"status\":\"passed\",\"browser\":\"156.0.8078.74\",\"checks\":[\"real_EN_DE_owner_backup_status_and_same_device_disclosure\",\"actual_browser_request_completes_new_encrypted_generation\",\"DE_mobile_settings_and_no_credentials_in_localStorage\",\"no_external_browser_requests_or_uncaught_errors\"]}\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 1,
+      "observed": "Unfinished host maintenance. Recover it before changing service state.\n"
+    },
+    {
+      "command": "./blackbox backup recover",
+      "exit_code": 0,
+      "observed": "Interrupted backup fence released. The unfinished generation is not a usable backup.\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-337191e852e3-postgres-1  Running\n Container blackbox-a-337191e852e3-worker-1  Running\n Container blackbox-a-337191e852e3-engine-1  Running\n Container blackbox-a-337191e852e3-api-1  Running\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n"
+    }
+  ],
+  "browser": {
+    "status": "passed",
+    "browser": "156.0.8078.74",
+    "checks": [
+      "real_EN_DE_owner_backup_status_and_same_device_disclosure",
+      "actual_browser_request_completes_new_encrypted_generation",
+      "DE_mobile_settings_and_no_credentials_in_localStorage",
+      "no_external_browser_requests_or_uncaught_errors"
+    ]
+  },
+  "limitations": [
+    "Short synthetic execution; multi-day scheduling/wake and calendar retention boundaries additionally use deterministic unit tests",
+    "Not actual Mac sleep/wake, 250-MiB recovery, upgrade, key rotation, policy reconciliation or independent approval",
+    "Same-machine copied runtime with prebuilt development images; not a downloaded distribution artifact"
+  ]
+}

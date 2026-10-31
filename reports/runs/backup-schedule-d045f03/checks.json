@@ -1,0 +1,13 @@
+{
+  "tested_commit": "d045f034b704e2392ad37d4b7800d2e7c9f4aaa0",
+  "checks": [
+    {
+      "command": "python3 -m unittest discover -s scripts/tests -v",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 scripts/validate-delivery-profile.py --release",
+      "exit_code": 1
+    }
+  ]
+}

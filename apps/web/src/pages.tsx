@@ -773,7 +773,7 @@ export function Settings({ onRotated }: { onRotated: (key: string) => void }) {
   const [key, setKey] = useState("");
   return (
     <>
-      <div className="two-columns">
+      <div className="two-columns settings-panels">
         <Panel title={t.runtimeTitle}>
           <p>{t.runtimeText}</p>
           <pre>./blackbox up</pre>

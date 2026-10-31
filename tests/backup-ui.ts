@@ -81,6 +81,10 @@ try {
       { timeout: 150000, intervals: [1000] },
     )
     .not.toBe(before.last_completed);
+  await expect(page.getByText("Completed", { exact: true })).toBeVisible({
+    timeout: 20000,
+  });
+  await expect(page.getByRole("alert")).toHaveCount(0, { timeout: 20000 });
   await page.locator("#language").click();
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(
@@ -99,6 +103,12 @@ try {
   assert.deepEqual(await page.evaluate(() => Object.keys(localStorage)), [
     "bb_locale",
   ]);
+  assert.ok(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth + 1,
+    ),
+  );
+  await expect(page.getByText("Abgeschlossen", { exact: true })).toBeVisible();
   await page.screenshot({
     path: output + "/backup-de.png",
     fullPage: true,
