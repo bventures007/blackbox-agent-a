@@ -1,3 +1,4 @@
+mod projection_build;
 mod questions;
 use axum::{
     Json, Router,
@@ -5,7 +6,7 @@ use axum::{
     http::{HeaderMap, StatusCode},
     routing::{get, post},
 };
-use blackbox_domain::{Input, Observation, RULE_VERSION, State as BusinessState};
+use blackbox_domain::{Input, Observation, State as BusinessState};
 use serde::Deserialize;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
@@ -18,7 +19,7 @@ use uuid::Uuid;
 struct App {
     db: PgPool,
     token: String,
-    cache: Arc<Mutex<lru::LruCache<(Uuid, Uuid, i64), BusinessState>>>,
+    cache: Arc<Mutex<lru::LruCache<(Uuid, Uuid, Uuid, i64, String), BusinessState>>>,
     queries: Arc<Semaphore>,
     scoped_queries: Arc<Mutex<std::collections::HashMap<String, std::sync::Weak<Semaphore>>>>,
 }
@@ -73,7 +74,7 @@ fn internal(h: &HeaderMap, a: &App) -> Result<(), Error> {
         ));
     }
     if h.get("x-blackbox-contract").and_then(|v| v.to_str().ok())
-        != Some("f44009de0ee45cf3b5d92fa8f5360099077a62fa7d3bf680384b03e1aa2090b6")
+        != Some("dfa4fd04235e890f3efa3cab151057eb97818ec8e8a2f5098950fe144d985038")
     {
         return Err(error("runtime_contract_incompatible"));
     }
@@ -124,12 +125,14 @@ async fn apply(
 ) -> Result<Json<Value>, Error> {
     internal(&h, &a)?;
     let mut tx = transaction(&a.db, req.tenant_id).await?;
-    let head = sqlx::query("SELECT committed,applied FROM bb.heads WHERE tenant_id=$1 FOR UPDATE")
+    let head = sqlx::query("SELECT committed,applied,projection_generation,projection_rule FROM bb.heads WHERE tenant_id=$1 FOR UPDATE")
         .bind(req.tenant_id)
         .fetch_one(&mut *tx)
         .await
         .map_err(|_| error("scope_unavailable"))?;
     let mut end: i64 = head.get("committed");
+    let generation: Uuid = head.get("projection_generation");
+    let projection_rule: String = head.get("projection_rule");
     let rows=sqlx::query("SELECT j.* FROM bb.journal j JOIN bb.outbox o USING(tenant_id,sequence) WHERE o.state='pending' ORDER BY j.sequence LIMIT 250").fetch_all(&mut *tx).await.map_err(|_|error("read_failed"))?;
     let mut entities = std::collections::BTreeSet::new();
     for r in &rows {
@@ -144,7 +147,7 @@ async fn apply(
         {
             end += 1;
             sqlx::query("INSERT INTO bb.journal(tenant_id,sequence,entry_id,record_type,record_id,event_type,schema_version,connection_id,entity_id,provider_identity,occurred_at,payload,payload_hash,evidence_id,input_entry_id,rule_version,correlation_id) SELECT tenant_id,$1,$2,$3,record_id,event_type,schema_version,connection_id,entity_id,provider_identity,occurred_at,payload,payload_hash,evidence_id,entry_id,$4,correlation_id FROM bb.journal WHERE entry_id=$5")
-    .bind(end).bind(Uuid::new_v4()).bind(track).bind(if obs.record.is_some() { "records-v3" } else { RULE_VERSION }).bind(r.get::<Uuid,_>("entry_id")).execute(&mut *tx).await.map_err(|_|error("derivation_failed"))?;
+    .bind(end).bind(Uuid::new_v4()).bind(track).bind(if obs.record.is_some() { "records-v3" } else { &projection_rule }).bind(r.get::<Uuid,_>("entry_id")).execute(&mut *tx).await.map_err(|_|error("derivation_failed"))?;
         }
         if let Some(record) = &obs.record {
             let dataset = record["dataset"]
@@ -174,12 +177,15 @@ async fn apply(
     };
     let mut publish = vec![];
     for entity in entities {
-        let state = blackbox_domain::reduce(&inputs(&mut tx, entity, end, None).await?)
-            .map_err(|_| error("reducer_conflict"))?;
+        let state = blackbox_domain::reduce_version(
+            &inputs(&mut tx, entity, end, None).await?,
+            &projection_rule,
+        )
+        .map_err(|_| error("reducer_conflict"))?;
         let value = serde_json::to_value(&state).map_err(|_| error("encode_failed"))?;
         let checksum = format!("{:x}", Sha256::digest(serde_json::to_vec(&value).unwrap()));
-        sqlx::query("INSERT INTO bb.projections(tenant_id,entity_id,applied,rule_version,state,checksum) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(tenant_id,entity_id) DO UPDATE SET applied=EXCLUDED.applied,rule_version=EXCLUDED.rule_version,state=EXCLUDED.state,checksum=EXCLUDED.checksum,updated_at=now()")
-   .bind(req.tenant_id).bind(entity).bind(end).bind(RULE_VERSION).bind(value).bind(checksum).execute(&mut *tx).await.map_err(|_|error("projection_failed"))?;
+        sqlx::query("INSERT INTO bb.projections(tenant_id,entity_id,applied,rule_version,state,checksum,generation_id) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT(tenant_id,generation_id,entity_id) DO UPDATE SET applied=EXCLUDED.applied,rule_version=EXCLUDED.rule_version,state=EXCLUDED.state,checksum=EXCLUDED.checksum,verified_checksum=NULL,updated_at=now()")
+   .bind(req.tenant_id).bind(entity).bind(end).bind(&projection_rule).bind(value).bind(checksum).bind(generation).execute(&mut *tx).await.map_err(|_|error("projection_failed"))?;
         publish.push((entity, state));
     }
     sqlx::query("UPDATE bb.heads SET committed=$2,applied=$3,record_count=(SELECT count(*) FROM bb.current_records) WHERE tenant_id=$1")
@@ -193,7 +199,16 @@ async fn apply(
     {
         let mut cache = a.cache.lock().await;
         for (entity, state) in publish {
-            cache.put((req.tenant_id, entity, end), state);
+            cache.put(
+                (
+                    req.tenant_id,
+                    entity,
+                    generation,
+                    end,
+                    projection_rule.clone(),
+                ),
+                state,
+            );
         }
     }
     Ok(Json(
@@ -208,6 +223,7 @@ struct Query {
     recorded_cutoff: Option<i64>,
     effective_at: Option<String>,
     at_least_cursor: Option<i64>,
+    interpretation_version: Option<String>,
 }
 async fn query(
     State(a): State<App>,
@@ -237,7 +253,7 @@ async fn query(
     }
     let _scoped = admit_scoped(&a, q.tenant_id, auth.unwrap().get("principal_id")).await?;
     let mut tx = transaction(&a.db, q.tenant_id).await?;
-    let head = sqlx::query("SELECT committed,applied FROM bb.heads WHERE tenant_id=$1")
+    let head = sqlx::query("SELECT committed,applied,projection_generation,projection_rule FROM bb.heads WHERE tenant_id=$1")
         .bind(q.tenant_id)
         .fetch_one(&mut *tx)
         .await
@@ -245,13 +261,25 @@ async fn query(
     let committed: i64 = head.get("committed");
     let applied: i64 = head.get("applied");
     let cutoff = q.recorded_cutoff.unwrap_or(committed);
+    let generation: Uuid = head.get("projection_generation");
+    let active_rule: String = head.get("projection_rule");
+    let selected_rule = q.interpretation_version.as_deref().unwrap_or(&active_rule);
+    if !["lifecycle-v2", "lifecycle-v3"].contains(&selected_rule) {
+        return Err(error("unsupported_lifecycle_interpretation"));
+    }
     if cutoff < 0 || cutoff > committed {
         return Err(error("invalid_cutoff"));
     }
     if applied < cutoff || applied < q.at_least_cursor.unwrap_or(0) {
         return Err(error("projection_behind"));
     }
-    let key = (q.tenant_id, q.entity_id, cutoff);
+    let key = (
+        q.tenant_id,
+        q.entity_id,
+        generation,
+        cutoff,
+        selected_rule.to_owned(),
+    );
     let cached = if q.effective_at.is_none() {
         a.cache.lock().await.get(&key).cloned()
     } else {
@@ -261,7 +289,7 @@ async fn query(
         (state, "hot")
     } else {
         let projection = if q.effective_at.is_none() {
-            sqlx::query("SELECT state,checksum,rule_version,applied FROM bb.projections WHERE entity_id=$1 AND applied<=$2").bind(q.entity_id).bind(cutoff).fetch_optional(&mut *tx).await.map_err(|_|error("read_failed"))?
+            sqlx::query("SELECT state,checksum,rule_version,applied FROM bb.projections WHERE entity_id=$1 AND applied<=$2 AND generation_id=$3").bind(q.entity_id).bind(cutoff).bind(generation).fetch_optional(&mut *tx).await.map_err(|_|error("read_failed"))?
         } else {
             None
         };
@@ -272,15 +300,18 @@ async fn query(
             let tail:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM bb.journal WHERE entity_id=$1 AND record_type='source' AND sequence>$2 AND sequence<=$3)").bind(q.entity_id).bind(r.get::<i64,_>("applied")).bind(cutoff).fetch_one(&mut *tx).await.map_err(|_|error("read_failed"))?;
             if !tail
                 && r.get::<String, _>("checksum") == checksum
-                && r.get::<String, _>("rule_version") == RULE_VERSION
+                && r.get::<String, _>("rule_version") == selected_rule
             {
-                loaded = serde_json::from_value(value).ok();
+                loaded = serde_json::from_value::<BusinessState>(value)
+                    .ok()
+                    .filter(|state| state.rule_version == selected_rule);
             }
         }
         let state = match loaded {
             Some(s) => s,
-            None => blackbox_domain::reduce(
+            None => blackbox_domain::reduce_version(
                 &inputs(&mut tx, q.entity_id, cutoff, q.effective_at.as_deref()).await?,
+                selected_rule,
             )
             .map_err(|_| error("reducer_conflict"))?,
         };
@@ -305,7 +336,7 @@ async fn query(
         ));
     }
     Ok(Json(
-        json!({"status":if state.agreed_minor.is_some(){"partial"}else{"insufficient_data"},"result":state,"effective_at":q.effective_at,"recorded_cutoff":cutoff,"required_cursor":cutoff,"applied_cursor":applied,"rule_version":RULE_VERSION,"read_path":path,"coverage":{"basis":"observed_records_only","provider_completeness":"unverified"},"missing_inputs":["verified_payment_population_coverage"]}),
+        json!({"status":if state.agreed_minor.is_some(){"partial"}else{"insufficient_data"},"result":state,"effective_at":q.effective_at,"recorded_cutoff":cutoff,"required_cursor":cutoff,"applied_cursor":applied,"rule_version":selected_rule,"active_interpretation_version":active_rule,"projection_generation":generation,"read_path":path,"coverage":{"basis":"observed_records_only","provider_completeness":"unverified"},"missing_inputs":["verified_payment_population_coverage"]}),
     ))
 }
 fn release_manifest() -> Value {
@@ -316,7 +347,7 @@ fn release_manifest() -> Value {
             "{:x}",
             Sha256::digest(serde_json::to_vec(&manifest["runtime"]).unwrap())
         ),
-        "f44009de0ee45cf3b5d92fa8f5360099077a62fa7d3bf680384b03e1aa2090b6",
+        "dfa4fd04235e890f3efa3cab151057eb97818ec8e8a2f5098950fe144d985038",
         "unsupported compiled runtime contract"
     );
     manifest
@@ -387,6 +418,7 @@ async fn main() {
             get(|| async { Json(json!({"service":"engine","rpc_version":1,"runtime_contract":release_manifest()["runtime"]})) }),
         )
         .route("/v1/apply", post(apply))
+        .route("/v1/projection-build", post(projection_build::handler))
         .route("/v1/state", post(query))
         .route("/v1/query", post(questions::handler))
         .layer(DefaultBodyLimit::max(64 * 1024))

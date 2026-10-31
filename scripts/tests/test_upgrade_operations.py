@@ -29,8 +29,8 @@ class UpgradeBoundaryTests(unittest.TestCase):
   bad=copy.deepcopy(self.manifest);bad['runtime']['source_checkpoint']=999
   with patch('release_images.require_available'),patch('release_images.image_contract',return_value=bad),self.assertRaisesRegex(RuntimeConfigError,'Migration refused'):verify_target(self.images,self.manifest)
  def test_resume_refuses_unknown_runtime_and_changed_migration_prefix(self):
-  marker=self.marker('migrating');prior={k:v for k,v in self.manifest['runtime'].items()if k!='source_checkpoint'}
-  for count,runtime in [(8,prior),(9,self.manifest['runtime']),(10,self.manifest['runtime'])]:
+  marker=self.marker('migrating');prior=json.loads((ROOT/'packages/database/migrations/007-runtime-contract.sql').read_text().split("VALUES ('")[1].split("'::jsonb")[0])
+  for count,runtime in [(8,prior),(9,{**prior,'source_checkpoint':2}),(10,{**prior,'source_checkpoint':2}),(11,self.manifest['runtime'])]:
    with patch('upgrade_operations.migration_rows',return_value=self.manifest['migrations'][:count]),patch('upgrade_operations.sql',return_value=json.dumps([{'contract':runtime,'state':'fenced'}]).encode()):self.assertEqual(len(check_migration_progress(self.root,marker,self.manifest)),count)
   with patch('upgrade_operations.migration_rows',return_value=self.manifest['migrations'][:9]),patch('upgrade_operations.sql',return_value=json.dumps([{'contract':prior,'state':'fenced'}]).encode()),self.assertRaisesRegex(RuntimeConfigError,'unknown runtime'):check_migration_progress(self.root,marker,self.manifest)
   changed=copy.deepcopy(self.manifest['migrations'][:9]);changed[0]['sha256']='f'*64

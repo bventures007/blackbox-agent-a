@@ -6525,6 +6525,32 @@
       "nullable": false
     },
     {
+      "path": "database.heads.projection_generation",
+      "purpose": "Atomically selected active lifecycle generation; cache and SQL reads scope to this UUID.",
+      "classification": "pseudonymous_linkable_identifier",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "business_provenance_scoped",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "uuid",
+      "nullable": false
+    },
+    {
+      "path": "database.heads.projection_rule",
+      "purpose": "Explicit active interpretation; existing heads retain v2 until verified publication.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "business_provenance_scoped",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "text",
+      "nullable": false
+    },
+    {
       "path": "database.heads.record_count",
       "purpose": "Durable committed/applied cursor and count for coherent publication: record count bounded control value.",
       "classification": "confidential_operational_metadata",
@@ -7396,6 +7422,214 @@
       "nullable": false
     },
     {
+      "path": "database.projection_builds.build_id",
+      "purpose": "Opaque candidate generation and build identity; only privileged host creates the grant.",
+      "classification": "pseudonymous_linkable_identifier",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "uuid",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.built_count",
+      "purpose": "Bounded count of processed entities including catch-up replacements.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "bigint",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.created_at",
+      "purpose": "Build grant creation timestamp.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "timestamp with time zone",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.error_code",
+      "purpose": "Closed build failure code; no source content or arbitrary database error.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "text",
+      "nullable": true
+    },
+    {
+      "path": "database.projection_builds.published_at",
+      "purpose": "Atomic generation publication timestamp, present only for a published build.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "timestamp with time zone",
+      "nullable": true
+    },
+    {
+      "path": "database.projection_builds.scan_cursor",
+      "purpose": "Last entity UUID in a completed bounded candidate batch.",
+      "classification": "pseudonymous_linkable_identifier",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "uuid",
+      "nullable": true
+    },
+    {
+      "path": "database.projection_builds.source_cutoff",
+      "purpose": "Previous complete source boundary for bounded incremental catch-up.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "bigint",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.source_generation_id",
+      "purpose": "Expected prior generation; publication refuses a changed source pointer.",
+      "classification": "pseudonymous_linkable_identifier",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "uuid",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.source_rule",
+      "purpose": "Expected prior retained interpretation version.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "text",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.state",
+      "purpose": "Bounded scan/catch-up/verify/ready/published/failed operational phase.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "text",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.target_cutoff",
+      "purpose": "Fixed committed/applied journal boundary used by the current candidate pass.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "bigint",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.target_rule",
+      "purpose": "Declared retained reducer to verify; currently lifecycle-v3.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "text",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.tenant_id",
+      "purpose": "RLS workspace boundary for a host-authorized projection rebuild.",
+      "classification": "pseudonymous_linkable_identifier",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "uuid",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.updated_at",
+      "purpose": "Last durable build checkpoint timestamp.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "timestamp with time zone",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.verified_count",
+      "purpose": "Number of candidate rows checked in the current full verification pass.",
+      "classification": "confidential_operational_metadata",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "bigint",
+      "nullable": false
+    },
+    {
+      "path": "database.projection_builds.verify_cursor",
+      "purpose": "Last entity UUID cold-replayed and checked in this verification pass.",
+      "classification": "pseudonymous_linkable_identifier",
+      "placement": "operational_metadata",
+      "retention": "installation_operational",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "uuid",
+      "nullable": true
+    },
+    {
       "path": "database.projections.applied",
       "purpose": "Disposable lifecycle business-state acceleration: applied bounded control value.",
       "classification": "confidential_operational_metadata",
@@ -7430,6 +7664,19 @@
       "authorized_readers": "business_scoped",
       "derivation_dependencies": [
         "Rust canonical reducers and authorized typed history traversal"
+      ],
+      "sql_type": "uuid",
+      "nullable": false
+    },
+    {
+      "path": "database.projections.generation_id",
+      "purpose": "Candidate or published lifecycle generation namespace, part of the scoped projection primary key.",
+      "classification": "pseudonymous_linkable_identifier",
+      "placement": "derived_typed",
+      "retention": "derived_history",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
       ],
       "sql_type": "uuid",
       "nullable": false
@@ -7485,6 +7732,19 @@
       ],
       "sql_type": "timestamp with time zone",
       "nullable": false
+    },
+    {
+      "path": "database.projections.verified_checksum",
+      "purpose": "Verified typed state integrity at the candidate cutoff, checked again before atomic publication.",
+      "classification": "potentially_identifying_integrity_digest",
+      "placement": "derived_typed",
+      "retention": "derived_history",
+      "authorized_readers": "runtime_only",
+      "derivation_dependencies": [
+        "Rust lifecycle-v2/v3 immutable source replay and atomic generation publication; never an independent business assertion."
+      ],
+      "sql_type": "text",
+      "nullable": true
     },
     {
       "path": "database.record_versions.checksum",
@@ -12257,7 +12517,7 @@
     "deferred_providers": "Not enabled. Existing baseline research/restrictions are not broadened by this inventory."
   },
   "reviewed_source_sha256": {
-    "packages/contracts/index.ts": "8dbd88936f6e6faca5391ed3ab49c6ec7142e6672c3e7dbeb6d9200b4e6cd8d0",
+    "packages/contracts/index.ts": "ad244a46c8823813de2807f4c907a34925767c7c53dcac67929acc6516917e29",
     "packages/contracts/lifecycle.ts": "551e9a49f6c88143621ab19fd562322b5f260e5c47980d8fd9c72db7befebc44",
     "packages/contracts/records.ts": "b24984ef502f0103234a9cb187f46ce10d515f2f77d44265482e68def70e19d4",
     "packages/contracts/coverage-codes.ts": "100f6b6715f46bba4246ee04f44d17cf8b698783747caae8a3cc8d914141d2a0",
@@ -12316,6 +12576,10 @@
     {
       "file": "010-unclassified-access-boundary.sql",
       "sha256": "b02684429e9d528fb602d546039fa452403fe25c14d22128fd1a461ed3260d5a"
+    },
+    {
+      "file": "011-projection-generations.sql",
+      "sha256": "0cdfb4665f13de738b49fda0e6036b9637cc174e3a469d068a2880f6cf98a381"
     }
   ],
   "provider_query_sha256": {

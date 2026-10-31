@@ -50,7 +50,7 @@ try {
       method: "POST",
       headers,
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(10000),
+      signal: AbortSignal.timeout(20000),
     });
     if (!response.ok) throw Error("engine");
     const text = await response.text();
@@ -97,6 +97,12 @@ try {
     )
       throw Error("probe_checkpoint");
   }
+  const publication =
+    mode === "compare"
+      ? await (
+          await import("/app/scripts/projection-rebuild.mjs")
+        ).rebuildAll(db, call)
+      : null;
   const cases = [],
     asOf = saved?.as_of ?? new Date().toISOString();
   for (const tenant of tenants) {
@@ -186,12 +192,33 @@ try {
         verifier,
         recorded_cutoff: item.cutoff,
         ...item.request,
+        ...(saved && item.path === "/v1/state"
+          ? { interpretation_version: item.interpretation_version }
+          : {}),
       });
       // Cache selection is allowed to differ; business answer/cutoff must match.
       delete answer.read_path;
+      delete answer.active_interpretation_version;
+      delete answer.projection_generation;
       const hash = digest(answer);
       if (saved && hash !== item.sha256) throw Error("answer_changed");
-      cases.push({ ...item, sha256: hash });
+      const interpretation_version =
+        item.path === "/v1/state" ? answer.rule_version : undefined;
+      cases.push({ ...item, interpretation_version, sha256: hash });
+      if (saved && item.path === "/v1/state") {
+        const current = await call(item.path, {
+          tenant_id: tenant.tenant_id,
+          verifier,
+          recorded_cutoff: item.cutoff,
+          ...item.request,
+        });
+        if (
+          current.rule_version !== "lifecycle-v3" ||
+          current.result.rule_version !== "lifecycle-v3" ||
+          current.recorded_cutoff !== item.cutoff
+        )
+          throw Error("publication_version");
+      }
     }
   }
   if (saved && cases.length !== saved.cases.length)
@@ -223,6 +250,8 @@ try {
       representative_answers: cases.length,
       answers_sha256: digest(cases),
       bodies_exposed: false,
+      retained_interpretation_verified: mode === "compare",
+      publication,
     }),
   );
 } catch {

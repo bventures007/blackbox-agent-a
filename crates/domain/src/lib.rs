@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 pub mod lifecycle;
 pub mod questions;
-pub const RULE_VERSION: &str = "lifecycle-v2";
+pub const RULE_VERSION: &str = "lifecycle-v3";
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Observation {
     pub id: String,
@@ -58,8 +58,8 @@ pub fn reduce(inputs: &[Input]) -> Result<State, String> {
     reduce_version(inputs, RULE_VERSION)
 }
 
-/// Retained historical interpretation and the explicitly staged replacement.
-/// The default remains v2 until atomic projection publication is implemented.
+/// Retained historical readers. Runtime selection follows the atomically
+/// published workspace generation; new workspaces use the current default.
 pub fn reduce_version(inputs: &[Input], version: &str) -> Result<State, String> {
     if !["lifecycle-v2", "lifecycle-v3"].contains(&version) {
         return Err("unsupported_lifecycle_interpretation".into());
@@ -261,7 +261,7 @@ mod tests {
         assert_eq!(prior.refunded_minor, next.refunded_minor);
         assert_eq!(prior.input_entries, next.input_entries);
         assert_eq!(prior.evidence, next.evidence);
-        assert_eq!(reduce(&inputs).unwrap(), prior);
+        assert_eq!(reduce(&inputs).unwrap(), next);
         delivery.observation.occurred_at = "2026-10-31T09:00:00.101Z".into();
         let valid = reduce_version(&[dispatch, delivery], "lifecycle-v3").unwrap();
         assert_eq!(valid.lifecycle.shipment_status, "delivered");

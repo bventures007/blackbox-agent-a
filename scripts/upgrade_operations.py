@@ -1,4 +1,4 @@
-"""Populated schema8 -> schema10 upgrade. Never downgrades or resets a volume.
+"""Populated schema8/schema10 -> schema11 upgrade. Never downgrades or resets a volume.
 
 The new versioned host bundle is placed in the existing installation directory
 before invoking this module. Runtime storage is preserved. Images are explicit
@@ -9,7 +9,7 @@ from contextlib import contextmanager
 from host_runtime import RuntimeConfigError,compose_config,protected_read,protected_directory,create_file,compose_environment,read_compose
 from backup_operations import operation_lock,atomic_json,services,run,sql,stamp,cutoffs,compose
 from release_images import pins,validate,require_available,save,verify_target
-from release_compatibility import read_manifest,migration_rows,require_prefix,check_upgrade_source,check_database,apply_migration
+from release_compatibility import read_manifest,migration_rows,require_prefix,check_upgrade_source,check_database,apply_migration,runtime_for_schema
 
 PHASES={'preparing','probing_source','backup','backup_verified','migrating','verifying','resuming'}
 
@@ -31,7 +31,7 @@ def read_marker(root):
  if value.get('schema_version')!=1 or value.get('operation')!='upgrade'or value.get('phase')not in PHASES:
   raise RuntimeConfigError('No matching resumable upgrade. Use the recorded operation recovery procedure.')
  uuid.UUID(value['operation_id'])
- if value.get('source_schema')not in [8,10]or not isinstance(value.get('prior_running'),list)or len(value['prior_running'])!=len(set(value['prior_running']))or not set(value['prior_running'])<={'postgres','api','worker','engine'}:
+ if value.get('source_schema')not in [8,10,11]or not isinstance(value.get('prior_running'),list)or len(value['prior_running'])!=len(set(value['prior_running']))or not set(value['prior_running'])<={'postgres','api','worker','engine'}:
   raise RuntimeConfigError('Invalid upgrade checkpoint.')
  validate(value['source_images']);validate(value['target_images'])
  return value
@@ -94,6 +94,10 @@ def log_phase(root,operation,name):
    stream.write(json.dumps({'schema_version':1,'record_id':str(uuid.uuid4()),'component':'wrapper','event_name':'wrapper.upgrade.'+name,'message':'Upgrade phase: '+name,'operation_id':operation,'occurred_at':now,'observed_at':now,'level':'ERROR'if name=='failed'else'INFO','instance_id':operation,'scope':'installation','service_version':'0.1.0'})+'\n')
  except OSError:pass # The durable maintenance checkpoint remains authoritative.
 
+def journal_cutoffs(snapshot):
+ # Projection generation metadata can change; journal positions never do.
+ return {**snapshot,'heads':[{k:v for k,v in head.items()if k not in ['projection_generation','projection_rule']}for head in snapshot['heads']]}
+
 def journal_digest(root):
  # Stream the complete immutable row representation; no business rows on disk or stdout.
  statement="COPY (SELECT to_jsonb(j)::text FROM bb.journal j ORDER BY tenant_id,sequence) TO STDOUT;"
@@ -106,7 +110,7 @@ def journal_digest(root):
    if size>16*1024**3:raise RuntimeConfigError('Upgrade journal verification exceeds its bounded scan budget.')
    digest.update(data)
   if process.wait(timeout=10):raise RuntimeConfigError('Journal verification failed; upgrade remains fenced.')
-  return {'sha256':digest.hexdigest(),'bytes':size,'cutoffs':cutoffs(root)}
+  return {'sha256':digest.hexdigest(),'bytes':size,'cutoffs':journal_cutoffs(cutoffs(root))}
  finally:
   timer.cancel();process.stdout.close()
   if process.poll()is None:process.kill()
@@ -119,7 +123,7 @@ def verify_invariants(root):
 def check_migration_progress(root,marker,manifest):
  rows=migration_rows(root);require_prefix(rows,manifest)
  if len(rows)<marker['source_schema']:raise RuntimeConfigError('Migration history went backwards.')
- expected=manifest['runtime']if len(rows)>=9 else {k:v for k,v in manifest['runtime'].items()if k!='source_checkpoint'}
+ expected=runtime_for_schema(manifest,len(rows))
  metadata=json.loads(sql(root,"SELECT coalesce(json_agg(json_build_object('contract',contract,'state',state)),'[]'::json) FROM bb.runtime_contract;"))
  if len(metadata)!=1 or metadata[0].get('contract')!=expected or metadata[0].get('state')not in ['active','fenced']:
   raise RuntimeConfigError('Interrupted migration has an unknown runtime contract; no changes were made.')
@@ -152,7 +156,7 @@ def verify_generation(root,marker,secret):
  from backup_operations import target
  config=json.loads(protected_read(root/'.runtime/backup.json',16384));path=target(config)/marker['backup']['generation']
  with verified_backup(root,path,secret)as(_,manifest,_,digest):
-  if digest!=marker['backup']['ciphertext_sha256']or manifest['metadata']['snapshot']!=marker['journal']['cutoffs']or manifest['metadata']['compatibility']['schema']!=marker['source_schema']:
+  if digest!=marker['backup']['ciphertext_sha256']or journal_cutoffs(manifest['metadata']['snapshot'])!=marker['journal']['cutoffs']or manifest['metadata']['compatibility']['schema']!=marker['source_schema']:
    raise RuntimeConfigError('Pre-upgrade backup does not match the fenced source cutoff.')
  return {'generation':marker['backup']['generation'],'ciphertext_sha256':digest,'recoverable_cutoff':manifest['metadata']['recoverable_cutoff']}
 

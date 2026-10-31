@@ -68,6 +68,10 @@ const properties: Record<string, Record<string, unknown>> = {
     cursor: { type: "string" },
   },
   get_business_state: {
+    interpretation_version: {
+      type: "string",
+      enum: ["lifecycle-v2", "lifecycle-v3"],
+    },
     entity_id: { type: "string", format: "uuid" },
     recorded_cutoff: { type: "integer", minimum: 0 },
     effective_at: { type: "string", format: "date-time" },

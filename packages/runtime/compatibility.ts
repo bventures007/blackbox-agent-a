@@ -19,7 +19,7 @@ export const runtimeFingerprint = createHash("sha256")
 
 if (
   runtimeFingerprint !==
-  "f44009de0ee45cf3b5d92fa8f5360099077a62fa7d3bf680384b03e1aa2090b6"
+  "dfa4fd04235e890f3efa3cab151057eb97818ec8e8a2f5098950fe144d985038"
 )
   throw Error("unsupported_compiled_runtime_contract");
 

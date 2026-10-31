@@ -1,11 +1,12 @@
 {
   "manifest_version": 1,
-  "release": "0.1.0-pilot.3",
+  "release": "0.1.0-pilot.4",
   "install": {
     "postgres_major": 17,
-    "schema": 10,
+    "schema": 11,
     "upgrade_from_schema": [
-      8
+      8,
+      10
     ],
     "rollback": "No populated binary downgrade. Use a compatible forward fix or isolated verified pre-upgrade restore with its recorded cutoff."
   },
@@ -21,12 +22,12 @@
       "typed_records": 1
     },
     "reducers": {
-      "lifecycle": "lifecycle-v2",
+      "lifecycle": "lifecycle-v3",
       "typed_records": "records-v3",
       "questions": "questions-v9"
     },
     "projections": {
-      "lifecycle": "lifecycle-v2",
+      "lifecycle": "lifecycle-v3",
       "typed_records": "records-v3"
     },
     "snapshot": null,
@@ -48,7 +49,12 @@
       17,
       18
     ],
-    "source_checkpoint": 2
+    "source_checkpoint": 2,
+    "projection_build": 1,
+    "lifecycle_readers": [
+      "lifecycle-v2",
+      "lifecycle-v3"
+    ]
   },
   "migrations": [
     {
@@ -90,6 +96,10 @@
     {
       "file": "010-unclassified-access-boundary.sql",
       "sha256": "b02684429e9d528fb602d546039fa452403fe25c14d22128fd1a461ed3260d5a"
+    },
+    {
+      "file": "011-projection-generations.sql",
+      "sha256": "0cdfb4665f13de738b49fda0e6036b9637cc174e3a469d068a2880f6cf98a381"
     }
   ],
   "legacy_schema": {
@@ -108,6 +118,6 @@
     "PostgreSQL18 is allowed only for the existing native development harness; the installation and recovery contract pins PostgreSQL17.",
     "No separate filesystem snapshot format is implemented; projections are disposable version-checked PostgreSQL acceleration.",
     "Runtime protocol compatibility does not authorize installing arbitrary images. Distribution artifact digests and the fenced upgrade procedure remain required.",
-    "The populated upgrade command supports exact schema8 to schema10 and same-schema10 image replacement with unchanged rules. Schema7 remains an isolated-restore reader, not an implemented populated upgrade. Changed-rule projection publication is not implemented by this command."
+    "Populated upgrades support exact schema8/schema10 to schema11 and same-schema11 image replacement. Existing workspaces retain lifecycle-v2 until a bounded, verified generation is atomically published. Both lifecycle-v2/v3 readers are retained; isolated restore supports older recorded formats."
   ]
 }

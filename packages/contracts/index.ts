@@ -94,6 +94,7 @@ export const businessQuery = z
     recorded_cutoff: z.number().int().nonnegative().safe().optional(),
     effective_at: z.iso.datetime().optional(),
     at_least_cursor: z.number().int().nonnegative().safe().optional(),
+    interpretation_version: z.enum(["lifecycle-v2", "lifecycle-v3"]).optional(),
   })
   .strict();
 
