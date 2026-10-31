@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
-pub const RULE_VERSION: &str = "payment-v1";
+pub mod lifecycle;
+pub const RULE_VERSION: &str = "lifecycle-v2";
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Observation {
     pub id: String,
@@ -12,6 +13,10 @@ pub struct Observation {
     pub economic_id: String,
     pub supersedes_entry_id: Option<String>,
     pub test: bool,
+    #[serde(default)]
+    pub quantity: Option<String>,
+    #[serde(default)]
+    pub details: Option<lifecycle::Details>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Input {
@@ -22,6 +27,8 @@ pub struct Input {
 }
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct State {
+    #[serde(flatten)]
+    pub lifecycle: lifecycle::Lifecycle,
     pub currency: Option<String>,
     pub agreed_minor: Option<i64>,
     pub authorized_minor: i64,
@@ -100,7 +107,9 @@ pub fn reduce(inputs: &[Input]) -> Result<State, String> {
     if refunded_minor > captured_minor {
         conflicts.push("refund_exceeds_observed_captures".into());
     }
-    let outstanding_minor = agreed_minor.map(|n| (n - net).max(0));
+    let outstanding_minor = agreed_minor
+        .map(|n| n.checked_sub(net).map(|v| v.max(0)).ok_or("money_overflow"))
+        .transpose()?;
     let payment_status = if !conflicts.is_empty() {
         "conflict"
     } else if agreed_minor.is_none() {
@@ -115,7 +124,8 @@ pub fn reduce(inputs: &[Input]) -> Result<State, String> {
         "awaiting_payment"
     }
     .into();
-    Ok(State {
+    let mut state = State {
+        lifecycle: Default::default(),
         currency,
         agreed_minor,
         authorized_minor,
@@ -134,13 +144,25 @@ pub fn reduce(inputs: &[Input]) -> Result<State, String> {
         conflicts,
         test_data: inputs.iter().any(|x| x.observation.test),
         rule_version: RULE_VERSION.into(),
-    })
+    };
+    state.lifecycle = lifecycle::reduce(&latest.values().copied().collect::<Vec<_>>(), &state)?;
+    Ok(state)
 }
 pub fn derived_tracks(kind: &str) -> &'static [&'static str] {
     match kind {
-        "order.accepted" | "order.revised" => &["fact", "commitment"],
-        "payment.captured" | "refund.completed" => &["fact", "movement"],
-        "refund.pending" => &["fact", "reservation"],
+        "order.accepted"
+        | "order.revised"
+        | "invoice.issued"
+        | "invoice.credit_issued"
+        | "payout.announced" => &["fact", "commitment"],
+        "payment.captured" | "refund.completed" | "payment.fee_booked" | "payout.sent"
+        | "payout.reversed" | "bank.credit_booked" => &["fact", "movement"],
+        "shipment.dispatched" | "return.received" | "return.restocked" => {
+            &["fact", "movement", "reservation"]
+        }
+        "refund.pending" | "inventory.reserved" | "inventory.reservation_released" => {
+            &["fact", "reservation"]
+        }
         _ => &["fact"],
     }
 }
@@ -162,6 +184,8 @@ mod tests {
                 economic_id: n.to_string(),
                 supersedes_entry_id: None,
                 test: true,
+                quantity: None,
+                details: None,
             },
         }
     }

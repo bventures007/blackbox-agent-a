@@ -28,6 +28,18 @@ def database():
   # Passwords go through protected stdin psql variables, never command arguments.
   variables=''.join("\\set "+k+" '"+v+"'\n"for k,v in [('api_password',x['api']),('worker_password',x['worker']),('engine_password',x['engine'])])
   run([pg/'psql','-h',sock,'-U','blackbox_migrate','-d','blackbox','-v','ON_ERROR_STOP=1'],input=(variables+(root/'packages/database/migrations/001-foundation.sql').read_text()).encode(),stdout=subprocess.DEVNULL)
+ # Incremental migrations have checksums and one transaction each. Runtime identities cannot migrate.
+ run([pg/'psql','-h',sock,'-U','blackbox_migrate','-d','blackbox','-v','ON_ERROR_STOP=1'],input=b"CREATE TABLE IF NOT EXISTS bb.schema_migrations(version text PRIMARY KEY, sha256 text NOT NULL, applied_at timestamptz NOT NULL DEFAULT now());",stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+ import hashlib
+ for migration in sorted((root/'packages/database/migrations').glob('*.sql')):
+  digest=hashlib.sha256(migration.read_bytes()).hexdigest()
+  prior=run([pg/'psql','-h',sock,'-U','blackbox_migrate','-d','blackbox','-tAc',f"SELECT sha256 FROM bb.schema_migrations WHERE version='{migration.name}'"],capture_output=True).stdout.decode().strip()
+  if prior:
+   if prior!=digest:raise SystemExit('Applied migration checksum changed: '+migration.name)
+   continue
+  source='' if migration.name=='001-foundation.sql' else migration.read_text()
+  sql="BEGIN;SELECT pg_advisory_xact_lock(18741002);"+source+f"INSERT INTO bb.schema_migrations(version,sha256)VALUES('{migration.name}','{digest}');COMMIT;"
+  run([pg/'psql','-h',sock,'-U','blackbox_migrate','-d','blackbox','-v','ON_ERROR_STOP=1'],input=sql.encode(),stdout=subprocess.DEVNULL)
 def start():
  database();pids={}
  if (runtime/'native-pids.json').exists():raise SystemExit('Native processes already recorded. Stop explicitly before restarting.')

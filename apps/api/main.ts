@@ -12,7 +12,9 @@ import {
   type Principal,
 } from "../../packages/auth/index.js";
 import { pool, scoped } from "../../packages/database/index.js";
-import { businessQuery } from "../../packages/contracts/index.js";
+import { ingest } from "../../packages/application/ingest.js";
+import { validSignature } from "../../packages/auth/producer.js";
+import { businessQuery, observation } from "../../packages/contracts/index.js";
 import { log } from "../../packages/diagnostics/index.js";
 const port = Number(process.env.PORT ?? 8080),
   publicPort = Number(process.env.PUBLIC_PORT ?? 18741);
@@ -218,6 +220,93 @@ app.post("/v1/agents/:id/revoke", async (req) => {
     );
   });
   return { ok: true };
+});
+app.post("/v1/producers", async (req) => {
+  const p = owner(req.principal);
+  const body = z
+    .object({
+      name: z.string().min(1).max(80),
+      provider: z.enum(["generic", "replay", "bank_csv", "policy"]),
+    })
+    .strict()
+    .parse(req.body);
+  const key = newKey("producer"),
+    credential = randomUUID(),
+    principal = randomUUID(),
+    connection = randomUUID();
+  await scoped(p.tenant_id, async (c) => {
+    await c.query(
+      "INSERT INTO bb.credentials(tenant_id,credential_id,principal_id,purpose,verifier,name) VALUES($1,$2,$3,'producer',$4,$5)",
+      [p.tenant_id, credential, principal, verifier(key), body.name],
+    );
+    await c.query(
+      "INSERT INTO bb.connections(tenant_id,connection_id,provider,account_anchor,config) VALUES($1,$2,$3,$4,$5)",
+      [
+        p.tenant_id,
+        connection,
+        body.provider,
+        randomUUID(),
+        JSON.stringify({ producer_principal_id: principal }),
+      ],
+    );
+    await c.query(
+      "INSERT INTO bb.security_audit(tenant_id,audit_id,principal_id,action) VALUES($1,$2,$3,'producer.created')",
+      [p.tenant_id, randomUUID(), p.principal_id],
+    );
+  });
+  return { connection_id: connection, credential_id: credential, key };
+});
+app.post("/v1/ingest/:connection", async (req, reply) => {
+  const p = req.principal!;
+  if (p.purpose !== "producer")
+    return reply.code(403).send({ error: "producer_required" });
+  const connection = z
+    .uuid()
+    .parse((req.params as { connection: string }).connection);
+  const body = z
+    .object({ observations: z.array(observation).min(1).max(250) })
+    .strict()
+    .parse(req.body);
+  const timestamp = String(req.headers["x-blackbox-time"] ?? ""),
+    nonce = String(req.headers["x-blackbox-nonce"] ?? "");
+  if (
+    !validSignature(
+      req.accessKey!,
+      req.url,
+      timestamp,
+      nonce,
+      req.body,
+      String(req.headers["x-blackbox-signature"] ?? ""),
+    )
+  )
+    return reply.code(403).send({ error: "invalid_signature" });
+  const allowed = await scoped(p.tenant_id, async (c) => {
+    const conn = await c.query(
+      "SELECT config FROM bb.connections WHERE connection_id=$1 AND state='configured'",
+      [connection],
+    );
+    if (conn.rows[0]?.config.producer_principal_id !== p.principal_id)
+      return false;
+    // Replay protection is durable across service restarts; rejected delivery never enters the journal.
+    const inserted = await c.query(
+      "INSERT INTO bb.producer_receipts(tenant_id,credential_id,nonce) VALUES($1,$2,$3) ON CONFLICT DO NOTHING RETURNING nonce",
+      [p.tenant_id, p.credential_id, nonce],
+    );
+    await c.query(
+      "DELETE FROM bb.producer_receipts WHERE received_at<now()-interval '10 minutes'",
+    );
+    return !!inserted.rowCount;
+  });
+  if (!allowed)
+    return reply.code(403).send({ error: "connection_or_nonce_denied" });
+  const result = await ingest(p.tenant_id, connection, body.observations, body);
+  log("journal.batch_committed", {
+    tenant_id: p.tenant_id,
+    connection_id: connection,
+    committed_cursor: result.committed_cursor,
+    record_count: result.added,
+  });
+  return reply.code(202).send(result);
 });
 app.get("/v1/status", async (req) => {
   const p = owner(req.principal);
