@@ -119,7 +119,7 @@ impl Engine {
                 if entry.record_type == RecordType::Source {
                     // hydrate entities the derivation may need to resolve ids
                     let keys = resolution_keys(&entry.event_type, &entry.payload);
-                    self.hydrate_missing(tenant, &rt, &keys, entry.journal_sequence - 1).await;
+                    self.hydrate_missing(tenant, &rt, &keys, entry.journal_sequence - 1, true).await;
                     let res = { let st = rt.state.read().await; derive(entry, &BatchOverlay { base: &*st, staged: &staged }) };
                     match res {
                         Ok(d) => { derived_inputs.extend(to_inputs(entry, &d)); staged.extend(d.into_iter()); }
@@ -129,7 +129,7 @@ impl Engine {
                 } else {
                     let d: Derived = match serde_json::from_value(entry.payload.clone()) { Ok(d) => d, Err(e) => { quarantined += 1; self.log.warn("engine.derived_unreadable", &format!("derived entry payload unreadable: {e}"), Fields { tenant_id: tid.clone(), error_code: Some("derived_unreadable".into()), ..Default::default() }); rt.state.write().await.note_source(entry); continue; } };
                     let missing = rt.state.read().await.missing_for(&d);
-                    self.hydrate_missing(tenant, &rt, &missing, entry.journal_sequence - 1).await;
+                    self.hydrate_missing(tenant, &rt, &missing, entry.journal_sequence - 1, false).await;
                     rt.state.write().await.apply(entry, &d);
                 }
             }
@@ -149,9 +149,11 @@ impl Engine {
         }
     }
 
-    async fn hydrate_missing(&self, tenant: Uuid, rt: &Arc<TenantRt>, keys: &[Key], max_sequence: i64) {
+    /// `force`: also load entities the resident state has never seen (resolution keys named by a source payload may point at
+    /// entities whose only facts are still unapplied derived entries from an earlier batch).
+    async fn hydrate_missing(&self, tenant: Uuid, rt: &Arc<TenantRt>, keys: &[Key], max_sequence: i64, force: bool) {
         for k in keys {
-            let needed = { let st = rt.state.read().await; st.is_known(k) && !st.is_resident(k) };
+            let needed = { let st = rt.state.read().await; !st.is_resident(k) && (force || st.is_known(k)) };
             if !needed { continue; }
             match self.store.entity_history(tenant, k.0, &k.1, max_sequence, true, true).await {
                 Ok(entries) => { let st = fold_entity(k.0, &k.1, &entries, None); rt.state.write().await.insert_hydrated(k.clone(), st); }
@@ -196,7 +198,7 @@ impl Engine {
         let answer = loop {
             iterations += 1;
             let res = { let mut st = rt.state.write().await; run(&mut st, &input) };
-            match res { Ok(a) => break a, Err(NeedHydration(keys)) => { if iterations > 6 { return Err((503, "hydration budget exceeded for this query; narrow the filter".into())); } let cur = rt.status.read().await.applied_cursor; self.hydrate_missing(tenant, &rt, &keys, cur).await; } }
+            match res { Ok(a) => break a, Err(NeedHydration(keys)) => { if iterations > 6 { return Err((503, "hydration budget exceeded for this query; narrow the filter".into())); } let cur = rt.status.read().await.applied_cursor; self.hydrate_missing(tenant, &rt, &keys, cur, false).await; } }
         };
         drop(permit);
         self.query_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
@@ -228,7 +230,7 @@ impl Engine {
             match res {
                 Ok(Some(v)) => return Ok(json!({"status": "complete", "applied_cursor": applied, "required_cursor": required, "view": v})),
                 Ok(None) => return Ok(json!({"status": "insufficient_data", "applied_cursor": applied, "required_cursor": required, "entity_type": entity_type, "entity_id": entity_id, "view": null})),
-                Err(NeedHydration(keys)) => { if iterations > 3 { return Err((503, "hydration failed".into())); } self.hydrate_missing(tenant, &rt, &keys, applied).await; }
+                Err(NeedHydration(keys)) => { if iterations > 3 { return Err((503, "hydration failed".into())); } self.hydrate_missing(tenant, &rt, &keys, applied, false).await; }
             }
         }
     }

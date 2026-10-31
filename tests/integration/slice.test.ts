@@ -118,6 +118,7 @@ describe('SLICE-01 provider-shaped persisted path', () => {
     const caughtUp = (h: { tenants: Array<Record<string, unknown>> }) => h.tenants.every((t) => t.ready === true) && h.tenants.some((t) => t.tenant_id === tenantId && Number(t.applied_cursor) >= cutoff);
     execSync(`${COMPOSE} restart api worker engine`, { stdio: 'pipe', cwd: ROOT });
     await waitFor(async () => { try { const h = await engineHealth(); return caughtUp(h) ? h : null; } catch { return null; } }, 120_000);
+    await waitFor(async () => { try { const r = await fetch(API + '/api/health/live', { headers: { host: new URL(API).host } }); return r.status === 200 ? true : null; } catch { return null; } }, 60_000); // the API restarts too
     cookie = await loginOwner(); // sessions survive restart (server-side), but renew for safety in this test
     const after = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state', consistency: { mode: 'at_least_cursor', cursor: cutoff } }) });
     expect(normalize(after.body.result)).toEqual(normalize(before.body.result)); expect(after.body.evidence_entry_ids).toEqual(before.body.evidence_entry_ids);

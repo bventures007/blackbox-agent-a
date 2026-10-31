@@ -1,9 +1,9 @@
 {
   "api": "http://127.0.0.1:19080",
-  "started_at": "2026-10-31T17:59:00.741Z",
-  "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
+  "started_at": "2026-10-31T18:06:32.998Z",
+  "connection_id": "6ac66e5b-97cb-4916-8233-e50f7e0f7f6d",
   "import_run": {
-    "run_id": "d9b2f7ef-5238-493a-be74-451961ff1f1a",
+    "run_id": "7937c9e6-9033-49f3-b0fc-f245b06006c2",
     "kind": "initial",
     "state": "complete",
     "counters": {
@@ -11,42 +11,42 @@
       "conflicts": 0,
       "duplicates": 0,
       "total_known": false,
-      "requested_to": "2026-10-31T17:59:00.955Z",
+      "requested_to": "2026-10-31T18:06:33.672Z",
       "orders_fetched": 7,
-      "requested_from": "2026-10-01T17:59:00.955Z",
-      "committed_cursor": 88,
+      "requested_from": "2026-10-01T18:06:33.672Z",
+      "committed_cursor": 671,
       "inventory_snapshots": 3,
       "observations_committed": 31
     }
   },
   "counts_after_import": {
     "counts": {
-      "source": 42,
-      "fact": 42,
-      "commitment": 8,
-      "movement": 11,
-      "reservation": 1
+      "source": 294,
+      "fact": 294,
+      "commitment": 28,
+      "movement": 50,
+      "reservation": 21
     },
-    "committed_cursor": 104
+    "committed_cursor": 687
   },
   "engine_after_import": {
     "version": "0.1.0-dev",
-    "uptime_seconds": 5,
+    "uptime_seconds": 26,
     "database": "reachable",
     "phase": "current",
-    "applied_cursor": 104,
-    "committed_cursor": 104,
+    "applied_cursor": 687,
+    "committed_cursor": 687,
     "lag_entries": 0,
     "lag_ms": 0,
-    "resident_entities": 46,
-    "snapshot_sequence": null,
-    "rss_bytes": 7622656,
-    "resident_bytes_total": 23288,
+    "resident_entities": 111,
+    "snapshot_sequence": 583,
+    "rss_bytes": 9601024,
+    "resident_bytes_total": 93848,
     "log_dropped": 0,
     "debug_active": false
   },
   "order_1001_api": {
-    "applied_cursor": 104,
+    "applied_cursor": 687,
     "calculation": [
       "collected = sum of successful captures; remaining = order gross - collected; authorizations, voids and failures are reported separately and never count as collected."
     ],
@@ -54,13 +54,13 @@
     "coverage": [
       {
         "capability": "orders",
-        "complete_through": "2026-10-31T17:59:00.955Z",
+        "complete_through": "2026-10-31T18:06:33.672Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "payments",
-        "complete_through": "2026-10-31T17:59:00.955Z",
+        "complete_through": "2026-10-31T18:06:33.672Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -78,22 +78,22 @@
       }
     ],
     "evidence_entry_ids": [
-      "72caf6e9-e084-4c60-bd5f-040f7b72b7d5",
-      "d8245025-8905-4421-a91d-91aa45f5757b",
-      "ce046986-9c71-4097-9fb7-163f1894a4da",
-      "eb21c488-0ac1-4a6f-b58a-771232a76e56",
-      "b59fb4d8-e38d-40fc-b9de-1502685af724",
-      "d0636a56-7e28-4fb9-b05e-fe94447917c1"
+      "4d566832-b794-4667-845a-ba390dc32683",
+      "d9a52c1d-e1b4-4c30-8c9b-8f4a81b80da8",
+      "254a594f-1a62-46a0-a85b-cdcaf24716cf",
+      "2165452c-c55a-4605-a8f5-26af12f68e0f",
+      "c5a55ea1-db60-42fd-a3cb-a4a7fae15af2",
+      "631c948a-c559-4036-9467-dd8909e3284a"
     ],
     "hydration_rounds": 0,
     "intent": "orders.payment_state",
     "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 104,
+      "snapshot_cursor": 687,
       "truncated": false
     },
-    "required_cursor": 104,
+    "required_cursor": 687,
     "result": {
       "orders": [
         {
@@ -120,9 +120,9 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 6,
+    "timing_ms": 36,
     "effective_at": null,
-    "recorded_cutoff": 104,
+    "recorded_cutoff": 687,
     "readiness": [
       {
         "capability": "orders",
@@ -130,12 +130,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
+            "connection_id": "594c6b33-ca13-46c2-894f-5bc081692e9f",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T18:06:18.786Z",
+            "last_new_record_at": "2026-10-31T18:06:18.786Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "6ac66e5b-97cb-4916-8233-e50f7e0f7f6d",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:59:01.586Z",
-            "last_new_record_at": "2026-10-31T17:59:01.545Z",
+            "last_successful_sync_at": "2026-10-31T18:06:35.698Z",
+            "last_new_record_at": "2026-10-31T18:06:35.475Z",
             "collection_state": "ready"
           }
         ],
@@ -147,12 +156,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
+            "connection_id": "594c6b33-ca13-46c2-894f-5bc081692e9f",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T18:06:18.786Z",
+            "last_new_record_at": "2026-10-31T18:06:18.786Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "6ac66e5b-97cb-4916-8233-e50f7e0f7f6d",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:59:01.586Z",
-            "last_new_record_at": "2026-10-31T17:59:01.545Z",
+            "last_successful_sync_at": "2026-10-31T18:06:35.698Z",
+            "last_new_record_at": "2026-10-31T18:06:35.475Z",
             "collection_state": "ready"
           }
         ],
@@ -169,14 +187,24 @@
         "capability": "identity",
         "coverage_status": "unavailable",
         "readiness": "blocked",
-        "sources": [],
-        "missing_source": true
+        "sources": [
+          {
+            "connection_id": "594c6b33-ca13-46c2-894f-5bc081692e9f",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
       }
     ]
   },
   "order_1001_state": {
-    "applied_cursor": 104,
-    "required_cursor": 104,
+    "applied_cursor": 687,
+    "required_cursor": 687,
     "status": "complete",
     "view": {
       "computed": {
@@ -187,14 +215,14 @@
       "entity_id": "#1001",
       "entity_type": "order",
       "evidence_entry_ids": [
-        "72caf6e9-e084-4c60-bd5f-040f7b72b7d5",
-        "d8245025-8905-4421-a91d-91aa45f5757b",
-        "ce046986-9c71-4097-9fb7-163f1894a4da",
-        "eb21c488-0ac1-4a6f-b58a-771232a76e56",
-        "b59fb4d8-e38d-40fc-b9de-1502685af724",
-        "d0636a56-7e28-4fb9-b05e-fe94447917c1"
+        "4d566832-b794-4667-845a-ba390dc32683",
+        "d9a52c1d-e1b4-4c30-8c9b-8f4a81b80da8",
+        "254a594f-1a62-46a0-a85b-cdcaf24716cf",
+        "2165452c-c55a-4605-a8f5-26af12f68e0f",
+        "c5a55ea1-db60-42fd-a3cb-a4a7fae15af2",
+        "631c948a-c559-4036-9467-dd8909e3284a"
       ],
-      "last_sequence": 37,
+      "last_sequence": 620,
       "state": {
         "accepted_at": "2026-10-20T13:00:00Z",
         "agreed_version": 1,
@@ -231,15 +259,15 @@
         "pending_refund_minor": 0,
         "prov": {
           "entry_ids": [
-            "72caf6e9-e084-4c60-bd5f-040f7b72b7d5",
-            "d8245025-8905-4421-a91d-91aa45f5757b",
-            "ce046986-9c71-4097-9fb7-163f1894a4da",
-            "eb21c488-0ac1-4a6f-b58a-771232a76e56",
-            "b59fb4d8-e38d-40fc-b9de-1502685af724",
-            "d0636a56-7e28-4fb9-b05e-fe94447917c1"
+            "4d566832-b794-4667-845a-ba390dc32683",
+            "d9a52c1d-e1b4-4c30-8c9b-8f4a81b80da8",
+            "254a594f-1a62-46a0-a85b-cdcaf24716cf",
+            "2165452c-c55a-4605-a8f5-26af12f68e0f",
+            "c5a55ea1-db60-42fd-a3cb-a4a7fae15af2",
+            "631c948a-c559-4036-9467-dd8909e3284a"
           ],
           "last_occurred_at": "2026-10-20T13:10:00Z",
-          "last_sequence": 37
+          "last_sequence": 620
         },
         "refunded_minor": 0,
         "refunds": [],
@@ -255,7 +283,7 @@
         "voided_minor": 0
       }
     },
-    "recorded_cutoff": 104
+    "recorded_cutoff": 687
   },
   "recovered": {
     "recovered": [
@@ -286,10 +314,10 @@
     "conflicts": 0,
     "duplicates": 5,
     "total_known": false,
-    "requested_to": "2026-10-31T17:59:03.127Z",
+    "requested_to": "2026-10-31T18:06:37.365Z",
     "orders_fetched": 1,
     "requested_from": "2026-10-21T15:50:00.000Z",
-    "committed_cursor": 104,
+    "committed_cursor": 687,
     "inventory_snapshots": 0,
     "observations_committed": 0
   },
@@ -305,7 +333,7 @@
     "list_sources"
   ],
   "order_1001_mcp": {
-    "applied_cursor": 120,
+    "applied_cursor": 703,
     "calculation": [
       "collected = sum of successful captures; remaining = order gross - collected; authorizations, voids and failures are reported separately and never count as collected."
     ],
@@ -313,13 +341,13 @@
     "coverage": [
       {
         "capability": "orders",
-        "complete_through": "2026-10-31T17:59:03.127Z",
+        "complete_through": "2026-10-31T18:06:37.365Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
       {
         "capability": "payments",
-        "complete_through": "2026-10-31T17:59:03.127Z",
+        "complete_through": "2026-10-31T18:06:37.365Z",
         "note": null,
         "status": "complete_for_declared_scope"
       },
@@ -337,22 +365,22 @@
       }
     ],
     "evidence_entry_ids": [
-      "72caf6e9-e084-4c60-bd5f-040f7b72b7d5",
-      "d8245025-8905-4421-a91d-91aa45f5757b",
-      "ce046986-9c71-4097-9fb7-163f1894a4da",
-      "eb21c488-0ac1-4a6f-b58a-771232a76e56",
-      "b59fb4d8-e38d-40fc-b9de-1502685af724",
-      "d0636a56-7e28-4fb9-b05e-fe94447917c1"
+      "4d566832-b794-4667-845a-ba390dc32683",
+      "d9a52c1d-e1b4-4c30-8c9b-8f4a81b80da8",
+      "254a594f-1a62-46a0-a85b-cdcaf24716cf",
+      "2165452c-c55a-4605-a8f5-26af12f68e0f",
+      "c5a55ea1-db60-42fd-a3cb-a4a7fae15af2",
+      "631c948a-c559-4036-9467-dd8909e3284a"
     ],
     "hydration_rounds": 0,
     "intent": "orders.payment_state",
     "missing_inputs": [],
     "pagination": {
       "next_cursor": null,
-      "snapshot_cursor": 120,
+      "snapshot_cursor": 703,
       "truncated": false
     },
-    "required_cursor": 120,
+    "required_cursor": 703,
     "result": {
       "orders": [
         {
@@ -379,9 +407,9 @@
     },
     "rule_version": "r1",
     "status": "complete",
-    "timing_ms": 9,
+    "timing_ms": 30,
     "effective_at": null,
-    "recorded_cutoff": 120,
+    "recorded_cutoff": 703,
     "readiness": [
       {
         "capability": "orders",
@@ -389,12 +417,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
+            "connection_id": "594c6b33-ca13-46c2-894f-5bc081692e9f",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T18:06:18.786Z",
+            "last_new_record_at": "2026-10-31T18:06:18.786Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "6ac66e5b-97cb-4916-8233-e50f7e0f7f6d",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:59:03.159Z",
-            "last_new_record_at": "2026-10-31T17:59:01.545Z",
+            "last_successful_sync_at": "2026-10-31T18:06:37.536Z",
+            "last_new_record_at": "2026-10-31T18:06:35.475Z",
             "collection_state": "ready"
           }
         ],
@@ -406,12 +443,21 @@
         "readiness": "ready",
         "sources": [
           {
-            "connection_id": "397c6a48-ed1c-4096-996d-8f804a41516c",
+            "connection_id": "594c6b33-ca13-46c2-894f-5bc081692e9f",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "current",
+            "last_successful_sync_at": "2026-10-31T18:06:18.786Z",
+            "last_new_record_at": "2026-10-31T18:06:18.786Z",
+            "collection_state": "ready"
+          },
+          {
+            "connection_id": "6ac66e5b-97cb-4916-8233-e50f7e0f7f6d",
             "provider": "shopify",
             "display_name": "Fixture Store",
             "health": "current",
-            "last_successful_sync_at": "2026-10-31T17:59:03.159Z",
-            "last_new_record_at": "2026-10-31T17:59:01.545Z",
+            "last_successful_sync_at": "2026-10-31T18:06:37.536Z",
+            "last_new_record_at": "2026-10-31T18:06:35.475Z",
             "collection_state": "ready"
           }
         ],
@@ -428,46 +474,35 @@
         "capability": "identity",
         "coverage_status": "unavailable",
         "readiness": "blocked",
-        "sources": [],
-        "missing_source": true
+        "sources": [
+          {
+            "connection_id": "594c6b33-ca13-46c2-894f-5bc081692e9f",
+            "provider": "replay",
+            "display_name": "Golden example",
+            "health": "configured",
+            "last_successful_sync_at": null,
+            "last_new_record_at": null,
+            "collection_state": "configured"
+          }
+        ],
+        "missing_source": false
       }
     ]
   },
-  "revocation_denial_ms": 2,
+  "revocation_denial_ms": 8,
   "engine_before_restart": [
     {
-      "applied_cursor": 120,
-      "committed_cursor": 120,
-      "known_entities": 46,
+      "applied_cursor": 703,
+      "committed_cursor": 703,
+      "known_entities": 111,
       "lag_entries": 0,
       "lag_ms": 0,
       "last_error": null,
       "phase": "current",
       "ready": true,
-      "resident_entities": 46,
-      "snapshot_sequence": null,
-      "tenant_id": "f3d8c8d1-ae09-487a-9fe9-ddcb0168e487"
+      "resident_entities": 111,
+      "snapshot_sequence": 583,
+      "tenant_id": "14df31b9-72e3-40f5-91bd-961586bce541"
     }
-  ],
-  "snapshot_removed": "removed",
-  "engine_after_rebuild": [
-    {
-      "applied_cursor": 120,
-      "committed_cursor": 120,
-      "known_entities": 46,
-      "lag_entries": 0,
-      "lag_ms": 0,
-      "last_error": null,
-      "phase": "current",
-      "ready": true,
-      "resident_entities": 46,
-      "snapshot_sequence": null,
-      "tenant_id": "f3d8c8d1-ae09-487a-9fe9-ddcb0168e487"
-    }
-  ],
-  "latest_committed_cursor": 120,
-  "tenant_collision": {
-    "tenant_b": "cf92a9ec-33af-4fea-89be-4234d74d233d",
-    "visible_to_a": false
-  }
+  ]
 }
