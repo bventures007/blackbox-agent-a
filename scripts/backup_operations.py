@@ -127,7 +127,9 @@ def fence(root,operation):
   # pg_dump uses an ordinary consistent snapshot after every application writer stops.
   deadline=time.monotonic()+60
   while True:
-   try:sql(root,'SELECT 1;');break
+   try:
+    run(root,'exec','-T','postgres','pg_isready','-h','127.0.0.1','-U','blackbox_migrate','-d','blackbox')
+    sql(root,'SELECT 1;');break
    except RuntimeConfigError:
     if time.monotonic()>deadline:raise
     time.sleep(.2)
@@ -150,10 +152,16 @@ def cutoffs(root):
 def generation(root):
  runtime=root/'.runtime';compose_config(runtime)
  with operation_lock(runtime):
-  config=json.loads(protected_read(runtime/'backup.json',16384));managed=target(config)
-  directory_fd=os.open(managed,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+  config=json.loads(protected_read(runtime/'backup.json',16384));started=stamp()
+  try:
+   managed=target(config)
+   directory_fd=os.open(managed,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+  except (OSError,RuntimeConfigError):
+   previous=json.loads(protected_read(runtime/'backup-status.json',16384)) if (runtime/'backup-status.json').exists() else {}
+   atomic_json(runtime/'backup-status.json',{**previous,'state':'failed','last_attempt':started,'error':'backup_destination_unavailable'})
+   raise
   partial=uuid.uuid4().hex+'.partial';final=partial.removesuffix('.partial')+'.bb.age';fd=None
-  started=stamp();metadata=None;success=None
+  metadata=None;success=None
   try:
    actual=os.fstat(directory_fd)
    if actual.st_dev!=config['managed_device']or actual.st_ino!=config['managed_inode']:raise RuntimeConfigError('Backup destination changed during enrollment check.')
@@ -164,6 +172,8 @@ def generation(root):
    with fence(root,'backup'):
     snapshot=cutoffs(root)
     if snapshot['postgres_major']!=17:raise RuntimeConfigError('Unsupported PostgreSQL backup major version.')
+    # Verify the live data key actually opens every retained evidence object before publication.
+    run(root,'run','--rm','--no-deps','tooling','node','--import','tsx','scripts/verify-evidence.ts',timeout=330)
     cutoff=stamp()
     fd=os.open(partial,os.O_RDWR|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600,dir_fd=directory_fd)
     with os.fdopen(fd,'w+b',closefd=False)as output:

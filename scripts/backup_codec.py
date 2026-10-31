@@ -11,6 +11,18 @@ NAME=re.compile(r'(?:database/[0-9]{8}\.bin|evidence/[a-f0-9-]{36}/[a-f0-9-]{36}
 class BackupFormatError(RuntimeError):pass
 
 
+def decode_json(value):
+ def object_pairs(pairs):
+  result={}
+  for key,item in pairs:
+   if key in result:raise BackupFormatError('duplicate_backup_metadata_key')
+   result[key]=item
+  return result
+ def invalid_constant(value):raise BackupFormatError('invalid_backup_metadata_number')
+ try:return json.loads(value,object_pairs_hook=object_pairs,parse_constant=invalid_constant)
+ except (ValueError,UnicodeError):raise BackupFormatError('invalid_backup_metadata')from None
+
+
 def tool(root:pathlib.Path,name:str)->str:
  if name not in ['age','age-keygen']:raise BackupFormatError('unsupported_backup_tool')
  lock=json.loads((root/'vendor/age.lock.json').read_text())
@@ -130,7 +142,7 @@ def inspect_archive(stream,visit=None)->dict:
   padding=read_exact(stream,(-info.size)%512)
   if any(padding):raise BackupFormatError('invalid_tar_padding')
   if name=='manifest.json':
-   try:manifest=json.loads(value)
+   try:manifest=decode_json(value)
    except (ValueError,UnicodeError):raise BackupFormatError('invalid_backup_manifest')from None
   else:
    members[name]={'size':len(value),'sha256':hashlib.sha256(value).hexdigest()}

@@ -23,6 +23,22 @@ except (OSError,RuntimeConfigError):print('setup_log_unavailable: log persistenc
 
 if command=='logs':sys.exit(run(['python3',str(root/'scripts/diagnostics.py'),*sys.argv[2:]]))
 if command=='diagnostics' and len(sys.argv)>2 and sys.argv[2]=='export':sys.exit(run(['python3',str(root/'scripts/diagnostics.py'),*sys.argv[3:]]))
+if command=='restore':
+ import argparse,getpass
+ from backup_restore import restore,finish_restore
+ from backup_codec import BackupFormatError
+ parser=argparse.ArgumentParser(prog='./blackbox restore')
+ parser.add_argument('backup');parser.add_argument('--to',required=True,type=pathlib.Path);parser.add_argument('--port',type=int,default=18755)
+ options=parser.parse_args(sys.argv[2:])
+ try:
+  if not sys.stdout.isatty():raise RuntimeConfigError('Protected interactive terminal required for restore and owner-key issuance.')
+  if options.backup=='resume':finish_restore(options.to.expanduser().absolute())
+  else:
+   secret=getpass.getpass('Backup recovery key / Wiederherstellungsschlüssel: ').encode()
+   restore(root,pathlib.Path(options.backup).expanduser(),options.to,secret,options.port)
+   finish_restore(options.to.expanduser().absolute())
+ except (RuntimeConfigError,BackupFormatError,OSError) as error:raise SystemExit(str(error))
+ sys.exit(0)
 if command=='backup':
  from backup_operations import enroll,generation
  from backup_codec import BackupFormatError

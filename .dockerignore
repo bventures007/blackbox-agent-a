@@ -4,3 +4,17 @@ node_modules
 target
 work
 reference/screenshots
+.tools
+.env
+.env.*
+.secrets
+*.key
+*.pem
+*.p12
+*.pfx
+.local
+backups
+data
+artifacts/runtime
+bin
+outputs
