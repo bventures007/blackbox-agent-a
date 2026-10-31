@@ -1,0 +1,8 @@
+{
+ "row": "shopify.allocations",
+ "kind": "live",
+ "result": "blocked",
+ "reason": "No Shopify store or custom-app token was authorized for this session; live verification needs an owner-authorized store (read_orders, read_all_orders, read_inventory, read_fulfillments, read_returns).",
+ "tested_commit": "45f9090281af50b198faed64febc37f754caa22f",
+ "run_id": "pilot-20261031T181630Z-45f9090"
+}

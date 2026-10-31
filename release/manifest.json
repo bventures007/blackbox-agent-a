@@ -1,11 +1,31 @@
 {
-  "schema_version": 1,
-  "version": "0.1.0-dev",
-  "status": "preview",
-  "date": "2026-10-31",
-  "tested_commit": null,
-  "release_notes": "Development preview; no installable artifact has been produced yet. The landing shows the honest unavailable state.",
-  "prerequisites": ["macOS 14+ on Apple Silicon", "Docker Desktop 4.30+ (running)", "~3 GB free disk"],
-  "guide_url": "guide.html",
-  "artifacts": []
+ "schema_version": 1,
+ "version": "0.1.0-dev",
+ "status": "preview",
+ "date": "2026-10-31",
+ "tested_commit": "7fd6c5a6e78e7dd23b21631f44595dbf31456e8c",
+ "release_notes": "Local pilot preview 0.1.0-dev: wrapper, pinned Compose, bundled images (node, engine, postgres:17@sha256:31ba9c94a03a\u2026). Synthetic-proven Shopify path; live provider proof pending authorization.",
+ "prerequisites": [
+  "macOS 14+ on Apple Silicon",
+  "Docker Desktop 4.30+ (running)",
+  "~3 GB free disk"
+ ],
+ "guide_url": "guide.html",
+ "images": {
+  "node": "blackbox-agent-a/node:0.1.0-dev",
+  "engine": "blackbox-agent-a/engine:0.1.0-dev",
+  "postgres": "postgres:17@sha256:31ba9c94a03ada9988f2bb493a22a75eef3a185884533e5cdbcd498ea835b08f"
+ },
+ "artifacts": [
+  {
+   "platform": "macos-arm64",
+   "min_os": "macOS 14",
+   "format": "tar.gz",
+   "filename": "blackbox-0.1.0-dev-macos-arm64.tar.gz",
+   "size_bytes": 281837818,
+   "sha256": "07131745c330f1f861fec7e0f42538689b996342f6d23e194b413f671e2575b7",
+   "url": "./downloads/blackbox-0.1.0-dev-macos-arm64.tar.gz",
+   "status": "preview"
+  }
+ ]
 }

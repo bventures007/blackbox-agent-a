@@ -1,0 +1,121 @@
+{
+ "row": "shopify.payments",
+ "kind": "pipeline",
+ "run_id": "pilot-20261031T181630Z-45f9090",
+ "tested_commit": "45f9090281af50b198faed64febc37f754caa22f",
+ "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/slice.test.ts integration/queries.test.ts",
+ "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0, pnpm 11.20; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a with test port overrides (infra/compose/compose.test.yaml); fresh installation via ./blackbox setup before the run",
+ "vitest_files": {
+  "integration/slice.test.ts": {
+   "status": "passed",
+   "passed": 8,
+   "failed": 0,
+   "cases": [
+    {
+     "name": "SLICE-01 provider-shaped persisted path imports the fixture through the real adapter and the engine applies the derived tracks",
+     "status": "passed",
+     "duration_ms": 1906.9252500000002
+    },
+    {
+     "name": "SLICE-01 provider-shaped persisted path answers order payment state and entity state via API with cutoff and evidence; evidence resolves",
+     "status": "passed",
+     "duration_ms": 95.7215839999999
+    },
+    {
+     "name": "SLICE-01 provider-shaped persisted path duplicate/out-of-order pages produced no double effects (counts stable after a second incremental run)",
+     "status": "passed",
+     "duration_ms": 1646.1308749999998
+    },
+    {
+     "name": "SLICE-01 provider-shaped persisted path serves the same answer through the real SDK stdio MCP bridge with a separate agent key",
+     "status": "passed",
+     "duration_ms": 902.1277920000002
+    },
+    {
+     "name": "SLICE-01 provider-shaped persisted path denies owner keys on the bridge/API agent path and agent keys on owner routes",
+     "status": "passed",
+     "duration_ms": 20.291042000000743
+    },
+    {
+     "name": "SLICE-01 provider-shaped persisted path revocation denies new requests immediately and leaves the other key active (LOCAL-04)",
+     "status": "passed",
+     "duration_ms": 46.53395900000032
+    },
+    {
+     "name": "SLICE-01 provider-shaped persisted path survives a full stack restart and a removed engine snapshot with identical fixed-cutoff answers",
+     "status": "passed",
+     "duration_ms": 6796.676334
+    },
+    {
+     "name": "TENANT-01 colliding external ids across two tenants a second synthetic tenant with the same order name is invisible to tenant A",
+     "status": "passed",
+     "duration_ms": 179.38425000000097
+    }
+   ]
+  },
+  "integration/queries.test.ts": {
+   "status": "passed",
+   "passed": 8,
+   "failed": 0,
+   "cases": [
+    {
+     "name": "INGEST-01 signed producer input rejects a corrupted signature, a replayed body for another producer and payload tenant ids",
+     "status": "passed",
+     "duration_ms": 31.609833000000094
+    },
+    {
+     "name": "QUERY-01 positive paths for all 24 intents via API order-01..04",
+     "status": "passed",
+     "duration_ms": 164.99958400000003
+    },
+    {
+     "name": "QUERY-01 positive paths for all 24 intents via API delivery-01..04",
+     "status": "passed",
+     "duration_ms": 102.02554100000009
+    },
+    {
+     "name": "QUERY-01 positive paths for all 24 intents via API invoice-01..04 and collection-01..04",
+     "status": "passed",
+     "duration_ms": 248.59787500000004
+    },
+    {
+     "name": "QUERY-01 positive paths for all 24 intents via API settlement-01..04 and reversal-01..04",
+     "status": "passed",
+     "duration_ms": 187.65758299999993
+    },
+    {
+     "name": "QUERY-01 positive paths for all 24 intents via API the same intents return identical results through the SDK MCP bridge (MCP-01)",
+     "status": "passed",
+     "duration_ms": 430.514625
+    },
+    {
+     "name": "QUERY-02 missing-data cases are explicit, never fabricated each intent reports insufficient_data or partial with named missing inputs when its capability is absent",
+     "status": "passed",
+     "duration_ms": 21.61629099999982
+    },
+    {
+     "name": "QUERY-02 missing-data cases are explicit, never fabricated every one of the 24 intents answers an empty workspace with insufficient_data or partial and names missing inputs (shared query service, engine endpoint)",
+     "status": "passed",
+     "duration_ms": 1584.2468329999997
+    }
+   ]
+  }
+ },
+ "missing_files": [],
+ "evidence_files": [
+  "auth-throttle.json",
+  "contract.json",
+  "diagnostics.json",
+  "dist-landing-check.json",
+  "golden.json",
+  "journal-tests.json",
+  "mcp-client.json",
+  "ops-backup-manifest.json",
+  "ops-restore-check.json",
+  "playwright.json",
+  "queries.json",
+  "shopify-payments.json",
+  "slice-01.json"
+ ],
+ "recorded_at": "2026-10-31T18:23:46.462664+00:00"
+}

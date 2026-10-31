@@ -1,0 +1,61 @@
+{
+ "login": 200,
+ "replay": {
+  "run_id": "81e5e699-6e34-4a55-b3da-31491f7c86fb",
+  "accepted": 19,
+  "duplicates": 0,
+  "conflicts": 0,
+  "required_cursor": 50,
+  "synthetic": true
+ },
+ "answer": {
+  "status": "complete",
+  "order": {
+   "authorization_is_capture": false,
+   "authorized_minor": 11900,
+   "collected_minor": 11900,
+   "currency": "EUR",
+   "failed_attempts": [],
+   "order_gross_minor": 11900,
+   "order_id": "#1001",
+   "refunded_minor": 2380,
+   "remaining_minor": 0,
+   "state": "paid",
+   "transactions": [
+    "TX-1001"
+   ],
+   "voided_minor": 0
+  },
+  "evidence": 17
+ },
+ "health": [
+  [
+   "api",
+   "healthy"
+  ],
+  [
+   "postgres",
+   "healthy"
+  ],
+  [
+   "worker",
+   "healthy"
+  ],
+  [
+   "engine",
+   "healthy"
+  ],
+  [
+   "sources",
+   "healthy"
+  ],
+  [
+   "mcp",
+   "unknown"
+  ],
+  [
+   "diagnostics",
+   "healthy"
+  ]
+ ]
+}

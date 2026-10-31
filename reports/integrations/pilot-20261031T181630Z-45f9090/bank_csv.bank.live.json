@@ -1,0 +1,8 @@
+{
+ "row": "bank_csv.bank",
+ "kind": "live",
+ "result": "blocked",
+ "reason": "No real merchant bank statement was supplied; only the synthetic statement in tests/integration/queries.test.ts was imported.",
+ "tested_commit": "45f9090281af50b198faed64febc37f754caa22f",
+ "run_id": "pilot-20261031T181630Z-45f9090"
+}

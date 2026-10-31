@@ -1,0 +1,49 @@
+{
+ "row": "generic.tracking",
+ "kind": "contract",
+ "run_id": "pilot-20261031T181630Z-45f9090",
+ "tested_commit": "45f9090281af50b198faed64febc37f754caa22f",
+ "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/contract.test.ts",
+ "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0, pnpm 11.20; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a with test port overrides (infra/compose/compose.test.yaml); fresh installation via ./blackbox setup before the run",
+ "vitest_files": {
+  "integration/contract.test.ts": {
+   "status": "passed",
+   "passed": 3,
+   "failed": 0,
+   "cases": [
+    {
+     "name": "CONTRACT: mapping artifacts, code vocabulary and runtime declarations agree every required row has a committed mapping that only maps event families the code parses, and declares exactly the pilot modes",
+     "status": "passed",
+     "duration_ms": 40.95550000000003
+    },
+    {
+     "name": "CONTRACT: mapping artifacts, code vocabulary and runtime declarations agree the running API declares the same providers, capabilities and modes as the register",
+     "status": "passed",
+     "duration_ms": 16.685915999999963
+    },
+    {
+     "name": "CONTRACT: mapping artifacts, code vocabulary and runtime declarations agree unsupported paths are refused: no callback endpoints exist, HTTP MCP is disabled unless explicitly enabled, no cross-mode configuration is accepted",
+     "status": "passed",
+     "duration_ms": 418.07599999999996
+    }
+   ]
+  }
+ },
+ "missing_files": [],
+ "evidence_files": [
+  "auth-throttle.json",
+  "contract.json",
+  "diagnostics.json",
+  "dist-landing-check.json",
+  "golden.json",
+  "journal-tests.json",
+  "mcp-client.json",
+  "ops-backup-manifest.json",
+  "ops-restore-check.json",
+  "playwright.json",
+  "queries.json",
+  "shopify-payments.json",
+  "slice-01.json"
+ ],
+ "recorded_at": "2026-10-31T18:23:46.549789+00:00"
+}

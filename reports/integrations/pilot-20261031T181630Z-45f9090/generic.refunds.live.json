@@ -1,0 +1,8 @@
+{
+ "row": "generic.refunds",
+ "kind": "live",
+ "result": "blocked",
+ "reason": "No external authorized producer supplied real events in this session; only the repository test producer was exercised.",
+ "tested_commit": "45f9090281af50b198faed64febc37f754caa22f",
+ "run_id": "pilot-20261031T181630Z-45f9090"
+}

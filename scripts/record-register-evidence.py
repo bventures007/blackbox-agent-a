@@ -122,7 +122,7 @@ def load_vitest(path: Path):
 def test_events(commit: str, run_id: str, actor: dict, environment: str, vitest_path: Path, clock, dry: bool):
     data, files = load_vitest(vitest_path)
     out_dir = ROOT / 'reports' / 'integrations' / run_id; out_dir.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(vitest_path, out_dir / 'vitest-integration.json')
+    if vitest_path.resolve() != (out_dir / 'vitest-integration.json').resolve(): shutil.copyfile(vitest_path, out_dir / 'vitest-integration.json')
     evidence_dir = ROOT / 'tests' / 'evidence' / 'current'
     events = []
     for row in ROWS:

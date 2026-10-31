@@ -1,0 +1,17 @@
+{
+ "manifest_version": "0.1.0-dev",
+ "artifact": "blackbox-0.1.0-dev-macos-arm64.tar.gz",
+ "size_matches": true,
+ "sha256_matches": true,
+ "sha_sidecar_matches": true,
+ "guide_ok": true,
+ "index_ok": true,
+ "status": "preview",
+ "platform": "macos-arm64",
+ "min_os": "macOS 14",
+ "prerequisites": [
+  "macOS 14+ on Apple Silicon",
+  "Docker Desktop 4.30+ (running)",
+  "~3 GB free disk"
+ ]
+}

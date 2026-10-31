@@ -1,0 +1,74 @@
+{
+ "row": "generic.invoices",
+ "kind": "pipeline",
+ "run_id": "pilot-20261031T181630Z-45f9090",
+ "tested_commit": "45f9090281af50b198faed64febc37f754caa22f",
+ "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/queries.test.ts",
+ "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0, pnpm 11.20; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a with test port overrides (infra/compose/compose.test.yaml); fresh installation via ./blackbox setup before the run",
+ "vitest_files": {
+  "integration/queries.test.ts": {
+   "status": "passed",
+   "passed": 8,
+   "failed": 0,
+   "cases": [
+    {
+     "name": "INGEST-01 signed producer input rejects a corrupted signature, a replayed body for another producer and payload tenant ids",
+     "status": "passed",
+     "duration_ms": 31.609833000000094
+    },
+    {
+     "name": "QUERY-01 positive paths for all 24 intents via API order-01..04",
+     "status": "passed",
+     "duration_ms": 164.99958400000003
+    },
+    {
+     "name": "QUERY-01 positive paths for all 24 intents via API delivery-01..04",
+     "status": "passed",
+     "duration_ms": 102.02554100000009
+    },
+    {
+     "name": "QUERY-01 positive paths for all 24 intents via API invoice-01..04 and collection-01..04",
+     "status": "passed",
+     "duration_ms": 248.59787500000004
+    },
+    {
+     "name": "QUERY-01 positive paths for all 24 intents via API settlement-01..04 and reversal-01..04",
+     "status": "passed",
+     "duration_ms": 187.65758299999993
+    },
+    {
+     "name": "QUERY-01 positive paths for all 24 intents via API the same intents return identical results through the SDK MCP bridge (MCP-01)",
+     "status": "passed",
+     "duration_ms": 430.514625
+    },
+    {
+     "name": "QUERY-02 missing-data cases are explicit, never fabricated each intent reports insufficient_data or partial with named missing inputs when its capability is absent",
+     "status": "passed",
+     "duration_ms": 21.61629099999982
+    },
+    {
+     "name": "QUERY-02 missing-data cases are explicit, never fabricated every one of the 24 intents answers an empty workspace with insufficient_data or partial and names missing inputs (shared query service, engine endpoint)",
+     "status": "passed",
+     "duration_ms": 1584.2468329999997
+    }
+   ]
+  }
+ },
+ "missing_files": [],
+ "evidence_files": [
+  "auth-throttle.json",
+  "contract.json",
+  "diagnostics.json",
+  "dist-landing-check.json",
+  "golden.json",
+  "journal-tests.json",
+  "mcp-client.json",
+  "ops-backup-manifest.json",
+  "ops-restore-check.json",
+  "playwright.json",
+  "queries.json",
+  "shopify-payments.json",
+  "slice-01.json"
+ ],
+ "recorded_at": "2026-10-31T18:23:46.568678+00:00"
+}

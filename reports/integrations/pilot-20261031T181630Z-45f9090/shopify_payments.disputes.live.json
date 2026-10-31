@@ -1,0 +1,8 @@
+{
+ "row": "shopify_payments.disputes",
+ "kind": "live",
+ "result": "blocked",
+ "reason": "No Shopify Payments account was authorized for this session; live verification needs read_shopify_payments_payouts/disputes on an owner store.",
+ "tested_commit": "45f9090281af50b198faed64febc37f754caa22f",
+ "run_id": "pilot-20261031T181630Z-45f9090"
+}
