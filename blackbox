@@ -76,5 +76,5 @@ if command in ['build','up','down','status','test','setup','reset-access']:
   except RuntimeConfigError as error:raise SystemExit(str(error))
   sys.exit(result)
  sys.exit(run(c+args+extra))
-print('Usage: ./blackbox doctor|build|setup|up|down|status|test|reset-access|backup')
-print('Development preview: encrypted backup creation is implemented; restore/upgrade, scheduling and the release package remain in progress.')
+print('Usage: ./blackbox doctor|build|setup|up|down|status|test|reset-access|backup|restore')
+print('Development preview: encrypted backup and fenced restore are implemented; policy reconciliation, upgrade, scheduling and the release package remain in progress.')

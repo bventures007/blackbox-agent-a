@@ -203,7 +203,10 @@ def generation(root):
        protected_directory(runtime/'evidence'/tenant)
        archive.add(f'evidence/{tenant}/{evidence}',protected_read(runtime/'evidence'/tenant/evidence,8*1024*1024))
       archive.add('policy/redactions.json',json.dumps({'schema_version':1,'expired_evidence':expired,'current_external_ledger_required':True}).encode())
-      compatibility={'application':'0.1.0','postgres_major':17,'schema':5,'engine_rpc':1,'lifecycle':'lifecycle-v2','typed_records':'records-v3','questions':'questions-v9','backup_format':1}
+      # Development formats 5/6 differ by the additive recovery guard. This is
+      # format identification, not a substitute for the upgrade checksum gate.
+      schema=6 if sql(root,"SELECT coalesce(to_regclass('bb.recovery_guards')::text,'');").strip() else 5
+      compatibility={'application':'0.1.0','postgres_major':17,'schema':schema,'engine_rpc':1,'lifecycle':'lifecycle-v2','typed_records':'records-v3','questions':'questions-v9','backup_format':1}
       archive.add('installation.json',json.dumps({'installation_id':config['installation_id'],'compatibility':compatibility}).encode())
       if cutoffs(root)!=snapshot:raise RuntimeConfigError('Backup cutoff changed under maintenance fence.')
       metadata={'installation_id':config['installation_id'],'generation':final,'recoverable_cutoff':cutoff,'snapshot':snapshot,'compatibility':compatibility,'database_sha256':dump_hash.hexdigest(),'database_bytes':dump_bytes,'database_chunks':index,'policy_reconciliation_required':True}
