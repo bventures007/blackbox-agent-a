@@ -3,7 +3,7 @@ from contextlib import contextmanager
 import hashlib,json,os,pathlib,re,shutil,stat,subprocess,time,uuid,threading
 from backup_codec import decrypt,inspect_archive,BackupFormatError,MAX_ARCHIVE,MAX_MANIFEST,decode_json
 from backup_operations import atomic_json,compose,run,sql,cutoffs,stamp,operation_lock
-from host_runtime import compose_config,compose_environment,protected_directory,create_file,protected_read,RuntimeConfigError
+from host_runtime import parse_keyring,key_filename,validate_keys,compose_config,compose_environment,protected_directory,create_file,protected_read,RuntimeConfigError
 
 
 def digest_file(file):
@@ -24,7 +24,11 @@ def verified_backup(root,path,secret):
    if name.startswith('database/'):
     if name!=f'database/{chunks:08d}.bin':raise BackupFormatError('database_chunks_out_of_order')
     database.update(value);database_bytes+=len(value);chunks+=1
-   elif name in ['installation.json','policy/redactions.json','secrets/data','secrets/internal','secrets/identity']:small[name]=value
+   elif name in ['installation.json','policy/redactions.json']or name.startswith('secrets/'):
+    limit=1024 if name=='secrets/keyring.json'else 64 if name=='secrets/internal'else 32 if name.startswith('secrets/')else 8*1024*1024
+    if len(value)>limit:raise BackupFormatError('backup_installation_material_oversized')
+    small[name]=value
+    if sum(n.startswith('secrets/')for n in small)>4:raise BackupFormatError('backup_installation_material_members_exceeded')
    elif name.startswith('evidence/'):
     _,tenant,evidence=name.split('/');uuid.UUID(tenant);uuid.UUID(evidence)
   with decrypt(root,secret,cipher)as stream:manifest=inspect_archive(stream,inspect)
@@ -32,9 +36,19 @@ def verified_backup(root,path,secret):
   expected={'application':'0.1.0','postgres_major':17,'engine_rpc':1,'lifecycle':'lifecycle-v2','typed_records':'records-v3','questions':'questions-v9','backup_format':1}
   compatibility=metadata.get('compatibility',{})
   if {k:compatibility.get(k)for k in expected}!=expected or compatibility.get('schema')not in [5,6]or set(compatibility)!=set(expected)|{'schema'}:raise BackupFormatError('incompatible_backup_contract')
-  required={'installation.json','policy/redactions.json','secrets/data','secrets/internal'}
-  if not required<=small.keys()or len(small['secrets/data'])!=32 or not re.fullmatch(rb'[a-f0-9]{64}',small['secrets/internal']):raise BackupFormatError('backup_installation_material_invalid')
-  if 'secrets/identity'in small and len(small['secrets/identity'])!=32:raise BackupFormatError('backup_identity_key_invalid')
+  required={'installation.json','policy/redactions.json','secrets/internal'}
+  if not required<=small.keys()or not re.fullmatch(rb'[a-f0-9]{64}',small['secrets/internal']):raise BackupFormatError('backup_installation_material_invalid')
+  ring=None
+  if 'secrets/keyring.json'in small:
+   try:ring=parse_keyring(decode_json(small['secrets/keyring.json']))
+   except RuntimeConfigError:raise BackupFormatError('backup_keyring_invalid')from None
+   if len(ring['keys'])!=1:raise BackupFormatError('backup_key_rotation_incomplete')
+   expected_secrets={'secrets/internal','secrets/identity','secrets/keyring.json',*['secrets/'+key_filename(k)for k in ring['keys']]}
+  else:expected_secrets={'secrets/internal','secrets/data'}
+  if {n for n in small if n.startswith('secrets/')}!=expected_secrets:raise BackupFormatError('backup_key_material_members_invalid')
+  material=[small['secrets/'+key_filename(k)]for k in ring['keys']]if ring else [small['secrets/data']]
+  if any(len(k)!=32 for k in material):raise BackupFormatError('backup_data_key_invalid')
+  if ring and (len(small['secrets/identity'])!=32 or small['secrets/identity']in material):raise BackupFormatError('backup_identity_key_invalid')
   installation=decode_json(small['installation.json'])
   if installation.get('compatibility')!=compatibility or installation.get('installation_id')!=metadata.get('installation_id'):raise BackupFormatError('backup_installation_manifest_mismatch')
   uuid.UUID(installation['installation_id'])
@@ -49,7 +63,7 @@ def verified_backup(root,path,secret):
 
 
 def copy_runtime_bundle(root,destination):
- files=['blackbox','scripts/host_runtime.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
+ files=['blackbox','scripts/host_runtime.py','scripts/key_rotation.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
  for name in files:
   target=destination/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(root/name,target)
  shutil.copytree(root/'packages/database/migrations',destination/'packages/database/migrations')
@@ -81,6 +95,9 @@ def restore(root,backup,destination,secret,port=18755):
     if int(sql(destination,'SELECT count(*) FROM bb.journal;'))or int(sql(destination,'SELECT count(*) FROM bb.workspaces;')):raise RuntimeConfigError('Fresh restore database unexpectedly contains data.')
     sql(destination,'DROP SCHEMA bb CASCADE;')
     marker['phase']='restoring_database_and_files';atomic_json(runtime/'maintenance.json',marker)
+    # These freshly generated keys have never encrypted data; replace the complete set.
+    # Legacy archives must retain their historical identity derivation, not a new identity.
+    for name in ['data','identity','keyring.json']:(runtime/'secrets'/name).unlink(missing_ok=True)
     process=subprocess.Popen(compose(destination,'exec','-T','-e','PGOPTIONS=-c statement_timeout=300000 -c lock_timeout=5000','postgres','pg_restore','-U','blackbox_migrate','-d','blackbox','--no-owner','--single-transaction','--exit-on-error'),env=compose_environment(runtime),stdin=subprocess.PIPE,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     timer=threading.Timer(330,process.kill);timer.start();chunks=0
     try:
@@ -92,7 +109,7 @@ def restore(root,backup,destination,secret,port=18755):
       elif name.startswith('evidence/'):
        _,tenant,evidence=name.split('/');uuid.UUID(tenant);uuid.UUID(evidence)
        directory=runtime/'evidence'/tenant;protected_directory(directory,True);create_file(directory/evidence,value)
-      elif name in ['secrets/data','secrets/identity']:
+      elif name.startswith('secrets/')and name!='secrets/internal':
        path=runtime/name
        # Generated keys have never encrypted application data in this fresh destination.
        temporary=runtime/'secrets'/('.restore-'+uuid.uuid4().hex);create_file(temporary,value);temporary.replace(path)
@@ -106,6 +123,10 @@ def restore(root,backup,destination,secret,port=18755):
      timer.cancel();process.stdin.close()
      if process.poll()is None:process.kill()
      process.wait()
+    directory_fd=os.open(runtime/'secrets',os.O_RDONLY|os.O_DIRECTORY)
+    try:os.fsync(directory_fd)
+    finally:os.close(directory_fd)
+    validate_keys(runtime)
     if cutoffs(destination)!=manifest['metadata']['snapshot']:raise BackupFormatError('restored_database_cutoff_mismatch')
     # This known additive migration supplies guards to the pre-guard development format.
     has_guard=sql(destination,"SELECT coalesce(to_regclass('bb.recovery_guards')::text,'');").strip()

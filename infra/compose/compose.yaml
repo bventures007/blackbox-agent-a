@@ -82,7 +82,7 @@ services:
       ENGINE_BIND: 0.0.0.0:8081
       INTERNAL_KEY_FILE: /run/blackbox/internal
     volumes:
-      - ../../.runtime/secrets:/run/blackbox:ro
+      - ../../.runtime/secrets/internal:/run/blackbox/internal:ro
     depends_on:
       postgres:
         condition: service_healthy

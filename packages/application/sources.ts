@@ -111,9 +111,9 @@ export async function connectShopify(
       );
     }
     await c.query(
-      `INSERT INTO bb.source_secrets(tenant_id,connection_id,key_version,sealed,scopes,validated_at)VALUES($1,$2,'data-v1',$3,$4,now())
-      ON CONFLICT(tenant_id,connection_id) DO UPDATE SET sealed=EXCLUDED.sealed,scopes=EXCLUDED.scopes,validated_at=now(),revision=bb.source_secrets.revision+1,updated_at=now()`,
-      [p.tenant_id, connection, sealed, validated.scopes],
+      `INSERT INTO bb.source_secrets(tenant_id,connection_id,key_version,sealed,scopes,validated_at)VALUES($1,$2,$5,$3,$4,now())
+      ON CONFLICT(tenant_id,connection_id) DO UPDATE SET key_version=EXCLUDED.key_version,sealed=EXCLUDED.sealed,scopes=EXCLUDED.scopes,validated_at=now(),revision=bb.source_secrets.revision+1,updated_at=now()`,
+      [p.tenant_id, connection, sealed, validated.scopes, sealed.key_version],
     );
     await auditSource(
       c,

@@ -1,9 +1,14 @@
+import {
+  dataKey,
+  decryptEvidence,
+  maxEvidenceCiphertext,
+} from "../packages/auth/key-material.js";
 /** Host-only maintenance verifier. Never emits keys, raw content, or provider identifiers. */
 import pg from "pg";
 import { open } from "node:fs/promises";
 import { constants } from "node:fs";
 import { join } from "node:path";
-import { createDecipheriv, createHash } from "node:crypto";
+import { createHash } from "node:crypto";
 const pool = new pg.Pool({
   connectionString: process.env.ADMIN_DATABASE_URL,
   options: "-c statement_timeout=5000",
@@ -29,8 +34,7 @@ async function bounded(path: string, limit: number) {
   }
 }
 try {
-  const key = await bounded(process.env.DATA_KEY_FILE!, 32);
-  if (key.length !== 32) throw Error("data_key_invalid");
+  await dataKey();
   let tenant = "00000000-0000-0000-0000-000000000000",
     id = tenant,
     count = 0;
@@ -45,20 +49,13 @@ try {
         throw Error("evidence_verification_budget_exceeded");
       const bytes = await bounded(
         join(process.env.EVIDENCE_DIR!, row.tenant_id, row.evidence_id),
-        2 * 1024 * 1024 + 28,
+        maxEvidenceCiphertext,
       );
-      if (bytes.length < 28) throw Error("evidence_integrity_failed");
-      const decipher = createDecipheriv(
-        "aes-256-gcm",
-        key,
-        bytes.subarray(0, 12),
+      const plain = await decryptEvidence(
+        row.tenant_id,
+        row.evidence_id,
+        bytes,
       );
-      decipher.setAAD(Buffer.from(`v1:${row.tenant_id}:${row.evidence_id}`));
-      decipher.setAuthTag(bytes.subarray(-16));
-      const plain = Buffer.concat([
-        decipher.update(bytes.subarray(12, -16)),
-        decipher.final(),
-      ]);
       if (createHash("sha256").update(plain).digest("hex") !== row.sha256)
         throw Error("evidence_integrity_failed");
       tenant = row.tenant_id;

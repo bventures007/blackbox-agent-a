@@ -8,13 +8,15 @@ class BackupRestoreTests(unittest.TestCase):
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory();self.root=pathlib.Path(self.tmp.name);self.secret,self.recipient=new_recovery(ROOT)
  def tearDown(self):self.tmp.cleanup()
- def backup(self,**changes):
+ def backup(self,materials=None,**changes):
   compatibility={'application':'0.1.0','postgres_major':17,'schema':5,'engine_rpc':1,'lifecycle':'lifecycle-v2','typed_records':'records-v3','questions':'questions-v9','backup_format':1}
   identity=str(uuid.uuid4());database=b'PGDMP synthetic validation bytes'
   metadata={'installation_id':identity,'compatibility':compatibility,'snapshot':{'postgres_major':17,'heads':[],'journal_count':0},'database_chunks':1,'database_bytes':len(database),'database_sha256':hashlib.sha256(database).hexdigest()};metadata.update(changes)
   path=self.root/(uuid.uuid4().hex+'.age')
   with path.open('xb')as output,encrypt(ROOT,self.recipient,output)as stream:
-   archive=ArchiveWriter(stream);archive.add('database/00000000.bin',database);archive.add('secrets/data',b'x'*32);archive.add('secrets/internal',b'a'*64);archive.add('policy/redactions.json',b'{}');archive.add('installation.json',json.dumps({'installation_id':identity,'compatibility':compatibility}).encode());archive.finish(metadata)
+   archive=ArchiveWriter(stream);archive.add('database/00000000.bin',database)
+   for name,value in (materials or {'data':b'x'*32,'internal':b'a'*64}).items():archive.add('secrets/'+name,value)
+   archive.add('policy/redactions.json',b'{}');archive.add('installation.json',json.dumps({'installation_id':identity,'compatibility':compatibility}).encode());archive.finish(metadata)
   return path
  def test_verified_metadata_and_database_chunk_hash(self):
   path=self.backup()
@@ -23,6 +25,14 @@ class BackupRestoreTests(unittest.TestCase):
   for changes in [{'database_sha256':'0'*64},{'database_bytes':1},{'database_chunks':2},{'compatibility':{'schema':999}}]:
    with self.assertRaises(BackupFormatError):
     with verified_backup(ROOT,self.backup(**changes),self.secret):pass
+ def test_rotated_keyring_material_is_complete_bounded_and_independent(self):
+  key='data-'+uuid.uuid4().hex;ring={'version':1,'active':key,'keys':[key],'identity':'independent-v1'}
+  material={key:b'x'*32,'internal':b'a'*64,'identity':b'y'*32,'keyring.json':json.dumps(ring).encode()}
+  with verified_backup(ROOT,self.backup(materials=material),self.secret)as(_,manifest,small,digest):
+   self.assertNotIn('secrets/data',small);self.assertEqual(small['secrets/'+key],b'x'*32)
+  for invalid in [{k:v for k,v in material.items()if k!=key},{**material,'identity':b'x'*32},{**material,'data':b'z'*32},{**material,'keyring.json':json.dumps({**ring,'keys':[key,'data-v1']}).encode()}]:
+   with self.assertRaises(BackupFormatError):
+    with verified_backup(ROOT,self.backup(materials=invalid),self.secret):pass
  def test_invalid_backup_cannot_create_target_and_existing_target_is_never_changed(self):
   path=self.backup(database_bytes=1);destination=self.root/'fresh'
   with self.assertRaises(BackupFormatError):restore(ROOT,path,destination,self.secret)

@@ -2,7 +2,7 @@
 from contextlib import contextmanager
 import datetime,fcntl,hashlib,json,os,pathlib,re,secrets,stat,subprocess,time,uuid,threading
 from backup_codec import ArchiveWriter,BackupFormatError,encrypt,decrypt,new_recovery,MAX_MEMBERS
-from host_runtime import RuntimeConfigError,compose_config,compose_environment,read_compose,protected_directory,protected_read,create_file,_validate_file
+from host_runtime import RuntimeConfigError,compose_config,compose_environment,read_compose,protected_directory,protected_read,create_file,_validate_file,read_keyring,key_filename
 
 
 def stamp():return datetime.datetime.now(datetime.timezone.utc).isoformat()
@@ -196,9 +196,10 @@ def generation(root):
        dump_timer.cancel();dump.stdout.close()
        if dump.poll()is None:dump.kill()
        dump.wait()
-      for name in ['data','internal','identity']:
-       path=runtime/'secrets'/name
-       if name!='identity'or path.exists():archive.add('secrets/'+name,protected_read(path,8192))
+      ring=read_keyring(runtime)
+      if ring and len(ring['keys'])!=1:raise RuntimeConfigError('Incomplete key rotation cannot be backed up as an ordinary generation.')
+      names=['internal',*[key_filename(k)for k in ring['keys']],'identity','keyring.json'] if ring else ['data','internal']
+      for name in names:archive.add('secrets/'+name,protected_read(runtime/'secrets'/name,8192))
       if int(sql(root,'SELECT count(*) FROM bb.evidence;'))>MAX_MEMBERS-100:raise RuntimeConfigError('Evidence member budget exceeded.')
       rows=json.loads(sql(root,"SELECT coalesce(json_agg(json_build_object('tenant',tenant_id,'id',evidence_id,'retained',expires_at>now()) ORDER BY tenant_id,evidence_id),'[]'::json) FROM bb.evidence;"))
       if len(rows)>MAX_MEMBERS-100:raise RuntimeConfigError('Evidence member budget exceeded.')

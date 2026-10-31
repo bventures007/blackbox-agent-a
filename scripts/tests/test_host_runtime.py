@@ -1,6 +1,7 @@
 """Host secret-loss/security tests use disposable installations, never live keys."""
 import concurrent.futures
 import os
+import json
 from pathlib import Path
 import sys
 import tempfile
@@ -14,6 +15,23 @@ class HostRuntimeTest(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name);self.runtime=self.root/'runtime'
     def tearDown(self):self.tmp.cleanup()
+    def test_independent_keyring_and_missing_metadata_never_fall_back(self):
+        compose_config(self.runtime,True)
+        directory=self.runtime/'secrets';data=(directory/'data').read_bytes();identity=(directory/'identity').read_bytes()
+        self.assertNotEqual(data,identity);self.assertEqual(len(identity),32)
+        for name in ['identity','keyring.json']:
+            path=directory/name;original=path.read_bytes();path.unlink()
+            with self.assertRaises(RuntimeConfigError):compose_config(self.runtime,True)
+            self.assertFalse(path.exists());path.write_bytes(original);path.chmod(0o600)
+        ring=directory/'keyring.json';original=ring.read_bytes()
+        for value in [{'version':1,'active':'../../data','keys':['../../data'],'identity':'independent-v1'}, {'version':1,'active':'data-v1','keys':['data-v1','data-v1'],'identity':'independent-v1'}]:
+            ring.write_text(json.dumps(value))
+            with self.assertRaises(RuntimeConfigError):compose_config(self.runtime)
+        ring.write_bytes(original);(directory/'identity').write_bytes(data)
+        with self.assertRaisesRegex(RuntimeConfigError,'coupled'):compose_config(self.runtime)
+        (directory/'identity').write_bytes(identity)
+        # Deliberate fixture conversion represents the old preview, not a product migration.
+        (directory/'identity').unlink();ring.unlink();self.assertTrue(compose_config(self.runtime))
     def test_ambient_shell_cannot_replace_project_ports_credentials_or_profiles(self):
         config=compose_config(self.runtime,True,18763)
         with patch.dict(os.environ,{'BB_PROJECT':'unrelated','BB_PORT':'19000','BB_DB_PASSWORD':'untrusted','COMPOSE_PROJECT_NAME':'unrelated','COMPOSE_PROFILES':'test,mcp','COMPOSE_FILE':'/unrelated','BLACKBOX_AGENT_KEY':'do-not-pass-to-ordinary-services'}):

@@ -6,7 +6,7 @@ MAX_MEMBER=8*1024*1024
 MAX_MANIFEST=32*1024*1024
 MAX_MEMBERS=100000
 MAX_ARCHIVE=16*1024*1024*1024
-NAME=re.compile(r'(?:database/[0-9]{8}\.bin|evidence/[a-f0-9-]{36}/[a-f0-9-]{36}|secrets/(?:data|internal|identity)|policy/redactions\.json|installation\.json)')
+NAME=re.compile(r'(?:database/[0-9]{8}\.bin|evidence/[a-f0-9-]{36}/[a-f0-9-]{36}|secrets/(?:data|internal|identity|keyring\.json|data-[a-f0-9]{32})|policy/redactions\.json|installation\.json)')
 
 class BackupFormatError(RuntimeError):pass
 

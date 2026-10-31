@@ -42,6 +42,15 @@ if command=='mcp':
   os.chdir(root)
   os.execvpe(c[0],c+['run','--rm','--no-deps','--interactive','-T','mcp'],environment)
  except (RuntimeConfigError,OSError,UnicodeError)as error:raise SystemExit(str(error))
+if command=='key':
+ from key_rotation import rotate
+ try:
+  if sys.argv[2:] not in [['rotate'],['resume']]:raise RuntimeConfigError('Usage: ./blackbox key rotate|resume')
+  result=rotate(root,resume=sys.argv[2]=='resume')
+  print('Data-key rotation verified and completed. Old live key removed; independent identity unchanged. Existing encrypted backups retain their own key material.')
+  print('Daten-Schlüssel geprüft und gewechselt. Alter aktiver Schlüssel entfernt; unabhängige Identität unverändert. Bestehende verschlüsselte Sicherungen behalten ihr eigenes Schlüsselmaterial.')
+ except (RuntimeConfigError,OSError,ValueError)as error:raise SystemExit(str(error))
+ sys.exit(0)
 if command=='restore':
  import argparse,getpass
  from backup_restore import restore,finish_restore
@@ -117,5 +126,5 @@ if command in ['build','up','down','status','test','setup','reset-access']:
   except RuntimeConfigError as error:raise SystemExit(str(error))
   sys.exit(result)
  sys.exit(run(c+args+extra))
-print('Usage: ./blackbox doctor|build|setup|up|down|status|test|reset-access|backup|restore|mcp')
+print('Usage: ./blackbox doctor|build|setup|up|down|status|test|reset-access|backup|restore|mcp|key')
 print('Development preview: encrypted backup, scheduling, retention and fenced restore are implemented; policy reconciliation, upgrade and the release package remain in progress.')

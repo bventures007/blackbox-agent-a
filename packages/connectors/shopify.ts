@@ -1,3 +1,4 @@
+import { identityKey } from "../auth/key-material.js";
 import { createHmac } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { z } from "zod";
@@ -71,7 +72,7 @@ export async function normalize(
   connection: string,
 ): Promise<Observation[]> {
   const o = order.parse(raw),
-    secret = await readFile(process.env.DATA_KEY_FILE!);
+    secret = await identityKey();
   const id = (s: string) => {
     const b = createHmac("sha256", secret)
       .update(`${connection}:${s}`)

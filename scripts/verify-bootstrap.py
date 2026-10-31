@@ -4,7 +4,7 @@ import argparse,datetime,hashlib,http.cookiejar,json,os,pathlib,platform,pty,re,
 p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--port',type=int,default=18751);p.add_argument('--node-image-commit',default='unrecorded');p.add_argument('--engine-image-commit',default='unrecorded');a=p.parse_args()
 root=pathlib.Path(__file__).resolve().parents[1]
 stage=root/'work'/('bootstrap-'+uuid.uuid4().hex[:12]);stage.mkdir(parents=True)
-for name in ['blackbox','scripts/host_runtime.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_codec.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh']:
+for name in ['blackbox','scripts/host_runtime.py','scripts/key_rotation.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_codec.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh']:
  target=stage/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(root/name,target)
 shutil.copytree(root/'packages/database/migrations',stage/'packages/database/migrations')
 base=f'http://127.0.0.1:{a.port}';checks=[];commands=[];status='failed';started=time.monotonic()
@@ -72,7 +72,9 @@ try:
  assert not (stage/'.runtime/compose.env').exists();checks.append('ordinary_start_never_creates_configuration')
  output=command(['./blackbox','setup','--port',str(a.port)],interactive=True)
  keys=re.findall(r'bb_owner_[A-Za-z0-9_-]{43}',output);assert len(keys)==1;owner=keys[0]
- files={name:(stage/'.runtime'/name).read_bytes()for name in ['compose.env','secrets/data','secrets/internal']}
+ files={name:(stage/'.runtime'/name).read_bytes()for name in ['compose.env','secrets/data','secrets/internal','secrets/identity','secrets/keyring.json']}
+ assert files['secrets/data']!=files['secrets/identity'] and len(files['secrets/identity'])==32
+ checks.append('fresh_identity_and_data_material_are_independent')
  command(['./blackbox','up']);ready();login(owner)
  code,sample=call('/v1/example',{});assert code==200 and sample['synthetic']
  before=state(sample['entity_id']);assert before['result']['captured_minor']==11900 and before['result']['refunded_minor']==2380

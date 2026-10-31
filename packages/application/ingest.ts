@@ -1,5 +1,6 @@
-import { createHash, randomUUID, createCipheriv } from "node:crypto";
-import { mkdir, writeFile, rename, readFile } from "node:fs/promises";
+import { encryptEvidence, durableReplace } from "../auth/key-material.js";
+import { createHash, randomUUID } from "node:crypto";
+import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { scoped } from "../database/index.js";
 import type { PoolClient } from "pg";
@@ -32,24 +33,10 @@ export async function ingest(
   const evidence = randomUUID();
   const bytes = Buffer.from(JSON.stringify(raw));
   if (bytes.length > 2 * 1024 * 1024) throw new Error("evidence_too_large");
-  const key = await readFile(process.env.DATA_KEY_FILE!);
-  if (key.length !== 32) throw new Error("data_key_unavailable");
-  const nonce = Buffer.from(crypto.getRandomValues(new Uint8Array(12)));
-  const cipher = createCipheriv("aes-256-gcm", key, nonce);
-  cipher.setAAD(Buffer.from(`v1:${tenant}:${evidence}`));
-  const encrypted = Buffer.concat([
-    nonce,
-    cipher.update(bytes),
-    cipher.final(),
-    cipher.getAuthTag(),
-  ]);
+  const encrypted = await encryptEvidence(tenant, evidence, bytes);
   const dir = join(process.env.EVIDENCE_DIR!, tenant);
   await mkdir(dir, { recursive: true, mode: 0o700 });
-  await writeFile(join(dir, `${evidence}.tmp`), encrypted, {
-    mode: 0o600,
-    flag: "wx",
-  });
-  await rename(join(dir, `${evidence}.tmp`), join(dir, evidence));
+  await durableReplace(join(dir, evidence), encrypted);
   return scoped(tenant, async (c) => {
     await transaction.before?.(c);
     const conn = await c.query(

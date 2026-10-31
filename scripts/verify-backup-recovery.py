@@ -8,13 +8,13 @@ import argparse,datetime,hashlib,http.client,http.cookiejar,json,os,pathlib,plat
 from backup_operations import enroll,generation,target,services,compose,sql,run,cutoffs
 from backup_restore import restore,verified_backup
 from backup_codec import new_recovery,BackupFormatError
-from host_runtime import RuntimeConfigError,compose_config,protected_directory,create_file
+from host_runtime import RuntimeConfigError,compose_config,protected_directory,create_file,read_keyring,key_filename
 from backup_supervisor import stop as stop_supervisor
 
 ROOT=pathlib.Path(__file__).resolve().parents[1]
-p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--source-port',type=int,default=18759);p.add_argument('--restore-port',type=int,default=18757);p.add_argument('--node-image-commit',required=True);p.add_argument('--engine-image-commit',required=True);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--rotate-data-key',action='store_true');p.add_argument('--source-port',type=int,default=18759);p.add_argument('--restore-port',type=int,default=18757);p.add_argument('--node-image-commit',required=True);p.add_argument('--engine-image-commit',required=True);a=p.parse_args()
 token=uuid.uuid4().hex[:12];bootstrap=ROOT/'.runtime'/('recovery-bootstrap-'+token+'.json');destination=ROOT/'work'/('recovered-'+token)
-status='failed';checks=[];commands=[];source=None;removed=False;answer=None;restore_result=None;generation_result=None;evidence_count=None;recovery_elapsed=None;bootstrap_elapsed=None;operator_wait=0.;started=time.monotonic()
+rotation_proof=None;status='failed';checks=[];commands=[];source=None;removed=False;answer=None;restore_result=None;generation_result=None;evidence_count=None;recovery_elapsed=None;bootstrap_elapsed=None;operator_wait=0.;started=time.monotonic()
 
 def redact(value):return re.sub(r'bb_(?:owner|agent|session|producer)_[A-Za-z0-9_-]+','[REDACTED]',value)
 
@@ -112,17 +112,22 @@ try:
  backup_base=ROOT/'work'/('recovery-backups-'+token);backup_base.mkdir(mode=0o700)
  secret=enroll(source,backup_base);vault=ROOT/'work/recovery-test-vault';protected_directory(vault,True);keyfile=vault/('recovery-'+token+'.key');create_file(keyfile,secret)
  managed=target(json.loads((source/'.runtime/backup.json').read_text()))
+ primary_tenant=snapshot['heads'][0]['tenant_id']
+ if a.rotate_data_key:
+  from verify_rotation_workflow import workflow
+  rotation_proof=workflow(ROOT,source,secret,api,arguments,command,mark,token);snapshot=cutoffs(source)
+ prior_generations=set(managed.glob('*.bb.age'))
  # Wrong live key and corrupted retained evidence must prevent publication.
  run(source,'stop','api','worker','engine');prior=services(source)
- keypath=source/'.runtime/secrets/data';correct_key=keypath.read_bytes();key_hash=hashlib.sha256(correct_key).hexdigest();internal_hash=hashlib.sha256((source/'.runtime/secrets/internal').read_bytes()).hexdigest()
- tenant=snapshot['heads'][0]['tenant_id'];blob=source/'.runtime/evidence'/tenant/evidence_id;original_blob=blob.read_bytes()
+ ring=read_keyring(source/'.runtime');keyname=key_filename(ring['active'])if ring else 'data';keypath=source/'.runtime/secrets'/keyname;correct_key=keypath.read_bytes();key_hash=hashlib.sha256(correct_key).hexdigest();internal_hash=hashlib.sha256((source/'.runtime/secrets/internal').read_bytes()).hexdigest()
+ tenant=primary_tenant;blob=source/'.runtime/evidence'/tenant/evidence_id;original_blob=blob.read_bytes()
  for kind in ['wrong_data_key','tampered_retained_evidence']:
   if kind=='wrong_data_key':keypath.write_bytes(os.urandom(32))
   else:blob.write_bytes(original_blob[:-1]+bytes([original_blob[-1]^1]))
   try:
    try:generation(source);raise AssertionError('Invalid evidence material accepted')
    except RuntimeConfigError:pass
-   assert not list(managed.glob('*.bb.age'))and services(source)==prior
+   assert set(managed.glob('*.bb.age'))==prior_generations and services(source)==prior
    assert json.loads((source/'.runtime/backup-status.json').read_text())['state']=='failed'
   finally:keypath.write_bytes(correct_key);blob.write_bytes(original_blob)
   mark(kind+'_prevents_backup_publication')
@@ -147,8 +152,8 @@ try:
    if candidate!=cipher:candidate.unlink()
  # Scope the intentional loss test to exactly this script's new synthetic project.
  config=compose_config(source/'.runtime');project=config['BB_PROJECT'];assert re.fullmatch(r'blackbox-a-[a-f0-9]{12}',project)
- assert sql(source,'SELECT count(*) FROM bb.workspaces;').strip()==b'1'
- assert sql(source,"SELECT count(*) FROM bb.connections WHERE provider<>'replay';").strip()==b'0'
+ assert int(sql(source,'SELECT count(*) FROM bb.workspaces;'))==(2 if a.rotate_data_key else 1)
+ assert sql(source,"SELECT count(*) FROM bb.connections WHERE provider<>'replay'"+(" AND NOT(provider='shopify' AND state='paused' AND config->>'rotation_test'='true')"if a.rotate_data_key else '')+";").strip()==b'0'
  assert not keyfile.is_relative_to(source)and not cipher.is_relative_to(source)
  recovery_started=time.monotonic()
  command(source,compose(source,'down','--volumes','--remove-orphans'))
@@ -161,7 +166,7 @@ try:
  assert restore_result['state']=='awaiting_owner_key'
  assert set(services(destination))=={'postgres'}
  assert int(sql(destination,'SELECT count(*) FROM bb.credentials WHERE revoked_at IS NULL;'))==0
- assert hashlib.sha256((destination/'.runtime/secrets/data').read_bytes()).hexdigest()==key_hash
+ assert hashlib.sha256((destination/'.runtime/secrets'/keyname).read_bytes()).hexdigest()==key_hash
  assert hashlib.sha256((destination/'.runtime/secrets/internal').read_bytes()).hexdigest()!=internal_hash
  verified=json.loads(run(destination,'run','--rm','--no-deps','tooling','node','--import','tsx','scripts/verify-evidence.ts'))
  assert verified['checked_retained_evidence']==evidence_count
@@ -189,5 +194,5 @@ finally:
   if directory and (directory/'.runtime/compose.env').exists():
    try:stop_supervisor(directory);run(directory,'stop','api','worker','engine','postgres')
    except Exception:checks.append('cleanup_stop_failed_inspect_this_isolated_project')
- report={'kind':'isolated_backup_recovery_after_original_removal','status':status,'tested_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),'executed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'environment':{'host':platform.platform(),'source_port':a.source_port,'restore_port':a.restore_port,'source_stage':str(source.relative_to(ROOT))if source else None,'restore_stage':str(destination.relative_to(ROOT)),'node_image_source_commit':a.node_image_commit,'engine_image_source_commit':a.engine_image_commit,'node_image':subprocess.check_output(['docker','image','inspect','blackbox-a-node:0.1.0-dev','--format','{{.Id}}'],text=True).strip(),'database':'PostgreSQL17 Compose; one synthetic replay workspace'},'original_removed':removed,'checks':checks,'commands':commands,'corpus':{'journal_entries':snapshot['journal_count']if answer else None,'retained_evidence_objects':evidence_count,'encrypted_bytes':generation_result['bytes']if generation_result else None},'timing':{'total_test_seconds':round(time.monotonic()-started,3),'bootstrap_seconds':bootstrap_elapsed,'loss_to_authorized_API_and_MCP_seconds':round(recovery_elapsed,3)if recovery_elapsed else None,'operator_wait_seconds':round(operator_wait,6),'automated_operator':True},'restore_state':json.loads((destination/'.runtime/restore-state.json').read_text())if(destination/'.runtime/restore-state.json').exists()else None,'limitations':['Small synthetic corpus; not the required 250-MiB smoke corpus or recovery-time acceptance','Same physical Apple Silicon Mac with new isolated Compose resources; not a second machine','Copied host runtime and prebuilt development images; not the browser-downloaded distribution artifact','Current policy reconciliation, source revalidation, scheduler/retention, key rotation, upgrade and independent review remain outside this proof']}
+ report={'kind':'isolated_backup_recovery_after_original_removal','status':status,'tested_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),'executed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'environment':{'host':platform.platform(),'source_port':a.source_port,'restore_port':a.restore_port,'source_stage':str(source.relative_to(ROOT))if source else None,'restore_stage':str(destination.relative_to(ROOT)),'node_image_source_commit':a.node_image_commit,'engine_image_source_commit':a.engine_image_commit,'node_image':subprocess.check_output(['docker','image','inspect','blackbox-a-node:0.1.0-dev','--format','{{.Id}}'],text=True).strip(),'database':'PostgreSQL17 Compose; synthetic isolated test workspaces'},'original_removed':removed,'rotation_proof':rotation_proof,'checks':checks,'commands':commands,'corpus':{'journal_entries':snapshot['journal_count']if answer else None,'retained_evidence_objects':evidence_count,'encrypted_bytes':generation_result['bytes']if generation_result else None},'timing':{'total_test_seconds':round(time.monotonic()-started,3),'bootstrap_seconds':bootstrap_elapsed,'loss_to_authorized_API_and_MCP_seconds':round(recovery_elapsed,3)if recovery_elapsed else None,'operator_wait_seconds':round(operator_wait,6),'automated_operator':True},'restore_state':json.loads((destination/'.runtime/restore-state.json').read_text())if(destination/'.runtime/restore-state.json').exists()else None,'limitations':['Small synthetic corpus; not the required 250-MiB smoke corpus or recovery-time acceptance','Same physical Apple Silicon Mac with new isolated Compose resources; not a second machine','Copied host runtime and prebuilt development images; not the browser-downloaded distribution artifact','Current policy reconciliation, source revalidation, full operational acceptance, upgrade and independent review remain outside this proof']}
  output=ROOT/a.output;output.parent.mkdir(parents=True,exist_ok=True);output.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items()if k not in ['commands']}),flush=True)

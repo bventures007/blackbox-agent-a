@@ -88,10 +88,51 @@ def bootstrap_lock(runtime: Path, create: bool):
         os.close(fd)
 
 
+KEY_ID = re.compile(r'(?:data-v1|data-[a-f0-9]{32})')
+
+
+def key_filename(identifier: str) -> str:
+    if not isinstance(identifier, str) or not KEY_ID.fullmatch(identifier):
+        raise RuntimeConfigError('Invalid encryption key identifier.')
+    return 'data' if identifier == 'data-v1' else identifier
+
+
+def parse_keyring(value: dict) -> dict:
+    if not isinstance(value, dict) or set(value) != {'version', 'active', 'keys', 'identity'} or type(value['version']) is not int or value['version'] != 1 or value['identity'] != 'independent-v1':
+        raise RuntimeConfigError('Invalid encryption keyring metadata.')
+    keys = value['keys']
+    if not isinstance(keys, list) or not 1 <= len(keys) <= 2 or any(not isinstance(k, str) or not KEY_ID.fullmatch(k) for k in keys) or len(set(keys)) != len(keys) or value['active'] not in keys:
+        raise RuntimeConfigError('Invalid encryption keyring versions.')
+    return value
+
+
+def read_keyring(runtime: Path) -> dict | None:
+    path = runtime / 'secrets/keyring.json'
+    if not path.exists() and not path.is_symlink():
+        # Independent identity material proves this is not a legacy installation.
+        if (runtime / 'secrets/identity').exists() or (runtime / 'secrets/identity').is_symlink() or any((runtime / 'secrets').glob('data-*')):
+            raise RuntimeConfigError('Missing encryption keyring metadata. Restore the original; no legacy fallback.')
+        return None
+    try:
+        from backup_codec import decode_json, BackupFormatError
+        return parse_keyring(decode_json(protected_read(path, 1024)))
+    except (ValueError, TypeError, BackupFormatError):
+        raise RuntimeConfigError('Invalid encryption keyring metadata.') from None
+
+
 def validate_keys(runtime: Path) -> None:
     protected_directory(runtime / 'secrets')
-    if len(protected_read(runtime / 'secrets/data', 32)) != 32:
-        raise RuntimeConfigError('Invalid data key. Restore the original; no replacement generated.')
+    ring = read_keyring(runtime)
+    data = []
+    for identifier in ring['keys'] if ring else ['data-v1']:
+        material = protected_read(runtime / 'secrets' / key_filename(identifier), 32)
+        if len(material) != 32:
+            raise RuntimeConfigError('Invalid data key. Restore the original; no replacement generated.')
+        data.append(material)
+    if ring:
+        identity = protected_read(runtime / 'secrets/identity', 32)
+        if len(identity) != 32 or identity in data or len(set(data)) != len(data):
+            raise RuntimeConfigError('Invalid or coupled independent key material. Restore the original keys.')
     if not re.fullmatch(rb'[a-f0-9]{64}', protected_read(runtime / 'secrets/internal', 64)):
         raise RuntimeConfigError('Invalid internal key. Restore the original; no replacement generated.')
 
@@ -105,7 +146,7 @@ def prepare_keys(runtime: Path, may_create: bool) -> None:
             raise RuntimeConfigError('Missing installation keys. Restore the original protected key directory.')
         protected_directory(directory, True)
     protected_directory(directory)
-    keys = [directory / 'data', directory / 'internal']
+    keys = [directory / 'data', directory / 'internal', directory / 'identity', directory / 'keyring.json']
     if any(p.exists() or p.is_symlink() for p in keys):
         validate_keys(runtime)
         return
@@ -113,6 +154,8 @@ def prepare_keys(runtime: Path, may_create: bool) -> None:
         raise RuntimeConfigError('Missing installation keys with existing state. Restore the originals; no replacement generated.')
     create_file(keys[0], secrets.token_bytes(32))
     create_file(keys[1], secrets.token_hex(32).encode())
+    create_file(keys[2], secrets.token_bytes(32))
+    create_file(keys[3], json.dumps({'version': 1, 'active': 'data-v1', 'keys': ['data-v1'], 'identity': 'independent-v1'}).encode())
     validate_keys(runtime)
 
 

@@ -2,7 +2,12 @@ import { randomUUID } from "node:crypto";
 import type { PoolClient } from "pg";
 import { z } from "zod";
 import { pool, scoped } from "../database/index.js";
-import { openSecret, sealSecret, opaqueIdentity } from "../auth/secrets.js";
+import {
+  openSecret,
+  sealSecret,
+  opaqueIdentity,
+  secretKeyVersion,
+} from "../auth/secrets.js";
 import {
   authorizeShopify,
   validateShopify,
@@ -441,8 +446,8 @@ export async function processSourceJob(j: Job) {
       await scoped(j.tenant_id, async (c) => {
         await assertLease(c, j);
         await c.query(
-          "UPDATE bb.source_secrets SET sealed=$2,validated_at=now(),scopes=$3,updated_at=now() WHERE connection_id=$1",
-          [j.connection_id, sealed, validated.scopes],
+          "UPDATE bb.source_secrets SET sealed=$2,key_version=$4,validated_at=now(),scopes=$3,updated_at=now() WHERE connection_id=$1",
+          [j.connection_id, sealed, validated.scopes, secretKeyVersion(sealed)],
         );
       });
     }

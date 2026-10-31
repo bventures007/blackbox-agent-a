@@ -1,3 +1,4 @@
+import { identityKey } from "../auth/key-material.js";
 import { createHmac, randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { z } from "zod";
@@ -30,7 +31,7 @@ export async function replayObservation(
 ): Promise<Observation> {
   const e = event.parse(input),
     p = e.payload,
-    secret = await readFile(process.env.DATA_KEY_FILE!);
+    secret = await identityKey();
   const id = (value: string) => {
     const b = createHmac("sha256", secret)
       .update(`${connection}:${value}`)
