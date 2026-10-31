@@ -1,0 +1,80 @@
+{
+ "row": "replay.payouts",
+ "kind": "pipeline",
+ "run_id": "pilot-20261031T191734Z-0faf361",
+ "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+ "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/golden.test.ts",
+ "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0, pnpm 11.20; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a with test port overrides (infra/compose/compose.test.yaml); fresh installation via ./blackbox setup before the run",
+ "vitest_files": {
+  "integration/golden.test.ts": {
+   "status": "passed",
+   "passed": 8,
+   "failed": 0,
+   "cases": [
+    {
+     "name": "DOMAIN-01 Golden Scenario through ingestion, PostgreSQL, Rust and API matches every intermediate checkpoint when replayed step by step",
+     "status": "passed",
+     "duration_ms": 607.609958
+    },
+    {
+     "name": "DOMAIN-01 Golden Scenario through ingestion, PostgreSQL, Rust and API matches the final checkpoint after one full replay and conservation holds",
+     "status": "passed",
+     "duration_ms": 98.35645899999997
+    },
+    {
+     "name": "DOMAIN-02 replay twice and mutated values a second identical replay changes nothing (idempotent business effects)",
+     "status": "passed",
+     "duration_ms": 61.430916000000025
+    },
+    {
+     "name": "DOMAIN-02 replay twice and mutated values duplicate concurrent deliveries (repeat 3) produce the same amounts",
+     "status": "passed",
+     "duration_ms": 81.44883300000015
+    },
+    {
+     "name": "DOMAIN-02 replay twice and mutated values scaled amounts (x3) with unique ids compute generalized values, not hardcoded ones",
+     "status": "passed",
+     "duration_ms": 59.55774999999994
+    },
+    {
+     "name": "DOMAIN-03 / missing_bank variant / IMPORT-02 partial truth stopping at G18 leaves 9170 in transit and bank unknown rather than zero-confirmed",
+     "status": "passed",
+     "duration_ms": 57.93666699999994
+    },
+    {
+     "name": "DOMAIN-03 / missing_bank variant / IMPORT-02 partial truth a payment marker is not cash and a credit note is not a refund",
+     "status": "passed",
+     "duration_ms": 9.579500000000053
+    },
+    {
+     "name": "DOMAIN-07 bitemporal cutoffs a recorded-time cutoff before the credit shows the pre-credit receivable; the credit does not erase it",
+     "status": "passed",
+     "duration_ms": 12.64604200000008
+    }
+   ]
+  }
+ },
+ "missing_files": [],
+ "evidence_files": [
+  "auth-throttle.json",
+  "contract.json",
+  "diagnostics.json",
+  "dist-install-check.json",
+  "dist-landing-check.json",
+  "golden.json",
+  "journal-tests.json",
+  "mcp-client.json",
+  "ops-backup-manifest.json",
+  "ops-restore-check.json",
+  "perf-engine-health-after-seed.json",
+  "perf-engine-health-before-load.json",
+  "perf-load-api.json",
+  "perf-load-mcp.json",
+  "perf-seed-manifest.json",
+  "playwright.json",
+  "queries.json",
+  "shopify-payments.json",
+  "slice-01.json"
+ ],
+ "recorded_at": "2026-10-31T19:21:56.921649+00:00"
+}

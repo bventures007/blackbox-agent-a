@@ -1,6 +1,6 @@
 # P4 handover checkpoint — Blackbox local pilot 0.1.0-dev
 
-Repository: `bventures007/blackbox-agent-a`, branch `main`. Evidence run id: see `.local`-free references below (`reports/integrations/pilot-20261031T181630Z-45f9090/`). Runtime code of the evidence run: commit `45f9090281af50b198faed64febc37f754caa22f`; later commits only changed scripts, tests, reports and docs (listed in git history).
+Repository: `bventures007/blackbox-agent-a`, branch `main`. Final evidence run: `reports/integrations/pilot-20261031T191734Z-0faf361/` on a fresh installation at commit `0faf36199d9e1df8a3fa78444a98c157582061a5` (an earlier green run at `45f9090` is kept under `reports/integrations/pilot-20261031T181630Z-45f9090/`). The commits after `0faf361` contain only the recorded evidence, reports and this document.
 
 ## What is delivered
 
@@ -40,7 +40,7 @@ python3 scripts/integration-register.py check && python3 scripts/validate-questi
 
 | Area | Result | Evidence |
 |---|---|---|
-| Integration suite (journal, auth, contract, slice, golden, queries, diagnostics, payments) | 52/52 passed | `reports/integrations/pilot-20261031T181630Z-45f9090/vitest-integration.json`, `tests/evidence/current/*.json` |
+| Integration suite (journal, auth, contract, slice, golden, queries, diagnostics, payments) | 52/52 passed | `reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json`, `tests/evidence/current/*.json` |
 | Browser journeys (desktop + mobile, EN + DE, landing, sign-in, questions with evidence, agents, journal, review, diagnostics, settings, wrong-key handling) | 10/10 passed | `tests/evidence/current/playwright.json`, `tests/evidence/current/screens/` (40 screenshots) |
 | Persisted slice: fixture Shopify → worker → PostgreSQL journal → Rust engine → API and SDK stdio MCP → restart with removed snapshot | identical fixed-cutoff answers | `tests/evidence/current/slice-01.json` |
 | Golden Order-to-Cash through the real pipeline (stepwise, full, repeated, scaled, missing bank, bitemporal) | every checkpoint matched; conservation holds | `tests/evidence/current/golden.json` |
@@ -50,6 +50,11 @@ python3 scripts/integration-register.py check && python3 scripts/validate-questi
 | Release archive, manifest/checksum/landing links from one static origin, installation from the archive in a fresh folder (no clone, no toolchain), first answer | passed | `tests/evidence/current/dist-landing-check.json`, `dist-install-check.json`, `ops-dist-install.txt` |
 | Fresh installation path (setup prints the key once, migrations, one workspace) | passed | `tests/evidence/current/ops-fresh-install.txt` |
 | Performance smoke profile (55 tenants, 347,182 journal entries, 20 ingest/s, 20 clients + 40 arrivals/s API, 10 clients + 20 arrivals/s MCP, 600 s each) | 15 of 18 measured targets hold (hot p95 API 186 ms / MCP 173 ms, cold p95 46/73 ms, history p95 41/58 ms, summary p95 96/149 ms, durable ack p95 151 ms, lag p95 300 ms, engine RSS 735 MiB peak); **failed**: hot p99 API 878 ms (target 500), hot p99 MCP 1205 ms (900), MCP success 0.9977 (0.999) under the per-workspace concurrency cap | `reports/performance.json`, `tests/evidence/current/perf-*.json` |
+
+## Acceptance tally (`reports/acceptance.json`, 83 active pilot cases)
+
+- passed: 62 · implemented_unverified: 16 (each names the missing automated check) · blocked_external: 3 (SLICE-02, SOURCE-01, MCP-03) · failed: 1 (PILOT-09, three performance targets missed) · not_applicable: 1 (SEC-03, no extraction feature). Deferred platform cases (37) stay `not_started`.
+- `python3 scripts/validate-delivery-profile.py` passes; `--release` fails by design until live proof and independent approvals exist.
 
 ## Not verified / external blockers (not passes)
 

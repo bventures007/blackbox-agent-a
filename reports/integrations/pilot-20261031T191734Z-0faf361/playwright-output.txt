@@ -1,0 +1,16 @@
+
+Running 10 tests using 2 workers
+
+  ✓   1 [desktop] › e2e/pilot-journey.spec.ts:38:3 › landing renders without backend session and links the guide (en) (954ms)
+  ✓   2 [mobile] › e2e/pilot-journey.spec.ts:38:3 › landing renders without backend session and links the guide (en) (1.5s)
+  ✓   3 [desktop] › e2e/pilot-journey.spec.ts:59:3 › owner journey (en) (3.8s)
+  ✓   5 [desktop] › e2e/pilot-journey.spec.ts:38:3 › landing renders without backend session and links the guide (de) (694ms)
+  ✓   6 [desktop] › e2e/pilot-journey.spec.ts:59:3 › owner journey (de) (3.0s)
+  ✓   7 [desktop] › e2e/pilot-journey.spec.ts:159:1 › wrong key shows an understandable error and no key material leaks (2.6s)
+  ✓   4 [mobile] › e2e/pilot-journey.spec.ts:59:3 › owner journey (en) (10.0s)
+  ✓   8 [mobile] › e2e/pilot-journey.spec.ts:38:3 › landing renders without backend session and links the guide (de) (746ms)
+  ✓   9 [mobile] › e2e/pilot-journey.spec.ts:59:3 › owner journey (de) (9.2s)
+  ✓  10 [mobile] › e2e/pilot-journey.spec.ts:159:1 › wrong key shows an understandable error and no key material leaks (657ms)
+
+  10 passed (23.1s)
+playwright exit 0

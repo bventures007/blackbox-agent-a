@@ -1,0 +1,34 @@
+
+ RUN  v3.2.4 /Users/benediktsauter/GitHub/blackbox-agent-a/tests
+
+ ✓ integration/queries.test.ts (8 tests) 4058ms
+   ✓ QUERY-01 positive paths for all 24 intents via API > order-01..04  318ms
+   ✓ QUERY-01 positive paths for all 24 intents via API > invoice-01..04 and collection-01..04  420ms
+   ✓ QUERY-01 positive paths for all 24 intents via API > settlement-01..04 and reversal-01..04  439ms
+   ✓ QUERY-01 positive paths for all 24 intents via API > the same intents return identical results through the SDK MCP bridge (MCP-01)  660ms
+   ✓ QUERY-02 missing-data cases are explicit, never fabricated > every one of the 24 intents answers an empty workspace with insufficient_data or partial and names missing inputs (shared query service, engine endpoint)  1562ms
+ ✓ integration/slice.test.ts (8 tests) 8430ms
+   ✓ SLICE-01 provider-shaped persisted path > imports the fixture through the real adapter and the engine applies the derived tracks  1550ms
+   ✓ SLICE-01 provider-shaped persisted path > duplicate/out-of-order pages produced no double effects (counts stable after a second incremental run)  1564ms
+   ✓ SLICE-01 provider-shaped persisted path > serves the same answer through the real SDK stdio MCP bridge with a separate agent key  511ms
+   ✓ SLICE-01 provider-shaped persisted path > survives a full stack restart and a removed engine snapshot with identical fixed-cutoff answers  4456ms
+ ✓ integration/diagnostics.test.ts (4 tests) 10558ms
+   ✓ DIAG-03 correlation across worker commit, engine application and query > journal.batch_committed and engine.batch_applied carry cursors; a query log names its cutoff; fields are allowlisted  1658ms
+   ✓ DIAG-05 debug windows > debug is off by default, bounded to 15 minutes, stoppable and audited  7242ms
+   ✓ DIAG-06 / DIAG-08 redaction, access and export bounds > injected canaries never reach any sink; agents and anonymous callers are denied; export is bounded  1572ms
+ ✓ integration/golden.test.ts (8 tests) 1032ms
+   ✓ DOMAIN-01 Golden Scenario through ingestion, PostgreSQL, Rust and API > matches every intermediate checkpoint when replayed step by step  608ms
+ ✓ integration/auth.test.ts (6 tests) 2247ms
+   ✓ LOCAL-01 / LOCAL-02 owner key and sessions > rejects wrong keys without leaking partial matches and throttles repeated failures  2094ms
+ ✓ integration/journal.test.ts (12 tests) 161ms
+ ✓ integration/contract.test.ts (3 tests) 369ms
+ ✓ integration/payments.test.ts (3 tests) 1202ms
+   ✓ shopify_payments fixture import through worker, PostgreSQL, Rust and API > commits ledger, payout and dispute observations and marks the finance capabilities ready  1042ms
+
+ Test Files  8 passed (8)
+      Tests  52 passed (52)
+   Start at  20:16:18
+   Duration  31.00s (transform 256ms, setup 0ms, collect 817ms, tests 28.06s, environment 1ms, prepare 412ms)
+
+JSON report written to /Users/benediktsauter/GitHub/blackbox-agent-a/tests/evidence/tmp/vitest-integration.json
+vitest exit 0

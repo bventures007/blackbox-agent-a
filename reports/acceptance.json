@@ -1,1448 +1,1622 @@
 {
-  "schema_version": "1.0",
-  "note": "No product case has run. delivery_scope distinguishes active pilot proof from deferred platform references; deferred work is not a pass. Update only from actual evidence.",
-  "specification": "ACCEPTANCE.json",
-  "cases": [
-    {
-      "id": "INSTALL-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "INSTALL-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "TENANT-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "TENANT-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "TENANT-03",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "TENANT-04",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "AUTH-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "AUTH-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "INGEST-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "INGEST-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "INGEST-03",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "INGEST-04",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "INGEST-05",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "INGEST-06",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DOMAIN-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DOMAIN-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DOMAIN-03",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DOMAIN-04",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DOMAIN-05",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DOMAIN-06",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DOMAIN-07",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "QUERY-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "QUERY-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "MCP-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "MCP-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "MCP-03",
-      "stage": "external",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "UI-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "UI-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "SOURCE-01",
-      "stage": "external",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "SOURCE-02",
-      "stage": "external",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "SOURCE-03",
-      "stage": "external",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "SOURCE-04",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "OPS-01",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "OPS-02",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "OPS-03",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "OPS-04",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "OPS-05",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "SEC-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "SEC-02",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "SEC-03",
-      "stage": "conditional",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "EXTEND-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "SAAS-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "CI-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "JOURNAL-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "JOURNAL-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "MCP-04",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "MCP-05",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PERF-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PERF-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "PERF-03",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "PERF-04",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "PERF-05",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "REGISTRY-01",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "WEB-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "WEB-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "DESKTOP-01",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "DESKTOP-02",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "SYNC-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "SYNC-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "SYNC-03",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "SYNC-04",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "GATEWAY-01",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "GATEWAY-02",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "GATEWAY-03",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "GATEWAY-04",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "GATEWAY-05",
-      "stage": "external",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "DEPLOY-01",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "IMPORT-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "IMPORT-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "IMPORT-03",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "IMPORT-04",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "IMPORT-05",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "IMPORT-06",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "HEALTH-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "HEALTH-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "HEALTH-03",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "AUTH-03",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "AUTH-04",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "AUTH-05",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "AUTH-06",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "AUTH-07",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "AUTH-08",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "AUTH-09",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "AUTH-10",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "AUTH-11",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "AUTH-12",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "deferred_future"
-    },
-    {
-      "id": "LOCAL-01",
-      "stage": "core",
-      "delivery_scope": "local_pilot",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null
-    },
-    {
-      "id": "LOCAL-02",
-      "stage": "core",
-      "delivery_scope": "local_pilot",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null
-    },
-    {
-      "id": "LOCAL-03",
-      "stage": "operations",
-      "delivery_scope": "local_pilot",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null
-    },
-    {
-      "id": "LOCAL-04",
-      "stage": "core",
-      "delivery_scope": "local_pilot",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null
-    },
-    {
-      "id": "LOCAL-05",
-      "stage": "core",
-      "delivery_scope": "local_pilot",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null
-    },
-    {
-      "id": "LOCAL-06",
-      "stage": "core",
-      "delivery_scope": "local_pilot",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null
-    },
-    {
-      "id": "LOCAL-07",
-      "stage": "core",
-      "delivery_scope": "local_pilot",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null
-    },
-    {
-      "id": "LOCAL-08",
-      "stage": "operations",
-      "delivery_scope": "local_pilot",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null
-    },
-    {
-      "id": "LOCAL-09",
-      "stage": "operations",
-      "delivery_scope": "local_pilot",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null
-    },
-    {
-      "id": "LOCAL-10",
-      "stage": "operations",
-      "delivery_scope": "local_pilot",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null
-    },
-    {
-      "id": "LOCAL-11",
-      "stage": "core",
-      "delivery_scope": "local_pilot",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null
-    },
-    {
-      "id": "DIAG-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DIAG-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DIAG-03",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DIAG-04",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DIAG-05",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DIAG-06",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DIAG-07",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DIAG-08",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DIST-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DIST-02",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "DIST-03",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "SLICE-01",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "SLICE-02",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PILOT-01",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PILOT-02",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PILOT-03",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PILOT-04",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PILOT-05",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PILOT-06",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PILOT-07",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PILOT-08",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PILOT-09",
-      "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    },
-    {
-      "id": "PILOT-10",
-      "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
-      "delivery_scope": "local_pilot"
-    }
-  ],
-  "active_profile": "local_pilot"
+ "schema_version": "1.0",
+ "note": "Updated 2026-10-31T19:27:38.296263+00:00 from actual evidence at commit 0faf36199d9e; counts: blocked_external=3, failed=1, implemented_unverified=16, not_applicable=1, not_started=37, passed=62. delivery_scope distinguishes active pilot proof from deferred platform references; deferred work is not a pass.",
+ "specification": "ACCEPTANCE.json",
+ "cases": [
+  {
+   "id": "INSTALL-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "./blackbox doctor && ./blackbox setup && ./blackbox up",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "doctor passed, setup created the workspace and showed the key once, up started the stack; the browser sign-in and first answer were exercised in the Playwright journey and the fresh-folder installation",
+   "evidence_paths": [
+    "tests/evidence/current/ops-fresh-install.txt",
+    "tests/evidence/current/dist-install-check.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "INSTALL-02",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "fixed-cutoff answers and entity state identical after restart and after snapshot removal; volumes preserved, no reseeding (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/slice-01.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "TENANT-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "a second tenant with the same order name is invisible to tenant A through journal, query and text search (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "TENANT-02",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "RLS covers reads/writes, roles are not owners/superusers/BYPASSRLS, migration role separate (4 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "TENANT-03",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "no leaked tenant context after success, failure and cancellation on pooled connections (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "TENANT-04",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "cross-tenant references, agent access to owner surfaces and anonymous access are denied without sensitive content; composite entity keys are tenant-scoped (3 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "AUTH-01",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "AUTH-02",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "no public bootstrap, throttling, protected cookies, exact origin/Host checks, server-side logout; recovery via host-only reset-access documented and implemented (5 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "INGEST-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "signed producer envelopes only; replayed body for another producer and payload tenant ids rejected (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "INGEST-02",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "identical re-deliveries deduplicated by provider identity; business effects occur once (3 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "INGEST-03",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "every acknowledged input is committed or visibly quarantined/conflicted as a review case (3 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "INGEST-04",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "effective-time/version rules decide state; late-recorded earlier-effective movements do not double-apply on a later snapshot; prior evidence stays visible (3 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "INGEST-05",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "per-page checkpoints, re-armed singleton polls with spacing, health with reasons; retries/backoff implemented in the job queue (Retry-After honoured) (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "INGEST-06",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "rebuild from the journal after snapshot removal re-derives identically; no new business activity is created by recovery (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DOMAIN-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "all golden checkpoints match through the real pipeline; evidence ids resolve; conservation holds (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/golden.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DOMAIN-02",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "idempotent replays, repeated deliveries and scaled amounts give generalized results (3 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DOMAIN-03",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "payment marker is not cash, credit note is not refund, unconfirmed payout stays in transit (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DOMAIN-04",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "physical/reserved/quarantined/available distinguished; incoming supply never counted as stock (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DOMAIN-05",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "integer minor units with currency, decimal quantity strings; no cross-currency sums (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DOMAIN-06",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "conflicts become review cases; identities are provider/account scoped, never email or bare order number (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DOMAIN-07",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "recorded-time cutoffs give stable historical answers; corrections do not erase prior state (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "QUERY-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "all 24 intents answered positive paths with typed results, calculation, evidence, cutoffs and coverage (4 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/queries.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "QUERY-02",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "all 24 intents answer an empty workspace with insufficient_data/partial and named missing inputs; unknown entities are not fabricated (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/queries.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "MCP-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "SDK stdio bridge returns identical scoped results and evidence; typed failures for unknown evidence (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "MCP-02",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "MCP-03",
+   "stage": "external",
+   "status": "blocked_external",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "claude -p --mcp-config <bridge config> ... (see tests/evidence/current/mcp-client.json)",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "attempted with the Claude Code CLI 2.1.310 as a real third-party client; the CLI could not authenticate on this Mac (OAuth session expired), so no third-party client session was recorded; the SDK stdio client remains the exercised client (MCP-01/MCP-04)",
+   "evidence_paths": [
+    "tests/evidence/current/mcp-client.json"
+   ],
+   "blocker": "No authenticated third-party MCP client was available to the build agent; rerun scripts in tests/evidence/current/mcp-client.json with a signed-in client",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "UI-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx playwright test",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "EN/DE desktop and mobile journeys with screenshots; supplied design preserved; keyboard focus reachable; no Xentral references (10 cited test cases passed)",
+   "evidence_paths": [
+    "tests/evidence/current/playwright.json",
+    "tests/evidence/current/screens"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "UI-02",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "SOURCE-01",
+   "stage": "external",
+   "status": "blocked_external",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "not executed",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "fixture-proven only",
+   "evidence_paths": [],
+   "blocker": "No authorized Shopify store/Shopify Payments account; live backfill/incremental/reconciliation mapping against merchant data not verified",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "SOURCE-02",
+   "stage": "external",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "SOURCE-03",
+   "stage": "external",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "SOURCE-04",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "bank CSV preview/import with column profile, statement-scoped dedup, amount-only matches never auto-linked (bank_import in queries.json) (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/queries.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "OPS-01",
+   "stage": "operations",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "./blackbox backup --configure ... ; ./blackbox backup --now ; ./blackbox restore <generation> --into <folder> --port 19081",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "encrypted generation created and restored into an isolated installation; identical fixed-cutoff answer; access fenced (new owner key, agents revoked, providers paused); durations recorded in ops-restore-check.json",
+   "evidence_paths": [
+    "tests/evidence/current/ops-restore-check.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "OPS-02",
+   "stage": "operations",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "./blackbox upgrade --from <release>",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "serialized fenced upgrade with pre-upgrade backup, version/space/compat preflight, migrations and post-checks implemented; no second release version existed to upgrade to in this session",
+   "evidence_paths": [],
+   "blocker": "Upgrade rehearsal needs a newer release build; only 0.1.0-dev exists",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "OPS-03",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "OPS-04",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "OPS-05",
+   "stage": "operations",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "node tests/perf/seed.mjs ; node tests/perf/load.mjs --mode api ; node tests/perf/load.mjs --mode mcp",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "see reports/performance.json for per-class percentiles, success fraction, lag and memory on the declared hardware",
+   "evidence_paths": [
+    "tests/evidence/current/perf-load-api.json",
+    "tests/evidence/current/perf-load-mcp.json",
+    "tests/evidence/current/perf-hardware.txt"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "SEC-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "no secrets in logs/exports; .secrets gitignored; keys verifier-only; data key separate from backups recovery key (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/diagnostics.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "SEC-02",
+   "stage": "operations",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "agent revocation audited and effective immediately; tenant boundaries retained (cited cases: ['passed'])",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": "Retention-driven deletion of affected evidence/projections/backups is documented but not exercised",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "SEC-03",
+   "stage": "conditional",
+   "status": "not_applicable",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "n/a",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "No embedded extraction/LLM feature exists; MCP serves data only. Log/HTML injection is covered by DIAG-06 canaries.",
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "EXTEND-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "adding a producer requires a connector mapping, contracts, tests and query registration; ingestion core and financial rules untouched (see contract.test.ts) (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "SAAS-01",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "CI-01",
+   "stage": "core",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "pnpm -r build && cargo test && cd tests && npx vitest run ...",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "workflow defined; local run of the same commands produced the cited vitest/playwright reports",
+   "evidence_paths": [
+    ".github/workflows/product.yml"
+   ],
+   "blocker": "No CI runner executed the workflow in this session (repository is private, no hosted runner result available)",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "JOURNAL-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "database-enforced append-only; runtime roles cannot bypass or escalate (6 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "JOURNAL-02",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "corrections append with supersedes links, conflicts explicit, gap-free sequences (4 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "MCP-04",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "bounded composable read tools (journal entries, entity history, evidence, state, search) exercised through the SDK client; unauthorized surfaces denied (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "MCP-05",
+   "stage": "core",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "snapshot pagination with explicit continuation exercised via entity history/journal listing through the bridge (cited cases: ['passed'])",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": "Stable-snapshot pagination across late commits is implemented (cursor + cutoff) but has no dedicated automated omission/duplicate test in this run",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PERF-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "one Rust implementation serves API and MCP; hot queries use resident indexes; latency measured in perf-load-api.json (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/perf-load-api.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PERF-02",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "PERF-03",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "PERF-04",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "PERF-05",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "REGISTRY-01",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "WEB-01",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "WEB-02",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "DESKTOP-01",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "DESKTOP-02",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "SYNC-01",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "SYNC-02",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "SYNC-03",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "SYNC-04",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "GATEWAY-01",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "GATEWAY-02",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "GATEWAY-03",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "GATEWAY-04",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "GATEWAY-05",
+   "stage": "external",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "DEPLOY-01",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "IMPORT-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "plan presets resolve to exact UTC boundaries stored with the run (requested_from/requested_to in run counters) (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/slice-01.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "IMPORT-02",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "missing bank history stays unknown, not zero-confirmed; snapshots are not movements (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "IMPORT-03",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "run counters are logical records (orders_fetched, observations_committed, duplicates) and survive restart (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "IMPORT-04",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "readiness follows actual coverage facts; partial answers name missing capabilities (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "IMPORT-05",
+   "stage": "core",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "POST /api/sources/:id/plan (history_expansion)",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "history expansion job kind implemented (versioned plan, deduplicated re-import)",
+   "evidence_paths": [],
+   "blocker": "No automated test exercised a plan revision with history expansion in this run",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "IMPORT-06",
+   "stage": "core",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "import selection, view filters, resident-memory budget and log retention are separate settings; nothing deletes journal data (cited cases: ['passed'])",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": "Memory-budget eviction is exercised in the perf run; no dedicated acceptance test ties display filters to collection settings",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "HEALTH-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "last successful sync and last new record are distinct timestamps on capability state; failures cannot claim sync (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "HEALTH-02",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts ; cd tests && npx playwright test",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "UI/API share server health state; periods, counts, phases and last/next checks shown (5 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/playwright.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "HEALTH-03",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "answers carry applied/committed cursors and per-capability coverage; MCP identical (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "AUTH-03",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "AUTH-04",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "AUTH-05",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "AUTH-06",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "AUTH-07",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "AUTH-08",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "AUTH-09",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "AUTH-10",
+   "stage": "core",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "AUTH-11",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "AUTH-12",
+   "stage": "operations",
+   "status": "not_started",
+   "tested_commit": null,
+   "command": null,
+   "environment": null,
+   "observed_result": null,
+   "evidence_paths": [],
+   "blocker": null,
+   "delivery_scope": "deferred_future"
+  },
+  {
+   "id": "LOCAL-01",
+   "stage": "core",
+   "delivery_scope": "local_pilot",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "one automatic owner/workspace; 256-bit key shown once by setup; verifier-only storage (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/ops-fresh-install.txt"
+   ],
+   "blocker": null
+  },
+  {
+   "id": "LOCAL-02",
+   "stage": "core",
+   "delivery_scope": "local_pilot",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "throttling, protected cookies, exact origins, 30 d/7 d idle and 8 h sessions (4 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null
+  },
+  {
+   "id": "LOCAL-03",
+   "stage": "operations",
+   "delivery_scope": "local_pilot",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "./blackbox reset-access ; ./blackbox restore ...",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "restore rotated the owner key, invalidated sessions and agent keys; business answers unchanged",
+   "evidence_paths": [
+    "tests/evidence/current/ops-restore-check.json"
+   ],
+   "blocker": "reset-access on the live installation was not executed in this run (restore path exercised the same fencing)"
+  },
+  {
+   "id": "LOCAL-04",
+   "stage": "core",
+   "delivery_scope": "local_pilot",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "separate agent principals, owner key refused as agent credential, immediate revocation (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null
+  },
+  {
+   "id": "LOCAL-05",
+   "stage": "core",
+   "delivery_scope": "local_pilot",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "only 127.0.0.1:19080 published by the product compose; internal ports private; CSRF/origin enforced (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/published-ports.txt"
+   ],
+   "blocker": null
+  },
+  {
+   "id": "LOCAL-06",
+   "stage": "core",
+   "delivery_scope": "local_pilot",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx playwright test",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "EN default, full DE, agents page with permissions/last use/revoke, planned providers shown (4 cited test cases passed)",
+   "evidence_paths": [
+    "tests/evidence/current/playwright.json"
+   ],
+   "blocker": null
+  },
+  {
+   "id": "LOCAL-07",
+   "stage": "core",
+   "delivery_scope": "local_pilot",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "local_standalone polling preserves cursors, dedup and honest readiness; gateway/public modes refused (contract suite) (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null
+  },
+  {
+   "id": "LOCAL-08",
+   "stage": "operations",
+   "delivery_scope": "local_pilot",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "./blackbox doctor/setup/up in a fresh folder",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "versioned Compose/wrapper only; no native packaging, no global install; clear prerequisites and errors",
+   "evidence_paths": [
+    "tests/evidence/current/dist-install-check.json"
+   ],
+   "blocker": null
+  },
+  {
+   "id": "LOCAL-09",
+   "stage": "operations",
+   "delivery_scope": "local_pilot",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "restart/replay keep bounded hot/cold reads correct; incompatible snapshot rebuilt; RSS reported in perf evidence (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/perf-load-api.json"
+   ],
+   "blocker": null
+  },
+  {
+   "id": "LOCAL-10",
+   "stage": "operations",
+   "delivery_scope": "local_pilot",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "python3 scripts/validate-delivery-profile.py --release",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "active profile and case/report sets match; the release validator fails honestly on blocked live rows and missing independent approvals",
+   "evidence_paths": [
+    "reports/acceptance.json",
+    "INTEGRATIONS.md"
+   ],
+   "blocker": "Independent approvals and live proof are external"
+  },
+  {
+   "id": "LOCAL-11",
+   "stage": "core",
+   "delivery_scope": "local_pilot",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "./blackbox diagnostics export --since 24h --output FILE",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "tester guide covers start/key/import/answer/agent/restart/recovery; export contains allowlisted metadata only",
+   "evidence_paths": [
+    "docs/feedback-guide.md",
+    "tests/evidence/current/diagnostics.json"
+   ],
+   "blocker": null
+  },
+  {
+   "id": "DIAG-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx playwright test",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "owner-only view with last-hour INFO+ default, filters, live/pause, history, source/run links, design preserved (4 cited test cases passed)",
+   "evidence_paths": [
+    "tests/evidence/current/playwright.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DIAG-02",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "health from probes with timestamps/reasons; stale within 30 s (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DIAG-03",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "allowlisted versioned records with cursor/run/trace correlation (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DIAG-04",
+   "stage": "operations",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "./blackbox logs --since 2h --level warn ; ./blackbox status",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "host CLI reads retained NDJSON without API/DB (bundled image, --network none); setup phases logged with codes",
+   "evidence_paths": [
+    "tests/evidence/current/ops-fresh-install.txt"
+   ],
+   "blocker": "Reading logs while the API is down was exercised manually earlier in the build, not in this recorded run",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DIAG-05",
+   "stage": "operations",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "debug off by default, 15-minute server-side bound, stop audited; retention enforcement implemented (7 d / 100 MiB) (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DIAG-06",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "canaries absent from every sink; owner-only access; agents denied (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DIAG-07",
+   "stage": "operations",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "log query_ms and health refresh measured in diagnostics.json; p95 bounds reported in performance.json",
+   "evidence_paths": [
+    "tests/evidence/current/perf-load-api.json",
+    "tests/evidence/current/diagnostics.json"
+   ],
+   "blocker": "First-page p95 under the declared corpus was not measured as a dedicated gate",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DIAG-08",
+   "stage": "operations",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "local explicit export with categories/time range, truncation notice and 10 MiB cap (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DIST-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "scripts/build-release.sh --reuse-images ; python3 -m http.server (release/site)",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "landing manifest, artifact, size, sha256 sidecar and guide resolve from one static origin (dist-landing-check.json)",
+   "evidence_paths": [
+    "tests/evidence/current/dist-landing-check.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DIST-02",
+   "stage": "operations",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "tar -xzf <archive> ; ./blackbox doctor && setup && up",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "archive installs from bundled images without git/toolchain; workspace created; first answer with evidence (dist-install-check.json)",
+   "evidence_paths": [
+    "tests/evidence/current/dist-install-check.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "DIST-03",
+   "stage": "operations",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "scripts/build-release.sh",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "immutable versioned asset + manifest agree; status stays preview until evidence; CTA tested",
+   "evidence_paths": [
+    "tests/evidence/current/dist-landing-check.json",
+    "release/manifest.json"
+   ],
+   "blocker": "Latest-promotion and public hosting are outside this local pilot",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "SLICE-01",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "persisted fixture \u2192 journal \u2192 engine \u2192 API/MCP \u2192 restart path with fixed-cutoff identical answers (4 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json",
+    "tests/evidence/current/slice-01.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "SLICE-02",
+   "stage": "core",
+   "status": "blocked_external",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "not executed",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "fixture only",
+   "evidence_paths": [],
+   "blocker": "No authorized Shopify store; live source data never passed the persisted path",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PILOT-01",
+   "stage": "operations",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "./blackbox backup --configure/--now/--status",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "fenced coherent snapshot (pg_dump + evidence + installation material), encrypted to the recovery key, atomic completion; failure paths return without deleting generations",
+   "evidence_paths": [
+    "tests/evidence/current/ops-restore-check.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PILOT-02",
+   "stage": "operations",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "./blackbox restore",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "integrity verified before exposure (tampered file rejected); values recover without the install key; access fenced/rotated; providers paused",
+   "evidence_paths": [
+    "tests/evidence/current/ops-restore-check.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PILOT-03",
+   "stage": "operations",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "./blackbox upgrade --from DIR",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "fenced serialized upgrade implemented with compat preflight, backup, migrations and verify-upgrade",
+   "evidence_paths": [],
+   "blocker": "No newer release existed to rehearse an actual upgrade",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PILOT-04",
+   "stage": "core",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "POST /api/review/:id/decision",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "owner-only review decisions append audited business decisions with actor/reason; provenance preserved",
+   "evidence_paths": [],
+   "blocker": "No automated acceptance test for revision-checked idempotent decisions in this run",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PILOT-05",
+   "stage": "operations",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "manual wrapper startup model documented; no autostart/keep-awake; resume revalidates fence and coalesces due jobs (singleton re-arm with spacing)",
+   "evidence_paths": [
+    "docs/operations.md"
+   ],
+   "blocker": "Sleep/resume reconciliation not exercised in an automated test",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PILOT-06",
+   "stage": "operations",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "capacity thresholds (warn max(10 %,5 GiB), critical max(2 %,1 GiB)) visible in diagnostics; critical free space pauses imports/backups without touching cursors",
+   "evidence_paths": [
+    "apps/worker/src/main.ts"
+   ],
+   "blocker": "Critical-capacity pause was not simulated in this run",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PILOT-07",
+   "stage": "core",
+   "status": "implemented_unverified",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "AES-256-GCM with purpose/tenant/key-version AAD; credentials verifier-only; missing keys are never regenerated silently (cited cases: ['passed'])",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": "Key-version rotation not exercised in an automated test",
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PILOT-08",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "canonical payloads are typed business values; raw payloads are not retained; retention disclosed in mappings (1 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PILOT-09",
+   "stage": "operations",
+   "status": "failed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "measured on the seeded 55-tenant/347k-entry corpus: 15 of 18 targets hold; hot-path p99 (API 878 ms > 500, MCP 1205 ms > 900) and MCP success fraction (0.9977 < 0.999) miss under the per-workspace concurrency cap; see reports/performance.json",
+   "evidence_paths": [
+    "tests/evidence/current/perf-load-api.json",
+    "tests/evidence/current/perf-load-mcp.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  },
+  {
+   "id": "PILOT-10",
+   "stage": "core",
+   "status": "passed",
+   "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+   "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/*.test.ts",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a; fresh installation before the run pilot-20261031T191734Z-0faf361",
+   "observed_result": "questions execute the deterministic query service with cutoffs/uncertainty; free text is scoped to journal search (2 cited test cases passed)",
+   "evidence_paths": [
+    "reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json"
+   ],
+   "blocker": null,
+   "delivery_scope": "local_pilot"
+  }
+ ],
+ "active_profile": "local_pilot"
 }

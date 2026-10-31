@@ -38,9 +38,10 @@ Baseline-v14 / brief 2.3: P0–P4 local pilot, then handover and stop. Implement
 - Under the contract load (20 closed-loop clients plus 40 arrivals/s on one workspace) the per-principal/per-workspace concurrency caps rejected about a third of requests with 429. Admission now queues up to 2 s (FIFO) before rejecting; the caps are unchanged and queue time counts toward reported latency.
 - Docker VM disk exhaustion from repeated full image builds crashed PostgreSQL mid-run (recovered; reproduced by the `No space left on device` panic in its log). Operational note added to docs/operations.md.
 
-## Evidence summary (fresh installation, commit 45f9090, run `pilot-20261031T181630Z-45f9090`)
+## Evidence summary (fresh installation, commit 0faf361, run `pilot-20261031T191734Z-0faf361`)
 
-- Integration suite: 52/52 passed (`reports/integrations/pilot-20261031T181630Z-45f9090/vitest-integration.json`).
+- Integration suite: 52/52 passed (`reports/integrations/pilot-20261031T191734Z-0faf361/vitest-integration.json`).
+- Acceptance: 62 passed, 16 implemented_unverified, 3 blocked_external, 1 failed (PILOT-09), 1 not_applicable of 83 active cases (`reports/acceptance.json`).
 - Browser journeys: 10/10 passed, desktop and mobile, EN and DE (`tests/evidence/current/playwright.json`, 40 screenshots).
 - Backup, tamper rejection and isolated restore: passed, restore 30 s machine time (`tests/evidence/current/ops-backup-restore.txt`).
 - Release archive 281,837,818 bytes with verified manifest/checksum/landing links; fresh-folder installation from the archive answered the first question with evidence (`tests/evidence/current/dist-*.json`).

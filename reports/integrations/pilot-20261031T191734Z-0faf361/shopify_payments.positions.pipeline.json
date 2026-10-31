@@ -1,0 +1,55 @@
+{
+ "row": "shopify_payments.positions",
+ "kind": "pipeline",
+ "run_id": "pilot-20261031T191734Z-0faf361",
+ "tested_commit": "0faf36199d9e1df8a3fa78444a98c157582061a5",
+ "command": "cd tests && npx vitest run --config vitest.integration.config.ts integration/payments.test.ts",
+ "environment": "macOS 27.2 (Darwin, Apple Silicon); Docker Desktop 27.3.1 (8 vCPU / 7.65 GiB VM); host Node 25.9.0, pnpm 11.20; images node:22-bookworm-slim, rust:1.90 -> debian-slim, postgres:17; compose project blackbox-agent-a with test port overrides (infra/compose/compose.test.yaml); fresh installation via ./blackbox setup before the run",
+ "vitest_files": {
+  "integration/payments.test.ts": {
+   "status": "passed",
+   "passed": 3,
+   "failed": 0,
+   "cases": [
+    {
+     "name": "shopify_payments fixture import through worker, PostgreSQL, Rust and API commits ledger, payout and dispute observations and marks the finance capabilities ready",
+     "status": "passed",
+     "duration_ms": 1042.486542
+    },
+    {
+     "name": "shopify_payments fixture import through worker, PostgreSQL, Rust and API answers gross-to-net for the paid payout with values recomputed from the fixture ledger",
+     "status": "passed",
+     "duration_ms": 20.47225000000003
+    },
+    {
+     "name": "shopify_payments fixture import through worker, PostgreSQL, Rust and API reports the account position, the scheduled (not sent) payout and the open chargeback explicitly",
+     "status": "passed",
+     "duration_ms": 29.79429099999993
+    }
+   ]
+  }
+ },
+ "missing_files": [],
+ "evidence_files": [
+  "auth-throttle.json",
+  "contract.json",
+  "diagnostics.json",
+  "dist-install-check.json",
+  "dist-landing-check.json",
+  "golden.json",
+  "journal-tests.json",
+  "mcp-client.json",
+  "ops-backup-manifest.json",
+  "ops-restore-check.json",
+  "perf-engine-health-after-seed.json",
+  "perf-engine-health-before-load.json",
+  "perf-load-api.json",
+  "perf-load-mcp.json",
+  "perf-seed-manifest.json",
+  "playwright.json",
+  "queries.json",
+  "shopify-payments.json",
+  "slice-01.json"
+ ],
+ "recorded_at": "2026-10-31T19:21:56.773358+00:00"
+}
