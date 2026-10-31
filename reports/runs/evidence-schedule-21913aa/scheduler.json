@@ -1,0 +1,79 @@
+{
+  "kind": "automatic_evidence_cleanup_owner_boundary_restart_browser",
+  "status": "passed",
+  "tested_commit": "21913aa77a3ca2ecdd558727e1039b22459ad11f",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T19:04:33.389529+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/evidence-schedule-f78e676e8171",
+    "port": 18789,
+    "node_image_source_commit": "21913aa",
+    "engine_image_source_commit": "48505311142a5db99bd81ce1a49a4bf9b8df4e5f",
+    "node_image": "sha256:e0f8c8ce35ba8cfadefdd07dce5b2b9d5698ea02758e7b5d724ab28b223dbc3c",
+    "engine_image": "sha256:78f628a59d38db420d932b915f41db8b72f52ae2b0c64334f49ef7c66ce8fb6f"
+  },
+  "checks": [
+    "actual_persistent_supervisor_removes_restricted_file_without_backup_configuration_preserves_API_MCP_and_owner_boundary",
+    "due_daily_scan_removes_audited_known_workspace_orphans_and_preserves_unknown_workspace_files",
+    "restart_coalesces_completed_cleanup_and_keeps_fixed_cutoff_answer",
+    "actual_EN_DE_owner_policy_and_scheduled_cleanup_browser_no_external_requests_or_mobile_overflow"
+  ],
+  "snapshot": {
+    "postgres_major": 17,
+    "heads": [
+      {
+        "tenant_id": "5b10baa4-bd21-41ec-bade-2f085ea805d0",
+        "committed": 55,
+        "applied": 55,
+        "record_count": 0
+      },
+      {
+        "tenant_id": "c612bcee-2983-41fa-90e8-5b0e76f3b308",
+        "committed": 0,
+        "applied": 0,
+        "record_count": 0
+      }
+    ],
+    "journal_count": 55
+  },
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18789",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-01fd2b735cdf-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-01fd2b735cdf-postgres-1  Running\n Container blackbox-a-01fd2b735cdf-api-1  Creating\n Container blackbox-a-01fd2b735cdf-worker-1  Creating\n Container blackbox-a-01fd2b735cdf-engine-1  Creating\n Container blackbox-a-01fd2b735cdf-engine-1  Created\n Container blackbox-a-01fd2b735cdf-worker-1  Created\n Container blackbox-a-01fd2b735cdf-api-1  Created\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n Container blackbox-a-01fd2b735cdf-engine-1  Starting\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n Container blackbox-a-01fd2b735cdf-worker-1  Starting\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n Container blackbox-a-01fd2b735cdf-api-1  Starting\n Container blackbox-a-01fd2b735cdf-worker-1  Started\n Container blackbox-a-01fd2b735cdf-engine-1  Started\n Container blackbox-a-01fd2b735cdf-api-1  Started\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-01fd2b735cdf-postgres-1  Running\n Container blackbox-a-01fd2b735cdf-engine-1  Running\n Container blackbox-a-01fd2b735cdf-worker-1  Running\n Container blackbox-a-01fd2b735cdf-api-1  Running\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-01fd2b735cdf-postgres-1  Running\n Container blackbox-a-01fd2b735cdf-api-1  Running\n Container blackbox-a-01fd2b735cdf-worker-1  Running\n Container blackbox-a-01fd2b735cdf-engine-1  Running\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-01fd2b735cdf-postgres-1  Running\n Container blackbox-a-01fd2b735cdf-engine-1  Running\n Container blackbox-a-01fd2b735cdf-worker-1  Running\n Container blackbox-a-01fd2b735cdf-api-1  Running\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Waiting\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n Container blackbox-a-01fd2b735cdf-postgres-1  Healthy\n"
+    },
+    {
+      "command": "node --import tsx tests/evidence-policy-browser.ts [protected test environment]",
+      "exit_code": 0,
+      "observed": "actual_EN_DE_owner_policy_save_mobile_no_overflow_no_JS_errors_or_external_requests\n"
+    }
+  ],
+  "elapsed_seconds": 195.721,
+  "limitations": [
+    "Scheduler timestamps explicitly aged in protected synthetic fixtures; not actual multi-day passage or physical Mac sleep/wake",
+    "Small synthetic corpus, not performance smoke, distribution, live-provider policy certification or independent review",
+    "Copied runtime with recorded prebuilt development images; not a downloaded installer",
+    "Affected backup-generation disclosure and complete field/provider inventory remain separate work"
+  ]
+}
