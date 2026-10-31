@@ -32,3 +32,16 @@ are separate and not proved by an order token. No account permissions changed.
 
 A real Apple Silicon host is available. Download/install, recovery, actual client,
 sleep/wake and smoke evidence must still be executed; host availability is no pass.
+
+## Native diagnostic fallback
+
+Docker image builds succeeded. Ordinary container starts (including a networkless
+probe) remained in `created` without a process/error for more than five minutes.
+No global Docker reset or change to another project's resources was attempted.
+The already-installed Postgres.app 18.4 binaries permit independent real persistence
+verification. `scripts/native-dev.py` creates an isolated SCRAM-authenticated cluster
+under `.runtime/pg` with no TCP PostgreSQL listener. A unique 0700 temporary Unix
+socket directory is the only runtime resource outside the repository. Native web,
+engine and synthetic HTTP fixture bind 127.0.0.1 on 19741, 19742 and 19743. These are
+separate from the pending Compose project's 18741. Native execution is development
+proof, not a substitute for DIST/Compose release evidence. No prerequisite installed.

@@ -37,3 +37,13 @@ boundary. Backups will use a maintained recipient encryption format.
 Only 127.0.0.1:18741 is published by the development Compose project. Engine and
 PostgreSQL remain private. Each installation creates fresh credentials. No alternate
 repository or shared data volume is used. Development fixtures contain synthetic data.
+
+## ADR 002 — temporary native verification path
+
+While Docker's ordinary container startup is stuck, use the existing Postgres.app
+18.4 installation for independent persisted-path verification. The production
+Compose manifest remains pinned to PostgreSQL 17. No global runtime settings or
+competing resources change. Native internal ports require the same RPC authority;
+PostgreSQL uses a private Unix socket. This developer harness does not satisfy the
+no-toolchain downloadable installation contract. It remains explicitly separate
+from the installable product path and its evidence.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Host wrapper. No global installation, implicit volume deletion or shared secrets."""
-import os, pathlib, secrets, subprocess, sys
+import os, pathlib, secrets, subprocess, sys, json, datetime, uuid
 root=pathlib.Path(__file__).resolve().parent
 runtime=root/'.runtime'
 def config():
@@ -19,6 +19,17 @@ def config():
  return ['docker','compose','--env-file',str(env),'-f',str(root/'infra/compose/compose.yaml')]
 def run(args):return subprocess.call(args,cwd=root)
 command=sys.argv[1] if len(sys.argv)>1 else 'help'
+try:
+ logdir=runtime/'logs';logdir.mkdir(mode=0o700,parents=True,exist_ok=True);logfile=logdir/'wrapper.jsonl'
+ if logfile.exists()and logfile.stat().st_size>8*1024*1024:logfile.replace(logdir/'wrapper.jsonl.1')
+ stamp=datetime.datetime.now(datetime.timezone.utc).isoformat()
+ record={'schema_version':1,'record_id':str(uuid.uuid4()),'occurred_at':stamp,'observed_at':stamp,'level':'INFO','event_name':'wrapper.command','message':'Host command started','component':'wrapper','service_version':'0.1.0','instance_id':str(uuid.uuid4()),'scope':'installation'}
+ fd=os.open(logfile,os.O_CREAT|os.O_APPEND|os.O_WRONLY,0o600)
+ with os.fdopen(fd,'w')as f:f.write(json.dumps(record)+'\n')
+except OSError:print('setup_log_unavailable: log persistence failed',file=sys.stderr)
+
+if command=='logs':sys.exit(run(['python3',str(root/'scripts/diagnostics.py'),*sys.argv[2:]]))
+if command=='diagnostics' and len(sys.argv)>2 and sys.argv[2]=='export':sys.exit(run(['python3',str(root/'scripts/diagnostics.py'),*sys.argv[3:]]))
 if command=='doctor':
  print('Blackbox local pilot developer runtime; Apple Silicon; loopback port 18741. Container runtime required.')
  sys.exit(run(['docker','version','--format','{{.Client.Version}} {{if .Server}}{{.Server.Version}}{{end}}']))

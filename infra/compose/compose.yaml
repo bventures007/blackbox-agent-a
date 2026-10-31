@@ -21,6 +21,7 @@ x-node: &node
     LOG_DIR: /var/log/blackbox
     PUBLIC_PORT: ${BB_PORT:-18741}
     COMPONENT: api
+    CONTAINER_RUNTIME: "1"
   depends_on:
     postgres:
       condition: service_healthy
@@ -42,14 +43,14 @@ services:
       - ./init.sh:/docker-entrypoint-initdb.d/init.sh:ro
       - ../../packages/database/migrations:/migrations:ro
     healthcheck:
-      test: [CMD-SHELL, 'pg_isready -U blackbox_migrate -d blackbox']
+      test: [CMD-SHELL, "pg_isready -U blackbox_migrate -d blackbox"]
       interval: 2s
       timeout: 2s
       retries: 30
   api:
     <<: *node
     ports:
-      - '127.0.0.1:${BB_PORT:-18741}:8080'
+      - "127.0.0.1:${BB_PORT:-18741}:8080"
   worker:
     <<: *node
     command: [pnpm, worker]
@@ -68,6 +69,7 @@ services:
       driver: none
     environment:
       DATABASE_URL: postgres://bb_engine:${BB_ENGINE_PASSWORD}@postgres:5432/blackbox
+      ENGINE_BIND: 0.0.0.0:8081
       INTERNAL_KEY_FILE: /run/blackbox/internal
     volumes:
       - ../../.runtime/secrets:/run/blackbox:ro
@@ -77,15 +79,15 @@ services:
   tooling:
     <<: *node
     profiles: [tools]
-    restart: 'no'
-    user: '0:0'
+    restart: "no"
+    user: "0:0"
     command: [pnpm, test]
     environment:
       <<: *environment
       ADMIN_DATABASE_URL: postgres://blackbox_migrate:${BB_DB_PASSWORD}@postgres:5432/blackbox
       WORKER_DATABASE_URL: postgres://bb_worker:${BB_WORKER_PASSWORD}@postgres:5432/blackbox
       ENGINE_DATABASE_URL: postgres://bb_engine:${BB_ENGINE_PASSWORD}@postgres:5432/blackbox
-      ALLOW_SYNTHETIC_FIXTURE: '1'
+      ALLOW_SYNTHETIC_FIXTURE: "1"
       BLACKBOX_API_URL: http://api:8080
     volumes:
       - ../../.runtime:/runtime
@@ -98,5 +100,6 @@ services:
     command: [pnpm, exec, tsx, tests/fixtures/shopify-server.ts]
     environment:
       COMPONENT: fixture
+      CONTAINER_RUNTIME: "1"
 volumes:
   postgres:
