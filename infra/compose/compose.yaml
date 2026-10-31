@@ -31,6 +31,7 @@ services:
       ENGINE_GLOBAL_BUDGET_MIB: ${ENGINE_GLOBAL_BUDGET_MIB:-768}
       LOG_DIR: /var/blackbox/logs
       SERVICE_VERSION: ${BLACKBOX_VERSION:-0.1.0-dev}
+      MALLOC_ARENA_MAX: "2"   # bound glibc arena growth across worker threads (RSS), no effect on correctness
     volumes: [data:/var/blackbox/data, logs:/var/blackbox/logs]
     secrets: [url_engine, engine_token]
     depends_on: { postgres: { condition: service_healthy } }

@@ -37,9 +37,17 @@ Baseline-v14 / brief 2.3: P0–P4 local pilot, then handover and stop. Implement
 - The SPA fallback answered any unknown path with the app shell (200), including POSTs. Fixed.
 - Docker VM disk exhaustion from repeated full image builds crashed PostgreSQL mid-run (recovered; reproduced by the `No space left on device` panic in its log). Operational note added to docs/operations.md.
 
-## Evidence summary
+## Evidence summary (fresh installation, commit 45f9090, run `pilot-20261031T181630Z-45f9090`)
 
-Filled from the final fresh-installation run; see `reports/acceptance.json`, `reports/question-coverage.json`, `reports/performance.json`, `INTEGRATIONS.md` and `reports/checkpoint.md`. Independent review events have not been recorded by this session (no self-approval).
+- Integration suite: 52/52 passed (`reports/integrations/pilot-20261031T181630Z-45f9090/vitest-integration.json`).
+- Browser journeys: 10/10 passed, desktop and mobile, EN and DE (`tests/evidence/current/playwright.json`, 40 screenshots).
+- Backup, tamper rejection and isolated restore: passed, restore 30 s machine time (`tests/evidence/current/ops-backup-restore.txt`).
+- Release archive 281,837,818 bytes with verified manifest/checksum/landing links; fresh-folder installation from the archive answered the first question with evidence (`tests/evidence/current/dist-*.json`).
+- Integration register: 68 pilot rows with claim, implementation and four passed test kinds each; 40 live tests blocked (no provider access); 0 independent approvals (`INTEGRATIONS.md`).
+- Question coverage: 24/24 positive paths, 24/24 explicit missing-data paths, API/MCP parity for 5 intents (`reports/question-coverage.json`).
+- Performance smoke profile: `reports/performance.json` (filled from the seed/load run; targets not instrumented are listed there).
+
+Independent review events have not been recorded by this session (no self-approval).
 
 ## External blockers (not passes)
 

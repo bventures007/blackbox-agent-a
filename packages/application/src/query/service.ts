@@ -6,7 +6,7 @@ import { JournalReader } from './journal.js';
 import { EngineUnavailable } from './engine-client.js';
 import { SourcesService } from '../sources/service.js';
 
-export const QUERY_LIMITS = { default_page_rows: 100, maximum_page_rows: 500, synchronous_deadline_ms: 5000, per_agent: 8, per_workspace: 16, global: 32 } as const;
+export const QUERY_LIMITS = { default_page_rows: 100, maximum_page_rows: 500, synchronous_deadline_ms: 5000, per_agent: 8, per_workspace: 16, global: 32, queue_wait_ms: 2000 } as const;
 
 class Admission {
   private readonly perPrincipal = new Map<string, number>(); private readonly perTenant = new Map<string, number>(); private global = 0;
@@ -15,7 +15,21 @@ class Admission {
     this.global++; this.perTenant.set(tenant, (this.perTenant.get(tenant) ?? 0) + 1); this.perPrincipal.set(principal, (this.perPrincipal.get(principal) ?? 0) + 1);
     return () => { this.global--; this.perTenant.set(tenant, (this.perTenant.get(tenant) ?? 1) - 1); this.perPrincipal.set(principal, (this.perPrincipal.get(principal) ?? 1) - 1); };
   }
-  snapshot() { return { global: this.global, tenants: Object.fromEntries(this.perTenant), principals: this.perPrincipal.size }; }
+  /** Bounded queue: a request waits up to `maxWaitMs` for a slot (FIFO) before it is rejected; queue time counts toward the
+   *  caller's latency, which is what the performance contract measures (scheduled arrival to completion). */
+  private readonly waiters: Array<{ principal: string; tenant: string; resolve: (r: (() => void) | null) => void; timer: NodeJS.Timeout }> = [];
+  acquireAsync(principal: string, tenant: string, maxWaitMs: number): Promise<(() => void) | null> {
+    const now = this.acquire(principal, tenant); if (now) return Promise.resolve(this.wrap(now));
+    return new Promise((resolve) => {
+      const w = { principal, tenant, resolve, timer: setTimeout(() => { const i = this.waiters.indexOf(w); if (i >= 0) this.waiters.splice(i, 1); resolve(null); }, maxWaitMs) };
+      this.waiters.push(w);
+    });
+  }
+  private wrap(release: () => void): () => void { let done = false; return () => { if (done) return; done = true; release(); this.drain(); }; }
+  private drain() {
+    for (let i = 0; i < this.waiters.length; i++) { const w = this.waiters[i]!; const r = this.acquire(w.principal, w.tenant); if (r) { this.waiters.splice(i, 1); clearTimeout(w.timer); w.resolve(this.wrap(r)); i--; } }
+  }
+  snapshot() { return { global: this.global, tenants: Object.fromEntries(this.perTenant), principals: this.perPrincipal.size, queued: this.waiters.length }; }
 }
 
 export class QueryRejected extends Error { constructor(public readonly code: 'admission' | 'unavailable' | 'invalid', message: string, public readonly retryAfterMs = 250) { super(message); this.name = 'QueryRejected'; } }
@@ -30,7 +44,7 @@ export class QueryService {
   async answer(p: Principal, raw: unknown): Promise<ResultEnvelope & Record<string, unknown>> {
     const req = QueryRequest.safeParse(raw);
     if (!req.success) throw new QueryRejected('invalid', 'invalid query: ' + req.error.issues.map((i) => i.path.join('.') + ' ' + i.message).join('; '));
-    const release = this.admission.acquire(this.principalKey(p), p.tenantId);
+    const release = await this.admission.acquireAsync(this.principalKey(p), p.tenantId, QUERY_LIMITS.queue_wait_ms);
     if (!release) throw new QueryRejected('admission', 'concurrent query limit reached for this principal or workspace; retry shortly', 250);
     const started = Date.now();
     try {
@@ -49,7 +63,7 @@ export class QueryService {
   async state(p: Principal, raw: unknown) {
     const schema = z.object({ entity_type: z.string(), entity_id: z.string().min(1).max(200), consistency: z.object({ mode: z.string(), cursor: z.number().int().optional(), recorded_cutoff: z.number().int().optional(), effective_at: z.string().optional() }).default({ mode: 'latest_committed' }) });
     const req = schema.safeParse(raw); if (!req.success) throw new QueryRejected('invalid', 'invalid state request');
-    const release = this.admission.acquire(this.principalKey(p), p.tenantId); if (!release) throw new QueryRejected('admission', 'concurrent query limit reached', 250);
+    const release = await this.admission.acquireAsync(this.principalKey(p), p.tenantId, QUERY_LIMITS.queue_wait_ms); if (!release) throw new QueryRejected('admission', 'concurrent query limit reached', 250);
     try {
       const { required, recordedCutoff } = await this.resolveConsistency(p.tenantId, req.data.consistency as never);
       const asOf = req.data.consistency.mode === 'as_of';

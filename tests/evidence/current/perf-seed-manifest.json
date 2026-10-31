@@ -1,0 +1,11 @@
+{
+ "seed": "smoke-v1",
+ "tenants": 50,
+ "orders": 10988,
+ "entries_source": 137061,
+ "items_per_tenant": 40,
+ "generator": "tests/perf/seed.mjs",
+ "started_at": "2026-10-31T18:25:28.736Z",
+ "finished_at": "2026-10-31T18:27:24.814Z",
+ "journal_entries_total_now": 347182
+}

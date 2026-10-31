@@ -2,7 +2,7 @@
 
 A local commerce flight recorder: source evidence becomes linked facts, commitments, movements and reservations, with trustworthy answers for people and read-only agents.
 
-**Status: prepared build assignment. Product implementation has not started.** The static prototype is the design reference, with simulated data. The current assignment is a **local pilot P0–P4, then handover and stop for feedback**. The previous automatic SaaS/server/native/gateway roadmap is deferred.
+**Status: local pilot P0–P4 implemented and verified on synthetic data (see `docs/status.md` and `reports/checkpoint.md`); live provider verification and independent review remain external blockers.** Start: `./blackbox doctor && ./blackbox setup && ./blackbox up`, then open <http://127.0.0.1:19080/>. Tester guide: `docs/feedback-guide.md`. The static prototype is the design reference, with simulated data. The current assignment is a **local pilot P0–P4, then handover and stop for feedback**. The previous automatic SaaS/server/native/gateway roadmap is deferred.
 
 ## Start the build
 
