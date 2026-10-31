@@ -1,0 +1,37 @@
+{
+ "client": "Claude Code CLI",
+ "client_version": "2.1.310 (Claude Code)",
+ "transport": "stdio (apps/mcp-bridge/dist/main.js)",
+ "sdk": "@modelcontextprotocol/sdk 1.24.3",
+ "protocol": "MCP 2025-06-18 (SDK default)",
+ "authorized_scope": "workspace-scoped read-only agent key (bbx_agent_, created for this check, revoked afterwards)",
+ "exit_code": 1,
+ "client_reply_parsed": null,
+ "client_reply_raw_excerpt": "Failed to authenticate: OAuth session expired and could not be refreshed",
+ "usage": {
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "input_tokens": 0,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 0,
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "",
+  "iterations": [],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "recorded_at": "2026-10-31T18:16:34.063985+00:00",
+ "note": "Evidence of a real third-party MCP client session; the key never appears in this record.",
+ "result": "blocked_external",
+ "blocker": "The Claude Code CLI on this Mac could not authenticate (\"OAuth session expired and could not be refreshed\"); no other third-party MCP client session was available to the build agent. The SDK stdio client path (tests/integration/slice.test.ts, queries.test.ts) is the exercised client evidence."
+}

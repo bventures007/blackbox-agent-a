@@ -1,0 +1,33 @@
+
+ RUN  v3.2.4 /Users/benediktsauter/GitHub/blackbox-agent-a/tests
+
+ ✓ integration/slice.test.ts (8 tests) 11956ms
+   ✓ SLICE-01 provider-shaped persisted path > imports the fixture through the real adapter and the engine applies the derived tracks  1907ms
+   ✓ SLICE-01 provider-shaped persisted path > duplicate/out-of-order pages produced no double effects (counts stable after a second incremental run)  1646ms
+   ✓ SLICE-01 provider-shaped persisted path > serves the same answer through the real SDK stdio MCP bridge with a separate agent key  902ms
+   ✓ SLICE-01 provider-shaped persisted path > survives a full stack restart and a removed engine snapshot with identical fixed-cutoff answers  6797ms
+ ✓ integration/golden.test.ts (8 tests) 4912ms
+   ✓ DOMAIN-01 Golden Scenario through ingestion, PostgreSQL, Rust and API > matches every intermediate checkpoint when replayed step by step  3225ms
+   ✓ DOMAIN-02 replay twice and mutated values > duplicate concurrent deliveries (repeat 3) produce the same amounts  574ms
+ ✓ integration/diagnostics.test.ts (4 tests) 10994ms
+   ✓ DIAG-03 correlation across worker commit, engine application and query > journal.batch_committed and engine.batch_applied carry cursors; a query log names its cutoff; fields are allowlisted  1849ms
+   ✓ DIAG-05 debug windows > debug is off by default, bounded to 15 minutes, stoppable and audited  7350ms
+   ✓ DIAG-06 / DIAG-08 redaction, access and export bounds > injected canaries never reach any sink; agents and anonymous callers are denied; export is bounded  1718ms
+ ✓ integration/queries.test.ts (8 tests) 2933ms
+   ✓ QUERY-01 positive paths for all 24 intents via API > the same intents return identical results through the SDK MCP bridge (MCP-01)  431ms
+   ✓ QUERY-02 missing-data cases are explicit, never fabricated > every one of the 24 intents answers an empty workspace with insufficient_data or partial and names missing inputs (shared query service, engine endpoint)  1584ms
+ ✓ integration/auth.test.ts (6 tests) 2304ms
+   ✓ LOCAL-01 / LOCAL-02 owner key and sessions > rejects wrong keys without leaking partial matches and throttles repeated failures  2096ms
+ ✓ integration/contract.test.ts (3 tests) 521ms
+   ✓ CONTRACT: mapping artifacts, code vocabulary and runtime declarations agree > unsupported paths are refused: no callback endpoints exist, HTTP MCP is disabled unless explicitly enabled, no cross-mode configuration is accepted  418ms
+ ✓ integration/payments.test.ts (3 tests) 2210ms
+   ✓ shopify_payments fixture import through worker, PostgreSQL, Rust and API > commits ledger, payout and dispute observations and marks the finance capabilities ready  2049ms
+ ✓ integration/journal.test.ts (12 tests) 273ms
+
+ Test Files  8 passed (8)
+      Tests  52 passed (52)
+   Start at  19:15:05
+   Duration  40.47s (transform 374ms, setup 0ms, collect 1.10s, tests 36.10s, environment 2ms, prepare 696ms)
+
+JSON report written to /Users/benediktsauter/GitHub/blackbox-agent-a/tests/evidence/tmp/vitest-integration.json
+vitest exit 0

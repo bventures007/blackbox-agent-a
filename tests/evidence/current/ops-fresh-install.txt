@@ -24,8 +24,8 @@ owner key captured to .local/test-owner-key (0600)
 ▸ starting with test port overrides
 api live HTTP 200
 engine healthy tenants 1
-blackbox-agent-a-worker-1 Up 3 seconds
+blackbox-agent-a-worker-1 Up 2 seconds
 blackbox-agent-a-api-1 Up 2 seconds (health: starting)
-blackbox-agent-a-engine-1 Up 3 seconds
-blackbox-agent-a-postgres-1 Up 9 seconds (healthy)
-blackbox-agent-a-fixture-1 Up 9 seconds
+blackbox-agent-a-engine-1 Up 2 seconds
+blackbox-agent-a-postgres-1 Up 8 seconds (healthy)
+blackbox-agent-a-fixture-1 Up 8 seconds

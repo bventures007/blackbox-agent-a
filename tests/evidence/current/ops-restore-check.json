@@ -1,0 +1,84 @@
+{
+ "restored_login": 200,
+ "old_key_rejected": 401,
+ "restored_answer": {
+  "status": "complete",
+  "orders": [
+   [
+    "#1001",
+    "paid",
+    7720
+   ]
+  ],
+  "evidence": 7,
+  "cursor": 940
+ },
+ "live_answer": {
+  "status": "complete",
+  "orders": [
+   [
+    "#1001",
+    "paid",
+    7720
+   ]
+  ],
+  "evidence": 7,
+  "cursor": 940
+ },
+ "connections": [
+  [
+   "shopify",
+   "paused"
+  ],
+  [
+   "replay",
+   "configured"
+  ],
+  [
+   "generic",
+   "configured"
+  ],
+  [
+   "policy",
+   "configured"
+  ],
+  [
+   "bank_csv",
+   "configured"
+  ],
+  [
+   "shopify_payments",
+   "paused"
+  ]
+ ],
+ "agents": [
+  [
+   "claude-code-cli-client",
+   "revoked"
+  ],
+  [
+   "qa-agent",
+   "revoked"
+  ],
+  [
+   "qa-producer",
+   "revoked"
+  ],
+  [
+   "diag-agent",
+   "revoked"
+  ],
+  [
+   "p-CANARY-b16789fd-2f4f-4bee-bd56-5ea6609e47ef",
+   "revoked"
+  ],
+  [
+   "second-agent",
+   "revoked"
+  ],
+  [
+   "slice-test-agent",
+   "revoked"
+  ]
+ ]
+}

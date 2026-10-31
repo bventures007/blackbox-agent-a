@@ -1,0 +1,64 @@
+▸ configure
+▸ backup destination enrolled (same_device=true); recovery key shown once
+
+  Backup recovery key / Wiederherstellungsschlüssel (shown once / einmalig):
+
+
+  EN: Save it separately from your access key (password manager). Without it, backups cannot be restored.
+      Scheduled backups encrypt with the public part only; this secret is never stored by Blackbox.
+      Note: the destination is on the same device; this does not protect against device loss.
+  DE: Bewahre ihn getrennt vom Zugangsschlüssel auf (Passwort-Manager). Ohne ihn können Sicherungen nicht wiederhergestellt werden.
+      Geplante Sicherungen verschlüsseln nur mit dem öffentlichen Teil; Blackbox speichert dieses Geheimnis nie.
+configure exit 0
+▸ backup --now
+<stdin>:9: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+▸ backup blackbox-backup-20261031T182037Z.bbx completed (307274 bytes, sha256 aab59751a4e5f42e4663f72acaa51c8a3047935a06430bf769e4a5906a1b6123)
+retention: 1 generations, kept 1, removed 0
+Backup written: /private/tmp/claude-501/-Users-benediktsauter-GitHub-xentral/cb7febe8-82a8-48eb-b1e8-fdc9893455e7/scratchpad/backups/blackbox-backup-20261031T182037Z.bbx (sha256 aab59751a4e5f42e4663f72acaa51c8a3047935a06430bf769e4a5906a1b6123). Plaintext staging was removed.
+backup exit 0 in 22 s
+▸ backup --status
+  }
+ ]
+}
+drwxr-xr-x@  4 benediktsauter  wheel     128 Oct 31 19:20 .
+drwx------@ 15 benediktsauter  wheel     480 Oct 31 19:20 ..
+-rw-------@  1 benediktsauter  wheel  307274 Oct 31 19:20 blackbox-backup-20261031T182037Z.bbx
+-rw-------@  1 benediktsauter  wheel    1370 Oct 31 19:20 blackbox-backup-20261031T182037Z.manifest.json
+generation: /private/tmp/claude-501/-Users-benediktsauter-GitHub-xentral/cb7febe8-82a8-48eb-b1e8-fdc9893455e7/scratchpad/backups/blackbox-backup-20261031T182037Z.bbx (  307274 bytes)
+▸ tamper check: a flipped byte must be rejected
+integrity check failed (wrong key or corrupted backup)
+✖ decryption failed: wrong recovery key or corrupted/incomplete backup
+tamper restore exit 4 (non-zero expected)
+▸ restore into an isolated installation
+tar: short read
+▸ fencing restored access: rotating owner key, revoking agent keys, pausing provider connections
+ Volume "blackbox-agent-a-restore_logs"  Creating
+ Volume "blackbox-agent-a-restore_logs"  Created
+time="2026-10-31T19:21:25+01:00" level=warning msg="volume \"blackbox-agent-a-restore_data\" already exists but was not created by Docker Compose. Use `external: true` to use an existing volume"
+
+Restore complete in 29 s machine time (operator input time not included).
+Restored UI: http://127.0.0.1:19081/  · provider connections are paused until you review account bindings in Sources · old agent keys are revoked.
+restore exit 0 in 30 s
+▸ restored installation answers (fixed cutoff)
+restored: new key login 200 | old key login (must be rejected) 401
+restored answer {"status":"complete","orders":[["#1001","paid",7720]],"evidence":7,"cursor":940}
+live answer     {"status":"complete","orders":[["#1001","paid",7720]],"evidence":7,"cursor":940}
+restored connections [
+  [ 'shopify', 'paused' ],
+  [ 'replay', 'configured' ],
+  [ 'generic', 'configured' ],
+  [ 'policy', 'configured' ],
+  [ 'bank_csv', 'configured' ],
+  [ 'shopify_payments', 'paused' ]
+]
+restored agents [
+  [ 'claude-code-cli-client', 'revoked' ],
+  [ 'qa-agent', 'revoked' ],
+  [ 'qa-producer', 'revoked' ],
+  [ 'diag-agent', 'revoked' ],
+  [ 'p-CANARY-b16789fd-2f4f-4bee-bd56-5ea6609e47ef', 'revoked' ],
+  [ 'second-agent', 'revoked' ],
+  [ 'slice-test-agent', 'revoked' ]
+]
+▸ stopping the restored installation (volumes removed afterwards)
+ops exit 0

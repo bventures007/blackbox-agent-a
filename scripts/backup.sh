@@ -6,7 +6,8 @@ compose() { (cd "$ROOT/infra/compose" && docker compose --env-file "$ENV_FILE" "
 img() { grep -E '^BLACKBOX_IMAGE_NODE=' "$ENV_FILE" | cut -d= -f2; }
 proj() { grep -E '^BLACKBOX_PROJECT=' "$ENV_FILE" | cut -d= -f2; }
 version() { cat "$ROOT/release/VERSION" 2>/dev/null || echo 0.1.0-dev; }
-node_run() { docker run --rm -i --network none -v "$CRYPTO:/crypto.mjs:ro" "$@" "$(img)" node /crypto.mjs; }
+# node_run [-e VAR ...] <subcommand> [args]: leading -e options go to docker, the rest is the crypto helper's own command line
+node_run() { local dargs=(); while [ $# -gt 0 ] && [ "$1" = "-e" ]; do dargs+=("$1" "$2"); shift 2; done; docker run --rm -i --network none -v "$CRYPTO:/crypto.mjs:ro" "${dargs[@]}" "$(img)" node /crypto.mjs "$@"; }
 cli() { compose run --rm --no-deps -T api node apps/api/dist/cli.js "$@"; }
 log() { printf '{"schema_version":1,"level":"%s","component":"wrapper","event_name":"backup.%s","message":"%s","occurred_at":"%s"}\n' "$1" "$2" "$3" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$LOCAL/setup.log"; echo "▸ $3"; }
 die() { log ERROR failed "$1"; echo "✖ $1" >&2; exit "${2:-1}"; }
@@ -53,7 +54,7 @@ create() {
   local gen_id; gen_id=$(cli backup-record start "$kind" "$dest" "$gen.bbx" "$cutoffs") || die "could not record generation"
   mkdir -p "$tmp/bundle"
   compose exec -T postgres pg_dump -U postgres -Fc blackbox > "$tmp/bundle/db.dump" || die "pg_dump failed"
-  docker run --rm -v "$(proj)_data:/d:ro" alpine tar -C /d -cf - evidence 2>/dev/null > "$tmp/bundle/evidence.tar" || : > "$tmp/bundle/evidence.tar"
+  docker run --rm -v "$(proj)_data:/d:ro" alpine sh -c 'if [ -d /d/evidence ]; then tar -C /d -cf - evidence; else tar -cf - -T /dev/null; fi' > "$tmp/bundle/evidence.tar" || die "could not collect evidence files"
   tar -C "$SECRETS" -cf "$tmp/bundle/installation-material.tar" data_key engine_token backup-recipient.pub pg_migrator_password pg_api_password pg_worker_password pg_engine_password pg_superuser_password 2>/dev/null || die "could not collect installation material"
   python3 - "$tmp/bundle/manifest.json" "$gen_id" "$kind" "$(version)" "$cutoffs" "$tmp/bundle" <<'PY'
 import json, sys, hashlib, os

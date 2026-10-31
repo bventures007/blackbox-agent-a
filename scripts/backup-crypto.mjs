@@ -9,7 +9,7 @@ import { readFileSync } from 'node:fs';
 const MAGIC = Buffer.from('BBXBK1'); const CHUNK = 1 << 20;
 const b32 = (b) => { const A = 'abcdefghijklmnopqrstuvwxyz234567'; let bits = 0, v = 0, o = ''; for (const x of b) { v = (v << 8) | x; bits += 8; while (bits >= 5) { o += A[(v >>> (bits - 5)) & 31]; bits -= 5; } } if (bits) o += A[(v << (5 - bits)) & 31]; return o; };
 const unb32 = (s) => { const A = 'abcdefghijklmnopqrstuvwxyz234567'; let bits = 0, v = 0; const out = []; for (const c of s) { v = (v << 5) | A.indexOf(c); bits += 5; if (bits >= 8) { out.push((v >>> (bits - 8)) & 255); bits -= 8; } } return Buffer.from(out); };
-const rawPub = (key) => createPublicKey(key).export({ type: 'spki', format: 'der' }).subarray(-32);
+const rawPub = (key) => (key.type === 'public' ? key : createPublicKey(key)).export({ type: 'spki', format: 'der' }).subarray(-32);
 const privFromRaw = (raw) => createPrivateKey({ key: Buffer.concat([Buffer.from('302e020100300506032b656e04220420', 'hex'), raw]), format: 'der', type: 'pkcs8' });
 const pubFromRaw = (raw) => createPublicKey({ key: Buffer.concat([Buffer.from('302a300506032b656e032100', 'hex'), raw]), format: 'der', type: 'spki' });
 function recoveryKey() { const k = process.env.BBX_RECOVERY_KEY || (() => { try { return readFileSync('/dev/fd/3', 'utf8').trim(); } catch { return ''; } })(); if (!/^bbx_recovery_[a-z2-7]{52}$/.test(k)) { process.stderr.write('recovery key missing or malformed\n'); process.exit(2); } return unb32(k.slice('bbx_recovery_'.length)).subarray(0, 32); }

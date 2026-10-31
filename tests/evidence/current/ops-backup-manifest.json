@@ -1,0 +1,54 @@
+{
+ "format": 1,
+ "generation_id": "99f5e33d-d164-4bd2-b320-ad5fd6552b4a",
+ "kind": "manual",
+ "app_version": "0.1.0-dev",
+ "schema_version": 1,
+ "reducer_version": "r1",
+ "postgres_major": 17,
+ "created_at": "2026-10-31T18:20:49.571807Z",
+ "cutoffs": [
+  {
+   "tenant_id": "0841c4d6-09e6-4c2e-9c44-3c379af18bb4",
+   "committed": 940,
+   "applied_checkpoint": 940
+  },
+  {
+   "tenant_id": "b421c297-0a97-4ecf-8249-9a73e61aad47",
+   "committed": 3,
+   "applied_checkpoint": 3
+  },
+  {
+   "tenant_id": "76ef8a5f-b793-4add-8be3-2f91f8c49ced",
+   "committed": 0,
+   "applied_checkpoint": null
+  },
+  {
+   "tenant_id": "7702fac4-8813-47ea-8750-2c909938a82b",
+   "committed": 15,
+   "applied_checkpoint": 15
+  },
+  {
+   "tenant_id": "96c40273-69fb-4f6a-852e-05e77a88dd31",
+   "committed": 0,
+   "applied_checkpoint": null
+  }
+ ],
+ "files": {
+  "db.dump": {
+   "sha256": "8a9c8f1b917fbfd44759655b8dd3a81904c114b2df09bc064b4fcb5ed3877413",
+   "bytes": 258834
+  },
+  "evidence.tar": {
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "bytes": 0
+  },
+  "installation-material.tar": {
+   "sha256": "7ef7de3380b954fba5d215c11747bdbacd109458a7e2e83d7d99d7d6f701e04e",
+   "bytes": 25600
+  }
+ },
+ "redaction_ledger_included": true,
+ "ciphertext_sha256": "aab59751a4e5f42e4663f72acaa51c8a3047935a06430bf769e4a5906a1b6123",
+ "ciphertext_bytes": 307274
+}
