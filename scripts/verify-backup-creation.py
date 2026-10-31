@@ -3,6 +3,7 @@
 import argparse,datetime,hashlib,json,os,pathlib,platform,shutil,subprocess,uuid
 from backup_operations import enroll,generation,target,services
 from backup_codec import decrypt,inspect_archive
+from host_runtime import RuntimeConfigError
 root=pathlib.Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser();p.add_argument('--stage',required=True,type=pathlib.Path);p.add_argument('--output',required=True);a=p.parse_args()
 stage=(root/a.stage).resolve()
@@ -33,7 +34,7 @@ try:
  held=destination.with_name(destination.name+'-disconnected');destination.rename(held);destination.mkdir()
  try:
   try:generation(stage);raise AssertionError('Missing volume accepted')
-  except OSError:pass
+  except (OSError,RuntimeConfigError):pass
   assert not list(destination.iterdir());checks.append('unavailable_destination_never_written_as_empty_mountpoint')
  finally:destination.rmdir();held.rename(destination)
  assert cipher.is_file()
