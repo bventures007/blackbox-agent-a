@@ -1,0 +1,55 @@
+{
+  "kind": "focused_backup_EN_DE_browser_after_reconnection",
+  "status": "passed",
+  "tested_commit": "c3ee710958aaf8ae9c03ca2b46cb74e5a51523a6",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T17:03:14.790031+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/backup-schedule-3626c08aa638",
+    "node_image_source_commit": "c3ee710",
+    "host_runtime_source_commit": "d045f03",
+    "node_image": "sha256:b2000c8e20e1370d73026783d36786c539e9ff8abbd40b8881f593c206e39e8a"
+  },
+  "commands": [
+    {
+      "command": "./blackbox reset-access",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-337191e852e3-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-337191e852e3-postgres-1  Running\n Container blackbox-a-337191e852e3-engine-1  Created\n Container blackbox-a-337191e852e3-worker-1  Recreate\n Container blackbox-a-337191e852e3-api-1  Recreate\n Container blackbox-a-337191e852e3-api-1  Recreated\n Container blackbox-a-337191e852e3-worker-1  Recreated\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n Container blackbox-a-337191e852e3-engine-1  Starting\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n Container blackbox-a-337191e852e3-worker-1  Starting\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n Container blackbox-a-337191e852e3-api-1  Starting\n Container blackbox-a-337191e852e3-engine-1  Started\n Container blackbox-a-337191e852e3-worker-1  Started\n Container blackbox-a-337191e852e3-api-1  Started\n"
+    },
+    {
+      "command": "./blackbox backup",
+      "exit_code": 0,
+      "observed": "Encrypted backup completed: 582243f4b29042049bb8eca13cc6766e.bb.age\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-337191e852e3-postgres-1  Running\n Container blackbox-a-337191e852e3-engine-1  Running\n Container blackbox-a-337191e852e3-api-1  Running\n Container blackbox-a-337191e852e3-worker-1  Running\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Waiting\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n Container blackbox-a-337191e852e3-postgres-1  Healthy\n"
+    },
+    {
+      "command": "node --import tsx tests/backup-ui.ts [protected test environment]",
+      "exit_code": 0,
+      "observed": "{\"status\":\"passed\",\"browser\":\"156.0.8078.74\",\"checks\":[\"real_EN_DE_owner_backup_status_and_same_device_disclosure\",\"actual_browser_request_completes_new_encrypted_generation\",\"DE_mobile_settings_and_no_credentials_in_localStorage\",\"no_external_browser_requests_or_uncaught_errors\"]}\n"
+    }
+  ],
+  "browser": {
+    "status": "passed",
+    "browser": "156.0.8078.74",
+    "checks": [
+      "real_EN_DE_owner_backup_status_and_same_device_disclosure",
+      "actual_browser_request_completes_new_encrypted_generation",
+      "DE_mobile_settings_and_no_credentials_in_localStorage",
+      "no_external_browser_requests_or_uncaught_errors"
+    ]
+  },
+  "limitations": [
+    "Focused visual/owner-browser request regression; broader operations proof remains at its separately recorded commit",
+    "Existing synthetic same-Mac isolated stage; not a downloaded artifact or independent review"
+  ]
+}
