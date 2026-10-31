@@ -8,21 +8,54 @@
   <link rel="stylesheet" href="prototype.css" /><link rel="stylesheet" href="landing.css" />
 </head>
 <body>
+<!-- Structure, classes and copy follow reference/prototype (renderLanding); demo actions are replaced by the manifest-driven download and the guide. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 16V8h5v8h5V8h5v8h3"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24"><path d="M8 3v5m8-5v5M6 8h12v3a6 6 0 0 1-12 0Zm6 9v5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9S4 17 4 12V6Z"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 11a9 9 0 0 1-9 9H4l-2 2V11a9 9 0 0 1 19 0Z"/><path d="M7 10h10M7 14h6"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</svg>
 <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 <div class="wrap">
   <nav class="site-nav" aria-label="Site">
-    <a class="brand" href="#"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 16V8h4v8h4V8h4v8h4"/></svg></span>blackbox<span class="brand-dot">.</span></a>
+    <a href="#" aria-label="blackbox home"><span class="brand"><span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-wave"/></svg></span>blackbox<span class="brand-dot">.</span></span></a>
     <div class="nav-links"><a href="#principle" data-i18n="nav.principle">The principle</a><a href="#recorder" data-i18n="nav.recorder">The recorder</a><a href="#agents" data-i18n="nav.agents">For agents</a><a href="guide.html" data-i18n="nav.guide">Installation guide</a></div>
-    <div class="nav-actions"><div class="lang" role="group" aria-label="Language"><button data-lang="en" aria-pressed="true">EN</button><button data-lang="de" aria-pressed="false">DE</button></div><a class="btn secondary small" id="open-app" href="http://127.0.0.1:19080/" data-i18n="nav.open">Open local app</a><a class="btn primary" data-download href="#download" data-i18n="cta.download">Download for Mac</a></div>
+    <div class="nav-actions"><div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="de" aria-pressed="false">DE</button></div><a class="btn ghost" id="open-app" href="http://127.0.0.1:19080/" data-i18n="nav.open">Open local app</a><a class="btn primary" data-download href="#download"><span data-i18n="cta.download">Download for Mac</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
   </nav>
   <main id="main">
   <section class="hero">
-    <div class="eyebrow"><i class="dot pulse"></i><span data-i18n="hero.eyebrow">The memory for your commerce business</span></div>
+    <div class="eyebrow"><i class="dot"></i><span data-i18n="hero.eyebrow">THE MEMORY FOR YOUR COMMERCE BUSINESS</span></div>
     <h1 data-i18n-html="hero.title">Your business runs.<br><em>The truth stays.</em></h1>
-    <p class="hero-copy" data-i18n="hero.copy">Orders, payments, stock movements. A flight recorder that brings everything together, on your own Mac. So you and your agents know what is really going on.</p>
-    <div class="hero-buttons"><a class="btn primary" data-download href="#download" data-i18n="cta.download">Download for Mac</a><a class="btn secondary" href="guide.html" data-i18n="cta.guide">Installation guide</a></div>
+    <p class="hero-copy" data-i18n="hero.copy">Orders, e-mails, stock movements. A flight recorder that brings everything together. So you and your agents know what is really going on.</p>
+    <div class="hero-buttons"><a class="btn primary" data-download href="#download"><span data-i18n="cta.download">Download for Mac</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="btn secondary" href="guide.html"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg> <span data-i18n="cta.guide">Installation guide</span></a></div>
+    <div class="micro"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> <span data-i18n="hero.micro1">Runs locally · no account, no cloud</span></span><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> <span data-i18n="hero.micro2">Synthetic example without credentials</span></span></div>
     <div class="micro"><span class="release-line" id="release-line" aria-live="polite"></span></div>
-    <div class="micro"><span data-i18n="hero.micro1">Runs locally · no account, no domain, no cloud</span><span data-i18n="hero.micro2">Open source engine · append-only journal</span></div>
+    <div class="flight-window" aria-label="Illustration of the recorder with example data">
+      <div class="window-bar"><span class="window-label"><svg class="icon" aria-hidden="true"><use href="#i-wave"/></svg> Studio Nord <span class="muted">/ <span data-i18n="fw.recorder">Recorder</span></span></span><div class="window-meta"><span class="mono" data-i18n="fw.workspace">DEMO WORKSPACE</span><span class="live-label"><i class="dot pulse"></i><span data-i18n="fw.live">Live simulation</span></span></div></div>
+      <div class="pipeline">
+        <div class="pipe-sources"><span class="tiny-label" data-i18n="fw.sources">01 / Your sources</span><div class="source-pill"><span class="source-icon shopify">S</span>Shopify</div><div class="source-pill"><span class="source-icon email"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg></span><span data-i18n="fw.email">E-mail</span></div><div class="source-pill"><span class="source-icon api"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg></span>API</div><div class="source-pill"><span class="source-icon api">W</span>WooCommerce</div></div>
+        <div class="pipe-timeline">
+          <div class="timeline-caption"><span class="tiny-label" data-i18n="fw.memory">02 / Your business memory</span><span class="record-count">APPEND · CONNECT · REMEMBER</span></div>
+          <div class="scan-head"></div>
+          <div class="mini-track"><span class="mini-track-label">Sources</span><span class="mini-event" data-i18n="fw.e1">Shopify · order #1042</span><span class="mini-event" data-i18n="fw.e2">E-mail · delivery date changed</span><span class="mini-event" data-i18n="fw.e3">API · stock journal updated</span></div>
+          <div class="mini-track"><span class="mini-track-label">Facts</span><span class="mini-event" data-i18n="fw.e4">#1042 · 12 × Everyday Cup</span><span class="mini-event" data-i18n="fw.e5">CUP-OLV · 86 available</span></div>
+          <div class="mini-track"><span class="mini-track-label">Commitments</span><span class="mini-event" data-i18n="fw.e6">80 units · promised for 5 Nov</span><span class="mini-event" data-i18n="fw.e7">Suppliers · €9,800 due</span></div>
+          <div class="mini-track"><span class="mini-track-label">Movements</span><span class="mini-event" data-i18n="fw.e8">Goods out · −20 units</span><span class="mini-event" data-i18n="fw.e9">Payment in · +€1,240</span></div>
+          <div class="mini-track"><span class="mini-track-label">Reservations</span><span class="mini-event" data-i18n="fw.e10">#1042 · 12 units reserved</span><span class="mini-event" data-i18n="fw.e11">Budget · €6,200 committed</span></div>
+        </div>
+        <div class="pipe-answer"><span class="tiny-label" data-i18n="fw.answers">03 / Clear answers</span><div class="agent-row"><span class="agent-emblem"><svg class="icon" aria-hidden="true"><use href="#i-spark"/></svg></span><span data-i18n="fw.agent">Your agent · via MCP</span></div><div class="answer-question" data-i18n="fw.question">“How much can I still sell today?”</div><div class="mini-answer" data-i18n-html="fw.answer"><b>86 units.</b><br>120 in stock. 34 reserved.<br>With every record behind it.</div><div class="mini-citations"><span data-i18n="fw.c1">↗ API import</span><span>↗ Shopify</span></div></div>
+      </div>
+      <div class="window-footer"><span><i class="dot"></i><span data-i18n="fw.f1">5 TRACKS · ONE CONTEXT</span></span><span data-i18n="fw.f2">EVERY EVENT STAYS. EVERY ANSWER HAS A SOURCE.</span><span>10:42:00 CET</span></div>
+    </div>
+    <div class="source-band"><span class="label" data-i18n="band.label">Your tools. One shared memory.</span><strong><i style="color:#8aa264">S</i> Shopify</strong><strong><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg> <span data-i18n="band.email">E-mail</span></strong><strong>Shopware 6</strong><strong>DHL · DPD · UPS</strong><strong data-i18n="band.invoices">Invoices &amp; accounting</strong><strong>Payments</strong><span class="plus-more" data-i18n="band.more">+ any API</span></div>
   </section>
   <section class="band" id="download">
     <div class="card download-card">
@@ -35,22 +68,56 @@
       <div class="hero-buttons" style="justify-content:flex-start"><a class="btn secondary" href="guide.html" data-i18n="cta.guide">Installation guide</a><a class="btn ghost" href="http://127.0.0.1:19080/" data-i18n="download.demo">Open the synthetic example (after installation)</a></div>
     </div>
   </section>
-  <section id="principle" class="principle-section">
-    <div class="section-intro"><div class="eyebrow"><span data-i18n="principle.eyebrow">The principle</span></div><h2 data-i18n="principle.title">Five tracks. One context.</h2><p data-i18n="principle.copy">Every observation from a source is kept. Facts, commitments, movements and reservations are derived deterministically and linked back to their evidence. Nothing is overwritten: corrections are new entries.</p></div>
+  <section class="principle-section" id="principle">
+    <div class="section-intro"><div><div class="eyebrow" data-i18n="principle.eyebrow">SEARCH LESS. KNOW MORE.</div><h2 data-i18n-html="principle.title">One business.<br>Finally one context.</h2></div><p data-i18n="principle.copy">Your shop knows the order. Your ERP the stock. Your inbox the new delivery promise. blackbox connects the story.</p></div>
     <div class="step-grid">
-      <div class="step"><span class="step-no">01</span><h3>Sources</h3><p data-i18n="principle.s1">Shopify orders, transactions, fulfillments, returns; signed generic events; bank statements; your versioned rules.</p></div>
-      <div class="step"><span class="step-no">02</span><h3>Facts · Commitments</h3><p data-i18n="principle.s2">What was observed and what is owed: receivables, promises, obligations, with their revisions.</p></div>
-      <div class="step"><span class="step-no">03</span><h3>Movements · Reservations</h3><p data-i18n="principle.s3">Cash and stock flows and the amounts or units currently held, separately from promises.</p></div>
-      <div class="step"><span class="step-no">04</span><h3 data-i18n="principle.s4t">Answers with evidence</h3><p data-i18n="principle.s4">24 Order-to-Cash questions with calculation, cutoff, coverage and the entries behind every number. Unknown stays unknown.</p></div>
+      <article class="step"><div class="step-no">01 <svg class="icon" aria-hidden="true"><use href="#i-plug"/></svg></div><h3 data-i18n="principle.s1t">Connect sources.</h3><p data-i18n="principle.s1">Shop, e-mail, ERP and invoicing tool deliver the events. The original is kept with its timestamp.</p></article>
+      <article class="step"><div class="step-no">02 <svg class="icon" aria-hidden="true"><use href="#i-wave"/></svg></div><h3 data-i18n="principle.s2t">Understand the business.</h3><p data-i18n="principle.s2">What is a fact, what is promised, what moved and what is reserved? Five parallel tracks make the difference visible.</p></article>
+      <article class="step"><div class="step-no">03 <svg class="icon" aria-hidden="true"><use href="#i-spark"/></svg></div><h3 data-i18n="principle.s3t">Ask better questions.</h3><p data-i18n="principle.s3">You ask. Your agent finds the connection – with sources, the current state and clearly named gaps.</p></article>
     </div>
   </section>
-  <section id="recorder" class="tracks-section"><div class="section-intro"><div class="eyebrow"><span data-i18n="recorder.eyebrow">The recorder</span></div><h2 data-i18n="recorder.title">Local by design.</h2><p data-i18n="recorder.copy">The backend runs in containers on your Mac: PostgreSQL keeps the append-only journal, a Rust engine computes state, the browser UI and the MCP bridge talk to it over loopback only. Closing the browser keeps collection running; stopping the runtime preserves everything.</p></div>
-    <div class="step-grid"><div class="step"><h3 data-i18n="recorder.k1t">Personal access key</h3><p data-i18n="recorder.k1">One owner, one workspace, one generated key saved in your password manager. No email, no domain, no identity service.</p></div><div class="step"><h3 data-i18n="recorder.k2t">Honest readiness</h3><p data-i18n="recorder.k2">Import progress, last successful check and last new record are separate. Partial data gives partial answers.</p></div><div class="step"><h3 data-i18n="recorder.k3t">Diagnostics you own</h3><p data-i18n="recorder.k3">Measured health, filterable logs, bounded retention and an explicit sanitized export. No telemetry.</p></div></div>
-  </section>
-  <section id="agents" class="principle-section"><div class="section-intro"><div class="eyebrow"><span data-i18n="agents.eyebrow">For agents</span></div><h2 data-i18n="agents.title">Your agent, your context, your key.</h2><p data-i18n="agents.copy">Agents get their own named read-only keys and connect through a local MCP bridge. They read the same evidence-backed services as the UI — never your owner key, never your source secrets. Cloud-only agents cannot reach your Mac; that is a feature.</p></div></section>
-  <section class="band closing"><div class="card download-card"><h2 data-i18n="closing.title">Ready to record?</h2><p class="hint" data-i18n="closing.copy">Download, run the bundled doctor and setup, save your key, open the browser, connect a source or run the synthetic example.</p><div class="hero-buttons" style="justify-content:flex-start"><a class="btn primary" data-download href="#download" data-i18n="cta.download">Download for Mac</a><a class="btn secondary" href="guide.html" data-i18n="cta.guide">Installation guide</a></div></div></section>
   </main>
-  <footer class="site-footer"><span>blackbox · <span data-i18n="footer.pilot">local pilot</span> · <span id="footer-version"></span></span><span class="footer-links"><a href="guide.html" data-i18n="nav.guide">Installation guide</a> · <a href="https://github.com/bventures007/blackbox-agent-a" rel="noopener">GitHub (private)</a></span></footer>
+</div>
+<section class="tracks-section" id="recorder">
+  <div class="wrap tracks-layout">
+    <div class="tracks-copy"><div class="eyebrow" data-i18n="tracks.eyebrow">THE BUSINESS FLIGHT RECORDER</div><h2 data-i18n-html="tracks.title">Nothing gets lost.<br>Everything is connected.</h2><p data-i18n="tracks.copy">A continuous record of your business. New events are added. Changes do not replace the history – they explain it.</p><a class="text-link" href="#download"><span data-i18n="tracks.link">Discover the recorder</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+    <div class="track-explainer">
+      <div class="track-explain-row"><span class="track-number">01</span><span class="track-title"><i style="background:#9aa77d"></i>Sources</span><span class="track-description" data-i18n="tracks.t1">The original. Unchanged and with its timestamp.</span></div>
+      <div class="track-explain-row"><span class="track-number">02</span><span class="track-title"><i style="background:#8ca9b1"></i>Facts</span><span class="track-description" data-i18n="tracks.t2">What we know. Extracted from sources and backed by evidence.</span></div>
+      <div class="track-explain-row"><span class="track-number">03</span><span class="track-title"><i style="background:#ad9bc2"></i>Commitments</span><span class="track-description" data-i18n="tracks.t3">What is promised. With date, status and the people responsible.</span></div>
+      <div class="track-explain-row"><span class="track-number">04</span><span class="track-title"><i style="background:#cca572"></i>Movements</span><span class="track-description" data-i18n="tracks.t4">What moves. Goods, money and actual changes.</span></div>
+      <div class="track-explain-row"><span class="track-number">05</span><span class="track-title"><i style="background:#96b084"></i>Reservations</span><span class="track-description" data-i18n="tracks.t5">What is already committed. Stock, budget and capacity.</span></div>
+    </div>
+  </div>
+</section>
+<div class="wrap">
+  <section class="questions-section" id="questions">
+    <div class="questions-layout">
+      <div class="questions-copy"><div class="eyebrow" data-i18n="q.eyebrow">ASK YOUR BUSINESS.</div><h2 data-i18n-html="q.title">No guessing.<br>An answer with evidence.</h2>
+        <div class="example-buttons" role="tablist" aria-label="Example questions">
+          <button type="button" class="example-button active" role="tab" aria-selected="true" data-example="inventory"><span data-i18n="q.inventory">Can I still sell 100 Olive Cups?</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <button type="button" class="example-button" role="tab" aria-selected="false" data-example="delivery"><span data-i18n="q.delivery">Which delivery is late?</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <button type="button" class="example-button" role="tab" aria-selected="false" data-example="cash"><span data-i18n="q.cash">How is my cash looking next week?</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <button type="button" class="example-button" role="tab" aria-selected="false" data-example="tracking"><span data-i18n="q.tracking">Where are my parcels?</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <button type="button" class="example-button" role="tab" aria-selected="false" data-example="billing"><span data-i18n="q.billing">Which invoices are still open?</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <button type="button" class="example-button" role="tab" aria-selected="false" data-example="payments"><span data-i18n="q.payments">Where is my money at the payment providers?</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        </div>
+      </div>
+      <div class="answer-preview" id="landing-answer" role="tabpanel" aria-live="polite">
+        <div class="answer-preview-head"><span><svg class="icon" aria-hidden="true"><use href="#i-spark"/></svg> <span data-i18n="q.head">blackbox / answer from example data</span></span><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></div>
+        <div id="landing-answer-body"></div>
+      </div>
+    </div>
+  </section>
+  <section class="agents-banner" id="agents">
+    <div><div class="eyebrow" data-i18n="agents.eyebrow">YOUR AGENT. YOUR CONTEXT.</div><h2 data-i18n-html="agents.title">One truth.<br>For every one of your agents.</h2><p data-i18n="agents.copy">Through MCP your agent gets the same traceable business context. Whether Claude, ChatGPT or your own agent.</p><a class="btn lime" href="guide.html"><span data-i18n="agents.cta">Connect your agent</span> <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+    <div class="agent-network"><div class="network-core"><svg class="icon" aria-hidden="true"><use href="#i-wave"/></svg></div><div class="network-line"></div><div class="network-agents"><span class="network-agent"><svg class="icon" aria-hidden="true"><use href="#i-spark"/></svg>Claude</span><span class="network-agent"><svg class="icon" aria-hidden="true"><use href="#i-message"/></svg>ChatGPT</span><span class="network-agent"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg><span data-i18n="agents.yours">Your agent</span></span></div></div>
+  </section>
+  <footer class="site-footer">
+    <a href="#"><span class="brand"><span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-wave"/></svg></span>blackbox<span class="brand-dot">.</span></span></a>
+    <p><span data-i18n="footer.claim">Your business. Complete.</span><br><span data-i18n="footer.pilot">Local pilot</span> · <span id="footer-version"></span></p>
+    <div class="footer-links"><a href="guide.html" data-i18n="nav.guide">Installation guide</a><a href="#principle" data-i18n="nav.principle">The principle</a><a href="http://127.0.0.1:19080/" data-i18n="footer.open">Open the app ↗</a><a href="https://github.com/bventures007/blackbox-agent-a" rel="noopener">GitHub (private)</a></div>
+  </footer>
 </div>
 <script src="landing.js" defer></script>
 </body>
