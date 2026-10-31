@@ -289,6 +289,7 @@ fn invoice_02(cx: &mut Ctx) -> Result<Answer, NeedHydration> {
 
 fn invoice_03(cx: &mut Ctx) -> Result<Answer, NeedHydration> {
     let cov = cx.coverage(&["orders", "invoices", "coverage", "identity"]);
+    { let un = unavailable(&cov); if un.contains(&"orders".to_string()) && un.contains(&"invoices".to_string()) { return Ok(missing(cov, vec!["orders.coverage".into(), "invoices.coverage".into()], vec!["No order or invoice capability is covered; agreed amounts cannot be compared with invoices.".into()], json!({"variances": [], "unresolved": []}))); } }
     let set: BTreeSet<String> = match cx.p_str("order_id") { Some(o) => BTreeSet::from([o]), None => cx.st.idx.invoices_by_order.keys().cloned().collect() };
     let (ids, next, truncated) = cx.page_ids(&set);
     let mut keys: Vec<Key> = ids.iter().map(|o| (EntityKind::Order, o.clone())).collect(); for o in &ids { for i in cx.st.idx.invoices_by_order.get(o).cloned().unwrap_or_default() { keys.push((EntityKind::Invoice, i)); } }
@@ -515,6 +516,7 @@ fn reversal_03(cx: &mut Ctx) -> Result<Answer, NeedHydration> {
 
 fn reversal_04(cx: &mut Ctx) -> Result<Answer, NeedHydration> {
     let cov = cx.coverage(&["payments", "refunds", "disputes", "coverage", "identity"]);
+    { let un = unavailable(&cov); if un.contains(&"payments".to_string()) && un.contains(&"disputes".to_string()) { return Ok(missing(cov, vec!["payments.coverage".into(), "disputes.coverage".into()], vec!["No payment or dispute capability is covered; refund/chargeback overlap cannot be assessed.".into()], json!({"cases": [], "unlinked": []}))); } }
     let (ids, next, truncated) = cx.page_ids(&cx.st.idx.disputes.clone());
     cx.ensure(&ids.iter().map(|d| (EntityKind::Dispute, d.clone())).collect::<Vec<_>>())?;
     let disputes: Vec<DisputeState> = ids.iter().filter_map(|d| match cx.get(EntityKind::Dispute, d) { Some(EntityState::Dispute(x)) => Some(x), _ => None }).collect();

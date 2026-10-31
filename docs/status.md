@@ -2,48 +2,52 @@
 
 ## Current assignment
 
-Baseline-v14 / brief 2.3: P0–P4 local pilot, then handover and stop. The owner approved a personal saved access key and local testing before deciding later product/hosting scope. Passkeys, invitations, public SaaS/servers, gateways, native packaging and large capacity certification are deferred. Read delivery-profile.json and specs/LOCAL-PILOT.md.
-
-Product implementation has not started. The prototype is static/simulated. No production login, importer, database/engine, local MCP bridge or installer exists yet. All 120 acceptance records remain not_started: 83 active pilot cases and 37 deferred cases. The exact previous 86 case descriptions remain preserved; 11 local cases define the simpler delivery and eight DIAG cases make operational visibility a required part of it. Three DIST cases additionally require the landing-page download-to-install journey. Two SLICE and ten PILOT cases additionally require early feasibility and the seven operational refinements. No actual software, diagnostics or download artifact exists yet.
+Baseline-v14 / brief 2.3: P0–P4 local pilot, then handover and stop. Implementation ran in this repository only (`blackbox-agent-a`), with isolated ports (API `127.0.0.1:19080`, test-only published PostgreSQL `19032`, fixture `19079`, engine `19070`), volumes (`blackbox-agent-a_*`) and secrets (`.secrets/`, never committed). Engineering content is English; UI and landing page are English by default with complete German.
 
 ## Milestones
 
-- [ ] P0 — environment and minimal contracts; start implementation
-- [ ] P1 — local key/session, automatic owner/workspace and persisted Rust/journal slice, structured logging/CLI and SLICE-01; earliest authorized SLICE-02
-- [ ] P2 — Golden Scenario, all 24 query contracts, UI/locales, import/readiness, System & Diagnostics and restart
-- [ ] P3 — Shopify/Shopify Payments and supplemental producers; local agent keys/MCP
-- [ ] P4 — real landing download/archive Mac install (DIST-01–03), local performance/memory, backup/restore/upgrade, DIAG-01–08/PILOT-01–10 evidence, feedback guide and handover
+- [x] P0 — environment and minimal contracts (docs/build-environment.md, ADR-001..010, typed journal/query contracts, migrations, Compose/wrapper)
+- [x] P1 — owner key/session, automatic owner/workspace, persisted Shopify-shaped slice (fixture → worker → PostgreSQL journal → Rust engine → API and SDK stdio MCP → restart), structured logging and host CLI; SLICE-01 recorded; SLICE-02 blocked (no authorized store)
+- [x] P2 — Golden Scenario through the real pipeline, all 24 query intents with positive and missing-data paths, UI/locales, import plans/readiness/health, System & Diagnostics, restart/rebuild
+- [x] P3 — Shopify and Shopify Payments adapters (fixture-proven), generic signed producer, replay, bank CSV, policy rules, runtime producers; agent keys, revocation and the MCP bridge
+- [x] P4 — release archive build, landing download states, bounded memory/perf harness, backup/restore/upgrade, DIAG/PILOT evidence, feedback guide, handover (`reports/checkpoint.md`). Items that could not be verified without external access are listed as blockers, not passes.
 
-## Preserved foundation
+## What runs (verified on this Mac)
 
-Keep the append-only five-track journal, exact Rust business reducers, durable PostgreSQL/outbox, bounded RAM/cold reads, tenant/RLS boundaries, snapshots/replay and provenance. All 24 questions need positive/missing-data evidence. Keep 30-day plus disclosed open/related import defaults, exact date plans, real progress and central source/answer readiness. EN-default/full-DE UI and landing page and all English engineering content remain required.
+| Layer | Implementation | Verification |
+|---|---|---|
+| Journal | PostgreSQL 17, five logical tracks in `journal_entries`, gap-free tenant sequences allocated under a row lock inside `journal_append`, append-only triggers (`BBX01`), same-identity/different-content conflicts (`BBX02`) to review cases, tenant scope mismatch (`BBX03`), RLS with explicit scopes, runtime roles without ownership/BYPASSRLS | `tests/integration/journal.test.ts` (JOURNAL-01/02, TENANT-02/03) |
+| Engine | Rust: typed payloads, deterministic `r1` derivation (same-batch facts visible through a batch overlay resolver), per-entity reducers, bounded resident state with LRU eviction and hydration, snapshots + tail, rebuild on unreadable snapshot, committed/applied cursors, 24 intents + entity views | `tests/integration/golden.test.ts` (DOMAIN-01/02/03/07), `slice.test.ts` restart (LOCAL-09/INSTALL-02), Rust unit golden |
+| Ingestion | Shopify GraphQL 2025-10 orders/inventory with per-page durable commit and overlap; Shopify Payments ledger/payouts/disputes; signed generic envelopes; replay; bank CSV profiles; policy rules; runtime coverage/identity facts | `slice.test.ts`, `payments.test.ts`, `queries.test.ts` |
+| Access | One automatic owner/workspace; 256-bit keys shown once, verifier-only storage; HttpOnly/SameSite=Strict sessions with absolute/idle expiry; exponential throttling; exact Host/Origin + CSRF header; separate revocable agent principals; loopback-only publication | `tests/integration/auth.test.ts`, `slice.test.ts` (LOCAL-01..05) |
+| Queries | Shared API/MCP query core with cutoffs, coverage, calculation, evidence ids; admission limits; `projection_behind` instead of stale answers | `queries.test.ts` (QUERY-01/02, MCP-01), `contract.test.ts` |
+| Diagnostics | Measured health with timestamps/reasons; allowlisted structured records with cursor correlation; bounded filterable logs; 15-minute debug windows; redaction before emission; local export with 10 MiB cap; host CLI readers that work without the API | `tests/integration/diagnostics.test.ts` (DIAG-02/03/05/06/08), `./blackbox logs` |
+| UI | React app reusing the supplied prototype styles; EN default, full DE; recorder, sources, questions with evidence drawer, agents, journal, review, diagnostics, settings | `tests/e2e/pilot-journey.spec.ts` (desktop + mobile, EN + DE) |
+| Operations | `./blackbox` wrapper (doctor/setup/up/down/status/logs/backup/restore/upgrade/diagnostics export/reset-access), encrypted backup generations with recovery key, isolated restore with fenced access, serialized fenced upgrade with migrations and post-checks | scripts + evidence under `tests/evidence/current/ops-*` |
+| Distribution | `scripts/build-release.sh` → versioned archive with wrapper, pinned Compose, bundled images, EN/DE guide, manifest + SHA-256; landing page reads `release/manifest.json` | DIST-01..03 evidence |
 
-The visual reference is unchanged: 67 desktop/mobile captures plus original assets. The catalogue remains 24 questions, 26 datasets, 11 tenant-scoped projections and 22 source/internal producers. All 127 integration rows remain; the profile selects 68 current rows and preserves all existing work history. Legacy first_release labels are broader platform plans, not current pilot gates. All rows remain unassigned/unimplemented; no provider or customer account has been used.
+## Defects found and fixed during verification (kept for reviewers)
 
-## Next action and prerequisites
+- Engine HTTP wedged after a notification for an unknown tenant (read guard held while requesting the write guard). Fixed; probe: `NOTIFY journal_committed, '<unknown uuid>'` then `/health`.
+- Scheduled polls never fired after the first job: scheduler scope could not read capability/connection rows (RLS) and finished singleton jobs were never re-armed; a naive re-arm produced a per-tick import burst. Fixed with migration 0002, re-arm spacing and capability advancement.
+- Derivation inside one batch could not see facts derived earlier in the same batch (bank confirmations, refund holds), so results depended on batching and rebuilds differed from first passes. Fixed with the batch overlay resolver.
+- Producer-declared coverage was quarantined (Date objects in a strict payload); coverage-only envelopes were refused. Fixed.
+- Shopify Payments re-polls raised identity conflicts (hour-bucketed balance ids, run-independent gap ids). Fixed.
+- Stock movements effective before an authoritative snapshot were applied on top of it. Fixed (effective-time guard).
+- The SPA fallback answered any unknown path with the app shell (200), including POSTs. Fixed.
+- Docker VM disk exhaustion from repeated full image builds crashed PostgreSQL mid-run (recovered; reproduced by the `No space left on device` panic in its log). Operational note added to docs/operations.md.
 
-Read START-HERE.md, AGENTS.md and the local contract, inspect the prototype and record actual tools/resources in build-environment.md. Begin P1 after the minimum P0 decisions. Synthetic work needs no merchant or LLM credentials. Later verify Shopify/Shopify Payments API grants/installation/account access, an actual compatible local MCP client and a real Apple Silicon install. Missing prerequisites are blocked proof, never success; complete unrelated work.
+## Evidence summary
+
+Filled from the final fresh-installation run; see `reports/acceptance.json`, `reports/question-coverage.json`, `reports/performance.json`, `INTEGRATIONS.md` and `reports/checkpoint.md`. Independent review events have not been recorded by this session (no self-approval).
+
+## External blockers (not passes)
+
+- SLICE-02 / SOURCE-01 live: no authorized Shopify store or Shopify Payments account was available; the adapter path is proven only against the bundled fixture (`fixtures/shopify-fixture-server`).
+- MCP-03: a real third-party MCP client session is recorded only if the Claude Code CLI run in `tests/evidence/current/mcp-client.json` succeeded; otherwise pending.
+- DIST-02 registry publication: no `write:packages` permission; images are bundled in the archive instead of published to a registry.
+- Independent approvals in the integration register: require a reviewer other than the implementing agent.
 
 ## Evidence policy
 
-Keep reports/acceptance.json, question-coverage.json, performance.json and source history current with actual code commits, commands, environment and artifacts. Ordinary validators check preparation consistency only; the profile --release gate checks current evidence/selected independent approvals. No checker independently proves execution truth. Deferred requirements are not passed or automatic next work. Preserve the P4 comparison commit/report and stop for owner feedback.
-
-Previous preparation findings and decisions are preserved in docs/history/baseline-v10-status.md, docs/history/baseline-v11-status.md and older Git tags. They describe the prior assignment, not current obligations.
-
-## Diagnostics addition for baseline-v12
-
-The owner approved a central System & Diagnostics view with source/run links, measured/stale health, common correlated structured logs, filters/live/history, local setup/outage access, bounded seven-day/100-MiB technical retention, 15-minute scoped debug and explicit sanitized export. The new specification defines permissions, redaction, failure behavior, performance bounds and P1–P4 implementation order. DIAG-01–08 are selected release gates; reports remain not_started. Start/Goal/build/review instructions include the new contract. Source capability selection, all previous acceptance semantics, journal/data contracts, integration history and visual references are unchanged.
-
-The question catalogue validator, integration register check against 8d67454b4a8fd3556312bf5160ecbb0655ab0e13, delivery-profile validator and all 45 existing tooling regression tests passed. An additional consistency check confirms all 97 previous acceptance cases are byte-equivalent as parsed records, all 105 results remain not_started, and integration history/source selection, golden data and visual assets are unchanged. These checks verify specification/control consistency only; no runtime, diagnostic feature or product result is claimed.
-
-## Landing download addition for baseline-v13
-
-The owner required installation access directly from the landing page. The local deployment contract now defines prominent consistent EN/DE download actions, independent static landing/guide delivery before backend setup, actual versioned Mac archives with pinned prebuilt images, prerequisites, release metadata/checksums, truthful pending/unsupported/private access states and a tested browser-download-to-first-start journey. DIST-01–03 are active release gates; build/Goal/review entry points include them. This does not authorize public publication or require a native DMG. All 105 previous case definitions, source history and visual/business references are unchanged. All product evidence remains not_started.
-
-The question catalogue validator, integration register check against 1b9de2522960cb48c5499b26d3ade28e81921f5c, delivery-profile validator and all 45 existing tooling regression tests passed. A consistency check confirms all 105 previous case definitions are unchanged, all 108 results remain not_started, and source history/business/reference assets are unchanged. These are preparation checks only; no actual downloadable product or installation proof is claimed.
-
-## Operational refinements for baseline-v14
-
-The owner approved seven refinements after the Buzz/source/specification audit: configured daily encrypted backups and independent recovery; explicit version-compatible updates and rule rebuilds; owner review/correction; Mac sleep/wake/account/disk behavior; protected keys and field-level content/retention policy; stronger pilot per-class latency/memory/recovery targets; and deterministic local questions with external MCP conversation. SLICE-01 proves a narrow actual persisted adapter-to-MCP/restart path before broad UI; SLICE-02 attempts real Shopify access as early as authorized. External blockers remain honest and do not halt independent work. PILOT-01–10 are mandatory current gates. All 108 prior case definitions and source/business/reference inputs are preserved; source selection and future scope are unchanged.
-
-The smoke contract now includes hot p95 <=200 ms API / <=350 ms MCP, separate cold/history/aggregate targets, memory/lag/restart/rebuild/restore bounds and both concurrency/fixed-arrival measurements. These are unmeasured acceptance goals, not capacity claims. All reports remain not_started. The question catalogue validator, register check against d989fcea99f8241e5d78963166d5e91be1486810, delivery-profile validator and all 45 existing tooling regression tests passed. Additional consistency checks confirm all 108 previous cases are unchanged, all 120 results remain unexecuted, prior smoke targets were not loosened, deferred benchmark profiles are identical and source history/business/reference assets are preserved. These are specification/control checks, not product or performance evidence.
+Keep reports/acceptance.json, question-coverage.json, performance.json and the integration history current with actual commits, commands, environment and artifacts. Previous preparation findings remain in docs/history/.

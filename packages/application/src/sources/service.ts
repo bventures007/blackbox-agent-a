@@ -32,7 +32,7 @@ export class SourcesService {
     const enc = input.secret ? this.ctx.keyring.encrypt(input.secret, tenantId, `connection:${connectionId}`) : null;
     await withTenant(this.ctx.db, tenantId, async (tx) => {
       await tx`INSERT INTO connections (connection_id, tenant_id, provider, display_name, account_namespace, status, config_encrypted, config_public) VALUES (${connectionId}, ${tenantId}, ${input.provider}, ${input.display_name.slice(0, 80)}, ${input.account_namespace.slice(0, 200)}, 'configured', ${enc}, ${tx.json((input.config_public ?? {}) as never)})`;
-      for (const cap of input.capabilities) { const s = scheduleFor(input.provider, cap); await tx`INSERT INTO capability_state (tenant_id, connection_id, capability, collection_state, next_poll_at, next_poll_reason) VALUES (${tenantId}, ${connectionId}, ${cap}, 'configured', ${s.poll ? new Date() : null}, ${s.poll ? 'initial import pending' : `${s.kind} capability: no scheduled poll`})`; }
+      for (const cap of input.capabilities) { const s = scheduleFor(input.provider, cap); await tx`INSERT INTO capability_state (tenant_id, connection_id, capability, collection_state, next_poll_at, next_poll_reason) VALUES (${tenantId}, ${connectionId}, ${cap}, 'configured', ${null}, ${s.poll ? 'initial import pending (polls are scheduled by the first completed import)' : `${s.kind} capability: no scheduled poll`})`; }
       await tx`INSERT INTO audit_events (tenant_id, actor_kind, actor_id, action, metadata) VALUES (${tenantId}, 'owner', ${ownerId}, 'connection.created', ${tx.json({ connection_id: connectionId, provider: input.provider })})`;
     });
     this.ctx.log.info('source.connection_created', 'source connection configured', { tenant_id: tenantId, connection_id: connectionId });

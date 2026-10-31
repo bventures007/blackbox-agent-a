@@ -34,3 +34,6 @@ Preflight (compat manifest: schema/reducer/backup format/PostgreSQL major, free 
 ./blackbox diagnostics export --since 1h --output report.json
 ./blackbox doctor
 ```
+
+## Disk space (Docker Desktop VM)
+PostgreSQL stops with `PANIC: could not write to file ... No space left on device` when the Docker VM disk is full; it then loops in recovery until space is freed. Blackbox never deletes data to make room. Check with `docker system df`; reclaim build cache and dangling images with `docker builder prune -f` and `docker image prune -f` (volumes are untouched). After space is available, PostgreSQL recovers on its own and `./blackbox up` restarts the remaining services. Capacity thresholds are shown in System & Diagnostics (warn below max(10 %, 5 GiB), critical below max(2 %, 1 GiB)); critical capacity pauses imports and backups.

@@ -9,6 +9,8 @@ import { resolve } from 'node:path';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { signBody } from '@blackbox/application';
+import { IntentId } from '@blackbox/contracts';
+import { readFileSync } from 'node:fs';
 import { API, ROOT, apiFetch, loginOwner, waitApplied, evidence, sql } from '../helpers/env';
 
 let cookie: string; let producerKey: string; let agentKey: string; let genericId: string; let policyId: string; let bankId: string;
@@ -97,8 +99,8 @@ describe('QUERY-01 positive paths for all 24 intents via API', () => {
       ev('invoice.payment_marked', 'q-mark-1', '2026-10-22T10:00:00Z', { invoice_id: 'I1', transaction_id: 'T-Q1', paid_minor: 5000, currency: 'EUR' }),
       ev('invoice.issued', 'q-inv-2', '2026-10-20T10:00:00Z', { document_id: 'D-I2', invoice_id: 'I2', order_id: '#QA', currency: 'EUR', gross_minor: 12000, due_date: '2026-11-30', line_links: [{ line_id: 'QA/1', quantity: '6', gross_minor: 12000 }] }),
       ev('invoice.dispatch_observed', 'q-disp-1', '2026-10-20T11:00:00Z', { dispatch_id: 'DS1', document_id: 'I1', channel: 'email', status: 'sent', processed_at: '2026-10-20T11:00:00Z' }),
-      ev('payment.authorized', 'q-auth-1', '2026-10-20T09:00:00Z', { transaction_id: 'T-Q1', order_id: '#QC', amount_minor: 11900, currency: 'EUR' }),
-      ev('payment.captured', 'q-cap-1', '2026-10-20T09:30:00Z', { transaction_id: 'T-Q1', order_id: '#QC', amount_minor: 5000, currency: 'EUR' }),
+      ev('payment.authorized', 'q-auth-1', '2026-10-20T09:00:00Z', { transaction_id: 'T-Q1', order_id: '#QC', account_id: 'acct-q', amount_minor: 11900, currency: 'EUR' }),
+      ev('payment.captured', 'q-cap-1', '2026-10-20T09:30:00Z', { transaction_id: 'T-Q1', order_id: '#QC', account_id: 'acct-q', amount_minor: 5000, currency: 'EUR' }),
       ev('payment.failed', 'q-fail-1', '2026-10-20T08:00:00Z', { transaction_id: 'T-Q0', order_id: '#QB', amount_minor: 600, currency: 'EUR' }),
       ev('payment.captured', 'q-cap-2', '2026-10-20T08:30:00Z', { transaction_id: 'T-Q2', order_id: '#QB', amount_minor: 600, currency: 'EUR' }),
       ev('payment.allocation_recorded', 'q-alloc-1', '2026-10-22T10:00:00Z', { allocation_id: 'AL1', invoice_id: 'I1', transaction_id: 'T-Q1', amount_minor: 5000, currency: 'EUR' }),
@@ -171,4 +173,25 @@ describe('QUERY-02 missing-data cases are explicit, never fabricated', () => {
     const d4 = await ask('customer.delivery_reply', { order_id: 'NOPE' }); expect(d4.status).toBe('insufficient_data');
     results['missing_samples'] = { o1: o1.status, s2: s2.status, d4: d4.status };
   });
+  it('every one of the 24 intents answers an empty workspace with insufficient_data or partial and names missing inputs (shared query service, engine endpoint)', async () => {
+    // an empty synthetic tenant (no coverage, no observations) through the same deterministic query service the API and MCP use
+    const catalog = JSON.parse(readFileSync(resolve(ROOT, 'apps/web/src/catalog.json'), 'utf8')) as Array<{ questions: Array<{ ref: string; intent: string; params: Array<{ name: string; type: string; required?: boolean }> }> }>;
+    const mig = sql('migrator'); const tenant = randomUUID();
+    try { await mig`INSERT INTO tenants (tenant_id, name, timezone, kind) VALUES (${tenant}, 'Empty workspace (QUERY-02)', 'UTC', 'synthetic')`; await mig`INSERT INTO tenant_sequences (tenant_id) VALUES (${tenant})`; } finally { await mig.end(); }
+    const token = readFileSync(resolve(ROOT, '.secrets/engine_token'), 'utf8').trim(); const H = { 'content-type': 'application/json', 'x-engine-token': token };
+    await fetch('http://127.0.0.1:19070/admin/refresh-tenants', { method: 'POST', headers: H, body: '{}' });
+    await new Promise((r) => setTimeout(r, 1500));
+    const value = (t: string) => (t === 'quantity' ? '1' : t === 'date' ? '2026-10-31' : 'NOPE');
+    const outcome: Record<string, { status: string; missing: string[] }> = {}; const intents = new Set<string>(IntentId.options);
+    for (const g of catalog) for (const q of g.questions) {
+      const parameters = Object.fromEntries(q.params.map((p) => [p.name, value(p.type)]));
+      const r = await fetch('http://127.0.0.1:19070/query', { method: 'POST', headers: H, body: JSON.stringify({ tenant_id: tenant, intent: q.intent, parameters, principal: 'query-02' }) });
+      const body = await r.json() as { status: string; missing_inputs?: string[]; result?: Record<string, unknown> };
+      outcome[q.ref] = { status: body.status, missing: body.missing_inputs ?? [] }; intents.delete(q.intent);
+      expect(['insufficient_data', 'partial'], `${q.ref} (${q.intent}) answered ${body.status} on an empty workspace: ${JSON.stringify(body).slice(0, 200)}`).toContain(body.status);
+      expect((body.missing_inputs ?? []).length, `${q.ref} names no missing inputs`).toBeGreaterThan(0);
+    }
+    expect([...intents], 'intents without a catalog question').toEqual([]); expect(Object.keys(outcome).length).toBe(24);
+    results['missing_all_intents'] = outcome;
+  }, 120_000);
 });

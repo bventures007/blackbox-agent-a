@@ -2,7 +2,7 @@
  * Connector worker: leased jobs for Shopify import/poll/reconciliation, coverage emission, backup scheduling,
  * debug-window expiry and heartbeats. Outbound only; no inbound port.
  */
-import { readFileSync } from 'node:fs';
+import { readFileSync, statfsSync } from 'node:fs';
 import { createDb, withScope, withTenant } from '@blackbox/database';
 import { FileStoreSink, Logger, StderrSink, type Level } from '@blackbox/logging';
 import { DataKeyring, EngineClient, IngestService, JobQueue, SourcesService, type AppContext } from '@blackbox/application';
@@ -30,10 +30,18 @@ async function schedulePolls() {
   const due = await withScope(db, 'scheduler', (tx) => tx`SELECT k.tenant_id, k.connection_id, c.provider FROM capability_state k JOIN connections c ON c.connection_id = k.connection_id WHERE c.status = 'configured' AND c.provider IN ('shopify','shopify_payments') AND k.next_poll_at IS NOT NULL AND k.next_poll_at <= now() GROUP BY k.tenant_id, k.connection_id, c.provider`);
   for (const d of due) await queue.enqueue('source.import', { connection_id: d.connection_id, run_kind: 'incremental' }, { tenantId: d.tenant_id as string, singletonKey: `import:${d.connection_id}`, minSpacingSeconds: 60 });
 }
+/** PILOT-06: critical free space on the data volume pauses new/optional work (imports, backups); queued jobs and cursors stay as they are. */
+let capacityPaused = false;
+function capacityCritical(): boolean {
+  try { const st = statfsSync(ctx.dataDir); const total = Number(st.blocks) * Number(st.bsize); const free = Number(st.bavail) * Number(st.bsize); const crit = free < Math.max(total * 0.02, 1024 ** 3);
+    if (crit !== capacityPaused) { capacityPaused = crit; if (crit) log.warn('worker.capacity_critical', `free space ${Math.round(free / 1024 ** 2)} MiB is below the critical threshold; imports and backups paused, nothing is deleted`, { error_code: 'capacity_critical', retryable: true, action_code: 'free_disk_space' }); else log.info('worker.capacity_recovered', 'free space is above the critical threshold; resuming'); }
+    return crit; } catch { return false; }
+}
 async function fenced(): Promise<string | null> { try { const [f] = await withScope(db, 'scheduler', (tx) => tx`SELECT holder FROM maintenance_fence WHERE fence_id = 1 AND holder IS NOT NULL AND expires_at > now()`); return (f?.holder as string | undefined) ?? null; } catch { return null; } }
 async function tick() {
   await queue.heartbeat('worker', { version, debug: debugState.debugAll });
   const holder = await fenced(); if (holder) { log.debug('worker.fenced', `maintenance fence held by ${holder}; writers paused`); return false; }
+  if (capacityCritical()) return false;
   await refreshDebug();
   await schedulePolls();
   const job = await queue.claim(['source.import', 'review.retry', 'backup.scheduled', 'retention.enforce'], 300);

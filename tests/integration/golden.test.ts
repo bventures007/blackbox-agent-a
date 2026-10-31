@@ -90,31 +90,31 @@ describe('DOMAIN-03 / missing_bank variant / IMPORT-02 partial truth', () => {
     const missing = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'payouts.missing_bank_confirmation' }) });
     ev.missing_bank = missing.body;
     const rows = (missing.body.result as { missing_confirmation: Array<{ payout_id: string; conclusion: string }> }).missing_confirmation;
-    expect(rows.some((r) => r.payout_id === 'OUT-1001-nobank')).toBe(true);
-    expect(rows.find((r) => r.payout_id === 'OUT-1001-nobank')!.conclusion).toMatch(/no_evidence_in_imported_interval|candidate_requires_review|ambiguous/);
+    expect(rows.some((r) => r.payout_id === `OUT-1001${S('-nobank')}`)).toBe(true);
+    expect(rows.find((r) => r.payout_id === `OUT-1001${S('-nobank')}`)!.conclusion).toMatch(/no_evidence_in_imported_interval|candidate_requires_review|ambiguous/);
   }, 300_000);
   it('a payment marker is not cash and a credit note is not a refund', async () => {
-    const inv = await state('invoice', 'INV-1001-full'); const ic = inv.view.computed as Record<string, number>;
-    const tx = await state('transaction', 'TX-1001-full'); const tc = tx.view.computed as Record<string, number>; const ts = tx.view.state as Record<string, number>;
+    const inv = await state('invoice', `INV-1001${S('-full')}`); const ic = inv.view.computed as Record<string, number>;
+    const tx = await state('transaction', `TX-1001${S('-full')}`); const tc = tx.view.computed as Record<string, number>; const ts = tx.view.state as Record<string, number>;
     expect(ts.captured_minor).toBe(11900); // marker did not add capture
     expect(ic.credits_minor).toBe(2380); expect(tc.refunded_minor).toBe(2380); // refund came from refund.completed, not from the credit note
     const r = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'credits.refund_gaps' }) }); ev.refund_gaps = r.body;
     const gaps = (r.body.result as { refund_gaps: Array<{ invoice_id: string; cash_refund_due_minor: number }> }).refund_gaps;
-    const full = gaps.find((g) => g.invoice_id === 'INV-1001-full'); if (full) expect(full.cash_refund_due_minor).toBe(0);
+    const full = gaps.find((g) => g.invoice_id === `INV-1001${S('-full')}`); if (full) expect(full.cash_refund_due_minor).toBe(0);
   });
 });
 
 describe('DOMAIN-07 bitemporal cutoffs', () => {
   it('a recorded-time cutoff before the credit shows the pre-credit receivable; the credit does not erase it', async () => {
-    const list = await apiFetch('/api/journal/entries', { method: 'POST', cookie, body: JSON.stringify({ entity: { type: 'invoice', id: 'INV-1001-full' }, page_size: 100 }) });
+    const list = await apiFetch('/api/journal/entries', { method: 'POST', cookie, body: JSON.stringify({ entity: { type: 'invoice', id: `INV-1001${S('-full')}` }, page_size: 100 }) });
     const entries = list.body.entries as Array<{ journal_sequence: number; event_type: string; occurred_at: string }>;
     const credit = entries.find((e) => e.event_type === 'fact.credit_note')!; expect(credit).toBeDefined();
-    const before = await state('invoice', 'INV-1001-full', { consistency: { mode: 'as_of', recorded_cutoff: credit.journal_sequence - 1 } });
-    const after = await state('invoice', 'INV-1001-full');
+    const before = await state('invoice', `INV-1001${S('-full')}`, { consistency: { mode: 'as_of', recorded_cutoff: credit.journal_sequence - 1 } });
+    const after = await state('invoice', `INV-1001${S('-full')}`);
     ev.bitemporal = { cutoff: credit.journal_sequence - 1, before: before.view.computed, after: after.view.computed };
     expect((before.view.computed as Record<string, number>).credits_minor).toBe(0); expect((before.view.computed as Record<string, number>).net_minor).toBe(11900);
     expect((after.view.computed as Record<string, number>).credits_minor).toBe(2380);
-    const eff = await state('invoice', 'INV-1001-full', { consistency: { mode: 'as_of', effective_at: '2026-10-31T09:13:30Z' } });
+    const eff = await state('invoice', `INV-1001${S('-full')}`, { consistency: { mode: 'as_of', effective_at: '2026-10-31T09:13:30Z' } });
     expect((eff.view.computed as Record<string, number>).credits_minor).toBe(0);
   });
 });

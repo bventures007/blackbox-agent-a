@@ -1,0 +1,31 @@
+▸ stopping and removing project containers and volumes (blackbox-agent-a only)
+(no project volumes left)
+▸ setup
+▸ setup started (version 0.1.0-dev)
+▸ compose environment exists; kept
+▸ secrets exist; kept (no rotation on setup)
+▸ starting database
+▸ applying migrations and creating the workspace
+▸ owner workspace created; personal access key displayed once (not logged)
+
+  ══════════════════════════════════════════════════════════════════════════════
+  Your personal access key / Dein persönlicher Zugangsschlüssel (shown once / wird nur einmal angezeigt):
+
+
+  EN: Save it in your password manager now. Anyone holding this key has administrator access to this
+      workspace; never give it to an agent (agents get their own read-only keys in Agents & MCP).
+      If you lose it: ./blackbox reset-access (requires access to this folder; business data is kept).
+  DE: Speichere ihn jetzt in deinem Passwort-Manager. Wer diesen Schlüssel besitzt, hat Administratorzugriff
+      auf diesen Workspace; gib ihn nie an einen Agenten (Agenten erhalten eigene Nur-Lese-Schlüssel).
+      Bei Verlust: ./blackbox reset-access (benötigt Zugriff auf diesen Ordner; Geschäftsdaten bleiben erhalten).
+  ══════════════════════════════════════════════════════════════════════════════
+▸ setup finished; next: ./blackbox up
+owner key captured to .local/test-owner-key (0600)
+▸ starting with test port overrides
+api live HTTP 200
+engine healthy tenants 1
+blackbox-agent-a-worker-1 Up 3 seconds
+blackbox-agent-a-api-1 Up 2 seconds (health: starting)
+blackbox-agent-a-engine-1 Up 3 seconds
+blackbox-agent-a-postgres-1 Up 9 seconds (healthy)
+blackbox-agent-a-fixture-1 Up 9 seconds

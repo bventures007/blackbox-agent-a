@@ -70,7 +70,7 @@ describe('SLICE-01 provider-shaped persisted path', () => {
     const counts = await apiFetch('/api/journal/counts', { cookie }); await waitApplied(cookie, Number(counts.body.committed_cursor), 60_000);
     const after = await apiFetch('/api/query', { method: 'POST', cookie, body: JSON.stringify({ intent: 'orders.payment_state' }) });
     expect(normalize((after.body.result as { orders: unknown[] }).orders)).toEqual(normalize((before.body.result as { orders: unknown[] }).orders));
-    const runs = await apiFetch(`/api/sources/${connectionId}/runs`, { cookie }); const last = (runs.body.runs as Array<Record<string, unknown>>)[0]!;
+    const runs = await apiFetch(`/api/sources/${connectionId}/runs`, { cookie }); const last = (runs.body.runs as Array<Record<string, unknown>>).filter((x) => x.state === 'complete' && new Date(x.started_at as string).getTime() >= actionAt).sort((x, y) => String(y.started_at).localeCompare(String(x.started_at)))[0]!;
     ev.second_run = last.counters; expect(Number((last.counters as Record<string, number>).duplicates)).toBeGreaterThan(0);
   }, 120_000);
 

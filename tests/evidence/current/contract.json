@@ -1118,5 +1118,7 @@
         "read_shopify_payments_payouts"
       ]
     }
-  }
+  },
+  "mcp_http_status": 404,
+  "cross_mode_config_status": 422
 }

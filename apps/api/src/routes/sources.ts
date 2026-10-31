@@ -42,7 +42,7 @@ export async function registerSourceRoutes(app: FastifyInstance, s: Services) {
     for (const r of restrictions as Array<{ capability: string }>) await s.sources.touchCapability(p.tenantId, id, r.capability, { restrictions: restrictions.filter((x) => (x as { capability: string }).capability === r.capability) });
     let plan = null;
     if (body.data.plan) { plan = await s.sources.savePlan(p.tenantId, p.ownerId, id, body.data.plan.preset, { customStart: body.data.plan.custom_start, includeOpenItems: body.data.plan.include_open_items, includeRelated: body.data.plan.include_related, includeOpeningState: body.data.plan.include_opening_state, restrictions }); }
-    if (body.data.provider === 'shopify' || body.data.provider === 'shopify_payments') { await withTenant(s.ctx.db, p.tenantId, (tx) => tx`INSERT INTO jobs (tenant_id, kind, payload, singleton_key) VALUES (${p.tenantId}, 'source.import', ${tx.json({ connection_id: id, run_kind: 'initial' })}, ${'import:' + id})`); }
+    if (body.data.provider === 'shopify' || body.data.provider === 'shopify_payments') { await withTenant(s.ctx.db, p.tenantId, (tx) => tx`INSERT INTO jobs (tenant_id, kind, payload, singleton_key) VALUES (${p.tenantId}, 'source.import', ${tx.json({ connection_id: id, run_kind: 'initial' })}, ${'import:' + id}) ON CONFLICT (singleton_key) DO UPDATE SET payload = EXCLUDED.payload, run_at = now(), state = 'queued', attempt = 0`); } // the scheduler may already have armed a poll for the new connection: the initial import wins
     return reply.code(201).send({ connection_id: id, restrictions, plan });
   });
   app.post('/api/sources/:id/plan', async (req, reply) => {
