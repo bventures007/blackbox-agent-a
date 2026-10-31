@@ -1,11 +1,11 @@
 {
  "login": 200,
  "replay": {
-  "run_id": "3924d0b7-9e16-4b43-ab18-fcafbda5d9ff",
+  "run_id": "0e657300-4ae4-4194-a30e-713c649927d3",
   "accepted": 19,
   "duplicates": 0,
   "conflicts": 0,
-  "required_cursor": 52,
+  "required_cursor": 48,
   "synthetic": true
  },
  "answer": {

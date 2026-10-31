@@ -1,10 +1,10 @@
 ▸ build release
 ▸ packaging
-{"platform": "macos-arm64", "min_os": "macOS 14", "format": "tar.gz", "filename": "blackbox-0.1.0-dev-macos-arm64.tar.gz", "size_bytes": 281859262, "sha256": "72c1dcbd5fc6d111591e3a2d43127b23c5b5515c58cfac98c668339a49b2305d", "url": "./downloads/blackbox-0.1.0-dev-macos-arm64.tar.gz", "status": "preview"}
+{"platform": "macos-arm64", "min_os": "macOS 14", "format": "tar.gz", "filename": "blackbox-0.1.0-dev-macos-arm64.tar.gz", "size_bytes": 281855856, "sha256": "bc5468c5d062484e2d9273869bf8a216c25ab9cd61956e19134c9d339669f862", "url": "./downloads/blackbox-0.1.0-dev-macos-arm64.tar.gz", "status": "preview"}
 Landing bundle: /Users/benediktsauter/GitHub/blackbox-agent-a/release/site (serve it as one static origin; downloads/ holds the versioned archive and its checksum)
-Release archive: /Users/benediktsauter/GitHub/blackbox-agent-a/release/dist/blackbox-0.1.0-dev-macos-arm64.tar.gz (281859262 bytes, sha256 72c1dcbd5fc6d111591e3a2d43127b23c5b5515c58cfac98c668339a49b2305d)
-build exit 0 in 10 s
-archive: release/dist/blackbox-0.1.0-dev-macos-arm64.tar.gz ( 281859262 bytes)
+Release archive: /Users/benediktsauter/GitHub/blackbox-agent-a/release/dist/blackbox-0.1.0-dev-macos-arm64.tar.gz (281855856 bytes, sha256 bc5468c5d062484e2d9273869bf8a216c25ab9cd61956e19134c9d339669f862)
+build exit 0 in 43 s
+archive: release/dist/blackbox-0.1.0-dev-macos-arm64.tar.gz ( 281855856 bytes)
 ▸ manifest/landing checks from a static origin (127.0.0.1:19095)
 {"manifest_version": "0.1.0-dev", "artifact": "blackbox-0.1.0-dev-macos-arm64.tar.gz", "size_matches": true, "sha256_matches": true, "sha_sidecar_matches": true, "guide_ok": true, "index_ok": true, "status": "preview", "platform": "macos-arm64", "min_os": "macOS 14", "prerequisites": ["macOS 14+ on Apple Silicon", "Docker Desktop 4.30+ (running)", "~3 GB free disk"]}
 landing check exit 0
@@ -36,7 +36,7 @@ doctor exit 0
 ▸ applying migrations and creating the workspace
 ▸ owner workspace created; personal access key displayed once (not logged)
 ▸ setup finished; next: ./blackbox up
-setup exit 0 in 9 s
+setup exit 0 in 13 s
 ▸ starting services
 Started. Open http://127.0.0.1:19090/  (stop: ./blackbox down; status: ./blackbox status)
 SERVICE    STATE     <no value>   PORTS
@@ -45,15 +45,16 @@ engine     running
 postgres   running   healthy      5432/tcp
 worker     running                
 api: reachable on http://127.0.0.1:19090
-▸ container-served landing and compose health (DIST-03 follow-up)
+▸ container-served landing and compose health (DIST-03 follow-up; release.json is expected 404 inside an installation, the page reports the installed version)
 landing/prototype.css 200 text/css; charset=utf-8
-landing/release.json 200 application/json; charset=utf-8
+landing/release.json 404 application/json; charset=utf-8
 landing/landing.css 200 text/css; charset=utf-8
 landing/missing.css 404
+{"version":"0.1.0-dev","origin":"http://127.0.0.1:19090","reducer_version":"r1","schema_version":1,"locales":["en","de"]
 api container health: healthy
 login 200
 replay connection 201
-replay 200 {"run_id":"3924d0b7-9e16-4b43-ab18-fcafbda5d9ff","accepted":19,"duplicates":0,"conflicts":0,"required_cursor":52,"synthetic":true}
+replay 200 {"run_id":"0e657300-4ae4-4194-a30e-713c649927d3","accepted":19,"duplicates":0,"conflicts":0,"required_cursor":48,"synthetic":true}
 answer complete {"authorization_is_capture":false,"authorized_minor":11900,"collected_minor":11900,"currency":"EUR","failed_attempts":[],"order_gross_minor":11900,"order_id":"#1001","refunded_minor":2380,"remaining_m evidence 17
 health api:healthy postgres:healthy worker:healthy engine:healthy sources:healthy mcp:unknown diagnostics:healthy
 ▸ stop and remove the distribution test installation

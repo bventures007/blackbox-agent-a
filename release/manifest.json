@@ -3,7 +3,7 @@
  "version": "0.1.0-dev",
  "status": "preview",
  "date": "2026-10-31",
- "tested_commit": "7ef9c29fcd6e16fed1d7529f45bc65dac26a9448",
+ "tested_commit": "32925a87e50a7b78a3746acdf2b1df5901f0b053",
  "release_notes": "Local pilot preview 0.1.0-dev: wrapper, pinned Compose, bundled images (node, engine, postgres:17@sha256:31ba9c94a03a\u2026). Synthetic-proven Shopify path; live provider proof pending authorization.",
  "prerequisites": [
   "macOS 14+ on Apple Silicon",
@@ -22,8 +22,8 @@
    "min_os": "macOS 14",
    "format": "tar.gz",
    "filename": "blackbox-0.1.0-dev-macos-arm64.tar.gz",
-   "size_bytes": 281859262,
-   "sha256": "72c1dcbd5fc6d111591e3a2d43127b23c5b5515c58cfac98c668339a49b2305d",
+   "size_bytes": 281855856,
+   "sha256": "bc5468c5d062484e2d9273869bf8a216c25ab9cd61956e19134c9d339669f862",
    "url": "./downloads/blackbox-0.1.0-dev-macos-arm64.tar.gz",
    "status": "preview"
   }
