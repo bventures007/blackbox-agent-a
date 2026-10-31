@@ -77,7 +77,10 @@ def status_value(root,now=None,heartbeat=None):
  return result
 
 def publish_status(root,now=None,heartbeat=None):
- runtime=root/'.runtime';prepare_control(runtime);value=status_value(root,now,heartbeat);atomic_json(runtime/'control/status/backup.json',value);return value
+ runtime=root/'.runtime';prepare_control(runtime);value=status_value(root,now,heartbeat);atomic_json(runtime/'control/status/backup.json',value)
+ from evidence_scheduler import publish
+ publish(root,now,heartbeat,value['maintenance_required'])
+ return value
 
 def due_now(config,last,now,manual=False):
  if manual:return True
@@ -177,6 +180,8 @@ def request_present(runtime,now):
 def tick(root,now=None):
  now=time.time()if now is None else now;runtime=root/'.runtime';heartbeat=stamp();atomic_json(runtime/'supervisor.json',{'observed_at':heartbeat,'pid':os.getpid()});publish_status(root,now,heartbeat)
  if(runtime/'maintenance.json').exists():return
+ from evidence_scheduler import tick as evidence_tick
+ evidence_tick(root,now)
  config=load_json(runtime/'backup.json')
  if not config:return
  last=load_json(runtime/'backup-status.json');manual=request_present(runtime,now)

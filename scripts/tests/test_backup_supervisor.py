@@ -18,7 +18,7 @@ class BackupSupervisorTests(unittest.TestCase):
   self.assertFalse(due_now(self.config,{'recoverable_cutoff':datetime.datetime.fromtimestamp(now+3600,datetime.timezone.utc).isoformat()},now))
   atomic_json(self.runtime/'backup-status.json',last)
   def completed(root):atomic_json(self.runtime/'backup-status.json',{'state':'completed','recoverable_cutoff':datetime.datetime.fromtimestamp(now,datetime.timezone.utc).isoformat()})
-  with patch('backup_supervisor.services',return_value=['api']),patch('backup_supervisor.generation',side_effect=completed)as call:
+  with patch('evidence_scheduler.tick'),patch('backup_supervisor.services',return_value=['api']),patch('backup_supervisor.generation',side_effect=completed)as call:
    tick(self.root,now);tick(self.root,now+15);self.assertEqual(call.call_count,1)
   self.assertEqual(status_value(self.root,now+90001)['state'],'overdue')
  def test_daily_weekly_retention_only_own_completed_generations(self):

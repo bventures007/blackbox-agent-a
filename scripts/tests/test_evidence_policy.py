@@ -46,4 +46,21 @@ class EvidencePolicyTests(unittest.TestCase):
   events.clear()
   with patch('evidence_policy.sql',side_effect=sql):result=purge_fenced(self.root)
   self.assertEqual(result['already_absent'],1)
+ def test_orphan_cleanup_audits_known_workspace_before_unlink_and_skips_unknown(self):
+  tenant=str(uuid.uuid4());unknown=str(uuid.uuid4());base=self.root/'.runtime/evidence';base.mkdir(parents=True,mode=0o700)
+  for name in [tenant,unknown]:(base/name).mkdir(mode=0o700)
+  orphan=base/tenant/str(uuid.uuid4());temporary=base/tenant/(str(uuid.uuid4())+'.'+uuid.uuid4().hex+'.tmp');foreign=base/unknown/str(uuid.uuid4())
+  for file in [orphan,temporary,foreign]:file.write_bytes(b'ciphertext');file.chmod(0o600)
+  events=[]
+  def sql(root,statement):
+   events.append(statement)
+   if 'FROM bb.workspaces'in statement:return b't'if tenant in statement else b'f'
+   if 'evidence.orphan_cleanup_intent'in statement:
+    self.assertTrue(orphan.exists()or temporary.exists());return b'INSERT 0 1'
+   return b'[]'
+  actual=remove_owned_file
+  def remove(directory,name):
+   self.assertIn('evidence.orphan_cleanup_intent',events[-1]);return actual(directory,name)
+  with patch('evidence_policy.sql',side_effect=sql),patch('evidence_policy.remove_owned_file',side_effect=remove):result=purge_fenced(self.root)
+  self.assertEqual(result['orphan_files_removed'],2);self.assertFalse(orphan.exists());self.assertFalse(temporary.exists());self.assertTrue(foreign.exists())
 if __name__=='__main__':unittest.main()

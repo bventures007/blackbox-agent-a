@@ -3,9 +3,10 @@ import { readFile } from "node:fs/promises";
 import { chromium } from "@playwright/test";
 const base = process.env.BLACKBOX_API_URL!,
   runtime = process.env.TEST_RUNTIME_DIR!,
-  state = JSON.parse(
-    await readFile(runtime + "/evidence-policy-proof.json", "utf8"),
-  );
+  owner =
+    process.env.TEST_OWNER_KEY ??
+    JSON.parse(await readFile(runtime + "/evidence-policy-proof.json", "utf8"))
+      .s.owner;
 const browser = await chromium.launch({
   channel: "chrome",
   headless: true,
@@ -32,7 +33,7 @@ try {
     await page.goto(base);
     if (language === "de")
       await page.getByRole("button", { name: "Deutsch", exact: true }).click();
-    await page.locator("#key").fill(state.s.owner);
+    await page.locator("#key").fill(owner);
     await page.locator("#signin").click();
     await page.locator("#workspace").waitFor();
     if (language === "de") await page.locator(".mobile-menu").click();
@@ -77,6 +78,22 @@ try {
       )
       .waitFor();
     await panel.scrollIntoViewIfNeeded();
+    if (process.env.TEST_HOST_SCHEDULER === "1") {
+      await panel
+        .getByText(language === "de" ? "Geplant" : "Scheduled", { exact: true })
+        .waitFor();
+      assert.equal(
+        await panel
+          .getByText(
+            language === "de"
+              ? "Der Status der automatischen Bereinigung ist in dieser Laufzeit nicht verfügbar."
+              : "Automatic cleanup status is unavailable in this runtime.",
+            { exact: false },
+          )
+          .count(),
+        0,
+      );
+    }
     assert.ok(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,

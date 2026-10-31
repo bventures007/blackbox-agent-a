@@ -118,6 +118,8 @@ def purge_fenced(root):
  for directory in base.iterdir():
   if not re.fullmatch('[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}',directory.name):continue
   protected_directory(directory)
+  # Unrecognized tenant directories are never authority to delete their files.
+  if sql(root,"SELECT EXISTS(SELECT 1 FROM bb.workspaces WHERE tenant_id='"+directory.name+"');").strip()!=b't':continue
   import itertools
   files=iter(directory.iterdir())
   while batch:=list(itertools.islice(files,256)):
@@ -133,6 +135,10 @@ def purge_fenced(root):
    present=set(json.loads(sql(root,"SELECT coalesce(json_agg(evidence_id),'[]'::json) FROM bb.evidence WHERE tenant_id='"+directory.name+"' AND evidence_id IN ("+ids+");")))
    for name,evidence in candidates:
     if name.endswith('.tmp')or evidence not in present:
+     # Deterministic opaque audit identity makes retries idempotent. Commit this
+     # intent before unlink, including crash leftovers with no evidence row.
+     audit=str(uuid.uuid5(uuid.UUID(directory.name),'evidence.orphan_cleanup:'+name))
+     sql(root,"INSERT INTO bb.security_audit(tenant_id,audit_id,principal_id,action)VALUES('"+directory.name+"','"+audit+"','"+ZERO+"','evidence.orphan_cleanup_intent')ON CONFLICT(tenant_id,audit_id)DO NOTHING;")
      remove_owned_file(directory,name);orphans+=1
  return {'removed':removed,'already_absent':absent,'orphan_files_removed':orphans}
 

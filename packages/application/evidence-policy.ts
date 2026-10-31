@@ -4,6 +4,7 @@ import type { PoolClient } from "pg";
 import type { Principal } from "../auth/index.js";
 import { scoped } from "../database/index.js";
 import { SourceRequestError, auditSource } from "./sources.js";
+import { evidenceMaintenanceStatus } from "./evidence-control.js";
 
 export const evidenceClass = z.enum([
   "provider_response",
@@ -91,6 +92,7 @@ export async function restrictEvidence(p: Principal, id: string) {
 export async function evidencePolicyStatus(tenant: string) {
   return scoped(tenant, async (c) => ({
     default_days: 90,
+    maintenance: await evidenceMaintenanceStatus(tenant),
     policies: (
       await c.query(
         "SELECT policy_id,connection_id,evidence_class,days,reason,created_at FROM bb.evidence_policies ORDER BY created_at DESC,policy_id DESC LIMIT 100",

@@ -37,6 +37,24 @@ const copy = {
     copies:
       "Old immutable backups and external exports remain unchanged. A current authenticated ledger prevents silent revival on restore. Copies outside this installation cannot be guaranteed erased.",
     cleanup: "Physical removal runs through guarded host maintenance:",
+    automatic:
+      "While the backend is running, expired or restricted originals are checked hourly; abandoned temporary files are checked daily. Cleanup briefly pauses the application. Sleep or shutdown delays physical removal; access expires immediately.",
+    maintenance: "Automatic cleanup",
+    lastCheck: "Last check",
+    lastCleanup: "Last completed cleanup",
+    nextCheck: "Next check due",
+    inactive:
+      "The scheduler is not reporting a current heartbeat. Automatic cleanup cannot be confirmed; start the backend or inspect host status.",
+    unavailable:
+      "Automatic cleanup status is unavailable in this runtime. Use the host command for immediate removal.",
+    states: {
+      scheduled: "Scheduled",
+      checking: "Checking",
+      running: "Removing content",
+      failed: "Check failed; retry pending",
+      clock_anomaly: "Clock change requires attention",
+      maintenance_required: "Interrupted maintenance requires host recovery",
+    },
     history: "Latest 100 policy revisions",
     ceilings: "Stricter provider limits",
     names: [
@@ -71,6 +89,25 @@ const copy = {
     copies:
       "Alte unveränderliche Sicherungen und externe Exporte bleiben unverändert. Ein aktuelles authentifiziertes Sperrverzeichnis verhindert eine unbemerkte Freigabe nach Wiederherstellung. Die Löschung von Kopien außerhalb dieser Installation kann nicht garantiert werden.",
     cleanup: "Die physische Entfernung erfolgt über geschützte Host-Wartung:",
+    automatic:
+      "Bei laufendem Backend werden abgelaufene oder gesperrte Originale stündlich geprüft; verwaiste temporäre Dateien täglich. Die Bereinigung pausiert die Anwendung kurz. Ruhezustand oder Ausschalten verzögert die physische Entfernung; der Zugriff endet sofort mit Ablauf der Frist.",
+    maintenance: "Automatische Bereinigung",
+    lastCheck: "Letzte Prüfung",
+    lastCleanup: "Letzte abgeschlossene Bereinigung",
+    nextCheck: "Nächste Prüfung fällig",
+    inactive:
+      "Der Zeitplaner meldet kein aktuelles Lebenszeichen. Die automatische Bereinigung ist nicht bestätigt; starte das Backend oder prüfe den Host-Status.",
+    unavailable:
+      "Der Status der automatischen Bereinigung ist in dieser Laufzeit nicht verfügbar. Nutze den Host-Befehl für die sofortige Entfernung.",
+    states: {
+      scheduled: "Geplant",
+      checking: "Prüfung läuft",
+      running: "Inhalte werden entfernt",
+      failed: "Prüfung fehlgeschlagen; erneuter Versuch ausstehend",
+      clock_anomaly: "Uhrzeitänderung muss geprüft werden",
+      maintenance_required:
+        "Unterbrochene Wartung erfordert Wiederaufnahme am Host",
+    },
     history: "Letzte 100 Richtlinienänderungen",
     ceilings: "Strengere Anbietervorgaben",
     names: [
@@ -239,6 +276,34 @@ export function EvidencePolicy() {
             </p>
           ))}
         </div>
+      )}
+      <h3>{s.maintenance}</h3>
+      <p>{s.automatic}</p>
+      {remote.data?.maintenance?.state &&
+      remote.data.maintenance.state !== "unavailable" ? (
+        <div>
+          <p>
+            {s.states[remote.data.maintenance.state as keyof typeof s.states]}
+          </p>
+          {(!remote.data.maintenance.scheduler_alive ||
+            remote.data.maintenance.status_stale) && (
+            <p className="notice danger">{s.inactive}</p>
+          )}
+          <p>
+            {s.lastCheck}:{" "}
+            <DateText value={remote.data.maintenance.last_checked_at} />
+          </p>
+          <p>
+            {s.lastCleanup}:{" "}
+            <DateText value={remote.data.maintenance.last_completed} />
+          </p>
+          <p>
+            {s.nextCheck}:{" "}
+            <DateText value={remote.data.maintenance.next_check_at} />
+          </p>
+        </div>
+      ) : (
+        <p className="notice">{s.unavailable}</p>
       )}
       <p>{s.cleanup}</p>
       <pre>./blackbox evidence purge</pre>
