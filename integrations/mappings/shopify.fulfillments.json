@@ -17,7 +17,7 @@
   "coverage_rule": "Declared order-scoped exact cutoff only; no global or intermediate event-history claim. Preparation without milestones marks a physical handover gap. Separate tracking source required.",
   "retention": {
     "decision": "unresolved",
-    "basis": "No live store grant or merchant retention authorization is available. Synthetic fixtures only verified. Local evidence encryption and 90-day access expiry exist; complete purge/rotation/recovery retention operations remain open."
+    "basis": "No live store grant or merchant retention authorization is available. Synthetic evidence covers encrypted originals, monotone source/class retention, audited disposal, guarded older-backup reconciliation and interrupted key rotation. These local proofs do not establish provider permission, full operational acceptance or independent certification."
   },
   "fields": {
     "shipment_id": {
@@ -169,5 +169,6 @@
     "health_rules": "Existing account/grant/reconnect fencing and truthful per-capability check/new/processed/review state. No missing timestamp is silently upgraded to physical handover.",
     "history_expansion": "Append new wider plan; stable provider revision replay does not double count. New capability has its own independent incremental/reconciliation chain.",
     "data_handling": "Only minimal order header and fulfillment identities/counts/times/line links requested; no addresses/customer names. Individual encrypted evidence; retention/rotation operations not certified here."
-  }
+  },
+  "field_inventory": "docs/contracts/data-inventory.json"
 }

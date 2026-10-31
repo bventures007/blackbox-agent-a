@@ -15,7 +15,7 @@
   "coverage_rule": "Item-scoped declared point at fixed cutoff with all required quantity timestamps no later than cutoff; never a global completeness claim. Current quantity values plus independent identity scope. Exact business/effective point required; source limitations disclose non-atomic scan and unavailable historical openings. Invalid or declined item scope remains insufficient_data.",
   "retention": {
     "decision": "unresolved",
-    "basis": "No live store grant or merchant retention authorization is available. Synthetic fixtures only verified. Local evidence encryption and 90-day access expiry exist; complete purge/rotation/recovery retention operations remain open."
+    "basis": "No live store grant or merchant retention authorization is available. Synthetic evidence covers encrypted originals, monotone source/class retention, audited disposal, guarded older-backup reconciliation and interrupted key rotation. These local proofs do not establish provider permission, full operational acceptance or independent certification."
   },
   "fields": {
     "item_id": {
@@ -165,5 +165,6 @@
     "health_rules": "Per-page immutable account and inventory grant check, truthful successful-check/new-observation/reconciliation timestamps and unresolved-review health.",
     "history_expansion": "Append-only plan; adding the stock capability schedules independent polling/reconciliation. New jobs select the latest plan that includes their capability.",
     "data_handling": "No SKU, address, title or product description queried. Encrypted original evidence and minimal canonical fields; remaining required secret/retention operations are not certified by this mapping."
-  }
+  },
+  "field_inventory": "docs/contracts/data-inventory.json"
 }

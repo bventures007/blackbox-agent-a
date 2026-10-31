@@ -36,6 +36,7 @@
     "api": "tsx apps/api/main.ts",
     "worker": "tsx apps/worker/main.ts",
     "mcp": "tsx packages/mcp/main.ts",
-    "build:web": "vite build --config apps/web/vite.config.ts"
+    "build:web": "vite build --config apps/web/vite.config.ts",
+    "validate:inventory": "node --import tsx scripts/data-inventory.ts"
   }
 }

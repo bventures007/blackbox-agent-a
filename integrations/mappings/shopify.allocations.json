@@ -17,7 +17,7 @@
   "coverage_rule": "Bounded per-order accessible member cohort at an exact cutoff. Always incomplete for actual reservations and policy; no global population or event-history claim.",
   "retention": {
     "decision": "unresolved",
-    "basis": "No live store grant or merchant retention authorization is available. Synthetic fixtures only verified. Local evidence encryption and 90-day access expiry exist; complete purge/rotation/recovery retention operations remain open."
+    "basis": "No live store grant or merchant retention authorization is available. Synthetic evidence covers encrypted originals, monotone source/class retention, audited disposal, guarded older-backup reconciliation and interrupted key rotation. These local proofs do not establish provider permission, full operational acceptance or independent certification."
   },
   "fields": {
     "allocation_id": {
@@ -155,5 +155,6 @@
     "health_rules": "Per-page grant category validation, fenced credential revision and unresolved review keep health honest.",
     "history_expansion": "New wider immutable plan; stable revisions replay idempotently; independent incremental/reconciliation chain.",
     "data_handling": "Only order/group/line/item/location identifiers, counts, status and timestamps; no names/addresses. Encrypted retained input and original-plan retry; full retention/rotation certification remains open."
-  }
+  },
+  "field_inventory": "docs/contracts/data-inventory.json"
 }
