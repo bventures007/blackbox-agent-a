@@ -1,3 +1,4 @@
+import { localApiRequest } from "../transport/local-api.js";
 import { intents } from "../contracts/questions.js";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -104,7 +105,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       content: [{ type: "text", text: "unsupported_tool" }],
     };
   try {
-    const r = await fetch(`${api}/v1/tools/${req.params.name}`, {
+    const r = await localApiRequest(api, `/v1/tools/${req.params.name}`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

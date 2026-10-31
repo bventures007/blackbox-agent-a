@@ -1,3 +1,4 @@
+import { localApiRequest } from "../packages/transport/local-api.js";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
@@ -15,7 +16,7 @@ const headers = {
   "content-type": "application/json",
 };
 async function call(key: string, tool: string, body: unknown) {
-  const response = await fetch(`${base}/v1/tools/${tool}`, {
+  const response = await localApiRequest(base, `/v1/tools/${tool}`, {
     method: "POST",
     headers: { ...headers, authorization: `Bearer ${key}` },
     body: JSON.stringify(body),
@@ -126,11 +127,14 @@ try {
       assert.equal(r.result.payment_status, "paid");
       states.push(r);
     }
-    await fetch(`http://${process.env.FIXTURE_HOST}/revision`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: '{"revision":2}',
-    });
+    await fetch(
+      `http://${process.env.FIXTURE_HOST ?? "fixture:8082"}/revision`,
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: '{"revision":2}',
+      },
+    );
     const c = await seed("Synthetic refund and missing payment");
     const edgeStates = [];
     for (const entity of c.entities) {
@@ -155,11 +159,14 @@ try {
       assert.deepEqual(protocol.result, state);
       edgeStates.push(result);
     }
-    await fetch(`http://${process.env.FIXTURE_HOST}/revision`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: '{"revision":0}',
-    });
+    await fetch(
+      `http://${process.env.FIXTURE_HOST ?? "fixture:8082"}/revision`,
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: '{"revision":0}',
+      },
+    );
     const before = Number(
       (
         await admin.query("SELECT committed FROM bb.heads WHERE tenant_id=$1", [
@@ -256,7 +263,7 @@ try {
       "unavailable",
     );
     assert.equal((await call(a.owner, "list_journal_entries", {})).code, 401);
-    const noauth = await fetch(`${base}/v1/status`, { headers });
+    const noauth = await localApiRequest(base, "/v1/status", { headers });
     assert.equal(noauth.status, 401);
     assert.equal(
       await new Promise<number>((resolve, reject) => {
