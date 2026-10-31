@@ -99,3 +99,6 @@ Acceptance distinguishes:
 - Extensibility: an additional adapter and question can be added without redesigning the core.
 
 Before the first customer deployment, an experienced reviewer should independently examine authentication, tenant boundaries, money/quantity logic, key management and recovery. Tests demonstrate specific properties; they do not prove the absence of every defect.
+
+10. Historical import and visible readiness
+The binding contract is specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md. Start with 30 days plus disclosed accessible older open/related items, offer explicit date choices and later history expansion, and collect new events concurrently. Importing current historical snapshots does not reconstruct missing transitions. Persist actual recorded/effective times, opening-state semantics and scoped coverage. Onboarding, central Sources/details, answers and MCP share one authorized health/readiness service. Last successful check differs from last new record; received, committed and query-ready are separate milestones. Exact percentages require known scoped totals. Import dates, analysis filters, bounded RAM and retention remain independent.

@@ -10,6 +10,8 @@ This is the central work list. Planned support is not a working connection. An a
 
 [How to use and update this register](integrations/README.md) · [Append-only work history](integrations/history.jsonl) · [Machine-readable plan](integrations/register.json)
 
+[Historical import and data readiness contract](specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md): date selection, older open/related items, opening state, truthful progress, source health and per-answer readiness. Every capability must provide its own mapping and test evidence. This development register is not a tenant runtime health dashboard.
+
 The five tracks are Source, Fact, Commitment, Movement and Reservation. They are logical journal tracks; physical SQL tables follow the journal contract. Each event uses only the applicable tracks.
 
 ## Source overview
@@ -54,14 +56,14 @@ Track initials: **S** Source · **F** Fact · **C** Commitment · **M** Movement
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [shopify.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -78,6 +80,21 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | shopify.receipts | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | shopify.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| shopify.orders | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify.stock | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify.allocations | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify.fulfillments | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify.payments | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify.returns | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify.receipts | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify.refunds | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -90,6 +107,14 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify.returns / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify.receipts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify.orders / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify.stock / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify.allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify.fulfillments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify.payments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify.returns / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify.receipts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -104,12 +129,12 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [shopify_payments.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify_payments.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify_payments.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify_payments.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify_payments.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopify_payments.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopify_payments.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify_payments.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify_payments.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify_payments.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify_payments.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopify_payments.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -124,6 +149,19 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | shopify_payments.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | shopify_payments.disputes | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| shopify_payments.provider_ledger | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify_payments.positions | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify_payments.payouts | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify_payments.holds | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify_payments.refunds | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopify_payments.disputes | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -134,6 +172,12 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify_payments.holds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify_payments.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopify_payments.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify_payments.provider_ledger / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify_payments.positions / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify_payments.payouts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify_payments.holds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify_payments.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopify_payments.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -148,9 +192,9 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [easybill.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [easybill.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [easybill.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [easybill.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [easybill.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [easybill.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -162,6 +206,16 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | easybill.invoice_dispatch | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | easybill.payment_allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| easybill.invoices | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| easybill.invoice_dispatch | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| easybill.payment_allocations | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -169,6 +223,9 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | easybill.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | easybill.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | easybill.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | easybill.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | easybill.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | easybill.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -183,7 +240,7 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [dhl.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [dhl.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -193,11 +250,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | dhl.tracking | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| dhl.tracking | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | dhl.tracking / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | dhl.tracking / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -212,7 +278,7 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [bank_csv.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [bank_csv.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -222,11 +288,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | bank_csv.bank | unverified — Verify authenticated file import, deduplication and explicit statement coverage. | unverified — Verify authenticated file import, deduplication and explicit statement coverage. | unverified — Verify authenticated file import, deduplication and explicit statement coverage. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| bank_csv.bank | unverified — Verify statement period/coverage, explicit opening balances where supplied, repeat import and later history expansion, durable record counts and query readiness; file import does not certify later bank activity. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | bank_csv.bank / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | bank_csv.bank / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -241,31 +316,31 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [generic.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [generic.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [generic.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [generic.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -299,6 +374,38 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | generic.disputes | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
 | generic.identity | unverified — Verify signed local/reachable-producer submission; no unreachable remote callback. | unverified — Verify signed public gateway submission plus outbound consumption and local import. | unverified — Verify signed public backend submission and scoped producer credentials. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| generic.orders | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.stock | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.allocations | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.supply | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.promises | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.fulfillments | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.tracking | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.communications | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.invoices | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.invoice_dispatch | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.payments | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.payment_allocations | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.policy | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.cases | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.provider_ledger | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.positions | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.payouts | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.bank | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.holds | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.returns | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.receipts | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.entitlements | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.refunds | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.disputes | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+| generic.identity | unverified — Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -328,6 +435,31 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | generic.identity / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.orders / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.stock / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.supply / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.promises / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.fulfillments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.tracking / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.communications / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.payments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.policy / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.cases / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.provider_ledger / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.positions / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.payouts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.bank / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.holds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.returns / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.receipts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.entitlements / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | generic.identity / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -342,31 +474,31 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [replay.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [replay.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [replay.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [replay.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -400,6 +532,38 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | replay.disputes | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
 | replay.identity | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| replay.orders | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.stock | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.allocations | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.supply | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.promises | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.fulfillments | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.tracking | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.communications | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.invoices | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.invoice_dispatch | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.payments | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.payment_allocations | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.policy | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.cases | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.provider_ledger | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.positions | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.payouts | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.bank | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.holds | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.returns | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.receipts | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.entitlements | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.refunds | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.disputes | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| replay.identity | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -429,6 +593,31 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | replay.identity / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.orders / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.stock / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.supply / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.promises / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.fulfillments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.tracking / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.communications / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.payments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.policy / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.cases / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.provider_ledger / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.positions / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.payouts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.bank / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.holds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.returns / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.receipts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.entitlements / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | replay.identity / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -443,7 +632,7 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [policy.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [policy.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -453,11 +642,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | policy.policy | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| policy.policy | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | policy.policy / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | policy.policy / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -474,14 +672,14 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [shopware.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopware.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopware.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopware.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopware.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopware.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopware.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [shopware.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [shopware.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopware.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopware.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopware.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopware.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopware.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopware.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [shopware.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -498,6 +696,21 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | shopware.receipts | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | shopware.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| shopware.orders | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopware.stock | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopware.allocations | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopware.fulfillments | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopware.payments | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopware.returns | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopware.receipts | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| shopware.refunds | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -510,6 +723,14 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopware.returns / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopware.receipts / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | shopware.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopware.orders / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopware.stock / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopware.allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopware.fulfillments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopware.payments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopware.returns / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopware.receipts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | shopware.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -526,12 +747,12 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [woocommerce.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [woocommerce.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [woocommerce.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [woocommerce.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [woocommerce.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [woocommerce.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [woocommerce.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [woocommerce.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [woocommerce.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [woocommerce.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [woocommerce.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [woocommerce.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -546,6 +767,19 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | woocommerce.returns | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | woocommerce.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| woocommerce.orders | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| woocommerce.stock | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| woocommerce.fulfillments | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| woocommerce.payments | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| woocommerce.returns | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| woocommerce.refunds | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -556,6 +790,12 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | woocommerce.payments / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | woocommerce.returns / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | woocommerce.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | woocommerce.orders / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | woocommerce.stock / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | woocommerce.fulfillments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | woocommerce.payments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | woocommerce.returns / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | woocommerce.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -572,9 +812,9 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [email.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [email.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [email.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [email.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [email.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [email.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -586,6 +826,16 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | email.communications | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | email.cases | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| email.promises | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| email.communications | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| email.cases | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -593,6 +843,9 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | email.promises / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | email.communications / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | email.cases / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | email.promises / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | email.communications / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | email.cases / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -609,9 +862,9 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [lexware.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [lexware.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [lexware.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [lexware.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [lexware.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [lexware.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -623,6 +876,16 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | lexware.invoice_dispatch | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | lexware.payment_allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| lexware.invoices | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| lexware.invoice_dispatch | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| lexware.payment_allocations | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -630,6 +893,9 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | lexware.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | lexware.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | lexware.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | lexware.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | lexware.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | lexware.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -646,9 +912,9 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [sevdesk.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [sevdesk.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [sevdesk.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [sevdesk.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [sevdesk.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [sevdesk.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -660,6 +926,16 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | sevdesk.invoice_dispatch | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | sevdesk.payment_allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| sevdesk.invoices | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| sevdesk.invoice_dispatch | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| sevdesk.payment_allocations | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -667,6 +943,9 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sevdesk.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sevdesk.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sevdesk.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sevdesk.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sevdesk.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sevdesk.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -683,11 +962,11 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [billbee.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [billbee.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [billbee.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [billbee.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [billbee.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [billbee.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [billbee.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [billbee.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [billbee.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [billbee.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -701,6 +980,18 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | billbee.invoice_dispatch | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | billbee.payment_allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| billbee.orders | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| billbee.fulfillments | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| billbee.invoices | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| billbee.invoice_dispatch | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| billbee.payment_allocations | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -710,6 +1001,11 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | billbee.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | billbee.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | billbee.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | billbee.orders / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | billbee.fulfillments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | billbee.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | billbee.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | billbee.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -726,9 +1022,9 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [sufio.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [sufio.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [sufio.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [sufio.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [sufio.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [sufio.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -740,6 +1036,16 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | sufio.invoice_dispatch | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | sufio.payment_allocations | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| sufio.invoices | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| sufio.invoice_dispatch | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| sufio.payment_allocations | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -747,6 +1053,9 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sufio.invoices / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sufio.invoice_dispatch / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | sufio.payment_allocations / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sufio.invoices / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sufio.invoice_dispatch / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | sufio.payment_allocations / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -763,13 +1072,13 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [stripe.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [stripe.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [stripe.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [stripe.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [stripe.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [stripe.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [stripe.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [stripe.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [stripe.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [stripe.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [stripe.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [stripe.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [stripe.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [stripe.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -785,6 +1094,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | stripe.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | stripe.disputes | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| stripe.payments | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| stripe.provider_ledger | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| stripe.positions | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| stripe.payouts | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| stripe.holds | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| stripe.refunds | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| stripe.disputes | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -796,6 +1119,13 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | stripe.holds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | stripe.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | stripe.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | stripe.payments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | stripe.provider_ledger / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | stripe.positions / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | stripe.payouts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | stripe.holds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | stripe.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | stripe.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -812,13 +1142,13 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [paypal.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [paypal.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [paypal.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [paypal.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [paypal.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [paypal.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [paypal.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [paypal.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [paypal.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [paypal.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [paypal.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [paypal.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [paypal.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [paypal.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -834,6 +1164,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | paypal.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | paypal.disputes | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| paypal.payments | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| paypal.provider_ledger | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| paypal.positions | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| paypal.payouts | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| paypal.holds | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| paypal.refunds | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| paypal.disputes | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -845,6 +1189,13 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | paypal.holds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | paypal.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | paypal.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | paypal.payments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | paypal.provider_ledger / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | paypal.positions / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | paypal.payouts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | paypal.holds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | paypal.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | paypal.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -861,13 +1212,13 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [mollie.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [mollie.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [mollie.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [mollie.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [mollie.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [mollie.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
-| [mollie.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [mollie.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [mollie.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [mollie.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [mollie.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [mollie.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [mollie.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
+| [mollie.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -883,6 +1234,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | mollie.refunds | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 | mollie.disputes | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| mollie.payments | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| mollie.provider_ledger | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| mollie.positions | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| mollie.payouts | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| mollie.holds | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| mollie.refunds | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+| mollie.disputes | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
@@ -894,6 +1259,13 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | mollie.holds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | mollie.refunds / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | mollie.disputes / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | mollie.payments / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | mollie.provider_ledger / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | mollie.positions / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | mollie.payouts / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | mollie.holds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | mollie.refunds / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | mollie.disputes / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -910,7 +1282,7 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [dpd.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [dpd.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -920,11 +1292,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | dpd.tracking | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| dpd.tracking | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | dpd.tracking / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | dpd.tracking / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -941,7 +1322,7 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [ups.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [ups.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -951,11 +1332,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | ups.tracking | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| ups.tracking | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | ups.tracking / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | ups.tracking / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -972,7 +1362,7 @@ All rows below are desired, unreviewed capabilities. Confirm actual provider sup
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [klaviyo.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T11:54:09Z |
+| [klaviyo.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not verified | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -982,11 +1372,20 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | --- | --- | --- | --- |
 | klaviyo.communications | unverified — Investigate polling/import coverage, history limits and gaps without public callbacks. | unverified — Investigate gateway callback availability and polling/reconciliation per capability. | unverified — Investigate direct public callbacks and polling/reconciliation per capability. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| klaviyo.communications | unverified — Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | klaviyo.communications / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | klaviyo.communications / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 
@@ -1001,8 +1400,8 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [runtime.coverage](#data-coverage) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
-| [runtime.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T11:54:09Z |
+| [runtime.coverage](#data-coverage) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
+| [runtime.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:02:17Z |
 
 #### Synchronization by capability
 
@@ -1013,12 +1412,23 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | runtime.coverage | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
 | runtime.identity | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. | unverified — Verify scoped internal production and recovery in this profile. |
 
+<details><summary>Historical import and data readiness obligations</summary>
+
+| Capability | Investigation / actual mapping |
+| --- | --- |
+| runtime.coverage | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+| runtime.identity | unverified — Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization. |
+
+</details>
+
 <details><summary>Who did what, when, and with which evidence</summary>
 
 | Time / actor | Capability / action | What changed / test | Evidence / commit |
 | --- | --- | --- | --- |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | runtime.coverage / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
 | 2026-10-31T11:54:09Z / Codex assistant (repository preparation) | runtime.identity / plan_changed |   Add per-capability investigation and verification obligations for standalone, gateway and public-backend synchronization. No implementation or provider support is asserted. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | runtime.coverage / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
+| 2026-10-31T12:02:17Z / Codex assistant (repository preparation) | runtime.identity / plan_changed |   Add historical-import, progress, ongoing-health and answer-readiness mapping/test obligations. This records specification preparation only; no implementation, assignment or provider verification. | —;  |
 
 </details>
 

@@ -1,5 +1,5 @@
 {
-  "version": "1.7",
+  "version": "1.8",
   "date": "2026-10-31",
   "note": "Specification for tests to be implemented; not an already executable or executed suite. A reviewer must add independent variations.",
   "status_enum": [
@@ -555,6 +555,78 @@
       "release_gate": true,
       "check": "Move a populated workspace between local and server profiles using the documented dry-run/export/import/fenced-cutover procedure; inject interrupted export/import, concurrent old writer, pending gateway inputs and failure before/after resumed target writes.",
       "expected": "Exactly one canonical writer remains. Tenant-scoped identity, journal/evidence counts/hashes/cutoffs and Rust state verify; keys migrate securely; callbacks/routing and cursors switch with reconciliation. No cross-tenant data or duplicate effects. Recovery never reactivates a stale writable copy after newer target commits."
+    },
+    {
+      "id": "IMPORT-01",
+      "category": "onboarding",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Connect sources with different history/grant restrictions. Select the default last-30-days plus open/related-record plan, this year, last 12 months, a custom start and from-now-only. Exercise timezone/DST/end-of-month boundaries, later source connection and explicit overrides.",
+      "expected": "Show and persist exact resolved UTC boundaries, timezone, cutoff, optional opening-state scope and selected permissions/limitations. A later source inherits the saved workspace start as a proposal. No silent shorter successful import, moving daily start, undisclosed older-record retrieval or forced extended-history authorization. English/German dates and explanations agree."
+    },
+    {
+      "id": "IMPORT-02",
+      "category": "correctness",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Import a recent refund of an older closed order, an old open invoice, an unsettled payout and an old active reservation; vary availability of linked captures, opening stock/balances and historical access. Include a current snapshot with no original transitions.",
+      "expected": "Retrieve only disclosed accessible open/dependency context with bounded traversal. Missing history or opening state remains partial/unknown, not zero. Snapshot/opening balances are not new cash/stock movements; changing the history window preserves conservation and current state. No fabricated intermediate events or backdated system knowledge."
+    },
+    {
+      "id": "IMPORT-03",
+      "category": "durability",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Run initial import with exact, unknown and revised totals while live events arrive. Retry duplicate pages, fail/quarantine records, pause/cancel/resume history, refresh clients and restart processes at fetch/commit/projection boundaries.",
+      "expected": "Stable logical-record cohorts/counters survive restart without counting attempts or journal entries as extra orders. Named-stage percentages require exact scoped totals; unknown totals show counts/phase and revised scope is visible. Loaded, committed and query-ready are distinct; failures/pending work prevent false full readiness. Historical pause/cancel preserves committed data and does not silently stop live collection."
+    },
+    {
+      "id": "IMPORT-04",
+      "category": "queries",
+      "stage": "core",
+      "release_gate": true,
+      "check": "During backfill, make order projections ready while payment and bank imports are incomplete, leave an unrelated optional source disconnected and query order-only, payment-dependent, full-money and zero-result intents through UI/API/MCP.",
+      "expected": "Readiness follows actual required fields/links/coverage/cutoffs, not all source cards or a loaded count. Supported questions work progressively; partial/blocked questions identify missing dependencies and never fabricate zero balances or omit unmatched records. Optional unrelated sources do not block supported results. Valid empty results require adequate coverage."
+    },
+    {
+      "id": "IMPORT-05",
+      "category": "durability",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Extend an existing 30-day import to 12 months with overlaps, duplicate deliveries, new live updates, interrupted/resumed jobs and older evidence arriving after newer observations. Query current and historical-as-known cutoffs.",
+      "expected": "Versioned/audited expansion preserves prior coverage, stable IDs and journal append-only rules. No duplicate monetary/quantity effects, changed recorded_at or regressed current state. Reevaluate affected links/projections/readiness and keep late-discovered evidence distinct from what was previously known."
+    },
+    {
+      "id": "IMPORT-06",
+      "category": "product",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Change dashboard analysis windows and RAM limits, select strict from-now-only, decline opening/context import, narrow a collection scope where supported and inspect retention/redaction behavior.",
+      "expected": "Import selection, view filter, bounded RAM working set and retention remain separate. Display changes never delete journal data or silently alter source collection. Active old obligations remain handled within authorized scope; cold history remains addressable. Strict new-only scope is honored and its dependent answers show gaps; later expansion is explicit. Provider retention/use restrictions remain enforced."
+    },
+    {
+      "id": "HEALTH-01",
+      "category": "freshness",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Exercise a quiet source with complete empty polling, a partially failed poll, a permission-only credential check, a new webhook, delayed reconciliation, stopped status updates, manual CSV and an internal producer.",
+      "expected": "Last successful scoped sync/check and last new record/receipt remain distinct. Empty successful checks can be current; failures and credential checks cannot claim full sync. A webhook alone does not prove completeness. Per-capability schedules/thresholds, nullable next checks with reasons, stale observation time, gaps and actual recovery actions are explicit; no fabricated timestamps or universal green state."
+    },
+    {
+      "id": "HEALTH-02",
+      "category": "experience",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Use the onboarding progress view, central Sources overview, source details/import history and answer data-status detail in English/German, narrow viewports and keyboard navigation. Refresh/reconnect clients and attempt cross-tenant or read-only import controls.",
+      "expected": "All surfaces use shared authorized server state, preserve the supplied design and expose requested/available periods, meaningful counts, current phase, last completed import with its outcome, last/next checks, received/committed/applied milestones and source limitations. Status is accessible beyond color; exact timestamps and actionable errors are available. Safe retries/history expansion are role-bound; no data/credential leak or false reset on refresh. Desktop shares this contract when delivered."
+    },
+    {
+      "id": "HEALTH-03",
+      "category": "consistency",
+      "stage": "core",
+      "release_gate": true,
+      "check": "Read an answer at a fixed journal/applied cutoff while history imports and source health update concurrently; keep orders current while payments lag, provide disjoint historical coverage intervals, and skew provider timestamps used for delivery-latency estimates.",
+      "expected": "UI/API/MCP report the answer scope/cutoffs and per-capability coverage/freshness without claiming newer applied data or filling historical holes. Requested range, verified intervals and historical snapshot-only limitations remain distinct from current sync. Latency estimates identify their sample/window/clock limits; configured polling cadence and gateway receipt are not external-freshness guarantees."
     }
   ]
 }

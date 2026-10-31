@@ -739,6 +739,105 @@
       "observed_result": null,
       "evidence_paths": [],
       "blocker": null
+    },
+    {
+      "id": "IMPORT-01",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "IMPORT-02",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "IMPORT-03",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "IMPORT-04",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "IMPORT-05",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "IMPORT-06",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "HEALTH-01",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "HEALTH-02",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
+    },
+    {
+      "id": "HEALTH-03",
+      "stage": "core",
+      "status": "not_started",
+      "tested_commit": null,
+      "command": null,
+      "environment": null,
+      "observed_result": null,
+      "evidence_paths": [],
+      "blocker": null
     }
   ]
 }

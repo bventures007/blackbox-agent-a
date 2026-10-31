@@ -45,5 +45,10 @@
       "specs/WEBHOOK-GATEWAY.md"
     ],
     "nature": "Binding requirements, not implemented clients, gateway or provider connectivity."
+  },
+  "historical_import_and_readiness": {
+    "specification": "specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md",
+    "acceptance": "IMPORT-01 through IMPORT-06 and HEALTH-01 through HEALTH-03",
+    "nature": "Binding first-connection, historical coverage and ongoing health requirements; not executed product proof."
   }
 }

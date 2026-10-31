@@ -30,14 +30,16 @@ The default scope is the full BUILD-PROMPT-EN.txt, milestones M0–M5. Preserve 
 
 Read specs/WEB-DESKTOP-AND-DEPLOYMENT.md, specs/SOURCE-SYNCHRONIZATION.md and specs/WEBHOOK-GATEWAY.md. Full web management is mandatory; desktop is an additional required client. The optional-use gateway is part of M5 implementation, not automatically provisioned hosting. Every capability must declare and test supported/partial/unsupported connectivity modes.
 
+Read specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md before implementing source setup and answers. Its import choices/progress, central source-health views and per-answer readiness are core requirements at the comparison checkpoint; provider-specific live proof still belongs to M4 and native/gateway delivery to M5.
+
 ## Milestones and visible results
 
 | Milestone | Concrete result |
 | --- | --- |
 | M0 | Written product/architecture contract, ADRs, threat model and acceptance mapping; implementation begins |
-| M1 | Real auth, two isolated tenants, PostgreSQL, durable ingestion, workers, Rust engine vertical slice and the core UI |
+| M1 | Real auth, two isolated tenants, PostgreSQL, durable ingestion, workers, Rust engine vertical slice, import-plan/progress setup and central source-health UI |
 | M2 | Full Golden Scenario through Rust reducers, bounded RAM state, snapshots/restarts and English/German UI and landing page |
-| M3 | Real scoped MCP with full authorized journal/history traversal, bounded structured queries, all 24 query contracts, evidence links and explicit missing-data results |
+| M3 | Real scoped MCP with full authorized journal/history traversal, bounded structured queries, all 24 query contracts, evidence links, per-answer readiness/freshness and explicit missing-data results |
 | Comparison checkpoint | M0–M3 plus a usable local installer, reproducible tests and a recorded commit |
 | M4 | Shopify/Shopify Payments, easybill and DHL adapter work, tests and honest live-access status |
 | M5 | Mac local/remote desktop client, optional-use gateway, release profiles, fenced workspace migration, recovery/upgrade/security, 10m benchmark evidence and a separate 100m capacity experiment |

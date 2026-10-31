@@ -30,7 +30,7 @@ The binding contract is specs/JOURNAL-AND-MCP.md. Runtime roles must be unable t
 
 ## Performance clarification
 
-Implement the Rust business/query engine with bounded hot state and durable journal/checkpoint recovery as specified in specs/PERFORMANCE-ARCHITECTURE.md. The benchmark contract defines 250k, 10m and 100m profiles with explicit scopes. No performance or memory target has been measured. Maintain reports/performance.json. The full acceptance register now contains 67 cases.
+Implement the Rust business/query engine with bounded hot state and durable journal/checkpoint recovery as specified in specs/PERFORMANCE-ARCHITECTURE.md. The benchmark contract defines 250k, 10m and 100m profiles with explicit scopes. No performance or memory target has been measured. Maintain reports/performance.json. The full acceptance register now contains 76 cases.
 
 ## Question-data audit
 
@@ -58,6 +58,14 @@ Record: current task; files/commit; actual start/test commands; observed results
 
 ## Web/desktop and synchronization update (baseline v8)
 
-The binding contract now includes complete browser management, a required additional Mac desktop client, one backend journal per workspace, three explicit connectivity modes, an optional-use public gateway, resumable source synchronization, truthful receipt/freshness states and fenced workspace migration. The full acceptance contract contains 67 cases (14 added); every product case remains not_started. Native packaging and gateway work belong to M5 and do not silently expand the earlier comparison checkpoint.
+The binding contract now includes complete browser management, a required additional Mac desktop client, one backend journal per workspace, three explicit connectivity modes, an optional-use public gateway, resumable source synchronization, truthful receipt/freshness states and fenced workspace migration. At baseline v8, the acceptance contract contained 67 cases (14 added); every product case remained not_started. Native packaging and gateway work belong to M5 and do not silently expand the earlier comparison checkpoint.
 
 All 127 integration rows now carry mode investigation obligations, with append-only preparation records. Implemented mappings and tests must account for all three modes; no provider support or live connectivity has been certified. The generated human register exposes this distinction. Public hosting/DNS, provider access and real Mac/distribution verification remain explicit external prerequisites. Preparation checks passed: question-catalogue validator; integration-register check against the full baseline-v7 commit (including preserved history and generated view); 30 synthetic register-control regression tests; JSON/reference/count checks and git diff --check. These checks validate repository preparation, not product behavior. The --release register gate remains intentionally blocked because no connector capability has been implemented.
+
+## Historical import and data readiness (baseline v9)
+
+The binding contract now specifies 30 days plus accessible older open/related records by default, editable fixed start dates, explicit from-now-only scope, opening snapshots, historical expansion and concurrent ongoing collection. Onboarding progress, central Sources/details and every UI/MCP answer share scoped data readiness and freshness. Requested coverage, actual verified history, loaded/committed/query-ready counts, last successful sync and last new record remain distinct. Exact percentages require a known scoped total. View filters, bounded RAM and retention do not alter the canonical journal.
+
+Nine core IMPORT/HEALTH acceptance cases were added (76 total); all product cases remain not_started. All 127 capability rows have new import/readiness investigation obligations and preserved append-only preparation history. Their eventual committed mappings require nine concrete rule explanations and applicable observed test evidence. No product importer, runtime health screen or provider account was implemented by preparing these specifications.
+
+Preparation verification for v9: `python3 scripts/validate-question-catalogue.py`, `python3 scripts/integration-register.py check --base 8c7550afb7f0fd3d51dee2befdffdccb5ea46c2d`, 33 synthetic register-control tests, JSON/acceptance/hash consistency checks and `git diff --check`. These verify specification/register preparation only; all product and live-provider acceptance remains unexecuted.

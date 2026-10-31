@@ -91,3 +91,7 @@ These are core release gates. Record actual commands, tested commit, environment
 ## Deployment and transport boundaries
 
 Each workspace has one canonical writable backend journal. Browser and desktop use the same authorized services. An optional gateway queues source deliveries outside that journal; its mutable queue is not a sixth business track. Gateway transport receipt is distinct from backend journal commit and Rust applied cursor. Expose source gaps/backlog independently of engine consistency in UI/MCP. Follow SOURCE-SYNCHRONIZATION.md and WEBHOOK-GATEWAY.md; a gateway does not publish a local MCP server to cloud clients.
+
+## Import scope and answer readiness
+
+Follow IMPORT-ONBOARDING-AND-DATA-READINESS.md for historical imports and expansion: append when actually learned, preserve supplied effective time, do not backdate recorded time, fabricate transitions or count opening snapshots as new movements. Every MCP answer exposes the same scoped readiness/coverage/freshness and missing dependencies as the UI, with its actual committed/applied cutoffs. Import window, view preference, RAM policy and retention are independent; changing a dashboard window never deletes journal entries.

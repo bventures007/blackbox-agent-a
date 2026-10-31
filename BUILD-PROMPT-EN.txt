@@ -1,5 +1,5 @@
 BLACKBOX — INDEPENDENT IMPLEMENTATION BRIEF
-Version 1.7 · 2026-10-31 · Product owner: the person providing this package
+Version 1.8 · 2026-10-31 · Product owner: the person providing this package
 
 GO. Build the product described here. This is an implementation assignment, not a request for another mockup or a plan-only response. Work in the assigned repository. Use the supplied local prototype as the visual and interaction reference. Continue through implementation, verification and reproducible packaging. Do not claim external validation that you could not perform.
 
@@ -120,6 +120,10 @@ INTEGRATIONS.md is the mandatory central human-readable implementation register.
 
 Implement a connector contract covering configuration schema, supported capabilities, credential test, initial backfill, incremental cursor/checkpoint, webhook verification, normalization, reconciliation, rate limits, retries, health and disconnect/revocation. Declare actual data coverage and provider API revisions.
 
+The binding first-connection and data-readiness contract is specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md. Default to the last 30 days plus disclosed accessible older open items and required related records; allow this year, last 12 months, a custom date and explicit from-now-only. Resolve/persist the exact plan and source limitations, capture live changes concurrently, prioritize useful current/open data and allow later history expansion. Keep opening snapshots distinct from movements and preserve actual recorded time.
+
+Show durable phase/counters, exact scoped percentages only when totals are known, and separate loaded/committed/query-ready records. Reuse the same authorized coverage/readiness service for onboarding, the central Sources overview, source details, every answer and MCP. Separate last successful scoped synchronization from last new event, historical coverage from current freshness, and gateway receipt from journal/Rust state. A quiet source can be current; incomplete dependent data cannot produce a false complete answer. Import window, view filters, RAM working set and retention are separate. Implement all IMPORT/HEALTH acceptance cases with provider-shaped core fixtures; no real credentials are needed for those core proofs.
+
 For core direct ingestion, commit the verified canonical Source observation and processing outbox before acknowledging journal receipt. The separately deployed gateway may acknowledge provider transport receipt after its durable queue commit; that is gateway_received, not journal_committed or engine_applied. Follow specs/WEBHOOK-GATEWAY.md for typed receipts, local acknowledgement after commit, retention and crash tests. Use transactions/outbox so a crash cannot acknowledge an event and lose its processing job. Assume jobs and deliveries may execute more than once. Enforce deduplication and side-effect idempotency in persistent storage; no blanket end-to-end exactly-once claim. Support retries with backoff, dead-letter inspection, safe retry, pagination, resumable backfill and catch-up after downtime. Reconciliation is mandatory; webhooks alone are insufficient.
 
 Build in this order:
@@ -147,9 +151,9 @@ An external agent may summarize returned facts or draft a response. Core balance
 
 8. DELIVERY MILESTONES AND DONE GATES
 M0 — Contract: map prototype behavior, record ADRs/threat model, define schema and acceptance mapping. Then implement; do not wait for approval of routine choices.
-M1 — Foundation: real authentication, two tenants, authorization, database/migrations, durable ingestion, resumable synchronization state, jobs, Rust engine vertical slice, source setup, recorder and evidence in the shared browser UI.
+M1 — Foundation: real authentication, two tenants, authorization, database/migrations, durable ingestion, resumable synchronization state, jobs, Rust engine vertical slice, explicit import-plan onboarding/progress, central source health, recorder and evidence in the shared browser UI.
 M2 — Golden path: the entire synthetic Order-to-Cash cycle through the canonical Rust reducers, bounded RAM state, durable checkpoints, restart/replay, late/duplicate events, conflicting evidence and correct query results. English-default UI and landing page with complete German localization.
-M3 — Agent access: real scoped MCP, complete authorized journal/history/schema read access, bounded structured queries, shared query services, all 24 question contracts, evidence and missing-data behavior.
+M3 — Agent access: real scoped MCP, complete authorized journal/history/schema read access, bounded structured queries, shared query services, all 24 question contracts, per-answer import/readiness/freshness, evidence and missing-data behavior.
 M4 — Real sources: Shopify/Shopify Payments, easybill and DHL adapters, backfill/polling/reconciliation and supported direct callback setup, with mode/coverage and external-verification status per capability.
 M5 — Install and operate: release images, required Mac desktop local/remote experience, optional-use public webhook gateway, all connectivity/deployment profiles, verified workspace migration, backup/restore, upgrade rehearsal, observability, isolation/security and performance evidence. Complete the WEB/DESKTOP/SYNC/GATEWAY/DEPLOY acceptance gates.
 

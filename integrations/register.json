@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "created_at": "2026-10-31T11:30:02Z",
   "prepared_by": {
     "id": "codex-seed-preparation",
@@ -36,7 +36,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify.stock",
@@ -50,7 +51,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify.allocations",
@@ -64,7 +66,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify.fulfillments",
@@ -78,7 +81,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify.payments",
@@ -92,7 +96,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify.returns",
@@ -106,7 +111,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify.receipts",
@@ -120,7 +126,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify.refunds",
@@ -134,7 +141,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify_payments.provider_ledger",
@@ -148,7 +156,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify_payments.positions",
@@ -162,7 +171,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify_payments.payouts",
@@ -176,7 +186,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify_payments.holds",
@@ -190,7 +201,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify_payments.refunds",
@@ -204,7 +216,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopify_payments.disputes",
@@ -218,7 +231,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "easybill.invoices",
@@ -232,7 +246,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "easybill.invoice_dispatch",
@@ -246,7 +261,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "easybill.payment_allocations",
@@ -260,7 +276,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "dhl.tracking",
@@ -274,7 +291,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "bank_csv.bank",
@@ -288,7 +306,8 @@
         "local_standalone": "Verify authenticated file import, deduplication and explicit statement coverage.",
         "local_gateway": "Verify authenticated file import, deduplication and explicit statement coverage.",
         "public_server": "Verify authenticated file import, deduplication and explicit statement coverage."
-      }
+      },
+      "import_readiness_plan": "Verify statement period/coverage, explicit opening balances where supplied, repeat import and later history expansion, durable record counts and query readiness; file import does not certify later bank activity."
     },
     {
       "id": "generic.orders",
@@ -302,7 +321,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.stock",
@@ -316,7 +336,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.allocations",
@@ -330,7 +351,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.supply",
@@ -344,7 +366,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.promises",
@@ -358,7 +381,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.fulfillments",
@@ -372,7 +396,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.tracking",
@@ -386,7 +411,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.communications",
@@ -400,7 +426,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.invoices",
@@ -414,7 +441,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.invoice_dispatch",
@@ -428,7 +456,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.payments",
@@ -442,7 +471,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.payment_allocations",
@@ -456,7 +486,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.policy",
@@ -470,7 +501,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.cases",
@@ -484,7 +516,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.provider_ledger",
@@ -498,7 +531,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.positions",
@@ -512,7 +546,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.payouts",
@@ -526,7 +561,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.bank",
@@ -540,7 +576,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.holds",
@@ -554,7 +591,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.returns",
@@ -568,7 +606,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.receipts",
@@ -582,7 +621,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.entitlements",
@@ -596,7 +636,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.refunds",
@@ -610,7 +651,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.disputes",
@@ -624,7 +666,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "generic.identity",
@@ -638,7 +681,8 @@
         "local_standalone": "Verify signed local/reachable-producer submission; no unreachable remote callback.",
         "local_gateway": "Verify signed public gateway submission plus outbound consumption and local import.",
         "public_server": "Verify signed public backend submission and scoped producer credentials."
-      }
+      },
+      "import_readiness_plan": "Verify authorized producer-declared effective/history scope, explicit opening/open/related records, durable progress and actual readiness; declarations do not prove complete external-source history."
     },
     {
       "id": "replay.orders",
@@ -652,7 +696,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.stock",
@@ -666,7 +711,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.allocations",
@@ -680,7 +726,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.supply",
@@ -694,7 +741,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.promises",
@@ -708,7 +756,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.fulfillments",
@@ -722,7 +771,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.tracking",
@@ -736,7 +786,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.communications",
@@ -750,7 +801,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.invoices",
@@ -764,7 +816,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.invoice_dispatch",
@@ -778,7 +831,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.payments",
@@ -792,7 +846,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.payment_allocations",
@@ -806,7 +861,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.policy",
@@ -820,7 +876,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.cases",
@@ -834,7 +891,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.provider_ledger",
@@ -848,7 +906,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.positions",
@@ -862,7 +921,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.payouts",
@@ -876,7 +936,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.bank",
@@ -890,7 +951,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.holds",
@@ -904,7 +966,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.returns",
@@ -918,7 +981,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.receipts",
@@ -932,7 +996,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.entitlements",
@@ -946,7 +1011,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.refunds",
@@ -960,7 +1026,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.disputes",
@@ -974,7 +1041,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "replay.identity",
@@ -988,7 +1056,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "policy.policy",
@@ -1002,7 +1071,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "shopware.orders",
@@ -1016,7 +1086,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopware.stock",
@@ -1030,7 +1101,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopware.allocations",
@@ -1044,7 +1116,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopware.fulfillments",
@@ -1058,7 +1131,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopware.payments",
@@ -1072,7 +1146,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopware.returns",
@@ -1086,7 +1161,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopware.receipts",
@@ -1100,7 +1176,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "shopware.refunds",
@@ -1114,7 +1191,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "woocommerce.orders",
@@ -1128,7 +1206,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "woocommerce.stock",
@@ -1142,7 +1221,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "woocommerce.fulfillments",
@@ -1156,7 +1236,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "woocommerce.payments",
@@ -1170,7 +1251,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "woocommerce.returns",
@@ -1184,7 +1266,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "woocommerce.refunds",
@@ -1198,7 +1281,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "email.promises",
@@ -1212,7 +1296,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "email.communications",
@@ -1226,7 +1311,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "email.cases",
@@ -1240,7 +1326,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "lexware.invoices",
@@ -1254,7 +1341,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "lexware.invoice_dispatch",
@@ -1268,7 +1356,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "lexware.payment_allocations",
@@ -1282,7 +1371,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "sevdesk.invoices",
@@ -1296,7 +1386,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "sevdesk.invoice_dispatch",
@@ -1310,7 +1401,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "sevdesk.payment_allocations",
@@ -1324,7 +1416,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "billbee.orders",
@@ -1338,7 +1431,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "billbee.fulfillments",
@@ -1352,7 +1446,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "billbee.invoices",
@@ -1366,7 +1461,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "billbee.invoice_dispatch",
@@ -1380,7 +1476,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "billbee.payment_allocations",
@@ -1394,7 +1491,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "sufio.invoices",
@@ -1408,7 +1506,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "sufio.invoice_dispatch",
@@ -1422,7 +1521,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "sufio.payment_allocations",
@@ -1436,7 +1536,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "stripe.payments",
@@ -1450,7 +1551,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "stripe.provider_ledger",
@@ -1464,7 +1566,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "stripe.positions",
@@ -1478,7 +1581,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "stripe.payouts",
@@ -1492,7 +1596,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "stripe.holds",
@@ -1506,7 +1611,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "stripe.refunds",
@@ -1520,7 +1626,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "stripe.disputes",
@@ -1534,7 +1641,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "paypal.payments",
@@ -1548,7 +1656,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "paypal.provider_ledger",
@@ -1562,7 +1671,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "paypal.positions",
@@ -1576,7 +1686,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "paypal.payouts",
@@ -1590,7 +1701,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "paypal.holds",
@@ -1604,7 +1716,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "paypal.refunds",
@@ -1618,7 +1731,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "paypal.disputes",
@@ -1632,7 +1746,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "mollie.payments",
@@ -1646,7 +1761,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "mollie.provider_ledger",
@@ -1660,7 +1776,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "mollie.positions",
@@ -1674,7 +1791,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "mollie.payouts",
@@ -1688,7 +1806,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "mollie.holds",
@@ -1702,7 +1821,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "mollie.refunds",
@@ -1716,7 +1836,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "mollie.disputes",
@@ -1730,7 +1851,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "dpd.tracking",
@@ -1744,7 +1866,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "ups.tracking",
@@ -1758,7 +1881,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "klaviyo.communications",
@@ -1772,7 +1896,8 @@
         "local_standalone": "Investigate polling/import coverage, history limits and gaps without public callbacks.",
         "local_gateway": "Investigate gateway callback availability and polling/reconciliation per capability.",
         "public_server": "Investigate direct public callbacks and polling/reconciliation per capability."
-      }
+      },
+      "import_readiness_plan": "Verify requested versus accessible history, older open/related records, opening state, stable import counts, per-question readiness, successful sync versus new events and deduplicated history expansion; disclose source limitations."
     },
     {
       "id": "runtime.coverage",
@@ -1786,7 +1911,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     },
     {
       "id": "runtime.identity",
@@ -1800,7 +1926,8 @@
         "local_standalone": "Verify scoped internal production and recovery in this profile.",
         "local_gateway": "Verify scoped internal production and recovery in this profile.",
         "public_server": "Verify scoped internal production and recovery in this profile."
-      }
+      },
+      "import_readiness_plan": "Verify internal trigger/effective scope, replay or initial state, durable progress, readiness dependencies and truthful health; do not claim a remote provider synchronization."
     }
   ]
 }

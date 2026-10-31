@@ -19,6 +19,9 @@ STEPS = ('mapping', 'transport', 'postgres', 'rust', 'query_mcp', 'operations')
 TESTS = ('contract', 'pipeline', 'recovery', 'tenant_isolation')
 MODES = ('local_standalone', 'local_gateway', 'public_server')
 METHODS = {'polling', 'direct_webhook', 'gateway_webhook', 'import', 'internal', 'authenticated_push'}
+READINESS_FIELDS = ('time_selection', 'historical_availability', 'open_and_related_records',
+                    'opening_state', 'progress_accounting', 'readiness_rules', 'health_rules',
+                    'history_expansion', 'data_handling')
 
 
 def require(condition, message):
@@ -83,6 +86,10 @@ def check_mapping(mapping, row, dataset):
             require(isinstance(profile.get(key), str) and profile[key].strip(), f'Mode {mode} requires {key}')
         require('direct_webhook' not in methods or mode == 'public_server', 'Direct provider webhooks require public_server')
         require('gateway_webhook' not in methods or mode == 'local_gateway', 'Gateway webhooks require local_gateway')
+    readiness = mapping.get('import_readiness', {})
+    require(set(readiness) == set(READINESS_FIELDS), 'Import readiness must account for all nine mapping obligations')
+    for key in READINESS_FIELDS:
+        require(isinstance(readiness[key], str) and readiness[key].strip(), f'Import readiness requires concrete {key}')
     return sorted(name for name, value in fields.items() if value['status'] == 'missing')
 
 
@@ -135,6 +142,7 @@ def validate(root=ROOT, base=None, release=False):
                          'authorized_producer' if row['provider'] == 'generic' else 'provider_account')
         require(row['live_evidence_mode'] == expected_mode, 'Live verification cannot be waived')
         require(set(row['transport_plan']) == set(MODES) and all(isinstance(v, str) and v.strip() for v in row['transport_plan'].values()), 'Every row needs three mode investigation obligations')
+        require(isinstance(row.get('import_readiness_plan'), str) and row['import_readiness_plan'].strip(), 'Every row needs an import/readiness investigation obligation')
     for dataset in datasets.values():
         for provider in dataset['provider_candidates']:
             require(provider + '.' + dataset['id'] in rows, 'Missing source/dataset obligation')
@@ -260,6 +268,7 @@ def render(register, contract, history, states):
              f"Prepared on {register['created_at']} by {register['prepared_by']['name']}. Progress is derived from the recorded work history.", '',
              'This is the central work list. Planned support is not a working connection. An approval applies only to the explicit field subset, source revision and test environment recorded below. Partial coverage never becomes a complete business answer.', '',
              '[How to use and update this register](integrations/README.md) · [Append-only work history](integrations/history.jsonl) · [Machine-readable plan](integrations/register.json)', '',
+             '[Historical import and data readiness contract](specs/IMPORT-ONBOARDING-AND-DATA-READINESS.md): date selection, older open/related items, opening state, truthful progress, source health and per-answer readiness. Every capability must provide its own mapping and test evidence. This development register is not a tenant runtime health dashboard.', '',
              'The five tracks are Source, Fact, Commitment, Movement and Reservation. They are logical journal tracks; physical SQL tables follow the journal contract. Each event uses only the applicable tracks.', '',
              '## Source overview', '',
              '| Source | Scope | Capabilities | Implemented | Test suites passed | Independently approved |',
@@ -314,6 +323,14 @@ def render(register, contract, history, states):
                 else:
                     values.append('unverified — ' + row['transport_plan'][mode])
             lines.append('| ' + ' | '.join(cell(v) for v in values) + ' |')
+        lines += ['', '<details><summary>Historical import and data readiness obligations</summary>', '',
+                  '| Capability | Investigation / actual mapping |', '| --- | --- |']
+        for row in (r for r in rows if r['provider'] == pid):
+            mapping = states[row['id']]['mapping']
+            details = ('; '.join(f'{key}: {mapping["import_readiness"][key]}' for key in READINESS_FIELDS)
+                       if mapping else 'unverified — ' + row['import_readiness_plan'])
+            lines.append('| ' + cell(row['id']) + ' | ' + cell(details) + ' |')
+        lines += ['', '</details>']
         relevant = [e for e in history if e.get('row', '').startswith(pid + '.')]
         if relevant:
             lines += ['', '<details><summary>Who did what, when, and with which evidence</summary>', '',

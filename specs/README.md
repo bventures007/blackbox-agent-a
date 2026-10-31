@@ -19,3 +19,7 @@ Keep specs short enough to implement; move immediately from the initial M0 contr
 - [WEBHOOK-GATEWAY.md](WEBHOOK-GATEWAY.md): optional-use public receiver, durable queue and backend-initiated delivery into private networks.
 
 These are binding full-release requirements. The native client and gateway may remain open at the earlier comparison checkpoint; no provider capability is verified by this specification.
+
+## Historical import and data readiness
+
+[IMPORT-ONBOARDING-AND-DATA-READINESS.md](IMPORT-ONBOARDING-AND-DATA-READINESS.md) is the binding core contract for first-connection date selection, accessible older open/related context and opening state, durable import progress, central Sources/details health, per-question readiness and later history expansion. It defines logical plan/run/coverage/health/answer DTO fields and the IMPORT/HEALTH gates. The integration register requires a concrete per-capability mapping; this is not a claim of an implemented importer.

@@ -68,6 +68,8 @@ class RegisterTests(unittest.TestCase):
         if unsupported_mode:
             mapping['synchronization']['modes']['local_standalone'].update(
                 status='unsupported', methods=[], reason='Synthetic unavailable mode')
+        mapping['import_readiness'] = {key: 'Explicit synthetic import/readiness control fixture only'
+                                       for key in register.READINESS_FIELDS}
         if missing:
             name = next(iter(mapping['fields']))
             mapping['fields'][name].update(status='missing', reason='Deliberate negative fixture')
@@ -200,6 +202,30 @@ class RegisterTests(unittest.TestCase):
         row = next(r for r in result[0]['rows'] if r['id'] == self.row)
         self.assertTrue(register.approved(row, result[3][self.row]))
         self.assertIn('unsupported: none', register.render(*result))
+
+    def test_import_readiness_mapping_cannot_omit_obligations(self):
+        mapping, row, dataset = self.mapping_fixture()
+        for key in register.READINESS_FIELDS:
+            with self.subTest(key=key):
+                incomplete = dict(mapping, import_readiness={k: v for k, v in mapping['import_readiness'].items() if k != key})
+                with self.assertRaisesRegex(ValueError, 'all nine'):
+                    register.check_mapping(incomplete, row, dataset)
+
+    def test_import_readiness_requires_explanations(self):
+        mapping, row, dataset = self.mapping_fixture()
+        for key in register.READINESS_FIELDS:
+            with self.subTest(key=key):
+                incomplete = dict(mapping, import_readiness=dict(mapping['import_readiness'], **{key: '  '}))
+                with self.assertRaisesRegex(ValueError, 'concrete'):
+                    register.check_mapping(incomplete, row, dataset)
+
+    def test_import_readiness_plan_cannot_be_omitted(self):
+        path = self.root / 'integrations/register.json'
+        plan = json.loads(path.read_text())
+        del plan['rows'][0]['import_readiness_plan']
+        path.write_text(json.dumps(plan))
+        with self.assertRaisesRegex(ValueError, 'import/readiness investigation'):
+            register.validate(self.root)
 
     def test_unfinished_seed_cannot_pass_release_gate(self):
         with self.assertRaisesRegex(ValueError, 'Release blocked'):

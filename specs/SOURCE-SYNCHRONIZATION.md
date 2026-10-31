@@ -39,3 +39,7 @@ Both clients show backend location, selected delivery mode, callback/gateway sta
 The shared API/MCP query result exposes scoped coverage, last successful source synchronization, pending/gap reasons and committed/applied cutoffs. `latest_committed` means the latest commit in this workspace's backend, not the latest possible external provider event. Gateway receipt IDs cannot satisfy `at_least_cursor`. Unknown/partial must propagate to affected business answers, including absence claims. Successful imports do not certify later provider activity.
 
 Required acceptance: SYNC-01 through SYNC-04 plus INGEST-01 through INGEST-06, PERF-02, QUERY-02, REGISTRY-01 and gateway tests. Launch accounts/access remain external prerequisites; preparing these contracts does not automatically connect a source.
+
+## Historical import and user-visible readiness
+
+[IMPORT-ONBOARDING-AND-DATA-READINESS.md](IMPORT-ONBOARDING-AND-DATA-READINESS.md) defines the binding date choices, 30-day/open-items default, strict from-now-only behavior, older related context/opening state, expansion, durable counters, central Sources health and per-answer readiness. Treat initial-run completion, historical completeness, current sync freshness and query readiness as separate dimensions. Add its nine-field `import_readiness` mapping per capability; do not infer success from a connected credential, a recent webhook or an empty unfinished page. Required additional core gates: IMPORT-01–06 and HEALTH-01–03.
