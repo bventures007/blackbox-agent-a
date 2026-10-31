@@ -1422,13 +1422,18 @@
     {
       "id": "PILOT-07",
       "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
+      "status": "implemented_unverified",
+      "tested_commit": "29913449e2711acef84baba2bf8c8043ddbede06",
+      "command": "python3 scripts/verify-backup-recovery.py --rotate-data-key --source-port 18765 --restore-port 18769 --output .runtime/key-rotation-2991344.json --node-image-commit 2991344 --engine-image-commit b1f8392",
+      "environment": "macOS27.2 Apple Silicon; isolated PostgreSQL17 Compose, Node24 image 4ad8d4e18f9874202eed1d56fe62f38b5be9e7ca2f568c92528b1cc40c23cd5f; synthetic credentials/evidence only",
+      "observed_result": "Clean 29913449e2711acef84baba2bf8c8043ddbede06 passed actual partial-ciphertext SIGKILL/resume, safe orphan-container recovery, both tenants' credential/identity preservation, unchanged journal/evidence metadata, old live key retirement and old encrypted generation recovery. An existing agent retained the complete fixed-cutoff SDK MCP answer after rotation. Same-length key corruption and loss of both identity metadata files fail closed. Wrong live keys, tampered evidence and tampered provider envelopes prevent publication and record failed attempts while preserving the prior generation. The original synthetic installation, volume and keys were then removed; a new guarded restore reproduced API/MCP answers and revoked stale credentials. Corpus: 55 journal entries, 257 retained objects, 34006747 encrypted bytes; loss to authorized API/MCP 36.881 seconds, not the required 250-MiB smoke profile. Independent pre-keyring backup recovery and native source/restart/corrupt/deleted-projection regressions also passed. Evidence: reports/runs/key-rotation-2991344. Evidence-policy reconciliation, source revalidation, compatible upgrades, remaining diagnostics/storage/lifecycle, distribution/performance, live access and independent review remain open.",
+      "evidence_paths": [
+        "reports/runs/key-rotation-2991344/rotation.json",
+        "reports/runs/key-rotation-2991344/legacy-recovery.json",
+        "reports/runs/key-rotation-2991344/bootstrap.json",
+        "reports/runs/key-rotation-a63fde1/sources.json"
+      ],
+      "blocker": "Full active acceptance and independent security/provider review remain unverified; authorized live Shopify/Payments credentials unavailable. This status is not a pass.",
       "delivery_scope": "local_pilot"
     },
     {

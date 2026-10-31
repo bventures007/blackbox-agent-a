@@ -1,0 +1,116 @@
+{
+  "kind": "isolated_backup_recovery_after_original_removal",
+  "status": "passed",
+  "tested_commit": "29913449e2711acef84baba2bf8c8043ddbede06",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T17:43:27.178392+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "source_port": 18765,
+    "restore_port": 18769,
+    "source_stage": "work/bootstrap-d328cc8b3de2",
+    "restore_stage": "work/recovered-9bc4cfc30bff",
+    "node_image_source_commit": "2991344",
+    "engine_image_source_commit": "b1f8392",
+    "node_image": "sha256:4ad8d4e18f9874202eed1d56fe62f38b5be9e7ca2f568c92528b1cc40c23cd5f",
+    "database": "PostgreSQL17 Compose; synthetic isolated test workspaces"
+  },
+  "original_removed": true,
+  "rotation_proof": {
+    "status": "passed",
+    "observed_changed_before_kill": 2,
+    "observed_remaining_before_kill": 255,
+    "additional_evidence_objects": 256,
+    "approximate_additional_plaintext_bytes": 33554432,
+    "old_generation_restore_stage": "work/rotation-old-backup-9bc4cfc30bff",
+    "verification": {
+      "status": "passed",
+      "checks": [
+        "both_tenant_credentials_and_identity_anchors_preserved",
+        "credential_wrong_tenant_and_purpose_denied",
+        "all_retained_evidence_plaintext_hashes_preserved"
+      ]
+    }
+  },
+  "checks": [
+    "saved_fixed_cutoff_API_and_actual_SDK_MCP_match_before_backup",
+    "actual_partial_ciphertext_rotation_SIGKILL_preserves_keys_and_blocks_startup",
+    "resume_stops_only_owned_orphan_verifies_all_ciphertexts_and_credentials_then_retires_old_live_key",
+    "old_encrypted_generation_restores_original_keys_and_all_retained_content_after_live_retirement",
+    "existing_agent_SDK_MCP_preserves_full_fixed_cutoff_answer_after_data_key_rotation",
+    "wrong_data_key_prevents_backup_publication",
+    "tampered_retained_evidence_prevents_backup_publication",
+    "tampered_provider_credential_prevents_backup_publication",
+    "coherent_backup_verifies_all_retained_evidence_and_preserves_running_services",
+    "wrong_recovery_key_creates_no_destination",
+    "tampered_ciphertext_creates_no_destination",
+    "original_synthetic_installation_volume_and_local_keys_removed",
+    "restored_keys_decrypt_every_retained_object_before_HTTP_or_owner_access",
+    "old_owner_agent_session_denied_new_owner_and_SDK_MCP_preserve_fixed_answer",
+    "raw_evidence_and_provider_collection_remain_fenced_with_one_active_owner"
+  ],
+  "commands": [
+    {
+      "command": "python3 scripts/verify-bootstrap.py --port 18765 --node-image-commit 2991344 --engine-image-commit b1f8392 --output /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/.runtime/recovery-bootstrap-9bc4cfc30bff.json",
+      "exit_code": 0,
+      "observed": "fresh_host_setup_login_and_persisted_example\nfresh_bootstrap_checks_passed\n"
+    },
+    {
+      "command": "./blackbox reset-access",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-a8cca81e7b29-postgres-1  Created0.0s \r\n\u001b[?25h\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\r\n \u280b Container blackbox-a-a8cca81e7b29-postgres-1  Starting0.0s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u2819 Container blackbox-a-a8cca81e7b29-postgres-1  Starting0.1s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u2839 Container blackbox-a-a8cca81e7b29-postgres-1  Starting0.2s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u2838 Container blackbox-a-a8cca81e7b29-postgres-1  Starting0.3s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 1/1\r\n \u2714 Container blackbox-a-a8cca81e7b29-postgres-1  Started0.4s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-a8cca81e7b29-postgres-1  Running\n Container blackbox-a-a8cca81e7b29-worker-1  Created\n Container blackbox-a-a8cca81e7b29-engine-1  Created\n Container blackbox-a-a8cca81e7b29-api-1  Created\n Container blackbox-a-a8cca81e7b29-postgres-1  Waiting\n Container blackbox-a-a8cca81e7b29-postgres-1  Waiting\n Container blackbox-a-a8cca81e7b29-postgres-1  Waiting\n Container blackbox-a-a8cca81e7b29-postgres-1  Healthy\n Container blackbox-a-a8cca81e7b29-engine-1  Starting\n Container blackbox-a-a8cca81e7b29-postgres-1  Healthy\n Container blackbox-a-a8cca81e7b29-api-1  Starting\n Container blackbox-a-a8cca81e7b29-postgres-1  Healthy\n Container blackbox-a-a8cca81e7b29-worker-1  Starting\n Container blackbox-a-a8cca81e7b29-worker-1  Started\n Container blackbox-a-a8cca81e7b29-engine-1  Started\n Container blackbox-a-a8cca81e7b29-api-1  Started\n"
+    },
+    {
+      "command": "./blackbox key resume",
+      "exit_code": 0,
+      "observed": "Data-key rotation verified and completed. Old live key removed; independent identity unchanged. Existing encrypted backups retain their own key material.\nDaten-Schl\u00fcssel gepr\u00fcft und gewechselt. Alter aktiver Schl\u00fcssel entfernt; unabh\u00e4ngige Identit\u00e4t unver\u00e4ndert. Bestehende verschl\u00fcsselte Sicherungen behalten ihr eigenes Schl\u00fcsselmaterial.\n"
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-a8cca81e7b29 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/bootstrap-d328cc8b3de2/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/bootstrap-d328cc8b3de2/infra/compose/compose.yaml down --volumes --remove-orphans",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-a8cca81e7b29-api-1  Stopping\n Container blackbox-a-a8cca81e7b29-engine-1  Stopping\n Container blackbox-a-a8cca81e7b29-worker-1  Stopping\n Container blackbox-a-a8cca81e7b29-worker-1  Stopped\n Container blackbox-a-a8cca81e7b29-worker-1  Removing\n Container blackbox-a-a8cca81e7b29-api-1  Stopped\n Container blackbox-a-a8cca81e7b29-api-1  Removing\n Container blackbox-a-a8cca81e7b29-worker-1  Removed\n Container blackbox-a-a8cca81e7b29-api-1  Removed\n Container blackbox-a-a8cca81e7b29-engine-1  Stopped\n Container blackbox-a-a8cca81e7b29-engine-1  Removing\n Container blackbox-a-a8cca81e7b29-engine-1  Removed\n Container blackbox-a-a8cca81e7b29-postgres-1  Stopping\n Container blackbox-a-a8cca81e7b29-postgres-1  Stopped\n Container blackbox-a-a8cca81e7b29-postgres-1  Removing\n Container blackbox-a-a8cca81e7b29-postgres-1  Removed\n Volume blackbox-a-a8cca81e7b29_postgres  Removing\n Network blackbox-a-a8cca81e7b29_default  Removing\n Volume blackbox-a-a8cca81e7b29_postgres  Removed\n Network blackbox-a-a8cca81e7b29_default  Removed\n"
+    },
+    {
+      "command": "/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/blackbox restore resume --to /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/recovered-9bc4cfc30bff",
+      "exit_code": 0,
+      "observed": "Restore validated. Save the newly issued owner key; old owner, agent and browser access has been revoked.\r\nWiederherstellung gepr\u00fcft. Speichere den neuen Eigent\u00fcmerschl\u00fcssel; alte Eigent\u00fcmer-, Agenten- und Browserzugriffe sind widerrufen.\r\n\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-7293c26089f1-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nRestored local application: http://127.0.0.1:18769\r\nRaw evidence and provider collection remain blocked until host policy/account reconciliation.\r\nOriginalbelege und Anbieterabrufe bleiben bis zur Richtlinien- und Kontenpr\u00fcfung am Host gesperrt.\r\n"
+    }
+  ],
+  "corpus": {
+    "journal_entries": 55,
+    "retained_evidence_objects": 257,
+    "encrypted_bytes": 34006747
+  },
+  "timing": {
+    "total_test_seconds": 401.892,
+    "bootstrap_seconds": 197.558,
+    "loss_to_authorized_API_and_MCP_seconds": 36.881,
+    "operator_wait_seconds": 3e-06,
+    "automated_operator": true
+  },
+  "restore_state": {
+    "backup_sha256": "a6b7c77ce9ab0782a315a6ca09d7057a1d90c9cc72bf65d2a2bd860237b765ed",
+    "completed_at": "2026-10-31T17:43:14.495716+00:00",
+    "evidence_blocked": true,
+    "machine_seconds_before_owner_input": 9.624,
+    "machine_seconds_to_runtime_ready": 19.269,
+    "recoverable_cutoff": "2026-10-31T17:42:33.341141+00:00",
+    "restore_started_at": "2026-10-31T17:42:49.971636+00:00",
+    "restored_at": "2026-10-31T17:42:59.595160+00:00",
+    "schema_version": 1,
+    "source_installation_id": "b57bd7d6-d8d3-4c3f-82ea-d957d02a74ad",
+    "sources_blocked": true,
+    "state": "restored_restricted"
+  },
+  "limitations": [
+    "Small synthetic corpus; not the required 250-MiB smoke corpus or recovery-time acceptance",
+    "Same physical Apple Silicon Mac with new isolated Compose resources; not a second machine",
+    "Copied host runtime and prebuilt development images; not the browser-downloaded distribution artifact",
+    "Current policy reconciliation, source revalidation, full operational acceptance, upgrade and independent review remain outside this proof"
+  ]
+}
