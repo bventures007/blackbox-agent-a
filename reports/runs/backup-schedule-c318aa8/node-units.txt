@@ -1,0 +1,25 @@
+$ node --import tsx --test tests/*.test.ts
+✔ host backup status never exposes unvalidated paths or keys (42.7295ms)
+✔ concurrent owner backup requests produce one bounded action without a path or command (91.123084ms)
+✔ money syntax preserves exact units, does not round or mix unknown currencies (15.590625ms)
+✔ canonical observations reject caller tenant and personal-content fields (23.852417ms)
+✔ emitted diagnostic lines are valid JSON and strip secret/PII canaries before storage (524.804666ms)
+✔ 30-day import is 720 hours across daylight saving, with a fixed cutoff (10.174709ms)
+✔ calendar year and 12 months preserve local semantics and clamp leap days (7.127709ms)
+✔ custom dates resolve at local midnight and reject future or skipped local dates (3.420708ms)
+✔ from-now never silently widens into opening or related history (1.957333ms)
+✔ local HTTP transport retains explicit loopback authority and bounds errors/redirects (76.162667ms)
+✔ Shopify assignments retain incomplete reservation basis, exact quantities and strict context consent (115.708541ms)
+✔ Shopify requested-cost reduction is bounded, keeps cursor/cutoff and does not immediately retry throttling (177.257208ms)
+✔ fulfillment preparation is not handover and cancellation cannot erase physical evidence (45.324542ms)
+✔ bounded provider transport rejects oversized JSON and never accepts arbitrary token destinations (43.2275ms)
+✔ Shopify normalization preserves refund links, unknown transitions and strict context consent (30.947417ms)
+✔ inventory preserves supplied available state and rejects missing, negative, future and declined opening quantities (40.625792ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2341.315083

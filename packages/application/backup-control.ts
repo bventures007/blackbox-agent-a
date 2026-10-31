@@ -124,11 +124,25 @@ export async function backupStatus(
   }
 }
 
+const savingRequests = new Map<string, Promise<{ queued: boolean }>>();
 export async function requestBackup(
   principal: Principal,
   directory = process.env.HOST_CONTROL_REQUEST_DIR,
 ) {
   if (!directory) throw Error("backup_not_configured");
+  const scope = directory + ":" + principal.tenant_id;
+  const pending = savingRequests.get(scope);
+  if (pending) return pending;
+  const saving = saveRequest(principal, directory);
+  savingRequests.set(scope, saving);
+  try {
+    return await saving;
+  } finally {
+    savingRequests.delete(scope);
+  }
+}
+
+async function saveRequest(principal: Principal, directory: string) {
   const temporary = join(directory, "backup.requesting"),
     destination = join(directory, "backup.json");
   let acquired = false;
@@ -167,8 +181,48 @@ export async function requestBackup(
     }
     return { queued: true };
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "EEXIST")
+    if (acquired && (error as NodeJS.ErrnoException).code === "EEXIST") {
+      // A prior completed request can be coalesced. A temporary writer file
+      // alone is never evidence that an action was durably queued.
+      const file = await open(
+        destination,
+        constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
+      );
+      try {
+        const info = await file.stat();
+        if (
+          !info.isFile() ||
+          info.nlink !== 1 ||
+          (info.mode & 0o077) !== 0 ||
+          info.size > 2048
+        )
+          throw Error("backup_request_unavailable");
+        const bytes = Buffer.alloc(2049),
+          read = await file.read(bytes, 0, bytes.length, 0);
+        if (read.bytesRead > 2048) throw Error("backup_request_unavailable");
+        const previous = z
+          .object({
+            schema_version: z.literal(1),
+            request_id: z.uuid(),
+            requested_at: z.iso.datetime(),
+            principal_id: z.uuid(),
+            tenant_id: z.literal(principal.tenant_id),
+          })
+          .strict()
+          .parse(JSON.parse(bytes.subarray(0, read.bytesRead).toString()));
+        if (Date.now() - Date.parse(previous.requested_at) > 600000)
+          throw Error("backup_request_unavailable");
+      } finally {
+        await file.close();
+      }
+      const dir = await open(directory, constants.O_RDONLY);
+      try {
+        await dir.sync();
+      } finally {
+        await dir.close();
+      }
       return { queued: true };
+    }
     throw Error("backup_request_unavailable");
   } finally {
     if (acquired) await unlink(temporary).catch(() => {});

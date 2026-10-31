@@ -57,6 +57,8 @@ if command=='backup':
   elif len(sys.argv)>2 and sys.argv[2]=='policy':
    import argparse
    parser=argparse.ArgumentParser(prog='./blackbox backup policy');parser.add_argument('--interval-hours',type=float,default=23.5);parser.add_argument('--daily',type=int,default=7);parser.add_argument('--weekly',type=int,default=4);policy=parser.parse_args(sys.argv[3:])
+   import math
+   if not math.isfinite(policy.interval_hours):raise RuntimeConfigError('Backup interval must be a finite number of hours.')
    set_policy(root,int(policy.interval_hours*3600),policy.daily,policy.weekly)
    print('Backup policy updated. Intervals above 23.5 hours reduce the 24-hour recovery-age margin; intervals above 24 hours cannot meet that objective.')
    print('Sicherungsplan aktualisiert. Intervalle über 23,5 Stunden verringern den Puffer für das 24-Stunden-Ziel; über 24 Stunden wird dieses Ziel verfehlt.')
@@ -90,6 +92,9 @@ if command in ['build','up','down','status','test','setup','reset-access']:
     elif result==0:
      if command in ['setup','reset-access']:bind_owner_workspace(root)
      publish_status(root)
+     if command=='setup'and not(runtime/'backup.json').exists():
+      print('Backups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.')
+      print('Sicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschlüssel einrichten.')
   except RuntimeConfigError as error:raise SystemExit(str(error))
   sys.exit(result)
  sys.exit(run(c+args+extra))

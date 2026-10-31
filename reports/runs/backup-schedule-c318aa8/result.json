@@ -1,0 +1,37 @@
+{
+  "kind": "persisted_backup_schedule_owner_UI_retention_and_interruption",
+  "status": "failed",
+  "tested_commit": "c318aa832508bf785f5aedfe41485d15f0b91ac7",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T16:54:07.219512+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/backup-schedule-9e0bdd514598",
+    "port": 18761,
+    "node_image_source_commit": "c318aa8",
+    "engine_image_source_commit": "b1f8392",
+    "node_image": "sha256:61bea5ba7e0c700ed4a82ba06cd9f3737ac024b4843a56f56e9b24cc42aae552"
+  },
+  "machine_seconds": 87.861,
+  "checks": [
+    "owner_only_CSRF_protected_narrow_request_denies_agents_unenrolled_and_arbitrary_parameters"
+  ],
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18761",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 2/0\r\n \u2714 Network blackbox-a-9d6da6e38fa7_default       Created0.0s \r\n \u2714 Volume \"blackbox-a-9d6da6e38fa7_postgres\"     Created0.0s \r\n \u280b Container blackbox-a-9d6da6e38fa7-postgres-1  Creating0.0s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Creating 3/3\r\n \u2714 Network blackbox-a-9d6da6e38fa7_default       Created0.0s \r\n \u2714 Volume \"blackbox-a-9d6da6e38fa7_postgres\"     Created0.0s \r\n \u2714 Container blackbox-a-9d6da6e38fa7-postgres-1  Created0.1s \r\n\u001b[?25h\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\r\n \u280b Container blackbox-a-9d6da6e38fa7-postgres-1  Starting0.1s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u2819 Container blackbox-a-9d6da6e38fa7-postgres-1  Starting0.2s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 1/1\r\n \u2714 Container blackbox-a-9d6da6e38fa7-postgres-1  Started0.2s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-9d6da6e38fa7-postgres-1  Running\n Container blackbox-a-9d6da6e38fa7-api-1  Creating\n Container blackbox-a-9d6da6e38fa7-worker-1  Creating\n Container blackbox-a-9d6da6e38fa7-engine-1  Creating\n Container blackbox-a-9d6da6e38fa7-api-1  Created\n Container blackbox-a-9d6da6e38fa7-engine-1  Created\n Container blackbox-a-9d6da6e38fa7-worker-1  Created\n Container blackbox-a-9d6da6e38fa7-postgres-1  Waiting\n Container blackbox-a-9d6da6e38fa7-postgres-1  Waiting\n Container blackbox-a-9d6da6e38fa7-postgres-1  Waiting\n Container blackbox-a-9d6da6e38fa7-postgres-1  Healthy\n Container blackbox-a-9d6da6e38fa7-api-1  Starting\n Container blackbox-a-9d6da6e38fa7-postgres-1  Healthy\n Container blackbox-a-9d6da6e38fa7-engine-1  Starting\n Container blackbox-a-9d6da6e38fa7-postgres-1  Healthy\n Container blackbox-a-9d6da6e38fa7-worker-1  Starting\n Container blackbox-a-9d6da6e38fa7-engine-1  Started\n Container blackbox-a-9d6da6e38fa7-worker-1  Started\n Container blackbox-a-9d6da6e38fa7-api-1  Started\n"
+    }
+  ],
+  "browser": null,
+  "limitations": [
+    "Short synthetic execution; multi-day scheduling/wake and calendar retention boundaries additionally use deterministic unit tests",
+    "Not actual Mac sleep/wake, 250-MiB recovery, upgrade, key rotation, policy reconciliation or independent approval",
+    "Same-machine copied runtime with prebuilt development images; not a downloaded distribution artifact"
+  ]
+}

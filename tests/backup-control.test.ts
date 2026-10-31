@@ -79,3 +79,27 @@ test("concurrent owner backup requests produce one bounded action without a path
     await rm(directory, { recursive: true, force: true });
   }
 });
+
+test("an interrupted temporary request is never acknowledged as durably queued", async () => {
+  const directory = await mkdtemp(
+    join(tmpdir(), "blackbox-backup-interrupted-"),
+  );
+  const principal = {
+    principal_id: "c3b6532d-78ca-433f-8611-903ea5b30fe7",
+    tenant_id: "4e057508-15a5-4b20-83cd-0860a0216535",
+  } as Principal;
+  try {
+    await writeFile(join(directory, "backup.requesting"), "incomplete", {
+      mode: 0o600,
+    });
+    await assert.rejects(
+      requestBackup(principal, directory),
+      /backup_request_unavailable/,
+    );
+    await assert.rejects(readFile(join(directory, "backup.json")), {
+      code: "ENOENT",
+    });
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});

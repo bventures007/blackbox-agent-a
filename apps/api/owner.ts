@@ -40,7 +40,11 @@ export async function registerOwnerRoutes(
         [p.tenant_id, randomUUID(), p.principal_id],
       );
     });
-    return requestBackup(p);
+    try {
+      return await requestBackup(p);
+    } catch {
+      return reply.code(503).send({ error: "backup_request_unavailable" });
+    }
   });
   app.get("/v1/overview", async (req) => {
     const p = owner(req.principal);

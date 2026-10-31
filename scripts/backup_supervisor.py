@@ -1,5 +1,5 @@
 """Explicitly launched host supervisor; no OS service and no browser shell access."""
-import datetime,fcntl,hashlib,json,os,pathlib,re,stat,subprocess,sys,time
+import datetime,fcntl,hashlib,json,os,pathlib,re,stat,subprocess,sys,time,threading
 from host_runtime import protected_directory,protected_read,create_file,_validate_file,RuntimeConfigError,compose_config
 from backup_operations import atomic_json,operation_lock,services,target,generation,run,stamp,sql
 
@@ -192,12 +192,21 @@ def stop(root):
 def supervise(root):
  runtime=root/'.runtime';compose_config(runtime);prepare_control(runtime)
  fd=os.open(runtime/'.supervisor.lock',os.O_RDWR|os.O_CREAT|os.O_NOFOLLOW,0o600)
- acquired=False
+ acquired=False;finished=threading.Event();heartbeat_thread=None
  try:
   _validate_file(os.fstat(fd),'.supervisor.lock')
   try:fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
   except BlockingIOError:return
   acquired=True
+  # A bounded backup can take longer than the UI heartbeat window. Keep the
+  # scheduler's liveness distinct from the generation's progress/outcome.
+  def heartbeat():
+   while not finished.is_set():
+    try:
+     now=stamp();atomic_json(runtime/'supervisor.json',{'observed_at':now,'pid':os.getpid()});publish_status(root,heartbeat=now)
+    except Exception:pass
+    finished.wait(10)
+  heartbeat_thread=threading.Thread(target=heartbeat,daemon=True);heartbeat_thread.start()
   while not(runtime/'supervisor.stop').exists():
    try:tick(root)
    except Exception:
@@ -207,7 +216,10 @@ def supervise(root):
     if(runtime/'supervisor.stop').exists():break
     time.sleep(1)
  finally:
-  if acquired:atomic_json(runtime/'supervisor.json',{'observed_at':None,'pid':None})
+  finished.set()
+  if heartbeat_thread:heartbeat_thread.join(timeout=15)
+  if acquired:
+   atomic_json(runtime/'supervisor.json',{'observed_at':None,'pid':None});publish_status(root)
   os.close(fd)
 
 if __name__=='__main__':
