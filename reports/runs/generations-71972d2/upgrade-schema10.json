@@ -1,0 +1,227 @@
+{
+  "kind": "populated_versioned_lifecycle_upgrade",
+  "status": "passed",
+  "tested_commit": "71972d2f307c5caf203a162e8abf85aa95fc25ab",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T20:23:20.073758+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "ports": [
+      18811,
+      18813
+    ],
+    "stages": [
+      "work/upgrade-a276f1a0352a",
+      "work/upgrade-recovery-a276f1a0352a"
+    ],
+    "node_image": "sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb",
+    "engine_image": "sha256:bd2beea7746855ff268f68cff78b69197d331a0e8efe5611d5543621f10ae8b9",
+    "prior_fixture": {
+      "purpose": "Exact own-repository prior schema10 host/runtime fixture; not an independent review or distributed artifact",
+      "host_source_commit": "828355916add4585addf6a1d2788d9a39d01f3d1",
+      "node_source_commit": "828355916add4585addf6a1d2788d9a39d01f3d1",
+      "engine_source_commit": "828355916add4585addf6a1d2788d9a39d01f3d1",
+      "node_image": "sha256:0825713809999e1da9d131dafc4e247650ad80a8495fa5928ff00ff117f95383",
+      "engine_image": "sha256:f94e4b847432b6f403d2686dd8ec4852ffdf7ea892913b608bc4c4e7a05385c2",
+      "compose_adjustment": "Dedicated immutable-source tags prevent development tag replacement from removing prior identities. Actual image IDs are recorded.",
+      "files": {
+        "bin/LICENSE": "afbdb4e07a359499db587ae632815809b1fc1670a92d5449af112ce9a67833a2",
+        "bin/age": "4012dfc2725883beafb710894af4f599b7a94f8c8e0f51f02cc96ab8df33915e",
+        "bin/age-keygen": "c16e229245123d0ad27442317461d63915416cad0294395cd19ca93feb3211ea",
+        "blackbox": "0d7ef0f762602bc415361910849c90740bae15847287098e72ed82d1ac1a20f5",
+        "infra/compose/compose.yaml": "921108b4d400837c07d0262e0713a034d84ecd8440fa48710d3948c4bd80ea90",
+        "infra/compose/init.sh": "275d3b3d85971ca1fc32bcc689b7d3ede9ba15abae3f0c7d28b7cb5779b480de",
+        "packages/database/migrations/001-foundation.sql": "9afdee5051ea6dfb1e9b39bc0837018c5f63b347a41cd8c90d606a348cd4f58f",
+        "packages/database/migrations/002-producer-receipts.sql": "63f4ff07f8b37f28be54e206d119a88d875cdc62cb50665a82ec6965956c40fd",
+        "packages/database/migrations/003-record-projections.sql": "b5bec5701cb15215ede9101242825d17724df3825b0d4d287b8853b50a776475",
+        "packages/database/migrations/004-source-operations.sql": "9b86e8b806bb87c6b1bf84ba511a8ef89be7451f54b925ebef3a65c952684eee",
+        "packages/database/migrations/005-owner-review.sql": "328d6adaecc01967ed9eea5a93f37c8b74317e6df0de5cd11376051d84091f19",
+        "packages/database/migrations/006-recovery-guards.sql": "fcb52319962ae63c77f9574904129fb80a2d4df05687e332dedff4ed4c96ec90",
+        "packages/database/migrations/007-runtime-contract.sql": "d4b60d4bd005dffa660c361adda1a58e1a7f2394b17a6340b8c73c9df430423e",
+        "packages/database/migrations/008-evidence-policy.sql": "487df1bfd46c18a2ba4367583e4f44ff1d84516fd613765238cd99dac124f5e7",
+        "packages/database/migrations/009-evidence-provenance-and-cursors.sql": "0dd1fd765e912feb78a1b5a2323e0a7c39e3d97b09386fd6c05a730f67b6a01f",
+        "packages/database/migrations/010-unclassified-access-boundary.sql": "b02684429e9d528fb602d546039fa452403fe25c14d22128fd1a461ed3260d5a",
+        "release/compatibility.json": "e7e7430394646fb42d5727a99c46d68e7980c3cf06795f87a069f134cda034bb",
+        "scripts/backup_codec.py": "6a1c009633d5b8b92a517f0da6ce9d38cf6517f0d5a16d8dc8cb5889d2a6daf4",
+        "scripts/backup_operations.py": "acd5476505b9735246460f7fba6893d374465d8c219a4092a58587b66d37b6e8",
+        "scripts/backup_restore.py": "20de83a05fc1e70e370e70137b412c7c6ff924591ec907faad31721e5f654dfb",
+        "scripts/backup_supervisor.py": "a72bc4cb5846ecc81934705430a4420753a05eed6410ec46235a6ba0d88cb15b",
+        "scripts/database_identity.py": "74ce1b5855e0bd14bb1da85b9691c1eec9b0862a093a20cf50f87d45a4ac6102",
+        "scripts/diagnostics.py": "049b8f55e8ff7f1f48945e0fb24368b773fbf730e91b487fe230de826997c9c4",
+        "scripts/evidence_copies.py": "7fde7bbd481ccd804eb7582c0c7d57b12a9b13b46f1c013dfd9d1b8ba1c6d451",
+        "scripts/evidence_policy.py": "d8b6dfbcd9a135a604ba926ab8568d3e00ead20d7571c5930fea7785b64ffab0",
+        "scripts/evidence_scheduler.py": "1d5a4c87825540710189c7d7ef54b5a7223b58c92c63e2b0bed2c202a0a0e285",
+        "scripts/host_runtime.py": "01fe2e682ac3ee4586a856407f251069ca3318148d758c059e1634e01a7945b1",
+        "scripts/key_rotation.py": "0c192f5637a555b6cc20c20b93e57c7c7c0fc38e649b7148ebe87783e1d23df7",
+        "scripts/release_compatibility.py": "3297fe5b8fa952dccec0315bcff7b8f521c2f3e439f27e28fced983a4ea46619",
+        "scripts/release_images.py": "1dc4378ec3da7876a8c1712eba926c83071c8ed02e06323997877ce1beb8307e",
+        "scripts/upgrade-probe.mjs": "40e3eff958b76b6f32a477ccc072a25a7736b67c0f28893d0ebd5d65d73924ed",
+        "scripts/upgrade_operations.py": "c72c8fc8743bcf2c17a54abe9aa3b4cf534ceb5aa6337ef998b1efd33fe91285",
+        "vendor/age.lock.json": "eb713ececb9fe1a041d4f6274245b47d94531d741b1bfde2e35e1985ee0c482c"
+      }
+    }
+  },
+  "checks": [
+    "mismatched_compiled_target_image_refused_before_checkpoint_or_migration",
+    "wrong_valid_recovery_identity_blocks_migration_and_startup_preserves_completed_generation",
+    "actual_SIGKILL_after_committed_additive_migration_keeps_database_and_host_fenced",
+    "changed_target_bundle_refused_before_resuming_migrations",
+    "changed_rule_corrects_money_revision_and_premature_delivery_at_same_cutoff_with_prior_reader_retained",
+    "resume_migrates_remaining_prefix_preserves_journal_and_representative_answers_API_SDK_MCP_and_restart",
+    "actual_isolated_pre_upgrade_backup_restore_preserves_recorded_cutoff_and_revokes_stale_owner_access"
+  ],
+  "upgrade_result": {
+    "backup": {
+      "ciphertext_sha256": "f749704dd4a05920727e70eb690b21dd09482fea28f9957e69eff83b193b6c8d",
+      "generation": "14c779481eee48b084d60258ddef3df5.bb.age",
+      "recoverable_cutoff": "2026-10-31T20:21:26.266405+00:00"
+    },
+    "completed_at": "2026-10-31T20:22:02.935216+00:00",
+    "images": {
+      "services": {
+        "api": {
+          "image": "sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb"
+        },
+        "engine": {
+          "image": "sha256:bd2beea7746855ff268f68cff78b69197d331a0e8efe5611d5543621f10ae8b9"
+        },
+        "mcp": {
+          "image": "sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb"
+        },
+        "tooling": {
+          "image": "sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb"
+        },
+        "worker": {
+          "image": "sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb"
+        }
+      }
+    },
+    "journal": {
+      "bytes": 83520,
+      "cutoffs": {
+        "heads": [
+          {
+            "applied": 70,
+            "committed": 70,
+            "record_count": 0,
+            "tenant_id": "cd1827ae-a6e7-4113-b4e0-5f8a216fa8ca"
+          }
+        ],
+        "journal_count": 70,
+        "postgres_major": 17
+      },
+      "sha256": "6ca323a186726abbde5eaf9cefa1fe22d202746ca3f7756c849b41bfe4462ef6"
+    },
+    "operation_id": "afc90f2d-3b34-4a38-ae8a-6307b77da1e1",
+    "rollback": "isolated_pre_upgrade_restore_only",
+    "schema_version": 1,
+    "source_probe": {
+      "answers_sha256": "6c7c74d9db705ddab7dc0a5008a03548948b728156e370585fb81e1083882f53",
+      "bodies_exposed": false,
+      "mode": "capture",
+      "publication": null,
+      "representative_answers": 8,
+      "retained_interpretation_verified": false,
+      "status": "passed",
+      "workspaces": 1
+    },
+    "source_schema": 10,
+    "started_at": "2026-10-31T20:20:57.006554+00:00",
+    "state": "completed",
+    "target_probe": {
+      "answers_sha256": "6c7c74d9db705ddab7dc0a5008a03548948b728156e370585fb81e1083882f53",
+      "bodies_exposed": false,
+      "mode": "compare",
+      "publication": {
+        "builds": [
+          {
+            "build_id": "5867a580-5a59-4caf-baec-d3618218a1e5",
+            "recorded_cutoff": 70,
+            "state": "published",
+            "tenant_id": "cd1827ae-a6e7-4113-b4e0-5f8a216fa8ca"
+          }
+        ],
+        "published": 1
+      },
+      "representative_answers": 8,
+      "retained_interpretation_verified": true,
+      "status": "passed",
+      "workspaces": 1
+    },
+    "target_schema": 11
+  },
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18811",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-806be24cfc5d-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-806be24cfc5d-postgres-1  Running\n Container blackbox-a-806be24cfc5d-worker-1  Creating\n Container blackbox-a-806be24cfc5d-engine-1  Creating\n Container blackbox-a-806be24cfc5d-api-1  Creating\n Container blackbox-a-806be24cfc5d-engine-1  Created\n Container blackbox-a-806be24cfc5d-api-1  Created\n Container blackbox-a-806be24cfc5d-worker-1  Created\n Container blackbox-a-806be24cfc5d-postgres-1  Waiting\n Container blackbox-a-806be24cfc5d-postgres-1  Waiting\n Container blackbox-a-806be24cfc5d-postgres-1  Waiting\n Container blackbox-a-806be24cfc5d-postgres-1  Healthy\n Container blackbox-a-806be24cfc5d-engine-1  Starting\n Container blackbox-a-806be24cfc5d-postgres-1  Healthy\n Container blackbox-a-806be24cfc5d-api-1  Starting\n Container blackbox-a-806be24cfc5d-postgres-1  Healthy\n Container blackbox-a-806be24cfc5d-worker-1  Starting\n Container blackbox-a-806be24cfc5d-engine-1  Started\n Container blackbox-a-806be24cfc5d-worker-1  Started\n Container blackbox-a-806be24cfc5d-api-1  Started\n"
+    },
+    {
+      "command": "python3 -c import pathlib,sys;sys.path.insert(0,'scripts');from backup_supervisor import stop;stop(pathlib.Path.cwd())",
+      "exit_code": 0,
+      "observed": ""
+    },
+    {
+      "command": "python3 -c import pathlib,sys;sys.path.insert(0,'scripts');from backup_operations import enroll;from host_runtime import create_file;r=pathlib.Path.cwd();v=pathlib.Path(sys.argv[1]);create_file(v/'recovery.key',enroll(r,v)) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-vault-a276f1a0352a",
+      "exit_code": 0,
+      "observed": ""
+    },
+    {
+      "command": "python3 -c import pathlib,sys,json;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;r=pathlib.Path.cwd();result=upgrade(r,pathlib.Path(sys.argv[1]).read_bytes(),node_image=sys.argv[2],engine_image=sys.argv[3]);print(json.dumps(result)) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-vault-a276f1a0352a/recovery.key sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb sha256:f94e4b847432b6f403d2686dd8ec4852ffdf7ea892913b608bc4c4e7a05385c2",
+      "exit_code": 1,
+      "observed": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import pathlib,sys,json;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;r=pathlib.Path.cwd();result=upgrade(r,pathlib.Path(sys.argv[1]).read_bytes(),node_image=sys.argv[2],engine_image=sys.argv[3]);print(json.dumps(result))\n                                                                                                                            ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-a276f1a0352a/scripts/upgrade_operations.py\", line 186, in upgrade\n    target=pins(node_image,engine_image);verify_target(target,manifest)\n                                         ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-a276f1a0352a/scripts/release_images.py\", line 68, in verify_target\n    raise RuntimeConfigError('Target image contract does not match the host bundle. Migration refused.')\nhost_runtime.RuntimeConfigError: Target image contract does not match the host bundle. Migration refused.\n"
+    },
+    {
+      "command": "python3 -c import pathlib,sys,json;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;r=pathlib.Path.cwd();result=upgrade(r,pathlib.Path(sys.argv[1]).read_bytes(),node_image=sys.argv[2],engine_image=sys.argv[3]);print(json.dumps(result)) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-vault-a276f1a0352a/wrong.key sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb sha256:bd2beea7746855ff268f68cff78b69197d331a0e8efe5611d5543621f10ae8b9",
+      "exit_code": 1,
+      "observed": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import pathlib,sys,json;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;r=pathlib.Path.cwd();result=upgrade(r,pathlib.Path(sys.argv[1]).read_bytes(),node_image=sys.argv[2],engine_image=sys.argv[3]);print(json.dumps(result))\n                                                                                                                            ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-a276f1a0352a/scripts/upgrade_operations.py\", line 211, in upgrade\n    marker['verified_backup']=verify_generation(root,marker,secret)\n                              ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-a276f1a0352a/scripts/upgrade_operations.py\", line 158, in verify_generation\n    with verified_backup(root,path,secret)as(_,manifest,_,digest):\n         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py\", line 141, in __enter__\n    return next(self.gen)\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-a276f1a0352a/scripts/backup_restore.py\", line 34, in verified_backup\n    with decrypt(root,secret,cipher)as stream:manifest=inspect_archive(stream,inspect)\n                                                       ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-a276f1a0352a/scripts/backup_codec.py\", line 128, in inspect_archive\n    block=read_exact(stream,512)\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-a276f1a0352a/scripts/backup_codec.py\", line 117, in read_exact\n    if not value:raise BackupFormatError('truncated_backup_archive')\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbackup_codec.BackupFormatError: truncated_backup_archive\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 1,
+      "observed": "Unfinished host maintenance. Recover it before changing service state.\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 1,
+      "observed": "Unfinished host maintenance. Recover it before changing service state.\n"
+    },
+    {
+      "command": "python3 -c import pathlib,sys,json;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;print(json.dumps(upgrade(pathlib.Path.cwd(),pathlib.Path(sys.argv[1]).read_bytes(),resume=True))) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-vault-a276f1a0352a/recovery.key",
+      "exit_code": 1,
+      "observed": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import pathlib,sys,json;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;print(json.dumps(upgrade(pathlib.Path.cwd(),pathlib.Path(sys.argv[1]).read_bytes(),resume=True)))\n                                                                                                                 ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-a276f1a0352a/scripts/upgrade_operations.py\", line 182, in upgrade\n    marker=read_marker(root);verify_bundle(root,marker)\n                             ~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-a276f1a0352a/scripts/upgrade_operations.py\", line 65, in verify_bundle\n    if hashlib.sha256(json.dumps(files,sort_keys=True).encode()).hexdigest()!=marker['bundle_sha256']or files!=fingerprint_files(root):raise RuntimeConfigError('Target bundle changed. Restore the exact protected upgrade bundle before resuming; never substitute newer files.')\n                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nhost_runtime.RuntimeConfigError: Target bundle changed. Restore the exact protected upgrade bundle before resuming; never substitute newer files.\n"
+    },
+    {
+      "command": "python3 -c import pathlib,sys,json;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;print(json.dumps(upgrade(pathlib.Path.cwd(),pathlib.Path(sys.argv[1]).read_bytes(),resume=True))) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-vault-a276f1a0352a/recovery.key",
+      "exit_code": 0,
+      "observed": "{\"schema_version\": 1, \"state\": \"completed\", \"operation_id\": \"afc90f2d-3b34-4a38-ae8a-6307b77da1e1\", \"started_at\": \"2026-10-31T20:20:57.006554+00:00\", \"completed_at\": \"2026-10-31T20:22:02.935216+00:00\", \"source_schema\": 10, \"target_schema\": 11, \"backup\": {\"ciphertext_sha256\": \"f749704dd4a05920727e70eb690b21dd09482fea28f9957e69eff83b193b6c8d\", \"generation\": \"14c779481eee48b084d60258ddef3df5.bb.age\", \"recoverable_cutoff\": \"2026-10-31T20:21:26.266405+00:00\"}, \"journal\": {\"bytes\": 83520, \"cutoffs\": {\"heads\": [{\"applied\": 70, \"committed\": 70, \"record_count\": 0, \"tenant_id\": \"cd1827ae-a6e7-4113-b4e0-5f8a216fa8ca\"}], \"journal_count\": 70, \"postgres_major\": 17}, \"sha256\": \"6ca323a186726abbde5eaf9cefa1fe22d202746ca3f7756c849b41bfe4462ef6\"}, \"source_probe\": {\"answers_sha256\": \"6c7c74d9db705ddab7dc0a5008a03548948b728156e370585fb81e1083882f53\", \"bodies_exposed\": false, \"mode\": \"capture\", \"publication\": null, \"representative_answers\": 8, \"retained_interpretation_verified\": false, \"status\": \"passed\", \"workspaces\": 1}, \"target_probe\": {\"status\": \"passed\", \"mode\": \"compare\", \"workspaces\": 1, \"representative_answers\": 8, \"answers_sha256\": \"6c7c74d9db705ddab7dc0a5008a03548948b728156e370585fb81e1083882f53\", \"bodies_exposed\": false, \"retained_interpretation_verified\": true, \"publication\": {\"published\": 1, \"builds\": [{\"tenant_id\": \"cd1827ae-a6e7-4113-b4e0-5f8a216fa8ca\", \"build_id\": \"5867a580-5a59-4caf-baec-d3618218a1e5\", \"state\": \"published\", \"recorded_cutoff\": 70}]}}, \"images\": {\"services\": {\"api\": {\"image\": \"sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb\"}, \"engine\": {\"image\": \"sha256:bd2beea7746855ff268f68cff78b69197d331a0e8efe5611d5543621f10ae8b9\"}, \"mcp\": {\"image\": \"sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb\"}, \"tooling\": {\"image\": \"sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb\"}, \"worker\": {\"image\": \"sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb\"}}}, \"rollback\": \"isolated_pre_upgrade_restore_only\"}\n"
+    },
+    {
+      "command": "./blackbox down",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-806be24cfc5d-worker-1  Stopping\n Container blackbox-a-806be24cfc5d-engine-1  Stopping\n Container blackbox-a-806be24cfc5d-api-1  Stopping\n Container blackbox-a-806be24cfc5d-worker-1  Stopped\n Container blackbox-a-806be24cfc5d-api-1  Stopped\n Container blackbox-a-806be24cfc5d-engine-1  Stopped\n Container blackbox-a-806be24cfc5d-postgres-1  Stopping\n Container blackbox-a-806be24cfc5d-postgres-1  Stopped\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-806be24cfc5d-postgres-1  Running\n Container blackbox-a-806be24cfc5d-engine-1  Created\n Container blackbox-a-806be24cfc5d-api-1  Created\n Container blackbox-a-806be24cfc5d-worker-1  Created\n Container blackbox-a-806be24cfc5d-postgres-1  Waiting\n Container blackbox-a-806be24cfc5d-postgres-1  Waiting\n Container blackbox-a-806be24cfc5d-postgres-1  Waiting\n Container blackbox-a-806be24cfc5d-postgres-1  Healthy\n Container blackbox-a-806be24cfc5d-worker-1  Starting\n Container blackbox-a-806be24cfc5d-postgres-1  Healthy\n Container blackbox-a-806be24cfc5d-api-1  Starting\n Container blackbox-a-806be24cfc5d-postgres-1  Healthy\n Container blackbox-a-806be24cfc5d-engine-1  Starting\n Container blackbox-a-806be24cfc5d-worker-1  Started\n Container blackbox-a-806be24cfc5d-engine-1  Started\n Container blackbox-a-806be24cfc5d-api-1  Started\n"
+    },
+    {
+      "command": "/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/blackbox restore resume --to /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-recovery-a276f1a0352a",
+      "exit_code": 0,
+      "observed": "Restore validated. Save the newly issued owner key; old owner, agent and browser access has been revoked.\r\nWiederherstellung gepr\u00fcft. Speichere den neuen Eigent\u00fcmerschl\u00fcssel; alte Eigent\u00fcmer-, Agenten- und Browserzugriffe sind widerrufen.\r\n\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-0b7357d059ec-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nRestored local application: http://127.0.0.1:18813\r\nRaw evidence and provider collection remain blocked until host policy/account reconciliation.\r\nOriginalbelege und Anbieterabrufe bleiben bis zur Richtlinien- und Kontenpr\u00fcfung am Host gesperrt.\r\n"
+    }
+  ],
+  "elapsed_seconds": 164.575,
+  "limitations": [
+    "Synthetic small corpus; not smoke performance or restore RTO",
+    "A deliberate test pause after a committed migration allows actual SIGKILL; no product pause hook",
+    "Representative prior-version equality plus actual changed-rule adversarial values; not independent acceptance review",
+    "No live provider, distribution or independent review claim"
+  ]
+}

@@ -1,6 +1,6 @@
 # Fenced populated upgrades
 
-The implemented path upgrades exact schema8/schema10 PostgreSQL17 installations to schema11, or replaces compatible schema11 images. Schema7 and older supported archives use isolated restore. Schema11 supports verified atomic lifecycle generation publication; clean changed-rule upgrade evidence is tracked separately from the earlier schema8-to10 proof. Distribution and independent review still prevent full PILOT-03 acceptance.
+The implemented path upgrades exact schema8/schema10 PostgreSQL17 installations to schema11, or replaces compatible schema11 images. Schema7 and older supported archives use isolated restore. Schema11 supports verified atomic lifecycle generation publication; clean changed-rule upgrade evidence is recorded at `reports/runs/generations-71972d2`, separately from the earlier schema8-to10 proof. Distribution and independent review still prevent full PILOT-03 acceptance.
 
 Use the new versioned host bundle in the existing installation directory, preserving `.runtime` and its original PostgreSQL volume. The old application containers contain their own code; replacing host files does not migrate their data. The distribution installer must deliver the matching host files and immutable Node/engine image identities. Until that distribution work is complete, the test suite explicitly copies the host bundle and records the exact images; this is developer validation, not a landing-download installation claim.
 
@@ -30,7 +30,7 @@ Resume takes the same lease, checks the preserved files/images, stops any probe 
 
 Rollback means an isolated restore of the recorded pre-upgrade generation with the recovery key and stale-access fencing, using `./blackbox restore <backup-path> --to <new-directory> --port <unused-loopback-port>`. That cutoff excludes later work. Do not point old images at the migrated database or delete the original volume to simulate rollback. A failed migration with no safe forward fix stays fenced until explicit recovery.
 
-`scripts/verify-populated-upgrade.py` exercises the real schema8 installation, mismatched image refusal, wrong valid recovery identity, an actual SIGKILL after a committed migration, changed-file refusal, successful resume, API/SDK MCP/restart parity and an actual isolated restore of the pre-upgrade generation. Its synthetic pause makes the kill point repeatable; it is not a production hook. Run it with a hashed prior bundle and exact target image IDs, and preserve its output with the tested commit. Small-fixture times are not the smoke performance or recovery target.
+`scripts/verify-populated-upgrade.py` exercises a real schema8 or schema10 installation, mismatched image refusal, wrong valid recovery identity, an actual SIGKILL after a committed migration, changed-file refusal, successful resume, API/SDK MCP/restart parity and an actual isolated restore of the pre-upgrade generation. Its synthetic pause makes the kill point repeatable; it is not a production hook. Run it with a hashed prior bundle and exact target image IDs, and preserve its output with the tested commit. Small-fixture times are not the smoke performance or recovery target.
 
 ## Versioned lifecycle publication
 

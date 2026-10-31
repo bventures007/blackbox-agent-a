@@ -1378,18 +1378,20 @@
       "id": "PILOT-03",
       "stage": "operations",
       "status": "implemented_unverified",
-      "tested_commit": "828355916add4585addf6a1d2788d9a39d01f3d1",
-      "command": "python3 scripts/verify-populated-upgrade.py --prior-bundle work/release-fixtures/pilot2-rebuilt-4da9fc9 --node-image sha256:0825713809999e1da9d131dafc4e247650ad80a8495fa5928ff00ff117f95383 --engine-image sha256:f94e4b847432b6f403d2686dd8ec4852ffdf7ea892913b608bc4c4e7a05385c2 --output work/upgrade-8283559.json",
-      "environment": "Apple Silicon macOS; isolated PostgreSQL17 Compose projects, ports18811/18813, exact images from8283559 and hashed prior schema8 fixture.",
-      "observed_result": "Clean 828355916add4585addf6a1d2788d9a39d01f3d1 passed the populated schema8-to10 upgrade: mismatched target-image refusal before migration, wrong valid recovery identity refusal, actual SIGKILL after committed migration009, changed-bundle refusal, durable resume, unchanged complete 55-entry journal digest and four sampled Rust answers, owner API/actual SDK MCP and restart parity. The recorded pre-upgrade generation restored into a separate installation and rejected stale owner access. Ordinary schema10 backup after upgrade and offline CLI upgrade diagnostics also passed. The complete multi-scenario suite took 124.792 seconds; this small fixture is not a smoke performance or restore-RTO result. Typecheck, 26 Node, 119 Python, six Rust and inventory checks passed on the clean commit. Evidence: reports/runs/upgrade-8283559, including exact image identities. Release validation still fails INSTALL-01. Changed-rule atomic projection publication, remaining selected sources, full diagnostics/storage/lifecycle, distribution, smoke performance, external provider access and independent review remain open.",
+      "tested_commit": "71972d2f307c5caf203a162e8abf85aa95fc25ab",
+      "command": "python3 scripts/verify-populated-upgrade.py --prior-bundle work/release-fixtures/pilot3-8283559 --node-image sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb --engine-image sha256:bd2beea7746855ff268f68cff78b69197d331a0e8efe5611d5543621f10ae8b9 --output work/generation-upgrade-71972d2.json",
+      "environment": "Apple Silicon macOS; isolated PostgreSQL17 Compose18811/18813/18815 and PostgreSQL18 native19741/19742/19743; exact images and prior bundles recorded.",
+      "observed_result": "Clean 71972d2f307c5caf203a162e8abf85aa95fc25ab passed versioned lifecycle publication and both exact schema8-to11/schema10-to11 upgrades. Actual SIGKILL after committed migration009 or011, mismatched image, wrong recovery identity and changed-bundle refusals, resume, prior-v2 reproduction, corrected v3 monetary revision/delivery values, API/SDK MCP/restart and isolated pre-upgrade recovery passed. The complete70-entry journal remained unchanged. Same-schema11 replacement and a fully authenticated schema11 archive restored its published generation and both interpretations in another installation. Native30-entity tests passed interrupted candidate batching, tail catch-up, corrupt candidate refusal, whole-generation concurrent reads, cache/restart/cold replay and current revocation. All24 question paths, settlement/shipping adversaries and Golden recovery/security regressions passed. All119 Python,26 Node,eight Rust,typecheck and819-field inventory checks passed; actualschema11 metadata matched289 columns during development. Evidence: reports/runs/generations-71972d2. Small synthetic suites are not the full smoke benchmark, physical Mac sleep, distribution or independent approval. Release validation still fails INSTALL-01. Explicit failed-build repair UX, unsupported-event/outbox review, remaining selected sources, full diagnostics/storage/lifecycle, distribution/performance and external provider/reviewer access remain open.",
       "evidence_paths": [
-        "reports/runs/upgrade-8283559/upgrade.json",
-        "reports/runs/upgrade-8283559/ordinary-backup.json",
-        "reports/runs/upgrade-8283559/validation.json",
-        "reports/runs/upgrade-8283559/node-validation.json",
-        "reports/runs/upgrade-8283559/outage-logs.json"
+        "reports/runs/generations-71972d2/native.json",
+        "reports/runs/generations-71972d2/question-golden-regression.json",
+        "reports/runs/generations-71972d2/upgrade-schema10.json",
+        "reports/runs/generations-71972d2/upgrade-schema8.json",
+        "reports/runs/generations-71972d2/current-backup-recovery.json",
+        "reports/runs/generations-71972d2/validation.json",
+        "reports/runs/generations-71972d2/images.json"
       ],
-      "blocker": "Changed-rule atomic projection build/publication, exact distribution artifacts and independent review remain incomplete. Populated unchanged-rule upgrade and interrupted migration are verified only at the recorded small synthetic corpus.",
+      "blocker": "Explicit failed-build safe repair and unsupported-event handling, versioned distribution artifacts and independent review remain incomplete. Full smoke performance is unmeasured. Actual versioned publication, upgrades and backup recovery are verified only on the recorded synthetic corpora.",
       "delivery_scope": "local_pilot"
     },
     {

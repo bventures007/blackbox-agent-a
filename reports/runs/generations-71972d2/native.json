@@ -1,0 +1,63 @@
+{
+  "status": "passed",
+  "tested_commit": "71972d2f307c5caf203a162e8abf85aa95fc25ab",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T20:19:40.793290+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "postgres": 18,
+    "ports": [
+      19741,
+      19742,
+      19743
+    ]
+  },
+  "commands": [
+    {
+      "command": "cargo build --locked --offline -p blackbox-engine",
+      "exit_code": 0,
+      "observed": "   Compiling blackbox-domain v0.1.0 (/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/crates/domain)\n   Compiling blackbox-engine v0.1.0 (/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/apps/engine)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.90s\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/projection-generations.ts seed",
+      "exit_code": 0,
+      "observed": "{\"status\":\"seeded\",\"entities\":30,\"candidate_batch\":25,\"next\":\"Restart the actual native engine/PostgreSQL/API, then run verify.\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/projection-generations.ts verify",
+      "exit_code": 0,
+      "observed": "{\"status\":\"passed\",\"phase\":\"verify\",\"checks\":[\"restart_resumes_candidate_keyset\",\"API_cannot_create_host_grants\",\"foreign_tenant_cannot_advance_grant\",\"tail_returns_verified_build_to_catchup\",\"corrupt_candidate_fails_without_publication\",\"concurrent_reads_use_whole_old_or_new_interpretation\",\"real_v2_money_and_delivery_defects_corrected\",\"explicit_prior_interpretation_preserved\",\"actual_SDK_MCP_versions_match_API\",\"complete_journal_unchanged\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/projection-generations.ts restart",
+      "exit_code": 0,
+      "observed": "{\"status\":\"passed\",\"phase\":\"restart\",\"checks\":[\"published_generation_survives_restart\",\"missing_active_projection_uses_versioned_cold_replay\",\"journal_still_unchanged\",\"revocation_denies_cached_state\"]}\n"
+    }
+  ],
+  "elapsed_seconds": 7.755,
+  "limitations": [
+    "Synthetic30entity native development fixture, not smoke performance or distribution evidence",
+    "Actual orderly service restart, not SIGKILL or physical Mac sleep",
+    "No independent acceptance approval"
+  ]
+}

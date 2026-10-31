@@ -1,0 +1,126 @@
+{
+  "kind": "published_generation_current_backup_upgrade_recovery",
+  "status": "passed",
+  "tested_commit": "71972d2f307c5caf203a162e8abf85aa95fc25ab",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T20:28:14.040352+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "ports": [
+      18811,
+      18815
+    ],
+    "stages": [
+      "work/upgrade-a276f1a0352a",
+      "work/generation-current-recovery-71972d2"
+    ],
+    "images": {
+      "node": "sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb",
+      "engine": "sha256:bd2beea7746855ff268f68cff78b69197d331a0e8efe5611d5543621f10ae8b9"
+    }
+  },
+  "checks": [
+    "same_schema11_upgrade_preserves_published_generation_and_unchanged_journal",
+    "complete_authenticated_schema11_archive_contains_matching_generation_and_runtime_contract",
+    "actual_schema11_isolated_restore_preserves_active_generation_and_both_API_SDK_MCP_interpretations"
+  ],
+  "upgrade": {
+    "backup": {
+      "ciphertext_sha256": "e952225c4da08dee2bb2410bf5e97fe2e44a86d6e0b424f139a8cf486ede982e",
+      "generation": "8f5c89dc3768438bae6f409defe7911e.bb.age",
+      "recoverable_cutoff": "2026-10-31T20:27:10.833012+00:00"
+    },
+    "completed_at": "2026-10-31T20:27:30.330714+00:00",
+    "images": {
+      "services": {
+        "api": {
+          "image": "sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb"
+        },
+        "engine": {
+          "image": "sha256:bd2beea7746855ff268f68cff78b69197d331a0e8efe5611d5543621f10ae8b9"
+        },
+        "mcp": {
+          "image": "sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb"
+        },
+        "tooling": {
+          "image": "sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb"
+        },
+        "worker": {
+          "image": "sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb"
+        }
+      }
+    },
+    "journal": {
+      "bytes": 83520,
+      "cutoffs": {
+        "heads": [
+          {
+            "applied": 70,
+            "committed": 70,
+            "record_count": 0,
+            "tenant_id": "cd1827ae-a6e7-4113-b4e0-5f8a216fa8ca"
+          }
+        ],
+        "journal_count": 70,
+        "postgres_major": 17
+      },
+      "sha256": "6ca323a186726abbde5eaf9cefa1fe22d202746ca3f7756c849b41bfe4462ef6"
+    },
+    "operation_id": "dfae446f-4dbd-4b94-8f5a-e4d572022607",
+    "rollback": "isolated_pre_upgrade_restore_only",
+    "schema_version": 1,
+    "source_probe": {
+      "answers_sha256": "1ef276a186333bee5e5d37fe127882de3e6fbdee83e021f604f8e1012bb474f4",
+      "bodies_exposed": false,
+      "mode": "capture",
+      "publication": null,
+      "representative_answers": 8,
+      "retained_interpretation_verified": false,
+      "status": "passed",
+      "workspaces": 1
+    },
+    "source_schema": 11,
+    "started_at": "2026-10-31T20:26:42.780606+00:00",
+    "state": "completed",
+    "target_probe": {
+      "answers_sha256": "1ef276a186333bee5e5d37fe127882de3e6fbdee83e021f604f8e1012bb474f4",
+      "bodies_exposed": false,
+      "mode": "compare",
+      "publication": {
+        "builds": [],
+        "published": 0
+      },
+      "representative_answers": 8,
+      "retained_interpretation_verified": true,
+      "status": "passed",
+      "workspaces": 1
+    },
+    "target_schema": 11
+  },
+  "commands": [
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-806be24cfc5d-postgres-1  Running\n Container blackbox-a-806be24cfc5d-api-1  Creating\n Container blackbox-a-806be24cfc5d-engine-1  Creating\n Container blackbox-a-806be24cfc5d-worker-1  Creating\n Container blackbox-a-806be24cfc5d-engine-1  Created\n Container blackbox-a-806be24cfc5d-api-1  Created\n Container blackbox-a-806be24cfc5d-worker-1  Created\n Container blackbox-a-806be24cfc5d-postgres-1  Waiting\n Container blackbox-a-806be24cfc5d-postgres-1  Waiting\n Container blackbox-a-806be24cfc5d-postgres-1  Waiting\n Container blackbox-a-806be24cfc5d-postgres-1  Healthy\n Container blackbox-a-806be24cfc5d-engine-1  Starting\n Container blackbox-a-806be24cfc5d-postgres-1  Healthy\n Container blackbox-a-806be24cfc5d-worker-1  Starting\n Container blackbox-a-806be24cfc5d-postgres-1  Healthy\n Container blackbox-a-806be24cfc5d-api-1  Starting\n Container blackbox-a-806be24cfc5d-engine-1  Started\n Container blackbox-a-806be24cfc5d-api-1  Started\n Container blackbox-a-806be24cfc5d-worker-1  Started\n"
+    },
+    {
+      "command": "./blackbox reset-access",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-806be24cfc5d-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\n"
+    },
+    {
+      "command": "python3 -c import pathlib,sys,json;sys.path.insert(0,'scripts');from upgrade_operations import upgrade;r=pathlib.Path.cwd();print(json.dumps(upgrade(r,pathlib.Path(sys.argv[1]).read_bytes(),node_image=sys.argv[2],engine_image=sys.argv[3]))) /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/upgrade-vault-a276f1a0352a/recovery.key sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb sha256:bd2beea7746855ff268f68cff78b69197d331a0e8efe5611d5543621f10ae8b9",
+      "exit_code": 0,
+      "observed": "{\"schema_version\": 1, \"state\": \"completed\", \"operation_id\": \"dfae446f-4dbd-4b94-8f5a-e4d572022607\", \"started_at\": \"2026-10-31T20:26:42.780606+00:00\", \"completed_at\": \"2026-10-31T20:27:30.330714+00:00\", \"source_schema\": 11, \"target_schema\": 11, \"backup\": {\"generation\": \"8f5c89dc3768438bae6f409defe7911e.bb.age\", \"ciphertext_sha256\": \"e952225c4da08dee2bb2410bf5e97fe2e44a86d6e0b424f139a8cf486ede982e\", \"recoverable_cutoff\": \"2026-10-31T20:27:10.833012+00:00\"}, \"journal\": {\"sha256\": \"6ca323a186726abbde5eaf9cefa1fe22d202746ca3f7756c849b41bfe4462ef6\", \"bytes\": 83520, \"cutoffs\": {\"postgres_major\": 17, \"heads\": [{\"tenant_id\": \"cd1827ae-a6e7-4113-b4e0-5f8a216fa8ca\", \"committed\": 70, \"applied\": 70, \"record_count\": 0}], \"journal_count\": 70}}, \"source_probe\": {\"status\": \"passed\", \"mode\": \"capture\", \"workspaces\": 1, \"representative_answers\": 8, \"answers_sha256\": \"1ef276a186333bee5e5d37fe127882de3e6fbdee83e021f604f8e1012bb474f4\", \"bodies_exposed\": false, \"retained_interpretation_verified\": false, \"publication\": null}, \"target_probe\": {\"status\": \"passed\", \"mode\": \"compare\", \"workspaces\": 1, \"representative_answers\": 8, \"answers_sha256\": \"1ef276a186333bee5e5d37fe127882de3e6fbdee83e021f604f8e1012bb474f4\", \"bodies_exposed\": false, \"retained_interpretation_verified\": true, \"publication\": {\"published\": 0, \"builds\": []}}, \"images\": {\"services\": {\"api\": {\"image\": \"sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb\"}, \"engine\": {\"image\": \"sha256:bd2beea7746855ff268f68cff78b69197d331a0e8efe5611d5543621f10ae8b9\"}, \"mcp\": {\"image\": \"sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb\"}, \"tooling\": {\"image\": \"sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb\"}, \"worker\": {\"image\": \"sha256:77c12faf2dbd9e0cce845d1ca9200df9d0ea756e9069e0c01d01741620493adb\"}}}, \"rollback\": \"isolated_pre_upgrade_restore_only\"}\n"
+    },
+    {
+      "command": "/Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/blackbox restore resume --to /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/generation-current-recovery-71972d2",
+      "exit_code": 0,
+      "observed": "Restore validated. Save the newly issued owner key; old owner, agent and browser access has been revoked.\r\nWiederherstellung gepr\u00fcft. Speichere den neuen Eigent\u00fcmerschl\u00fcssel; alte Eigent\u00fcmer-, Agenten- und Browserzugriffe sind widerrufen.\r\n\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-e684ca05cb4e-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nRestored local application: http://127.0.0.1:18815\r\nRaw evidence and provider collection remain blocked until host policy/account reconciliation.\r\nOriginalbelege und Anbieterabrufe bleiben bis zur Richtlinien- und Kontenpr\u00fcfung am Host gesperrt.\r\n"
+    }
+  ],
+  "elapsed_seconds": 109.04,
+  "limitations": [
+    "Synthetic70entry corpus; not full smoke performance, fresh distribution or independent acceptance"
+  ]
+}

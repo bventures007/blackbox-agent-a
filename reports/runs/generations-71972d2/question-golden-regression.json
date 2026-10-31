@@ -1,0 +1,117 @@
+{
+  "status": "passed",
+  "tested_commit": "71972d2f307c5caf203a162e8abf85aa95fc25ab",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T20:23:17.193718+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "postgres": 18,
+    "ports": [
+      19741,
+      19742,
+      19743
+    ]
+  },
+  "commands": [
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts seed",
+      "exit_code": 0,
+      "observed": "{\"intent\":\"inventory.available_to_sell\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"inventory.available_to_sell\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.fulfillable\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":2}\n{\"intent\":\"orders.fulfillable\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.reservation_variance\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"orders.reservation_variance\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.inbound_delay_impact\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"orders.inbound_delay_impact\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"shipments.attention\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"shipments.attention\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"shipments.promise_risk\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"shipments.promise_risk\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.partial_delivery_gaps\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"orders.partial_delivery_gaps\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"customer.delivery_reply\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"customer.delivery_reply\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"invoices.outstanding\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"invoices.outstanding\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.missing_invoice\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"orders.missing_invoice\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"invoices.order_amount_variance\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"invoices.order_amount_variance\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"invoices.dispatch_evidence\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":2}\n{\"intent\":\"invoices.dispatch_evidence\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"orders.payment_state\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"orders.payment_state\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"payments.recovered_attempts\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"payments.recovered_attempts\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"invoices.payment_variance\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"invoices.payment_variance\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"receivables.review_queue\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"receivables.review_queue\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"providers.money_positions\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"providers.money_positions\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"payouts.gross_to_net\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"payouts.gross_to_net\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"payouts.missing_bank_confirmation\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"payouts.missing_bank_confirmation\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"providers.holds_and_releases\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"providers.holds_and_releases\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"returns.lifecycle\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"returns.lifecycle\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"credits.refund_gaps\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"credits.refund_gaps\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"intent\":\"cancellations.outstanding_steps\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"cancellations.outstanding_steps\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"refunds.chargeback_overlap\",\"case\":\"positive\",\"result\":\"passed\",\"rows\":1}\n{\"intent\":\"refunds.chargeback_overlap\",\"case\":\"missing\",\"result\":\"passed\",\"rows\":0}\n{\"suite\":\"all_24_structured_questions\",\"phase\":\"seed\",\"result\":\"passed\",\"positive\":24,\"changed_money_fractional_quantity_late_correction\":24,\"missing\":24,\"checks\":[\"signed_HTTP_typed_records\",\"PostgreSQL_journal_outbox\",\"Rust_record_projection_and_intent_calculation\",\"API_SDK_MCP_parity\",\"declared_coverage_never_presented_as_independent_verification\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts seed",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"seed\",\"result\":\"passed\",\"scenarios\":2,\"checkpoints\":22,\"checks\":[\"owner_provisioned_connection_bound_producer\",\"signed_HTTP_ingestion\",\"immutable_source_outbox\",\"all_five_tracks\",\"all_original_Golden_checkpoints\",\"varied_USD_money_and_quantity\",\"Rust_only_effects\",\"API_MCP_provenance_parity\",\"concurrent_duplicate_no_double_effect\",\"stock_and_money_conservation\",\"evidence_resolves_through_MCP\",\"durable_nonce_and_signature_body_connection_role_denials\"],\"limitations\":[\"Synthetic producer; no external provider claim\",\"No complete population coverage asserted\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"all_24_structured_questions\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"72_fixed_cutoffs_values_coverage_evidence_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"22_fixed_cutoffs_values_and_provenance_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts corrupt",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"corrupt\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts corrupt",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"corrupt\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"all_24_structured_questions\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"72_fixed_cutoffs_values_coverage_evidence_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"22_fixed_cutoffs_values_and_provenance_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts remove",
+      "exit_code": 0,
+      "observed": "{\"phase\":\"remove\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts remove",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"remove\",\"result\":\"injected\"}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py down",
+      "exit_code": 0,
+      "observed": "Native development processes stopped; data preserved.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py up",
+      "exit_code": 0,
+      "observed": "Isolated native development processes started. Web 19741, engine 19742, fixture 19743; PostgreSQL private Unix socket.\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"all_24_structured_questions\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"72_fixed_cutoffs_values_coverage_evidence_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/golden.ts verify",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"golden_persisted\",\"phase\":\"verify\",\"result\":\"passed\",\"checks\":[\"22_fixed_cutoffs_values_and_provenance_API_MCP\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/questions/pipeline.ts security",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"all_24_structured_questions\",\"phase\":\"security\",\"result\":\"passed\",\"checks\":[\"all_24_cross_tenant_evidence_denial\",\"caller_tenant_rejected\",\"warmed_then_revoked_API_MCP_denial\",\"principal_workspace_bound_cursor\"]}\n"
+    }
+  ],
+  "elapsed_seconds": 203.622,
+  "limitations": [
+    "Synthetic question/adversarial/Golden corpus, not live providers, distribution or performance",
+    "No independent acceptance approval"
+  ]
+}
