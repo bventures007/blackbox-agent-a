@@ -1,0 +1,32 @@
+{
+  "kind": "persisted_recovery_guards",
+  "status": "passed",
+  "tested_commit": "c922dcdaa0a5375d3e0b4cb002edb89c25089297",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T16:26:52.419173+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "runtime": "Isolated native PostgreSQL18.4, Node25.9; actual worker/API non-owner database roles"
+  },
+  "commands": [
+    {
+      "command": "python3 scripts/native-dev.py pause-worker",
+      "exit_code": 0,
+      "observed": "pause-worker\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py exec node --import tsx tests/recovery-guards.ts",
+      "exit_code": 0,
+      "observed": "{\"suite\":\"persisted_recovery_guards\",\"status\":\"passed\",\"checks\":[\"restored_raw_evidence_blocked\",\"numeric_state_preserved\",\"provider_job_claim_and_existing_lease_fenced\",\"pending_scheduler_excludes_guarded_tenant\",\"cross_tenant_guard_isolation\",\"runtime_cannot_unblock_guard\",\"policy_unblock_does_not_resume_sources\"],\"limitations\":[\"Guard subset only; no full database restore approval\"]}\n"
+    },
+    {
+      "command": "python3 scripts/native-dev.py resume-worker",
+      "exit_code": 0,
+      "observed": "resume-worker\n"
+    }
+  ],
+  "limitations": [
+    "Recovery guard subset; full encrypted database restore not yet proved",
+    "No independent review or PILOT/OPS acceptance approval"
+  ]
+}
