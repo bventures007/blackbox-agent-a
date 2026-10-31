@@ -3,7 +3,7 @@ from contextlib import contextmanager
 import hashlib,json,os,pathlib,re,shutil,stat,subprocess,time,uuid,threading
 from backup_codec import decrypt,inspect_archive,BackupFormatError,MAX_ARCHIVE,MAX_MANIFEST,decode_json
 from backup_operations import atomic_json,compose,run,sql,cutoffs,stamp,operation_lock
-from host_runtime import parse_keyring,key_filename,validate_keys,compose_config,compose_environment,protected_directory,create_file,protected_read,RuntimeConfigError
+from host_runtime import parse_keyring,key_filename,validate_keys,read_compose,compose_config,compose_environment,protected_directory,create_file,protected_read,RuntimeConfigError
 
 
 def digest_file(file):
@@ -127,7 +127,13 @@ def restore(root,backup,destination,secret,port=18755):
     directory_fd=os.open(runtime/'secrets',os.O_RDONLY|os.O_DIRECTORY)
     try:os.fsync(directory_fd)
     finally:os.close(directory_fd)
-    validate_keys(runtime)
+    layout='keyring-v2'if 'secrets/keyring.json'in small else 'legacy-v1'
+    config=read_compose(runtime);config['BB_KEY_LAYOUT']=layout
+    temporary=runtime/('.restore-compose-'+uuid.uuid4().hex);create_file(temporary,''.join(k+'='+v+'\n'for k,v in config.items()).encode());temporary.replace(runtime/'compose.env')
+    directory_fd=os.open(runtime,os.O_RDONLY|os.O_DIRECTORY)
+    try:os.fsync(directory_fd)
+    finally:os.close(directory_fd)
+    validate_keys(runtime,layout)
     if cutoffs(destination)!=manifest['metadata']['snapshot']:raise BackupFormatError('restored_database_cutoff_mismatch')
     # This known additive migration supplies guards to the pre-guard development format.
     has_guard=sql(destination,"SELECT coalesce(to_regclass('bb.recovery_guards')::text,'');").strip()

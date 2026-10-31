@@ -124,9 +124,11 @@ def read_keyring(runtime: Path) -> dict | None:
         raise RuntimeConfigError('Invalid encryption keyring metadata.') from None
 
 
-def validate_keys(runtime: Path) -> None:
+def validate_keys(runtime: Path, expected_layout: str | None = None) -> None:
     protected_directory(runtime / 'secrets')
     ring = read_keyring(runtime)
+    if expected_layout == 'keyring-v2' and ring is None:
+        raise RuntimeConfigError('Missing independent key metadata. Restore the original identity and keyring; no legacy fallback.')
     data = []
     for identifier in ring['keys'] if ring else ['data-v1']:
         material = protected_read(runtime / 'secrets' / key_filename(identifier), 32)
@@ -178,15 +180,16 @@ def native_config(runtime: Path, create: bool = False) -> dict:
             prepare_keys(runtime, not (runtime / 'compose.env').exists())
             value = {key: secrets.token_hex(32) for key in ['admin', 'api', 'worker', 'engine']}
             value['socket'] = '/private/tmp/blackbox-a-' + secrets.token_hex(6)
+            value['key_layout'] = 'keyring-v2' if read_keyring(runtime) else 'legacy-v1'
             create_file(path, json.dumps(value).encode())
         try:
             value = json.loads(protected_read(path))
-            valid = isinstance(value, dict) and set(value) == {'admin', 'api', 'worker', 'engine', 'socket'} and all(re.fullmatch('[a-f0-9]{64}', value[k]) for k in ['admin', 'api', 'worker', 'engine']) and re.fullmatch('/private/tmp/blackbox-a-[a-f0-9]{12}', value['socket'])
+            valid = isinstance(value, dict) and {'admin', 'api', 'worker', 'engine', 'socket'} <= set(value) <= {'admin', 'api', 'worker', 'engine', 'socket', 'key_layout'} and value.get('key_layout', 'legacy-v1') in ['legacy-v1','keyring-v2'] and all(re.fullmatch('[a-f0-9]{64}', value[k]) for k in ['admin', 'api', 'worker', 'engine']) and re.fullmatch('/private/tmp/blackbox-a-[a-f0-9]{12}', value['socket'])
         except (ValueError, TypeError):
             valid = False
         if not valid:
             raise RuntimeConfigError('Invalid native database configuration. Restore native.json; no replacement credentials generated.')
-        validate_keys(runtime)
+        validate_keys(runtime, value.get('key_layout', 'legacy-v1'))
         for name in ['evidence', 'logs', 'control', 'control/status', 'control/requests']:
             protected_directory(runtime / name, True)
         return value
@@ -204,10 +207,12 @@ def read_compose(runtime: Path) -> dict:
             raise RuntimeConfigError('Invalid or duplicate Compose configuration field.')
         values[name] = value
     required = PASSWORD_FIELDS
-    if not required <= values.keys() or not values.keys() <= required | {'BB_PROJECT', 'BB_PORT', 'BB_UID', 'BB_GID'}:
+    if not required <= values.keys() or not values.keys() <= required | {'BB_PROJECT', 'BB_PORT', 'BB_UID', 'BB_GID', 'BB_KEY_LAYOUT'}:
         raise RuntimeConfigError('Unexpected Compose configuration fields.')
     if not all(re.fullmatch('[a-f0-9]{64}', values[k]) for k in PASSWORD_FIELDS):
         raise RuntimeConfigError('Invalid database credential encoding; restore the protected configuration.')
+    if values.get('BB_KEY_LAYOUT', 'legacy-v1') not in ['legacy-v1', 'keyring-v2']:
+        raise RuntimeConfigError('Invalid installation key-layout marker.')
     # Early developer installations used the committed Compose defaults 501:20.
     uid, gid = values.get('BB_UID', '501'), values.get('BB_GID', '20')
     if any(not re.fullmatch('[0-9]{1,10}', value) for value in [uid, gid]) or int(uid) != os.getuid() or int(gid) != os.getgid():
@@ -242,7 +247,7 @@ def compose_config(runtime: Path, create: bool = False, port: int | None = None,
             if not isinstance(port, int) or not 1024 <= port <= 65535:
                 raise RuntimeConfigError('Invalid loopback application port.')
             prepare_keys(runtime, True)
-            values = {'BB_UID': str(os.getuid()), 'BB_GID': str(os.getgid()), 'BB_PROJECT': 'blackbox-a-' + secrets.token_hex(6), 'BB_PORT': str(port)}
+            values = {'BB_KEY_LAYOUT': 'keyring-v2', 'BB_UID': str(os.getuid()), 'BB_GID': str(os.getgid()), 'BB_PROJECT': 'blackbox-a-' + secrets.token_hex(6), 'BB_PORT': str(port)}
             values.update({key: secrets.token_hex(32) for key in sorted(PASSWORD_FIELDS)})
             create_file(path, ''.join(f'{key}={value}\n' for key, value in values.items()).encode())
         try:
@@ -252,7 +257,7 @@ def compose_config(runtime: Path, create: bool = False, port: int | None = None,
         if port is not None and int(values.get('BB_PORT', '18741')) != port:
             raise RuntimeConfigError('Existing installation uses a different port. Startup never rewrites configuration.')
         if require_keys:
-            validate_keys(runtime)
+            validate_keys(runtime, values.get('BB_KEY_LAYOUT', 'legacy-v1'))
         for name in ['evidence', 'logs', 'control', 'control/status', 'control/requests']:
             protected_directory(runtime / name, True)
         return values

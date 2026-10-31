@@ -31,9 +31,11 @@ test("versioned material preserves legacy decryption and identity, rejects tampe
     previous = {
       data: process.env.DATA_KEY_FILE,
       identity: process.env.IDENTITY_KEY_FILE,
+      layout: process.env.DATA_KEY_LAYOUT,
     };
   process.env.DATA_KEY_FILE = join(directory, "data");
   delete process.env.IDENTITY_KEY_FILE;
+  delete process.env.DATA_KEY_LAYOUT;
   const tenant = "83aad8e4-a84f-4eb4-b901-7e86bf069a30",
     evidence = "c0d2f717-c4cb-4c9f-9701-573e4fae9505",
     old = randomBytes(32),
@@ -42,6 +44,13 @@ test("versioned material preserves legacy decryption and identity, rejects tampe
     writeFile(join(directory, name), data, { mode: 0o600 });
   try {
     await write("data", old);
+    process.env.DATA_KEY_LAYOUT = "keyring-v2";
+    await assert.rejects(() => identityKey(), /metadata_missing/);
+    await assert.rejects(
+      () => encryptEvidence(tenant, evidence, plain),
+      /metadata_missing/,
+    );
+    delete process.env.DATA_KEY_LAYOUT;
     const oldIdentity = await opaqueIdentity(tenant, "stable-fixture");
     assert.deepEqual(await identityKey(), old);
     const nonce = randomBytes(12),
@@ -192,6 +201,7 @@ test("versioned material preserves legacy decryption and identity, rejects tampe
     for (const [name, value] of [
       ["DATA_KEY_FILE", previous.data],
       ["IDENTITY_KEY_FILE", previous.identity],
+      ["DATA_KEY_LAYOUT", previous.layout],
     ]) {
       if (value) process.env[name!] = value;
       else delete process.env[name!];

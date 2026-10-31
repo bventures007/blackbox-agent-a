@@ -1,6 +1,5 @@
 import { identityKey } from "../auth/key-material.js";
 import { createHmac } from "node:crypto";
-import { readFile } from "node:fs/promises";
 import { z } from "zod";
 import type { Observation } from "../contracts/index.js";
 import { ingest } from "../application/ingest.js";

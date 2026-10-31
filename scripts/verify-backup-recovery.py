@@ -116,6 +116,7 @@ try:
  if a.rotate_data_key:
   from verify_rotation_workflow import workflow
   rotation_proof=workflow(ROOT,source,secret,api,arguments,command,mark,token);snapshot=cutoffs(source)
+  assert mcp(a.source_port,old_agent,arguments)['result']==answer['result'];mark('existing_agent_SDK_MCP_preserves_full_fixed_cutoff_answer_after_data_key_rotation')
  prior_generations=set(managed.glob('*.bb.age'))
  # Wrong live key and corrupted retained evidence must prevent publication.
  run(source,'stop','api','worker','engine');prior=services(source)

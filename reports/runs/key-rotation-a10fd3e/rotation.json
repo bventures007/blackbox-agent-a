@@ -1,0 +1,82 @@
+{
+  "kind": "isolated_backup_recovery_after_original_removal",
+  "status": "failed",
+  "tested_commit": "a10fd3e2c6a81f38b2952fe188f7bab22c5412be",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T17:32:52.411742+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "source_port": 18765,
+    "restore_port": 18769,
+    "source_stage": "work/bootstrap-f7c96d9650fb",
+    "restore_stage": "work/recovered-4b6fc5ab0455",
+    "node_image_source_commit": "a10fd3e",
+    "engine_image_source_commit": "b1f8392",
+    "node_image": "sha256:16c6020a7ffeee5264e488f1f8c04a9f1124f1257cfa4a372df1a664ceb89ff2",
+    "database": "PostgreSQL17 Compose; synthetic isolated test workspaces"
+  },
+  "original_removed": false,
+  "rotation_proof": {
+    "status": "passed",
+    "observed_changed_before_kill": 2,
+    "observed_remaining_before_kill": 255,
+    "additional_evidence_objects": 256,
+    "approximate_additional_plaintext_bytes": 33554432,
+    "old_generation_restore_stage": "work/rotation-old-backup-4b6fc5ab0455",
+    "verification": {
+      "status": "passed",
+      "checks": [
+        "both_tenant_credentials_and_identity_anchors_preserved",
+        "credential_wrong_tenant_and_purpose_denied",
+        "all_retained_evidence_plaintext_hashes_preserved"
+      ]
+    }
+  },
+  "checks": [
+    "saved_fixed_cutoff_API_and_actual_SDK_MCP_match_before_backup",
+    "actual_partial_ciphertext_rotation_SIGKILL_preserves_keys_and_blocks_startup",
+    "resume_stops_only_owned_orphan_verifies_all_ciphertexts_and_credentials_then_retires_old_live_key",
+    "old_encrypted_generation_restores_original_keys_and_all_retained_content_after_live_retirement"
+  ],
+  "commands": [
+    {
+      "command": "python3 scripts/verify-bootstrap.py --port 18765 --node-image-commit a10fd3e --engine-image-commit b1f8392 --output /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/.runtime/recovery-bootstrap-4b6fc5ab0455.json",
+      "exit_code": 0,
+      "observed": "fresh_host_setup_login_and_persisted_example\nfresh_bootstrap_checks_passed\n"
+    },
+    {
+      "command": "./blackbox reset-access",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-637cbf156ba1-postgres-1  Created0.0s \r\n\u001b[?25h\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\r\n \u280b Container blackbox-a-637cbf156ba1-postgres-1  Starting0.1s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 1/1\r\n \u2714 Container blackbox-a-637cbf156ba1-postgres-1  Started0.1s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-637cbf156ba1-postgres-1  Running\n Container blackbox-a-637cbf156ba1-api-1  Created\n Container blackbox-a-637cbf156ba1-worker-1  Created\n Container blackbox-a-637cbf156ba1-engine-1  Created\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-api-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-worker-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-engine-1  Starting\n Container blackbox-a-637cbf156ba1-api-1  Started\n Container blackbox-a-637cbf156ba1-worker-1  Started\n Container blackbox-a-637cbf156ba1-engine-1  Started\n"
+    },
+    {
+      "command": "./blackbox key resume",
+      "exit_code": 0,
+      "observed": "Data-key rotation verified and completed. Old live key removed; independent identity unchanged. Existing encrypted backups retain their own key material.\nDaten-Schl\u00fcssel gepr\u00fcft und gewechselt. Alter aktiver Schl\u00fcssel entfernt; unabh\u00e4ngige Identit\u00e4t unver\u00e4ndert. Bestehende verschl\u00fcsselte Sicherungen behalten ihr eigenes Schl\u00fcsselmaterial.\n"
+    }
+  ],
+  "corpus": {
+    "journal_entries": 55,
+    "retained_evidence_objects": null,
+    "encrypted_bytes": null
+  },
+  "timing": {
+    "total_test_seconds": 192.558,
+    "bootstrap_seconds": 97.486,
+    "loss_to_authorized_API_and_MCP_seconds": null,
+    "operator_wait_seconds": 0.0,
+    "automated_operator": true
+  },
+  "restore_state": null,
+  "limitations": [
+    "Small synthetic corpus; not the required 250-MiB smoke corpus or recovery-time acceptance",
+    "Same physical Apple Silicon Mac with new isolated Compose resources; not a second machine",
+    "Copied host runtime and prebuilt development images; not the browser-downloaded distribution artifact",
+    "Current policy reconciliation, source revalidation, full operational acceptance, upgrade and independent review remain outside this proof"
+  ]
+}

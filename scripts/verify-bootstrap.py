@@ -99,6 +99,15 @@ try:
   finally:path.write_bytes(original)
   command(['./blackbox','up']);ready();assert state(sample['entity_id'])['result']==before['result']
  checks.append('same_length_data_or_identity_key_corruption_denies_startup_until_original_restored')
+ missing={name:(stage/'.runtime/secrets'/name).read_bytes()for name in ['identity','keyring.json']}
+ for name in missing:(stage/'.runtime/secrets'/name).unlink()
+ try:
+  failed=command(['./blackbox','up'],expect=1);assert 'no legacy fallback'in failed
+  assert all(not(stage/'.runtime/secrets'/name).exists()for name in missing)
+ finally:
+  for name,value in missing.items():
+   path=stage/'.runtime/secrets'/name;path.write_bytes(value);path.chmod(0o600)
+ checks.append('loss_of_both_identity_and_keyring_never_downgrades_to_legacy_derivation')
  reset=command(['./blackbox','reset-access'],interactive=True);fresh=re.findall(r'bb_owner_[A-Za-z0-9_-]{43}',reset);assert len(fresh)==1 and fresh[0]!=owner
  assert call('/v1/status')[0]==401;assert call('/v1/login',{'key':owner})[0]==401
  login(fresh[0]);assert state(sample['entity_id'])['result']==before['result']

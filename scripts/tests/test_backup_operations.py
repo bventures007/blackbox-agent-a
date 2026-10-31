@@ -1,11 +1,22 @@
 import json,os,pathlib,sys,tempfile,unittest
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]))
-from backup_operations import atomic_json,atomic_json_at,operation_lock,target,fence
-from host_runtime import RuntimeConfigError
+from backup_operations import atomic_json,atomic_json_at,operation_lock,target,fence,generation
+from host_runtime import RuntimeConfigError,compose_config
+from unittest.mock import patch
 class BackupOperationTests(unittest.TestCase):
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory();self.root=pathlib.Path(self.tmp.name);self.runtime=self.root/'.runtime';self.runtime.mkdir(mode=0o700)
  def tearDown(self):self.tmp.cleanup()
+ def test_key_rejection_records_failed_attempt_without_touching_prior_generation(self):
+  compose_config(self.runtime,True)
+  atomic_json(self.runtime/'backup.json',{'interval_seconds':84600,'destination':str(self.root/'unavailable'),'directory':'managed'})
+  prior={'state':'completed','last_completed':'2026-10-31T00:00:00Z','recoverable_cutoff':'2026-10-31T00:00:00Z','generation':'prior-good.bb.age'}
+  atomic_json(self.runtime/'backup-status.json',prior)
+  (self.runtime/'secrets/data').write_bytes(os.urandom(32))
+  with patch('backup_operations.run')as container,self.assertRaisesRegex(RuntimeConfigError,'integrity mismatch'):generation(self.root)
+  container.assert_not_called();status=json.loads((self.runtime/'backup-status.json').read_text())
+  self.assertEqual(status['state'],'failed');self.assertEqual(status['generation'],prior['generation']);self.assertEqual(status['last_completed'],prior['last_completed']);self.assertEqual(status['error'],'backup_key_material_invalid');self.assertIsNotNone(status['last_attempt'])
+  visible=json.loads((self.runtime/'control/status/backup.json').read_text());self.assertEqual(visible['state'],'failed')
  def test_unmounted_or_replaced_destination_never_falls_back(self):
   base=self.root/'destination';base.mkdir();managed=base/'managed';managed.mkdir(mode=0o700);b,m=base.stat(),managed.stat()
   config={'destination':str(base),'directory':'managed','destination_device':b.st_dev,'destination_inode':b.st_ino,'managed_device':m.st_dev,'managed_inode':m.st_ino}

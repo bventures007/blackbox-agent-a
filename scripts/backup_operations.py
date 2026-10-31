@@ -154,9 +154,14 @@ def cutoffs(root):
 
 def generation(root):
  from backup_supervisor import publish_status,prune
- runtime=root/'.runtime';compose_config(runtime)
+ runtime=root/'.runtime';compose_config(runtime,require_keys=False)
  with operation_lock(runtime):
   config=json.loads(protected_read(runtime/'backup.json',16384));started=stamp()
+  try:compose_config(runtime)
+  except RuntimeConfigError:
+   previous=json.loads(protected_read(runtime/'backup-status.json',16384))if(runtime/'backup-status.json').exists()else{}
+   atomic_json(runtime/'backup-status.json',{**previous,'state':'failed','last_attempt':started,'error':'backup_key_material_invalid'})
+   publish_status(root);raise
   try:
    managed=target(config)
    directory_fd=os.open(managed,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)

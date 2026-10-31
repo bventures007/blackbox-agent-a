@@ -17,6 +17,7 @@ x-node: &node
     ENGINE_URL: http://engine:8081
     INTERNAL_KEY_FILE: /run/blackbox/internal
     DATA_KEY_FILE: /run/blackbox/data
+    DATA_KEY_LAYOUT: ${BB_KEY_LAYOUT:-legacy-v1}
     EVIDENCE_DIR: /var/lib/blackbox/evidence
     LOG_DIR: /var/log/blackbox
     PUBLIC_PORT: ${BB_PORT:-18741}

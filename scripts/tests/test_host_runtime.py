@@ -34,8 +34,10 @@ class HostRuntimeTest(unittest.TestCase):
         ring.write_bytes(original);(directory/'identity').write_bytes(data)
         with self.assertRaisesRegex(RuntimeConfigError,'coupled'):compose_config(self.runtime)
         (directory/'identity').write_bytes(identity)
+        (directory/'identity').unlink();ring.unlink()
+        with self.assertRaisesRegex(RuntimeConfigError,'Missing independent key metadata'):compose_config(self.runtime,True)
         # Deliberate fixture conversion represents the old preview, not a product migration.
-        (directory/'identity').unlink();ring.unlink();self.assertTrue(compose_config(self.runtime))
+        config=self.runtime/'compose.env';config.write_text('\n'.join(line for line in config.read_text().splitlines()if not line.startswith('BB_KEY_LAYOUT='))+'\n');self.assertTrue(compose_config(self.runtime))
     def test_ambient_shell_cannot_replace_project_ports_credentials_or_profiles(self):
         config=compose_config(self.runtime,True,18763)
         with patch.dict(os.environ,{'BB_PROJECT':'unrelated','BB_PORT':'19000','BB_DB_PASSWORD':'untrusted','COMPOSE_PROJECT_NAME':'unrelated','COMPOSE_PROFILES':'test,mcp','COMPOSE_FILE':'/unrelated','BLACKBOX_AGENT_KEY':'do-not-pass-to-ordinary-services'}):

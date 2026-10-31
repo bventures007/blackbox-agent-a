@@ -70,6 +70,9 @@ export async function protectedBytes(path: string, limit: number) {
   }
 }
 export async function readKeyring(): Promise<Keyring | null> {
+  const layout = process.env.DATA_KEY_LAYOUT;
+  if (layout !== undefined && !["keyring-v2", "legacy-v1"].includes(layout))
+    throw Error("invalid_key_layout");
   let bytes: Buffer;
   try {
     bytes = await protectedBytes(
@@ -78,6 +81,7 @@ export async function readKeyring(): Promise<Keyring | null> {
     );
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    if (layout === "keyring-v2") throw Error("data_key_metadata_missing");
     try {
       await protectedBytes(join(materialDirectory(), "identity"), 32);
     } catch (identityError) {

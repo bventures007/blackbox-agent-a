@@ -1,0 +1,131 @@
+{
+  "kind": "fresh_directory_host_bootstrap",
+  "status": "passed",
+  "tested_commit": "a10fd3e2c6a81f38b2952fe188f7bab22c5412be",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T17:31:17.501162+00:00",
+  "machine_seconds": 97.486,
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/bootstrap-f7c96d9650fb",
+    "port": 18765,
+    "images": {
+      "node": "sha256:16c6020a7ffeee5264e488f1f8c04a9f1124f1257cfa4a372df1a664ceb89ff2",
+      "engine": "sha256:53d9256875fd32a345c0cde0335a75d72e435c3f971d38c4b5d0baf0c800de04"
+    },
+    "node_image_source_commit": "a10fd3e",
+    "engine_image_source_commit": "b1f8392"
+  },
+  "checks": [
+    "ordinary_start_never_creates_configuration",
+    "fresh_identity_and_data_material_are_independent",
+    "fresh_host_setup_login_and_persisted_example",
+    "repeated_setup_preserves_credentials_and_business_data",
+    "normal_stop_start_preserves_session_and_answer",
+    "lost_key_fails_closed_stop_available_original_restore_recovers",
+    "same_length_data_or_identity_key_corruption_denies_startup_until_original_restored",
+    "host_reset_revokes_old_owner_session_preserves_single_owner_and_journal"
+  ],
+  "commands": [
+    {
+      "command": "./blackbox up",
+      "exit_code": 1,
+      "observed": "Installation is not configured. Run explicit setup; no credentials generated on startup.\n"
+    },
+    {
+      "command": "./blackbox setup --port 18765",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 2/0\r\n \u2714 Network blackbox-a-637cbf156ba1_default       Created0.0s \r\n \u2714 Volume \"blackbox-a-637cbf156ba1_postgres\"     Created0.0s \r\n \u280b Container blackbox-a-637cbf156ba1-postgres-1  Creating0.1s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Creating 3/3\r\n \u2714 Network blackbox-a-637cbf156ba1_default       Created0.0s \r\n \u2714 Volume \"blackbox-a-637cbf156ba1_postgres\"     Created0.0s \r\n \u2714 Container blackbox-a-637cbf156ba1-postgres-1  Created0.1s \r\n\u001b[?25h\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\r\n \u280b Container blackbox-a-637cbf156ba1-postgres-1  Starting0.1s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n \u2819 Container blackbox-a-637cbf156ba1-postgres-1  Starting0.2s \r\n\u001b[?25h\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 1/1\r\n \u2714 Container blackbox-a-637cbf156ba1-postgres-1  Started0.3s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-637cbf156ba1-postgres-1  Running\n Container blackbox-a-637cbf156ba1-api-1  Creating\n Container blackbox-a-637cbf156ba1-engine-1  Creating\n Container blackbox-a-637cbf156ba1-worker-1  Creating\n Container blackbox-a-637cbf156ba1-engine-1  Created\n Container blackbox-a-637cbf156ba1-worker-1  Created\n Container blackbox-a-637cbf156ba1-api-1  Created\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-engine-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-worker-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-api-1  Starting\n Container blackbox-a-637cbf156ba1-worker-1  Started\n Container blackbox-a-637cbf156ba1-api-1  Started\n Container blackbox-a-637cbf156ba1-engine-1  Started\n"
+    },
+    {
+      "command": "./blackbox setup",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-637cbf156ba1-postgres-1  Running0.0s \r\n\u001b[?25hAlready initialized. Access and business data preserved.\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox down",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-637cbf156ba1-engine-1  Stopping\n Container blackbox-a-637cbf156ba1-api-1  Stopping\n Container blackbox-a-637cbf156ba1-worker-1  Stopping\n Container blackbox-a-637cbf156ba1-worker-1  Stopped\n Container blackbox-a-637cbf156ba1-api-1  Stopped\n Container blackbox-a-637cbf156ba1-engine-1  Stopped\n Container blackbox-a-637cbf156ba1-postgres-1  Stopping\n Container blackbox-a-637cbf156ba1-postgres-1  Stopped\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-637cbf156ba1-postgres-1  Created\n Container blackbox-a-637cbf156ba1-engine-1  Created\n Container blackbox-a-637cbf156ba1-api-1  Created\n Container blackbox-a-637cbf156ba1-worker-1  Created\n Container blackbox-a-637cbf156ba1-postgres-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Started\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-worker-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-engine-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-api-1  Starting\n Container blackbox-a-637cbf156ba1-worker-1  Started\n Container blackbox-a-637cbf156ba1-engine-1  Started\n Container blackbox-a-637cbf156ba1-api-1  Started\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 1,
+      "observed": "Missing or unsafe protected file: data. Restore the original; no replacement generated.\n"
+    },
+    {
+      "command": "./blackbox status",
+      "exit_code": 0,
+      "observed": "NAME                                 IMAGE                                                                                 COMMAND                  SERVICE    CREATED          STATUS                   PORTS\nblackbox-a-637cbf156ba1-api-1        blackbox-a-node:0.1.0-dev                                                             \"docker-entrypoint.s\u2026\"   api        28 seconds ago   Up 2 seconds             127.0.0.1:18765->8080/tcp\nblackbox-a-637cbf156ba1-engine-1     blackbox-a-engine:0.1.0-dev                                                           \"docker-entrypoint.s\u2026\"   engine     28 seconds ago   Up 2 seconds             \nblackbox-a-637cbf156ba1-postgres-1   postgres:17@sha256:31ba9c94a03ada9988f2bb493a22a75eef3a185884533e5cdbcd498ea835b08f   \"docker-entrypoint.s\u2026\"   postgres   33 seconds ago   Up 5 seconds (healthy)   5432/tcp\nblackbox-a-637cbf156ba1-worker-1     blackbox-a-node:0.1.0-dev                                                             \"docker-entrypoint.s\u2026\"   worker     28 seconds ago   Up 2 seconds             \n"
+    },
+    {
+      "command": "./blackbox down",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-637cbf156ba1-engine-1  Stopping\n Container blackbox-a-637cbf156ba1-worker-1  Stopping\n Container blackbox-a-637cbf156ba1-api-1  Stopping\n Container blackbox-a-637cbf156ba1-worker-1  Stopped\n Container blackbox-a-637cbf156ba1-api-1  Stopped\n Container blackbox-a-637cbf156ba1-engine-1  Stopped\n Container blackbox-a-637cbf156ba1-postgres-1  Stopping\n Container blackbox-a-637cbf156ba1-postgres-1  Stopped\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-637cbf156ba1-postgres-1  Created\n Container blackbox-a-637cbf156ba1-worker-1  Created\n Container blackbox-a-637cbf156ba1-engine-1  Created\n Container blackbox-a-637cbf156ba1-api-1  Created\n Container blackbox-a-637cbf156ba1-postgres-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Started\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-api-1  Starting\n Container blackbox-a-637cbf156ba1-engine-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-worker-1  Starting\n Container blackbox-a-637cbf156ba1-engine-1  Started\n Container blackbox-a-637cbf156ba1-worker-1  Started\n Container blackbox-a-637cbf156ba1-api-1  Started\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 1,
+      "observed": "Data key integrity mismatch. Restore the original; no replacement generated.\n"
+    },
+    {
+      "command": "./blackbox down",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-637cbf156ba1-engine-1  Stopping\n Container blackbox-a-637cbf156ba1-api-1  Stopping\n Container blackbox-a-637cbf156ba1-worker-1  Stopping\n Container blackbox-a-637cbf156ba1-worker-1  Stopped\n Container blackbox-a-637cbf156ba1-api-1  Stopped\n Container blackbox-a-637cbf156ba1-engine-1  Stopped\n Container blackbox-a-637cbf156ba1-postgres-1  Stopping\n Container blackbox-a-637cbf156ba1-postgres-1  Stopped\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-637cbf156ba1-postgres-1  Created\n Container blackbox-a-637cbf156ba1-engine-1  Created\n Container blackbox-a-637cbf156ba1-worker-1  Created\n Container blackbox-a-637cbf156ba1-api-1  Created\n Container blackbox-a-637cbf156ba1-postgres-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Started\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-engine-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-worker-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-api-1  Starting\n Container blackbox-a-637cbf156ba1-engine-1  Started\n Container blackbox-a-637cbf156ba1-worker-1  Started\n Container blackbox-a-637cbf156ba1-api-1  Started\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 1,
+      "observed": "Identity key integrity mismatch. Restore the original; entity identities must not change.\n"
+    },
+    {
+      "command": "./blackbox down",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-637cbf156ba1-engine-1  Stopping\n Container blackbox-a-637cbf156ba1-api-1  Stopping\n Container blackbox-a-637cbf156ba1-worker-1  Stopping\n Container blackbox-a-637cbf156ba1-worker-1  Stopped\n Container blackbox-a-637cbf156ba1-api-1  Stopped\n Container blackbox-a-637cbf156ba1-engine-1  Stopped\n Container blackbox-a-637cbf156ba1-postgres-1  Stopping\n Container blackbox-a-637cbf156ba1-postgres-1  Stopped\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-637cbf156ba1-postgres-1  Created\n Container blackbox-a-637cbf156ba1-api-1  Created\n Container blackbox-a-637cbf156ba1-worker-1  Created\n Container blackbox-a-637cbf156ba1-engine-1  Created\n Container blackbox-a-637cbf156ba1-postgres-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Started\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Waiting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-engine-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-api-1  Starting\n Container blackbox-a-637cbf156ba1-postgres-1  Healthy\n Container blackbox-a-637cbf156ba1-worker-1  Starting\n Container blackbox-a-637cbf156ba1-engine-1  Started\n Container blackbox-a-637cbf156ba1-api-1  Started\n Container blackbox-a-637cbf156ba1-worker-1  Started\n"
+    },
+    {
+      "command": "./blackbox reset-access",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-637cbf156ba1-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\n"
+    },
+    {
+      "command": "docker compose --env-file .runtime/compose.env -f infra/compose/compose.yaml exec -T postgres psql -U blackbox_migrate -d blackbox -Atc SELECT (SELECT count(*) FROM bb.workspaces),(SELECT count(*) FROM bb.credentials WHERE purpose='owner' AND revoked_at IS NULL),(SELECT count(*) FROM bb.journal)",
+      "exit_code": 0,
+      "observed": "1|1|55\n"
+    },
+    {
+      "command": "./blackbox down",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-637cbf156ba1-worker-1  Stopping\n Container blackbox-a-637cbf156ba1-engine-1  Stopping\n Container blackbox-a-637cbf156ba1-api-1  Stopping\n Container blackbox-a-637cbf156ba1-worker-1  Stopped\n Container blackbox-a-637cbf156ba1-api-1  Stopped\n Container blackbox-a-637cbf156ba1-engine-1  Stopped\n Container blackbox-a-637cbf156ba1-postgres-1  Stopping\n Container blackbox-a-637cbf156ba1-postgres-1  Stopped\n"
+    }
+  ],
+  "limitations": [
+    "Fresh isolated directory on the same actual Apple Silicon Mac; not a second physical machine",
+    "Copied wrapper/config and existing prebuilt development images; not a versioned downloaded archive or DIST proof",
+    "No backup/key-rotation/upgrade/performance certification or independent review"
+  ]
+}

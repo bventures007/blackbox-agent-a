@@ -55,6 +55,7 @@ class RotationTests(unittest.TestCase):
   (self.runtime/'maintenance.json').write_text(json.dumps({'schema_version':1,'operation':'restore','phase':'fenced'}));(self.runtime/'maintenance.json').chmod(0o600)
   with self.contexts(),self.assertRaisesRegex(RuntimeConfigError,'Other maintenance'):rotate(self.root,True)
   (self.runtime/'maintenance.json').unlink();(self.runtime/'secrets/identity').unlink();(self.runtime/'secrets/keyring.json').unlink()
+  config=self.runtime/'compose.env';config.write_text('\n'.join(line for line in config.read_text().splitlines()if not line.startswith('BB_KEY_LAYOUT='))+'\n')
   with self.contexts(),self.assertRaisesRegex(RuntimeConfigError,'Legacy preview'):rotate(self.root)
   self.assertEqual((self.runtime/'secrets/data').read_bytes(),self.old);self.assertFalse((self.runtime/'maintenance.json').exists())
 if __name__=='__main__':unittest.main()
