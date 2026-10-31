@@ -64,7 +64,8 @@ services:
         - CMD
         - node
         - -e
-        - "fetch('http://127.0.0.1:8080/api/health/live',{headers:{host:process.env.PUBLIC_ORIGIN.replace('http://','')}}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        # http.get sends the configured Host header; fetch() silently drops it and the exact-Host check answered 421 forever
+        - "require('http').get({host:'127.0.0.1',port:8080,path:'/api/health/live',headers:{host:process.env.PUBLIC_ORIGIN.replace('http://','')}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
       interval: 10s
       timeout: 5s
       retries: 12
