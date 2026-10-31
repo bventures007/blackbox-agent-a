@@ -467,7 +467,7 @@ export async function decideReview(
             if (
               !(
                 await c.query(
-                  "SELECT 1 FROM bb.evidence WHERE evidence_id=$1 AND expires_at>now()",
+                  "SELECT 1 FROM bb.evidence_retention WHERE evidence_id=$1 AND accessible",
                   [id],
                 )
               ).rowCount

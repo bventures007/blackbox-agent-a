@@ -142,7 +142,7 @@ try:
  run(source,'up','-d','postgres','engine','api','worker');api.ready();prior=services(source)
  generation_result=generation(source);cipher=managed/generation_result['generation'];assert services(source)==prior
  with verified_backup(ROOT,cipher,secret)as(_,manifest,_,digest):
-  assert manifest['metadata']['snapshot']==snapshot and manifest['metadata']['compatibility']['schema']==7
+  assert manifest['metadata']['snapshot']==snapshot and manifest['metadata']['compatibility']['schema']==8
   evidence_count=sum(name.startswith('evidence/')for name in manifest['members']);assert evidence_count>0
  assert digest==generation_result['ciphertext_sha256'];mark('coherent_backup_verifies_all_retained_evidence_and_preserves_running_services')
  # Both failures must occur before creating a destination or any Docker resources.

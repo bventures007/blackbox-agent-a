@@ -1,11 +1,11 @@
 {
   "manifest_version": 1,
-  "release": "0.1.0-pilot.1",
+  "release": "0.1.0-pilot.2",
   "install": {
     "postgres_major": 17,
-    "schema": 7,
+    "schema": 8,
     "upgrade_from_schema": [
-      6
+      7
     ],
     "rollback": "No populated binary downgrade. Use a compatible forward fix or isolated verified pre-upgrade restore with its recorded cutoff."
   },
@@ -77,6 +77,10 @@
     {
       "file": "007-runtime-contract.sql",
       "sha256": "d4b60d4bd005dffa660c361adda1a58e1a7f2394b17a6340b8c73c9df430423e"
+    },
+    {
+      "file": "008-evidence-policy.sql",
+      "sha256": "487df1bfd46c18a2ba4367583e4f44ff1d84516fd613765238cd99dac124f5e7"
     }
   ],
   "legacy_schema": {

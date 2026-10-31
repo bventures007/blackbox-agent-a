@@ -176,18 +176,52 @@ export function Empty({ children }: { children?: ReactNode }) {
   );
 }
 export function Evidence({ id, onClose }: { id: string; onClose: () => void }) {
-  const { t } = useLocale();
-  const { data, error } = useRemote("/v1/tools/get_evidence", {
-    evidence_id: id,
-  });
+  const { t, locale } = useLocale(),
+    a = useAction();
+  const [ack, setAck] = useState(false),
+    [restricted, setRestricted] = useState(false);
+  const { data, error, refresh } = useRemote(
+    "/v1/tools/get_evidence",
+    {
+      evidence_id: id,
+    },
+    3000,
+  );
   return (
     <Dialog title={t.rawEvidence} onClose={onClose}>
       <p className="notice">{t.untrusted}</p>
-      <ErrorNotice code={error} />
+      <ErrorNotice code={error || a.error} />
       {!data ? (
         <p>{t.loading}</p>
-      ) : data.status === "available" ? (
-        <pre>{JSON.stringify(data.content, null, 2)}</pre>
+      ) : data.status === "available" && !restricted && !error ? (
+        <>
+          <pre>{JSON.stringify(data.content, null, 2)}</pre>
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={ack}
+              onChange={(e) => setAck(e.target.checked)}
+            />
+            {locale === "de"
+              ? "Originalinhalt dauerhaft sperren. Geschäftsdaten bleiben erhalten; vorhandene Sicherungen und Exporte bleiben unverändert."
+              : "Permanently restrict original content. Business facts remain; existing backups and exports stay unchanged."}
+          </label>
+          <button
+            className="btn"
+            disabled={!ack || a.busy}
+            onClick={() =>
+              void a.run(async () => {
+                await api(`/v1/evidence/${id}/restrict`, {
+                  acknowledged: true,
+                });
+                setRestricted(true);
+                refresh();
+              })
+            }
+          >
+            {locale === "de" ? "Inhalt sperren" : "Restrict content"}
+          </button>
+        </>
       ) : (
         <p>{t.contentUnavailable}</p>
       )}

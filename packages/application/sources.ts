@@ -163,6 +163,18 @@ export async function planPreview(
     for (const capability of body.capabilities)
       requireCapabilityScopes(source.scopes, capability);
     return {
+      raw_evidence_retention: {
+        days: Number(
+          (
+            await c.query(
+              "SELECT bb.evidence_policy_days($1,$2,'provider_response') days",
+              [tenant, connection],
+            )
+          ).rows[0].days,
+        ),
+        from: "local_receipt",
+        longer_changes_future_only: true,
+      },
       parameters: {
         ...parameters,
         allocation_scope_categories: allocationScopeCategories(source.scopes),

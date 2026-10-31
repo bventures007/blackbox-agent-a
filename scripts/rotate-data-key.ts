@@ -49,7 +49,7 @@ try {
     id = tenant;
   while (true) {
     const { rows } = await pool.query(
-      "SELECT tenant_id,evidence_id,sha256,expires_at>now() AS retained FROM bb.evidence WHERE (tenant_id,evidence_id)>($1::uuid,$2::uuid) ORDER BY tenant_id,evidence_id LIMIT 256",
+      "SELECT tenant_id,evidence_id,sha256,retained FROM bb.evidence_retention WHERE (tenant_id,evidence_id)>($1::uuid,$2::uuid) ORDER BY tenant_id,evidence_id LIMIT 256",
       [tenant, id],
     );
     if (!rows.length) break;

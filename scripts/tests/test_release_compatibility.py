@@ -49,6 +49,6 @@ class ReleaseCompatibilityTests(unittest.TestCase):
   raw=b'known complete schema fixture';manifest={**self.manifest,'legacy_schema':{'6':{'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}}}
   with patch('release_compatibility.read_manifest',return_value=manifest),patch('release_compatibility.migration_rows',return_value=None),patch('backup_operations.run',return_value=raw),patch('backup_operations.sql')as sql,patch('release_compatibility.check_database'):
    upgrade_restored_schema(self.root,6)
-  first,second=[c.args[1]for c in sql.call_args_list]
-  self.assertEqual(first.count("'observed_legacy_schema'"),6);self.assertIn('pg_advisory_xact_lock',first);self.assertIn('007-runtime-contract.sql',second);self.assertTrue(second.endswith('COMMIT;'))
+  first,second,third=[c.args[1]for c in sql.call_args_list]
+  self.assertEqual(first.count("'observed_legacy_schema'"),6);self.assertIn('pg_advisory_xact_lock',first);self.assertIn('007-runtime-contract.sql',second);self.assertTrue(second.endswith('COMMIT;'));self.assertIn('008-evidence-policy.sql',third)
 if __name__=='__main__':unittest.main()

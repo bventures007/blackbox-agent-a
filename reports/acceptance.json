@@ -1446,13 +1446,13 @@
     {
       "id": "PILOT-08",
       "stage": "core",
-      "status": "not_started",
+      "status": "implemented_unverified",
       "tested_commit": null,
       "command": null,
       "environment": null,
-      "observed_result": null,
+      "observed_result": "Schema8 shared retention/owner controls and fenced disposal/authenticated ledger reconciliation are implemented. Development API/Rust/actual MCP/RLS/restart checks passed; clean host recovery/browser evidence is pending. No acceptance pass or independent approval.",
       "evidence_paths": [],
-      "blocker": null,
+      "blocker": "Actual host disposal/older-backup proof, automatic purge scheduling, complete per-field inventory/provider audit and independent review remain unverified.",
       "delivery_scope": "local_pilot"
     },
     {

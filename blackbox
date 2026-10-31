@@ -54,6 +54,23 @@ if command=='key':
   print('Daten-Schlüssel geprüft und gewechselt. Alter aktiver Schlüssel entfernt; unabhängige Identität unverändert. Bestehende verschlüsselte Sicherungen behalten ihr eigenes Schlüsselmaterial.')
  except (RuntimeConfigError,OSError,ValueError)as error:raise SystemExit(str(error))
  sys.exit(0)
+if command=='evidence':
+ import argparse
+ from evidence_policy import maintain,export_ledger
+ from backup_codec import BackupFormatError
+ parser=argparse.ArgumentParser(prog='./blackbox evidence');sub=parser.add_subparsers(dest='action',required=True)
+ sub.add_parser('purge');sub.add_parser('resume')
+ export=sub.add_parser('export-ledger');export.add_argument('destination',type=pathlib.Path)
+ reconcile=sub.add_parser('reconcile');reconcile.add_argument('--ledger',type=pathlib.Path);reconcile.add_argument('--acknowledge-cutoff',required=True)
+ options=parser.parse_args(sys.argv[2:])
+ try:
+  if options.action=='export-ledger':result=export_ledger(root,options.destination.expanduser().absolute())
+  else:result=maintain(root,resume=options.action=='resume',ledger=getattr(options,'ledger',None),acknowledge_cutoff=getattr(options,'acknowledge_cutoff',None))
+  print(json.dumps(result,indent=2))
+  print('Existing backup/export copies remain unchanged. Provider collection remains separately guarded after restore.')
+  print('Bestehende Sicherungs- und Exportkopien bleiben unverändert. Die Quellenabfrage bleibt nach Wiederherstellung separat gesperrt.')
+ except (RuntimeConfigError,BackupFormatError,OSError,ValueError)as error:raise SystemExit(str(error))
+ sys.exit(0)
 if command=='restore':
  import argparse,getpass
  from backup_restore import restore,finish_restore

@@ -16,7 +16,11 @@ class BackupRestoreTests(unittest.TestCase):
   with path.open('xb')as output,encrypt(ROOT,self.recipient,output)as stream:
    archive=ArchiveWriter(stream);archive.add('database/00000000.bin',database)
    for name,value in (materials or {'data':b'x'*32,'internal':b'a'*64}).items():archive.add('secrets/'+name,value)
-   archive.add('policy/redactions.json',b'{}');archive.add('installation.json',json.dumps({'installation_id':identity,'compatibility':compatibility}).encode());archive.finish(metadata)
+   payload={'version':1,'identity_sha256':hashlib.sha256((materials or {}).get('identity',b'x'*32)).hexdigest(),'exported_at':'2026-10-31T00:00:00Z','policies':[],'provider_limits':[],'restrictions':[]}
+   import hmac
+   from evidence_policy import canonical
+   ledger={'payload':payload,'mac':hmac.new((materials or {}).get('identity',b'x'*32),b'blackbox-evidence-ledger-v1\0'+canonical(payload),hashlib.sha256).hexdigest()}
+   archive.add('policy/redactions.json',canonical(ledger)if compatibility.get('schema')==8 else b'{}');archive.add('installation.json',json.dumps({'installation_id':identity,'compatibility':compatibility}).encode());archive.finish(metadata)
   return path
  def test_verified_metadata_and_database_chunk_hash(self):
   path=self.backup()

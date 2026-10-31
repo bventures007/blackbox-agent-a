@@ -18,6 +18,7 @@ export type IngestResult = {
 export type IngestTransaction = {
   providerSnapshot?: boolean;
   origin?: "owner_decision";
+  evidenceClass?: "imported_document";
   before?: (c: PoolClient) => Promise<void>;
   committed?: (c: PoolClient, result: IngestResult) => Promise<void>;
 };
@@ -40,7 +41,7 @@ export async function ingest(
   return scoped(tenant, async (c) => {
     await transaction.before?.(c);
     const conn = await c.query(
-      "SELECT 1 FROM bb.connections WHERE connection_id=$1",
+      "SELECT provider FROM bb.connections WHERE connection_id=$1",
       [connection],
     );
     if (!conn.rowCount) throw new Error("connection_unavailable");
@@ -52,9 +53,20 @@ export async function ingest(
         )
       ).rows[0].committed,
     );
+    const evidenceClass =
+      transaction.origin === "owner_decision"
+        ? "owner_assertion"
+        : (transaction.evidenceClass ??
+          (conn.rows[0].provider === "shopify"
+            ? "provider_response"
+            : "typed_submission"));
     await c.query(
-      "INSERT INTO bb.evidence(tenant_id,evidence_id,sha256) VALUES($1,$2,$3)",
-      [tenant, evidence, hash(bytes.toString())],
+      "INSERT INTO bb.evidence(tenant_id,evidence_id,sha256,created_at,expires_at) VALUES($1,$2,$3,clock_timestamp(),clock_timestamp()+make_interval(days=>bb.evidence_policy_days($1,$4,$5)))",
+      [tenant, evidence, hash(bytes.toString()), connection, evidenceClass],
+    );
+    await c.query(
+      "INSERT INTO bb.evidence_context(tenant_id,evidence_id,connection_id,evidence_class)VALUES($1,$2,$3,$4)",
+      [tenant, evidence, connection, evidenceClass],
     );
     const reviewCases: string[] = [];
     let reviewedConflicts = 0;

@@ -178,6 +178,8 @@ def generation(root):
    atomic_json(runtime/'backup-status.json',{**prior_status,'state':'running','last_attempt':started})
    publish_status(root)
    with fence(root,'backup'):
+    from evidence_policy import record_expiry_intents
+    record_expiry_intents(root)
     snapshot=cutoffs(root)
     if snapshot['postgres_major']!=17:raise RuntimeConfigError('Unsupported PostgreSQL backup major version.')
     # Verify the live data key actually opens every retained evidence object before publication.
@@ -203,7 +205,7 @@ def generation(root):
       names=['internal',*[key_filename(k)for k in ring['keys']],'identity','keyring.json'] if ring else ['data','internal']
       for name in names:archive.add('secrets/'+name,protected_read(runtime/'secrets'/name,8192))
       if int(sql(root,'SELECT count(*) FROM bb.evidence;'))>MAX_MEMBERS-100:raise RuntimeConfigError('Evidence member budget exceeded.')
-      rows=json.loads(sql(root,"SELECT coalesce(json_agg(json_build_object('tenant',tenant_id,'id',evidence_id,'retained',expires_at>now()) ORDER BY tenant_id,evidence_id),'[]'::json) FROM bb.evidence;"))
+      rows=json.loads(sql(root,"SELECT coalesce(json_agg(json_build_object('tenant',tenant_id,'id',evidence_id,'retained',retained) ORDER BY tenant_id,evidence_id),'[]'::json) FROM bb.evidence_retention;"))
       if len(rows)>MAX_MEMBERS-100:raise RuntimeConfigError('Evidence member budget exceeded.')
       expired=[]
       for row in rows:
@@ -211,7 +213,8 @@ def generation(root):
        if not row['retained']:expired.append({'tenant':tenant,'id':evidence});continue
        protected_directory(runtime/'evidence'/tenant)
        archive.add(f'evidence/{tenant}/{evidence}',protected_read(runtime/'evidence'/tenant/evidence,8*1024*1024))
-      archive.add('policy/redactions.json',json.dumps({'schema_version':1,'expired_evidence':expired,'current_external_ledger_required':True}).encode())
+      from evidence_policy import signed_ledger,canonical
+      archive.add('policy/redactions.json',canonical(signed_ledger(root)))
       from release_compatibility import check_database,backup_compatibility
       check_database(root);compatibility=backup_compatibility(root)
       archive.add('installation.json',json.dumps({'installation_id':config['installation_id'],'compatibility':compatibility}).encode())

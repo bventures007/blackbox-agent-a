@@ -1,5 +1,6 @@
 import { useState, Fragment } from "react";
 import { Reviews } from "./reviews.js";
+import { EvidencePolicy } from "./evidence-policy.js";
 import { Backups } from "./backups.js";
 import { ShopifySetup, SourceProgress } from "./source-import.js";
 import { useLocale, questionTitles, eventTitle } from "./locale.js";
@@ -781,9 +782,7 @@ export function Settings({ onRotated }: { onRotated: (key: string) => void }) {
         </Panel>
         <Backups />
       </div>
-      <Panel title={t.retention}>
-        <p>{t.retentionText}</p>
-      </Panel>
+      <EvidencePolicy />
       <Panel title={t.rotation}>
         <p>{t.rotateText}</p>
         <form

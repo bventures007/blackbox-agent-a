@@ -27,6 +27,7 @@ import { journal, InvalidCursor } from "../../packages/application/journal.js";
 import { registerReviewRoutes } from "./reviews.js";
 import { readEvidence } from "../../packages/application/evidence.js";
 import { registerOwnerRoutes } from "./owner.js";
+import { registerEvidencePolicyRoutes } from "./evidence-policy.js";
 import { registerSourceRoutes } from "./sources.js";
 import { registerStatic } from "./static.js";
 import { log } from "../../packages/diagnostics/index.js";
@@ -125,6 +126,7 @@ const owner = (p?: Principal) => {
   return p;
 };
 await registerSourceRoutes(app, owner);
+await registerEvidencePolicyRoutes(app, owner);
 await registerReviewRoutes(app, owner, internal);
 app.post("/v1/login", async (req, reply) => {
   const attempt = attempts.get(req.ip);

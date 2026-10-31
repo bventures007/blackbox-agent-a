@@ -35,9 +35,9 @@ def verified_backup(root,path,secret):
   metadata=manifest['metadata']
   expected={'application':'0.1.0','postgres_major':17,'engine_rpc':1,'lifecycle':'lifecycle-v2','typed_records':'records-v3','questions':'questions-v9','backup_format':1}
   compatibility=metadata.get('compatibility',{})
-  if compatibility.get('schema')==7:
+  if compatibility.get('schema')in [7,8]:
    from release_compatibility import backup_compatibility
-   if compatibility!=backup_compatibility(root):raise BackupFormatError('incompatible_backup_contract')
+   if compatibility!=backup_compatibility(root,compatibility['schema']):raise BackupFormatError('incompatible_backup_contract')
   elif {k:compatibility.get(k)for k in expected}!=expected or compatibility.get('schema')not in [5,6]or set(compatibility)!=set(expected)|{'schema'}:raise BackupFormatError('incompatible_backup_contract')
   required={'installation.json','policy/redactions.json','secrets/internal'}
   if not required<=small.keys()or not re.fullmatch(rb'[a-f0-9]{64}',small['secrets/internal']):raise BackupFormatError('backup_installation_material_invalid')
@@ -53,6 +53,10 @@ def verified_backup(root,path,secret):
   if any(len(k)!=32 for k in material):raise BackupFormatError('backup_data_key_invalid')
   if ring and (len(small['secrets/identity'])!=32 or small['secrets/identity']in material):raise BackupFormatError('backup_identity_key_invalid')
   if ring and (any(hashlib.sha256(small['secrets/'+key_filename(k)]).hexdigest()!=ring['checksums'][k]for k in ring['keys'])or hashlib.sha256(small['secrets/identity']).hexdigest()!=ring['identity_sha256']):raise BackupFormatError('backup_key_integrity_mismatch')
+  if compatibility.get('schema')==8:
+   from evidence_policy import verified_ledger
+   try:verified_ledger(root,small['policy/redactions.json'],small['secrets/identity']if ring else small['secrets/data'])
+   except (RuntimeConfigError,ValueError):raise BackupFormatError('backup_policy_ledger_invalid')from None
   installation=decode_json(small['installation.json'])
   if installation.get('compatibility')!=compatibility or installation.get('installation_id')!=metadata.get('installation_id'):raise BackupFormatError('backup_installation_manifest_mismatch')
   uuid.UUID(installation['installation_id'])
@@ -67,7 +71,7 @@ def verified_backup(root,path,secret):
 
 
 def copy_runtime_bundle(root,destination):
- files=['blackbox','scripts/host_runtime.py','scripts/database_identity.py','scripts/release_compatibility.py','release/compatibility.json','scripts/key_rotation.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
+ files=['blackbox','scripts/host_runtime.py','scripts/database_identity.py','scripts/release_compatibility.py','release/compatibility.json','scripts/evidence_policy.py','scripts/key_rotation.py','scripts/backup_codec.py','scripts/backup_operations.py','scripts/backup_supervisor.py','scripts/backup_restore.py','scripts/diagnostics.py','infra/compose/compose.yaml','infra/compose/init.sh','vendor/age.lock.json']
  for name in files:
   target=destination/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(root/name,target)
  shutil.copytree(root/'packages/database/migrations',destination/'packages/database/migrations')

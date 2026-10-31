@@ -1,3 +1,4 @@
+import { RetentionPreview } from "./evidence-policy.js";
 import { useState, useEffect, useRef } from "react";
 import { api } from "./api.js";
 import { useLocale } from "./locale.js";
@@ -584,6 +585,7 @@ export function ImportPlan({
               <dd>{preview.parameters.timezone}</dd>
             </div>
           </dl>
+          <RetentionPreview days={preview.raw_evidence_retention?.days ?? 90} />
           <h3>{s.limitations}</h3>
           <ul>
             {preview.restrictions.map((code: string) => (
