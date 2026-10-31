@@ -11,11 +11,13 @@ COPY apps/worker ./apps/worker
 COPY apps/mcp-bridge ./apps/mcp-bridge
 COPY apps/web ./apps/web
 COPY apps/landing ./apps/landing
+# the landing page copies the supplied prototype stylesheet at build time; a missing file must fail the build, not be masked
+COPY reference/prototype/styles.css ./reference/prototype/styles.css
 COPY release/manifest.json ./release/manifest.json
 COPY tests/package.json ./tests/package.json
 RUN pnpm install --frozen-lockfile
 RUN pnpm -r --filter './packages/**' run build && pnpm --filter @blackbox/api --filter @blackbox/worker --filter @blackbox/mcp-bridge run build \
- && (pnpm --filter @blackbox/web run build || true) && (pnpm --filter @blackbox/landing run build || true)
+ && pnpm --filter @blackbox/web run build && pnpm --filter @blackbox/landing run build
 # reinstall production dependencies only (from the offline store); workspace packages stay linked by relative symlinks
 RUN rm -rf node_modules apps/*/node_modules packages/*/node_modules tests/node_modules \
  && pnpm install --prod --frozen-lockfile --offline --ignore-scripts \
