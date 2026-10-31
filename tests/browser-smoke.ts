@@ -24,7 +24,7 @@ try {
   await page.locator("#entity").fill(b.entities[0]);
   await page.locator("#ask").click();
   await page.waitForFunction(() =>
-    document.getElementById("answer")!.textContent!.includes("captured_minor"),
+    document.getElementById("answer")?.textContent?.includes("captured_minor"),
   );
   const result = JSON.parse(await page.locator("#answer").innerText());
   assert.equal(result.result.payment_status, "paid");
@@ -47,13 +47,14 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({
     path: join(runtime, "slice-ui-de-mobile.png"),
-    fullPage: false,
+    fullPage: true,
   });
   assert.ok(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   );
+  await page.locator(".mobile-menu").click();
   await page.locator("#logout").click();
   await page.locator("#login").waitFor({ state: "visible" });
   assert.equal(

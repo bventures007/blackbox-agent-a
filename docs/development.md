@@ -76,3 +76,5 @@ is explicit, pseudonymizes opaque IDs and never uploads. The complete DIAG
 retention/performance/export contract is still under implementation and unverified.
 Backup/restore/upgrade release commands are not yet delivered; no protection is
 claimed merely because this development runtime persists data.
+
+The React production UI must be built with `pnpm build:web` before starting the native developer stack. It is served by the existing loopback API, not a second runtime web server.

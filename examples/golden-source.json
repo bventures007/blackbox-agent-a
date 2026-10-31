@@ -1,0 +1,408 @@
+{
+  "synthetic": true,
+  "currency": "EUR",
+  "events": [
+    {
+      "id": "G01",
+      "connection": "stock",
+      "provider_event_id": "fixture-01",
+      "occurred_at": "2026-10-31T09:01:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "inventory.snapshot",
+      "payload": {
+        "sku": "CUP-OLV",
+        "physical": 120,
+        "quarantined": 0,
+        "reserved": 0,
+        "unit": "piece"
+      },
+      "evidence_refs": []
+    },
+    {
+      "id": "G02",
+      "connection": "shop",
+      "provider_event_id": "fixture-02",
+      "occurred_at": "2026-10-31T09:02:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "order.accepted",
+      "payload": {
+        "order": "#1001",
+        "quantity": 10,
+        "unit_gross_minor": 1190,
+        "gross_minor": 11900,
+        "currency": "EUR"
+      },
+      "evidence_refs": []
+    },
+    {
+      "id": "G03",
+      "connection": "shop",
+      "provider_event_id": "fixture-03",
+      "occurred_at": "2026-10-31T09:03:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "inventory.reserved",
+      "payload": {
+        "reservation": "R-1001",
+        "quantity": 10
+      },
+      "evidence_refs": [
+        "G01",
+        "G02"
+      ]
+    },
+    {
+      "id": "G04",
+      "connection": "invoice",
+      "provider_event_id": "fixture-04",
+      "occurred_at": "2026-10-31T09:04:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "invoice.issued",
+      "payload": {
+        "invoice": "INV-1001",
+        "gross_minor": 11900,
+        "currency": "EUR",
+        "due_date": "2026-11-07"
+      },
+      "evidence_refs": [
+        "G02"
+      ]
+    },
+    {
+      "id": "G05",
+      "connection": "payment",
+      "provider_event_id": "fixture-05",
+      "occurred_at": "2026-10-31T09:05:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "payment.authorized",
+      "payload": {
+        "transaction": "TX-1001",
+        "authorized_minor": 11900,
+        "currency": "EUR"
+      },
+      "evidence_refs": [
+        "G02"
+      ]
+    },
+    {
+      "id": "G06",
+      "connection": "payment",
+      "provider_event_id": "fixture-06",
+      "occurred_at": "2026-10-31T09:06:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "payment.captured",
+      "payload": {
+        "transaction": "TX-1001",
+        "captured_minor": 11900,
+        "currency": "EUR"
+      },
+      "evidence_refs": [
+        "G05"
+      ]
+    },
+    {
+      "id": "G07",
+      "connection": "payment",
+      "provider_event_id": "fixture-07",
+      "occurred_at": "2026-10-31T09:07:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "payment.fee_booked",
+      "payload": {
+        "transaction": "TX-1001",
+        "fee_minor": 350,
+        "currency": "EUR"
+      },
+      "evidence_refs": [
+        "G06"
+      ]
+    },
+    {
+      "id": "G08",
+      "connection": "invoice",
+      "provider_event_id": "fixture-08",
+      "occurred_at": "2026-10-31T09:08:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "invoice.payment_marked",
+      "payload": {
+        "invoice": "INV-1001",
+        "transaction": "TX-1001",
+        "paid_minor": 11900,
+        "currency": "EUR",
+        "is_new_cash_movement": false
+      },
+      "evidence_refs": [
+        "G04",
+        "G06"
+      ]
+    },
+    {
+      "id": "G09",
+      "connection": "shop",
+      "provider_event_id": "fixture-09",
+      "occurred_at": "2026-10-31T09:09:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "shipment.dispatched",
+      "payload": {
+        "shipment": "SHIP-1001",
+        "quantity": 10,
+        "physical_stock_delta": -10,
+        "reservation_released": 10,
+        "reservation": "R-1001"
+      },
+      "evidence_refs": [
+        "G02",
+        "G03"
+      ]
+    },
+    {
+      "id": "G10",
+      "connection": "carrier",
+      "provider_event_id": "fixture-10",
+      "occurred_at": "2026-10-31T09:10:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "shipment.delivered",
+      "payload": {
+        "shipment": "SHIP-1001",
+        "carrier_status": "delivered"
+      },
+      "evidence_refs": [
+        "G09"
+      ]
+    },
+    {
+      "id": "G11",
+      "connection": "shop",
+      "provider_event_id": "fixture-11",
+      "occurred_at": "2026-10-31T09:11:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "return.approved",
+      "payload": {
+        "return": "RET-1001",
+        "quantity": 2,
+        "expected_credit_minor": 2380,
+        "currency": "EUR"
+      },
+      "evidence_refs": [
+        "G02",
+        "G10"
+      ]
+    },
+    {
+      "id": "G12",
+      "connection": "stock",
+      "provider_event_id": "fixture-12",
+      "occurred_at": "2026-10-31T09:12:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "return.received",
+      "payload": {
+        "return": "RET-1001",
+        "quantity": 2,
+        "physical_stock_delta": 2,
+        "quarantine_delta": 2
+      },
+      "evidence_refs": [
+        "G11"
+      ]
+    },
+    {
+      "id": "G13",
+      "connection": "stock",
+      "provider_event_id": "fixture-13",
+      "occurred_at": "2026-10-31T09:13:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "return.restocked",
+      "payload": {
+        "return": "RET-1001",
+        "quantity": 2,
+        "quarantine_delta": -2,
+        "physical_stock_delta": 0
+      },
+      "evidence_refs": [
+        "G12"
+      ]
+    },
+    {
+      "id": "G14",
+      "connection": "invoice",
+      "provider_event_id": "fixture-14",
+      "occurred_at": "2026-10-31T09:14:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "invoice.credit_issued",
+      "payload": {
+        "credit": "CN-1001",
+        "invoice": "INV-1001",
+        "credit_minor": 2380,
+        "currency": "EUR",
+        "cash_refund_confirmed": false
+      },
+      "evidence_refs": [
+        "G04",
+        "G11"
+      ]
+    },
+    {
+      "id": "G15",
+      "connection": "payment",
+      "provider_event_id": "fixture-15",
+      "occurred_at": "2026-10-31T09:15:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "refund.pending",
+      "payload": {
+        "refund": "RF-1001",
+        "transaction": "TX-1001",
+        "amount_minor": 2380,
+        "held_minor": 2380,
+        "currency": "EUR"
+      },
+      "evidence_refs": [
+        "G06",
+        "G14"
+      ]
+    },
+    {
+      "id": "G16",
+      "connection": "payment",
+      "provider_event_id": "fixture-16",
+      "occurred_at": "2026-10-31T09:16:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "refund.completed",
+      "payload": {
+        "refund": "RF-1001",
+        "transaction": "TX-1001",
+        "amount_minor": 2380,
+        "hold_released_minor": 2380,
+        "currency": "EUR"
+      },
+      "evidence_refs": [
+        "G15"
+      ]
+    },
+    {
+      "id": "G17",
+      "connection": "payment",
+      "provider_event_id": "fixture-17",
+      "occurred_at": "2026-10-31T09:17:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "payout.announced",
+      "payload": {
+        "payout": "OUT-1001",
+        "amount_minor": 9170,
+        "currency": "EUR"
+      },
+      "evidence_refs": [
+        "G06",
+        "G07",
+        "G16"
+      ]
+    },
+    {
+      "id": "G18",
+      "connection": "payment",
+      "provider_event_id": "fixture-18",
+      "occurred_at": "2026-10-31T09:18:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "payout.sent",
+      "payload": {
+        "payout": "OUT-1001",
+        "amount_minor": 9170,
+        "currency": "EUR"
+      },
+      "evidence_refs": [
+        "G17"
+      ]
+    },
+    {
+      "id": "G19",
+      "connection": "bank_csv",
+      "provider_event_id": "fixture-19",
+      "occurred_at": "2026-10-31T09:19:00Z",
+      "entity": {
+        "order": "#1001",
+        "customer": "C-1",
+        "item": "CUP-OLV"
+      },
+      "kind": "bank.credit_booked",
+      "payload": {
+        "bank_entry": "BANK-1001",
+        "payout": "OUT-1001",
+        "amount_minor": 9170,
+        "currency": "EUR",
+        "status": "booked"
+      },
+      "evidence_refs": [
+        "G18"
+      ]
+    }
+  ]
+}

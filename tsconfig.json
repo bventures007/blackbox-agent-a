@@ -7,12 +7,14 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "jsx": "react-jsx"
   },
   "include": [
     "apps/**/*.ts",
     "packages/**/*.ts",
     "tests/**/*.ts",
-    "scripts/setup.ts"
+    "scripts/setup.ts",
+    "apps/**/*.tsx"
   ]
 }

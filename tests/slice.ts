@@ -288,7 +288,7 @@ try {
           cursor: list.body.next_cursor,
         })
       ).code,
-      503,
+      400,
     );
     for (const url of [
       process.env.DATABASE_URL,

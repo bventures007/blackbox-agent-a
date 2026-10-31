@@ -18,6 +18,9 @@ import { questionQuery, intents } from "../../packages/contracts/questions.js";
 import { canonical } from "../../packages/auth/producer.js";
 import { validSignature } from "../../packages/auth/producer.js";
 import { businessQuery, observation } from "../../packages/contracts/index.js";
+import { journal, InvalidCursor } from "../../packages/application/journal.js";
+import { registerOwnerRoutes } from "./owner.js";
+import { registerStatic } from "./static.js";
 import { log } from "../../packages/diagnostics/index.js";
 const port = Number(process.env.PORT ?? 8080),
   publicPort = Number(process.env.PUBLIC_PORT ?? 18741);
@@ -50,7 +53,11 @@ app.addHook("onRequest", async (req, reply) => {
     (req.headers.origin && req.headers.origin !== origin)
   )
     return reply.code(403).send({ error: "origin_denied" });
-  if (req.url === "/" || req.url === "/ui.js" || req.url === "/ui.css") return;
+  if (
+    req.method === "GET" &&
+    (req.url === "/" || /^\/assets\/[a-zA-Z0-9_.-]+$/.test(req.url))
+  )
+    return;
   if (req.url === "/v1/login") {
     if (req.headers.origin !== origin)
       return reply.code(403).send({ error: "origin_required" });
@@ -249,7 +256,7 @@ app.post("/v1/producers", async (req) => {
         connection,
         body.provider,
         randomUUID(),
-        JSON.stringify({ producer_principal_id: principal }),
+        JSON.stringify({ producer_principal_id: principal, name: body.name }),
       ],
     );
     await c.query(
@@ -451,66 +458,17 @@ app.post("/v1/tools/:tool", async (req, reply) => {
       tool,
     )
   ) {
-    const q = z
-      .object({
-        entity_id: z.uuid().optional(),
-        track: z
-          .enum(["source", "fact", "commitment", "movement", "reservation"])
-          .optional(),
-        limit: z.number().int().min(1).max(500).default(100),
-        cursor: z.string().max(2000).optional(),
-      })
-      .strict()
-      .parse(req.body);
-    return scoped(p.tenant_id, async (c) => {
-      let cutoff = Number(
-          (await c.query("SELECT committed FROM bb.heads")).rows[0].committed,
-        ),
-        after = 0;
-      if (q.cursor) {
-        const [data, signature] = q.cursor.split(".");
-        if (
-          createHmac("sha256", internal).update(data).digest("hex") !==
-          signature
-        )
-          throw new Error("invalid_cursor");
-        const saved = JSON.parse(Buffer.from(data, "base64url").toString());
-        if (
-          saved.tenant !== p.tenant_id ||
-          saved.entity !== q.entity_id ||
-          saved.track !== q.track
-        )
-          throw new Error("invalid_cursor");
-        cutoff = saved.cutoff;
-        after = saved.after;
-      }
-      const rows = (
-        await c.query(
-          "SELECT * FROM bb.journal WHERE sequence>$1 AND sequence<=$2 AND ($3::uuid IS NULL OR entity_id=$3) AND ($4::text IS NULL OR record_type=$4) ORDER BY sequence LIMIT $5",
-          [after, cutoff, q.entity_id ?? null, q.track ?? null, q.limit + 1],
-        )
-      ).rows;
-      const more = rows.length > q.limit,
-        entries = rows.slice(0, q.limit);
-      const data = Buffer.from(
-        JSON.stringify({
-          tenant: p.tenant_id,
-          entity: q.entity_id,
-          track: q.track,
-          cutoff,
-          after: Number(entries.at(-1)?.sequence ?? after),
-        }),
-      ).toString("base64url");
-      return {
-        entries,
-        recorded_cutoff: cutoff,
-        next_cursor: more
-          ? `${data}.${createHmac("sha256", internal).update(data).digest("hex")}`
-          : null,
-        coverage: "observed_records_only",
-      };
-    });
+    try {
+      const result = await journal(req.body, p, internal);
+      await authenticate(req.accessKey!, ["agent", "session"]);
+      return result;
+    } catch (error) {
+      if (error instanceof InvalidCursor)
+        return reply.code(400).send({ error: "invalid_cursor" });
+      throw error;
+    }
   }
+
   if (tool === "get_journal_entry") {
     const q = z.object({ entry_id: z.uuid() }).strict().parse(req.body);
     return scoped(p.tenant_id, async (c) => ({
@@ -555,16 +513,8 @@ app.post("/v1/tools/:tool", async (req, reply) => {
   }
   return reply.code(400).send({ error: "unsupported_tool" });
 });
-for (const [url, file, type] of [
-  ["/", "index.html", "text/html"],
-  ["/ui.js", "ui.js", "text/javascript"],
-  ["/ui.css", "ui.css", "text/css"],
-])
-  app.get(url, async (_, reply) =>
-    reply
-      .type(type)
-      .send(await readFile(new URL(`./${file}`, import.meta.url), "utf8")),
-  );
+await registerOwnerRoutes(app, owner, internal);
+await registerStatic(app);
 await app.listen({
   port,
   host: process.env.CONTAINER_RUNTIME === "1" ? "0.0.0.0" : "127.0.0.1",
