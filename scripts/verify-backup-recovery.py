@@ -84,7 +84,7 @@ const client=new Client({name:"isolated-recovery-proof",version:"1"});await clie
 def mark(name):checks.append(name);print(name,flush=True)
 
 try:
- command(ROOT,['python3','scripts/verify-bootstrap.py','--port',str(a.source_port),'--node-image-commit',a.node_image_commit,'--engine-image-commit',a.engine_image_commit,'--output',str(bootstrap)],timeout=240)
+ command(ROOT,['python3','scripts/verify-bootstrap.py','--port',str(a.source_port),'--node-image-commit',a.node_image_commit,'--engine-image-commit',a.engine_image_commit,'--output',str(bootstrap)],timeout=600)
  boot=json.loads(bootstrap.read_text());assert boot['status']=='passed'
  source=ROOT/boot['environment']['stage'];bootstrap_elapsed=boot['machine_seconds']
  assert source.parent==ROOT/'work' and re.fullmatch(r'bootstrap-[a-f0-9]{12}',source.name)
@@ -205,9 +205,14 @@ try:
  mark('raw_evidence_and_provider_collection_remain_fenced_with_one_active_owner')
  status='passed'
 finally:
+ # A timed-out multi-scenario bootstrap still identifies its own disposable resources.
+ if source is None and bootstrap.exists():
+  stage=json.loads(bootstrap.read_text()).get('environment',{}).get('stage','')
+  candidate=ROOT/stage
+  if candidate.parent==ROOT/'work'and re.fullmatch(r'bootstrap-[a-f0-9]{12}',candidate.name):source=candidate
  for directory in [destination,source]:
   if directory and (directory/'.runtime/compose.env').exists():
-   try:stop_supervisor(directory);run(directory,'stop','api','worker','engine','postgres')
+   try:stop_supervisor(directory);run(directory,'down','--remove-orphans')
    except Exception:checks.append('cleanup_stop_failed_inspect_this_isolated_project')
  report={'kind':'isolated_backup_recovery_after_original_removal','status':status,'tested_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),'executed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'environment':{'host':platform.platform(),'source_port':a.source_port,'restore_port':a.restore_port,'source_stage':str(source.relative_to(ROOT))if source else None,'restore_stage':str(destination.relative_to(ROOT)),'node_image_source_commit':a.node_image_commit,'engine_image_source_commit':a.engine_image_commit,'node_image':subprocess.check_output(['docker','image','inspect','blackbox-a-node:0.1.0-dev','--format','{{.Id}}'],text=True).strip(),'database':'PostgreSQL17 Compose; synthetic isolated test workspaces'},'original_removed':removed,'rotation_proof':rotation_proof,'checks':checks,'commands':commands,'corpus':{'journal_entries':snapshot['journal_count']if answer else None,'retained_evidence_objects':evidence_count,'encrypted_bytes':generation_result['bytes']if generation_result else None},'timing':{'total_test_seconds':round(time.monotonic()-started,3),'bootstrap_seconds':bootstrap_elapsed,'loss_to_authorized_API_and_MCP_seconds':round(recovery_elapsed,3)if recovery_elapsed else None,'operator_wait_seconds':round(operator_wait,6),'automated_operator':True},'restore_state':json.loads((destination/'.runtime/restore-state.json').read_text())if(destination/'.runtime/restore-state.json').exists()else None,'limitations':['Small synthetic corpus; not the required 250-MiB smoke corpus or recovery-time acceptance','Same physical Apple Silicon Mac with new isolated Compose resources; not a second machine','Copied host runtime and prebuilt development images; not the browser-downloaded distribution artifact','Current policy reconciliation, source revalidation, full operational acceptance, upgrade and independent review remain outside this proof']}
  output=ROOT/a.output;output.parent.mkdir(parents=True,exist_ok=True);output.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items()if k not in ['commands']}),flush=True)

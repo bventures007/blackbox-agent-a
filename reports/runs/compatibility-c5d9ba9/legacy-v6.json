@@ -1,0 +1,23 @@
+{
+  "kind": "legacy_pre_keyring_encrypted_backup_recovery",
+  "status": "passed",
+  "tested_commit": "c5d9ba974531b446b4448c2cc39775db4da19226",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T18:08:06.176771+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/legacy-recovery-108801a6600f",
+    "port": 18771,
+    "node_image": "sha256:ff7bffdcbf55994833cd789be821d794da8b939c2b5b970a30763cafaa77fe20"
+  },
+  "checks": [
+    "authenticated_old_archive_restores_explicit_legacy_layout_without_new_identity_or_rotation_bypass",
+    "new_owner_API_actual_SDK_MCP_and_retained_ciphertexts_recover_while_raw_and_provider_guards_remain"
+  ],
+  "elapsed_seconds": 98.274,
+  "limitations": [
+    "Known pre-keyring synthetic 55-entry generation; not smoke RTO or a downloaded release",
+    "Legacy identity coupling remains explicit; no rotation retirement claim for this old layout",
+    "No live providers, policy reconciliation completion or independent acceptance"
+  ]
+}

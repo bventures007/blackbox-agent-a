@@ -1,0 +1,30 @@
+{
+  "kind": "actual_packaged_readonly_MCP_client",
+  "status": "failed",
+  "tested_commit": "c5d9ba974531b446b4448c2cc39775db4da19226",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T18:06:31.713894+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/mcp-bridge-ded56d4ea581",
+    "port": 18763,
+    "node_image_source_commit": "c5d9ba9",
+    "engine_image_source_commit": "c5d9ba9",
+    "node_image": "sha256:ff7bffdcbf55994833cd789be821d794da8b939c2b5b970a30763cafaa77fe20",
+    "client": "Actual MCP TypeScript SDK1.32.2 stdio Client",
+    "bridge_host_PATH": "Only Python3 and Docker; no Node/Rust tools available on bridge PATH"
+  },
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18763",
+      "exit_code": 1,
+      "observed": "Host container operation failed; inspect local diagnostics.\r\n"
+    }
+  ],
+  "sdk": null,
+  "limitations": [
+    "Same physical Mac, fresh synthetic isolated copied runtime with prebuilt development images",
+    "Host Node runs only the independent SDK test client; this is not a clean-Mac or browser-downloaded distribution proof",
+    "No third-party model wording, live provider access, full performance/operations gate or independent reviewer approval"
+  ]
+}

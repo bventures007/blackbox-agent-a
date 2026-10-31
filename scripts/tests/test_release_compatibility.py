@@ -37,6 +37,10 @@ class ReleaseCompatibilityTests(unittest.TestCase):
   raw=b'-- Dumped from database version 17.6\n-- Dumped by pg_dump version 17.6\n\\restrict abc123\n'+body+b'\\unrestrict abc123\n'
   self.assertEqual(normalized_legacy_schema(raw),body)
   self.assertNotEqual(hashlib.sha256(normalized_legacy_schema(raw)).digest(),hashlib.sha256(normalized_legacy_schema(raw.replace(b'SELECT ON',b'ALL ON'))).digest())
+ def test_generated_header_lookalikes_inside_SQL_function_bodies_are_preserved(self):
+  body=b"CREATE FUNCTION bb.f() RETURNS text LANGUAGE sql AS $$\n-- Dumped from database version 99\n-- Dumped by pg_dump version 99\n\\restrict BODY1\n\\unrestrict BODY2\nSELECT 'retained';\n$$;\n"
+  raw=b'-- Dumped from database version 17.6\n\\restrict HEADER\n'+body+b'\\unrestrict FOOTER\n'
+  self.assertEqual(normalized_legacy_schema(raw),body)
  def test_unknown_legacy_schema_never_receives_invented_checksum_attestation(self):
   for version in [5,6]:
    with patch('release_compatibility.migration_rows',return_value=None),patch('backup_operations.run',return_value=b'CREATE TABLE unexpected();'),patch('backup_operations.sql')as sql,self.assertRaisesRegex(RuntimeConfigError,'complete schema fingerprint'):upgrade_restored_schema(self.root,version)

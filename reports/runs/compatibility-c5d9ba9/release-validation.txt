@@ -1,0 +1,3 @@
+Command: python3 scripts/validate-delivery-profile.py --release
+Exit: 1
+ERROR: Pilot blocked: INSTALL-01 is not_started

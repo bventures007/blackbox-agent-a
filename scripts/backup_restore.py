@@ -35,7 +35,10 @@ def verified_backup(root,path,secret):
   metadata=manifest['metadata']
   expected={'application':'0.1.0','postgres_major':17,'engine_rpc':1,'lifecycle':'lifecycle-v2','typed_records':'records-v3','questions':'questions-v9','backup_format':1}
   compatibility=metadata.get('compatibility',{})
-  if {k:compatibility.get(k)for k in expected}!=expected or compatibility.get('schema')not in [5,6,7]or set(compatibility)!=set(expected)|{'schema'}:raise BackupFormatError('incompatible_backup_contract')
+  if compatibility.get('schema')==7:
+   from release_compatibility import backup_compatibility
+   if compatibility!=backup_compatibility(root):raise BackupFormatError('incompatible_backup_contract')
+  elif {k:compatibility.get(k)for k in expected}!=expected or compatibility.get('schema')not in [5,6]or set(compatibility)!=set(expected)|{'schema'}:raise BackupFormatError('incompatible_backup_contract')
   required={'installation.json','policy/redactions.json','secrets/internal'}
   if not required<=small.keys()or not re.fullmatch(rb'[a-f0-9]{64}',small['secrets/internal']):raise BackupFormatError('backup_installation_material_invalid')
   ring=None

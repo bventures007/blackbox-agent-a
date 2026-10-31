@@ -1,0 +1,61 @@
+{
+  "at": "2026-10-31T18:09:05.861373+00:00",
+  "reason": "Own completed test networks exhausted Docker default address pools",
+  "results": [
+    {
+      "stage": "mcp-bridge-a1ec431f1c06",
+      "action": "removed_stopped_containers_and_network_only",
+      "database_volume_and_files": "preserved"
+    },
+    {
+      "stage": "bootstrap-f7c96d9650fb",
+      "action": "removed_stopped_containers_and_network_only",
+      "database_volume_and_files": "preserved"
+    },
+    {
+      "stage": "rotation-old-backup-4b6fc5ab0455",
+      "action": "removed_stopped_containers_and_network_only",
+      "database_volume_and_files": "preserved"
+    },
+    {
+      "stage": "recovered-9bc4cfc30bff",
+      "action": "removed_stopped_containers_and_network_only",
+      "database_volume_and_files": "preserved"
+    },
+    {
+      "stage": "rotation-old-backup-9bc4cfc30bff",
+      "action": "removed_stopped_containers_and_network_only",
+      "database_volume_and_files": "preserved"
+    },
+    {
+      "stage": "legacy-recovery-d83aa837ea03",
+      "action": "removed_stopped_containers_and_network_only",
+      "database_volume_and_files": "preserved"
+    },
+    {
+      "stage": "mcp-bridge-3ddefa5929f5",
+      "action": "removed_stopped_containers_and_network_only",
+      "database_volume_and_files": "preserved"
+    },
+    {
+      "stage": "recovered-0137ffc55436",
+      "action": "removed_stopped_containers_and_network_only",
+      "database_volume_and_files": "preserved"
+    },
+    {
+      "stage": "bootstrap-63ce31ca97ce",
+      "action": "removed_stopped_containers_and_network_only",
+      "database_volume_and_files": "preserved"
+    },
+    {
+      "stage": "bootstrap-5102eb09515e",
+      "action": "removed_stopped_containers_and_network_only",
+      "database_volume_and_files": "preserved"
+    },
+    {
+      "stage": "bootstrap-a3609fcb6ea9",
+      "action": "removed_stopped_containers_and_network_only",
+      "database_volume_and_files": "preserved"
+    }
+  ]
+}

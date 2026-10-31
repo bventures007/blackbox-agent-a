@@ -1,0 +1,130 @@
+{
+  "kind": "persisted_release_compatibility_gates",
+  "status": "passed",
+  "tested_commit": "c5d9ba974531b446b4448c2cc39775db4da19226",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T18:15:30.015976+00:00",
+  "elapsed_seconds": 199.299,
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/mcp-bridge-30f618c6ed11",
+    "port": 18763,
+    "node_image_source_commit": "c5d9ba9",
+    "engine_image_source_commit": "c5d9ba9",
+    "node_image": "sha256:ff7bffdcbf55994833cd789be821d794da8b939c2b5b970a30763cafaa77fe20",
+    "client": "Actual MCP TypeScript SDK1.32.2 stdio Client",
+    "bridge_host_PATH": "Only Python3 and Docker; no Node/Rust tools available on bridge PATH"
+  },
+  "checks": [
+    "changed_checksum_denies_host_API_worker_engine_before_traffic_without_journal_change",
+    "newer_schema_denies_host_API_worker_engine_before_traffic_without_journal_change",
+    "persistent_fence_denies_host_API_worker_engine_before_traffic_without_journal_change",
+    "unknown_protocol_denies_host_API_worker_engine_before_traffic_without_journal_change",
+    "actual_API_worker_engine_roles_read_but_cannot_modify_global_contract_or_migration_metadata",
+    "actual_Rust_RPC_denies_missing_or_unknown_contract_even_with_valid_internal_authority",
+    "matching_runtime_starts_with_exact_unchanged_journal_cutoff"
+  ],
+  "commands": [
+    {
+      "command": "./blackbox up",
+      "exit_code": 1,
+      "expected_safe_error": "migration history",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T api",
+      "exit_code": 1,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T worker",
+      "exit_code": 1,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T engine",
+      "exit_code": 101,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 1,
+      "expected_safe_error": "migration history",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T api",
+      "exit_code": 1,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T worker",
+      "exit_code": 1,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T engine",
+      "exit_code": 101,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 1,
+      "expected_safe_error": "maintenance is fenced",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T api",
+      "exit_code": 1,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T worker",
+      "exit_code": 1,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T engine",
+      "exit_code": 101,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 1,
+      "expected_safe_error": "Runtime contracts",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T api",
+      "exit_code": 1,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T worker",
+      "exit_code": 1,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    },
+    {
+      "command": "docker compose --project-name blackbox-a-8997d93b3782 --env-file /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/.runtime/compose.env -f /Users/benediktsauter/Documents/Codex/2026-10-31/go-implement-blackbox-in-this-repository/work/blackbox-agent-a/work/mcp-bridge-30f618c6ed11/infra/compose/compose.yaml run --rm --no-deps -T engine",
+      "exit_code": 101,
+      "expected_safe_error": "database_contract_incompatible_or_fenced",
+      "observed": true
+    }
+  ],
+  "limitations": [
+    "Synthetic owned database and exact prebuilt images; not a distribution archive",
+    "Checks metadata drift, runtime denial and current contract; full fenced upgrade, interrupted migration and changed-rule projection rebuild remain separate requirements",
+    "No live provider access or independent review approval"
+  ]
+}

@@ -8,8 +8,8 @@ class BackupRestoreTests(unittest.TestCase):
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory();self.root=pathlib.Path(self.tmp.name);self.secret,self.recipient=new_recovery(ROOT)
  def tearDown(self):self.tmp.cleanup()
- def backup(self,materials=None,**changes):
-  compatibility={'application':'0.1.0','postgres_major':17,'schema':5,'engine_rpc':1,'lifecycle':'lifecycle-v2','typed_records':'records-v3','questions':'questions-v9','backup_format':1}
+ def backup(self,materials=None,compatibility=None,**changes):
+  compatibility=compatibility or {'application':'0.1.0','postgres_major':17,'schema':5,'engine_rpc':1,'lifecycle':'lifecycle-v2','typed_records':'records-v3','questions':'questions-v9','backup_format':1}
   identity=str(uuid.uuid4());database=b'PGDMP synthetic validation bytes'
   metadata={'installation_id':identity,'compatibility':compatibility,'snapshot':{'postgres_major':17,'heads':[],'journal_count':0},'database_chunks':1,'database_bytes':len(database),'database_sha256':hashlib.sha256(database).hexdigest()};metadata.update(changes)
   path=self.root/(uuid.uuid4().hex+'.age')
@@ -25,6 +25,14 @@ class BackupRestoreTests(unittest.TestCase):
   for changes in [{'database_sha256':'0'*64},{'database_bytes':1},{'database_chunks':2},{'compatibility':{'schema':999}}]:
    with self.assertRaises(BackupFormatError):
     with verified_backup(ROOT,self.backup(**changes),self.secret):pass
+ def test_current_backup_contract_is_checked_before_target_creation(self):
+  from release_compatibility import backup_compatibility
+  expected=backup_compatibility(ROOT)
+  with verified_backup(ROOT,self.backup(compatibility=expected),self.secret)as(_,manifest,_,_):self.assertEqual(manifest['metadata']['compatibility'],expected)
+  for field,value in [('release','future'),('runtime_sha256','a'*64),('migrations_sha256','b'*64)]:
+   destination=self.root/('rejected-'+field)
+   with self.assertRaisesRegex(BackupFormatError,'incompatible_backup_contract'):restore(ROOT,self.backup(compatibility={**expected,field:value}),destination,self.secret)
+   self.assertFalse(destination.exists())
  def test_rotated_keyring_material_is_complete_bounded_and_independent(self):
   key='data-'+uuid.uuid4().hex;ring={'version':2,'active':key,'keys':[key],'identity':'independent-v1','checksums':{key:hashlib.sha256(b'x'*32).hexdigest()},'identity_sha256':hashlib.sha256(b'y'*32).hexdigest()}
   material={key:b'x'*32,'internal':b'a'*64,'identity':b'y'*32,'keyring.json':json.dumps(ring).encode()}

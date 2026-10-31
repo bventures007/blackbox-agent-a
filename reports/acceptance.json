@@ -1377,13 +1377,17 @@
     {
       "id": "PILOT-03",
       "stage": "operations",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
-      "blocker": null,
+      "status": "implemented_unverified",
+      "tested_commit": "c5d9ba974531b446b4448c2cc39775db4da19226",
+      "command": "python3 scripts/verify-release-compatibility.py --stage-record .runtime/compatibility-mcp-rerun-c5d9ba9.json --output .runtime/compatibility-gates-c5d9ba9.json",
+      "environment": "Apple Silicon macOS27.2, separate PostgreSQL17 Compose stage and exact c5d9ba9 Node/Rust images; synthetic fixtures",
+      "observed_result": "Clean c5d9ba974531b446b4448c2cc39775db4da19226 passed persisted compatibility denials for altered checksums, newer migration history, a persistent fence and unknown protocol across host/API/worker/Rust, with unchanged journal cutoffs. Runtime roles cannot mutate metadata; Rust rejects missing/unknown RPC contracts even with the correct internal secret. Packaged actual SDK MCP, schema5/schema6 legacy recovery, native first-slice, all24 positive/missing/varied questions and adversaries, Golden and EN/DE owner-review/restart/cold regressions passed. Evidence: reports/runs/compatibility-c5d9ba9. Earlier fresh MCP/schema5 attempts failed before PostgreSQL because Docker address pools were exhausted; only own stopped test containers/networks were removed, preserving volumes/files, and clean reruns passed. The current-format original-loss suite timed out in its 240-second multi-scenario bootstrap harness before any backup or removal, and that installation was stopped with data intact. The failed reports remain preserved. The broader harness timeout and scoped test-network cleanup are corrected next; no restore-time acceptance target changes. Fenced populated upgrade, interrupted migration, changed-rule rebuild and remaining P4 work are still open.",
+      "evidence_paths": [
+        "reports/runs/compatibility-c5d9ba9/gates.json",
+        "reports/runs/compatibility-c5d9ba9/legacy-v5.json",
+        "reports/runs/compatibility-c5d9ba9/legacy-v6.json"
+      ],
+      "blocker": "Populated fenced upgrade with pre-upgrade backup, interruption/resume, changed-rule atomic rebuild, exact distribution artifacts and independent review remain incomplete.",
       "delivery_scope": "local_pilot"
     },
     {

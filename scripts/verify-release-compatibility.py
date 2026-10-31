@@ -51,7 +51,7 @@ finally:
   except Exception:checks.append('metadata_cleanup_failed_inspect_own_synthetic_stage')
  try:
   from backup_supervisor import stop
-  stop(root);run(root,'stop','api','worker','engine','postgres')
+  stop(root);run(root,'down','--remove-orphans')
  except Exception:checks.append('cleanup_stop_failed_inspect_own_synthetic_stage')
  report={'kind':'persisted_release_compatibility_gates','status':status,'tested_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),'executed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'elapsed_seconds':round(time.monotonic()-started,3),'environment':record['environment'],'checks':checks,'commands':commands,'limitations':['Synthetic owned database and exact prebuilt images; not a distribution archive','Checks metadata drift, runtime denial and current contract; full fenced upgrade, interrupted migration and changed-rule projection rebuild remain separate requirements','No live provider access or independent review approval']}
  a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items()if k!='commands'}),flush=True)

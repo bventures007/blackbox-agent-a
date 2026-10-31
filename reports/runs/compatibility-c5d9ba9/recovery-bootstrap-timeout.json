@@ -1,0 +1,41 @@
+{
+  "kind": "isolated_backup_recovery_after_original_removal",
+  "status": "failed",
+  "tested_commit": "c5d9ba974531b446b4448c2cc39775db4da19226",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T18:10:28.339314+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "source_port": 18765,
+    "restore_port": 18769,
+    "source_stage": null,
+    "restore_stage": "work/recovered-00ef25a6a569",
+    "node_image_source_commit": "c5d9ba9",
+    "engine_image_source_commit": "c5d9ba9",
+    "node_image": "sha256:ff7bffdcbf55994833cd789be821d794da8b939c2b5b970a30763cafaa77fe20",
+    "database": "PostgreSQL17 Compose; synthetic isolated test workspaces"
+  },
+  "original_removed": false,
+  "rotation_proof": null,
+  "checks": [],
+  "commands": [],
+  "corpus": {
+    "journal_entries": null,
+    "retained_evidence_objects": null,
+    "encrypted_bytes": null
+  },
+  "timing": {
+    "total_test_seconds": 240.822,
+    "bootstrap_seconds": null,
+    "loss_to_authorized_API_and_MCP_seconds": null,
+    "operator_wait_seconds": 0.0,
+    "automated_operator": true
+  },
+  "restore_state": null,
+  "limitations": [
+    "Small synthetic corpus; not the required 250-MiB smoke corpus or recovery-time acceptance",
+    "Same physical Apple Silicon Mac with new isolated Compose resources; not a second machine",
+    "Copied host runtime and prebuilt development images; not the browser-downloaded distribution artifact",
+    "Current policy reconciliation, source revalidation, full operational acceptance, upgrade and independent review remain outside this proof"
+  ]
+}

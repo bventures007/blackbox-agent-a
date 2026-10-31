@@ -48,9 +48,21 @@ def check_database(root):
 
 
 def normalized_legacy_schema(raw):
- # Preserve every SQL byte, ACL, RLS policy, trigger and function definition.
- raw=re.sub(rb'^\\(?:un)?restrict [A-Za-z0-9]+\n',b'',raw,flags=re.M)
- return re.sub(rb'^-- Dumped (?:from database|by pg_dump) version [^\n]+\n',b'',raw,flags=re.M)
+ # Only generated header/footer lines are volatile; SQL bodies are byte-preserved.
+ lines=raw.splitlines(keepends=True);last=next((i for i in range(len(lines)-1,-1,-1)if lines[i].strip()),-1)
+ output=[];header=True
+ for index,line in enumerate(lines):
+  if index==last and re.fullmatch(rb'\\unrestrict [A-Za-z0-9]+\n',line):continue
+  if header:
+   if re.fullmatch(rb'\\restrict [A-Za-z0-9]+\n',line)or re.fullmatch(rb'-- Dumped (?:from database|by pg_dump) version [^\n]+\n',line):continue
+   if line.strip()and not line.startswith(b'--'):header=False
+  output.append(line)
+ return b''.join(output)
+
+
+def backup_compatibility(root):
+ manifest=read_manifest(root);runtime=manifest['runtime']
+ return {'application':'0.1.0','postgres_major':manifest['install']['postgres_major'],'schema':manifest['install']['schema'],'engine_rpc':runtime['engine_rpc'],'lifecycle':runtime['reducers']['lifecycle'],'typed_records':runtime['reducers']['typed_records'],'questions':runtime['reducers']['questions'],'backup_format':runtime['backup'],'release':manifest['release'],'runtime_sha256':SUPPORTED_RUNTIME_SHA256,'migrations_sha256':hashlib.sha256(json.dumps(manifest['migrations'],sort_keys=True,separators=(',',':')).encode()).hexdigest()}
 
 
 def upgrade_restored_schema(root,source_schema):

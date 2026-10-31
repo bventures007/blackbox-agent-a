@@ -1,0 +1,6 @@
+{
+  "at": "2026-10-31T18:11:46.175441+00:00",
+  "stage": "work/bootstrap-1e81f96f8a90",
+  "cause": "whole-bootstrap harness timeout before recovery test setup finished",
+  "action": "stopped only owned synthetic services and supervisor; all data and keys preserved"
+}

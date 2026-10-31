@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Fresh-directory host/Compose proof. Not a browser-download or release-package gate."""
-import argparse,datetime,hashlib,http.cookiejar,json,os,pathlib,platform,pty,re,select,shutil,subprocess,time,urllib.error,urllib.request,uuid
+import argparse,datetime,hashlib,http.cookiejar,json,os,pathlib,platform,pty,re,select,shutil,signal,subprocess,time,urllib.error,urllib.request,uuid
+from backup_operations import compose as host_compose
+from host_runtime import compose_environment
 p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--port',type=int,default=18751);p.add_argument('--node-image-commit',default='unrecorded');p.add_argument('--engine-image-commit',default='unrecorded');a=p.parse_args()
 root=pathlib.Path(__file__).resolve().parents[1]
 stage=root/'work'/('bootstrap-'+uuid.uuid4().hex[:12]);stage.mkdir(parents=True)
@@ -8,6 +10,7 @@ for name in ['blackbox','scripts/host_runtime.py','scripts/database_identity.py'
  target=stage/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(root/name,target)
 shutil.copytree(root/'packages/database/migrations',stage/'packages/database/migrations')
 base=f'http://127.0.0.1:{a.port}';checks=[];commands=[];status='failed';started=time.monotonic()
+checkpoint=root/a.output;checkpoint.parent.mkdir(parents=True,exist_ok=True);checkpoint.write_text(json.dumps({'kind':'fresh_directory_host_bootstrap_checkpoint','status':'running','environment':{'stage':str(stage.relative_to(root)),'port':a.port}})+'\n')
 
 def redact(text):return re.sub(r'bb_(?:owner|agent|session|producer)_[A-Za-z0-9_-]+','[REDACTED]',text)
 def command(args,expect=0,interactive=False):
@@ -26,14 +29,19 @@ def command(args,expect=0,interactive=False):
      if len(buffer)>2*1024*1024:proc.kill();raise RuntimeError('Host command output budget exceeded')
     elif proc.poll()is not None:break
    code=proc.wait(timeout=10);out=buffer.decode(errors='replace')
-  finally:os.close(master)
+  finally:
+   if proc.poll()is None:
+    try:os.killpg(proc.pid,signal.SIGKILL)
+    except ProcessLookupError:pass
+    proc.wait(timeout=10)
+   os.close(master)
  else:
-  r=subprocess.run(args,cwd=stage,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=180);code=r.returncode;out=r.stdout
+  r=subprocess.run(args,cwd=stage,env=compose_environment(stage/'.runtime')if args[:2]==['docker','compose']else None,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=180);code=r.returncode;out=r.stdout
  commands.append({'command':' '.join(args),'exit_code':code,'observed':redact(out)})
  if code!=expect:raise RuntimeError(f'Host command failed (exit {code}): '+redact(out[-1200:]))
  return out
 
-def compose(*args):return ['docker','compose','--env-file','.runtime/compose.env','-f','infra/compose/compose.yaml',*args]
+def compose(*args):return host_compose(stage,*args)
 jar=http.cookiejar.CookieJar();client=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar));csrf=None
 
 def call(path,body=None):
@@ -133,7 +141,7 @@ try:
  checks.append('host_reset_revokes_old_owner_session_preserves_single_owner_and_journal')
  status='passed';print('fresh_bootstrap_checks_passed',flush=True)
 finally:
- try:command(['./blackbox','down'])
+ try:command(['./blackbox','down']);command(compose('down','--remove-orphans'))
  except Exception:checks.append('cleanup_stop_failed_inspect_isolated_project')
  result={'kind':'fresh_directory_host_bootstrap','status':status,'tested_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True).strip()),'executed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'machine_seconds':round(time.monotonic()-started,3),'environment':{'host':platform.platform(),'stage':str(stage.relative_to(root)),'port':a.port,'images':{'node':subprocess.check_output(['docker','image','inspect','blackbox-a-node:0.1.0-dev','--format','{{.Id}}'],text=True).strip(),'engine':subprocess.check_output(['docker','image','inspect','blackbox-a-engine:0.1.0-dev','--format','{{.Id}}'],text=True).strip()},'node_image_source_commit':a.node_image_commit,'engine_image_source_commit':a.engine_image_commit},'checks':checks,'commands':commands,'limitations':['Fresh isolated directory on the same actual Apple Silicon Mac; not a second physical machine','Copied wrapper/config and existing prebuilt development images; not a versioned downloaded archive or DIST proof','No backup/key-rotation/upgrade/performance certification or independent review']}
  out=root/a.output;out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(result,indent=2)+'\n')

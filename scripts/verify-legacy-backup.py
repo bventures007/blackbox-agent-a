@@ -55,7 +55,7 @@ try:
  status='passed'
 finally:
  if(target/'.runtime/compose.env').exists():
-  try:run(target,'stop','api','worker','engine','postgres')
+  try:run(target,'down','--remove-orphans')
   except Exception:checks.append('cleanup_stop_failed_inspect_own_project')
  report={'kind':'legacy_pre_keyring_encrypted_backup_recovery','status':status,'tested_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),'executed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'environment':{'host':platform.platform(),'stage':str(target.relative_to(ROOT)),'port':a.port,'node_image':subprocess.check_output(['docker','image','inspect','blackbox-a-node:0.1.0-dev','--format','{{.Id}}'],text=True).strip()},'checks':checks,'elapsed_seconds':round(time.monotonic()-started,3),'limitations':['Known pre-keyring synthetic 55-entry generation; not smoke RTO or a downloaded release','Legacy identity coupling remains explicit; no rotation retirement claim for this old layout','No live providers, policy reconciliation completion or independent acceptance']}
  output=ROOT/a.output;output.parent.mkdir(parents=True,exist_ok=True);output.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report),flush=True)

@@ -1,0 +1,61 @@
+{
+  "kind": "actual_packaged_readonly_MCP_client",
+  "status": "passed",
+  "tested_commit": "c5d9ba974531b446b4448c2cc39775db4da19226",
+  "working_tree_dirty": false,
+  "executed_at": "2026-10-31T18:12:10.157007+00:00",
+  "environment": {
+    "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "stage": "work/mcp-bridge-30f618c6ed11",
+    "port": 18763,
+    "node_image_source_commit": "c5d9ba9",
+    "engine_image_source_commit": "c5d9ba9",
+    "node_image": "sha256:ff7bffdcbf55994833cd789be821d794da8b939c2b5b970a30763cafaa77fe20",
+    "client": "Actual MCP TypeScript SDK1.32.2 stdio Client",
+    "bridge_host_PATH": "Only Python3 and Docker; no Node/Rust tools available on bridge PATH"
+  },
+  "commands": [
+    {
+      "command": "./blackbox setup --port 18763",
+      "exit_code": 0,
+      "observed": "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 1/0\r\n \u2714 Container blackbox-a-8997d93b3782-postgres-1  Running0.0s \r\n\u001b[?25hSave this personal administrator key in your password manager. Do not share it with agents.\r\nSpeichere diesen pers\u00f6nlichen Administratorschl\u00fcssel im Passwortmanager. Nicht mit Agenten teilen.\r\n[REDACTED]\r\nBackups are not configured. You can continue unprotected, or enroll a separate destination and recovery key with ./blackbox backup configure DESTINATION.\r\nSicherungen sind nicht eingerichtet. Du kannst ohne Sicherung fortfahren oder mit ./blackbox backup configure ZIEL ein separates Ziel und einen Wiederherstellungsschl\u00fcssel einrichten.\r\n"
+    },
+    {
+      "command": "./blackbox up",
+      "exit_code": 0,
+      "observed": " Container blackbox-a-8997d93b3782-postgres-1  Running\n Container blackbox-a-8997d93b3782-api-1  Creating\n Container blackbox-a-8997d93b3782-worker-1  Creating\n Container blackbox-a-8997d93b3782-engine-1  Creating\n Container blackbox-a-8997d93b3782-engine-1  Created\n Container blackbox-a-8997d93b3782-worker-1  Created\n Container blackbox-a-8997d93b3782-api-1  Created\n Container blackbox-a-8997d93b3782-postgres-1  Waiting\n Container blackbox-a-8997d93b3782-postgres-1  Waiting\n Container blackbox-a-8997d93b3782-postgres-1  Waiting\n Container blackbox-a-8997d93b3782-postgres-1  Healthy\n Container blackbox-a-8997d93b3782-worker-1  Starting\n Container blackbox-a-8997d93b3782-postgres-1  Healthy\n Container blackbox-a-8997d93b3782-api-1  Starting\n Container blackbox-a-8997d93b3782-postgres-1  Healthy\n Container blackbox-a-8997d93b3782-engine-1  Starting\n Container blackbox-a-8997d93b3782-engine-1  Started\n Container blackbox-a-8997d93b3782-worker-1  Started\n Container blackbox-a-8997d93b3782-api-1  Started\n"
+    },
+    {
+      "command": "node --import tsx tests/packaged-mcp.ts [protected synthetic test environment]",
+      "exit_code": 0,
+      "observed": "{\"status\":\"passed\",\"checks\":[\"actual_wrapper_SDK_MCP_returns_persisted_answer_without_host_Node_or_Rust_on_PATH\",\"exact_own_project_ignores_ambient_project_port_and_profile_overrides\",\"actual_unprivileged_readonly_container_has_only_agent_key_no_DB_or_installation_material\",\"owner_key_and_unsupported_write_tools_denied\",\"existing_stdio_connection_denies_revoked_agent_within_five_seconds\",\"separate_agent_survives_and_protected_key_file_works_while_unsafe_mode_is_denied\"],\"container_environment_names\":[\"BLACKBOX_AGENT_KEY\",\"BLACKBOX_API_URL\",\"CONTAINER_MCP_BRIDGE\",\"NODE_DISABLE_COMPILE_CACHE\",\"NODE_VERSION\",\"PATH\",\"PUBLIC_PORT\",\"YARN_VERSION\"],\"bridge_memory_limit_bytes\":268435456}\n"
+    }
+  ],
+  "sdk": {
+    "status": "passed",
+    "checks": [
+      "actual_wrapper_SDK_MCP_returns_persisted_answer_without_host_Node_or_Rust_on_PATH",
+      "exact_own_project_ignores_ambient_project_port_and_profile_overrides",
+      "actual_unprivileged_readonly_container_has_only_agent_key_no_DB_or_installation_material",
+      "owner_key_and_unsupported_write_tools_denied",
+      "existing_stdio_connection_denies_revoked_agent_within_five_seconds",
+      "separate_agent_survives_and_protected_key_file_works_while_unsafe_mode_is_denied"
+    ],
+    "container_environment_names": [
+      "BLACKBOX_AGENT_KEY",
+      "BLACKBOX_API_URL",
+      "CONTAINER_MCP_BRIDGE",
+      "NODE_DISABLE_COMPILE_CACHE",
+      "NODE_VERSION",
+      "PATH",
+      "PUBLIC_PORT",
+      "YARN_VERSION"
+    ],
+    "bridge_memory_limit_bytes": 268435456
+  },
+  "limitations": [
+    "Same physical Mac, fresh synthetic isolated copied runtime with prebuilt development images",
+    "Host Node runs only the independent SDK test client; this is not a clean-Mac or browser-downloaded distribution proof",
+    "No third-party model wording, live provider access, full performance/operations gate or independent reviewer approval"
+  ]
+}

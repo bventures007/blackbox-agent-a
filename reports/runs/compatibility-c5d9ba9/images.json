@@ -1,0 +1,7 @@
+{
+  "source_commit": "c5d9ba974531b446b4448c2cc39775db4da19226",
+  "images": {
+    "blackbox-a-node:0.1.0-dev": "sha256:ff7bffdcbf55994833cd789be821d794da8b939c2b5b970a30763cafaa77fe20",
+    "blackbox-a-engine:0.1.0-dev": "sha256:ae47a956429e36669ef9844dc565321d74afc401dde15fa3e1e3bf1a4eed4821"
+  }
+}

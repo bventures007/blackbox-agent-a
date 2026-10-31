@@ -146,10 +146,19 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       isError: !r.ok,
       content: [{ type: "text", text: JSON.stringify(await r.json()) }],
     };
-  } catch {
+  } catch (error) {
     return {
       isError: true,
-      content: [{ type: "text", text: "backend_unavailable" }],
+      content: [
+        {
+          type: "text",
+          text:
+            error instanceof Error &&
+            error.message === "runtime_contract_incompatible"
+              ? "runtime_contract_incompatible: use the matching local API and MCP release"
+              : "backend_unavailable",
+        },
+      ],
     };
   }
 });
