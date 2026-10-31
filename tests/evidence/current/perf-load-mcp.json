@@ -1,0 +1,79 @@
+{
+ "mode": "mcp",
+ "duration_s": 600,
+ "warmup_s": 30,
+ "clients": 10,
+ "fixed_arrival_rate": 20,
+ "ingest_rate_target": 20,
+ "ingested_entries": 12238,
+ "completed": 158795,
+ "attempts": 159154,
+ "errors": {
+  "http": 0,
+  "stale": 18,
+  "timeout": 0,
+  "tool": 341
+ },
+ "success_fraction": 0.9977443231084359,
+ "scheduled_arrivals": 11661,
+ "scheduled_arrival_latency_ms": {
+  "p50": 42.9,
+  "p95": 1066.4,
+  "p99": 2394.3,
+  "n": 11400
+ },
+ "classes": {
+  "hot_current_state": {
+   "n": 79116,
+   "p50": 27,
+   "p95": 172.9,
+   "p99": 1205.2
+  },
+  "cold_order_state": {
+   "n": 32104,
+   "p50": 14.4,
+   "p95": 72.5,
+   "p99": 218.2
+  },
+  "entity_history_first_100": {
+   "n": 31804,
+   "p50": 12.9,
+   "p95": 58.1,
+   "p99": 171.3
+  },
+  "bounded_30_day_summary": {
+   "n": 15771,
+   "p50": 29.1,
+   "p95": 149.4,
+   "p99": 450.2
+  }
+ },
+ "durable_ack_ms": {
+  "p50": 16.2,
+  "p95": 365.5,
+  "p99": 1025.5,
+  "n": 12238
+ },
+ "projection_lag": {
+  "samples": 126,
+  "lag_ms_p95": 250,
+  "lag_ms_max": 1028,
+  "lag_entries_max": 0,
+  "rss_bytes_peak": 770580480
+ },
+ "engine": {
+  "rss_bytes": 548765696,
+  "tenants": 55,
+  "max_lag_entries": 0,
+  "max_lag_ms": 0,
+  "resident_bytes_total": 66315912
+ },
+ "container_stats": [
+  "blackbox-agent-a-api-1 75.8MiB / 768MiB 0.05%",
+  "blackbox-agent-a-worker-1 40.78MiB / 768MiB 0.80%",
+  "blackbox-agent-a-fixture-1 13.44MiB / 7.654GiB 0.00%",
+  "blackbox-agent-a-engine-1 529.5MiB / 1.5GiB 7.76%",
+  "blackbox-agent-a-postgres-1 405.4MiB / 7.654GiB 11.78%"
+ ],
+ "finished_at": "2026-10-31T19:12:47.455Z"
+}

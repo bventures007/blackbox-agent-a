@@ -85,7 +85,7 @@
     {
       "journal_sequence": "7",
       "event_type": "order.revised",
-      "supersedes_entry_id": "1cba1803-8394-4f8f-ad89-24c5ce02cdae",
+      "supersedes_entry_id": "cab72b60-65b5-408a-a123-c86f032bb64a",
       "gross": "9520"
     }
   ]

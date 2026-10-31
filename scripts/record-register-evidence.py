@@ -94,6 +94,10 @@ def now_iter():
         t += datetime.timedelta(milliseconds=1)
 
 
+def invalidate_events(commit: str, actor: dict, clock, reason: str):
+    return [{'id': f'invalidate-{row}-{commit[:8]}', 'row': row, 'at': next(clock), 'actor': actor, 'action': 'invalidate', 'note': f'{reason} Re-recording implementation and tests at commit {commit[:12]}; earlier records stay as history.'} for row in ROWS]
+
+
 def implementation_events(commit: str, actor: dict, clock):
     events = []
     for row in ROWS:
@@ -151,10 +155,13 @@ def test_events(commit: str, run_id: str, actor: dict, environment: str, vitest_
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('phase', choices=('implementation', 'tests')); ap.add_argument('--commit', required=True); ap.add_argument('--actor-id', required=True); ap.add_argument('--actor-name', required=True)
-    ap.add_argument('--run-id'); ap.add_argument('--vitest'); ap.add_argument('--environment'); ap.add_argument('--dry-run', action='store_true')
+    ap = argparse.ArgumentParser(); ap.add_argument('phase', choices=('invalidate', 'implementation', 'tests')); ap.add_argument('--commit', required=True); ap.add_argument('--actor-id', required=True); ap.add_argument('--actor-name', required=True)
+    ap.add_argument('--run-id'); ap.add_argument('--vitest'); ap.add_argument('--environment'); ap.add_argument('--reason'); ap.add_argument('--dry-run', action='store_true')
     a = ap.parse_args(); actor = {'id': a.actor_id, 'name': a.actor_name, 'kind': 'agent'}; clock = now_iter()
-    if a.phase == 'implementation': events = implementation_events(a.commit, actor, clock)
+    if a.phase == 'invalidate':
+        if not a.reason: sys.exit('invalidate needs --reason')
+        events = invalidate_events(a.commit, actor, clock, a.reason)
+    elif a.phase == 'implementation': events = implementation_events(a.commit, actor, clock)
     else:
         if not (a.run_id and a.vitest and a.environment): sys.exit('tests phase needs --run-id, --vitest and --environment')
         events = test_events(a.commit, a.run_id, actor, a.environment, Path(a.vitest), clock, a.dry_run)

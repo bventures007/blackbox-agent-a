@@ -49,7 +49,7 @@ python3 scripts/integration-register.py check && python3 scripts/validate-questi
 | Backup → tamper rejection → isolated restore (new owner key, agents revoked, providers paused, identical answer at the same cursor) | restore 30 s machine time | `tests/evidence/current/ops-backup-restore.txt`, `ops-restore-check.json`, `ops-backup-manifest.json` |
 | Release archive, manifest/checksum/landing links from one static origin, installation from the archive in a fresh folder (no clone, no toolchain), first answer | passed | `tests/evidence/current/dist-landing-check.json`, `dist-install-check.json`, `ops-dist-install.txt` |
 | Fresh installation path (setup prints the key once, migrations, one workspace) | passed | `tests/evidence/current/ops-fresh-install.txt` |
-| Performance smoke profile (50 tenants, ≥250k entries, API and MCP load with ingestion) | see `reports/performance.json` (measured targets and the ones not instrumented are listed there) | `tests/evidence/current/perf-*.json` |
+| Performance smoke profile (55 tenants, 347,182 journal entries, 20 ingest/s, 20 clients + 40 arrivals/s API, 10 clients + 20 arrivals/s MCP, 600 s each) | 15 of 18 measured targets hold (hot p95 API 186 ms / MCP 173 ms, cold p95 46/73 ms, history p95 41/58 ms, summary p95 96/149 ms, durable ack p95 151 ms, lag p95 300 ms, engine RSS 735 MiB peak); **failed**: hot p99 API 878 ms (target 500), hot p99 MCP 1205 ms (900), MCP success 0.9977 (0.999) under the per-workspace concurrency cap | `reports/performance.json`, `tests/evidence/current/perf-*.json` |
 
 ## Not verified / external blockers (not passes)
 

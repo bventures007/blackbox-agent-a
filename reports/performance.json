@@ -1,41 +1,357 @@
 {
-  "schema_version": "1.0",
-  "note": "No engine/application benchmark has run. The smoke profile now includes mandatory per-query API/MCP, memory, lag and recovery targets under PILOT-09; every measurement remains unmeasured.",
-  "contract": "benchmarks/performance-contract.json",
-  "profiles": {
-    "smoke": {
-      "status": "not_started",
-      "tested_commit": null,
-      "environment": null,
-      "commands": [],
-      "dataset_manifest": null,
-      "measurements": null,
-      "evidence_paths": [],
-      "limitations": [],
-      "delivery_scope": "local_pilot"
+ "schema_version": "1.0",
+ "note": "Smoke profile measured at commit c15b2ac4d929: failed; failed targets: ['hot_current_state_api_p99_ms', 'hot_current_state_mcp_p99_ms', 'successful_query_fraction_mcp']; unmeasured: 5. Reference and scale profiles remain deferred.",
+ "contract": "benchmarks/performance-contract.json",
+ "profiles": {
+  "smoke": {
+   "status": "failed",
+   "tested_commit": "c15b2ac4d9299d0c017c5c97fd259b3e31e34e2a",
+   "environment": "macOS 27.2 (Darwin, Apple Silicon) developer Mac; Docker Desktop 27.3.1 VM 8 vCPU / 7.65 GiB shared with other workloads; engine mem_limit 1536m, api/worker 768m; PostgreSQL 17 in the same VM; compose project blackbox-agent-a",
+   "hardware": [
+    "Apple M3",
+    "25769803776",
+    "27.2",
+    "docker 27.3.1 cpus=8 mem=8218251264"
+   ],
+   "commands": [
+    "node tests/perf/seed.mjs --orders 11000 --tenants 50",
+    "node tests/perf/load.mjs --duration 600 --mode api --rate 40 --clients 20 --ingest 20",
+    "node tests/perf/load.mjs --duration 600 --mode mcp --rate 20 --clients 10 --ingest 20"
+   ],
+   "dataset_manifest": {
+    "seed": "smoke-v1",
+    "tenants": 50,
+    "orders": 10988,
+    "entries_source": 137061,
+    "items_per_tenant": 40,
+    "generator": "tests/perf/seed.mjs",
+    "started_at": "2026-10-31T18:25:28.736Z",
+    "finished_at": "2026-10-31T18:27:24.814Z",
+    "journal_entries_total_now": 347182
+   },
+   "measurements": {
+    "api": {
+     "mode": "api",
+     "duration_s": 600,
+     "warmup_s": 30,
+     "clients": 20,
+     "fixed_arrival_rate": 40,
+     "ingest_rate_target": 20,
+     "ingested_entries": 12307,
+     "completed": 303023,
+     "attempts": 303269,
+     "errors": {
+      "http": 245,
+      "stale": 1,
+      "timeout": 0,
+      "tool": 0
+     },
+     "success_fraction": 0.9991888389515579,
+     "scheduled_arrivals": 23147,
+     "scheduled_arrival_latency_ms": {
+      "p50": 40,
+      "p95": 624.3,
+      "p99": 1588.1,
+      "n": 23002
+     },
+     "classes": {
+      "hot_current_state": {
+       "n": 151082,
+       "p50": 42,
+       "p95": 186.3,
+       "p99": 877.7
+      },
+      "cold_order_state": {
+       "n": 60659,
+       "p50": 12.5,
+       "p95": 46.3,
+       "p99": 150.1
+      },
+      "entity_history_first_100": {
+       "n": 60641,
+       "p50": 11.9,
+       "p95": 40.6,
+       "p99": 124.9
+      },
+      "bounded_30_day_summary": {
+       "n": 30641,
+       "p50": 26,
+       "p95": 95.6,
+       "p99": 257.7
+      }
+     },
+     "durable_ack_ms": {
+      "p50": 9.5,
+      "p95": 150.7,
+      "p99": 553.8,
+      "n": 12307
+     },
+     "projection_lag": {
+      "samples": 125,
+      "lag_ms_p95": 300,
+      "lag_ms_max": 619,
+      "lag_entries_max": 0,
+      "rss_bytes_peak": 691609600
+     },
+     "engine": {
+      "rss_bytes": 512110592,
+      "tenants": 55,
+      "max_lag_entries": 0,
+      "max_lag_ms": 0,
+      "resident_bytes_total": 60829832
+     },
+     "container_stats": [
+      "blackbox-agent-a-api-1 73.47MiB / 768MiB 32.09%",
+      "blackbox-agent-a-worker-1 32.14MiB / 768MiB 0.03%",
+      "blackbox-agent-a-fixture-1 13.27MiB / 7.654GiB 0.00%",
+      "blackbox-agent-a-engine-1 491.8MiB / 1.5GiB 4.17%",
+      "blackbox-agent-a-postgres-1 397.6MiB / 7.654GiB 15.42%"
+     ],
+     "finished_at": "2026-10-31T19:02:06.031Z"
     },
-    "reference_10m": {
-      "status": "not_started",
-      "tested_commit": null,
-      "environment": null,
-      "commands": [],
-      "dataset_manifest": null,
-      "measurements": null,
-      "evidence_paths": [],
-      "limitations": [],
-      "delivery_scope": "deferred_future"
-    },
-    "scale_100m": {
-      "status": "not_started",
-      "tested_commit": null,
-      "environment": null,
-      "commands": [],
-      "dataset_manifest": null,
-      "measurements": null,
-      "evidence_paths": [],
-      "limitations": [],
-      "delivery_scope": "deferred_future"
+    "mcp": {
+     "mode": "mcp",
+     "duration_s": 600,
+     "warmup_s": 30,
+     "clients": 10,
+     "fixed_arrival_rate": 20,
+     "ingest_rate_target": 20,
+     "ingested_entries": 12238,
+     "completed": 158795,
+     "attempts": 159154,
+     "errors": {
+      "http": 0,
+      "stale": 18,
+      "timeout": 0,
+      "tool": 341
+     },
+     "success_fraction": 0.9977443231084359,
+     "scheduled_arrivals": 11661,
+     "scheduled_arrival_latency_ms": {
+      "p50": 42.9,
+      "p95": 1066.4,
+      "p99": 2394.3,
+      "n": 11400
+     },
+     "classes": {
+      "hot_current_state": {
+       "n": 79116,
+       "p50": 27,
+       "p95": 172.9,
+       "p99": 1205.2
+      },
+      "cold_order_state": {
+       "n": 32104,
+       "p50": 14.4,
+       "p95": 72.5,
+       "p99": 218.2
+      },
+      "entity_history_first_100": {
+       "n": 31804,
+       "p50": 12.9,
+       "p95": 58.1,
+       "p99": 171.3
+      },
+      "bounded_30_day_summary": {
+       "n": 15771,
+       "p50": 29.1,
+       "p95": 149.4,
+       "p99": 450.2
+      }
+     },
+     "durable_ack_ms": {
+      "p50": 16.2,
+      "p95": 365.5,
+      "p99": 1025.5,
+      "n": 12238
+     },
+     "projection_lag": {
+      "samples": 126,
+      "lag_ms_p95": 250,
+      "lag_ms_max": 1028,
+      "lag_entries_max": 0,
+      "rss_bytes_peak": 770580480
+     },
+     "engine": {
+      "rss_bytes": 548765696,
+      "tenants": 55,
+      "max_lag_entries": 0,
+      "max_lag_ms": 0,
+      "resident_bytes_total": 66315912
+     },
+     "container_stats": [
+      "blackbox-agent-a-api-1 75.8MiB / 768MiB 0.05%",
+      "blackbox-agent-a-worker-1 40.78MiB / 768MiB 0.80%",
+      "blackbox-agent-a-fixture-1 13.44MiB / 7.654GiB 0.00%",
+      "blackbox-agent-a-engine-1 529.5MiB / 1.5GiB 7.76%",
+      "blackbox-agent-a-postgres-1 405.4MiB / 7.654GiB 11.78%"
+     ],
+     "finished_at": "2026-10-31T19:12:47.455Z"
     }
+   },
+   "checks": {
+    "hot_current_state_api_p95_ms": {
+     "measured": 186.3,
+     "target": 200,
+     "ok": true
+    },
+    "hot_current_state_api_p99_ms": {
+     "measured": 877.7,
+     "target": 500,
+     "ok": false
+    },
+    "hot_current_state_mcp_p95_ms": {
+     "measured": 172.9,
+     "target": 350,
+     "ok": true
+    },
+    "hot_current_state_mcp_p99_ms": {
+     "measured": 1205.2,
+     "target": 900,
+     "ok": false
+    },
+    "cold_order_state_api_p95_ms": {
+     "measured": 46.3,
+     "target": 1000,
+     "ok": true
+    },
+    "cold_order_state_mcp_p95_ms": {
+     "measured": 72.5,
+     "target": 1250,
+     "ok": true
+    },
+    "entity_history_100_entries_api_p95_ms": {
+     "measured": 40.6,
+     "target": 500,
+     "ok": true
+    },
+    "entity_history_100_entries_mcp_p95_ms": {
+     "measured": 58.1,
+     "target": 750,
+     "ok": true
+    },
+    "bounded_30_day_summary_api_p95_ms": {
+     "measured": 95.6,
+     "target": 1000,
+     "ok": true
+    },
+    "bounded_30_day_summary_mcp_p95_ms": {
+     "measured": 149.4,
+     "target": 1500,
+     "ok": true
+    },
+    "successful_query_fraction_api": {
+     "measured": 0.9991888389515579,
+     "target": 0.999,
+     "ok": true
+    },
+    "successful_query_fraction_mcp": {
+     "measured": 0.9977443231084359,
+     "target": 0.999,
+     "ok": false
+    },
+    "durable_ack_p95_ms": {
+     "measured": 150.7,
+     "target": 500,
+     "ok": true
+    },
+    "projection_lag_p95_ms": {
+     "measured": 300,
+     "target": 2000,
+     "ok": true
+    },
+    "engine_peak_rss_mib": {
+     "measured": 734.9,
+     "target": 1536,
+     "ok": true
+    },
+    "engine_steady_rss_mib": {
+     "measured": 488.4,
+     "target": 1024,
+     "ok": true
+    },
+    "scheduled_arrival_api_p95_ms": {
+     "measured": 624.3,
+     "target": 2000,
+     "ok": true
+    },
+    "scheduled_arrival_mcp_p95_ms": {
+     "measured": 1066.4,
+     "target": 2000,
+     "ok": true
+    },
+    "dataset_minimums": {
+     "measured": {
+      "tenants": 50,
+      "journal_entries": 347182,
+      "orders": 10988
+     },
+     "target": {
+      "tenants": 50,
+      "minimum_journal_entries": 250000,
+      "minimum_distinct_orders": 10000,
+      "largest_tenant_fraction": 0.5,
+      "hot_active_orders": 2000,
+      "order_history_entries_p95_minimum": 50,
+      "evidence_bytes_for_restore_test_maximum": 262144000,
+      "note": "Keep at least 250,000 valid five-track entries across 50 synthetic tenants; use a frozen shared corpus including high-cardinality strings, long histories, late corrections and actual evidence locators. Warm-up touches only the designated hot set; cold samples are not prehydrated."
+     },
+     "ok": true
+    }
+   },
+   "failed_targets": [
+    "hot_current_state_api_p99_ms",
+    "hot_current_state_mcp_p99_ms",
+    "successful_query_fraction_mcp"
+   ],
+   "unmeasured_targets": [
+    "snapshot_restart_ready_seconds_maximum",
+    "no_snapshot_rebuild_ready_seconds_maximum",
+    "backup_restore_query_ready_seconds_maximum",
+    "total_stack_peak_memory_mib_maximum",
+    "restart_unapplied_tail_entries"
+   ],
+   "evidence_paths": [
+    "tests/evidence/current/perf-seed-manifest.json",
+    "tests/evidence/current/perf-load-api.json",
+    "tests/evidence/current/perf-load-mcp.json",
+    "tests/evidence/current/perf-hardware.txt",
+    "tests/evidence/current/perf-engine-health-after-seed.json"
+   ],
+   "limitations": [
+    "Host is a developer Mac with Docker Desktop (shared with other workloads), not the contract reference host; container limits are those in infra/compose/compose.yaml.",
+    "Restart/rebuild/restore readiness seconds and total stack peak memory were not instrumented by the load driver; restart behaviour is covered functionally by SLICE-01 and restore by PILOT-02 evidence.",
+    "Durations shorter than the contract (if any) are recorded in measurements.api.duration_s / measurements.mcp.duration_s.",
+    "The query mix concentrates about 70 % of 20 closed-loop clients plus the fixed arrivals on the largest workspace through one principal per workspace, which exceeds the contract's own per-workspace (16) and per-principal (8) concurrency caps; admission queues up to 2 s before rejecting, so the hot-path p99 (API 878 ms, MCP 1205 ms) and the MCP success fraction (0.9977; 341 bridge-reported 429 rejections) miss their targets under this concentration. p95 targets, cold/history/summary classes, durable ack, lag and memory hold."
+   ],
+   "delivery_scope": "local_pilot",
+   "recorded_at": "2026-10-31T19:13:02.160929+00:00",
+   "before_admission_queue": {
+    "note": "First measurement (same corpus, immediate 429 rejection at the caps, default glibc arenas): API success 0.683, MCP success 0.864, engine RSS peak 1295 MiB. Kept for comparison in .local only; superseded by the measurements above."
+   }
   },
-  "active_profile": "local_pilot"
+  "reference_10m": {
+   "status": "not_started",
+   "tested_commit": null,
+   "environment": null,
+   "commands": [],
+   "dataset_manifest": null,
+   "measurements": null,
+   "evidence_paths": [],
+   "limitations": [],
+   "delivery_scope": "deferred_future"
+  },
+  "scale_100m": {
+   "status": "not_started",
+   "tested_commit": null,
+   "environment": null,
+   "commands": [],
+   "dataset_manifest": null,
+   "measurements": null,
+   "evidence_paths": [],
+   "limitations": [],
+   "delivery_scope": "deferred_future"
+  }
+ },
+ "active_profile": "local_pilot"
 }

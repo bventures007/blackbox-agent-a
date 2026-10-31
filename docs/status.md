@@ -35,6 +35,7 @@ Baseline-v14 / brief 2.3: P0–P4 local pilot, then handover and stop. Implement
 - Shopify Payments re-polls raised identity conflicts (hour-bucketed balance ids, run-independent gap ids). Fixed.
 - Stock movements effective before an authoritative snapshot were applied on top of it. Fixed (effective-time guard).
 - The SPA fallback answered any unknown path with the app shell (200), including POSTs. Fixed.
+- Under the contract load (20 closed-loop clients plus 40 arrivals/s on one workspace) the per-principal/per-workspace concurrency caps rejected about a third of requests with 429. Admission now queues up to 2 s (FIFO) before rejecting; the caps are unchanged and queue time counts toward reported latency.
 - Docker VM disk exhaustion from repeated full image builds crashed PostgreSQL mid-run (recovered; reproduced by the `No space left on device` panic in its log). Operational note added to docs/operations.md.
 
 ## Evidence summary (fresh installation, commit 45f9090, run `pilot-20261031T181630Z-45f9090`)
@@ -45,7 +46,7 @@ Baseline-v14 / brief 2.3: P0–P4 local pilot, then handover and stop. Implement
 - Release archive 281,837,818 bytes with verified manifest/checksum/landing links; fresh-folder installation from the archive answered the first question with evidence (`tests/evidence/current/dist-*.json`).
 - Integration register: 68 pilot rows with claim, implementation and four passed test kinds each; 40 live tests blocked (no provider access); 0 independent approvals (`INTEGRATIONS.md`).
 - Question coverage: 24/24 positive paths, 24/24 explicit missing-data paths, API/MCP parity for 5 intents (`reports/question-coverage.json`).
-- Performance smoke profile: `reports/performance.json` (filled from the seed/load run; targets not instrumented are listed there).
+- Performance smoke profile: 15 of 18 measured targets hold; hot-path p99 (API/MCP) and the MCP success fraction miss under the per-workspace concurrency cap — recorded as failed in `reports/performance.json`, not waived.
 
 Independent review events have not been recorded by this session (no self-approval).
 
