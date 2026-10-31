@@ -174,36 +174,51 @@
     {
       "id": "DOMAIN-01",
       "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
+      "status": "passed",
+      "tested_commit": "2e8094402f642e534e432fb386e966912023b69c",
+      "command": "python3 scripts/verify-golden.py --output .runtime/golden-evidence.json",
+      "environment": {
+        "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+        "runtime": "Native Postgres.app 18.4 / Node 25.9.0 / Rust 1.90.0; isolated loopback developer stack"
+      },
+      "observed_result": "All 11 original checkpoints plus 11 independently scaled USD/quantity checkpoints passed through signed producer HTTP -> PostgreSQL -> Rust -> API/SDK MCP. Evidence resolves, stock/money conservation holds, concurrent duplicates have no additional effect. Fixed cutoffs/provenance survive restart, corrupt snapshot and two empty-projection cold replays. Synthetic scope only.",
+      "evidence_paths": [
+        "reports/runs/golden-2e80944/result.json"
+      ],
       "blocker": null,
       "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-02",
       "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
+      "status": "passed",
+      "tested_commit": "2e8094402f642e534e432fb386e966912023b69c",
+      "command": "python3 scripts/verify-golden.py --output .runtime/golden-evidence.json",
+      "environment": {
+        "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+        "runtime": "Native Postgres.app 18.4 / Node 25.9.0 / Rust 1.90.0; isolated loopback developer stack"
+      },
+      "observed_result": "All 11 original checkpoints plus 11 independently scaled USD/quantity checkpoints passed through signed producer HTTP -> PostgreSQL -> Rust -> API/SDK MCP. Evidence resolves, stock/money conservation holds, concurrent duplicates have no additional effect. Fixed cutoffs/provenance survive restart, corrupt snapshot and two empty-projection cold replays. Synthetic scope only.",
+      "evidence_paths": [
+        "reports/runs/golden-2e80944/result.json"
+      ],
       "blocker": null,
       "delivery_scope": "local_pilot"
     },
     {
       "id": "DOMAIN-03",
       "stage": "core",
-      "status": "not_started",
-      "tested_commit": null,
-      "command": null,
-      "environment": null,
-      "observed_result": null,
-      "evidence_paths": [],
+      "status": "passed",
+      "tested_commit": "2e8094402f642e534e432fb386e966912023b69c",
+      "command": "python3 scripts/verify-golden.py --output .runtime/golden-evidence.json",
+      "environment": {
+        "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+        "runtime": "Native Postgres.app 18.4 / Node 25.9.0 / Rust 1.90.0; isolated loopback developer stack"
+      },
+      "observed_result": "All 11 original checkpoints plus 11 independently scaled USD/quantity checkpoints passed through signed producer HTTP -> PostgreSQL -> Rust -> API/SDK MCP. Evidence resolves, stock/money conservation holds, concurrent duplicates have no additional effect. Fixed cutoffs/provenance survive restart, corrupt snapshot and two empty-projection cold replays. Synthetic scope only.",
+      "evidence_paths": [
+        "reports/runs/golden-2e80944/result.json"
+      ],
       "blocker": null,
       "delivery_scope": "local_pilot"
     },

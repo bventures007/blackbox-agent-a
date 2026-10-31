@@ -11,3 +11,7 @@ P2–P4 remain in progress. The 24 questions, full Golden flow, source lifecycle
 External blockers: authorized Shopify test-store/token/grants and eligible Shopify Payments account are unavailable. SLICE-02 remains blocked_external. Docker images built, but this Mac's ordinary Docker containers remained created; Compose startup and browser-download installation are unverified. No global Docker reset or competing runtime was touched.
 
 This is a progress checkpoint, not a release or pilot-complete claim. Continue independent implementation through P4 and preserve all acceptance requirements.
+
+## P2 progress: Golden lifecycle
+
+Tested commit `2e8094402f642e534e432fb386e966912023b69c` passes the complete Golden checkpoint oracle and scaled variant, with evidence resolution and duplicate/restart/corrupt/twice-empty projection recovery. Command: `python3 scripts/verify-golden.py --output .runtime/golden-evidence.json`. Evidence: [Golden run](runs/golden-2e80944/result.json). This does not certify all 24 questions or P4.

@@ -11,3 +11,7 @@ Next implementation: Golden Scenario and generalized typed inputs/reducers, then
 External blockers: no authorized Shopify/Payments credentials; Compose containers remain created on this Mac despite successful image builds. The native developer runtime is isolated and real, but is not DIST proof. Independent reviewer approval has not been obtained or self-issued.
 
 Historical specification/preparation status is preserved in Git and docs/history. Current evidence, not seed prose, determines progress. See reports/checkpoint.md and reports/acceptance.json. Stop only at the P4 handover; deferred SaaS/gateway/native scope remains unstarted.
+
+## Golden lifecycle checkpoint
+
+At `2e8094402f642e534e432fb386e966912023b69c`, all Golden checkpoints and a varied USD/quantity scenario passed through signed HTTP ingestion and the persisted Rust/API/MCP path, including repeated empty-projection recovery. DOMAIN-01–03 now have executed evidence. Remaining question, source lifecycle, units/conflict, UI and release gates are still open. See reports/runs/golden-2e80944/result.json.

@@ -526,29 +526,29 @@ Mode plans are investigation obligations. Only committed implementation mappings
 
 | Capability → data contract | S | F | C | M | R | Build / fields | Tests | Live proof | Confirmation | Owner / last update |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [replay.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
-| [replay.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
-| [replay.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.orders](#data-orders) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
+| [replay.stock](#data-stock) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
+| [replay.allocations](#data-allocations) | ✓ | ✓ | — | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
 | [replay.supply](#data-supply) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
 | [replay.promises](#data-promises) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
-| [replay.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.fulfillments](#data-fulfillments) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
 | [replay.tracking](#data-tracking) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
 | [replay.communications](#data-communications) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
-| [replay.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.invoices](#data-invoices) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
 | [replay.invoice_dispatch](#data-invoice_dispatch) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
-| [replay.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.payments](#data-payments) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
 | [replay.payment_allocations](#data-payment_allocations) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
 | [replay.policy](#data-policy) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
 | [replay.cases](#data-cases) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
-| [replay.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.provider_ledger](#data-provider_ledger) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
 | [replay.positions](#data-positions) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
-| [replay.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
-| [replay.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.payouts](#data-payouts) | ✓ | ✓ | ✓ | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
+| [replay.bank](#data-bank) | ✓ | ✓ | — | ✓ | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
 | [replay.holds](#data-holds) | ✓ | ✓ | ✓ | — | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
-| [replay.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
-| [replay.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.returns](#data-returns) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
+| [replay.receipts](#data-receipts) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
 | [replay.entitlements](#data-entitlements) | ✓ | ✓ | ✓ | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
-| [replay.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
+| [replay.refunds](#data-refunds) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | Codex primary implementation agent / 2026-10-31T13:20:22.688192Z |
 | [replay.disputes](#data-disputes) | ✓ | ✓ | — | ✓ | ✓ | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
 | [replay.identity](#data-identity) | ✓ | ✓ | — | — | — | not started (0/6); unknown | 0/4 | not applicable (internal) | pending | unassigned / 2026-10-31T12:26:41Z |
 
@@ -695,6 +695,18 @@ Mode plans are investigation obligations. Only committed implementation mappings
 | 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.refunds / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
 | 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.disputes / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
 | 2026-10-31T12:26:41Z / Codex assistant (repository preparation) | replay.identity / plan_changed |   Selected for the local pilot: implement/prove supported local_standalone import/poll/reconciliation, personal owner-key versus read-only agent authorization and existing journal/query/readiness rules. Public/gateway modes are deferred and must be declared unsupported; no implementation or test result is claimed. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.orders / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.stock / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.allocations / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.fulfillments / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.invoices / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.payments / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.provider_ledger / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.payouts / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.bank / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.returns / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.receipts / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
+| 2026-10-31T13:20:22.688192Z / Codex primary implementation agent | replay.refunds / claim |   Implementing typed supplemental ingestion. Golden subset is executable; full capability mapping/six steps/review remain incomplete. Evidence reports/runs/golden-2e80944/result.json. | —;  |
 
 </details>
 
