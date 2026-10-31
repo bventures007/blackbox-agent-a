@@ -15,3 +15,7 @@ Historical specification/preparation status is preserved in Git and docs/history
 ## Golden lifecycle checkpoint
 
 At `2e8094402f642e534e432fb386e966912023b69c`, all Golden checkpoints and a varied USD/quantity scenario passed through signed HTTP ingestion and the persisted Rust/API/MCP path, including repeated empty-projection recovery. DOMAIN-01–03 now have executed evidence. Remaining question, source lifecycle, units/conflict, UI and release gates are still open. See reports/runs/golden-2e80944/result.json.
+
+## All 24 structured questions
+
+At `3ced26bb56543703e1d05e8719e35f2d537f2b45`, all 24 positive and missing-data cases and all 24 changed USD/fractional-quantity variants passed through signed ingestion, PostgreSQL, Rust, API and MCP. Late corrections, out-of-order snapshots, duplicate delivery, fixed-cutoff pagination, full restart and corrupted/deleted projection recovery passed; all 24 cross-tenant evidence denials, warmed credential revocation and principal-bound cursors passed. Golden and first-slice persisted regressions passed at the same clean revision. See reports/runs/questions-3ced26b. No live provider, performance or independent review is implied. React/Vite EN/DE interface implementation is next.
